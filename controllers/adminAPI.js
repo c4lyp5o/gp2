@@ -717,7 +717,7 @@ const deleteRoute = async (req, res) => {
 };
 
 const getData = async (req, res) => {
-  let { main, Fn, token, FType, Id, sosmedId } = req.body;
+  let { main, Fn, token, FType, Id } = req.body;
   let { Data } = req.body;
   switch (main) {
     case 'DataCenter':
@@ -914,7 +914,7 @@ const getData = async (req, res) => {
               belongsTo: owner,
               kodProgram: Data.kodProgram,
             });
-            if (previousData.length === 0) {
+            if (!previousData.data) {
               console.log('previous data not found');
               delete Data.data[0].kodProgram;
               Data.data[0] = {
@@ -924,7 +924,7 @@ const getData = async (req, res) => {
               const createdSosmed = await Sosmed.create(Data);
               return res.status(200).json(createdSosmed);
             }
-            if (previousData.length > 0) {
+            if (previousData.data) {
               console.log('previous data got');
               delete Data.data[0].kodProgram;
               const lastData = previousData[0].data.length;
