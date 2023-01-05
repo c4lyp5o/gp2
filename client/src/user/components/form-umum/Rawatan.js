@@ -2072,8 +2072,8 @@ export default function Rawatan(props) {
                   ) : null}
                   {pilihanRawatan.includes('rujukan') ||
                   pilihanRawatan.includes('lihat-semua') ? (
-                    <article className='grid grid-cols-[2fr_1fr] gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2 py-2'>
+                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5 py-2'>
                         Rujukan
                       </h4>
                       <div className='flex flex-row items-center pl-5 m-1'>
