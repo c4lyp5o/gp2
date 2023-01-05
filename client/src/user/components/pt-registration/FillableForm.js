@@ -1263,7 +1263,7 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
-                    waktu tiba:{' '}
+                    waktu sampai:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='flex flex-col justify-start'>
