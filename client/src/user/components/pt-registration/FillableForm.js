@@ -435,10 +435,12 @@ export default function FillableForm({
         kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
-        bersekolah,
         noOku,
+        bersekolah,
         statusPesara,
+        noPesara,
       } = response.data.person;
+      console.log(noOku);
       setNama(nama);
       setTarikhLahir(tarikhLahir);
       setIc(ic);
@@ -455,10 +457,14 @@ export default function FillableForm({
       setPoskodAlamat(poskodAlamat);
       setKumpulanEtnik(kumpulanEtnik);
       setIbuMengandung(ibuMengandung);
-      setOrangKurangUpaya(orangKurangUpaya);
-      setBersekolah(bersekolah);
-      setNoOku(noOku);
-      setStatusPesara(statusPesara);
+      if (orangKurangUpaya === true) {
+        setOrangKurangUpaya(true);
+        setNoOku(noOku);
+      }
+      if (statusPesara !== '') {
+        setStatusPesara(true);
+        setNoPesara(noPesara);
+      }
       //datepicker issues
       setTarikhLahirDP(new Date(tarikhLahir));
       setConfirmData({
@@ -478,17 +484,15 @@ export default function FillableForm({
         poskodAlamat,
         kumpulanEtnik,
         ibuMengandung,
-        orangKurangUpaya,
         bersekolah,
+        orangKurangUpaya,
         noOku,
         statusPesara,
         noPesara,
       });
       toast.success('Menggunakan data sedia ada');
-      return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
-      return false;
     }
   };
 
@@ -1263,7 +1267,7 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
-                    waktu tiba:{' '}
+                    waktu sampai:{' '}
                     <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='flex flex-col justify-start'>
