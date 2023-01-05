@@ -233,7 +233,7 @@ export default function DaftarPesakit({ createdByKp }) {
                     setSort({ ...sort, masaDaftar: !sort.masaDaftar })
                   }
                 >
-                  WAKTU TIBA
+                  WAKTU SAMPAI
                   {sort.masaDaftar ? (
                     <FaSortUp className='inline-flex items-center' />
                   ) : (
