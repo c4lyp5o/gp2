@@ -627,6 +627,20 @@ const EditModalForKp = ({
   }, [editedEntity.tarikhStart]);
 
   const handleSubmit = async (e) => {
+    // check if modpenyampaian has kpb and must have penggunaan kpb, else return
+    if (editedEntity.modPenyampaianPerkhidmatan.includes('kpb')) {
+      if (editedEntity.penggunaanKpb === 'NOT APPLICABLE') {
+        toast.error(`Sila masukkan penggunaan KPB`);
+        return;
+      }
+    }
+    // check if modpenyampaian has mpb and must have penggunaan mpb, else return
+    if (editedEntity.modPenyampaianPerkhidmatan.includes('mpb')) {
+      if (editedEntity.penggunaanMpb === 'NOT APPLICABLE') {
+        toast.error(`Sila masukkan penggunaan MPB`);
+        return;
+      }
+    }
     let Data = {};
     // Data = {
     //   ...Data,
