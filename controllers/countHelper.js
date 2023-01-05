@@ -44,6 +44,7 @@ const countPG101A = async (payload) => {
       noBayaran3: 1,
       noResit3: 1,
       catatan: '$catatan',
+      deleted: 1,
     },
   };
 
@@ -60,7 +61,6 @@ const countPG101A = async (payload) => {
   const pipeline = match_stage.concat(project_stage, sort_stage);
 
   const data = await Umum.aggregate(pipeline);
-
   return data;
 };
 const countPG101C = async (payload) => {
@@ -11186,7 +11186,6 @@ const getParams = (payload, reten) => {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
-      deleted: false,
     };
 
     const withEndDate = {
@@ -11198,7 +11197,6 @@ const getParams = (payload, reten) => {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
-      deleted: false,
     };
 
     if (!tarikhAkhir) {
@@ -11216,7 +11214,6 @@ const getParams = (payload, reten) => {
         $eq: daerah,
       },
       jenisFasiliti: AorC(reten),
-      deleted: false,
     };
     const withEndDate = {
       tarikhKedatangan: {
@@ -11227,7 +11224,6 @@ const getParams = (payload, reten) => {
         $eq: daerah,
       },
       jenisFasiliti: AorC(reten),
-      deleted: false,
     };
     if (!tarikhAkhir) {
       return noEndDate;
@@ -11244,7 +11240,6 @@ const getParams = (payload, reten) => {
         $eq: negeri,
       },
       jenisFasiliti: AorC(reten),
-      deleted: false,
     };
     const withEndDate = {
       tarikhKedatangan: {
@@ -11255,7 +11250,6 @@ const getParams = (payload, reten) => {
         $eq: negeri,
       },
       jenisFasiliti: AorC(reten),
-      deleted: false,
     };
     if (!tarikhAkhir) {
       return noEndDate;

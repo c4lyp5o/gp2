@@ -435,9 +435,10 @@ export default function FillableForm({
         kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
-        bersekolah,
         noOku,
+        bersekolah,
         statusPesara,
+        noPesara,
       } = response.data.person;
       setNama(nama);
       setTarikhLahir(tarikhLahir);
@@ -455,10 +456,14 @@ export default function FillableForm({
       setPoskodAlamat(poskodAlamat);
       setKumpulanEtnik(kumpulanEtnik);
       setIbuMengandung(ibuMengandung);
-      setOrangKurangUpaya(orangKurangUpaya);
-      setBersekolah(bersekolah);
-      setNoOku(noOku);
-      setStatusPesara(statusPesara);
+      if (orangKurangUpaya === true) {
+        setOrangKurangUpaya(true);
+        setNoOku(noOku);
+      }
+      if (statusPesara !== '') {
+        setStatusPesara(true);
+        setNoPesara(noPesara);
+      }
       //datepicker issues
       setTarikhLahirDP(new Date(tarikhLahir));
       setConfirmData({
@@ -478,17 +483,15 @@ export default function FillableForm({
         poskodAlamat,
         kumpulanEtnik,
         ibuMengandung,
-        orangKurangUpaya,
         bersekolah,
+        orangKurangUpaya,
         noOku,
         statusPesara,
         noPesara,
       });
       toast.success('Menggunakan data sedia ada');
-      return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
-      return false;
     }
   };
 

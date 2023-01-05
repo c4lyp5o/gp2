@@ -19,6 +19,7 @@ const {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
+  processOperatorQuery,
 } = require('../controllers/adminAPI');
 
 // Initial Data
@@ -37,6 +38,9 @@ router.get('/getdata', adminAuth, getDataRoute);
 router.get('/getkpdata', adminAuth, getDataKpRoute);
 router.get('/getonedata', adminAuth, getOneDataRoute);
 router.get('/getonekpdata', adminAuth, getOneDataKpRoute);
+
+// Operator
+router.get('/getoperator', adminAuth, processOperatorQuery);
 
 // Legacy
 router.post('/newroute', adminAuthInt, getData);

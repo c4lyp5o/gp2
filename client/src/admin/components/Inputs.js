@@ -340,8 +340,7 @@ export function InputKkiakd(props) {
 }
 
 export function InputPegawai(props) {
-  const { Dictionary, toast, readDpimsData, readMdtbData } =
-    useGlobalAdminAppContext();
+  const { Dictionary, toast, readOperatorData } = useGlobalAdminAppContext();
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -418,7 +417,10 @@ export function InputPegawai(props) {
                               props.setSearching(true);
                               props.setNoPpJp('');
                               props.setAllPegawai([]);
-                              const res = await readDpimsData(props.carianNama);
+                              const res = await readOperatorData(
+                                props.FType,
+                                props.carianNama
+                              );
                               if (res) {
                                 props.setAllPegawai(res);
                               }
@@ -538,7 +540,10 @@ export function InputPegawai(props) {
                               props.setSearching(true);
                               props.setNoPpJp('');
                               props.setAllJp([]);
-                              const res = await readMdtbData(props.carianNama);
+                              const res = await readOperatorData(
+                                props.FType,
+                                props.carianNama
+                              );
                               if (res) {
                                 props.setAllJp(res);
                               }
