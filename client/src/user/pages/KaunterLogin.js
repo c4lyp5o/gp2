@@ -47,7 +47,6 @@ function KaunterLogin() {
         const { data } = await axios.get(
           `https://g2u.calypsocloud.one/api/getfs?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
         );
-        console.log(data);
         setListKlinik(data);
       } catch (error) {
         console.log(error);
