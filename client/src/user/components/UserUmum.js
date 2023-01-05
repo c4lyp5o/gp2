@@ -323,7 +323,7 @@ function UserUmum({ sekolahIdc }) {
                     BIL
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                    WAKTU TIBA
+                    WAKTU SAMPAI
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     NO. PENDAFTARAN

@@ -1,7 +1,5 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaInfoCircle } from 'react-icons/fa';
-import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
 
 import Kemaskini from './form-umum/Kemaskini';
@@ -32,6 +30,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonUmum, setSinglePersonUmum] = useState([]);
+  const [allKPBMPBForNegeri, setAllKPBMPBForNegeri] = useState([]);
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   // creating masterForm object to be used by the form
@@ -221,6 +220,11 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [waktuDipanggil, setWaktuDipanggil] = useState('');
   masterForm.waktuDipanggil = waktuDipanggil;
   masterForm.setWaktuDipanggil = setWaktuDipanggil;
+  // BARU
+  const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
+  masterForm.penggunaanKPBMPB = penggunaanKPBMPB;
+  masterForm.setPenggunaanKPBMPB = setPenggunaanKPBMPB;
+  // BARU
   const [systolicTekananDarah, setSystolicTekananDarah] = useState('');
   masterForm.systolicTekananDarah = systolicTekananDarah;
   masterForm.setSystolicTekananDarah = setSystolicTekananDarah;
@@ -1202,6 +1206,28 @@ function UserFormUmumHeader({ sekolahIdc }) {
     eAdaGigiKekalPemeriksaanUmum,
   ]);
 
+  // pull kpbmpb data for negeri
+  useEffect(() => {
+    const getAllKPBMPBForNegeri = async () => {
+      console.log('getAllKPBMPBNegeri');
+      try {
+        const { data } = await axios.get('/api/v1/query/kpbmpb', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        setAllKPBMPBForNegeri(data.allKPBMPBNegeri);
+        console.log(data.allKPBMPBNegeri);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllKPBMPBForNegeri();
+  }, []);
+  // pull kpbmpb data for negeri
+
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
       try {
@@ -1285,6 +1311,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
         //map pemeriksaan ------------------------------------------------------------
         setStatusKehadiran(data.singlePersonUmum.statusKehadiran);
         setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
+        // baru
+        setPenggunaanKPBMPB(data.singlePersonUmum.penggunaanKPBMPB); // <-- baru
+        // baru
         setSystolicTekananDarah(data.singlePersonUmum.systolicTekananDarah);
         setDiastolicTekananDarah(data.singlePersonUmum.diastolicTekananDarah);
         setRujukKeKlinik(data.singlePersonUmum.rujukKeKlinik);
@@ -1829,6 +1858,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
               //pemeriksaan -------------------------------------------------------------
               statusKehadiran,
               waktuDipanggil,
+              // baru
+              penggunaanKPBMPB,
+              // baru
               systolicTekananDarah,
               diastolicTekananDarah,
               rujukKeKlinik,
@@ -2310,6 +2342,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                     <Pemeriksaan
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
+                      allKPBMPBForNegeri={allKPBMPBForNegeri}
                     />
                     <Rawatan
                       {...masterForm}
@@ -2328,6 +2361,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       operatorLain={operatorLain}
+                      allKPBMPBForNegeri={allKPBMPBForNegeri}
                     />
                     <Promosi
                       {...masterForm}
