@@ -341,7 +341,7 @@ export const ModalSosMed = (props) => {
         ...Data,
         belongsTo: props.kp,
       };
-      console.log(Data);
+      // console.log(Data);
       createDataForKp(props.FType, Data).then((res) => {
         if (res.status === 200) {
           toast.info(`Data berjaya ditambah`);
@@ -377,7 +377,6 @@ export const ModalSosMed = (props) => {
       props.setShowSosMedModal(false);
       setAddingData(false);
     });
-    return;
   };
 
   const propsSosMed = {
@@ -437,14 +436,16 @@ export const ModalSosMed = (props) => {
           </div>
           <div className='flex justify-center mb-1 pl-3'>
             <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
-              tarikh mula: <span className='font-semibold text-user6'>*</span>
+              tarikh muatnaik:{' '}
+              <span className='font-semibold text-user6'>*</span>
             </p>
             <CustomDatePicker
               jenis='mula'
               setQuestionState={setQuestionState}
             />
             <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
-              tarikh akhir: <span className='font-semibold text-user6'>*</span>
+              tarikh kemaskini:{' '}
+              <span className='font-semibold text-user6'>*</span>
             </p>
             <CustomDatePicker
               jenis='akhir'
@@ -453,7 +454,8 @@ export const ModalSosMed = (props) => {
           </div>
           <div className='flex mt-2'>
             <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-1 md:whitespace-nowrap pl-3'>
-              nama aktiviti: <span className='font-semibold text-user6'>*</span>
+              Tajuk Bahan / Aktiviti:{' '}
+              <span className='font-semibold text-user6'>*</span>
             </p>
             <input
               className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50  rounded-md uppercase flex flex-row mx-2'
@@ -470,7 +472,8 @@ export const ModalSosMed = (props) => {
         </div>
         <div className='p-2'>
           <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-1'>
-            Media Sosial : <span className='font-semibold text-user6'>*</span>
+            Jenis Media Sosial :{' '}
+            <span className='font-semibold text-user6'>*</span>
           </p>
           <Select
             isMulti
