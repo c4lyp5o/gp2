@@ -1282,7 +1282,8 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('periodontik') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.skorBpeOralHygienePemeriksaanUmum === '4' ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Terapi Periodontium
@@ -1492,10 +1493,18 @@ export default function Rawatan(props) {
                         </h4>
                         <label className='text-left flex justify-start items-center text-sm pl-3'>
                           Pakar Periodontik :
+                          {props.skorBpeOralHygienePemeriksaanUmum === '4' && (
+                            <span className='text-user6'>*</span>
+                          )}
                         </label>
                         <div className='flex flex-row items-center whitespace-nowrap'>
                           <input
                             disabled={isDisabled}
+                            required={
+                              props.skorBpeOralHygienePemeriksaanUmum === '4'
+                                ? true
+                                : false
+                            }
                             type='radio'
                             name='rujukan-pakar-periodontik'
                             id='ya-rujukan-pakar-periodontik'
@@ -1519,6 +1528,11 @@ export default function Rawatan(props) {
                           </label>
                           <input
                             disabled={isDisabled}
+                            required={
+                              props.skorBpeOralHygienePemeriksaanUmum === '4'
+                                ? true
+                                : false
+                            }
                             type='radio'
                             name='rujukan-pakar-periodontik'
                             id='tidak-rujukan-pakar-periodontik'
