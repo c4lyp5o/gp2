@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useId } from 'react';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 
@@ -17,6 +17,9 @@ function Kaunter({
   createdByNegeri,
 }) {
   const { kaunterToken, dateToday } = useGlobalUserAppContext();
+
+  //resetter
+  const fillableFormKey = useId();
 
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
@@ -138,6 +141,7 @@ function Kaunter({
           />
         ) : null}
         <FillableForm
+          key={fillableFormKey}
           jenisFasiliti={jenisFasiliti}
           showForm={showForm}
           setShowForm={setShowForm}

@@ -435,10 +435,12 @@ export default function FillableForm({
         kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
-        bersekolah,
         noOku,
+        bersekolah,
         statusPesara,
+        noPesara,
       } = response.data.person;
+      console.log(noOku);
       setNama(nama);
       setTarikhLahir(tarikhLahir);
       setIc(ic);
@@ -455,10 +457,15 @@ export default function FillableForm({
       setPoskodAlamat(poskodAlamat);
       setKumpulanEtnik(kumpulanEtnik);
       setIbuMengandung(ibuMengandung);
-      setOrangKurangUpaya(orangKurangUpaya);
+      if (orangKurangUpaya === true) {
+        setOrangKurangUpaya(true);
+        setNoOku(noOku);
+      }
       setBersekolah(bersekolah);
-      setNoOku(noOku);
-      setStatusPesara(statusPesara);
+      if (statusPesara !== '') {
+        setStatusPesara(true);
+        setNoPesara(noPesara);
+      }
       //datepicker issues
       setTarikhLahirDP(new Date(tarikhLahir));
       setConfirmData({
@@ -478,17 +485,15 @@ export default function FillableForm({
         poskodAlamat,
         kumpulanEtnik,
         ibuMengandung,
-        orangKurangUpaya,
         bersekolah,
+        orangKurangUpaya,
         noOku,
         statusPesara,
         noPesara,
       });
       toast.success('Menggunakan data sedia ada');
-      return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
-      return false;
     }
   };
 
@@ -721,241 +726,241 @@ export default function FillableForm({
     }
   };
 
-  // reset form when change jenisFasiliti or change showForm
-  useEffect(() => {
-    setTarikhKedatangan(dateToday);
-    setWaktuSampai('');
-    setTemujanji(false);
-    setKedatangan('');
-    setNoPendaftaranBaru('');
-    setNoPendaftaranUlangan('');
-    setNama('');
-    setJenisIc('');
-    setIc('');
-    setNomborTelefon('');
-    setNomborTelefon2('');
-    setEmel('');
-    setTarikhLahir('');
-    setUmur(0);
-    setUmurBulan(0);
-    setUmurHari(0);
-    setJantina('');
-    setKumpulanEtnik('');
-    setAlamat('');
-    setDaerahAlamat('');
-    setNegeriAlamat('');
-    setPoskodAlamat('');
-    setIbuMengandung(false);
-    setEpisodMengandung('');
-    setBookingIM('');
-    setMengandungDahGravida(false);
-    setOrangKurangUpaya(false);
-    setBersekolah(false);
-    setNoOku('');
-    setStatusPesara('');
-    setNoPesara('');
-    setRujukDaripada('');
-    setGtod(false);
-    setKakitanganKerajaan(false);
-    setNoBayaran('');
-    setNoResit('');
-    setNoBayaran2('');
-    setNoResit2('');
-    setNoBayaran3('');
-    setNoResit3('');
-    setCatatan('');
-    // kepp
-    setKepp(false);
-    setKedatanganKepp('');
-    setTarikhRujukanKepp('');
-    setTarikhRundinganPertama('');
-    setTarikhMulaRawatanKepp('');
-    // penyampaian perkhidmatan
-    // setKpBergerak(false);
-    // setLabelKpBergerak('');
-    // setPasukanPergigianBergerak(false);
-    // setMakmalPergigianBergerak(false);
-    // setLabelMakmalPergigianBergerak('');
-    // taska / tadika
-    // kk / kd
-    setNamaFasilitiKkKd('');
-    setKodFasilitiKkKd('');
-    setFasilitiTaskaTadika('');
-    setKelasToddler(false);
-    setNamaFasilitiTaskaTadika('');
-    setKodFasilitiTaskaTadika('');
-    // ipt / kolej
-    setIptKolej('');
-    setIpg('');
-    setKolejKomuniti('');
-    setPoliteknik('');
-    setInstitutLatihanKerajaan('');
-    setGiatmara('');
-    setIpta('');
-    setIpts('');
-    setEnrolmenIptKolej(false);
-    // institusi warga emas
-    setInstitusiWargaEmas('');
-    setKerajaanInstitusiWargaEmas('');
-    setSwastaInstitusiWargaEmas('');
-    // institusi OKU
-    setInstitusiOku('');
-    // kampung angkat
-    setKgAngkat('');
-    //datepicker issues
-    setTarikhKedatanganDP(new Date(dateToday));
-    setTarikhLahirDP(null);
-    setTarikhRujukanKeppDP(null);
-    setTarikhRundinganPertamaDP(null);
-    setTarikhMulaRawatanKeppDP(null);
-    if (showForm === false) {
-      // reset editId when change jenisFasiliti & showForm === false
-      setEditId('');
-    }
-  }, [jenisFasiliti, showForm]);
+  // // reset form when change jenisFasiliti or change showForm
+  // useEffect(() => {
+  //   setTarikhKedatangan(dateToday);
+  //   setWaktuSampai('');
+  //   setTemujanji(false);
+  //   setKedatangan('');
+  //   setNoPendaftaranBaru('');
+  //   setNoPendaftaranUlangan('');
+  //   setNama('');
+  //   setJenisIc('');
+  //   setIc('');
+  //   setNomborTelefon('');
+  //   setNomborTelefon2('');
+  //   setEmel('');
+  //   setTarikhLahir('');
+  //   setUmur(0);
+  //   setUmurBulan(0);
+  //   setUmurHari(0);
+  //   setJantina('');
+  //   setKumpulanEtnik('');
+  //   setAlamat('');
+  //   setDaerahAlamat('');
+  //   setNegeriAlamat('');
+  //   setPoskodAlamat('');
+  //   setIbuMengandung(false);
+  //   setEpisodMengandung('');
+  //   setBookingIM('');
+  //   setMengandungDahGravida(false);
+  //   setOrangKurangUpaya(false);
+  //   setBersekolah(false);
+  //   setNoOku('');
+  //   setStatusPesara('');
+  //   setNoPesara('');
+  //   setRujukDaripada('');
+  //   setGtod(false);
+  //   setKakitanganKerajaan(false);
+  //   setNoBayaran('');
+  //   setNoResit('');
+  //   setNoBayaran2('');
+  //   setNoResit2('');
+  //   setNoBayaran3('');
+  //   setNoResit3('');
+  //   setCatatan('');
+  //   // kepp
+  //   setKepp(false);
+  //   setKedatanganKepp('');
+  //   setTarikhRujukanKepp('');
+  //   setTarikhRundinganPertama('');
+  //   setTarikhMulaRawatanKepp('');
+  //   // penyampaian perkhidmatan
+  //   // setKpBergerak(false);
+  //   // setLabelKpBergerak('');
+  //   // setPasukanPergigianBergerak(false);
+  //   // setMakmalPergigianBergerak(false);
+  //   // setLabelMakmalPergigianBergerak('');
+  //   // taska / tadika
+  //   // kk / kd
+  //   setNamaFasilitiKkKd('');
+  //   setKodFasilitiKkKd('');
+  //   setFasilitiTaskaTadika('');
+  //   setKelasToddler(false);
+  //   setNamaFasilitiTaskaTadika('');
+  //   setKodFasilitiTaskaTadika('');
+  //   // ipt / kolej
+  //   setIptKolej('');
+  //   setIpg('');
+  //   setKolejKomuniti('');
+  //   setPoliteknik('');
+  //   setInstitutLatihanKerajaan('');
+  //   setGiatmara('');
+  //   setIpta('');
+  //   setIpts('');
+  //   setEnrolmenIptKolej(false);
+  //   // institusi warga emas
+  //   setInstitusiWargaEmas('');
+  //   setKerajaanInstitusiWargaEmas('');
+  //   setSwastaInstitusiWargaEmas('');
+  //   // institusi OKU
+  //   setInstitusiOku('');
+  //   // kampung angkat
+  //   setKgAngkat('');
+  //   //datepicker issues
+  //   setTarikhKedatanganDP(new Date(dateToday));
+  //   setTarikhLahirDP(null);
+  //   setTarikhRujukanKeppDP(null);
+  //   setTarikhRundinganPertamaDP(null);
+  //   setTarikhMulaRawatanKeppDP(null);
+  //   if (showForm === false) {
+  //     // reset editId when change jenisFasiliti & showForm === false
+  //     setEditId('');
+  //   }
+  // }, [jenisFasiliti, showForm]);
 
-  // close form when change jenisFasiliti
-  useEffect(() => {
-    setShowForm(false);
-  }, [jenisFasiliti]);
+  // // close form when change jenisFasiliti
+  // useEffect(() => {
+  //   setShowForm(false);
+  // }, [jenisFasiliti]);
 
-  //reset no telefon 2 when change no telefon
-  useEffect(() => {
-    if (!editId) {
-      setNomborTelefon2('');
-    }
-  }, [tambahTelefon]);
+  // //reset no telefon 2 when change no telefon
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setNomborTelefon2('');
+  //   }
+  // }, [tambahTelefon]);
 
-  // reset ic when change jenis ic
-  useEffect(() => {
-    if (!editId) {
-      setIc('');
-    }
-  }, [jenisIc]);
+  // // reset ic when change jenis ic
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setIc('');
+  //   }
+  // }, [jenisIc]);
 
-  // birth of nak daftar nama ic ibu
-  useEffect(() => {
-    if (!editId) {
-      if (jenisIc === 'birth-of') {
-        setNama('B/O');
-      }
-      if (jenisIc !== 'birth-of') {
-        setNama('');
-      }
-    }
-  }, [jenisIc]);
+  // // birth of nak daftar nama ic ibu
+  // useEffect(() => {
+  //   if (!editId) {
+  //     if (jenisIc === 'birth-of') {
+  //       setNama('B/O');
+  //     }
+  //     if (jenisIc !== 'birth-of') {
+  //       setNama('');
+  //     }
+  //   }
+  // }, [jenisIc]);
 
-  // passport terus bukan warganegara
-  useEffect(() => {
-    if (!editId) {
-      if (jenisIc === 'passport') {
-        setKumpulanEtnik('bukan warganegara');
-        setConfirmData({
-          ...confirmData,
-          kumpulanEtnik: 'bukan warganegara',
-        });
-      }
-      if (jenisIc !== 'passport') {
-        setKumpulanEtnik('');
-        setConfirmData({
-          ...confirmData,
-          kumpulanEtnik: '',
-        });
-      }
-    }
-  }, [jenisIc]);
+  // // passport terus bukan warganegara
+  // useEffect(() => {
+  //   if (!editId) {
+  //     if (jenisIc === 'passport') {
+  //       setKumpulanEtnik('bukan warganegara');
+  //       setConfirmData({
+  //         ...confirmData,
+  //         kumpulanEtnik: 'bukan warganegara',
+  //       });
+  //     }
+  //     if (jenisIc !== 'passport') {
+  //       setKumpulanEtnik('');
+  //       setConfirmData({
+  //         ...confirmData,
+  //         kumpulanEtnik: '',
+  //       });
+  //     }
+  //   }
+  // }, [jenisIc]);
 
-  //reset bersekolah
-  useEffect(() => {
-    if (!editId) {
-      if (umur <= 6 || umur >= 22) {
-        setBersekolah(false);
-      }
-    }
-  }, [umur]);
+  // //reset bersekolah
+  // useEffect(() => {
+  //   if (!editId) {
+  //     if (umur <= 6 || umur >= 22) {
+  //       setBersekolah(false);
+  //     }
+  //   }
+  // }, [umur]);
 
-  // reset noOku when change kategori pesakit
-  useEffect(() => {
-    if (!editId) {
-      setNoOku('');
-    }
-  }, [orangKurangUpaya]);
+  // // reset noOku when change kategori pesakit
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setNoOku('');
+  //   }
+  // }, [orangKurangUpaya]);
 
-  // reset ibu mengandung if change jantina
-  useEffect(() => {
-    if (!editId) {
-      setIbuMengandung(false);
-    }
-  }, [jantina]);
+  // // reset ibu mengandung if change jantina
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setIbuMengandung(false);
+  //   }
+  // }, [jantina]);
 
-  //reset gravida
-  useEffect(() => {
-    if (!editId) {
-      setEpisodMengandung('');
-      setBookingIM('');
-      setMengandungDahGravida(false);
-    }
-  }, [ibuMengandung]);
+  // //reset gravida
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setEpisodMengandung('');
+  //     setBookingIM('');
+  //     setMengandungDahGravida(false);
+  //   }
+  // }, [ibuMengandung]);
 
-  //reset dah gravida
-  useEffect(() => {
-    if (!editId) {
-      setMengandungDahGravida(false);
-    }
-  }, [bookingIM]);
+  // //reset dah gravida
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setMengandungDahGravida(false);
+  //   }
+  // }, [bookingIM]);
 
-  //reset pesara
-  useEffect(() => {
-    if (!editId) {
-      setNoPesara('');
-      setKakitanganKerajaan(false);
-      setNoBayaran('');
-      setNoResit('');
-      setNoBayaran2('');
-      setNoResit2('');
-      setNoBayaran3('');
-    }
-  }, [statusPesara]);
+  // //reset pesara
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setNoPesara('');
+  //     setKakitanganKerajaan(false);
+  //     setNoBayaran('');
+  //     setNoResit('');
+  //     setNoBayaran2('');
+  //     setNoResit2('');
+  //     setNoBayaran3('');
+  //   }
+  // }, [statusPesara]);
 
-  //reset bayaran
-  useEffect(() => {
-    if (!editId) {
-      if (tambahBayaran === false) {
-        setNoBayaran2('');
-        setNoResit2('');
-        setNoBayaran3('');
-        setNoResit3('');
-      }
-      if (tambahBayaran2 === false) {
-        setNoBayaran3('');
-        setNoResit3('');
-      }
-    }
-  }, [tambahBayaran, tambahBayaran2]);
+  // //reset bayaran
+  // useEffect(() => {
+  //   if (!editId) {
+  //     if (tambahBayaran === false) {
+  //       setNoBayaran2('');
+  //       setNoResit2('');
+  //       setNoBayaran3('');
+  //       setNoResit3('');
+  //     }
+  //     if (tambahBayaran2 === false) {
+  //       setNoBayaran3('');
+  //       setNoResit3('');
+  //     }
+  //   }
+  // }, [tambahBayaran, tambahBayaran2]);
 
-  // reset kedatangan kepp when change kepp
-  useEffect(() => {
-    if (!editId) {
-      setKedatanganKepp('');
-    }
-  }, [kepp]);
+  // // reset kedatangan kepp when change kepp
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setKedatanganKepp('');
+  //   }
+  // }, [kepp]);
 
-  // reset tarikh kepp when change kedatangan kepp
-  useEffect(() => {
-    if (!editId) {
-      setTarikhRujukanKepp('');
-      setTarikhRundinganPertama('');
-      setTarikhMulaRawatanKepp('');
-    }
-  }, [kedatanganKepp]);
+  // // reset tarikh kepp when change kedatangan kepp
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setTarikhRujukanKepp('');
+  //     setTarikhRundinganPertama('');
+  //     setTarikhMulaRawatanKepp('');
+  //   }
+  // }, [kedatanganKepp]);
 
-  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika  when change fasilitiTaskaTadika
-  useEffect(() => {
-    if (!editId) {
-      setNamaFasilitiTaskaTadika('');
-      setKodFasilitiTaskaTadika('');
-    }
-  }, [fasilitiTaskaTadika]);
+  // // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika  when change fasilitiTaskaTadika
+  // useEffect(() => {
+  //   if (!editId) {
+  //     setNamaFasilitiTaskaTadika('');
+  //     setKodFasilitiTaskaTadika('');
+  //   }
+  // }, [fasilitiTaskaTadika]);
 
   // fetch personKaunter to edit if editId === true
   useEffect(() => {
