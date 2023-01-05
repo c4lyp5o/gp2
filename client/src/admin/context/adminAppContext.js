@@ -327,24 +327,6 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  // // read pegawai data
-  // const readPegawaiData = async () => {
-  //   const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
-  //   const currentPegawai = await readData('pp');
-  //   if (currentPegawai.data.length === 0) {
-  //     console.log('no pegawai');
-  //     return response.data;
-  //   }
-  //   console.log('current pegawai', currentPegawai.data);
-  //   for (let j = 0; j < currentPegawai.data.length; j++) {
-  //     const deletePegawai = response.data
-  //       .map((e) => e.mdcNumber)
-  //       .indexOf(parseInt(currentPegawai.data[j].mdcNumber));
-  //     response.data.splice(deletePegawai, 1);
-  //   }
-  //   return response.data;
-  // };
-
   // read fasiliti data
   const readFasilitiData = async ({ negeri, daerah }) => {
     const response = await axios.get(
@@ -365,78 +347,19 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  // read dpims data
-  const readDpimsData = async (nama) => {
+  // read operator data
+  const readOperatorData = async (type, nama) => {
     try {
       const response = await axios.get(
-        `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
+        `/api/v1/superadmin/getoperator?nama=${nama}&type=${type}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
       );
-      const currentPegawai = await readData('ppall');
-      console.log('current pegawai', currentPegawai.data);
-      if (currentPegawai.data.length === 0) {
-        return response.data;
-      }
-      if (response.data.length === 1) {
-        const match = currentPegawai.data
-          .map((e) => (e.mdcNumber ? parseInt(e.mdcNumber) : ''))
-          .includes(response.data[0].mdcNumber);
-        console.log(match);
-        if (match) {
-          return false;
-        }
-        return response.data;
-      }
-      if (response.data.length > 1) {
-        for (let j = 0; j < currentPegawai.data.length; j++) {
-          const deletePegawai = response.data
-            .map((e) => e.mdcNumber)
-            .indexOf(
-              currentPegawai.data[j].mdcNumber
-                ? parseInt(currentPegawai.data[j].mdcNumber)
-                : ''
-            );
-          if (deletePegawai !== -1) {
-            response.data.splice(deletePegawai, 1);
-          }
-        }
-        return response.data;
-      }
+      return response.data;
     } catch (err) {
-      return false;
-    }
-  };
-
-  // get mdtb data
-  const readMdtbData = async (nama) => {
-    try {
-      const response = await axios.get(
-        `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
-      );
-      const currentJp = await readData('jpall');
-      if (currentJp.data.length === 0) {
-        return response.data;
-      }
-      if (response.data.length === 1) {
-        const match = currentJp.data
-          .map((e) => e.mdtbNumber)
-          .includes(response.data[0].mdtbNumber);
-        if (match) {
-          return false;
-        }
-        return response.data;
-      }
-      if (response.data.length > 1) {
-        for (let j = 0; j < currentJp.data.length; j++) {
-          const deleteJp = response.data
-            .map((e) => e.mdtbNumber)
-            .indexOf(currentJp.data[j].mdtbNumber);
-          if (deleteJp !== -1) {
-            response.data.splice(deleteJp, 1);
-          }
-        }
-        return response.data;
-      }
-    } catch (error) {
       return false;
     }
   };
@@ -787,8 +710,7 @@ function AdminAppProvider({ children }) {
         updateDataForKp,
         deleteDataForKp,
         // misc data
-        readDpimsData,
-        readMdtbData,
+        readOperatorData,
         readKkiaData,
         // readPegawaiData,
         readSekolahData,
