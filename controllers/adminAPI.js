@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
 const mailer = require('nodemailer');
@@ -2349,6 +2350,46 @@ const sosmedDataCompactor = (data) => {
   return countedData;
 };
 
+const processOperatorQuery = async (req, res) => {
+  const { nama, type } = req.query;
+  switch (type) {
+    case 'pp':
+      const { data: allMatchingPP } = await axios.get(
+        `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
+      );
+      const mdcNumber = await Operator.find({ statusPegawai: 'pp' }).select(
+        'mdcNumber'
+      );
+      const mdcNumbers = mdcNumber.map((mdc) => parseInt(mdc.mdcNumber));
+      const filteredPP = allMatchingPP.filter(
+        (item) => !mdcNumbers.includes(item.mdcNumber)
+      );
+      if (filteredPP.length === 0) {
+        return res.status(404).json({ message: 'No data found' });
+      }
+      res.status(200).json(filteredPP);
+      break;
+    case 'jp':
+      const { data: allMatchingJP } = await axios.get(
+        `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
+      );
+      const mdtbNumber = await Operator.find({ statusPegawai: 'jp' }).select(
+        'mdtbNumber'
+      );
+      const mdtbNumbers = mdtbNumber.map((mdc) => mdc.mdtbNumber);
+      const filteredJP = allMatchingJP.filter(
+        (item) => !mdtbNumbers.includes(item.mdtbNumber)
+      );
+      if (filteredJP.length === 0) {
+        return res.status(404).json({ message: 'No data found' });
+      }
+      res.status(200).json(filteredJP);
+      break;
+    default:
+      res.status(400).json({ message: 'Invalid query' });
+  }
+};
+
 const html = (nama, key) =>
   `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -2564,4 +2605,5 @@ module.exports = {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
+  processOperatorQuery,
 };
