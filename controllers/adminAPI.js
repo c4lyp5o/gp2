@@ -1084,6 +1084,8 @@ const getData = async (req, res) => {
               namaProgram: program.nama,
               jenisProgram: program.jenisEvent,
               createdByKodFasiliti: program.createdByKodFasiliti,
+              tahunDaftar: program.tahunDibuat,
+              deleted: false,
             });
             if (exists.length > 0) {
               return res.status(409).json({
@@ -1232,6 +1234,8 @@ const getData = async (req, res) => {
                 namaProgram: program.nama,
                 jenisProgram: program.jenisEvent,
                 createdByKodFasiliti: program.createdByKodFasiliti,
+                tahunDaftar: program.tahunDibuat,
+                deleted: false,
               });
               if (exists.length > 0) {
                 console.log('patients registered under the program');
