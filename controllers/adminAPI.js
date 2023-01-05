@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
+const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
 const mailer = require('nodemailer');
@@ -914,7 +915,7 @@ const getData = async (req, res) => {
               belongsTo: owner,
               kodProgram: Data.kodProgram,
             });
-            if (previousData.length === 0) {
+            if (!previousData.data) {
               console.log('previous data not found');
               delete Data.data[0].kodProgram;
               Data.data[0] = {
@@ -924,7 +925,7 @@ const getData = async (req, res) => {
               const createdSosmed = await Sosmed.create(Data);
               return res.status(200).json(createdSosmed);
             }
-            if (previousData.length > 0) {
+            if (previousData.data) {
               console.log('previous data got');
               delete Data.data[0].kodProgram;
               const lastData = previousData[0].data.length;
@@ -1002,7 +1003,9 @@ const getData = async (req, res) => {
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
             theType !== 'klinik' &&
-            theType !== 'program'
+            theType !== 'program' &&
+            theType !== 'sosmed' &&
+            theType !== 'followers'
           ) {
             const data = await Fasiliti.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
@@ -1095,6 +1098,21 @@ const getData = async (req, res) => {
             const data = await Event.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
           }
+          if (theType === 'sosmed') {
+            let owner = '';
+            if (daerah === '-') {
+              owner = negeri;
+            }
+            if (daerah !== '-') {
+              owner = daerah;
+            }
+            const deletedSosmed = await Sosmed.findOneAndUpdate(
+              { kodProgram: Id.kodProgram, belongsTo: owner },
+              { $pull: { data: { id: Id.id } } },
+              { new: true }
+            );
+            res.status(200).json(deletedSosmed);
+          }
           break;
         default:
           console.log('default case for DataCenter');
@@ -1127,7 +1145,7 @@ const getData = async (req, res) => {
                 belongsTo: kp,
                 kodProgram: Data.kodProgram,
               });
-              if (previousData.length === 0) {
+              if (!previousData.data) {
                 console.log('previous data not found');
                 delete Data.data[0].kodProgram;
                 Data.data[0] = {
@@ -1137,7 +1155,7 @@ const getData = async (req, res) => {
                 const createdSosmed = await Sosmed.create(Data);
                 return res.status(200).json(createdSosmed);
               }
-              if (previousData.length > 0) {
+              if (previousData.data) {
                 console.log('previous data got');
                 delete Data.data[0].kodProgram;
                 const lastData = previousData[0].data.length;
@@ -1161,26 +1179,6 @@ const getData = async (req, res) => {
             default:
               console.log('default case for kpcenter');
               break;
-          }
-          break;
-          console.log('readOne for kpcenter');
-          if (FType === 'program') {
-            const oneEvent = await Event.findOne({
-              _id: Id,
-            });
-            res.status(200).json(oneEvent);
-          }
-          if (FType === 'pp' || FType === 'jp') {
-            const onePP = await Operator.findOne({
-              _id: Id,
-            });
-            res.status(200).json(onePP);
-          }
-          if (FType === 'tastad') {
-            const oneTastad = await Fasiliti.findOne({
-              _id: Id,
-            });
-            res.status(200).json(oneTastad);
           }
           break;
         case 'update':
@@ -1247,9 +1245,10 @@ const getData = async (req, res) => {
               res.status(200).json(data);
               break;
             case 'sosmed':
+              console.log(Id);
               const deletedSosmed = await Sosmed.findOneAndUpdate(
-                { kodProgram: Id, belongsTo: kp },
-                { $pop: { data: -1 } },
+                { kodProgram: Id.kodProgram, belongsTo: kp },
+                { $pull: { data: { id: Id.id } } },
                 { new: true }
               );
               res.status(200).json(deletedSosmed);
@@ -2351,6 +2350,46 @@ const sosmedDataCompactor = (data) => {
   return countedData;
 };
 
+const processOperatorQuery = async (req, res) => {
+  const { nama, type } = req.query;
+  switch (type) {
+    case 'pp':
+      const { data: allMatchingPP } = await axios.get(
+        `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
+      );
+      const mdcNumber = await Operator.find({ statusPegawai: 'pp' }).select(
+        'mdcNumber'
+      );
+      const mdcNumbers = mdcNumber.map((mdc) => parseInt(mdc.mdcNumber));
+      const filteredPP = allMatchingPP.filter(
+        (item) => !mdcNumbers.includes(item.mdcNumber)
+      );
+      if (filteredPP.length === 0) {
+        return res.status(404).json({ message: 'No data found' });
+      }
+      res.status(200).json(filteredPP);
+      break;
+    case 'jp':
+      const { data: allMatchingJP } = await axios.get(
+        `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
+      );
+      const mdtbNumber = await Operator.find({ statusPegawai: 'jp' }).select(
+        'mdtbNumber'
+      );
+      const mdtbNumbers = mdtbNumber.map((mdc) => mdc.mdtbNumber);
+      const filteredJP = allMatchingJP.filter(
+        (item) => !mdtbNumbers.includes(item.mdtbNumber)
+      );
+      if (filteredJP.length === 0) {
+        return res.status(404).json({ message: 'No data found' });
+      }
+      res.status(200).json(filteredJP);
+      break;
+    default:
+      res.status(400).json({ message: 'Invalid query' });
+  }
+};
+
 const html = (nama, key) =>
   `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -2566,4 +2605,5 @@ module.exports = {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
+  processOperatorQuery,
 };

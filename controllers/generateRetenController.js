@@ -459,7 +459,6 @@ exports.aggFunction = async function (req, res) {
 // functions
 const makePG101A = async (payload) => {
   console.log('PG101A');
-  console.log(payload);
   try {
     var { klinik, daerah, negeri } = payload;
     //
@@ -621,6 +620,9 @@ const makePG101A = async (payload) => {
         data[i].noResit3 ? data[i].noResit3 : ''
       } ${data[i].catatan}`;
       rowNew.getCell(35).value = catatan; //catatan
+      if (data[i].deleted) {
+        rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
+      }
     }
 
     worksheet.eachRow((row, rowNumber) => {
@@ -643,6 +645,8 @@ const makePG101A = async (payload) => {
         });
       }
     });
+
+    // worksheet.eachRow((row, rowNumber) => {
 
     worksheet.name = 'PG101A';
 
@@ -814,7 +818,23 @@ const makePG101C = async (payload) => {
           console.log('');
       }
       rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      rowNew.getCell(35).value = data[i].catatan; //catatan
+      let catatan = `${data[i].noBayaran ? data[i].noBayaran : ''} ${
+        data[i].noResit ? data[i].noResit : ''
+      } ${data[i].noBayaran2 ? data[i].noBayaran2 : ''} ${
+        data[i].noResit2 ? data[i].noResit2 : ''
+      } ${data[i].noBayaran3 ? data[i].noBayaran3 : ''} ${
+        data[i].noResit3 ? data[i].noResit3 : ''
+      } ${data[i].catatan}`;
+      rowNew.getCell(35).value = catatan; //catatan
+      if (data[i].deleted) {
+        rowNew.eachCell((cell, colNumber) => {
+          cell.fill = {
+            type: 'pattern',
+            pattern: 'solid',
+            fgColor: { argb: 'FFFF0000' },
+          };
+        });
+      }
     }
 
     worksheet.eachRow((row, rowNumber) => {
