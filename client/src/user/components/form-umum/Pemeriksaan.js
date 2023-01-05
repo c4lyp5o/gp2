@@ -1,7 +1,11 @@
 import { useEffect, useState } from 'react';
 import { FaInfoCircle } from 'react-icons/fa';
 
+import { useGlobalUserAppContext } from '../../context/userAppContext';
+
 export default function Pemeriksaan(props) {
+  const { formatTime } = useGlobalUserAppContext();
+
   const [show, setShow] = useState(false);
   let isDisabled = false;
   if (
@@ -123,7 +127,7 @@ export default function Pemeriksaan(props) {
                   className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                 />
               </div>
-              <div className='flex flex-row items-center mb-2'>
+              {/* <div className='flex flex-row items-center mb-2'>
                 <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
                   Penggunaan KPB / MPB
                 </p>
@@ -145,7 +149,7 @@ export default function Pemeriksaan(props) {
                       ))
                     : null}
                 </select>
-              </div>
+              </div> */}
               {props.singlePersonUmum.umur >= 18 &&
               props.singlePersonUmum.jenisFasiliti === 'kp' ? (
                 <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
@@ -172,6 +176,7 @@ export default function Pemeriksaan(props) {
                         value={props.systolicTekananDarah}
                         onChange={(e) => {
                           props.setSystolicTekananDarah(e.target.value);
+                          props.setRujukKeKlinik(false);
                         }}
                         min='0'
                         max='300'
@@ -192,6 +197,7 @@ export default function Pemeriksaan(props) {
                         value={props.diastolicTekananDarah}
                         onChange={(e) => {
                           props.setDiastolicTekananDarah(e.target.value);
+                          props.setRujukKeKlinik(false);
                         }}
                         min='0'
                         max='300'
@@ -199,7 +205,7 @@ export default function Pemeriksaan(props) {
                       />
                     </div>
                     <div className='flex flex-row whitespace-nowrap'>
-                      <p className='font-bold text-2xl'>mmHg</p>
+                      <p className='font-bold text-2xl mr-2'>mmHg</p>
                     </div>
                   </div>
                   {(props.systolicTekananDarah >= 1 &&
