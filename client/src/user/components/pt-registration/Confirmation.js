@@ -388,7 +388,7 @@ const ConfirmModal = ({
                 </p>
               </div>
               <div className='mt-1'>
-                <p>Waktu Tiba: {formatTime(waktuSampai)}</p>
+                <p>Waktu Sampai: {formatTime(waktuSampai)}</p>
               </div>
               <div>
                 <p>
