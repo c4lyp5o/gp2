@@ -1002,7 +1002,9 @@ const getData = async (req, res) => {
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
             theType !== 'klinik' &&
-            theType !== 'program'
+            theType !== 'program' &&
+            theType !== 'sosmed' &&
+            theType !== 'followers'
           ) {
             const data = await Fasiliti.findByIdAndDelete({ _id: Id });
             return res.status(200).json(data);
@@ -1094,7 +1096,6 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'sosmed') {
-            console.log(Id);
             let owner = '';
             if (daerah === '-') {
               owner = negeri;

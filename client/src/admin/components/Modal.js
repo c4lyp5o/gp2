@@ -809,6 +809,7 @@ const DeleteModal = ({
           }
         });
         break;
+      case 'negeriSuperadmin':
       case 'daerahSuperadmin':
         deleteData(FType, id).then((res) => {
           if (res.status === 200) {
