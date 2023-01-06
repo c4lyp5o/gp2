@@ -168,32 +168,35 @@ const ConfirmModal = ({
                   {data.alamat}, {data.daerahAlamat}, {data.poskodAlamat},{' '}
                   {data.negeriAlamat}
                 </p>
-                {data.ibuMengandung ? (
+                {data.ibuMengandung === true ? (
                   <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 my-1'>
                     Ibu Mengandung:
                   </p>
                 ) : null}
-                {data.ibuMengandung ? (
+                {data.ibuMengandung === true ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
                     Ya
+                    {data.episodMengandung ? (
+                      <p>, Gravida - {data.episodMengandung}</p>
+                    ) : null}
                   </p>
                 ) : null}
-                {data.bersekolah ? (
+                {data.bersekolah === true ? (
                   <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 my-1'>
                     Bersekolah:
                   </p>
                 ) : null}
-                {data.bersekolah ? (
+                {data.bersekolah === true ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
                     Ya
                   </p>
                 ) : null}
-                {data.orangKurangUpaya ? (
+                {data.orangKurangUpaya === true ? (
                   <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 my-1'>
                     Orang Kurang Upaya:
                   </p>
                 ) : null}
-                {data.orangKurangUpaya ? (
+                {data.orangKurangUpaya === true ? (
                   <p className='text-sm p-1 flex justify-start text-left my-1'>
                     Ya
                   </p>
