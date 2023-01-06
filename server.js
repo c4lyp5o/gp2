@@ -45,11 +45,6 @@ const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
 
-// sending version number of application
-app.use('/version', (req, res) => {
-  res.status(200).json({ applicationVersion: process.env.npm_package_version });
-});
-
 // the dpims scrap
 app.use('/dpims', dpims);
 
