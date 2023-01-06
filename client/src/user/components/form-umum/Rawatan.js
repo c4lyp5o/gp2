@@ -2197,7 +2197,7 @@ export default function Rawatan(props) {
                         />
                         <label
                           htmlFor='rujukan-pakar-patologi-mulut-dan-perubatan-mulut'
-                          className='text-left flex justify-start items-center text-sm pl-5'
+                          className='text-left flex justify-start items-center text-sm pl-3'
                         >
                           Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut
                         </label>
@@ -2241,7 +2241,7 @@ export default function Rawatan(props) {
                         />
                         <label
                           htmlFor='rujukan-pakar-pergigian-pediatrik'
-                          className='text-left flex justify-start items-center text-sm pl-5'
+                          className='text-left flex justify-start items-center text-sm pl-3'
                         >
                           Rujukan Ke Pakar Pergigian Pediatrik
                         </label>
