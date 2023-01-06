@@ -1891,10 +1891,14 @@ export default function FillableForm({
                                 htmlFor='episod-mengandung'
                                 className='m-2 text-left font-light'
                               >
-                                Gravida Mengandung
+                                Gravida Mengandung{' '}
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
                               </label>
                               <div className='relative w-full md:w-48'>
                                 <select
+                                  required
                                   name='episod-mengandung'
                                   id='episod-mengandung'
                                   value={episodMengandung}
@@ -1939,9 +1943,13 @@ export default function FillableForm({
                             <div className='flex flex-col md:flex-row text-xs md:text-sm'>
                               <p className='text-left font-light m-2'>
                                 didaftarkan di KKIA pada tahun semasa
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
                               </p>
                               <div className='flex items-center'>
                                 <input
+                                  required
                                   type='radio'
                                   name='booking-im'
                                   id='ya-booking-im'
@@ -1961,6 +1969,7 @@ export default function FillableForm({
                               </div>
                               <div className='flex items-center'>
                                 <input
+                                  required
                                   type='radio'
                                   name='booking-im'
                                   id='tidak-booking-im'
