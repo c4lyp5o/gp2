@@ -59,44 +59,47 @@ export default function Rawatan(props) {
             <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2 auto-rows-min'>
               {props.statusKehadiran === false ? (
                 <>
-                  <article className='grid border border-userBlack pl-3 px-2 p-2 rounded-md lg:col-span-2'>
-                    <h1 className='flex flex-row text-base font-semibold p-1'>
-                      rawatan yang dijalankan hari ini
-                    </h1>
-                    {props.statusKehadiran === false ? (
-                      <Select
-                        isMulti
-                        name='rawatan'
-                        options={optionsRawatan}
-                        className='basic-multi-select'
-                        classNamePrefix='select'
-                        onChange={(e) => {
-                          if (showKesSelesai === false) {
-                            setShowKesSelesai(true);
-                            setPilihanRawatan(
-                              e.map((item) => {
-                                console.log(item.value);
-                                return item.value;
-                              })
-                            );
-                            setPilihanRawatan((prev) => {
-                              return [...prev, 'kes-selesai'];
-                            });
-                          }
-                          if (showKesSelesai === true) {
-                            setPilihanRawatan(
-                              e.map((item) => {
-                                return item.value;
-                              })
-                            );
-                          }
-                          console.log(pilihanRawatan);
-                        }}
-                      />
-                    ) : null}
-                  </article>
+                  {props.statusReten === 'belum diisi' ? (
+                    <article className='grid border border-userBlack pl-3 px-2 p-2 rounded-md lg:col-span-2'>
+                      <h1 className='flex flex-row text-base font-semibold p-1'>
+                        rawatan yang dijalankan hari ini
+                      </h1>
+                      {props.statusKehadiran === false ? (
+                        <Select
+                          isMulti
+                          name='rawatan'
+                          options={optionsRawatan}
+                          className='basic-multi-select'
+                          classNamePrefix='select'
+                          onChange={(e) => {
+                            if (showKesSelesai === false) {
+                              setShowKesSelesai(true);
+                              setPilihanRawatan(
+                                e.map((item) => {
+                                  console.log(item.value);
+                                  return item.value;
+                                })
+                              );
+                              setPilihanRawatan((prev) => {
+                                return [...prev, 'kes-selesai'];
+                              });
+                            }
+                            if (showKesSelesai === true) {
+                              setPilihanRawatan(
+                                e.map((item) => {
+                                  return item.value;
+                                })
+                              );
+                            }
+                            console.log(pilihanRawatan);
+                          }}
+                        />
+                      ) : null}
+                    </article>
+                  ) : null}
                   {pilihanRawatan.includes('pengapan-fisur') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.baruJumlahGigiKekalDibuatFSRawatanUmum ? (
                     <article
                       className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'
                       title='Fissure Sealant'
@@ -149,7 +152,8 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('sapuan-florida') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.pesakitDibuatFluorideVarnish ? (
                     <article
                       className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'
                       title='Fluoride Varnish'
@@ -179,7 +183,8 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('prr-jenis-1') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
@@ -232,7 +237,10 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('cabutan') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.cabutDesidusRawatanUmum ||
+                  props.cabutKekalRawatanUmum ||
+                  props.komplikasiSelepasCabutanRawatanUmum ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         cabutan
@@ -322,7 +330,11 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('pembedahan-mulut') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.cabutanSurgikalPembedahanMulutRawatanUmum ||
+                  props.yaTidakAbsesPembedahanRawatanUmum ||
+                  props.yaTidakPembedahanKecilMulutPembedahanRawatanUmum ||
+                  props.yaTidakTraumaPembedahanRawatanUmum ? (
                     <article className='grid grid-cols-1 grid-row-5 border border-userBlack rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 py-2'>
                         Pembedahan Mulut
@@ -584,7 +596,17 @@ export default function Rawatan(props) {
                     </article>
                   ) : null} */}
                   {pilihanRawatan.includes('prostodontik') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.baruJumlahCrownBridgeRawatanUmum ||
+                  props.semulaJumlahCrownBridgeRawatanUmum ||
+                  props.baruJumlahPostCoreRawatanUmum ||
+                  props.semulaJumlahPostCoreRawatanUmum ||
+                  props.baruPenuhJumlahDenturProstodontikRawatanUmum ||
+                  props.semulaPenuhJumlahDenturProstodontikRawatanUmum ||
+                  props.baruSeparaJumlahDenturProstodontikRawatanUmum ||
+                  props.semulaSeparaJumlahDenturProstodontikRawatanUmum ||
+                  props.immediateDenturProstodontikRawatanUmum ||
+                  props.pembaikanDenturProstodontikRawatanUmum ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Prostodontik Diisu
@@ -872,7 +894,22 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('tampalan') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum ||
+                  props.gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum ||
+                  props.gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum ||
+                  props.gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum ||
+                  props.gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum ||
+                  props.baruInlayOnlayJumlahTampalanDibuatRawatanUmum ||
+                  props.semulaInlayOnlayJumlahTampalanDibuatRawatanUmum ||
+                  props.jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum ? (
                     <article className='border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Jumlah Tampalan Dibuat
@@ -1283,7 +1320,17 @@ export default function Rawatan(props) {
                   ) : null}
                   {pilihanRawatan.includes('periodontik') ||
                   pilihanRawatan.includes('lihat-semua') ||
-                  props.skorBpeOralHygienePemeriksaanUmum === '4' ? (
+                  props.skorBpeOralHygienePemeriksaanUmum === '4' ||
+                  props.nasihatBerhentiMerokok ||
+                  props.lainLainPengurusanFaktorRisiko ||
+                  props.pengilapanTampalanRungkup ||
+                  props.adjustasiOklusi ||
+                  props.ektiparsiPulpa ||
+                  props.rawatanLainPeriodontikRawatanUmum ||
+                  props.rujukanPakarPeriodontik ||
+                  props.rujukanPakarScd ||
+                  props.rujukanPakarUpkka ||
+                  props.kesSelesaiPeriodontium ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Terapi Periodontium
@@ -1683,9 +1730,12 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('rawatan-lain') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.rawatanOrtodontikRawatanUmum ||
+                  props.kesPerubatanMulutRawatanUmum ||
+                  props.rawatanLainPeriodontik ? (
+                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5'>
                         rawatan lain
                       </h4>
                       <div className='flex flex-row items-center pl-5 m-1'>
@@ -1758,9 +1808,10 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('x-ray') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.bilanganXrayYangDiambilRawatanUmum ? (
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5'>
+                      <h4 className='font-bold flex flex-row px-5'>
                         bilangan x-ray yang diambil
                       </h4>
                       <input
@@ -1776,13 +1827,23 @@ export default function Rawatan(props) {
                             e.target.value
                           );
                         }}
-                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg ml-5'
                       />
                     </article>
                   ) : null}
                   {/* pink */}
                   {pilihanRawatan.includes('endodontik-selesai') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.jumlahAnteriorKesEndodontikSelesaiRawatanUmum ||
+                  props.jumlahPremolarKesEndodontikSelesaiRawatanUmum ||
+                  props.jumlahMolarKesEndodontikSelesaiRawatanUmum ||
+                  props.rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum ||
+                  props.jumlahAnteriorRawatanSemulaKeppRawatanUmum ||
+                  props.jumlahPremolarRawatanSemulaKeppRawatanUmum ||
+                  props.jumlahMolarRawatanSemulaKeppRawatanUmum ||
+                  props.memenuhiRditnKod3KesRujukUpprRawatanUmum ||
+                  props.restorasiPascaEndodontikKesRujukUpprRawatanUmum ||
+                  props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum ? (
                     <article className='grid grid-cols-1 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-semibold flex flex-row pl-3'>
                         kes endodontik selesai
@@ -2056,7 +2117,8 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('penskaleran') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.penskaleranRawatanUmum ? (
                     <article className='grid grid-cols-[2fr_1fr] gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2 py-2'>
                         Penskaleran
@@ -2085,7 +2147,11 @@ export default function Rawatan(props) {
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('rujukan') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
+                  pilihanRawatan.includes('lihat-semua') ||
+                  props.rujukanPakarOrtodontik ||
+                  props.rujukanPakarPatologiMulutDanPerubatanMulut ||
+                  props.rujukanPakarBedahMulut ||
+                  props.rujukanPakarPergigianPediatrik ? (
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 py-2'>
                         Rujukan
