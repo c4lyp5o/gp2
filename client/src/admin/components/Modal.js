@@ -621,10 +621,10 @@ const EditModalForKp = ({
   }, []);
 
   // reset tarikhEnd if change tarikhStart
-  useEffect(() => {
-    setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
-    setEndDateDP(null);
-  }, [editedEntity.tarikhStart]);
+  // useEffect(() => {
+  //   setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
+  //   setEndDateDP(null);
+  // }, [editedEntity.tarikhStart]);
 
   const handleSubmit = async (e) => {
     // check if modpenyampaian has kpb and must have penggunaan kpb, else return
