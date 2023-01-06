@@ -1,7 +1,12 @@
-import React, { useState, useContext, useEffect, useRef } from 'react';
+import React, {
+  useState,
+  useContext,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+} from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
-import moment from 'moment';
 import { ToastContainer, toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
 
@@ -12,19 +17,6 @@ const storageReliefUserToken = localStorage.getItem('reliefUserToken');
 const storageFasilitiRelief = localStorage.getItem('fasilitiRelief');
 
 const storageKaunterToken = localStorage.getItem('kaunterToken');
-
-// get a date for today
-const rawToday = new Date();
-const dd = String(rawToday.getDate()).padStart(2, '0');
-const mm = String(rawToday.getMonth() + 1).padStart(2, '0');
-const yyyy = rawToday.getFullYear();
-const dateToday = yyyy + '-' + mm + '-' + dd;
-
-// get past three days from today
-const rawYesterday = rawToday.setDate(rawToday.getDate() - 1);
-const dateYesterday = moment(rawYesterday).format('YYYY-MM-DD');
-const rawPastTwoDays = rawToday.setDate(rawToday.getDate() - 1);
-const datePastTwoDays = moment(rawPastTwoDays).format('YYYY-MM-DD');
 
 // format 24 hour time to 12 hour
 function formatTime(timeString) {
@@ -281,6 +273,10 @@ const dictionaryDaerah = {
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
+  const [dateToday, setDateToday] = useState('');
+  const [dateYesterday, setDateYesterday] = useState('');
+  const [datePastTwoDays, setDatePastTwoDays] = useState('');
+
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
   const [userinfo, setUserinfo] = useState(JSON.parse(storageUserinfo));
@@ -310,6 +306,18 @@ function UserAppProvider({ children }) {
 
   const navigate = useNavigate();
 
+  // getdate from the server
+  useLayoutEffect(() => {
+    const fetchDate = async () => {
+      const { data } = await axios.get('/api/v1/getdate');
+      setDateToday(data.dateToday);
+      setDateYesterday(data.dateYesterday);
+      setDatePastTwoDays(data.datePastTwoDays);
+    };
+    fetchDate();
+  }, []);
+
+  // pengguna logout timer
   useEffect(() => {
     if (userToken) {
       if (kicker && kickerNoti) {
