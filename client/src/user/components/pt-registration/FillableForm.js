@@ -952,7 +952,14 @@ export default function FillableForm({
     }
   }, [kedatanganKepp]);
 
-  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika  when change fasilitiTaskaTadika
+  // reset kelasToddler when change fasilitiTaskaTadika
+  useEffect(() => {
+    if (!editId) {
+      setKelasToddler(false);
+    }
+  }, [fasilitiTaskaTadika]);
+
+  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika when change fasilitiTaskaTadika
   useEffect(() => {
     if (!editId) {
       setNamaFasilitiTaskaTadika('');
@@ -2756,25 +2763,27 @@ export default function FillableForm({
                           <option value='tadika'>Tadika</option>
                         </select>
                       </div>
-                      <div className='overflow-x-auto'>
-                        <input
-                          type='checkbox'
-                          id='kelas-toddler'
-                          name='kelas-toddler'
-                          value='kelas-toddler'
-                          checked={kelasToddler}
-                          onChange={() => {
-                            setKelasToddler(!kelasToddler);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='kelas-toddler'
-                          className='ml-2 text-sm font-m'
-                        >
-                          Kelas toddler
-                        </label>
-                      </div>
+                      {fasilitiTaskaTadika === 'tadika' && (
+                        <div className='overflow-x-auto'>
+                          <input
+                            type='checkbox'
+                            id='kelas-toddler'
+                            name='kelas-toddler'
+                            value='kelas-toddler'
+                            checked={kelasToddler}
+                            onChange={() => {
+                              setKelasToddler(!kelasToddler);
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='kelas-toddler'
+                            className='ml-2 text-sm font-m'
+                          >
+                            Kelas toddler
+                          </label>
+                        </div>
+                      )}
                     </article>
                     <p className='font-semibold'>
                       nama fasiliti{' '}
