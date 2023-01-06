@@ -1,15 +1,11 @@
 import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
 import { FaArrowAltCircleUp } from 'react-icons/fa';
 
 export default function Footer() {
   const [showFooter, setShowFooter] = useState(false);
 
   let footerRef = useRef();
-
-  // application version
-  const [applicationVersion, setApplicationVersion] = useState('');
 
   useEffect(() => {
     let tutupFooter = (e) => {
@@ -23,15 +19,6 @@ export default function Footer() {
     };
   });
 
-  // get application version
-  useEffect(() => {
-    const fetchApplicationVersion = async () => {
-      const { data } = await axios.get('/version');
-      setApplicationVersion(data.applicationVersion);
-    };
-    fetchApplicationVersion();
-  }, []);
-
   return (
     <div ref={footerRef}>
       <div className='absolute bottom-0 left-0 right-0 grid bg-admin4 uppercase'>
@@ -41,7 +28,7 @@ export default function Footer() {
           </p>
           <div className='hidden lg:flex flex-row justify-end pr-2'>
             <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3 lowercase'>
-              v{applicationVersion}
+              v{process.env.REACT_APP_VERSION}
             </p>
             <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
               <a
@@ -81,7 +68,7 @@ export default function Footer() {
             }`}
           >
             <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50 lowercase'>
-              v{applicationVersion}
+              v{process.env.REACT_APP_VERSION}
             </p>
             <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
               <a
