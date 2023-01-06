@@ -1,5 +1,6 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
+import axios from 'axios';
 import { FaArrowAltCircleUp, FaBell } from 'react-icons/fa';
 
 function LandingPage() {
@@ -8,6 +9,8 @@ function LandingPage() {
   const [showUpdate, setShowUpdate] = useState(false);
   // dropdown notification
   let notificationRef = useRef();
+  // application version
+  const [applicationVersion, setApplicationVersion] = useState('');
 
   useEffect(() => {
     let tutupNotification = (e) => {
@@ -37,6 +40,15 @@ function LandingPage() {
       document.removeEventListener('mousedown', tutupFooter);
     };
   });
+
+  // get application version
+  useEffect(() => {
+    const fetchApplicationVersion = async () => {
+      const { data } = await axios.get('/version');
+      setApplicationVersion(data.applicationVersion);
+    };
+    fetchApplicationVersion();
+  }, []);
 
   return (
     <>
@@ -192,6 +204,9 @@ function LandingPage() {
               hak cipta kementerian kesihatan malaysia
             </p>
             <div className='hidden lg:flex flex-row justify-end pr-2'>
+              <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3 lowercase'>
+                v{applicationVersion}
+              </p>
               <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
                 <a
                   target='_blank'
@@ -229,6 +244,9 @@ function LandingPage() {
                   : 'max-h-0 overflow-hidden'
               }`}
             >
+              <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50 lowercase'>
+                v{applicationVersion}
+              </p>
               <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
                 <a
                   target='_blank'
