@@ -29,10 +29,10 @@ export default function DaftarPesakit({ createdByKp }) {
   const [allPersonKaunter, setAllPersonKaunter] = useState(null);
   const [philter, setPhilter] = useState('');
   const [showAll, setShowAll] = useState(false);
-  const [date, setDate] = useState(new Date());
+  const [date, setDate] = useState(new Date(dateToday));
   const [generating, setGenerating] = useState(false);
   const [pilihanTarikh, setPilihanTarikh] = useState(
-    moment(new Date()).format('YYYY-MM-DD')
+    moment(new Date(dateToday)).format('YYYY-MM-DD')
   );
   const [sort, setSort] = useState({
     masaDaftar: false,
@@ -47,7 +47,7 @@ export default function DaftarPesakit({ createdByKp }) {
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `PG101A-${createdByKp}-${moment(new Date()).format(
+    link.download = `PG101A-${createdByKp}-${moment(new Date(dateToday)).format(
       'DD-MM-YYYY'
     )}.xlsx`;
     link.href = URL.createObjectURL(new Blob([blob]));

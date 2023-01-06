@@ -22,7 +22,7 @@ export default function UserStatusHarian() {
     setRefreshTimer,
   } = useGlobalUserAppContext();
 
-  const [pickedDate, setPickedDate] = useState(new Date());
+  const [pickedDate, setPickedDate] = useState(new Date(dateToday));
   const [convertedDate, setConvertedDate] = useState('');
   const [mark, setMark] = useState([]);
   const [markSelesai, setMarkSelesai] = useState([]);
@@ -187,6 +187,9 @@ export default function UserStatusHarian() {
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     BIL.
                   </th>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    TARIKH KEDATANGAN
+                  </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                     NAMA PESAKIT
                   </th>
@@ -215,6 +218,15 @@ export default function UserStatusHarian() {
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
                           {index + 1}
+                        </td>
+                        <td
+                          className={`${
+                            pilih === singlePersonUmum._id && 'bg-user3'
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                        >
+                          {moment(singlePersonUmum.tarikhKedatangan).format(
+                            'DD/MM/YYYY'
+                          )}
                         </td>
                         <td
                           className={`${
@@ -304,23 +316,6 @@ export default function UserStatusHarian() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
                     </td>
-                  </tr>
-                  <tr>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
-                    </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
                     </td>
@@ -331,6 +326,32 @@ export default function UserStatusHarian() {
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
+                    </td>
+                  </tr>
+                  <tr>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                    </td>
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
                     </td>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-12 rounded-xl'></span>
