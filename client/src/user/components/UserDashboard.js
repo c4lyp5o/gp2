@@ -21,7 +21,7 @@ function UserDashboard() {
     <>
       <div className='h-full p-3 overflow-y-auto'>
         <div className='text-lg text-user9 font-bold'>
-          STATISTIK INI DALAM PEMBANGUNAN
+          STATISTIK INI MASIH DALAM PEMBANGUNAN
         </div>
         <div className='grid grid-cols-2 mb-1'>
           <h3 className='text-xs lg:text-lg font-semibold text-left px-2'>

@@ -210,7 +210,7 @@ export default function FillableForm({
 
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const years = Math.floor(diff / 31556736000);
@@ -220,7 +220,7 @@ export default function FillableForm({
 
   // kira bulan
   const howOldAreYouMyFriendbulan = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -231,7 +231,7 @@ export default function FillableForm({
 
   //kira days
   const howOldAreYouMyFrienddays = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -291,7 +291,7 @@ export default function FillableForm({
     const year = ic.substring(0, 2);
     const month = ic.substring(2, 4);
     const day = ic.substring(4, 6);
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(`19${year}-${month}-${day}`);
     const dob2 = new Date(`20${year}-${month}-${day}`);
     const diff = today.getTime() - dob.getTime();
