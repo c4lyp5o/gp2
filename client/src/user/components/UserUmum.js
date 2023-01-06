@@ -16,7 +16,6 @@ import moment from 'moment';
 import UserDeleteModal from './UserDeleteModal';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
-import { set } from 'mongoose';
 
 function UserUmum({ sekolahIdc }) {
   const {
