@@ -79,7 +79,7 @@ export default function UserStatusHarian() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          '/api/v1/umum', // 👈️ this is the route
+          '/api/v1/umum/status-harian', // 👈️ this is the route
           {
             headers: {
               Authorization: `Bearer ${
@@ -88,7 +88,7 @@ export default function UserStatusHarian() {
             },
           }
         );
-        const allPersonUmums = data.allPersonUmum;
+        const allPersonUmums = data.allPersonUmumStatus;
         const allPersonBelum = allPersonUmums.filter(
           (p) => p.statusReten === 'belum diisi'
         );
