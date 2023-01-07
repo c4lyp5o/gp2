@@ -1,5 +1,32 @@
 # Changelog
 
+### 7/1/2023 (v2.0.6)
+
+#### Added:
+
+- Submodul media sosial & follower di modul Pentadbir bagi Pentadbir Klinik, Pentadbir Daerah & Pentadbir Negeri sedia untuk digunakan
+- Menambah pilihan Klinik Pergigian Statik bagi program komuniti jenis Program Pergigian Sekolah Sesi 2022/2023
+- Mengeluarkan maklumat-maklmat penting di laman pertama selepas log masuk modul Pentadbir Klinik
+
+#### Changed:
+
+- Memberi peringatan dalam bentuk animasi butang di kemaskini program komuniti supaya tarikh mula & tarikh akhir program komuniti perlu dikemaskini bagi membolehkan pesakit didaftarkan untuk program komuniti tersebut
+- Pesakit yang dihapus akan tetap disenaraikan di PG101 dengan catatan "PESAKIT YANG DIHAPUS"
+- Maksima tampalan sementara desidus adalah bergantung kepada jumlah d
+- Rujukan ke Pakar Periodontik wajib diisi ya atau tidak sekiranya BPE = 4
+- Senarai rawatan yang dilakukan dikeluarkan secara terus apabila pengguna memilih lihat reten
+- Kotak penandaan kelas toddler hanya keluar apabila jenis fasiliti yang dipilih adalah tadika di borang pendaftaran pesakit bagi fasiliti taska/tadika
+
+#### Fixed:
+
+- Pemilihan di dalam senarai KPB & MPB ketika kemaskini program komuniti di modul Pentadbir Klinik adalah wajib dipilih sekiranya penggunaan KPB & MPB ditanda
+- Menyahaktifkan butang penghantaran reten semasa menghantar reten supaya pengguna tidak boleh menghantar dua kali reten semasa notifikasi "Menghantar reten..." dikeluarkan
+- Penetapan tarikh-tarikh yang digunakan di dalam sistem adalah daripada _server_
+
+#### Removed:
+
+- Waktu selesai daftar tidak lagi perlu diisi semasa mendaftarkan pesakit
+
 ### 5/1/2023 (v2.0.5)
 
 - Tidak boleh hapus program komuniti yang telah terdapat pesakit yang didaftarkan di bawahnya
