@@ -2796,7 +2796,7 @@ export function InputKpEditEvent(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih KPB</option>
+                              <option value='NOT APPLICABLE'>Pilih KPB</option>
                               {kpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
@@ -2922,7 +2922,7 @@ export function InputKpEditEvent(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih MPB</option>
+                              <option value='NOT APPLICABLE'>Pilih MPB</option>
                               {mpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
@@ -3297,7 +3297,7 @@ export function InputKpEditEventFromDaerah(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih KPB</option>
+                              <option value='NOT APPLICABLE'>Pilih KPB</option>
                               {kpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
@@ -3423,7 +3423,7 @@ export function InputKpEditEventFromDaerah(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih MPB</option>
+                              <option value='NOT APPLICABLE'>Pilih MPB</option>
                               {mpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
