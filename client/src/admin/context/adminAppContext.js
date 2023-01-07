@@ -329,22 +329,19 @@ function AdminAppProvider({ children }) {
 
   // read fasiliti data
   const readFasilitiData = async ({ negeri, daerah }) => {
-    const response = await axios.get(
-      `https://g2u.calypsocloud.one/api/getfs?negeri=${negeri}&daerah=${daerah}`
-    );
-    const currentFasiliti = await readData('kp');
-    if (currentFasiliti.data.length === 0) {
-      console.log('no fasiliti');
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getfasiliti?negeri=${negeri}&daerah=${daerah}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
       return response;
+    } catch (err) {
+      return false;
     }
-    console.log('current fasiliti', currentFasiliti.data);
-    for (let j = 0; j < currentFasiliti.data.length; j++) {
-      const deleteFasiliti = response.data
-        .map((e) => e.kodFasilitiGiret)
-        .indexOf(currentFasiliti.data[j].kodFasiliti);
-      response.data.splice(deleteFasiliti, 1);
-    }
-    return response;
   };
 
   // read operator data
@@ -365,37 +362,18 @@ function AdminAppProvider({ children }) {
   };
 
   // get kkia data
-  const readKkiaData = async ({ negeri, daerah }) => {
+  const readKkiaData = async ({ negeri }) => {
     try {
       const response = await axios.get(
-        `https://g2u.calypsocloud.one/api/getkkiakd?negeri=${negeri}`
+        `/api/v1/superadmin/getkkiakd?negeri=${negeri}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
       );
-      const currentKkia = await readData('kkiakd');
-      if (currentKkia.data.length === 0) {
-        return response;
-      }
-      if (response.data.length === 1) {
-        const match = currentKkia.data
-          .map((e) => e.kodKkiaKd)
-          .includes(response.data[0].kodFasiliti);
-        if (match) {
-          return false;
-        }
-        return response;
-      }
-      if (response.data.length > 1) {
-        for (let j = 0; j < currentKkia.data.length; j++) {
-          const deleteKkia = response.data
-            .map((e) => e.kodFasiliti)
-            .indexOf(currentKkia.data[j].kodKkiaKd);
-          if (deleteKkia !== -1) {
-            response.data.splice(deleteKkia, 1);
-          }
-        }
-        return response;
-      }
       return response;
-    } catch (error) {
+    } catch (err) {
       return false;
     }
   };
@@ -539,6 +517,7 @@ function AdminAppProvider({ children }) {
     sr: 'Sekolah Rendah',
     sm: 'Sekolah Menengah',
     ins: 'Institusi',
+    statik: 'Klinik Pergigian Statik',
     kpb: 'Klinik Pergigian Bergerak',
     'kp-bergerak': 'Klinik Pergigian Bergerak',
     mp: 'Makmal Pergigian Bergerak',
