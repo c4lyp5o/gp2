@@ -517,6 +517,7 @@ function AdminAppProvider({ children }) {
     sr: 'Sekolah Rendah',
     sm: 'Sekolah Menengah',
     ins: 'Institusi',
+    statik: 'Klinik Pergigian Statik',
     kpb: 'Klinik Pergigian Bergerak',
     'kp-bergerak': 'Klinik Pergigian Bergerak',
     mp: 'Makmal Pergigian Bergerak',
