@@ -59,7 +59,7 @@ export default function Program(props) {
                       <>
                         <div class='flex justify-center'>
                           <p className='text-xs font-semibold mt-3 mr-2 rounded'>
-                            Belum Ditetapkan
+                            Sila tetapkan tarikh program
                           </p>
                           <div class='animate-bounce bg-adminWhite dark:bg-adminBlack p-2 w-10 h-10 ring-1 ring-admin3/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center'>
                             <svg
