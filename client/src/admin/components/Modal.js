@@ -620,11 +620,11 @@ const EditModalForKp = ({
     }, 500);
   }, []);
 
-  // reset tarikhEnd if change tarikhStart
-  // useEffect(() => {
-  //   setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
-  //   setEndDateDP(null);
-  // }, [editedEntity.tarikhStart]);
+  // resetting tarikhEnd kalau ubah tarikh start. A MUST TO NOT LET USER PICK tarikhStart LATER THAN tarikhEnd. Yup currently kalau buka kemaskini tarikhEnd tu akan reset kat display. Tapi ni lah cara buat masa ni untuk guard daripada user yang salah masuk tarikhStart terlebih dari tarikhEnd
+  useEffect(() => {
+    setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
+    setEndDateDP(null);
+  }, [editedEntity.tarikhStart]);
 
   const handleSubmit = async (e) => {
     let Data = {};
