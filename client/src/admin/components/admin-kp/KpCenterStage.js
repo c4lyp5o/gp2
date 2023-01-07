@@ -5,9 +5,10 @@ import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { Loading } from '../Screens';
 
 export default function KpCenterStage(props) {
-  const { toast, readDataForKp, navigate } = useGlobalAdminAppContext();
+  const { toast, readDataForKp } = useGlobalAdminAppContext();
   const today = new Date().toLocaleDateString();
 
+  const [loading, setLoading] = useState(true);
   const [program, setProgram] = useState([]);
 
   useEffect(() => {
@@ -16,11 +17,19 @@ export default function KpCenterStage(props) {
       console.log(data);
       setProgram(data);
     };
-    getProgramForKp().catch((err) => {
-      toast.error(err.response.data.message);
-      // navigate('/pentadbir');
-    });
+    getProgramForKp()
+      .then(() => {
+        setLoading(false);
+      })
+      .catch((err) => {
+        toast.error(err.response.data.message);
+        // navigate('/pentadbir');
+      });
   }, []);
+
+  if (loading) {
+    return <Loading />;
+  }
 
   return (
     <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5'>
@@ -32,7 +41,7 @@ export default function KpCenterStage(props) {
         {program.length > 0 ? (
           <>
             <div className='bg-admin3 border-2yu p-2 rounded-lg'>
-              <h1 className='text-2xl font-semibold'>
+              <h1 className='bg-admin4 text-2xl font-mono p-2'>
                 Program Yang Belum Ditetapkan Tarikh
               </h1>
               <div className='grid grid-cols-5 gap-2 mt-2'>
@@ -53,7 +62,7 @@ export default function KpCenterStage(props) {
         {program.length > 0 ? (
           <>
             <div className='bg-admin3 border-2yu p-2 rounded-lg'>
-              <h1 className='text-2xl font-semibold'>
+              <h1 className='bg-admin4 text-2xl font-mono p-2'>
                 Program Yang Sedang Berlangsung
               </h1>
               <div className='grid grid-cols-5 gap-2 mt-2'>
@@ -78,7 +87,7 @@ export default function KpCenterStage(props) {
             </div>
           </>
         ) : null}
-        {program.length > 0 ? (
+        {/* {program.length > 0 ? (
           <>
             <div className='bg-admin3 border-2yu p-2 rounded-lg'>
               <h1 className='text-2xl font-semibold'>
@@ -100,7 +109,7 @@ export default function KpCenterStage(props) {
               </div>
             </div>
           </>
-        ) : null}
+        ) : null} */}
       </div>
     </div>
   );
