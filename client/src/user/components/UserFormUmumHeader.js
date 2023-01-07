@@ -2053,7 +2053,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
             window.open('', '_self');
             window.close();
           }, 3000);
-          setSubmitting(false);
         });
     }
     // rawatan tambahan sekiranya ada operator lain pada hari yang sama
@@ -2189,17 +2188,12 @@ function UserFormUmumHeader({ sekolahIdc }) {
             window.open('', '_self');
             window.close();
           }, 3000);
-          setSubmitting(false);
         });
     }
   };
 
   return (
-    <Confirmation
-      callbackFunction={handleSubmit}
-      data={masterForm}
-      busyBody={setSubmitting}
-    >
+    <Confirmation callbackFunction={handleSubmit} data={masterForm}>
       {(confirm) => (
         <>
           <div className='h-full p-1 grid grid-rows-[1fr_7fr]'>
