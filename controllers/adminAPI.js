@@ -2390,6 +2390,49 @@ const processOperatorQuery = async (req, res) => {
   }
 };
 
+const processFasilitiQuery = async (req, res) => {
+  const { negeri, daerah } = req.query;
+  if (!negeri || !daerah) {
+    return res.status(400).json({ message: 'Invalid query' });
+  }
+  const { data: allMatchingFS } = await axios.get(
+    `https://g2u.calypsocloud.one/api/getfs?negeri=${negeri}&daerah=${daerah}`
+  );
+  const kodFasiliti = await User.find({
+    accountType: 'kpUser',
+    negeri,
+    daerah,
+  }).select('kodFasiliti');
+  const semuaKodFasiliti = kodFasiliti.map((kod) => kod.kodFasiliti);
+  const filteredFS = allMatchingFS.filter(
+    (item) => !semuaKodFasiliti.includes(item.kodFasilitiGiret)
+  );
+  console.log(filteredFS);
+  if (filteredFS.length === 0) {
+    return res.status(404).json({ message: 'No data found' });
+  }
+  res.status(200).json(filteredFS);
+};
+
+const processKkiakdQuery = async (req, res) => {
+  const { negeri } = req.query;
+  const { data: allMatchingKKIAKD } = await axios.get(
+    `https://g2u.calypsocloud.one/api/getkkiakd?negeri=${negeri}`
+  );
+  const kodFasiliti = await Fasiliti.find({
+    createdByNegeri: negeri,
+    jenisFasiliti: 'kkiakd',
+  }).select('kodKkiaKd');
+  const semuaKodKkiaKd = kodFasiliti.map((kod) => kod.kodKkiaKd);
+  const filteredKKIAKD = allMatchingKKIAKD.filter(
+    (item) => !semuaKodKkiaKd.includes(item.kodFasiliti)
+  );
+  if (filteredKKIAKD.length === 0) {
+    return res.status(404).json({ message: 'No data found' });
+  }
+  res.status(200).json(filteredKKIAKD);
+};
+
 const html = (nama, key) =>
   `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -2606,4 +2649,6 @@ module.exports = {
   getOneDataRoute,
   getOneDataKpRoute,
   processOperatorQuery,
+  processFasilitiQuery,
+  processKkiakdQuery,
 };
