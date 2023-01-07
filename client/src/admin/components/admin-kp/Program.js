@@ -57,8 +57,8 @@ export default function Program(props) {
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {!f.tarikhStart && !f.tarikhEnd && (
                       <>
-                        <div class='flex justify-center'>
-                          <p className='text-xs font-semibold mt-3 mr-2 rounded'>
+                        <div class='flex justify-center items-center'>
+                          <p className='text-xs font-semibold'>
                             Sila tetapkan tarikh program
                           </p>
                           <div class='animate-bounce bg-adminWhite dark:bg-adminBlack p-2 w-10 h-10 ring-1 ring-admin3/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center'>
@@ -152,7 +152,7 @@ export default function Program(props) {
                     {!f.tarikhStart && !f.tarikhEnd ? (
                       <span class='relative inline-flex'>
                         <button
-                          className='bg-userWhite relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                          className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 hover:bg-admin1'
                           id={f._id}
                           onClick={() => {
                             props.setShowEditModal(true);
@@ -168,7 +168,7 @@ export default function Program(props) {
                       </span>
                     ) : (
                       <button
-                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 hover:bg-admin1'
                         id={f._id}
                         onClick={() => {
                           props.setShowEditModal(true);
@@ -180,7 +180,7 @@ export default function Program(props) {
                     )}
                     {!f.assignedByDaerah ? (
                       <button
-                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 hover:bg-admin1'
                         id={f._id}
                         onClick={() => {
                           props.setShowDeleteModal(true);
