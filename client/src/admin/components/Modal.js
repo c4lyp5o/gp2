@@ -620,7 +620,7 @@ const EditModalForKp = ({
     }, 500);
   }, []);
 
-  // reset tarikhEnd if change tarikhStart
+  // resetting tarikhEnd kalau ubah tarikh start. A MUST TO NOT LET USER PICK tarikhStart LATER THAN tarikhEnd. Yup currently kalau buka kemaskini tarikhEnd tu akan reset kat display. Tapi ni lah cara buat masa ni untuk guard daripada user yang salah masuk tarikhStart terlebih dari tarikhEnd
   useEffect(() => {
     setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
     setEndDateDP(null);
@@ -634,6 +634,18 @@ const EditModalForKp = ({
     //   handler: currentKp.current,
     // };
     if (FType === 'program') {
+      if (editedEntity.modPenyampaianPerkhidmatan.includes('kpb')) {
+        if (editedEntity.penggunaanKpb === 'NOT APPLICABLE') {
+          toast.error(`Sila masukkan penggunaan KPB`);
+          return;
+        }
+      }
+      if (editedEntity.modPenyampaianPerkhidmatan.includes('mpb')) {
+        if (editedEntity.penggunaanMpb === 'NOT APPLICABLE') {
+          toast.error(`Sila masukkan penggunaan MPB`);
+          return;
+        }
+      }
       Data = {
         // nama: currentName.current,
         createdByKp: kp,
@@ -779,6 +791,7 @@ const EditModalForKp = ({
 
 const DeleteModal = ({
   FType,
+  accountType,
   setShowDeleteModal,
   id,
   deleteCandidate,
@@ -790,44 +803,45 @@ const DeleteModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (FType === 'program') {
-      deleteDataForKp(FType, id).then((res) => {
-        if (res.status === 200) {
-          toast.info(`Data berjaya dipadam`);
-          setShowDeleteModal(false);
-          setDeletingData(false);
-          setReload(!reload);
-          return;
-        }
-        if (res.response.status !== 200) {
-          console.log(res);
-          setShowDeleteModal(false);
-          setDeletingData(false);
-          if (FType === 'program')
-            return toast.error(`${res.response.data.msg}`);
-          toast.error(
-            `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-          );
-        }
-      });
-    }
-    if (FType !== 'program') {
-      deleteData(FType, id).then((res) => {
-        if (res.status === 200) {
-          toast.info(`Data berjaya dipadam`);
-          setShowDeleteModal(false);
-          setDeletingData(false);
-          setReload(!reload);
-          return;
-        }
-        if (res.response.status !== 200) {
-          toast.error(
-            `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-          );
-          setShowDeleteModal(false);
-          setDeletingData(false);
-        }
-      });
+    switch (accountType) {
+      case 'kpUser':
+        deleteDataForKp(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            console.log(res);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            toast.error(`${res.response.data.msg}`);
+          }
+        });
+        break;
+      case 'negeriSuperadmin':
+      case 'daerahSuperadmin':
+        deleteData(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            toast.error(
+              `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+            );
+            setShowDeleteModal(false);
+            setDeletingData(false);
+          }
+        });
+        break;
+      default:
+        break;
     }
   };
 
@@ -850,7 +864,10 @@ const DeleteModal = ({
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </button>
             <div className={styles.modalContent}>
-              Anda YAKIN untuk menghapus {deleteCandidate}?
+              Anda YAKIN untuk menghapus{' '}
+              <span className='text-xl font-bold text-admin2 mt-2'>
+                {deleteCandidate}?
+              </span>
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>

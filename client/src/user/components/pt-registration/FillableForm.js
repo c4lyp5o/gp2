@@ -210,7 +210,7 @@ export default function FillableForm({
 
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const years = Math.floor(diff / 31556736000);
@@ -220,7 +220,7 @@ export default function FillableForm({
 
   // kira bulan
   const howOldAreYouMyFriendbulan = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -231,7 +231,7 @@ export default function FillableForm({
 
   //kira days
   const howOldAreYouMyFrienddays = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -291,7 +291,7 @@ export default function FillableForm({
     const year = ic.substring(0, 2);
     const month = ic.substring(2, 4);
     const day = ic.substring(4, 6);
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(`19${year}-${month}-${day}`);
     const dob2 = new Date(`20${year}-${month}-${day}`);
     const diff = today.getTime() - dob.getTime();
@@ -435,9 +435,10 @@ export default function FillableForm({
         kumpulanEtnik,
         ibuMengandung,
         orangKurangUpaya,
-        bersekolah,
         noOku,
+        bersekolah,
         statusPesara,
+        noPesara,
       } = response.data.person;
       setNama(nama);
       setTarikhLahir(tarikhLahir);
@@ -455,10 +456,14 @@ export default function FillableForm({
       setPoskodAlamat(poskodAlamat);
       setKumpulanEtnik(kumpulanEtnik);
       setIbuMengandung(ibuMengandung);
-      setOrangKurangUpaya(orangKurangUpaya);
-      setBersekolah(bersekolah);
-      setNoOku(noOku);
-      setStatusPesara(statusPesara);
+      if (orangKurangUpaya === true) {
+        setOrangKurangUpaya(true);
+        setNoOku(noOku);
+      }
+      if (statusPesara !== '') {
+        setStatusPesara(true);
+        setNoPesara(noPesara);
+      }
       //datepicker issues
       setTarikhLahirDP(new Date(tarikhLahir));
       setConfirmData({
@@ -478,17 +483,15 @@ export default function FillableForm({
         poskodAlamat,
         kumpulanEtnik,
         ibuMengandung,
-        orangKurangUpaya,
         bersekolah,
+        orangKurangUpaya,
         noOku,
         statusPesara,
         noPesara,
       });
       toast.success('Menggunakan data sedia ada');
-      return true;
     } catch (error) {
       toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
-      return false;
     }
   };
 
@@ -949,7 +952,14 @@ export default function FillableForm({
     }
   }, [kedatanganKepp]);
 
-  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika  when change fasilitiTaskaTadika
+  // reset kelasToddler when change fasilitiTaskaTadika
+  useEffect(() => {
+    if (!editId) {
+      setKelasToddler(false);
+    }
+  }, [fasilitiTaskaTadika]);
+
+  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika when change fasilitiTaskaTadika
   useEffect(() => {
     if (!editId) {
       setNamaFasilitiTaskaTadika('');
@@ -1888,10 +1898,14 @@ export default function FillableForm({
                                 htmlFor='episod-mengandung'
                                 className='m-2 text-left font-light'
                               >
-                                Gravida Mengandung
+                                Gravida Mengandung{' '}
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
                               </label>
                               <div className='relative w-full md:w-48'>
                                 <select
+                                  required
                                   name='episod-mengandung'
                                   id='episod-mengandung'
                                   value={episodMengandung}
@@ -1936,9 +1950,13 @@ export default function FillableForm({
                             <div className='flex flex-col md:flex-row text-xs md:text-sm'>
                               <p className='text-left font-light m-2'>
                                 didaftarkan di KKIA pada tahun semasa
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
                               </p>
                               <div className='flex items-center'>
                                 <input
+                                  required
                                   type='radio'
                                   name='booking-im'
                                   id='ya-booking-im'
@@ -1958,6 +1976,7 @@ export default function FillableForm({
                               </div>
                               <div className='flex items-center'>
                                 <input
+                                  required
                                   type='radio'
                                   name='booking-im'
                                   id='tidak-booking-im'
@@ -2744,25 +2763,27 @@ export default function FillableForm({
                           <option value='tadika'>Tadika</option>
                         </select>
                       </div>
-                      <div className='overflow-x-auto'>
-                        <input
-                          type='checkbox'
-                          id='kelas-toddler'
-                          name='kelas-toddler'
-                          value='kelas-toddler'
-                          checked={kelasToddler}
-                          onChange={() => {
-                            setKelasToddler(!kelasToddler);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='kelas-toddler'
-                          className='ml-2 text-sm font-m'
-                        >
-                          Kelas toddler
-                        </label>
-                      </div>
+                      {fasilitiTaskaTadika === 'tadika' && (
+                        <div className='overflow-x-auto'>
+                          <input
+                            type='checkbox'
+                            id='kelas-toddler'
+                            name='kelas-toddler'
+                            value='kelas-toddler'
+                            checked={kelasToddler}
+                            onChange={() => {
+                              setKelasToddler(!kelasToddler);
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='kelas-toddler'
+                            className='ml-2 text-sm font-m'
+                          >
+                            Kelas toddler
+                          </label>
+                        </div>
+                      )}
                     </article>
                     <p className='font-semibold'>
                       nama fasiliti{' '}

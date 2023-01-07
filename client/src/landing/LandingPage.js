@@ -192,6 +192,9 @@ function LandingPage() {
               hak cipta kementerian kesihatan malaysia
             </p>
             <div className='hidden lg:flex flex-row justify-end pr-2'>
+              <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3 lowercase'>
+                v{process.env.REACT_APP_VERSION}
+              </p>
               <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
                 <a
                   target='_blank'
@@ -229,6 +232,9 @@ function LandingPage() {
                   : 'max-h-0 overflow-hidden'
               }`}
             >
+              <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50 lowercase'>
+                v{process.env.REACT_APP_VERSION}
+              </p>
               <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
                 <a
                   target='_blank'

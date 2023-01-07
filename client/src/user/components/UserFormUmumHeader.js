@@ -27,6 +27,8 @@ function UserFormUmumHeader({ sekolahIdc }) {
 
   const { personUmumId, operatorLain } = useParams();
 
+  const [submitting, setSubmitting] = useState(false);
+
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonUmum, setSinglePersonUmum] = useState([]);
@@ -1813,6 +1815,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
 
     // default initial reten
     if (!operatorLain) {
+      setSubmitting(true);
       await toast
         .promise(
           axios.patch(
@@ -2054,6 +2057,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
     }
     // rawatan tambahan sekiranya ada operator lain pada hari yang sama
     if (operatorLain === 'rawatan-operator-lain') {
+      setSubmitting(true);
       await toast
         .promise(
           axios.patch(
@@ -2394,40 +2398,72 @@ function UserFormUmumHeader({ sekolahIdc }) {
                         'hover:bg-user1 hover:text-userWhite'
                       }`}
                     /> */}
-                    <button
-                      disabled={
-                        singlePersonUmum.statusReten === 'telah diisi' ||
-                        singlePersonUmum.statusReten === 'reten salah'
-                          ? true
-                          : singlePersonUmum.statusReten === 'belum diisi' &&
-                            operatorLain === 'rawatan-operator-lain'
-                          ? false
-                          : singlePersonUmum.statusReten === 'belum diisi' &&
-                            singlePersonUmum.rawatanDibuatOperatorLain === true
-                          ? true
-                          : singlePersonUmum.statusReten === 'belum diisi' &&
-                            false
-                      }
-                      type='submit'
-                      className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
-                        singlePersonUmum.statusReten === 'belum diisi' &&
-                        'hover:bg-user1 hover:text-userWhite'
-                      }`}
-                    >
-                      {singlePersonUmum.statusReten === 'telah diisi' ||
-                      singlePersonUmum.statusReten === 'reten salah' ? (
-                        <s>hantar</s>
-                      ) : singlePersonUmum.statusReten === 'belum diisi' &&
-                        operatorLain === 'rawatan-operator-lain' ? (
-                        'hantar'
-                      ) : singlePersonUmum.statusReten === 'belum diisi' &&
-                        singlePersonUmum.rawatanDibuatOperatorLain === true ? (
-                        <s>hantar</s>
-                      ) : (
-                        singlePersonUmum.statusReten === 'belum diisi' &&
-                        'hantar'
-                      )}
-                    </button>
+                    {submitting ? (
+                      <button
+                        type='button'
+                        className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                        disabled
+                      >
+                        <svg
+                          className='animate-spin ml-1 mr-3 h-5 w-5 text-white'
+                          xmlns='http://www.w3.org/2000/svg'
+                          fill='none'
+                          viewBox='0 0 24 24'
+                        >
+                          <circle
+                            className='opacity-25'
+                            cx='12'
+                            cy='12'
+                            r='10'
+                            stroke='currentColor'
+                            strokeWidth='4'
+                          ></circle>
+                          <path
+                            className='opacity-75'
+                            fill='currentColor'
+                            d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                          ></path>
+                        </svg>
+                        Menghantar Data
+                      </button>
+                    ) : (
+                      <button
+                        disabled={
+                          singlePersonUmum.statusReten === 'telah diisi' ||
+                          singlePersonUmum.statusReten === 'reten salah'
+                            ? true
+                            : singlePersonUmum.statusReten === 'belum diisi' &&
+                              operatorLain === 'rawatan-operator-lain'
+                            ? false
+                            : singlePersonUmum.statusReten === 'belum diisi' &&
+                              singlePersonUmum.rawatanDibuatOperatorLain ===
+                                true
+                            ? true
+                            : singlePersonUmum.statusReten === 'belum diisi' &&
+                              false
+                        }
+                        type='submit'
+                        className={`flex bg-user3 p-2 w-full capitalize justify-center  transition-all ${
+                          singlePersonUmum.statusReten === 'belum diisi' &&
+                          'hover:bg-user1 hover:text-userWhite'
+                        }`}
+                      >
+                        {singlePersonUmum.statusReten === 'telah diisi' ||
+                        singlePersonUmum.statusReten === 'reten salah' ? (
+                          <s>hantar</s>
+                        ) : singlePersonUmum.statusReten === 'belum diisi' &&
+                          operatorLain === 'rawatan-operator-lain' ? (
+                          'hantar'
+                        ) : singlePersonUmum.statusReten === 'belum diisi' &&
+                          singlePersonUmum.rawatanDibuatOperatorLain ===
+                            true ? (
+                          <s>hantar</s>
+                        ) : (
+                          singlePersonUmum.statusReten === 'belum diisi' &&
+                          'hantar'
+                        )}
+                      </button>
+                    )}
                   </div>
                 </div>
               </form>

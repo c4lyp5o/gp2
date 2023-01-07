@@ -7,8 +7,6 @@ import {
   FaPlus,
 } from 'react-icons/fa';
 
-import styles from '../../admin/Modal.module.css';
-
 const ConfirmModal = ({ children, data }) => {
   const [open, setOpen] = useState(false);
   const [callback, setCallback] = useState(null);
@@ -1276,10 +1274,7 @@ const ConfirmModal = ({ children, data }) => {
                       data.rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum ||
                       data.jumlahAnteriorRawatanSemulaKeppRawatanUmum ||
                       data.jumlahPremolarRawatanSemulaKeppRawatanUmum ||
-                      data.jumlahMolarRawatanSemulaKeppRawatanUmum ||
-                      data.memenuhiRditnKod3KesRujukUpprRawatanUmum ||
-                      data.restorasiPascaEndodontikKesRujukUpprRawatanUmum ||
-                      data.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum ? (
+                      data.jumlahMolarRawatanSemulaKeppRawatanUmum ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Kes Endodontik Selesai
@@ -1339,6 +1334,17 @@ const ConfirmModal = ({ children, data }) => {
                                 {data.jumlahMolarRawatanSemulaKeppRawatanUmum}
                               </p>
                             ) : null}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.memenuhiRditnKod3KesRujukUpprRawatanUmum ||
+                      data.restorasiPascaEndodontikKesRujukUpprRawatanUmum ||
+                      data.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum ? (
+                        <div className='grid grid-cols-[1fr_2fr] text-xs'>
+                          <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            kes rujuk Unit Pakar Pergigian Restoratif
+                          </p>
+                          <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.memenuhiRditnKod3KesRujukUpprRawatanUmum ? (
                               <p>
                                 Memenuhi Rditn Kod 3:{' '}

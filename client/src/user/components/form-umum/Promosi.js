@@ -23,7 +23,7 @@ export default function Promosi(props) {
                 {props.singlePersonUmum.umur <= 12 ? (
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      melaksanakan aktiviti
+                      menerima aktiviti
                     </h4>
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-semibold flex items-center justify-center pr-3'>
@@ -92,7 +92,7 @@ export default function Promosi(props) {
                   props.jenisFasiliti === 'ipt-kolej' ? null : (
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5'>
-                      melaksanakan aktiviti
+                      menerima aktiviti
                     </h4>
                     <div className='flex items-center flex-row pl-5'>
                       <p className='text-sm font-semibold flex items-center justify-center pr-3'>

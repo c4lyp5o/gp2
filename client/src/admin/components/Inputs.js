@@ -340,8 +340,7 @@ export function InputKkiakd(props) {
 }
 
 export function InputPegawai(props) {
-  const { Dictionary, toast, readDpimsData, readMdtbData } =
-    useGlobalAdminAppContext();
+  const { Dictionary, toast, readOperatorData } = useGlobalAdminAppContext();
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -418,7 +417,10 @@ export function InputPegawai(props) {
                               props.setSearching(true);
                               props.setNoPpJp('');
                               props.setAllPegawai([]);
-                              const res = await readDpimsData(props.carianNama);
+                              const res = await readOperatorData(
+                                props.FType,
+                                props.carianNama
+                              );
                               if (res) {
                                 props.setAllPegawai(res);
                               }
@@ -538,7 +540,10 @@ export function InputPegawai(props) {
                               props.setSearching(true);
                               props.setNoPpJp('');
                               props.setAllJp([]);
-                              const res = await readMdtbData(props.carianNama);
+                              const res = await readOperatorData(
+                                props.FType,
+                                props.carianNama
+                              );
                               if (res) {
                                 props.setAllJp(res);
                               }
@@ -2728,6 +2733,31 @@ export function InputKpEditEvent(props) {
                         />
                       </div>
                     </div>
+                    {props.editedEntity.jenisEvent === 'incremental' ? (
+                      <div className='grid grid-cols-2 py-1'>
+                        <div className='grid grid-cols-[3fr_1fr]'>
+                          <label htmlFor='modStatik'>
+                            Kinik Pergigian Statik
+                          </label>
+                          <input
+                            type='checkbox'
+                            name='mod'
+                            value='statik'
+                            checked={
+                              props.editedEntity.modPenyampaianPerkhidmatan
+                                ? props.editedEntity.modPenyampaianPerkhidmatan.includes(
+                                    'statik'
+                                  )
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.eventModeChecker(e.target.value);
+                            }}
+                            className='w-5 h-5'
+                          />
+                        </div>
+                      </div>
+                    ) : null}
                     <div className='grid grid-cols-2 py-1'>
                       <div className='grid grid-cols-[3fr_1fr]'>
                         <label htmlFor='modKpb'>
@@ -2766,7 +2796,7 @@ export function InputKpEditEvent(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih KPB</option>
+                              <option value='NOT APPLICABLE'>Pilih KPB</option>
                               {kpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
@@ -2892,7 +2922,7 @@ export function InputKpEditEvent(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih MPB</option>
+                              <option value='NOT APPLICABLE'>Pilih MPB</option>
                               {mpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
@@ -3267,7 +3297,7 @@ export function InputKpEditEventFromDaerah(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih KPB</option>
+                              <option value='NOT APPLICABLE'>Pilih KPB</option>
                               {kpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
@@ -3393,7 +3423,7 @@ export function InputKpEditEventFromDaerah(props) {
                                 });
                               }}
                             >
-                              <option value=''>Pilih MPB</option>
+                              <option value='NOT APPLICABLE'>Pilih MPB</option>
                               {mpb.map((item) => (
                                 <option value={item.nama}>
                                   {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
