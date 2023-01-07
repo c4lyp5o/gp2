@@ -677,6 +677,9 @@ const EditModalForKp = ({
       Data = {
         // nama: currentName.current,
         enrolmenTastad: editedEntity.enrolmenTastad,
+        enrolmenKurang4Tahun: editedEntity.enrolmenKurang4Tahun,
+        enrolmen5Tahun: editedEntity.enrolmen5Tahun,
+        enrolmen6Tahun: editedEntity.enrolmen6Tahun,
       };
     }
     if (FType === 'ins') {
