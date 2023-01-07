@@ -8,9 +8,14 @@ const axios = require('axios');
 const logger = require('./logs/logger');
 
 // IMPORT ROUTER -----------------------------------------------
+// getdate import
+const getdate = require('./routes/getdate');
+
+// dpims import
+// const dpims = require('./routes/dpims');
+
 // erkm import
-const erkm = require('./routes/erkm');
-const dpims = require('./routes/dpims');
+// const erkm = require('./routes/erkm');
 
 // user import
 const authLogin = require('./routes/authLogin');
@@ -45,11 +50,14 @@ const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
 
+// getting date from the server, better way because it shoudn't rely on the client to have correct date
+app.use('/api/v1/getdate', getdate);
+
 // the dpims scrap
-app.use('/dpims', dpims);
+// app.use('/dpims', dpims);
 
 // erkm route
-app.use('/erkm', authCheck, erkm);
+// app.use('/erkm', authCheck, erkm);
 // give erkm token every 5 seconds or sync erkm every 10 mins
 // setInterval(async () => {
 //   const UserModel = require('./models/User');
