@@ -7,9 +7,7 @@ import {
   FaPlus,
 } from 'react-icons/fa';
 
-import styles from '../../admin/Modal.module.css';
-
-const ConfirmModal = ({ children, data, busyBody }) => {
+const ConfirmModal = ({ children, data }) => {
   const [open, setOpen] = useState(false);
   const [callback, setCallback] = useState(null);
 
@@ -19,7 +17,6 @@ const ConfirmModal = ({ children, data, busyBody }) => {
 
   const show = (callback) => (event) => {
     event.preventDefault();
-    busyBody(true);
     setOpen(true);
     event = {
       ...event,
@@ -32,7 +29,6 @@ const ConfirmModal = ({ children, data, busyBody }) => {
 
   const hide = () => {
     setCallback(null);
-    busyBody(false);
     setOpen(false);
   };
 
