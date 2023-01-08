@@ -81,7 +81,9 @@ export default function DaftarPesakit({ createdByKp }) {
       .then((blob) => {
         saveFile(blob.data);
       });
-    setGenerating(false);
+    setTimeout(() => {
+      setGenerating(false);
+    }, 5000);
   };
 
   const CustomDatePicker = () => {
