@@ -6,7 +6,7 @@
 
 - Submodul media sosial & follower di modul Pentadbir bagi Pentadbir Klinik, Pentadbir Daerah & Pentadbir Negeri sedia untuk digunakan
 - Menambah pilihan Klinik Pergigian Statik bagi program komuniti jenis Program Pergigian Sekolah Sesi 2022/2023
-- Mengeluarkan maklumat-maklmat penting di laman pertama selepas log masuk modul Pentadbir Klinik
+- Mengeluarkan maklumat-maklumat penting di laman pertama selepas log masuk modul Pentadbir Klinik
 
 #### Changed:
 
@@ -16,6 +16,7 @@
 - Rujukan ke Pakar Periodontik wajib diisi ya atau tidak sekiranya BPE = 4
 - Senarai rawatan yang dilakukan dikeluarkan secara terus apabila pengguna memilih lihat reten
 - Kotak penandaan kelas toddler hanya keluar apabila jenis fasiliti yang dipilih adalah tadika di borang pendaftaran pesakit bagi fasiliti taska/tadika
+- Pemilihan gravida & pemilihan didaftarkan di KKIA pada tahun semasa adalah wajib sekiranya pesakit ditanda sebagai ibu mengandung
 
 #### Fixed:
 
@@ -38,7 +39,7 @@
 
 ### 4/1/2023 (v2.0.4)
 
-- Reten PG101 yang dijana menggunakan kodFasiliti bagi mengelakkan dua KP yang sama nama berada di dalam satu reten
+- Reten PG101 yang dijana menggunakan kod fasiliti bagi mengelakkan dua KP yang sama nama berada di dalam satu reten
 - Penggunaan KPB & MPB boleh lebih daripada satu semasa mengemaskini program komuniti di modul Pentadbir Klinik
 - Menambah status pesakit /BW di semua table bagi modul Pendaftaran & Pengguna
 - Meletakkan dua kali amaran pengesahan semasa mendaftarkan pesakit di modul Pendaftaran serta membesarkan tulisan bagi IC, Tarikh Lahir & Umur di amaran pengesahan pendaftaran
@@ -46,7 +47,7 @@
 - Mewujudkan submodul "Program Pergigian Sekolah Sesi 2022/2023" di modul Pengguna
 - Mewujudkan soalan "Pesakit Mempunyai Gigi Desidus/Kekal?" di borang pesakit umum bagi memastikan pengguna memasukkan maklumat gigi yang ada atau tiada dengan tepat
 - Menambah ruangan "Waktu Selesai Daftar" di amaran kedua pengesahan semasa mendaftarkan pesakit
-- Membuang kebolahan untuk mengubah waktu tiba semasa mengemaskini pesakit kerana waktu tiba tidak boleh melebihi waktu selesai daftar yang telah dimasukkan semasa mendaftarkan pesakit
+- Membuang kebolehan untuk mengubah waktu tiba semasa mengemaskini pesakit kerana waktu tiba tidak boleh melebihi waktu selesai daftar yang telah dimasukkan semasa mendaftarkan pesakit
 
 ### 3/1/2023 (v2.0.3)
 
