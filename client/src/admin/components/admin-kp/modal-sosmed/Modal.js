@@ -365,7 +365,7 @@ export const ModalSosMed = (props) => {
         belongsTo: props.negeri,
       };
     }
-    console.log(Data);
+    // console.log(Data);
     createData(props.FType, Data).then((res) => {
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);

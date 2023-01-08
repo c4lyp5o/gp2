@@ -2853,6 +2853,7 @@ export function InputKpEditEvent(props) {
                               className='border-2 w-48 mr-1'
                               value={props.editedEntity.penggunaanKpb}
                               onChange={(e) => {
+                                console.log(e.target.value);
                                 props.setEditedEntity({
                                   ...props.editedEntity,
                                   penggunaanKpb: e.target.value,
@@ -2860,12 +2861,20 @@ export function InputKpEditEvent(props) {
                               }}
                             >
                               <option value='NOT APPLICABLE'>Pilih KPB</option>
-                              {kpb.map((item) => (
-                                <option value={item.nama}>
-                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
-                                  | {item.nama}
-                                </option>
-                              ))}
+                              {kpb
+                                .filter(
+                                  (k) =>
+                                    ![
+                                      props.editedEntity.penggunaanKpb2,
+                                      props.editedEntity.penggunaanKpb3,
+                                    ].includes(k.nama)
+                                )
+                                .map((k) => (
+                                  <option key={k.id} value={k.nama}>
+                                    {k.createdByDaerah} | {k.subJenisKPBMPB} |{' '}
+                                    {k.nama}
+                                  </option>
+                                ))}
                             </select>
                             {showKpb3 === false ? (
                               <span
@@ -2899,12 +2908,20 @@ export function InputKpEditEvent(props) {
                                 }}
                               >
                                 <option value=''>Pilih KPB</option>
-                                {kpb.map((item) => (
-                                  <option value={item.nama}>
-                                    {item.createdByDaerah} |{' '}
-                                    {item.subJenisKPBMPB} | {item.nama}
-                                  </option>
-                                ))}
+                                {kpb
+                                  .filter(
+                                    (k) =>
+                                      ![
+                                        props.editedEntity.penggunaanKpb,
+                                        props.editedEntity.penggunaanKpb3,
+                                      ].includes(k.nama)
+                                  )
+                                  .map((item) => (
+                                    <option value={item.nama}>
+                                      {item.createdByDaerah} |{' '}
+                                      {item.subJenisKPBMPB} | {item.nama}
+                                    </option>
+                                  ))}
                               </select>
                               <span
                                 className={` ${
@@ -2933,12 +2950,20 @@ export function InputKpEditEvent(props) {
                                 }}
                               >
                                 <option value=''>Pilih KPB</option>
-                                {kpb.map((item) => (
-                                  <option value={item.nama}>
-                                    {item.createdByDaerah} |{' '}
-                                    {item.subJenisKPBMPB} | {item.nama}
-                                  </option>
-                                ))}
+                                {kpb
+                                  .filter(
+                                    (k) =>
+                                      ![
+                                        props.editedEntity.penggunaanKpb,
+                                        props.editedEntity.penggunaanKpb2,
+                                      ].includes(k.nama)
+                                  )
+                                  .map((item) => (
+                                    <option value={item.nama}>
+                                      {item.createdByDaerah} |{' '}
+                                      {item.subJenisKPBMPB} | {item.nama}
+                                    </option>
+                                  ))}
                               </select>
                             </div>
                           ) : null}
@@ -2986,12 +3011,20 @@ export function InputKpEditEvent(props) {
                               }}
                             >
                               <option value='NOT APPLICABLE'>Pilih MPB</option>
-                              {mpb.map((item) => (
-                                <option value={item.nama}>
-                                  {item.createdByDaerah} | {item.subJenisKPBMPB}{' '}
-                                  | {item.nama}
-                                </option>
-                              ))}
+                              {mpb
+                                .filter(
+                                  (k) =>
+                                    ![
+                                      props.editedEntity.penggunaanMpb2,
+                                      props.editedEntity.penggunaanMpb3,
+                                    ].includes(k.nama)
+                                )
+                                .map((item) => (
+                                  <option value={item.nama}>
+                                    {item.createdByDaerah} |{' '}
+                                    {item.subJenisKPBMPB} | {item.nama}
+                                  </option>
+                                ))}
                             </select>
                             {showMpb3 === false ? (
                               <span
@@ -3025,12 +3058,20 @@ export function InputKpEditEvent(props) {
                                 }}
                               >
                                 <option value=''>Pilih MPB</option>
-                                {mpb.map((item) => (
-                                  <option value={item.nama}>
-                                    {item.createdByDaerah} |{' '}
-                                    {item.subJenisKPBMPB} | {item.nama}
-                                  </option>
-                                ))}
+                                {mpb
+                                  .filter(
+                                    (k) =>
+                                      ![
+                                        props.editedEntity.penggunaanMpb,
+                                        props.editedEntity.penggunaanMpb3,
+                                      ].includes(k.nama)
+                                  )
+                                  .map((item) => (
+                                    <option value={item.nama}>
+                                      {item.createdByDaerah} |{' '}
+                                      {item.subJenisKPBMPB} | {item.nama}
+                                    </option>
+                                  ))}
                               </select>
                               <span
                                 className={` ${
@@ -3059,12 +3100,20 @@ export function InputKpEditEvent(props) {
                                 }}
                               >
                                 <option value=''>Pilih MPB</option>
-                                {mpb.map((item) => (
-                                  <option value={item.nama}>
-                                    {item.createdByDaerah} |{' '}
-                                    {item.subJenisKPBMPB} | {item.nama}
-                                  </option>
-                                ))}
+                                {mpb
+                                  .filter(
+                                    (k) =>
+                                      ![
+                                        props.editedEntity.penggunaanMpb,
+                                        props.editedEntity.penggunaanMpb2,
+                                      ].includes(k.nama)
+                                  )
+                                  .map((item) => (
+                                    <option value={item.nama}>
+                                      {item.createdByDaerah} |{' '}
+                                      {item.subJenisKPBMPB} | {item.nama}
+                                    </option>
+                                  ))}
                               </select>
                             </div>
                           ) : null}
