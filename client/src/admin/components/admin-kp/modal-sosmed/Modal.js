@@ -14,6 +14,7 @@ import {
 } from 'react-icons/fa';
 
 import { SubmitButton, BusyButton } from '../../Buttons';
+import { ConfirmModalForData } from '../../superadmin/Confirmation';
 import { Loading } from '../../Screens';
 
 import RenderSection from './Cards';
@@ -245,7 +246,6 @@ export const ModalSosMed = (props) => {
   const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setAddingData(true);
     let Data = {};
     let newData = {};
@@ -341,7 +341,6 @@ export const ModalSosMed = (props) => {
         ...Data,
         belongsTo: props.kp,
       };
-      // console.log(Data);
       createDataForKp(props.FType, Data).then((res) => {
         if (res.status === 200) {
           toast.info(`Data berjaya ditambah`);
@@ -366,7 +365,7 @@ export const ModalSosMed = (props) => {
         belongsTo: props.negeri,
       };
     }
-    console.log(Data);
+    // console.log(Data);
     createData(props.FType, Data).then((res) => {
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
@@ -398,112 +397,118 @@ export const ModalSosMed = (props) => {
   }, []);
 
   return (
-    // <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
-    //   {(confirm) => (
-    <form onSubmit={handleSubmit}>
-      <div className='absolute inset-x-10 inset-y-10 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
-        <FaWindowClose
-          className='absolute mr-1 mt-1 text-xl text-adminWhite right-0 hover:cursor-pointer hover:text-admin4 transition-all'
-          onClick={() => {
-            props.setShowSosMedModal(false);
-          }}
-        />
-        <h5 className='bg-admin2 text-userWhite font-semibold text-xl'>
-          AKTIVITI MEDIA SOSIAL
-        </h5>
-        <div className='grid grid-row-3 mx-auto'>
-          <div className='m-2'>
-            <p className='flex flex-row pl-1 text-sm font-semibold'>
-              Kod Program :
-            </p>
-            <Select
-              className='basic-single'
-              classNamePrefix='select'
-              placeholder='Sila pilih kod Program...'
-              options={pilihanKodProgram}
-              getOptionLabel={(option) =>
-                `${option.kodProgram} - ${option.jenisProgram} - ${option.namaProgram}`
-              }
-              getOptionValue={(option) => option.kodProgram}
-              isSearchable={true}
-              onChange={(e) => {
-                setQuestionState({
-                  ...questionState,
-                  kodProgram: e.kodProgram,
-                });
+    <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
+      {(confirm) => (
+        <form onSubmit={confirm(handleSubmit)}>
+          <div className='absolute inset-x-10 inset-y-10 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+            <FaWindowClose
+              className='absolute mr-1 mt-1 text-xl text-adminWhite right-0 hover:cursor-pointer hover:text-admin4 transition-all'
+              onClick={() => {
+                props.setShowSosMedModal(false);
               }}
             />
+            <h5 className='bg-admin2 text-userWhite font-semibold text-xl'>
+              AKTIVITI MEDIA SOSIAL
+            </h5>
+            <div className='grid grid-row-3 mx-auto'>
+              <div className='m-2'>
+                <p className='flex flex-row pl-1 text-sm font-semibold'>
+                  Kod Program :
+                </p>
+                <Select
+                  className='basic-single'
+                  classNamePrefix='select'
+                  placeholder='Sila pilih kod Program...'
+                  options={pilihanKodProgram}
+                  getOptionLabel={(option) =>
+                    `${option.kodProgram} - ${option.jenisProgram} - ${option.namaProgram}`
+                  }
+                  getOptionValue={(option) => option.kodProgram}
+                  isSearchable={true}
+                  onChange={(e) => {
+                    setQuestionState({
+                      ...questionState,
+                      kodProgram: e.kodProgram,
+                    });
+                  }}
+                />
+              </div>
+              <div className='flex justify-center mb-1 pl-3'>
+                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
+                  tarikh muatnaik:{' '}
+                  <span className='font-semibold text-user6'>*</span>
+                </p>
+                <CustomDatePicker
+                  jenis='mula'
+                  setQuestionState={setQuestionState}
+                />
+                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
+                  tarikh kemaskini:{' '}
+                  <span className='font-semibold text-user6'>*</span>
+                </p>
+                <CustomDatePicker
+                  jenis='akhir'
+                  setQuestionState={setQuestionState}
+                />
+              </div>
+              <div className='flex mt-2'>
+                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-1 md:whitespace-nowrap pl-3'>
+                  Tajuk Bahan / Aktiviti:{' '}
+                  <span className='font-semibold text-user6'>*</span>
+                </p>
+                <input
+                  className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50  rounded-md uppercase flex flex-row mx-2'
+                  type='text'
+                  placeholder='Nama Aktiviti'
+                  onChange={(e) => {
+                    setQuestionState({
+                      ...questionState,
+                      namaAktiviti: e.target.value,
+                    });
+                  }}
+                />
+              </div>
+            </div>
+            <div className='p-2'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-1'>
+                Jenis Media Sosial :{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <Select
+                isMulti
+                name='promosi'
+                options={JenisMediaSosial}
+                placeholder='Sila pilih platform...'
+                className='basic-multi-select'
+                classNamePrefix='select'
+                onChange={(e) => {
+                  setPilihanMediaSosial(e);
+                }}
+              />
+              {pilihanMediaSosial.map((item) =>
+                RenderSection(item, propsSosMed)
+              )}
+            </div>
+            <div className='flex justify-center mb-2'>
+              {addingData ? (
+                <BusyButton func='add' />
+              ) : (
+                <SubmitButton func='add' />
+              )}
+              <button
+                className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-2 mr-3 hover:bg-user8'
+                onClick={() => {
+                  props.setShowSosMedModal(false);
+                }}
+              >
+                Batal
+              </button>
+            </div>
           </div>
-          <div className='flex justify-center mb-1 pl-3'>
-            <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
-              tarikh muatnaik:{' '}
-              <span className='font-semibold text-user6'>*</span>
-            </p>
-            <CustomDatePicker
-              jenis='mula'
-              setQuestionState={setQuestionState}
-            />
-            <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
-              tarikh kemaskini:{' '}
-              <span className='font-semibold text-user6'>*</span>
-            </p>
-            <CustomDatePicker
-              jenis='akhir'
-              setQuestionState={setQuestionState}
-            />
-          </div>
-          <div className='flex mt-2'>
-            <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-1 md:whitespace-nowrap pl-3'>
-              Tajuk Bahan / Aktiviti:{' '}
-              <span className='font-semibold text-user6'>*</span>
-            </p>
-            <input
-              className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50  rounded-md uppercase flex flex-row mx-2'
-              type='text'
-              placeholder='Nama Aktiviti'
-              onChange={(e) => {
-                setQuestionState({
-                  ...questionState,
-                  namaAktiviti: e.target.value,
-                });
-              }}
-            />
-          </div>
-        </div>
-        <div className='p-2'>
-          <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-1'>
-            Jenis Media Sosial :{' '}
-            <span className='font-semibold text-user6'>*</span>
-          </p>
-          <Select
-            isMulti
-            name='promosi'
-            options={JenisMediaSosial}
-            placeholder='Sila pilih platform...'
-            className='basic-multi-select'
-            classNamePrefix='select'
-            onChange={(e) => {
-              setPilihanMediaSosial(e);
-            }}
-          />
-          {pilihanMediaSosial.map((item) => RenderSection(item, propsSosMed))}
-        </div>
-        <div className='flex justify-center mb-2'>
-          {addingData ? <BusyButton func='add' /> : <SubmitButton func='add' />}
-          <button
-            className='bg-user9 text-userWhite font-semibold text-md w-32 rounded-md p-2 mr-3 hover:bg-user8'
-            onClick={() => {
-              props.setShowSosMedModal(false);
-            }}
-          >
-            Batal
-          </button>
-        </div>
-      </div>
-      <div className='absolute inset-0 bg-user1 z-10 opacity-100' />
-    </form>
-    //   )}
-    // </ConfirmModalForData>
+          <div className='absolute inset-0 bg-user1 z-10 opacity-100' />
+        </form>
+      )}
+    </ConfirmModalForData>
   );
 };
 
