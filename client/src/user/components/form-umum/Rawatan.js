@@ -1459,7 +1459,7 @@ export default function Rawatan(props) {
                           className='w-4 h-4 rounded flex items-center'
                         />
                         <label
-                          htmlFor='rawatan-lain-periodontik-rawatan-umum'
+                          htmlFor='rawatan-lain-terapi-periodontik-rawatan-umum'
                           className='text-left flex justify-start items-center text-sm pl-3'
                         >
                           Lain-Lain :
@@ -1471,8 +1471,8 @@ export default function Rawatan(props) {
                         <input
                           disabled={isDisabled}
                           type='checkbox'
-                          name='rawatan-lain-periodontik-rawatan-umum'
-                          id='rawatan-lain-periodontik-rawatan-umum'
+                          name='rawatan-lain-terapi-periodontik-rawatan-umum'
+                          id='rawatan-lain-terapi-periodontik-rawatan-umum'
                           checked={
                             props.rawatanLainPeriodontikRawatanUmum
                               ? true
