@@ -88,11 +88,14 @@ function LandingPage() {
             >
               <div className='flex flex-col overflow-x-auto'>
                 <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
-                  <p className='text-base font-mono'>Kemaskini Terkini</p>
-                  <p className='text-xs font-thin'>2.0.1/22</p>
+                  <p className='text-xs font-thin'>8/1/2022</p>
+                  <p className='text-sm font-mono'>
+                    Butang penjanaan reten PG101 ditutup buat sementara waktu
+                    untuk penambahbaikan
+                  </p>
                 </div>
               </div>
-              <div className='flex flex-col overflow-x-auto'>
+              {/* <div className='flex flex-col overflow-x-auto'>
                 <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
                   <p className='text-base font-mono'>Kemaskini Terkini</p>
                   <p className='text-xs font-thin'>2.0.1/22</p>
@@ -121,7 +124,7 @@ function LandingPage() {
                   <p className='text-base font-mono'>Kemaskini Terkini</p>
                   <p className='text-xs font-thin'>2.0.1/22</p>
                 </div>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
