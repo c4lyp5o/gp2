@@ -915,7 +915,7 @@ const getData = async (req, res) => {
               belongsTo: owner,
               kodProgram: Data.kodProgram,
             });
-            if (!previousData.data) {
+            if (previousData.length === 0) {
               console.log('previous data not found');
               delete Data.data[0].kodProgram;
               Data.data[0] = {
@@ -924,8 +924,7 @@ const getData = async (req, res) => {
               };
               const createdSosmed = await Sosmed.create(Data);
               return res.status(200).json(createdSosmed);
-            }
-            if (previousData.data) {
+            } else {
               console.log('previous data got');
               delete Data.data[0].kodProgram;
               const lastData = previousData[0].data.length;
@@ -1106,12 +1105,23 @@ const getData = async (req, res) => {
             if (daerah !== '-') {
               owner = daerah;
             }
-            const deletedSosmed = await Sosmed.findOneAndUpdate(
-              { kodProgram: Id.kodProgram, belongsTo: owner },
-              { $pull: { data: { id: Id.id } } },
-              { new: true }
-            );
-            res.status(200).json(deletedSosmed);
+            const checkSosmed = await Sosmed.findOne({
+              kodProgram: Id.kodProgram,
+            });
+            if (checkSosmed.data.length < 2) {
+              const deletedSosmed = await Sosmed.findOneAndDelete({
+                kodProgram: Id.kodProgram,
+                belongsTo: owner,
+              });
+              return res.status(200).json(deletedSosmed);
+            } else {
+              const deletedSosmed = await Sosmed.findOneAndUpdate(
+                { kodProgram: Id.kodProgram, belongsTo: owner },
+                { $pull: { data: { id: Id.id } } },
+                { new: true }
+              );
+              res.status(200).json(deletedSosmed);
+            }
           }
           break;
         default:
@@ -1141,11 +1151,12 @@ const getData = async (req, res) => {
               res.status(200).json(createdEvent);
               break;
             case 'sosmed':
+              console.log(kp);
               const previousData = await Sosmed.find({
                 belongsTo: kp,
                 kodProgram: Data.kodProgram,
               });
-              if (!previousData.data) {
+              if (previousData.length === 0) {
                 console.log('previous data not found');
                 delete Data.data[0].kodProgram;
                 Data.data[0] = {
@@ -1154,8 +1165,7 @@ const getData = async (req, res) => {
                 };
                 const createdSosmed = await Sosmed.create(Data);
                 return res.status(200).json(createdSosmed);
-              }
-              if (previousData.data) {
+              } else {
                 console.log('previous data got');
                 delete Data.data[0].kodProgram;
                 const lastData = previousData[0].data.length;
@@ -1245,13 +1255,23 @@ const getData = async (req, res) => {
               res.status(200).json(data);
               break;
             case 'sosmed':
-              console.log(Id);
-              const deletedSosmed = await Sosmed.findOneAndUpdate(
-                { kodProgram: Id.kodProgram, belongsTo: kp },
-                { $pull: { data: { id: Id.id } } },
-                { new: true }
-              );
-              res.status(200).json(deletedSosmed);
+              const checkSosmed = await Sosmed.findOne({
+                kodProgram: Id.kodProgram,
+              });
+              if (checkSosmed.data.length < 2) {
+                const deletedSosmed = await Sosmed.findOneAndDelete({
+                  kodProgram: Id.kodProgram,
+                  belongsTo: kp,
+                });
+                return res.status(200).json(deletedSosmed);
+              } else {
+                const deletedSosmed = await Sosmed.findOneAndUpdate(
+                  { kodProgram: Id.kodProgram, belongsTo: kp },
+                  { $pull: { data: { id: Id.id } } },
+                  { new: true }
+                );
+                res.status(200).json(deletedSosmed);
+              }
               break;
             default:
               console.log('default case for delete');
@@ -1575,131 +1595,135 @@ const getData = async (req, res) => {
             };
           }
           const kpData = await User.find({ ...kpSelectionPayload });
-          const ptData = await Umum.find({ ...ptSelectionPayload });
+          // const ptData = await Umum.find({ ...ptSelectionPayload })
+          //   .select('kedatangan createdByKodFasiliti')
+          //   .lean();
+          // const flatPtData = ptData.flatMap((item) => item.kedatangan);
+          // console.log(ptData);
           let data = [];
           const negeris = [...new Set(kpData.map((item) => item.negeri))];
           for (n in negeris) {
             const negeri = negeris[n];
             const negeriData = kpData.filter((item) => item.negeri === negeri);
-            let kedatangan = [];
-            if (accountType !== 'daerahSuperadmin') {
-              const negeriPtData = ptData.filter(
-                (item) => item.createdByNegeri === negeri
-              );
-              kedatangan = [
-                {
-                  kedatangan: negeriPtData.filter(
-                    (item) =>
-                      item.tarikhKedatangan ===
-                      moment().subtract(4, 'days').format('YYYY-MM-DD')
-                  ).length,
-                  tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
-                },
-                {
-                  kedatangan: negeriPtData.filter(
-                    (item) =>
-                      item.tarikhKedatangan ===
-                      moment().subtract(3, 'days').format('YYYY-MM-DD')
-                  ).length,
-                  tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
-                },
-                {
-                  kedatangan: negeriPtData.filter(
-                    (item) =>
-                      item.tarikhKedatangan ===
-                      moment().subtract(2, 'days').format('YYYY-MM-DD')
-                  ).length,
-                  tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-                },
-                {
-                  kedatangan: negeriPtData.filter(
-                    (item) =>
-                      item.tarikhKedatangan ===
-                      moment().subtract(1, 'days').format('YYYY-MM-DD')
-                  ).length,
-                  tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-                },
-                {
-                  kedatangan: negeriPtData.filter(
-                    (item) =>
-                      item.tarikhKedatangan === moment().format('YYYY-MM-DD')
-                  ).length,
-                  tarikh: moment().format('YYYY-MM-DD'),
-                },
-              ];
-            }
+            // let kedatangan = [];
+            // if (accountType !== 'daerahSuperadmin') {
+            //   const negeriPtData = ptData.filter(
+            //     (item) => item.createdByNegeri === negeri
+            //   );
+            //   kedatangan = [
+            //     {
+            //       kedatangan: negeriPtData.filter(
+            //         (item) =>
+            //           item.tarikhKedatangan ===
+            //           moment().subtract(4, 'days').format('YYYY-MM-DD')
+            //       ).length,
+            //       tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
+            //     },
+            //     {
+            //       kedatangan: negeriPtData.filter(
+            //         (item) =>
+            //           item.tarikhKedatangan ===
+            //           moment().subtract(3, 'days').format('YYYY-MM-DD')
+            //       ).length,
+            //       tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
+            //     },
+            //     {
+            //       kedatangan: negeriPtData.filter(
+            //         (item) =>
+            //           item.tarikhKedatangan ===
+            //           moment().subtract(2, 'days').format('YYYY-MM-DD')
+            //       ).length,
+            //       tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+            //     },
+            //     {
+            //       kedatangan: negeriPtData.filter(
+            //         (item) =>
+            //           item.tarikhKedatangan ===
+            //           moment().subtract(1, 'days').format('YYYY-MM-DD')
+            //       ).length,
+            //       tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+            //     },
+            //     {
+            //       kedatangan: negeriPtData.filter(
+            //         (item) =>
+            //           item.tarikhKedatangan === moment().format('YYYY-MM-DD')
+            //       ).length,
+            //       tarikh: moment().format('YYYY-MM-DD'),
+            //     },
+            //   ];
+            // }
             const daerah = [...new Set(negeriData.map((item) => item.daerah))];
             const klinik = [];
             for (d in daerah) {
               const daerahData = negeriData.filter(
                 (item) => item.daerah === daerah[d]
               );
-              if (accountType === 'daerahSuperadmin') {
-                const daerahPtData = ptData.filter(
-                  (item) => item.createdByDaerah === daerah[d]
-                );
-                kedatangan = [
-                  {
-                    kedatangan: daerahPtData.filter(
-                      (item) =>
-                        item.tarikhKedatangan === moment().format('YYYY-MM-DD')
-                    ).length,
-                    tarikh: moment().format('YYYY-MM-DD'),
-                  },
-                  {
-                    kedatangan: daerahPtData.filter(
-                      (item) =>
-                        item.tarikhKedatangan ===
-                        moment().subtract(1, 'days').format('YYYY-MM-DD')
-                    ).length,
-                    tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-                  },
-                  {
-                    kedatangan: daerahPtData.filter(
-                      (item) =>
-                        item.tarikhKedatangan ===
-                        moment().subtract(2, 'days').format('YYYY-MM-DD')
-                    ).length,
-                    tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-                  },
-                  {
-                    kedatangan: daerahPtData.filter(
-                      (item) =>
-                        item.tarikhKedatangan ===
-                        moment().subtract(3, 'days').format('YYYY-MM-DD')
-                    ).length,
-                    tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
-                  },
-                  {
-                    kedatangan: daerahPtData.filter(
-                      (item) =>
-                        item.tarikhKedatangan ===
-                        moment().subtract(4, 'days').format('YYYY-MM-DD')
-                    ).length,
-                    tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
-                  },
-                ];
-              }
+              // if (accountType === 'daerahSuperadmin') {
+              //   const daerahPtData = ptData.filter(
+              //     (item) => item.createdByDaerah === daerah[d]
+              //   );
+              //   kedatangan = [
+              //     {
+              //       kedatangan: daerahPtData.filter(
+              //         (item) =>
+              //           item.tarikhKedatangan === moment().format('YYYY-MM-DD')
+              //       ).length,
+              //       tarikh: moment().format('YYYY-MM-DD'),
+              //     },
+              //     {
+              //       kedatangan: daerahPtData.filter(
+              //         (item) =>
+              //           item.tarikhKedatangan ===
+              //           moment().subtract(1, 'days').format('YYYY-MM-DD')
+              //       ).length,
+              //       tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+              //     },
+              //     {
+              //       kedatangan: daerahPtData.filter(
+              //         (item) =>
+              //           item.tarikhKedatangan ===
+              //           moment().subtract(2, 'days').format('YYYY-MM-DD')
+              //       ).length,
+              //       tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+              //     },
+              //     {
+              //       kedatangan: daerahPtData.filter(
+              //         (item) =>
+              //           item.tarikhKedatangan ===
+              //           moment().subtract(3, 'days').format('YYYY-MM-DD')
+              //       ).length,
+              //       tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
+              //     },
+              //     {
+              //       kedatangan: daerahPtData.filter(
+              //         (item) =>
+              //           item.tarikhKedatangan ===
+              //           moment().subtract(4, 'days').format('YYYY-MM-DD')
+              //       ).length,
+              //       tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
+              //     },
+              //   ];
+              // }
               const klinikDiDaerah = {
                 namaDaerah: daerah[d],
-                jumlahPesakit: ptData.filter(
-                  (item) => item.createdByDaerah === daerah[d]
-                ).length,
-                pesakitHariIni: ptData.filter(
-                  (item) =>
-                    item.createdByDaerah === daerah[d] &&
-                    moment(item.tarikhKedatangan).isSame(moment(), 'day')
-                ).length,
-                pesakitMingguIni: ptData.filter(
-                  (item) =>
-                    item.createdByDaerah === daerah[d] &&
-                    moment(item.tarikhKedatangan).isSame(moment(), 'week')
-                ).length,
-                pesakitBulanIni: ptData.filter(
-                  (item) =>
-                    item.createdByDaerah === daerah[d] &&
-                    moment(item.tarikhKedatangan).isSame(moment(), 'month')
-                ).length,
+                // jumlahPesakit: ptData.filter(
+                //   (item) => item.createdByDaerah === daerah[d]
+                // ).length,
+                // pesakitHariIni: ptData.filter(
+                //   (item) =>
+                //     item.createdByDaerah === daerah[d] &&
+                //     moment(item.tarikhKedatangan).isSame(moment(), 'day')
+                // ).length,
+                // pesakitMingguIni: ptData.filter(
+                //   (item) =>
+                //     item.createdByDaerah === daerah[d] &&
+                //     moment(item.tarikhKedatangan).isSame(moment(), 'week')
+                // ).length,
+                // pesakitBulanIni: ptData.filter(
+                //   (item) =>
+                //     item.createdByDaerah === daerah[d] &&
+                //     moment(item.tarikhKedatangan).isSame(moment(), 'month')
+                // ).length,
                 klinik: [],
               };
               for (k in daerahData) {
@@ -1708,55 +1732,55 @@ const getData = async (req, res) => {
                   namaKlinik: klinikData.kp,
                   kodFasiliti: klinikData.kodFasiliti,
                   // pesakit: [],
-                  jumlahPesakit: [],
-                  pesakitHariIni: [],
-                  pesakitMingguIni: [],
-                  pesakitBulanIni: [],
-                  pesakitBaru: [],
-                  pesakitUlangan: [],
+                  // jumlahPesakit: [],
+                  // pesakitHariIni: [],
+                  // pesakitMingguIni: [],
+                  // pesakitBulanIni: [],
+                  // pesakitBaru: [],
+                  // pesakitUlangan: [],
                 });
-                const pesakitData = ptData.filter(
-                  (item) => item.createdByKp === klinikData.kp
-                );
-                const pesakitHariIni = ptData.filter(
-                  (item) =>
-                    item.createdByKp === klinikData.kp &&
-                    item.tarikhKedatangan === moment().format('YYYY-MM-DD')
-                );
-                const pesakitMingguIni = ptData.filter(
-                  (item) =>
-                    item.createdByKp === klinikData.kp &&
-                    moment(item.tarikhKedatangan).isBetween(
-                      moment().startOf('week'),
-                      moment().endOf('week')
-                    )
-                );
-                const pesakitBulanIni = ptData.filter(
-                  (item) =>
-                    item.createdByKp === klinikData.kp &&
-                    moment(item.tarikhKedatangan).isBetween(
-                      moment().startOf('month'),
-                      moment().endOf('month')
-                    )
-                );
-                const pesakitBaru = ptData.filter(
-                  (item) =>
-                    item.createdByKp === klinikData.kp &&
-                    item.kedatangan === 'baru-kedatangan'
-                );
-                const pesakitUlangan = ptData.filter(
-                  (item) =>
-                    item.createdByKp === klinikData.kp &&
-                    item.kedatangan === 'ulangan-kedatangan'
-                );
-                klinikDiDaerah.klinik[k].jumlahPesakit = pesakitData.length;
-                klinikDiDaerah.klinik[k].pesakitHariIni = pesakitHariIni.length;
-                klinikDiDaerah.klinik[k].pesakitMingguIni =
-                  pesakitMingguIni.length;
-                klinikDiDaerah.klinik[k].pesakitBulanIni =
-                  pesakitBulanIni.length;
-                klinikDiDaerah.klinik[k].pesakitBaru = pesakitBaru.length;
-                klinikDiDaerah.klinik[k].pesakitUlangan = pesakitUlangan.length;
+                // const pesakitData = ptData.filter(
+                //   (item) => item.createdByKp === klinikData.kp
+                // );
+                // const pesakitHariIni = ptData.filter(
+                //   (item) =>
+                //     item.createdByKp === klinikData.kp &&
+                //     item.tarikhKedatangan === moment().format('YYYY-MM-DD')
+                // );
+                // const pesakitMingguIni = ptData.filter(
+                //   (item) =>
+                //     item.createdByKp === klinikData.kp &&
+                //     moment(item.tarikhKedatangan).isBetween(
+                //       moment().startOf('week'),
+                //       moment().endOf('week')
+                //     )
+                // );
+                // const pesakitBulanIni = ptData.filter(
+                //   (item) =>
+                //     item.createdByKp === klinikData.kp &&
+                //     moment(item.tarikhKedatangan).isBetween(
+                //       moment().startOf('month'),
+                //       moment().endOf('month')
+                //     )
+                // );
+                // const pesakitBaru = ptData.filter(
+                //   (item) =>
+                //     item.createdByKp === klinikData.kp &&
+                //     item.kedatangan === 'baru-kedatangan'
+                // );
+                // const pesakitUlangan = ptData.filter(
+                //   (item) =>
+                //     item.createdByKp === klinikData.kp &&
+                //     item.kedatangan === 'ulangan-kedatangan'
+                // );
+                // klinikDiDaerah.klinik[k].jumlahPesakit = pesakitData.length;
+                // klinikDiDaerah.klinik[k].pesakitHariIni = pesakitHariIni.length;
+                // klinikDiDaerah.klinik[k].pesakitMingguIni =
+                //   pesakitMingguIni.length;
+                // klinikDiDaerah.klinik[k].pesakitBulanIni =
+                //   pesakitBulanIni.length;
+                // klinikDiDaerah.klinik[k].pesakitBaru = pesakitBaru.length;
+                // klinikDiDaerah.klinik[k].pesakitUlangan = pesakitUlangan.length;
                 // for (p in pesakitData) {
                 //   const pesakit = pesakitData[p];
                 //   klinikDiDaerah.klinik[k].pesakit.push({
@@ -1786,7 +1810,7 @@ const getData = async (req, res) => {
             });
             data.push({
               namaNegeri: negeri,
-              kedatanganPt: kedatangan,
+              // kedatanganPt: kedatangan,
               daerah: klinik,
             });
           }
