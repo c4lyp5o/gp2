@@ -6,7 +6,6 @@ import { Loading } from '../Screens';
 
 export default function KpCenterStage(props) {
   const { toast, readDataForKp } = useGlobalAdminAppContext();
-  const today = new Date().toLocaleDateString();
 
   const [loading, setLoading] = useState(true);
   const [program, setProgram] = useState([]);
@@ -14,7 +13,6 @@ export default function KpCenterStage(props) {
   useEffect(() => {
     const getProgramForKp = async () => {
       const { data } = await readDataForKp('program');
-      console.log(data);
       setProgram(data);
     };
     getProgramForKp()
@@ -36,7 +34,7 @@ export default function KpCenterStage(props) {
       <h1>
         Selamat datang, {props.loginInfo.officername} dari {props.loginInfo.kp}
       </h1>
-      <p>Hari ini {today}</p>
+      <p>Hari ini {new Date().toLocaleDateString()}</p>
       <div className='grid grid-cols gap-2'>
         {program.length > 0 ? (
           <>
@@ -68,7 +66,7 @@ export default function KpCenterStage(props) {
               <div className='grid grid-cols-5 gap-2 mt-2'>
                 {program.map((item) => {
                   if (
-                    moment(today).isBetween(
+                    moment(new Date().toLocaleDateString()).isBetween(
                       moment(item.tarikhStart).format('DD/MM/YYYY'),
                       moment(item.tarikhEnd).format('DD/MM/YYYY')
                     )
