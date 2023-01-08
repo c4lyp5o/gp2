@@ -34,7 +34,7 @@ export default function KpCenterStage(props) {
       <h1>
         Selamat datang, {props.loginInfo.officername} dari {props.loginInfo.kp}
       </h1>
-      <p>Hari ini {new Date().toLocaleDateString()}</p>
+      <p>Hari ini {moment(new Date()).format('DD/MM/YYYY')}</p>
       <div className='grid grid-cols gap-2'>
         {program.length > 0 ? (
           <>
