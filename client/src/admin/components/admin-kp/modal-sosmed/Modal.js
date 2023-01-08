@@ -14,6 +14,7 @@ import {
 } from 'react-icons/fa';
 
 import { SubmitButton, BusyButton } from '../../Buttons';
+import { ConfirmModalForData } from '../../superadmin/Confirmation';
 import { Loading } from '../../Screens';
 
 import RenderSection from './Cards';
@@ -245,7 +246,6 @@ export const ModalSosMed = (props) => {
   const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
     setAddingData(true);
     let Data = {};
     let newData = {};
@@ -341,7 +341,6 @@ export const ModalSosMed = (props) => {
         ...Data,
         belongsTo: props.kp,
       };
-      // console.log(Data);
       createDataForKp(props.FType, Data).then((res) => {
         if (res.status === 200) {
           toast.info(`Data berjaya ditambah`);
