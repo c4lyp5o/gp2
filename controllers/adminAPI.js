@@ -915,7 +915,7 @@ const getData = async (req, res) => {
               belongsTo: owner,
               kodProgram: Data.kodProgram,
             });
-            if (!previousData.data) {
+            if (previousData.length === 0) {
               console.log('previous data not found');
               delete Data.data[0].kodProgram;
               Data.data[0] = {
@@ -924,8 +924,7 @@ const getData = async (req, res) => {
               };
               const createdSosmed = await Sosmed.create(Data);
               return res.status(200).json(createdSosmed);
-            }
-            if (previousData.data) {
+            } else {
               console.log('previous data got');
               delete Data.data[0].kodProgram;
               const lastData = previousData[0].data.length;
@@ -1106,12 +1105,23 @@ const getData = async (req, res) => {
             if (daerah !== '-') {
               owner = daerah;
             }
-            const deletedSosmed = await Sosmed.findOneAndUpdate(
-              { kodProgram: Id.kodProgram, belongsTo: owner },
-              { $pull: { data: { id: Id.id } } },
-              { new: true }
-            );
-            res.status(200).json(deletedSosmed);
+            const checkSosmed = await Sosmed.findOne({
+              kodProgram: Id.kodProgram,
+            });
+            if (checkSosmed.data.length < 2) {
+              const deletedSosmed = await Sosmed.findOneAndDelete({
+                kodProgram: Id.kodProgram,
+                belongsTo: owner,
+              });
+              return res.status(200).json(deletedSosmed);
+            } else {
+              const deletedSosmed = await Sosmed.findOneAndUpdate(
+                { kodProgram: Id.kodProgram, belongsTo: owner },
+                { $pull: { data: { id: Id.id } } },
+                { new: true }
+              );
+              res.status(200).json(deletedSosmed);
+            }
           }
           break;
         default:
@@ -1141,11 +1151,12 @@ const getData = async (req, res) => {
               res.status(200).json(createdEvent);
               break;
             case 'sosmed':
+              console.log(kp);
               const previousData = await Sosmed.find({
                 belongsTo: kp,
                 kodProgram: Data.kodProgram,
               });
-              if (!previousData.data) {
+              if (previousData.length === 0) {
                 console.log('previous data not found');
                 delete Data.data[0].kodProgram;
                 Data.data[0] = {
@@ -1154,8 +1165,7 @@ const getData = async (req, res) => {
                 };
                 const createdSosmed = await Sosmed.create(Data);
                 return res.status(200).json(createdSosmed);
-              }
-              if (previousData.data) {
+              } else {
                 console.log('previous data got');
                 delete Data.data[0].kodProgram;
                 const lastData = previousData[0].data.length;
@@ -1245,13 +1255,23 @@ const getData = async (req, res) => {
               res.status(200).json(data);
               break;
             case 'sosmed':
-              console.log(Id);
-              const deletedSosmed = await Sosmed.findOneAndUpdate(
-                { kodProgram: Id.kodProgram, belongsTo: kp },
-                { $pull: { data: { id: Id.id } } },
-                { new: true }
-              );
-              res.status(200).json(deletedSosmed);
+              const checkSosmed = await Sosmed.findOne({
+                kodProgram: Id.kodProgram,
+              });
+              if (checkSosmed.data.length < 2) {
+                const deletedSosmed = await Sosmed.findOneAndDelete({
+                  kodProgram: Id.kodProgram,
+                  belongsTo: kp,
+                });
+                return res.status(200).json(deletedSosmed);
+              } else {
+                const deletedSosmed = await Sosmed.findOneAndUpdate(
+                  { kodProgram: Id.kodProgram, belongsTo: kp },
+                  { $pull: { data: { id: Id.id } } },
+                  { new: true }
+                );
+                res.status(200).json(deletedSosmed);
+              }
               break;
             default:
               console.log('default case for delete');
