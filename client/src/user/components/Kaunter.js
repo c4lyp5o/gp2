@@ -18,9 +18,6 @@ function Kaunter({
 }) {
   const { kaunterToken, dateToday } = useGlobalUserAppContext();
 
-  //resetter
-  const fillableFormKey = useId();
-
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
   const [philter, setPhilter] = useState('');
@@ -141,7 +138,6 @@ function Kaunter({
           />
         ) : null}
         <FillableForm
-          key={fillableFormKey}
           jenisFasiliti={jenisFasiliti}
           showForm={showForm}
           setShowForm={setShowForm}
