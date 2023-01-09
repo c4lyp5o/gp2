@@ -2391,6 +2391,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       allKPBMPBForNegeri={allKPBMPBForNegeri}
+                      sekolahIdc={sekolahIdc}
                       theCheckTPRShow={theCheckTPRShow}
                     />
                     <Rawatan
