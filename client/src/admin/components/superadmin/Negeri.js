@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Ring } from 'react-awesome-spinners';
 import { TbArrowBigLeftLine } from 'react-icons/tb';
 import {
   MdSupervisedUserCircle,
@@ -22,7 +21,7 @@ import {
 import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
-import moment from 'moment/moment';
+import { Loading } from '../Screens';
 
 ChartJS.register(
   CategoryScale,
@@ -54,7 +53,7 @@ function DataKlinik({ data }) {
     },
   };
   const labels = data.kedatanganPt.map((item) => {
-    return moment(item.tarikh).format('DD/MM/YYYY');
+    return item.tarikh;
   });
   const chartData = {
     labels,
@@ -164,8 +163,8 @@ function Statistik({ data }) {
   );
 }
 
-function JanaReten({ data, id }) {
-  const { toast, navigate, adminToken } = useGlobalAdminAppContext();
+function JanaReten({ data }) {
+  const { toast, navigate } = useGlobalAdminAppContext();
 
   const saveFile = (blob, reten) => {
     const link = document.createElement('a');
@@ -184,15 +183,13 @@ function JanaReten({ data, id }) {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${reten}&klinik=${id}&tarikhMula=2023-01-01&tarikhAkhir=${
-            dateInISO.split('T')[0]
-          }&bulan=${dateInISO.split('T')[0]}&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=${reten}&tarikhMula=2022-01-01&tarikhAkhir=${dateInISO}&bulan=${dateInISO}&formatFile=xlsx`,
           {
             headers: {
-              Authorization: adminToken,
+              klinikid: `${data.kp}`,
+              klinikdaerah: `${data.daerah}`,
+              kliniknegeri: `${data.negeri}`,
             },
-          },
-          {
             responseType: 'blob',
           }
         ),
@@ -225,40 +222,22 @@ function JanaReten({ data, id }) {
           {/* <div className='font-bold text-xl mb-2 underline'>Pusat Kawalan</div> */}
           <div>Jana Reten</div>
           <button
-            value='PG101A'
+            value='PG101'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
             className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
           >
-            PG101A
+            PG101
           </button>
           <button
-            value='PG101C'
+            value='PG211'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'
           >
-            PG101C
-          </button>
-          <button
-            value='PG211A'
-            onClick={(e) => {
-              handleJana(e.target.value);
-            }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
-          >
-            PG211A
-          </button>
-          <button
-            value='PG211C'
-            onClick={(e) => {
-              handleJana(e.target.value);
-            }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
-          >
-            PG211C
+            PG211
           </button>
         </div>
       </div>
@@ -266,16 +245,16 @@ function JanaReten({ data, id }) {
   );
 }
 
-export default function Klinik() {
+export default function Negeri() {
   const [searchParams] = useSearchParams();
-  const id = searchParams.get('id');
-  const { toast, getKlinikData } = useGlobalAdminAppContext();
+  const negeri = searchParams.get('idn');
+  const { toast, getStatsData } = useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getKlinikData(id)
+    getStatsData(negeri)
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -283,30 +262,32 @@ export default function Klinik() {
       .catch((err) => {
         toast.error(err.response.data.message);
       });
+    setTimeout(() => {
+      setLoading(false);
+    }, 1000);
   }, []);
 
   if (loading) {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto p-4 bg-admin4 rounded-md grid'>
-          <div className='flex justify-center mb-2'>
-            <Ring color='#c44058' />
-          </div>
-          <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-            Memuat...
-          </span>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
         <div className='grid grid-cols-3 gap-2'>
-          {/* <JanaReten data={data} id={id} /> */}
+          hey {negeri}, daerah anda ada {data.length}
+          {data.map((item) => (
+            <div key={item}>
+              <div className='max-w rounded overflow-hidden shadow-lg'>
+                <div className='px-6 py-4'>
+                  <div className='font-bold text-xl mb-2 underline'>{item}</div>
+                </div>
+              </div>
+            </div>
+          ))}
+          {/* <JanaReten data={data} />
           <Statistik data={data} />
-          <DataKlinik data={data} />
+          <DataKlinik data={data} /> */}
         </div>
       </div>
     </>

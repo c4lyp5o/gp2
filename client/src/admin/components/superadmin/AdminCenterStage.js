@@ -134,7 +134,7 @@ export default function AdminCenterStage(props) {
     <>
       <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5'>
         {props.loginInfo.accountType === 'daerahSuperadmin' ||
-        props.loginInfo.accountType === 'daerahSuperadmin' ? (
+        props.loginInfo.accountType === 'negeriSuperadmin' ? (
           <h1>
             Selamat datang, pentadbir{' '}
             {props.loginInfo.accountType === 'daerahSuperadmin' ? (
@@ -151,13 +151,13 @@ export default function AdminCenterStage(props) {
           {moment(new Date().toLocaleDateString()).format('DD/MM/YYYY')}
         </p>
       </div>
-      <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
+      <div className='grid grid-cols-5 mb-4 m-10 rounded justify-center'>
         {data.map((item) => {
           return (
             <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
               <img
                 className={`w-1/2 mx-auto ${
-                  props.loginInfo.accountType === 'negeriSuperadmin'
+                  props.loginInfo.accountType === 'hqSuperadmin'
                     ? 'hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
                     : ''
                 } mt-3`}
@@ -165,14 +165,34 @@ export default function AdminCenterStage(props) {
                 src={FlagsDictionary[item.namaNegeri]}
                 onClick={() => {
                   if (props.loginInfo.accountType === 'hqSuperadmin') {
-                    alert(`clicked ${item.namaNegeri}`);
+                    // navigate(
+                    //   `/pentadbir/landing/negeri?idn=${item.namaNegeri}`
+                    // );
+                    toast.info('Coming Soon!');
                   }
                 }}
               />
               {item.daerah.map((daerah, index) => {
                 return (
                   <div className='px-6 py-4 h-full'>
-                    <div key={index} className='mb-2 underline'>
+                    <div
+                      key={index}
+                      className={`mb-2 underline ${
+                        props.loginInfo.accountType !== 'daerahSuperadmin'
+                          ? 'hover:bg-admin3 hover:text-adminWhite hover:rounded-md hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
+                          : ''
+                      }`}
+                      onClick={() => {
+                        if (
+                          props.loginInfo.accountType !== 'daerahSuperadmin'
+                        ) {
+                          // navigate(
+                          //   `/pentadbir/landing/daerah?idn=${item.namaNegeri}&idd=${daerah.namaDaerah}`
+                          // );
+                          toast.info('Coming Soon!');
+                        }
+                      }}
+                    >
                       {daerah.namaDaerah}
                     </div>
                     {daerah.klinik.map((klinik, index) => {
