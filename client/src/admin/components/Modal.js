@@ -742,9 +742,13 @@ const EditModalForKp = ({
       let reset = {};
       if (e.includes('kpb')) {
         reset.penggunaanKpb = 'NOT APPLICABLE';
+        reset.penggunaanKpb2 = 'NOT APPLICABLE';
+        reset.penggunaanKpb3 = 'NOT APPLICABLE';
       }
       if (e.includes('mpb')) {
         reset.penggunaanMpb = 'NOT APPLICABLE';
+        reset.penggunaanMpb2 = 'NOT APPLICABLE';
+        reset.penggunaanMpb3 = 'NOT APPLICABLE';
       }
       setEditedEntity({
         ...editedEntity,
