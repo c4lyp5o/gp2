@@ -9,17 +9,17 @@ function LandingPage() {
   // dropdown notification
   let notificationRef = useRef();
 
-  useEffect(() => {
-    let tutupNotification = (e) => {
-      if (!notificationRef.current.contains(e.target)) {
-        setShowUpdate(false);
-      }
-    };
-    document.addEventListener('mousedown', tutupNotification);
-    return () => {
-      document.removeEventListener('mousedown', tutupNotification);
-    };
-  });
+  // useEffect(() => {
+  //   let tutupNotification = (e) => {
+  //     if (!notificationRef.current.contains(e.target)) {
+  //       setShowUpdate(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', tutupNotification);
+  //   return () => {
+  //     document.removeEventListener('mousedown', tutupNotification);
+  //   };
+  // });
 
   //footer
   const [showFooter, setShowFooter] = useState(false);

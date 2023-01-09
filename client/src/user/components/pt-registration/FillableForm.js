@@ -482,9 +482,10 @@ export default function FillableForm({
         statusPesara: statusPesara,
       });
       toast.success('Menggunakan data sedia ada');
-      return response;
+      return true;
     } catch (error) {
       toast.warning('Pesakit tidak pernah didaftarkan sebelum ini');
+      return false;
     }
   };
 
