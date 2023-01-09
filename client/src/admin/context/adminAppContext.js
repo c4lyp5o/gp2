@@ -313,27 +313,6 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // get all daerah in negeri
-  const readAllDaerahInNegeri = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'SuperadminCenter',
-      Fn: 'readDaerah',
-      token: adminToken,
-    });
-    return response;
-  };
-
-  // get all klinik in daerah
-  const readAllKlinikInDaerah = async (daerah) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'SuperadminCenter',
-      Fn: 'readKlinik',
-      daerah: daerah,
-      token: adminToken,
-    });
-    return response;
-  };
-
   // read fasiliti data
   const readFasilitiData = async ({ negeri, daerah }) => {
     try {
@@ -701,8 +680,6 @@ function AdminAppProvider({ children }) {
         readSekolahData,
         readFasilitiData,
         readKodProgramData,
-        readAllDaerahInNegeri,
-        readAllKlinikInDaerah,
         // stats data
         getStatsData,
         // misc
