@@ -35,50 +35,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [allKPBMPBForNegeri, setAllKPBMPBForNegeri] = useState([]);
   const [showKemaskini, setShowKemasKini] = useState(false);
 
-  const theCheckTPRShow = () => {
-    if (
-      (singlePersonUmum.umur <= 17 &&
-        skorGisMulutOralHygienePemeriksaanUmum === '') ||
-      skorBpeOralHygienePemeriksaanUmum === ''
-    ) {
-      return toast('Sila isi semua maklumat pemeriksaan');
-    }
-    if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    if (parseInt(skorBpeOralHygienePemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    if (perluPenskaleranPemeriksaanUmum) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
-    }
-    setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
-    toast('Layak TPR');
-  };
-
   // creating masterForm object to be used by the form
   const masterForm = {};
   masterForm.createdByUsername = username;
@@ -2391,13 +2347,11 @@ function UserFormUmumHeader({ sekolahIdc }) {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       allKPBMPBForNegeri={allKPBMPBForNegeri}
-                      theCheckTPRShow={theCheckTPRShow}
                     />
                     <Rawatan
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       operatorLain={operatorLain}
-                      theCheckTPRShow={theCheckTPRShow}
                     />
                     <Promosi
                       {...masterForm}
