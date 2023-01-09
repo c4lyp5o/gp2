@@ -13,6 +13,7 @@ const Helper = require('../controllers/countHelper');
 
 // gateway
 exports.downloader = async function (req, res) {
+  // console.log('dah masuk');
   const { authorization } = req.headers;
   //
   let currentKodFasiliti, currentDaerah, currentNegeri, username;
@@ -23,11 +24,15 @@ exports.downloader = async function (req, res) {
     // negeri = kliniknegeri;
   }
   if (authorization) {
-    const token = authorization.split(' ')[1];
-    currentKodFasiliti = jwt.verify(token, process.env.JWT_SECRET).kodFasiliti;
-    currentDaerah = jwt.verify(token, process.env.JWT_SECRET).daerah;
-    currentNegeri = jwt.verify(token, process.env.JWT_SECRET).negeri;
-    username = jwt.verify(token, process.env.JWT_SECRET).username;
+    // console.log(authorization);
+    // const token = authorization.split(' ')[1];
+    currentKodFasiliti = jwt.verify(
+      authorization,
+      process.env.JWT_SECRET
+    ).kodFasiliti;
+    currentDaerah = jwt.verify(authorization, process.env.JWT_SECRET).daerah;
+    currentNegeri = jwt.verify(authorization, process.env.JWT_SECRET).negeri;
+    username = jwt.verify(authorization, process.env.JWT_SECRET).username;
   }
   // check query
   let {
@@ -42,6 +47,7 @@ exports.downloader = async function (req, res) {
     id,
     formatFile,
   } = req.query;
+  console.log(req.query);
   // if kaunter user
   if (!klinik) {
     klinik = currentKodFasiliti;
@@ -61,6 +67,7 @@ exports.downloader = async function (req, res) {
     pegawai,
     id,
   };
+  console.log(payload);
   logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
   switch (jenisReten) {
     case 'PG101A':
@@ -480,10 +487,10 @@ const makePG101A = async (payload) => {
     intro2.getCell(2).value = `Fasiliti: ${klinik.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
-    intro3.getCell(2).value = `Daerah: ${daerah.toUpperCase()}`;
+    intro3.getCell(2).value = `Daerah: ${daerah ? daerah.toUpperCase() : null}`;
 
     let intro4 = worksheet.getRow(9);
-    intro4.getCell(2).value = `Negeri: ${negeri.toUpperCase()}`;
+    intro4.getCell(2).value = `Negeri: ${negeri ? negeri.toUpperCase() : null}`;
     //
     for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(16 + i);

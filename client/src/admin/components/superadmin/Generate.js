@@ -9,8 +9,9 @@ const Generate = (props) => {
     toast,
     adminToken,
     masterDatePicker,
-    readAllDaerahInNegeri,
-    readAllKlinikInDaerah,
+    readNegeri,
+    readDaerah,
+    readKlinik,
   } = useGlobalAdminAppContext();
   const [jenisReten, setJenisReten] = useState('');
   const [startDate, setStartDate] = useState('');
@@ -23,6 +24,7 @@ const Generate = (props) => {
   const [kp, setKp] = useState('');
 
   // masalah negara
+  const [negeri, setNegeri] = useState([]);
   const [daerah, setDaerah] = useState([]);
   const [klinik, setKlinik] = useState([]);
   const [namaKlinik, setNamaKlinik] = useState('');
@@ -94,6 +96,7 @@ const Generate = (props) => {
   }, [jenisReten]);
 
   const fileName = () => {
+    console.log(pilihanDaerah, pilihanKlinik);
     let file = '';
     if (pilihanDaerah !== 'all' && pilihanKlinik !== 'all') {
       console.log('1');
@@ -101,7 +104,7 @@ const Generate = (props) => {
     }
     if (pilihanDaerah !== 'all' && pilihanKlinik === 'all') {
       console.log('2');
-      file = `${jenisReten}-${props.loginInfo.daerah.toUpperCase()}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${startDate}.${formatFile}`;
     }
     if (pilihanDaerah === 'all') {
       console.log('3');
@@ -131,10 +134,12 @@ const Generate = (props) => {
       .promise(
         axios.get(
           `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${
-            props.loginInfo.negeri
-          }&daerah=${
-            props.loginInfo.daerah
-          }&klinik=${pilihanKlinik}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
+            props.loginInfo.accountType === 'hqSuperadmin'
+              ? ''
+              : props.loginInfo.negeri
+          }&daerah=${pilihanDaerah === '' ? 'all' : pilihanDaerah}&klinik=${
+            pilihanKlinik === '' ? 'all' : pilihanKlinik
+          }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
           {
             headers: {
               Authorization: adminToken,
@@ -155,16 +160,18 @@ const Generate = (props) => {
   };
 
   useEffect(() => {
+    if (props.loginInfo.accountType === 'hqSuperadmin') {
+      readNegeri().then((res) => {
+        setNegeri(res.data);
+      });
+    }
     if (props.loginInfo.accountType === 'negeriSuperadmin') {
-      // setPilihanNegeri(props.loginInfo.negeri);
-      readAllDaerahInNegeri().then((res) => {
+      readDaerah(props.loginInfo.nama).then((res) => {
         setDaerah(res.data);
       });
     }
     if (props.loginInfo.accountType === 'daerahSuperadmin') {
-      // setPilihanNegeri(props.loginInfo.negeri);
-      // setPilihanDaerah(props.loginInfo.daerah);
-      readAllKlinikInDaerah(props.loginInfo.daerah).then((res) => {
+      readKlinik(props.loginInfo.daerah).then((res) => {
         setKlinik(res.data);
       });
     }
@@ -281,7 +288,46 @@ const Generate = (props) => {
                     className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   /> */}
                 </div>
-                {props.loginInfo.accountType === 'negeriSuperadmin' ? (
+                {props.loginInfo.accountType === 'hqSuperadmin' ? (
+                  <div className='px-3 py-1'>
+                    <label
+                      htmlFor='negeri'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Negeri:
+                    </label>
+                    <select
+                      required
+                      name='negeri'
+                      id='negeri'
+                      onChange={(e) => {
+                        setPilihanNegeri(e.target.value);
+                        if (e.target.value === 'all' || e.target.value === '')
+                          return;
+                        readDaerah(e.target.value).then((res) => {
+                          setDaerah(res.data);
+                        });
+                      }}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='all'>Semua Negeri</option>
+                      {negeri.map((n, index) => {
+                        return (
+                          <option
+                            value={n.username}
+                            key={index}
+                            className='capitalize'
+                          >
+                            {n.negeri}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                ) : null}
+                {props.loginInfo.accountType === 'negeriSuperadmin' ||
+                daerah.length > 0 ? (
                   <div className='px-3 py-1'>
                     <label
                       htmlFor='daerah'
@@ -293,13 +339,13 @@ const Generate = (props) => {
                       required
                       name='daerah'
                       id='daerah'
-                      onChange={async (e) => {
+                      onChange={(e) => {
                         setPilihanDaerah(e.target.value);
-                        await readAllKlinikInDaerah(e.target.value).then(
-                          (res) => {
-                            setKlinik(res.data);
-                          }
-                        );
+                        if (e.target.value === 'all' || e.target.value === '')
+                          return;
+                        readKlinik(e.target.value).then((res) => {
+                          setKlinik(res.data);
+                        });
                       }}
                       className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
                     >
@@ -307,8 +353,12 @@ const Generate = (props) => {
                       <option value='all'>Semua daerah (Jana Negeri)</option>
                       {daerah.map((d, index) => {
                         return (
-                          <option value={d} key={index} className='capitalize'>
-                            {d}
+                          <option
+                            value={d.daerah}
+                            key={index}
+                            className='capitalize'
+                          >
+                            {d.daerah}
                           </option>
                         );
                       })}
@@ -394,7 +444,46 @@ const Generate = (props) => {
                     <option value='12-01'>Disember</option>
                   </select>
                 </div>
-                {props.loginInfo.accountType === 'negeriSuperadmin' ? (
+                {props.loginInfo.accountType === 'hqSuperadmin' ? (
+                  <div className='px-3 py-1'>
+                    <label
+                      htmlFor='negeri'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Negeri:
+                    </label>
+                    <select
+                      required
+                      name='negeri'
+                      id='negeri'
+                      onChange={(e) => {
+                        setPilihanNegeri(e.target.value);
+                        if (e.target.value === 'all' || e.target.value === '')
+                          return;
+                        readDaerah(e.target.value).then((res) => {
+                          setDaerah(res.data);
+                        });
+                      }}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    >
+                      <option value=''>Sila pilih..</option>
+                      <option value='all'>Semua Negeri (Jana Negara)</option>
+                      {negeri.map((n, index) => {
+                        return (
+                          <option
+                            value={n.username}
+                            key={index}
+                            className='capitalize'
+                          >
+                            {n.negeri}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                ) : null}
+                {props.loginInfo.accountType === 'negeriSuperadmin' ||
+                daerah.length > 0 ? (
                   <div className='px-3 py-1'>
                     <label
                       htmlFor='daerah'
@@ -406,13 +495,13 @@ const Generate = (props) => {
                       required
                       name='klinik'
                       id='klinik'
-                      onChange={async (e) => {
+                      onChange={(e) => {
                         setPilihanDaerah(e.target.value);
-                        await readAllKlinikInDaerah(e.target.value).then(
-                          (res) => {
-                            setKlinik(res.data);
-                          }
-                        );
+                        if (e.target.value === 'all' || e.target.value === '')
+                          return;
+                        readKlinik(e.target.value).then((res) => {
+                          setKlinik(res.data);
+                        });
                       }}
                       className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
                     >
@@ -420,8 +509,12 @@ const Generate = (props) => {
                       <option value='all'>Semua daerah (Jana Negeri)</option>
                       {daerah.map((d, index) => {
                         return (
-                          <option value={d} key={index} className='capitalize'>
-                            {d}
+                          <option
+                            value={d.daerah}
+                            key={index}
+                            className='capitalize'
+                          >
+                            {d.daerah}
                           </option>
                         );
                       })}
@@ -441,15 +534,27 @@ const Generate = (props) => {
                       required
                       name='klinik'
                       id='klinik'
-                      onChange={(e) => setPilihanKlinik(e.target.value)}
+                      onChange={(e) => {
+                        setPilihanKlinik(e.target.value);
+                        setNamaKlinik(
+                          e.target.options[e.target.selectedIndex].getAttribute(
+                            'data-key'
+                          )
+                        );
+                      }}
                       className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                     >
                       <option value=''>Sila pilih..</option>
                       <option value='all'>Semua klinik (Jana Daerah)</option>
                       {klinik.map((k, index) => {
                         return (
-                          <option value={k} key={index} className='capitalize'>
-                            {k}
+                          <option
+                            key={index}
+                            data-key={k.kp}
+                            value={k.kodFasiliti}
+                            className='capitalize'
+                          >
+                            {k.kp}
                           </option>
                         );
                       })}
@@ -483,7 +588,7 @@ const Generate = (props) => {
               </select>
             </div> */}
             <button
-              className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3'
+              className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3 mt-3'
               type='submit'
             >
               jana
