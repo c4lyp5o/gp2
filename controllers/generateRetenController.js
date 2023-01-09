@@ -436,26 +436,6 @@ exports.downloader = async function (req, res) {
   }
 };
 
-// queries for frontend
-exports.findFunction = async function (req, res) {
-  try {
-    const data = await Umum.find(req.body);
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error });
-  }
-};
-exports.aggFunction = async function (req, res) {
-  try {
-    const data = await Umum.aggregate(req.body);
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error });
-  }
-};
-
 // functions
 const makePG101A = async (payload) => {
   console.log('PG101A');
