@@ -67,6 +67,18 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  enrolmenKurang4Tahun: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmen5Tahun: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmen6Tahun: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   govKe: {
     type: String,
     default: 'NOT APPLICABLE',

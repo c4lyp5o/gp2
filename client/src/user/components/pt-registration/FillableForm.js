@@ -77,8 +77,8 @@ export default function FillableForm({
   const [episodMengandung, setEpisodMengandung] = useState('');
   const [bookingIM, setBookingIM] = useState('');
   const [mengandungDahGravida, setMengandungDahGravida] = useState(false);
-  const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
+  const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [noOku, setNoOku] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
   const [noPesara, setNoPesara] = useState('');
@@ -425,73 +425,67 @@ export default function FillableForm({
         umurBulan,
         umurHari,
         jantina,
-        nomborTelefon,
-        nomborTelefon2,
-        emel,
+        kumpulanEtnik,
         alamat,
         daerahAlamat,
         negeriAlamat,
         poskodAlamat,
-        kumpulanEtnik,
-        ibuMengandung,
+        nomborTelefon,
+        nomborTelefon2,
+        emel,
+        // ibuMengandung,
+        // bersekolah,
         orangKurangUpaya,
-        noOku,
-        bersekolah,
         statusPesara,
-        noPesara,
       } = response.data.person;
+      setIc(ic);
       setNama(nama);
       setTarikhLahir(tarikhLahir);
-      setIc(ic);
       setUmur(umur);
       setUmurBulan(umurBulan);
       setUmurHari(umurHari);
       setJantina(jantina);
-      setNomborTelefon(nomborTelefon);
-      setNomborTelefon2(nomborTelefon2);
-      setEmel(emel);
+      setKumpulanEtnik(kumpulanEtnik);
       setAlamat(alamat);
       setDaerahAlamat(daerahAlamat);
       setNegeriAlamat(negeriAlamat);
       setPoskodAlamat(poskodAlamat);
-      setKumpulanEtnik(kumpulanEtnik);
-      setIbuMengandung(ibuMengandung);
-      if (orangKurangUpaya === true) {
-        setOrangKurangUpaya(true);
-        setNoOku(noOku);
-      }
-      if (statusPesara !== '') {
-        setStatusPesara(true);
-        setNoPesara(noPesara);
-      }
+      setNomborTelefon(nomborTelefon);
+      setNomborTelefon2(nomborTelefon2);
+      setEmel(emel);
+      // setIbuMengandung(ibuMengandung);
+      // setBersekolah(bersekolah)
+      setOrangKurangUpaya(orangKurangUpaya);
+      setStatusPesara(statusPesara);
       //datepicker issues
       setTarikhLahirDP(new Date(tarikhLahir));
       setConfirmData({
-        nama,
-        tarikhLahir,
-        ic,
-        umur,
-        umurBulan,
-        umurHari,
-        jantina,
-        nomborTelefon,
-        nomborTelefon2,
-        emel,
-        alamat,
-        daerahAlamat,
-        negeriAlamat,
-        poskodAlamat,
-        kumpulanEtnik,
-        ibuMengandung,
-        bersekolah,
-        orangKurangUpaya,
-        noOku,
-        statusPesara,
-        noPesara,
+        ...confirmData,
+        ic: ic,
+        nama: nama,
+        tarikhLahir: tarikhLahir,
+        umur: umur,
+        umurBulan: umurBulan,
+        umurHari: umurHari,
+        jantina: jantina,
+        kumpulanEtnik: kumpulanEtnik,
+        alamat: alamat,
+        daerahAlamat: daerahAlamat,
+        negeriAlamat: negeriAlamat,
+        poskodAlamat: poskodAlamat,
+        nomborTelefon: nomborTelefon,
+        nomborTelefon2: nomborTelefon2,
+        emel: emel,
+        // ibuMengandung,
+        // bersekolah,
+        orangKurangUpaya: orangKurangUpaya,
+        statusPesara: statusPesara,
       });
       toast.success('Menggunakan data sedia ada');
+      return true;
     } catch (error) {
-      toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
+      toast.warning('Pesakit tidak pernah didaftarkan sebelum ini');
+      return false;
     }
   };
 

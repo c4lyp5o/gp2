@@ -1,12 +1,40 @@
 # Changelog
 
+### 9/1/2023 (v2.0.7)
+
+#### Added
+
+- Menambah 3 jenis enrolmen ketika mengemaskini taska & tadika di modul Pentadbir bagi Pentadbir Klinik (diminta semua Pentadbir Klinik mengemaskini semula enrolmen taska/tadika di modul Pentadbir)
+- Perubahan-perubahan di dalam sistem di dokumentasikan dan pautan tersebut boleh didapatkan di sebelah pautan meja bantuan
+
+#### Changed
+
+- Sekiranya skor BPE pesakit adalah 4 & memilih tidak bagi pakar periodontik di rujukan berkaitan terapi periodontium, pilihan jawapan "Enggan" atau "Lain-lain" bagi rujukan tersebut adalah wajib
+- Menggunakan format tarikh DD/MM/YYYY bagi laman pertama di modul Pentadbir
+
+#### Fixed
+
+- Penstrukturan semula cara pengendalian data bagi submodul media sosial di modul Pentadbir bagi Pentadbir Klinik, Pentadbir Daerah & Pentadbir Negeri
+- Membetulkan nama label yang sama bagi lain-lain di terapi periodontium & rawatan lain periodontik
+- Tidak boleh memilih KPB atau MPB yang sama bagi penggunaan yang ke-2 & ke-3
+- Sekiranya penggunaan KPB atau MPB tidak ditanda, penggunaan KPB & MPB yang ke-2 dan ke-3 dijadikan kosong semula
+- Menyenaraikan penggunaan KPB & MPB yang ke-2 dan ke-3 di dalam senarai program komuniti di modul Pentadbir bagi Pentadbir Klinik
+- Memperbaiki penggunaan _auto fill_ bagi pesakit yang menggunakan data sedia ada supaya perincian pesakit dalam penyemakan semula semasa pendaftaran adalah betul
+
+#### Removed
+
+- Enrolmen taska & tadika tidak lagi perlu dimasukkan di modul Pentadbir bagi Pentadbir Daerah
+- Butang jana reten PG101 di submodul senarai daftar pesakit ditutup buat sementara waktu untuk penambahbaikan yang terakhir
+- Membuang carta-carta pesakit di paparan masuk pertama selepas Pentadbir Daerah & Pentadbir Negeri log masuk di modul Pentadbir
+- Menutup penjanaan reten di semua modul di dalam sistem sehingga pemberitahuan semula kelak
+
 ### 7/1/2023 (v2.0.6)
 
 #### Added:
 
 - Submodul media sosial & follower di modul Pentadbir bagi Pentadbir Klinik, Pentadbir Daerah & Pentadbir Negeri sedia untuk digunakan
 - Menambah pilihan Klinik Pergigian Statik bagi program komuniti jenis Program Pergigian Sekolah Sesi 2022/2023
-- Mengeluarkan maklumat-maklmat penting di laman pertama selepas log masuk modul Pentadbir Klinik
+- Mengeluarkan maklumat-maklumat penting di laman pertama selepas log masuk modul Pentadbir Klinik
 
 #### Changed:
 
@@ -16,6 +44,7 @@
 - Rujukan ke Pakar Periodontik wajib diisi ya atau tidak sekiranya BPE = 4
 - Senarai rawatan yang dilakukan dikeluarkan secara terus apabila pengguna memilih lihat reten
 - Kotak penandaan kelas toddler hanya keluar apabila jenis fasiliti yang dipilih adalah tadika di borang pendaftaran pesakit bagi fasiliti taska/tadika
+- Pemilihan gravida & pemilihan didaftarkan di KKIA pada tahun semasa adalah wajib sekiranya pesakit ditanda sebagai ibu mengandung
 
 #### Fixed:
 
@@ -38,7 +67,7 @@
 
 ### 4/1/2023 (v2.0.4)
 
-- Reten PG101 yang dijana menggunakan kodFasiliti bagi mengelakkan dua KP yang sama nama berada di dalam satu reten
+- Reten PG101 yang dijana menggunakan kod fasiliti bagi mengelakkan dua KP yang sama nama berada di dalam satu reten
 - Penggunaan KPB & MPB boleh lebih daripada satu semasa mengemaskini program komuniti di modul Pentadbir Klinik
 - Menambah status pesakit /BW di semua table bagi modul Pendaftaran & Pengguna
 - Meletakkan dua kali amaran pengesahan semasa mendaftarkan pesakit di modul Pendaftaran serta membesarkan tulisan bagi IC, Tarikh Lahir & Umur di amaran pengesahan pendaftaran
@@ -46,7 +75,7 @@
 - Mewujudkan submodul "Program Pergigian Sekolah Sesi 2022/2023" di modul Pengguna
 - Mewujudkan soalan "Pesakit Mempunyai Gigi Desidus/Kekal?" di borang pesakit umum bagi memastikan pengguna memasukkan maklumat gigi yang ada atau tiada dengan tepat
 - Menambah ruangan "Waktu Selesai Daftar" di amaran kedua pengesahan semasa mendaftarkan pesakit
-- Membuang kebolahan untuk mengubah waktu tiba semasa mengemaskini pesakit kerana waktu tiba tidak boleh melebihi waktu selesai daftar yang telah dimasukkan semasa mendaftarkan pesakit
+- Membuang kebolehan untuk mengubah waktu tiba semasa mengemaskini pesakit kerana waktu tiba tidak boleh melebihi waktu selesai daftar yang telah dimasukkan semasa mendaftarkan pesakit
 
 ### 3/1/2023 (v2.0.3)
 

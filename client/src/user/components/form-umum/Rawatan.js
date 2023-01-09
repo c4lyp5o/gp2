@@ -1507,7 +1507,7 @@ export default function Rawatan(props) {
                           className='w-4 h-4 rounded flex items-center'
                         />
                         <label
-                          htmlFor='rawatan-lain-periodontik-rawatan-umum'
+                          htmlFor='rawatan-lain-terapi-periodontik-rawatan-umum'
                           className='text-left flex justify-start items-center text-sm pl-3'
                         >
                           Lain-Lain :
@@ -1519,8 +1519,8 @@ export default function Rawatan(props) {
                         <input
                           disabled={isDisabled}
                           type='checkbox'
-                          name='rawatan-lain-periodontik-rawatan-umum'
-                          id='rawatan-lain-periodontik-rawatan-umum'
+                          name='rawatan-lain-terapi-periodontik-rawatan-umum'
+                          id='rawatan-lain-terapi-periodontik-rawatan-umum'
                           checked={
                             props.rawatanLainPeriodontikRawatanUmum
                               ? true
@@ -1536,7 +1536,7 @@ export default function Rawatan(props) {
                       </article>
                       <article className='grid grid-cols-[2fr_1fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2'>
                         <h4 className='font-semibold flex flex-row pl-3 col-span-2 '>
-                          Rujukan
+                          Rujukan berkaitan terapi peridontium
                         </h4>
                         <label className='text-left flex justify-start items-center text-sm pl-3'>
                           Pakar Periodontik :
@@ -1617,6 +1617,11 @@ export default function Rawatan(props) {
                           <div className='border border-userBlack flex flex-row items-center whitespace-nowrap p-2 col-start-2'>
                             <input
                               disabled={isDisabled}
+                              required={
+                                props.skorBpeOralHygienePemeriksaanUmum === '4'
+                                  ? true
+                                  : false
+                              }
                               type='radio'
                               name='enggan-lain-rujukan-pakar-periodontik'
                               id='enggan-rujukan-pakar-periodontik'
@@ -1639,9 +1644,16 @@ export default function Rawatan(props) {
                               className='text-left flex justify-start items-center text-sm px-3'
                             >
                               Enggan
+                              {props.skorBpeOralHygienePemeriksaanUmum ===
+                                '4' && <span className='text-user6'>*</span>}
                             </label>
                             <input
                               disabled={isDisabled}
+                              required={
+                                props.skorBpeOralHygienePemeriksaanUmum === '4'
+                                  ? true
+                                  : false
+                              }
                               type='radio'
                               name='enggan-lain-rujukan-pakar-periodontik'
                               id='lain-rujukan-pakar-periodontik'
@@ -1664,6 +1676,8 @@ export default function Rawatan(props) {
                               className='text-left flex justify-start items-center text-sm px-3'
                             >
                               Lain-lain
+                              {props.skorBpeOralHygienePemeriksaanUmum ===
+                                '4' && <span className='text-user6'>*</span>}
                               <FaInfoCircle
                                 className='text-xs ml-1'
                                 title='Contoh: Pesakit belum memutuskan boleh ke Klinik Pakar atau tidak, tidak sempat dirujuk kerana masa tidak mencukupi atau kekangan fasiliti'
@@ -1788,8 +1802,8 @@ export default function Rawatan(props) {
                         <input
                           disabled={isDisabled}
                           type='checkbox'
-                          name='rawatan-lain-periodontik-rawatan-umum'
-                          id='rawatan-lain-periodontik-rawatan-umum'
+                          name='rawatan-lain-periodontik'
+                          id='rawatan-lain-periodontik'
                           checked={props.rawatanLainPeriodontik ? true : false}
                           onChange={() => {
                             props.setRawatanLainPeriodontik(
@@ -1799,7 +1813,7 @@ export default function Rawatan(props) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
                         <label
-                          htmlFor='rawatan-lain-periodontik-rawatan-umum'
+                          htmlFor='rawatan-lain-periodontik'
                           className='mx-2 text-sm font-m'
                         >
                           rawatan lain periodontik

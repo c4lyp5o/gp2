@@ -173,7 +173,7 @@ const AddModal = ({
         ...Data,
         kodTastad: kodTastad,
         alamatTastad: alamatTastad,
-        enrolmenTastad: enrolmenTastad,
+        // enrolmenTastad: enrolmenTastad, //enrolmentTastad ditetapkan di Pentadbir Klinik
         govKe: govKe,
       };
     }
@@ -607,6 +607,33 @@ const EditModalForKp = ({
       });
     }
     readOneDataForKp(FType, id).then((res) => {
+      if (FType === 'tastad') {
+        // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
+        if (
+          res.data.enrolmenTastad === 'NOT APPLICABLE' ||
+          res.data.enrolmenTastad === null
+        ) {
+          res.data.enrolmenTastad = 0;
+        }
+        if (
+          res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
+          res.data.enrolmenKurang4Tahun === null
+        ) {
+          res.data.enrolmenKurang4Tahun = 0;
+        }
+        if (
+          res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
+          res.data.enrolmen5Tahun === null
+        ) {
+          res.data.enrolmen5Tahun = 0;
+        }
+        if (
+          res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
+          res.data.enrolmen6Tahun === null
+        ) {
+          res.data.enrolmen6Tahun = 0;
+        }
+      }
       setEditedEntity(res.data);
       res.data.tarikhStart
         ? setStartDateDP(new Date(res.data.tarikhStart))
@@ -674,9 +701,15 @@ const EditModalForKp = ({
       };
     }
     if (FType === 'tastad') {
+      if (editedEntity.enrolmenTastad === 0) {
+        return toast.error('Jumlah enrolmen taska/tadika tidak boleh 0');
+      }
       Data = {
         // nama: currentName.current,
         enrolmenTastad: editedEntity.enrolmenTastad,
+        enrolmenKurang4Tahun: editedEntity.enrolmenKurang4Tahun,
+        enrolmen5Tahun: editedEntity.enrolmen5Tahun,
+        enrolmen6Tahun: editedEntity.enrolmen6Tahun,
       };
     }
     if (FType === 'ins') {
@@ -709,9 +742,13 @@ const EditModalForKp = ({
       let reset = {};
       if (e.includes('kpb')) {
         reset.penggunaanKpb = 'NOT APPLICABLE';
+        reset.penggunaanKpb2 = 'NOT APPLICABLE';
+        reset.penggunaanKpb3 = 'NOT APPLICABLE';
       }
       if (e.includes('mpb')) {
         reset.penggunaanMpb = 'NOT APPLICABLE';
+        reset.penggunaanMpb2 = 'NOT APPLICABLE';
+        reset.penggunaanMpb3 = 'NOT APPLICABLE';
       }
       setEditedEntity({
         ...editedEntity,

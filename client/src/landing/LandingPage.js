@@ -9,17 +9,17 @@ function LandingPage() {
   // dropdown notification
   let notificationRef = useRef();
 
-  useEffect(() => {
-    let tutupNotification = (e) => {
-      if (!notificationRef.current.contains(e.target)) {
-        setShowUpdate(false);
-      }
-    };
-    document.addEventListener('mousedown', tutupNotification);
-    return () => {
-      document.removeEventListener('mousedown', tutupNotification);
-    };
-  });
+  // useEffect(() => {
+  //   let tutupNotification = (e) => {
+  //     if (!notificationRef.current.contains(e.target)) {
+  //       setShowUpdate(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', tutupNotification);
+  //   return () => {
+  //     document.removeEventListener('mousedown', tutupNotification);
+  //   };
+  // });
 
   //footer
   const [showFooter, setShowFooter] = useState(false);
@@ -68,7 +68,7 @@ function LandingPage() {
           <span className='ml-10 text-user6'>{process.env.REACT_APP_ENV}</span>
         </div>
       </div>
-      <div ref={notificationRef}>
+      {/* <div ref={notificationRef}>
         <div className='absolute top-10 right-6'>
           <div className='relative'>
             <FaBell
@@ -88,8 +88,11 @@ function LandingPage() {
             >
               <div className='flex flex-col overflow-x-auto'>
                 <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
-                  <p className='text-base font-mono'>Kemaskini Terkini</p>
-                  <p className='text-xs font-thin'>2.0.1/22</p>
+                  <p className='text-xs font-thin'>8/1/2022</p>
+                  <p className='text-sm font-mono'>
+                    Butang penjanaan reten PG101 ditutup buat sementara waktu
+                    untuk penambahbaikan
+                  </p>
                 </div>
               </div>
               <div className='flex flex-col overflow-x-auto'>
@@ -125,7 +128,7 @@ function LandingPage() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* content */}
       <div className='absolute inset-0 -z-10 flex bg-user5 text-center justify-center items-center capitalize'>
         <div className='w-5/6 lg:w-1/2 h-[25rem] mt-20 mb-5 bg-userWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
@@ -193,7 +196,13 @@ function LandingPage() {
             </p>
             <div className='hidden lg:flex flex-row justify-end pr-2'>
               <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3 lowercase'>
-                v{process.env.REACT_APP_VERSION}
+                <a
+                  target='_blank'
+                  className='underline'
+                  href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
+                >
+                  v{process.env.REACT_APP_VERSION}
+                </a>
               </p>
               <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
                 <a
@@ -233,7 +242,13 @@ function LandingPage() {
               }`}
             >
               <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50 lowercase'>
-                v{process.env.REACT_APP_VERSION}
+                <a
+                  target='_blank'
+                  className='underline'
+                  href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
+                >
+                  v{process.env.REACT_APP_VERSION}
+                </a>
               </p>
               <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
                 <a

@@ -81,7 +81,9 @@ export default function DaftarPesakit({ createdByKp }) {
       .then((blob) => {
         saveFile(blob.data);
       });
-    setGenerating(false);
+    setTimeout(() => {
+      setGenerating(false);
+    }, 5000);
   };
 
   const CustomDatePicker = () => {
@@ -160,7 +162,7 @@ export default function DaftarPesakit({ createdByKp }) {
               <CustomDatePicker />
             </div>
           </div>
-          <div className='m-3 hidden lg:flex flex-row items-center justify-center'>
+          {/* <div className='m-3 hidden lg:flex flex-row items-center justify-center'>
             {generating ? (
               <button
                 type='button'
@@ -198,7 +200,7 @@ export default function DaftarPesakit({ createdByKp }) {
                 Jana Laporan PG101
               </button>
             )}
-          </div>
+          </div> */}
         </div>
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>

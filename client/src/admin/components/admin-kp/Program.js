@@ -1,5 +1,6 @@
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import moment from 'moment';
+import { BsArrowLeftSquare } from 'react-icons/bs';
 
 export default function Program(props) {
   const { Dictionary } = useGlobalAdminAppContext();
@@ -57,23 +58,12 @@ export default function Program(props) {
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {!f.tarikhStart && !f.tarikhEnd && (
                       <>
-                        <div class='flex justify-center'>
-                          <p className='text-xs font-semibold mt-3 mr-2 rounded'>
+                        <div className='flex justify-center items-center'>
+                          <p className='text-xl font-semibold mr-3'>
                             Sila tetapkan tarikh program
                           </p>
-                          <div class='animate-bounce bg-adminWhite dark:bg-adminBlack p-2 w-10 h-10 ring-1 ring-admin3/5 dark:ring-slate-200/20 shadow-lg rounded-full flex items-center justify-center'>
-                            <svg
-                              class='w-6 h-6 text-adminBlack dark:text-adminWhite'
-                              fill='none'
-                              stroke-linecap='round'
-                              stroke-linejoin='round'
-                              stroke-width='2'
-                              viewBox='0 0 24 24'
-                              stroke='currentColor'
-                              data-darkreader-inline-stroke=''
-                            >
-                              <path d='M19 14l-7 7m0 0l-7-7m7 7V3'></path>
-                            </svg>
+                          <div class='animate-bounce shadow-lg rounded-full flex items-center justify-center'>
+                            <BsArrowLeftSquare className='text-user8 text-4xl font-bold' />
                           </div>
                         </div>
                       </>
@@ -121,8 +111,28 @@ export default function Program(props) {
                             <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
                               {Dictionary[i]}
                               {i.includes('ppb') && <div className='hidden' />}
-                              {i.includes('kpb') && <p>{f.penggunaanKpb}</p>}
-                              {i.includes('mpb') && <p>{f.penggunaanMpb}</p>}
+                              {i.includes('kpb') && (
+                                <div className='grid grid-rows'>
+                                  <p>{f.penggunaanKpb}</p>
+                                  {f.penggunaanKpb2 !== 'NOT APPLICABLE' ? (
+                                    <p>{f.penggunaanKpb2}</p>
+                                  ) : null}
+                                  {f.penggunaanKpb3 !== 'NOT APPLICABLE' ? (
+                                    <p>{f.penggunaanKpb3}</p>
+                                  ) : null}
+                                </div>
+                              )}
+                              {i.includes('mpb') && (
+                                <div className='grid grid-rows'>
+                                  <p>{f.penggunaanMpb}</p>
+                                  {f.penggunaanMpb2 !== 'NOT APPLICABLE' ? (
+                                    <p>{f.penggunaanMpb2}</p>
+                                  ) : null}
+                                  {f.penggunaanMpb3 !== 'NOT APPLICABLE' ? (
+                                    <p>{f.penggunaanMpb3}</p>
+                                  ) : null}
+                                </div>
+                              )}
                             </p>
                           ))}
                         </div>
@@ -152,7 +162,7 @@ export default function Program(props) {
                     {!f.tarikhStart && !f.tarikhEnd ? (
                       <span class='relative inline-flex'>
                         <button
-                          className='bg-userWhite relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                          className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 hover:bg-admin1'
                           id={f._id}
                           onClick={() => {
                             props.setShowEditModal(true);
@@ -168,7 +178,7 @@ export default function Program(props) {
                       </span>
                     ) : (
                       <button
-                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 hover:bg-admin1'
                         id={f._id}
                         onClick={() => {
                           props.setShowEditModal(true);
@@ -180,7 +190,7 @@ export default function Program(props) {
                     )}
                     {!f.assignedByDaerah ? (
                       <button
-                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 hover:bg-admin1'
                         id={f._id}
                         onClick={() => {
                           props.setShowDeleteModal(true);
