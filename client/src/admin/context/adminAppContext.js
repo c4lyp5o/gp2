@@ -161,17 +161,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-  const getStatsData = async (negeri, daerah) => {
-    const response = await axios.get(
-      `/api/v1/superadmin/getstats?negeri=${negeri}&daerah=${daerah}`,
-      {
-        headers: {
-          Authorization: adminToken,
-        },
-      }
-    );
-    return response;
-  };
 
   // data superadmin
   const createData = async (type, data) => {
@@ -190,6 +179,10 @@ function AdminAppProvider({ children }) {
     }
   };
   const readData = async (type) => {
+    // if (type === 'kkiakd') {
+    //   let response = { data: [] };
+    //   return response;
+    // }
     const response = await axios.get(
       `/api/v1/superadmin/getdata?FType=${type}`,
       {
@@ -698,13 +691,12 @@ function AdminAppProvider({ children }) {
         // misc data
         readOperatorData,
         readKkiaData,
+        // readPegawaiData,
         readSekolahData,
         readFasilitiData,
         readKodProgramData,
         readAllDaerahInNegeri,
         readAllKlinikInDaerah,
-        // stats data
-        getStatsData,
         // misc
         getCurrentUser,
         saveCurrentUser,
