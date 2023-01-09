@@ -110,7 +110,7 @@ function UserAfterLogin() {
             </>
           )}
 
-          {reliefUserToken ? null : (
+          {/* {reliefUserToken ? null : (
             <>
               <Route
                 path='generate-individu'
@@ -118,7 +118,7 @@ function UserAfterLogin() {
               />
               <Route path='generate-klinik' element={<UserGenerateKlinik />} />
             </>
-          )}
+          )} */}
 
           <Route path='carian' element={<UserCarian />} />
 

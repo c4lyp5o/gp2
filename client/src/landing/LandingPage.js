@@ -9,17 +9,17 @@ function LandingPage() {
   // dropdown notification
   let notificationRef = useRef();
 
-  useEffect(() => {
-    let tutupNotification = (e) => {
-      if (!notificationRef.current.contains(e.target)) {
-        setShowUpdate(false);
-      }
-    };
-    document.addEventListener('mousedown', tutupNotification);
-    return () => {
-      document.removeEventListener('mousedown', tutupNotification);
-    };
-  });
+  // useEffect(() => {
+  //   let tutupNotification = (e) => {
+  //     if (!notificationRef.current.contains(e.target)) {
+  //       setShowUpdate(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', tutupNotification);
+  //   return () => {
+  //     document.removeEventListener('mousedown', tutupNotification);
+  //   };
+  // });
 
   //footer
   const [showFooter, setShowFooter] = useState(false);
@@ -68,7 +68,7 @@ function LandingPage() {
           <span className='ml-10 text-user6'>{process.env.REACT_APP_ENV}</span>
         </div>
       </div>
-      <div ref={notificationRef}>
+      {/* <div ref={notificationRef}>
         <div className='absolute top-10 right-6'>
           <div className='relative'>
             <FaBell
@@ -95,12 +95,6 @@ function LandingPage() {
                   </p>
                 </div>
               </div>
-              {/* <div className='flex flex-col overflow-x-auto'>
-                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
-                  <p className='text-base font-mono'>Kemaskini Terkini</p>
-                  <p className='text-xs font-thin'>2.0.1/22</p>
-                </div>
-              </div>
               <div className='flex flex-col overflow-x-auto'>
                 <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
                   <p className='text-base font-mono'>Kemaskini Terkini</p>
@@ -124,11 +118,17 @@ function LandingPage() {
                   <p className='text-base font-mono'>Kemaskini Terkini</p>
                   <p className='text-xs font-thin'>2.0.1/22</p>
                 </div>
-              </div> */}
+              </div>
+              <div className='flex flex-col overflow-x-auto'>
+                <div className='flex flex-col justify-between p-2 border-l-4 border-l-user2  border-b-2 border-b-user1 border-opacity-50'>
+                  <p className='text-base font-mono'>Kemaskini Terkini</p>
+                  <p className='text-xs font-thin'>2.0.1/22</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
       {/* content */}
       <div className='absolute inset-0 -z-10 flex bg-user5 text-center justify-center items-center capitalize'>
         <div className='w-5/6 lg:w-1/2 h-[25rem] mt-20 mb-5 bg-userWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>

@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import moment from 'moment';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -145,7 +146,10 @@ export default function AdminCenterStage(props) {
         ) : (
           <h1>Selamat datang, BIG BOSS</h1>
         )}
-        <p>Hari ini {new Date().toLocaleDateString()}</p>
+        <p>
+          Hari ini{' '}
+          {moment(new Date().toLocaleDateString()).format('DD/MM/YYYY')}
+        </p>
       </div>
       <div className='grid grid-cols-5 mb-4 m-10 rounded justify-center'>
         {data.map((item) => {
