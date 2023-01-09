@@ -22,6 +22,7 @@ import {
 import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+import moment from 'moment/moment';
 
 ChartJS.register(
   CategoryScale,
@@ -53,7 +54,7 @@ function DataKlinik({ data }) {
     },
   };
   const labels = data.kedatanganPt.map((item) => {
-    return item.tarikh;
+    return moment(item.tarikh).format('DD/MM/YYYY');
   });
   const chartData = {
     labels,
@@ -163,8 +164,8 @@ function Statistik({ data }) {
   );
 }
 
-function JanaReten({ data }) {
-  const { toast, navigate } = useGlobalAdminAppContext();
+function JanaReten({ data, id }) {
+  const { toast, navigate, adminToken } = useGlobalAdminAppContext();
 
   const saveFile = (blob, reten) => {
     const link = document.createElement('a');
@@ -183,13 +184,15 @@ function JanaReten({ data }) {
     await toast
       .promise(
         axios.get(
-          `/api/v1/generate/download?jenisReten=${reten}&tarikhMula=2022-01-01&tarikhAkhir=${dateInISO}&bulan=${dateInISO}&formatFile=xlsx`,
+          `/api/v1/generate/download?jenisReten=${reten}&klinik=${id}&tarikhMula=2023-01-01&tarikhAkhir=${
+            dateInISO.split('T')[0]
+          }&bulan=${dateInISO.split('T')[0]}&formatFile=xlsx`,
           {
             headers: {
-              klinikid: `${data.kp}`,
-              klinikdaerah: `${data.daerah}`,
-              kliniknegeri: `${data.negeri}`,
+              Authorization: adminToken,
             },
+          },
+          {
             responseType: 'blob',
           }
         ),
@@ -222,22 +225,40 @@ function JanaReten({ data }) {
           {/* <div className='font-bold text-xl mb-2 underline'>Pusat Kawalan</div> */}
           <div>Jana Reten</div>
           <button
-            value='PG101'
+            value='PG101A'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
             className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
           >
-            PG101
+            PG101A
           </button>
           <button
-            value='PG211'
+            value='PG101C'
             onClick={(e) => {
               handleJana(e.target.value);
             }}
-            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
           >
-            PG211
+            PG101C
+          </button>
+          <button
+            value='PG211A'
+            onClick={(e) => {
+              handleJana(e.target.value);
+            }}
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
+          >
+            PG211A
+          </button>
+          <button
+            value='PG211C'
+            onClick={(e) => {
+              handleJana(e.target.value);
+            }}
+            className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded mr-3'
+          >
+            PG211C
           </button>
         </div>
       </div>
@@ -283,7 +304,7 @@ export default function Klinik() {
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
         <div className='grid grid-cols-3 gap-2'>
-          <JanaReten data={data} />
+          {/* <JanaReten data={data} id={id} /> */}
           <Statistik data={data} />
           <DataKlinik data={data} />
         </div>
