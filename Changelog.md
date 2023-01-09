@@ -1,5 +1,33 @@
 # Changelog
 
+### 8/1/2023 (v2.0.7)
+
+#### Added
+
+- Menambah 3 jenis enrolmen ketika mengemaskini taska & tadika di modul Pentadbir bagi Pentadbir Klinik (diminta semua Pentadbir Klinik mengemaskini semula enrolmen taska/tadika di modul Pentadbir)
+- Perubahan-perubahan di dalam sistem di dokumentasikan dan pautan tersebut boleh didapatkan di sebelah pautan meja bantuan
+
+#### Changed
+
+- Sekiranya skor BPE pesakit adalah 4 & memilih tidak bagi pakar periodontik di rujukan berkaitan terapi periodontium, pilihan jawapan "Enggan" atau "Lain-lain" bagi rujukan tersebut adalah wajib
+- Menggunakan format tarikh DD/MM/YYYY bagi laman pertama di modul Pentadbir
+
+#### Fixed
+
+- Penstrukturan semula cara pengendalian data bagi submodul media sosial di modul Pentadbir bagi Pentadbir Klinik, Pentadbir Daerah & Pentadbir Negeri
+- Membetulkan nama label yang sama bagi lain-lain di terapi periodontium & rawatan lain periodontik
+- Tidak boleh memilih KPB atau MPB yang sama bagi penggunaan yang ke-2 & ke-3
+- Sekiranya penggunaan KPB atau MPB tidak ditanda, penggunaan KPB & MPB yang ke-2 dan ke-3 dijadikan kosong semula
+- Menyenaraikan penggunaan KPB & MPB yang ke-2 dan ke-3 di dalam senarai program komuniti di modul Pentadbir bagi Pentadbir Klinik
+- Memperbaiki penggunaan _auto fill_ bagi pesakit yang menggunakan data sedia ada supaya perincian pesakit dalam penyemakan semula semasa pendaftaran adalah betul
+
+#### Removed
+
+- Enrolmen taska & tadika tidak lagi perlu dimasukkan di modul Pentadbir bagi Pentadbir Daerah
+- Butang jana reten PG101 di submodul senarai daftar pesakit ditutup buat sementara waktu untuk penambahbaikan yang terakhir
+- Membuang carta-carta pesakit di paparan masuk pertama selepas Pentadbir Daerah & Pentadbir Negeri log masuk di modul Pentadbir
+- Menutup penjanaan reten di semua modul di dalam sistem sehingga pemberitahuan semula kelak
+
 ### 7/1/2023 (v2.0.6)
 
 #### Added:
