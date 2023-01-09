@@ -705,37 +705,6 @@ const getOneDataKpRoute = async (req, res) => {
   res.status(200).json(data);
 };
 
-const getStatisticsData = async (req, res) => {
-  console.log('getStatisticsRoute');
-  // 1st phase
-  const authKey = req.headers.authorization;
-  const currentUser = await Superadmin.findById(
-    jwt.verify(authKey, process.env.JWT_SECRET).userId
-  );
-  console.log(req.query);
-  let negeri, daerah;
-  const userData = currentUser.getProfile();
-  if (userData.negeri === '-') {
-    negeri = req.query.negeri;
-    daerah = req.query.daerah;
-  } else {
-    negeri = userData.negeri;
-    daerah = userData.daerah;
-  }
-  // 2nd phase
-  let data;
-  if (negeri && daerah) {
-    console.log('get daerah');
-    data = await User.find({ negeri: negeri, daerah: daerah }).distinct('kp');
-  } else if (negeri && !daerah) {
-    console.log('get daerah');
-    data = await User.find({ negeri: negeri }).distinct('daerah');
-  }
-  // 3rd phase
-  console.log(data);
-  res.status(200).json(data);
-};
-
 const postRoute = async (req, res) => {
   console.log('postRoute');
 };
@@ -2703,7 +2672,6 @@ module.exports = {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
-  getStatisticsData,
   processOperatorQuery,
   processFasilitiQuery,
   processKkiakdQuery,
