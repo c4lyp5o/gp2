@@ -712,7 +712,7 @@ const getStatisticsData = async (req, res) => {
   const currentUser = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
-  console.log(req.query);
+  // console.log(req.query);
   let negeri, daerah;
   const userData = currentUser.getProfile();
   if (userData.negeri === '-') {
@@ -726,13 +726,26 @@ const getStatisticsData = async (req, res) => {
   let data;
   if (negeri && daerah) {
     console.log('get daerah');
-    data = await User.find({ negeri: negeri, daerah: daerah }).distinct('kp');
+    // data = await User.find({ negeri: negeri, daerah: daerah }).distinct('kp');
+    data = await Umum.find({
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+    })
+      .select(
+        'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
+      )
+      .lean();
   } else if (negeri && !daerah) {
-    console.log('get daerah');
-    data = await User.find({ negeri: negeri }).distinct('daerah');
+    console.log('get negeri');
+    // data = await User.find({ negeri: negeri }).distinct('daerah');
+    data = await Umum.find({ createdByNegeri: negeri })
+      .select(
+        'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
+      )
+      .lean();
   }
   // 3rd phase
-  console.log(data);
+  // console.log(data);
   res.status(200).json(data);
 };
 
