@@ -17,12 +17,6 @@ import Navbar from '../components/Navbar';
 import AdminCenterStage from '../components/superadmin/AdminCenterStage';
 import KpCenterStage from '../components/admin-kp/KpCenterStage';
 
-// negeri details
-import Negeri from '../components/superadmin/Negeri';
-
-// daerah details
-import Daerah from '../components/superadmin/Daerah';
-
 // klinik details
 import Klinik from '../components/superadmin/Klinik';
 
@@ -140,8 +134,6 @@ export default function AdminAfterLogin() {
           {loginInfo.accountType !== 'kpUser' ? (
             <>
               <Route index element={<AdminCenterStage {...props} />} />
-              <Route path='negeri' element={<Negeri />} />
-              <Route path='daerah' element={<Daerah />} />
               <Route path='klinik' element={<Klinik />} />
               <Route path='kkiakd' element={<Data FType='kkiakd' />} />
               <Route path='kp' element={<Data FType='kp' />} />

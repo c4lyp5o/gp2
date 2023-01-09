@@ -7,7 +7,6 @@ import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 const Generate = (props) => {
   const {
     toast,
-    adminToken,
     masterDatePicker,
     readAllDaerahInNegeri,
     readAllKlinikInDaerah,
@@ -136,9 +135,6 @@ const Generate = (props) => {
             props.loginInfo.daerah
           }&klinik=${pilihanKlinik}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
           {
-            headers: {
-              Authorization: adminToken,
-            },
             responseType: 'blob',
           }
         ),
