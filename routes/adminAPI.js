@@ -19,6 +19,7 @@ const {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
+  getStatisticsData,
   processOperatorQuery,
   processFasilitiQuery,
   processKkiakdQuery,
@@ -40,6 +41,9 @@ router.get('/getdata', adminAuth, getDataRoute);
 router.get('/getkpdata', adminAuth, getDataKpRoute);
 router.get('/getonedata', adminAuth, getOneDataRoute);
 router.get('/getonekpdata', adminAuth, getOneDataKpRoute);
+
+// Statistics
+router.get('/getstats', adminAuth, getStatisticsData);
 
 // Operator
 router.get('/getoperator', adminAuth, processOperatorQuery);

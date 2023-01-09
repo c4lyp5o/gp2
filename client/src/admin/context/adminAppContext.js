@@ -161,6 +161,17 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
+  const getStatsData = async (negeri, daerah) => {
+    const response = await axios.get(
+      `/api/v1/superadmin/getstats?negeri=${negeri}&daerah=${daerah}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
+    return response;
+  };
 
   // data superadmin
   const createData = async (type, data) => {
@@ -179,10 +190,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readData = async (type) => {
-    // if (type === 'kkiakd') {
-    //   let response = { data: [] };
-    //   return response;
-    // }
     const response = await axios.get(
       `/api/v1/superadmin/getdata?FType=${type}`,
       {
@@ -304,27 +311,6 @@ function AdminAppProvider({ children }) {
       console.log(err);
       return err;
     }
-  };
-
-  // get all daerah in negeri
-  const readAllDaerahInNegeri = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'SuperadminCenter',
-      Fn: 'readDaerah',
-      token: adminToken,
-    });
-    return response;
-  };
-
-  // get all klinik in daerah
-  const readAllKlinikInDaerah = async (daerah) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'SuperadminCenter',
-      Fn: 'readKlinik',
-      daerah: daerah,
-      token: adminToken,
-    });
-    return response;
   };
 
   // read fasiliti data
@@ -691,12 +677,11 @@ function AdminAppProvider({ children }) {
         // misc data
         readOperatorData,
         readKkiaData,
-        // readPegawaiData,
         readSekolahData,
         readFasilitiData,
         readKodProgramData,
-        readAllDaerahInNegeri,
-        readAllKlinikInDaerah,
+        // stats data
+        getStatsData,
         // misc
         getCurrentUser,
         saveCurrentUser,
