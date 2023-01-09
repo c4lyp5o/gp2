@@ -71,7 +71,7 @@ export default function Tastad(props) {
                     {f.alamatTastad}
                   </td> */}
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.enrolmenTastad === 0
+                    {f.enrolmenTastad === 'NOT APPLICABLE'
                       ? 'Belum ditetapkan'
                       : f.enrolmenTastad}
                   </td>

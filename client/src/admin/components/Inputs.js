@@ -921,7 +921,7 @@ export function InputFacility(props) {
                         id='catatan'
                         onChange={(e) => props.setAlamatTastad(e.target.value)}
                       />
-                      <div>
+                      {/* <div>
                         <p>
                           Enrolmen {Dictionary[props.FType]}
                           <span className='font-semibold text-lg text-user6'>
@@ -929,7 +929,7 @@ export function InputFacility(props) {
                           </span>
                         </p>
                       </div>
-                      {/* <div className='grid gap-1'>
+                      <div className='grid gap-1'>
                         <input
                           required
                           className='border-2'
@@ -2497,7 +2497,6 @@ export function InputKpEditFacility(props) {
         parseInt(props.editedEntity.enrolmen6Tahun),
     });
   }, [
-    props.editedEntity.enrolmenTastad,
     props.editedEntity.enrolmenKurang4Tahun,
     props.editedEntity.enrolmen5Tahun,
     props.editedEntity.enrolmen6Tahun,
@@ -2534,6 +2533,7 @@ export function InputKpEditFacility(props) {
                   <span className='font-semibold text-lg text-user6'>*</span>
                 </label>
                 <input
+                  disabled
                   required
                   type='number'
                   min='1'
@@ -2553,7 +2553,7 @@ export function InputKpEditFacility(props) {
                 </label>
                 <input
                   type='number'
-                  min='1'
+                  min='0'
                   className='border-2'
                   value={props.editedEntity.enrolmenKurang4Tahun}
                   onChange={(e) => {
@@ -2568,7 +2568,7 @@ export function InputKpEditFacility(props) {
                 <label htmlFor='enrolment5Tahun'>Enrolmen 5 Tahun:</label>
                 <input
                   type='number'
-                  min='1'
+                  min='0'
                   className='border-2'
                   value={props.editedEntity.enrolmen5Tahun}
                   onChange={(e) => {
@@ -2583,7 +2583,7 @@ export function InputKpEditFacility(props) {
                 <label htmlFor='enrolment6Tahun'>Enrolmen 6 Tahun:</label>
                 <input
                   type='number'
-                  min='1'
+                  min='0'
                   className='border-2'
                   value={props.editedEntity.enrolmen6Tahun}
                   onChange={(e) => {
