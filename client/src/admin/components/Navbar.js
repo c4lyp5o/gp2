@@ -509,7 +509,7 @@ export default function Navbar(props) {
               >
                 AD-HOC QUERY
               </NavLink> */}
-                {/* <NavLink
+                <NavLink
                   className={({ isActive }) =>
                     isActive
                       ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
@@ -519,7 +519,7 @@ export default function Navbar(props) {
                   onClick={() => setShowLinks(!showLinks)}
                 >
                   PENJANAAN RETEN
-                </NavLink> */}
+                </NavLink>
                 <div>
                   <div
                     className={`${
@@ -580,7 +580,7 @@ export default function Navbar(props) {
               >
                 AD-HOC QUERY
               </NavLink> */}
-                {/* <NavLink
+                <NavLink
                   className={({ isActive }) =>
                     isActive
                       ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
@@ -590,7 +590,7 @@ export default function Navbar(props) {
                   onClick={() => setShowLinks(!showLinks)}
                 >
                   PENJANAAN RETEN
-                </NavLink> */}
+                </NavLink>
                 {/* <div>
                   <div
                     className={`${
