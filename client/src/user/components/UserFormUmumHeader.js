@@ -36,47 +36,70 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   const theCheckTPRShow = () => {
-    if (
-      (singlePersonUmum.umur <= 17 &&
-        skorGisMulutOralHygienePemeriksaanUmum === '') ||
-      skorBpeOralHygienePemeriksaanUmum === ''
-    ) {
-      return toast('Sila isi semua maklumat pemeriksaan');
-    }
+    // off sementara sekolahIDC ada masalah nak tick sbb takde bpe & gis
+    // if (
+    //   (singlePersonUmum.umur <= 17 &&
+    //     skorGisMulutOralHygienePemeriksaanUmum === '') ||
+    //   (singlePersonUmum.umur >= 15 &&
+    //     skorBpeOralHygienePemeriksaanUmum === '') ||
+    //   (sekolahIdc === 'umum-sekolah' &&
+    //     singlePersonUmum.umur <= 17 &&
+    //     skorGisMulutOralHygienePemeriksaanUmum !== '') ||
+    //   (sekolahIdc === 'umum-sekolah' &&
+    //     singlePersonUmum.umur >= 15 &&
+    //     skorBpeOralHygienePemeriksaanUmum !== '')
+    // ) {
+    //   return toast.info('Sila isi semua maklumat pemeriksaan');
+    // }
     if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai d'
+      );
     }
     if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai D'
+      );
     }
     if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai x'
+      );
     }
     if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai X'
+      );
     }
     if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 1'
+      );
     }
     if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 3'
+      );
     }
     if (parseInt(skorBpeOralHygienePemeriksaanUmum) > 0) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana BPE selain 0'
+      );
     }
     if (perluPenskaleranPemeriksaanUmum) {
       setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast('No TPR');
+      return toast.info(
+        'Tidak layak Tidak Perlu Rawatan(TPR) kerana perlu penskaleran'
+      );
     }
     setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
-    toast('Layak TPR');
   };
 
   // creating masterForm object to be used by the form
@@ -2398,7 +2421,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       operatorLain={operatorLain}
-                      theCheckTPRShow={theCheckTPRShow}
                     />
                     <Promosi
                       {...masterForm}
