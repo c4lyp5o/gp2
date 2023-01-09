@@ -11284,7 +11284,7 @@ const getParams2 = (payload, reten) => {
       tarikhKedatangan: {
         $gte: bulan,
       },
-      createdByKp: {
+      createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
