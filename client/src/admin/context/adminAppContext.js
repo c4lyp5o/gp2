@@ -327,152 +327,53 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  // // read pegawai data
-  // const readPegawaiData = async () => {
-  //   const response = await axios.get('https://erkm.calypsocloud.one/pegawai');
-  //   const currentPegawai = await readData('pp');
-  //   if (currentPegawai.data.length === 0) {
-  //     console.log('no pegawai');
-  //     return response.data;
-  //   }
-  //   console.log('current pegawai', currentPegawai.data);
-  //   for (let j = 0; j < currentPegawai.data.length; j++) {
-  //     const deletePegawai = response.data
-  //       .map((e) => e.mdcNumber)
-  //       .indexOf(parseInt(currentPegawai.data[j].mdcNumber));
-  //     response.data.splice(deletePegawai, 1);
-  //   }
-  //   return response.data;
-  // };
-
   // read fasiliti data
   const readFasilitiData = async ({ negeri, daerah }) => {
-    const response = await axios.get(
-      `https://g2u.calypsocloud.one/api/getfs?negeri=${negeri}&daerah=${daerah}`
-    );
-    const currentFasiliti = await readData('kp');
-    if (currentFasiliti.data.length === 0) {
-      console.log('no fasiliti');
-      return response;
-    }
-    console.log('current fasiliti', currentFasiliti.data);
-    for (let j = 0; j < currentFasiliti.data.length; j++) {
-      const deleteFasiliti = response.data
-        .map((e) => e.kodFasilitiGiret)
-        .indexOf(currentFasiliti.data[j].kodFasiliti);
-      response.data.splice(deleteFasiliti, 1);
-    }
-    return response;
-  };
-
-  // read dpims data
-  const readDpimsData = async (nama) => {
     try {
       const response = await axios.get(
-        `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
+        `/api/v1/superadmin/getfasiliti?negeri=${negeri}&daerah=${daerah}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
       );
-      const currentPegawai = await readData('ppall');
-      console.log('current pegawai', currentPegawai.data);
-      if (currentPegawai.data.length === 0) {
-        return response.data;
-      }
-      if (response.data.length === 1) {
-        const match = currentPegawai.data
-          .map((e) => (e.mdcNumber ? parseInt(e.mdcNumber) : ''))
-          .includes(response.data[0].mdcNumber);
-        console.log(match);
-        if (match) {
-          return false;
-        }
-        return response.data;
-      }
-      if (response.data.length > 1) {
-        for (let j = 0; j < currentPegawai.data.length; j++) {
-          const deletePegawai = response.data
-            .map((e) => e.mdcNumber)
-            .indexOf(
-              currentPegawai.data[j].mdcNumber
-                ? parseInt(currentPegawai.data[j].mdcNumber)
-                : ''
-            );
-          if (deletePegawai !== -1) {
-            response.data.splice(deletePegawai, 1);
-          }
-        }
-        return response.data;
-      }
+      return response;
     } catch (err) {
       return false;
     }
   };
 
-  // get mdtb data
-  const readMdtbData = async (nama) => {
+  // read operator data
+  const readOperatorData = async (type, nama) => {
     try {
       const response = await axios.get(
-        `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
+        `/api/v1/superadmin/getoperator?nama=${nama}&type=${type}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
       );
-      const currentJp = await readData('jpall');
-      if (currentJp.data.length === 0) {
-        return response.data;
-      }
-      if (response.data.length === 1) {
-        const match = currentJp.data
-          .map((e) => e.mdtbNumber)
-          .includes(response.data[0].mdtbNumber);
-        if (match) {
-          return false;
-        }
-        return response.data;
-      }
-      if (response.data.length > 1) {
-        for (let j = 0; j < currentJp.data.length; j++) {
-          const deleteJp = response.data
-            .map((e) => e.mdtbNumber)
-            .indexOf(currentJp.data[j].mdtbNumber);
-          if (deleteJp !== -1) {
-            response.data.splice(deleteJp, 1);
-          }
-        }
-        return response.data;
-      }
-    } catch (error) {
+      return response.data;
+    } catch (err) {
       return false;
     }
   };
 
   // get kkia data
-  const readKkiaData = async ({ negeri, daerah }) => {
+  const readKkiaData = async ({ negeri }) => {
     try {
       const response = await axios.get(
-        `https://g2u.calypsocloud.one/api/getkkiakd?negeri=${negeri}`
+        `/api/v1/superadmin/getkkiakd?negeri=${negeri}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
       );
-      const currentKkia = await readData('kkiakd');
-      if (currentKkia.data.length === 0) {
-        return response;
-      }
-      if (response.data.length === 1) {
-        const match = currentKkia.data
-          .map((e) => e.kodKkiaKd)
-          .includes(response.data[0].kodFasiliti);
-        if (match) {
-          return false;
-        }
-        return response;
-      }
-      if (response.data.length > 1) {
-        for (let j = 0; j < currentKkia.data.length; j++) {
-          const deleteKkia = response.data
-            .map((e) => e.kodFasiliti)
-            .indexOf(currentKkia.data[j].kodKkiaKd);
-          if (deleteKkia !== -1) {
-            response.data.splice(deleteKkia, 1);
-          }
-        }
-        return response;
-      }
       return response;
-    } catch (error) {
+    } catch (err) {
       return false;
     }
   };
@@ -616,6 +517,7 @@ function AdminAppProvider({ children }) {
     sr: 'Sekolah Rendah',
     sm: 'Sekolah Menengah',
     ins: 'Institusi',
+    statik: 'Klinik Pergigian Statik',
     kpb: 'Klinik Pergigian Bergerak',
     'kp-bergerak': 'Klinik Pergigian Bergerak',
     mp: 'Makmal Pergigian Bergerak',
@@ -787,8 +689,7 @@ function AdminAppProvider({ children }) {
         updateDataForKp,
         deleteDataForKp,
         // misc data
-        readDpimsData,
-        readMdtbData,
+        readOperatorData,
         readKkiaData,
         // readPegawaiData,
         readSekolahData,

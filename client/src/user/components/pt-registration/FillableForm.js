@@ -77,8 +77,8 @@ export default function FillableForm({
   const [episodMengandung, setEpisodMengandung] = useState('');
   const [bookingIM, setBookingIM] = useState('');
   const [mengandungDahGravida, setMengandungDahGravida] = useState(false);
-  const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [bersekolah, setBersekolah] = useState(false);
+  const [orangKurangUpaya, setOrangKurangUpaya] = useState(false);
   const [noOku, setNoOku] = useState('');
   const [statusPesara, setStatusPesara] = useState('');
   const [noPesara, setNoPesara] = useState('');
@@ -210,7 +210,7 @@ export default function FillableForm({
 
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const years = Math.floor(diff / 31556736000);
@@ -220,7 +220,7 @@ export default function FillableForm({
 
   // kira bulan
   const howOldAreYouMyFriendbulan = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -231,7 +231,7 @@ export default function FillableForm({
 
   //kira days
   const howOldAreYouMyFrienddays = (date) => {
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -291,7 +291,7 @@ export default function FillableForm({
     const year = ic.substring(0, 2);
     const month = ic.substring(2, 4);
     const day = ic.substring(4, 6);
-    const today = new Date();
+    const today = new Date(dateToday);
     const dob = new Date(`19${year}-${month}-${day}`);
     const dob2 = new Date(`20${year}-${month}-${day}`);
     const diff = today.getTime() - dob.getTime();
@@ -425,69 +425,66 @@ export default function FillableForm({
         umurBulan,
         umurHari,
         jantina,
-        nomborTelefon,
-        nomborTelefon2,
-        emel,
+        kumpulanEtnik,
         alamat,
         daerahAlamat,
         negeriAlamat,
         poskodAlamat,
-        kumpulanEtnik,
-        ibuMengandung,
+        nomborTelefon,
+        nomborTelefon2,
+        emel,
+        // ibuMengandung,
+        // bersekolah,
         orangKurangUpaya,
-        bersekolah,
-        noOku,
         statusPesara,
       } = response.data.person;
+      setIc(ic);
       setNama(nama);
       setTarikhLahir(tarikhLahir);
-      setIc(ic);
       setUmur(umur);
       setUmurBulan(umurBulan);
       setUmurHari(umurHari);
       setJantina(jantina);
-      setNomborTelefon(nomborTelefon);
-      setNomborTelefon2(nomborTelefon2);
-      setEmel(emel);
+      setKumpulanEtnik(kumpulanEtnik);
       setAlamat(alamat);
       setDaerahAlamat(daerahAlamat);
       setNegeriAlamat(negeriAlamat);
       setPoskodAlamat(poskodAlamat);
-      setKumpulanEtnik(kumpulanEtnik);
-      setIbuMengandung(ibuMengandung);
+      setNomborTelefon(nomborTelefon);
+      setNomborTelefon2(nomborTelefon2);
+      setEmel(emel);
+      // setIbuMengandung(ibuMengandung);
+      // setBersekolah(bersekolah)
       setOrangKurangUpaya(orangKurangUpaya);
-      setBersekolah(bersekolah);
-      setNoOku(noOku);
       setStatusPesara(statusPesara);
       //datepicker issues
       setTarikhLahirDP(new Date(tarikhLahir));
       setConfirmData({
-        nama,
-        tarikhLahir,
-        ic,
-        umur,
-        umurBulan,
-        umurHari,
-        jantina,
-        nomborTelefon,
-        nomborTelefon2,
-        emel,
-        alamat,
-        daerahAlamat,
-        negeriAlamat,
-        poskodAlamat,
-        kumpulanEtnik,
-        ibuMengandung,
-        orangKurangUpaya,
-        bersekolah,
-        noOku,
-        statusPesara,
-        noPesara,
+        ...confirmData,
+        ic: ic,
+        nama: nama,
+        tarikhLahir: tarikhLahir,
+        umur: umur,
+        umurBulan: umurBulan,
+        umurHari: umurHari,
+        jantina: jantina,
+        kumpulanEtnik: kumpulanEtnik,
+        alamat: alamat,
+        daerahAlamat: daerahAlamat,
+        negeriAlamat: negeriAlamat,
+        poskodAlamat: poskodAlamat,
+        nomborTelefon: nomborTelefon,
+        nomborTelefon2: nomborTelefon2,
+        emel: emel,
+        // ibuMengandung,
+        // bersekolah,
+        orangKurangUpaya: orangKurangUpaya,
+        statusPesara: statusPesara,
       });
       toast.success('Menggunakan data sedia ada');
       return true;
     } catch (error) {
-      toast.error('Pesakit tidak pernah didaftarkan sebelum ini');
+      toast.warning('Pesakit tidak pernah didaftarkan sebelum ini');
       return false;
     }
   };
@@ -949,7 +946,14 @@ export default function FillableForm({
     }
   }, [kedatanganKepp]);
 
-  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika  when change fasilitiTaskaTadika
+  // reset kelasToddler when change fasilitiTaskaTadika
+  useEffect(() => {
+    if (!editId) {
+      setKelasToddler(false);
+    }
+  }, [fasilitiTaskaTadika]);
+
+  // reset namaFasilitiTaskaTadika & kodFasilitiTaskaTadika when change fasilitiTaskaTadika
   useEffect(() => {
     if (!editId) {
       setNamaFasilitiTaskaTadika('');
@@ -1888,10 +1892,14 @@ export default function FillableForm({
                                 htmlFor='episod-mengandung'
                                 className='m-2 text-left font-light'
                               >
-                                Gravida Mengandung
+                                Gravida Mengandung{' '}
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
                               </label>
                               <div className='relative w-full md:w-48'>
                                 <select
+                                  required
                                   name='episod-mengandung'
                                   id='episod-mengandung'
                                   value={episodMengandung}
@@ -1936,9 +1944,13 @@ export default function FillableForm({
                             <div className='flex flex-col md:flex-row text-xs md:text-sm'>
                               <p className='text-left font-light m-2'>
                                 didaftarkan di KKIA pada tahun semasa
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
                               </p>
                               <div className='flex items-center'>
                                 <input
+                                  required
                                   type='radio'
                                   name='booking-im'
                                   id='ya-booking-im'
@@ -1958,6 +1970,7 @@ export default function FillableForm({
                               </div>
                               <div className='flex items-center'>
                                 <input
+                                  required
                                   type='radio'
                                   name='booking-im'
                                   id='tidak-booking-im'
@@ -2744,25 +2757,27 @@ export default function FillableForm({
                           <option value='tadika'>Tadika</option>
                         </select>
                       </div>
-                      <div className='overflow-x-auto'>
-                        <input
-                          type='checkbox'
-                          id='kelas-toddler'
-                          name='kelas-toddler'
-                          value='kelas-toddler'
-                          checked={kelasToddler}
-                          onChange={() => {
-                            setKelasToddler(!kelasToddler);
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='kelas-toddler'
-                          className='ml-2 text-sm font-m'
-                        >
-                          Kelas toddler
-                        </label>
-                      </div>
+                      {fasilitiTaskaTadika === 'tadika' && (
+                        <div className='overflow-x-auto'>
+                          <input
+                            type='checkbox'
+                            id='kelas-toddler'
+                            name='kelas-toddler'
+                            value='kelas-toddler'
+                            checked={kelasToddler}
+                            onChange={() => {
+                              setKelasToddler(!kelasToddler);
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='kelas-toddler'
+                            className='ml-2 text-sm font-m'
+                          >
+                            Kelas toddler
+                          </label>
+                        </div>
+                      )}
                     </article>
                     <p className='font-semibold'>
                       nama fasiliti{' '}

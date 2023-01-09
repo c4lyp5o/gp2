@@ -84,7 +84,7 @@ export function SubmitButton({ func, level }) {
       level.pilihanNegeri === 'hqputrajaya' &&
       level.pilihanDaerah === '' &&
       level.pilihanKlinik === ''
-        ? `Log masuk sebagai PKP KKM HQ`
+        ? `Log masuk sebagai PKP KKM`
         : null}
       {func === 'pentadbir' &&
       level.pilihanNegeri !== '' &&

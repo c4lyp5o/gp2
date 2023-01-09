@@ -173,7 +173,7 @@ const AddModal = ({
         ...Data,
         kodTastad: kodTastad,
         alamatTastad: alamatTastad,
-        enrolmenTastad: enrolmenTastad,
+        // enrolmenTastad: enrolmenTastad, //enrolmentTastad ditetapkan di Pentadbir Klinik
         govKe: govKe,
       };
     }
@@ -607,6 +607,33 @@ const EditModalForKp = ({
       });
     }
     readOneDataForKp(FType, id).then((res) => {
+      if (FType === 'tastad') {
+        // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
+        if (
+          res.data.enrolmenTastad === 'NOT APPLICABLE' ||
+          res.data.enrolmenTastad === null
+        ) {
+          res.data.enrolmenTastad = 0;
+        }
+        if (
+          res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
+          res.data.enrolmenKurang4Tahun === null
+        ) {
+          res.data.enrolmenKurang4Tahun = 0;
+        }
+        if (
+          res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
+          res.data.enrolmen5Tahun === null
+        ) {
+          res.data.enrolmen5Tahun = 0;
+        }
+        if (
+          res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
+          res.data.enrolmen6Tahun === null
+        ) {
+          res.data.enrolmen6Tahun = 0;
+        }
+      }
       setEditedEntity(res.data);
       res.data.tarikhStart
         ? setStartDateDP(new Date(res.data.tarikhStart))
@@ -620,7 +647,7 @@ const EditModalForKp = ({
     }, 500);
   }, []);
 
-  // reset tarikhEnd if change tarikhStart
+  // resetting tarikhEnd kalau ubah tarikh start. A MUST TO NOT LET USER PICK tarikhStart LATER THAN tarikhEnd. Yup currently kalau buka kemaskini tarikhEnd tu akan reset kat display. Tapi ni lah cara buat masa ni untuk guard daripada user yang salah masuk tarikhStart terlebih dari tarikhEnd
   useEffect(() => {
     setEditedEntity({ ...props.editedEntity, tarikhEnd: '' });
     setEndDateDP(null);
@@ -634,6 +661,18 @@ const EditModalForKp = ({
     //   handler: currentKp.current,
     // };
     if (FType === 'program') {
+      if (editedEntity.modPenyampaianPerkhidmatan.includes('kpb')) {
+        if (editedEntity.penggunaanKpb === 'NOT APPLICABLE') {
+          toast.error(`Sila masukkan penggunaan KPB`);
+          return;
+        }
+      }
+      if (editedEntity.modPenyampaianPerkhidmatan.includes('mpb')) {
+        if (editedEntity.penggunaanMpb === 'NOT APPLICABLE') {
+          toast.error(`Sila masukkan penggunaan MPB`);
+          return;
+        }
+      }
       Data = {
         // nama: currentName.current,
         createdByKp: kp,
@@ -662,9 +701,15 @@ const EditModalForKp = ({
       };
     }
     if (FType === 'tastad') {
+      if (editedEntity.enrolmenTastad === 0) {
+        return toast.error('Jumlah enrolmen taska/tadika tidak boleh 0');
+      }
       Data = {
         // nama: currentName.current,
         enrolmenTastad: editedEntity.enrolmenTastad,
+        enrolmenKurang4Tahun: editedEntity.enrolmenKurang4Tahun,
+        enrolmen5Tahun: editedEntity.enrolmen5Tahun,
+        enrolmen6Tahun: editedEntity.enrolmen6Tahun,
       };
     }
     if (FType === 'ins') {
@@ -697,9 +742,13 @@ const EditModalForKp = ({
       let reset = {};
       if (e.includes('kpb')) {
         reset.penggunaanKpb = 'NOT APPLICABLE';
+        reset.penggunaanKpb2 = 'NOT APPLICABLE';
+        reset.penggunaanKpb3 = 'NOT APPLICABLE';
       }
       if (e.includes('mpb')) {
         reset.penggunaanMpb = 'NOT APPLICABLE';
+        reset.penggunaanMpb2 = 'NOT APPLICABLE';
+        reset.penggunaanMpb3 = 'NOT APPLICABLE';
       }
       setEditedEntity({
         ...editedEntity,
@@ -779,6 +828,7 @@ const EditModalForKp = ({
 
 const DeleteModal = ({
   FType,
+  accountType,
   setShowDeleteModal,
   id,
   deleteCandidate,
@@ -790,44 +840,45 @@ const DeleteModal = ({
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (FType === 'program') {
-      deleteDataForKp(FType, id).then((res) => {
-        if (res.status === 200) {
-          toast.info(`Data berjaya dipadam`);
-          setShowDeleteModal(false);
-          setDeletingData(false);
-          setReload(!reload);
-          return;
-        }
-        if (res.response.status !== 200) {
-          console.log(res);
-          setShowDeleteModal(false);
-          setDeletingData(false);
-          if (FType === 'program')
-            return toast.error(`${res.response.data.msg}`);
-          toast.error(
-            `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-          );
-        }
-      });
-    }
-    if (FType !== 'program') {
-      deleteData(FType, id).then((res) => {
-        if (res.status === 200) {
-          toast.info(`Data berjaya dipadam`);
-          setShowDeleteModal(false);
-          setDeletingData(false);
-          setReload(!reload);
-          return;
-        }
-        if (res.response.status !== 200) {
-          toast.error(
-            `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-          );
-          setShowDeleteModal(false);
-          setDeletingData(false);
-        }
-      });
+    switch (accountType) {
+      case 'kpUser':
+        deleteDataForKp(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            console.log(res);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            toast.error(`${res.response.data.msg}`);
+          }
+        });
+        break;
+      case 'negeriSuperadmin':
+      case 'daerahSuperadmin':
+        deleteData(FType, id).then((res) => {
+          if (res.status === 200) {
+            toast.info(`Data berjaya dipadam`);
+            setShowDeleteModal(false);
+            setDeletingData(false);
+            setReload(!reload);
+            return;
+          }
+          if (res.response.status !== 200) {
+            toast.error(
+              `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+            );
+            setShowDeleteModal(false);
+            setDeletingData(false);
+          }
+        });
+        break;
+      default:
+        break;
     }
   };
 
@@ -850,7 +901,10 @@ const DeleteModal = ({
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </button>
             <div className={styles.modalContent}>
-              Anda YAKIN untuk menghapus {deleteCandidate}?
+              Anda YAKIN untuk menghapus{' '}
+              <span className='text-xl font-bold text-admin2 mt-2'>
+                {deleteCandidate}?
+              </span>
             </div>
             <div className={styles.modalActions}>
               <div className={styles.actionsContainer}>

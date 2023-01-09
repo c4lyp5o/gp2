@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import moment from 'moment';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -131,29 +132,57 @@ export default function AdminCenterStage(props) {
 
   return (
     <>
-      {data.map((item) => {
-        return (
-          <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
+      <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5'>
+        {props.loginInfo.accountType === 'daerahSuperadmin' ||
+        props.loginInfo.accountType === 'daerahSuperadmin' ? (
+          <h1>
+            Selamat datang, pentadbir{' '}
+            {props.loginInfo.accountType === 'daerahSuperadmin' ? (
+              <span>daerah {props.loginInfo.daerah}</span>
+            ) : (
+              <span>negeri {props.loginInfo.negeri}</span>
+            )}
+          </h1>
+        ) : (
+          <h1>Selamat datang, BIG BOSS</h1>
+        )}
+        <p>
+          Hari ini{' '}
+          {moment(new Date().toLocaleDateString()).format('DD/MM/YYYY')}
+        </p>
+      </div>
+      <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
+        {data.map((item) => {
+          return (
             <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
               <img
-                className='w-1/2 mx-auto'
+                className={`w-1/2 mx-auto ${
+                  props.loginInfo.accountType === 'negeriSuperadmin'
+                    ? 'hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
+                    : ''
+                } mt-3`}
                 alt={item.namaNegeri}
                 src={FlagsDictionary[item.namaNegeri]}
+                onClick={() => {
+                  if (props.loginInfo.accountType === 'hqSuperadmin') {
+                    alert(`clicked ${item.namaNegeri}`);
+                  }
+                }}
               />
-              {item.daerah.map((item2, index) => {
+              {item.daerah.map((daerah, index) => {
                 return (
                   <div className='px-6 py-4 h-full'>
                     <div key={index} className='mb-2 underline'>
-                      {item2.namaDaerah}
+                      {daerah.namaDaerah}
                     </div>
-                    {item2.klinik.map((item3, index) => {
+                    {daerah.klinik.map((klinik, index) => {
                       return (
                         <a
                           key={index}
-                          href={`./landing/klinik?id=${item3.kodFasiliti}`}
+                          href={`./landing/klinik?id=${klinik.kodFasiliti}`}
                         >
                           <p className='text-user1 hover:bg-admin4 hover:rounded-md hover:text-adminWhite'>
-                            {item3.namaKlinik}
+                            {klinik.namaKlinik}
                           </p>
                         </a>
                       );
@@ -162,10 +191,10 @@ export default function AdminCenterStage(props) {
                 );
               })}
             </div>
-          </div>
-        );
-      })}
-      {data.map((item) => {
+          );
+        })}
+      </div>
+      {/* {data.map((item) => {
         return (
           <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
             <div className='w-1/2 rounded overflow-hidden shadow-lg relative flex flex-col'>
@@ -178,7 +207,7 @@ export default function AdminCenterStage(props) {
             </div>
           </div>
         );
-      })}
+      })} */}
     </>
   );
 }

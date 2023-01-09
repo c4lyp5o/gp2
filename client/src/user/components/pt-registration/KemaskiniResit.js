@@ -93,7 +93,7 @@ export default function KemaskiniResit({ setShowKemaskiniResit, editId }) {
         </h5>
         {!isLoading && (
           <form onSubmit={handleSubmit}>
-            <div className='p-5 mt-5'>
+            <div className='pt-1 px-5'>
               {jenisFasiliti === 'kp' ||
               jenisFasiliti === 'projek-komuniti-lain' ? (
                 <div>
