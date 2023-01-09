@@ -147,7 +147,7 @@ export default function AdminCenterStage(props) {
         )}
         <p>Hari ini {new Date().toLocaleDateString()}</p>
       </div>
-      <div className='flex mb-4 m-10 rounded mx-auto justify-center'>
+      <div className='grid grid-cols-5 mb-4 m-10 rounded justify-center'>
         {data.map((item) => {
           return (
             <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
@@ -161,9 +161,10 @@ export default function AdminCenterStage(props) {
                 src={FlagsDictionary[item.namaNegeri]}
                 onClick={() => {
                   if (props.loginInfo.accountType === 'hqSuperadmin') {
-                    navigate(
-                      `/pentadbir/landing/negeri?idn=${item.namaNegeri}`
-                    );
+                    // navigate(
+                    //   `/pentadbir/landing/negeri?idn=${item.namaNegeri}`
+                    // );
+                    toast.info('Coming Soon!');
                   }
                 }}
               />
@@ -172,15 +173,19 @@ export default function AdminCenterStage(props) {
                   <div className='px-6 py-4 h-full'>
                     <div
                       key={index}
-                      className='mb-2 underline hover:bg-admin3 hover:text-adminWhite hover:rounded-md hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
+                      className={`mb-2 underline ${
+                        props.loginInfo.accountType !== 'daerahSuperadmin'
+                          ? 'hover:bg-admin3 hover:text-adminWhite hover:rounded-md hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
+                          : ''
+                      }`}
                       onClick={() => {
                         if (
-                          props.loginInfo.accountType === 'hqSuperadmin' ||
-                          props.loginInfo.accountType === 'negeriSuperadmin'
+                          props.loginInfo.accountType !== 'daerahSuperadmin'
                         ) {
-                          navigate(
-                            `/pentadbir/landing/daerah?idn=${item.namaNegeri}&idd=${daerah.namaDaerah}`
-                          );
+                          // navigate(
+                          //   `/pentadbir/landing/daerah?idn=${item.namaNegeri}&idd=${daerah.namaDaerah}`
+                          // );
+                          toast.info('Coming Soon!');
                         }
                       }}
                     >

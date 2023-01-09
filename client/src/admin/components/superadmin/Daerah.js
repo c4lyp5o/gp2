@@ -277,8 +277,11 @@ export default function Daerah() {
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
         <div className='grid grid-cols-3 gap-2'>
-          hey {daerah}, klinik anda ada {data.length}
-          {data.map((item) => (
+          <p>
+            hey {daerah}, klinik anda ada {data.length}
+          </p>
+          <p>jumlah kedatangan pesakit: {data.length}</p>
+          {/* {data.map((item) => (
             <div key={item}>
               <div className='max-w rounded overflow-hidden shadow-lg'>
                 <div className='px-6 py-4'>
@@ -286,7 +289,7 @@ export default function Daerah() {
                 </div>
               </div>
             </div>
-          ))}
+          ))} */}
           {/* <JanaReten data={data} />
           <Statistik data={data} />
           <DataKlinik data={data} /> */}
