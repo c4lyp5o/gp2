@@ -448,7 +448,7 @@ const getDataRoute = async (req, res) => {
       data = await Operator.find({
         statusPegawai: 'pp',
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'pegawai':
       data = await Operator.find({
@@ -456,13 +456,13 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'jp-all':
       data = await Operator.find({
         statusPegawai: 'jp',
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -470,7 +470,7 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'program':
       data = await Event.find({
@@ -478,7 +478,7 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         assignedByDaerah: true,
         tahunDibuat: new Date().getFullYear(),
-      });
+      }).lean();
       break;
     case 'sosmed':
       countedData = [];
@@ -491,7 +491,7 @@ const getDataRoute = async (req, res) => {
       }
       sosMeddata = await Sosmed.find({
         belongsTo: owner,
-      });
+      }).lean();
       countedData = sosmedDataCompactor(sosMeddata);
       data = countedData;
       break;
@@ -505,7 +505,7 @@ const getDataRoute = async (req, res) => {
       }
       data = await Sosmed.find({
         belongsTo: owner,
-      });
+      }).lean();
       break;
     case 'followers':
       owner = '';
@@ -517,14 +517,14 @@ const getDataRoute = async (req, res) => {
       }
       data = await Followers.find({
         belongsTo: owner,
-      });
+      }).lean();
       break;
     default:
       data = await Fasiliti.find({
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-      });
+      }).lean();
       break;
   }
   // 3rd phase
@@ -558,7 +558,7 @@ const getDataKpRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         tahunDibuat: new Date().getFullYear(),
-      });
+      }).lean();
       break;
     case 'sosmed':
       countedData = [];
@@ -574,19 +574,19 @@ const getDataKpRoute = async (req, res) => {
     case 'sosmedByKodProgram':
       data = await Sosmed.find({
         belongsTo: kp,
-      });
+      }).lean();
       break;
     case 'followers':
       data = await Followers.find({
         belongsTo: kp,
-      });
+      }).lean();
       break;
     case 'tastad':
       data = await Fasiliti.find({
         jenisFasiliti: ['taska', 'tadika'],
         handler: kp,
         kodFasilitiHandler: kodFasiliti,
-      });
+      }).lean();
       data.sort((a, b) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
       });
@@ -597,7 +597,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -605,7 +605,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'institusi':
       data = await Fasiliti.find({
@@ -618,23 +618,23 @@ const getDataKpRoute = async (req, res) => {
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
-      });
+      }).lean();
       break;
     case 'kp-bergerak-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'kp-bergerak',
-      });
+      }).lean();
       break;
     case 'makmal-pergigian':
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
-      });
+      }).lean();
       break;
     case 'makmal-pergigian-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'makmal-pergigian',
-      });
+      }).lean();
       break;
     default:
       console.log('default');
@@ -660,16 +660,16 @@ const getOneDataRoute = async (req, res) => {
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id);
+      data = await Operator.findById(Id).lean();
       break;
     case 'klinik':
-      data = await User.findById(Id);
+      data = await User.findById(Id).lean();
       break;
     case 'program':
-      data = await Event.findById(Id);
+      data = await Event.findById(Id).lean();
       break;
     default:
-      data = await Fasiliti.findById(Id);
+      data = await Fasiliti.findById(Id).lean();
       break;
   }
   // 3rd phase
@@ -691,14 +691,14 @@ const getOneDataKpRoute = async (req, res) => {
   let data;
   switch (type) {
     case 'program':
-      data = await Event.findById(Id);
+      data = await Event.findById(Id).lean();
       break;
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id);
+      data = await Operator.findById(Id).lean();
       break;
     default:
-      data = await Fasiliti.findById(Id);
+      data = await Fasiliti.findById(Id).lean();
       break;
   }
   // 3rd phase
