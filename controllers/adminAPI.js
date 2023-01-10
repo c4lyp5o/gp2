@@ -8,7 +8,7 @@ const mailer = require('nodemailer');
 const moment = require('moment');
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
-const sharp = require('sharp');
+// const sharp = require('sharp');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
@@ -2076,17 +2076,17 @@ const getData = async (req, res) => {
         case 'resize':
           console.log('resize for image');
           const { image, type } = req.body;
-          const base64 = await resizeProfileImage(image, type);
-          if (base64 !== 'err') {
-            return res.status(200).json({
-              msg: 'success',
-              imgSrc: base64,
-            });
-          } else {
-            return res.status(400).json({
-              msg: 'error',
-            });
-          }
+          // const base64 = await resizeProfileImage(image, type);
+          // if (base64 !== 'err') {
+          //   return res.status(200).json({
+          //     msg: 'success',
+          //     imgSrc: base64,
+          //   });
+          // } else {
+          return res.status(400).json({
+            msg: 'error',
+          });
+          // }
           break;
         case 'read':
           console.log('read for image');
@@ -2260,30 +2260,30 @@ const generateRandomString = (length) => {
   return result;
 };
 
-const resizeProfileImage = async (file, type) => {
-  const tempFileBuffer = Buffer.from(file, 'base64');
-  const tempFileType = type.split('/')[1];
-  const name = generateRandomString(10) + '.' + tempFileType;
-  fs.writeFileSync(
-    path.resolve(process.cwd(), `./public/${name}`),
-    tempFileBuffer
-  );
-  try {
-    const resizedImage = await sharp(
-      path.resolve(process.cwd(), `./public/${name}`)
-    )
-      .resize(120, 120)
-      .sharpen()
-      .toBuffer();
-    const dataImagePrefix = `data:image/${tempFileType};base64,`;
-    const base64 = `${dataImagePrefix}${resizedImage.toString('base64')}`;
-    fs.unlinkSync(path.resolve(process.cwd(), `./public/${name}`));
-    return base64;
-  } catch (err) {
-    console.log(err);
-    return 'err';
-  }
-};
+// const resizeProfileImage = async (file, type) => {
+//   const tempFileBuffer = Buffer.from(file, 'base64');
+//   const tempFileType = type.split('/')[1];
+//   const name = generateRandomString(10) + '.' + tempFileType;
+//   fs.writeFileSync(
+//     path.resolve(process.cwd(), `./public/${name}`),
+//     tempFileBuffer
+//   );
+//   try {
+//     const resizedImage = await sharp(
+//       path.resolve(process.cwd(), `./public/${name}`)
+//     )
+//       .resize(120, 120)
+//       .sharpen()
+//       .toBuffer();
+//     const dataImagePrefix = `data:image/${tempFileType};base64,`;
+//     const base64 = `${dataImagePrefix}${resizedImage.toString('base64')}`;
+//     fs.unlinkSync(path.resolve(process.cwd(), `./public/${name}`));
+//     return base64;
+//   } catch (err) {
+//     console.log(err);
+//     return 'err';
+//   }
+// };
 
 const sosmedDataCompactor = (data) => {
   let countedData = [];
