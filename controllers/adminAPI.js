@@ -745,7 +745,6 @@ const getStatisticsData = async (req, res) => {
       .lean();
   }
   // 3rd phase
-  // console.log(data);
   res.status(200).json(data);
 };
 
@@ -2425,9 +2424,10 @@ const processOperatorQuery = async (req, res) => {
       const { data: allMatchingPP } = await axios.get(
         `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
       );
-      const mdcNumber = await Operator.find({ statusPegawai: 'pp' }).select(
-        'mdcNumber'
-      );
+      const mdcNumber = await Operator.find({
+        statusPegawai: 'pp',
+        activationStatus: true,
+      }).select('mdcNumber');
       const mdcNumbers = mdcNumber.map((mdc) => parseInt(mdc.mdcNumber));
       const filteredPP = allMatchingPP.filter(
         (item) => !mdcNumbers.includes(item.mdcNumber)
@@ -2441,9 +2441,10 @@ const processOperatorQuery = async (req, res) => {
       const { data: allMatchingJP } = await axios.get(
         `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
       );
-      const mdtbNumber = await Operator.find({ statusPegawai: 'jp' }).select(
-        'mdtbNumber'
-      );
+      const mdtbNumber = await Operator.find({
+        statusPegawai: 'jp',
+        activationStatus: true,
+      }).select('mdtbNumber');
       const mdtbNumbers = mdtbNumber.map((mdc) => mdc.mdtbNumber);
       const filteredJP = allMatchingJP.filter(
         (item) => !mdtbNumbers.includes(item.mdtbNumber)
