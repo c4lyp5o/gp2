@@ -44,7 +44,6 @@ const countPG101A = async (payload) => {
       noBayaran3: 1,
       noResit3: 1,
       catatan: '$catatan',
-      deleted: 1,
     },
   };
 
@@ -61,6 +60,7 @@ const countPG101A = async (payload) => {
   const pipeline = match_stage.concat(project_stage, sort_stage);
 
   const data = await Umum.aggregate(pipeline);
+
   return data;
 };
 const countPG101C = async (payload) => {
@@ -2231,12 +2231,18 @@ const countPG206 = async (payload) => {
               $and: [
                 { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $gte: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                { $gte: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $gte: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                { $gte: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
                 {
                   $or: [
                     {
@@ -3341,10 +3347,6 @@ const countPG207 = async (payload) => {
               $and: [
                 { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $gte: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                { $gte: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $gte: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                { $gte: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                 {
@@ -11182,7 +11184,7 @@ const getParams = (payload, reten) => {
       tarikhKedatangan: {
         $gte: tarikhMula,
       },
-      createdByKodFasiliti: {
+      createdByKp: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
@@ -11193,7 +11195,7 @@ const getParams = (payload, reten) => {
         $gte: tarikhMula,
         $lte: tarikhAkhir,
       },
-      createdByKodFasiliti: {
+      createdByKp: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
@@ -11205,6 +11207,7 @@ const getParams = (payload, reten) => {
       return withEndDate;
     }
   };
+
   const byDaerah = () => {
     const noEndDate = {
       tarikhKedatangan: {
@@ -11284,7 +11287,7 @@ const getParams2 = (payload, reten) => {
       tarikhKedatangan: {
         $gte: bulan,
       },
-      createdByKodFasiliti: {
+      createdByKp: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
