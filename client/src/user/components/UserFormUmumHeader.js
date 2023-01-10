@@ -36,70 +36,210 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   const theCheckTPRShow = () => {
-    // off sementara sekolahIDC ada masalah nak tick sbb takde bpe & gis
-    // if (
-    //   (singlePersonUmum.umur <= 17 &&
-    //     skorGisMulutOralHygienePemeriksaanUmum === '') ||
-    //   (singlePersonUmum.umur >= 15 &&
-    //     skorBpeOralHygienePemeriksaanUmum === '') ||
-    //   (sekolahIdc === 'umum-sekolah' &&
-    //     singlePersonUmum.umur <= 17 &&
-    //     skorGisMulutOralHygienePemeriksaanUmum !== '') ||
-    //   (sekolahIdc === 'umum-sekolah' &&
-    //     singlePersonUmum.umur >= 15 &&
-    //     skorBpeOralHygienePemeriksaanUmum !== '')
-    // ) {
-    //   return toast.info('Sila isi semua maklumat pemeriksaan');
-    // }
-    if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai d'
-      );
+    if (sekolahIdc === 'umum-sekolah') {
+      console.log('idc');
+      if (skorGisMulutOralHygienePemeriksaanUmum === '') {
+        return toast.info('Sila isi skor GIS');
+      }
+      if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
+        setTidakPerluRawatanPemeriksaanUmum(false);
+        return toast.info(
+          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai d'
+        );
+      }
+      if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
+        setTidakPerluRawatanPemeriksaanUmum(false);
+        return toast.info(
+          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai D'
+        );
+      }
+      if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
+        setTidakPerluRawatanPemeriksaanUmum(false);
+        return toast.info(
+          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai x'
+        );
+      }
+      if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
+        setTidakPerluRawatanPemeriksaanUmum(false);
+        return toast.info(
+          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai X'
+        );
+      }
+      if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
+        setTidakPerluRawatanPemeriksaanUmum(false);
+        return toast.info(
+          'Tidak layak Tidak Perlu Rawatan (TPR) kerana GIS Skor 1'
+        );
+      }
+      if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
+        setTidakPerluRawatanPemeriksaanUmum(false);
+        return toast.info(
+          'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 3'
+        );
+      }
+      if (perluPenskaleranPemeriksaanUmum) {
+        setTidakPerluRawatanPemeriksaanUmum(false);
+        return toast.info(
+          'Tidak layak Tidak Perlu Rawatan(TPR) kerana perlu penskaleran'
+        );
+      }
+      setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
     }
-    if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai D'
-      );
+    if (sekolahIdc !== 'umum-sekolah') {
+      console.log('bukan sekolah');
+      if (
+        parseInt(singlePersonUmum.umur) > 14 &&
+        parseInt(singlePersonUmum.umur) < 18
+      ) {
+        console.log('umur 15 - 17');
+        if (
+          skorGisMulutOralHygienePemeriksaanUmum === '' ||
+          skorBpeOralHygienePemeriksaanUmum === ''
+        ) {
+          return toast.info('Sila isi skor GIS atau BPE');
+        }
+        if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai d'
+          );
+        }
+        if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai D'
+          );
+        }
+        if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai x'
+          );
+        }
+        if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai X'
+          );
+        }
+        if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 1'
+          );
+        }
+        if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 3'
+          );
+        }
+        if (parseInt(skorBpeOralHygienePemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana BPE selain 0'
+          );
+        }
+        if (perluPenskaleranPemeriksaanUmum) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana perlu penskaleran'
+          );
+        }
+        setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
+      }
+      if (parseInt(singlePersonUmum.umur) > 17) {
+        console.log('umur > 17');
+        if (skorBpeOralHygienePemeriksaanUmum === '') {
+          return toast.info('Sila isi skor BPE');
+        }
+        if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai d'
+          );
+        }
+        if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai D'
+          );
+        }
+        if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai x'
+          );
+        }
+        if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai X'
+          );
+        }
+        if (parseInt(skorBpeOralHygienePemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan (TPR) kerana BPE selain 0'
+          );
+        }
+        if (perluPenskaleranPemeriksaanUmum) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan (TPR) kerana perlu penskaleran'
+          );
+        }
+        setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
+      } else {
+        console.log('bawah 14 tahun');
+        if (skorGisMulutOralHygienePemeriksaanUmum === '') {
+          return toast.info('Sila isi skor GIS');
+        }
+        if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai d'
+          );
+        }
+        if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai D'
+          );
+        }
+        if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai x'
+          );
+        }
+        if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai X'
+          );
+        }
+        if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 1'
+          );
+        }
+        if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 3'
+          );
+        }
+        if (perluPenskaleranPemeriksaanUmum) {
+          setTidakPerluRawatanPemeriksaanUmum(false);
+          return toast.info(
+            'Tidak layak Tidak Perlu Rawatan(TPR) kerana perlu penskaleran'
+          );
+        }
+        setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
+      }
     }
-    if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai x'
-      );
-    }
-    if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana mempunyai X'
-      );
-    }
-    if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 1'
-      );
-    }
-    if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 3'
-      );
-    }
-    if (parseInt(skorBpeOralHygienePemeriksaanUmum) > 0) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana BPE selain 0'
-      );
-    }
-    if (perluPenskaleranPemeriksaanUmum) {
-      setTidakPerluRawatanPemeriksaanUmum(false);
-      return toast.info(
-        'Tidak layak Tidak Perlu Rawatan(TPR) kerana perlu penskaleran'
-      );
-    }
-    setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
   };
 
   // creating masterForm object to be used by the form
