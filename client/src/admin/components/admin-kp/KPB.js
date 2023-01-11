@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 export default function KlinikPergigianBergerak(props) {
-  const { toast, readOneDataForKp } = useGlobalAdminAppContext();
+  const { readOneDataForKp } = useGlobalAdminAppContext();
   const [show, setShow] = useState(false);
   const [singleKpbData, setSingleKpbData] = useState(null);
 
