@@ -270,6 +270,11 @@ const dictionaryDaerah = {
   ILK: ['ILK'],
 };
 
+const dictionaryJenisFasiliti = {
+  'kp-bergerak': 'KPB',
+  'makmal-pergigian': 'MPB',
+};
+
 const UserAppContext = React.createContext();
 
 function UserAppProvider({ children }) {
@@ -467,6 +472,7 @@ function UserAppProvider({ children }) {
         masterDatePicker,
         Dictionary,
         dictionaryDaerah,
+        dictionaryJenisFasiliti,
         ToastContainer,
         toast,
         loggingInUser,
