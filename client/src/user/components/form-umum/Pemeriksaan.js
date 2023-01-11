@@ -4,7 +4,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function Pemeriksaan(props) {
-  const { formatTime } = useGlobalUserAppContext();
+  const { toast, formatTime } = useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
   let isDisabled = false;
@@ -127,7 +127,7 @@ export default function Pemeriksaan(props) {
                   className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                 />
               </div>
-              {/* <div className='flex flex-row items-center mb-2'>
+              <div className='flex flex-row items-center mb-2'>
                 <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
                   Penggunaan KPB / MPB
                 </p>
@@ -149,7 +149,7 @@ export default function Pemeriksaan(props) {
                       ))
                     : null}
                 </select>
-              </div> */}
+              </div>
               {props.singlePersonUmum.umur >= 18 &&
               props.singlePersonUmum.jenisFasiliti === 'kp' ? (
                 <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
@@ -515,6 +515,11 @@ export default function Pemeriksaan(props) {
                                   props.setDAdaGigiDesidusPemeriksaanUmum(
                                     e.target.value
                                   );
+                                  if (e.target.value > 0) {
+                                    props.setTidakPerluRawatanPemeriksaanUmum(
+                                      false
+                                    );
+                                  }
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
@@ -555,6 +560,11 @@ export default function Pemeriksaan(props) {
                                   props.setXAdaGigiDesidusPemeriksaanUmum(
                                     e.target.value
                                   );
+                                  if (e.target.value > 0) {
+                                    props.setTidakPerluRawatanPemeriksaanUmum(
+                                      false
+                                    );
+                                  }
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
@@ -647,6 +657,11 @@ export default function Pemeriksaan(props) {
                                   props.setDAdaGigiKekalPemeriksaanUmum(
                                     e.target.value
                                   );
+                                  if (e.target.value > 0) {
+                                    props.setTidakPerluRawatanPemeriksaanUmum(
+                                      false
+                                    );
+                                  }
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
@@ -731,6 +746,11 @@ export default function Pemeriksaan(props) {
                                   props.setXAdaGigiKekalPemeriksaanUmum(
                                     e.target.value
                                   );
+                                  if (e.target.value > 0) {
+                                    props.setTidakPerluRawatanPemeriksaanUmum(
+                                      false
+                                    );
+                                  }
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
@@ -805,9 +825,10 @@ export default function Pemeriksaan(props) {
                       id='tidak-perlu-rawatan-pemeriksaan-umum'
                       checked={props.tidakPerluRawatanPemeriksaanUmum}
                       onChange={() => {
-                        props.setTidakPerluRawatanPemeriksaanUmum(
-                          !props.tidakPerluRawatanPemeriksaanUmum
-                        );
+                        // props.setTidakPerluRawatanPemeriksaanUmum(
+                        //   !props.tidakPerluRawatanPemeriksaanUmum
+                        // );
+                        props.theCheckTPRShow();
                       }}
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                     />
@@ -1487,42 +1508,46 @@ export default function Pemeriksaan(props) {
                       className='text-lg m-1'
                     />
                   </div>
-                  <div
-                    className={`${
-                      props.singlePersonUmum.umur >= 17 && 'hidden'
-                    } flex items-center flex-row pl-5`}
-                  >
-                    <p className='text-sm font-m'>
-                      GIS Skor:
-                      <span className='text-user6'>*</span>
-                    </p>
-                    <select
-                      disabled={isDisabled}
-                      required={
-                        props.singlePersonUmum.umur >= 17 ? false : true
-                      }
-                      name='skor-gis-pemeriksaan-umum'
-                      id='skor-gis-pemeriksaan-umum'
-                      value={props.skorGisMulutOralHygienePemeriksaanUmum}
-                      onChange={(e) => {
-                        props.setSkorGisMulutOralHygienePemeriksaanUmum(
-                          e.target.value
-                        );
-                      }}
-                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                    >
-                      <option value=''></option>
-                      <option value='tiada'>-</option>
-                      <option value='0'>0</option>
-                      <option value='1'>1</option>
-                      <option value='2'>2</option>
-                      <option value='3'>3</option>
-                    </select>
-                    <FaInfoCircle
-                      title='Tanda (-) jika tidak berkenaan'
-                      className='text-lg m-1'
-                    />
-                  </div>
+                  {props.singlePersonUmum.umur <= 17 ? (
+                    <div className='flex items-center flex-row pl-5'>
+                      <p className='text-sm font-m'>
+                        GIS Skor:
+                        <span className='text-user6'>*</span>
+                      </p>
+                      <select
+                        disabled={isDisabled}
+                        required={
+                          props.singlePersonUmum.umur <= 17 ? true : false
+                        }
+                        name='skor-gis-pemeriksaan-umum'
+                        id='skor-gis-pemeriksaan-umum'
+                        value={props.skorGisMulutOralHygienePemeriksaanUmum}
+                        onChange={(e) => {
+                          props.setSkorGisMulutOralHygienePemeriksaanUmum(
+                            e.target.value
+                          );
+                          if (
+                            parseInt(e.target.value) === 1 ||
+                            parseInt(e.target.value) === 3
+                          ) {
+                            props.setTidakPerluRawatanPemeriksaanUmum(false);
+                          }
+                        }}
+                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                      >
+                        <option value=''></option>
+                        <option value='tiada'>-</option>
+                        <option value='0'>0</option>
+                        <option value='1'>1</option>
+                        <option value='2'>2</option>
+                        <option value='3'>3</option>
+                      </select>
+                      <FaInfoCircle
+                        title='Tanda (-) jika tidak berkenaan'
+                        className='text-lg m-1'
+                      />
+                    </div>
+                  ) : null}
                   <div className='flex items-center flex-row pl-5'>
                     <input
                       disabled={isDisabled}
@@ -1530,10 +1555,14 @@ export default function Pemeriksaan(props) {
                       name='perlu-penskaleran-pemeriksaan-umum'
                       id='perlu-penskaleran-pemeriksaan-umum'
                       checked={props.perluPenskaleranPemeriksaanUmum}
-                      onChange={() => {
+                      onChange={(e) => {
                         props.setPerluPenskaleranPemeriksaanUmum(
                           !props.perluPenskaleranPemeriksaanUmum
                         );
+                        console.log(e.target.checked);
+                        if (e.target.checked === true) {
+                          props.setTidakPerluRawatanPemeriksaanUmum(false);
+                        }
                       }}
                       className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                     />
@@ -1698,7 +1727,8 @@ export default function Pemeriksaan(props) {
                 </article>
               ) : null}{' '}
               {props.statusKehadiran === false &&
-              props.singlePersonUmum.umur >= 15 ? (
+              props.singlePersonUmum.umur >= 15 &&
+              props.sekolahIdc !== 'umum-sekolah' ? (
                 <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     Pengurusan Penyakit dan kondisi periodontium serta
@@ -1710,7 +1740,7 @@ export default function Pemeriksaan(props) {
                       className='text-left justify-start items-center text-sm pl-3'
                     >
                       pesakit mempunyai rujukan T2DM (
-                      <i> Type II Diabetes Mellitus</i>) ?
+                      <i> Type II Diabetes Mellitus</i> ) ?
                       {props.singlePersonUmum.kedatangan ===
                         'baru-kedatangan' && (
                         <span className='text-user6'>*</span>
@@ -1878,6 +1908,9 @@ export default function Pemeriksaan(props) {
                             props.setSkorBpeOralHygienePemeriksaanUmum(
                               e.target.value
                             );
+                            if (parseInt(e.target.value) > 0) {
+                              props.setTidakPerluRawatanPemeriksaanUmum(false);
+                            }
                           }}
                           className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                         >
