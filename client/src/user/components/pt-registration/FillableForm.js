@@ -2713,6 +2713,7 @@ export default function FillableForm({
                     </p>
                     <select
                       required
+                      disabled={editId ? true : false}
                       name='nama-fasiliti-taska-tadika'
                       id='nama-fasiliti-taska-tadika'
                       value={kodFasilitiKkKd}
@@ -2744,6 +2745,7 @@ export default function FillableForm({
                         </p>
                         <select
                           required
+                          disabled={editId ? true : false}
                           name='fasiliti-taska-tadika'
                           id='fasiliti-taska-tadika'
                           value={fasilitiTaskaTadika}
@@ -2785,6 +2787,7 @@ export default function FillableForm({
                     </p>
                     <select
                       required
+                      disabled={editId ? true : false}
                       name='nama-fasiliti-taska-tadika'
                       id='nama-fasiliti-taska-tadika'
                       value={kodFasilitiTaskaTadika}
