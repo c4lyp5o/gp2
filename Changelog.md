@@ -5,7 +5,7 @@
 #### Added
 
 - Penambahan 4 kod program promosi (PRO1022, PRO6007, PRO8010, PRO8011)
-- Menambah pilihan lihat semua ketika mengisi reten promosi
+- Menambah pilihan 'Lihat semua' ketika mengisi reten promosi
 - Mewujudkan penetapan syarat-syarat TPR ketika mengisi borang pesakit umum
 - Fungsi penjanaan reten dibuka untuk Pentadbir Negeri
 
@@ -13,7 +13,7 @@
 
 - GIS skor wajib diisi sekiranya pesakit berumur 17 tahun dan ke bawah
 
-### Fixed
+#### Fixed
 
 - Pembetulan bagi operator yang dihapuskan di modul Pentadbir Daerah, operator akan boleh dicari semula sekiranya telah dihapuskan
 - Memperbaiki tetingkap pengesahan ketika ingin menghapuskan data di semua peringkat modul Pentadbir
