@@ -828,58 +828,60 @@ const EditModalForKp = ({
 
 const DeleteModal = ({
   FType,
-  accountType,
   setShowDeleteModal,
   id,
   deleteCandidate,
   reload,
   setReload,
 }) => {
-  const { toast, deleteData, deleteDataForKp } = useGlobalAdminAppContext();
+  const { toast, getCurrentUser, deleteData, deleteDataForKp } =
+    useGlobalAdminAppContext();
   const [deletingData, setDeletingData] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    switch (accountType) {
-      case 'kpUser':
-        deleteDataForKp(FType, id).then((res) => {
-          if (res.status === 200) {
-            toast.info(`Data berjaya dipadam`);
-            setShowDeleteModal(false);
-            setDeletingData(false);
-            setReload(!reload);
-            return;
-          }
-          if (res.response.status !== 200) {
-            console.log(res);
-            setShowDeleteModal(false);
-            setDeletingData(false);
-            toast.error(`${res.response.data.msg}`);
-          }
-        });
-        break;
-      case 'negeriSuperadmin':
-      case 'daerahSuperadmin':
-        deleteData(FType, id).then((res) => {
-          if (res.status === 200) {
-            toast.info(`Data berjaya dipadam`);
-            setShowDeleteModal(false);
-            setDeletingData(false);
-            setReload(!reload);
-            return;
-          }
-          if (res.response.status !== 200) {
-            toast.error(
-              `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-            );
-            setShowDeleteModal(false);
-            setDeletingData(false);
-          }
-        });
-        break;
-      default:
-        break;
-    }
+    getCurrentUser().then((user) => {
+      switch (user.data.accountType) {
+        case 'kpUser':
+          deleteDataForKp(FType, id).then((res) => {
+            if (res.status === 200) {
+              toast.info(`Data berjaya dipadam`);
+              setShowDeleteModal(false);
+              setDeletingData(false);
+              setReload(!reload);
+              return;
+            }
+            if (res.response.status !== 200) {
+              console.log(res);
+              setShowDeleteModal(false);
+              setDeletingData(false);
+              toast.error(`${res.response.data.msg}`);
+            }
+          });
+          break;
+        case 'negeriSuperadmin':
+        case 'daerahSuperadmin':
+          deleteData(FType, id).then((res) => {
+            if (res.status === 200) {
+              toast.info(`Data berjaya dipadam`);
+              setShowDeleteModal(false);
+              setDeletingData(false);
+              setReload(!reload);
+              return;
+            }
+            if (res.response.status !== 200) {
+              toast.error(
+                `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+              );
+              setShowDeleteModal(false);
+              setDeletingData(false);
+            }
+          });
+          break;
+        default:
+          break;
+      }
+    });
   };
 
   return (
