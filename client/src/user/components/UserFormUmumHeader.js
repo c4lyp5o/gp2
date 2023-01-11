@@ -32,7 +32,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonUmum, setSinglePersonUmum] = useState([]);
-  const [allKPBMPBForNegeri, setAllKPBMPBForNegeri] = useState([]);
+  const [allUsedKPBMPB, setAllUsedKPBMPB] = useState([]);
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   const theCheckTPRShow = () => {
@@ -429,11 +429,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [waktuDipanggil, setWaktuDipanggil] = useState('');
   masterForm.waktuDipanggil = waktuDipanggil;
   masterForm.setWaktuDipanggil = setWaktuDipanggil;
-  // BARU
   const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
   masterForm.penggunaanKPBMPB = penggunaanKPBMPB;
   masterForm.setPenggunaanKPBMPB = setPenggunaanKPBMPB;
-  // BARU
   const [systolicTekananDarah, setSystolicTekananDarah] = useState('');
   masterForm.systolicTekananDarah = systolicTekananDarah;
   masterForm.setSystolicTekananDarah = setSystolicTekananDarah;
@@ -1415,28 +1413,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
     eAdaGigiKekalPemeriksaanUmum,
   ]);
 
-  // pull kpbmpb data for negeri
-  useEffect(() => {
-    const getAllKPBMPBForNegeri = async () => {
-      console.log('getAllKPBMPBNegeri');
-      try {
-        const { data } = await axios.get('/api/v1/query/kpbmpb', {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        });
-        setAllKPBMPBForNegeri(data.allKPBMPBNegeri);
-        console.log(data.allKPBMPBNegeri);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    getAllKPBMPBForNegeri();
-  }, []);
-  // pull kpbmpb data for negeri
-
   useEffect(() => {
     const fetchSinglePersonUmum = async () => {
       try {
@@ -1520,9 +1496,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
         //map pemeriksaan ------------------------------------------------------------
         setStatusKehadiran(data.singlePersonUmum.statusKehadiran);
         setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
-        // baru
-        setPenggunaanKPBMPB(data.singlePersonUmum.penggunaanKPBMPB); // <-- baru
-        // baru
+        setPenggunaanKPBMPB(data.singlePersonUmum.penggunaanKPBMPB);
         setSystolicTekananDarah(data.singlePersonUmum.systolicTekananDarah);
         setDiastolicTekananDarah(data.singlePersonUmum.diastolicTekananDarah);
         setRujukKeKlinik(data.singlePersonUmum.rujukKeKlinik);
@@ -1987,6 +1961,50 @@ function UserFormUmumHeader({ sekolahIdc }) {
     fetchSinglePersonUmum();
   }, [showKemaskini]);
 
+  // pull kpbmpb data for whole negeri that is used for this kp
+  useEffect(() => {
+    const getAllKPBMPBForNegeri = async () => {
+      try {
+        const dataKPBMPB = await axios.get('/api/v1/query/kpbmpb', {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        const dataSinglePersonUmum = await axios.get(
+          `/api/v1/umum/${personUmumId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        );
+        let KPBMPBInRangeDate = [];
+        // checking if KPBMPB date is within range of singlePersonUmum
+        dataKPBMPB.data.penggunaanKPBMPBForKp.forEach((singleUseKPBMPB) => {
+          if (
+            new Date(singleUseKPBMPB.tarikhStart) <=
+              new Date(
+                dataSinglePersonUmum.data.singlePersonUmum.tarikhKedatangan
+              ) &&
+            new Date(
+              dataSinglePersonUmum.data.singlePersonUmum.tarikhKedatangan
+            ) <= new Date(singleUseKPBMPB.tarikhEnd)
+          ) {
+            KPBMPBInRangeDate.push(singleUseKPBMPB);
+          }
+        });
+        setAllUsedKPBMPB(KPBMPBInRangeDate);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getAllKPBMPBForNegeri();
+  }, []);
+
   const kemaskini = () => {
     setShowKemasKini(true);
   };
@@ -2068,9 +2086,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               //pemeriksaan -------------------------------------------------------------
               statusKehadiran,
               waktuDipanggil,
-              // baru
               penggunaanKPBMPB,
-              // baru
               systolicTekananDarah,
               diastolicTekananDarah,
               rujukKeKlinik,
@@ -2478,6 +2494,16 @@ function UserFormUmumHeader({ sekolahIdc }) {
                                     : 'Ulangan'}
                                 </p>
                               </div>
+                              <div className='text-sm flex flex-row whitespace-nowrap'>
+                                <h2 className='font-semibold'>
+                                  TARIKH KEDATANGAN :
+                                </h2>
+                                <p className='ml-1 text-sm font-light'>
+                                  {moment(
+                                    singlePersonUmum.tarikhKedatangan
+                                  ).format('DD/MM/YYYY')}
+                                </p>
+                              </div>
                               {sekolahIdc === 'umum-sekolah' && (
                                 <div className='text-sm flex flex-row whitespace-nowrap'>
                                   <h2 className='font-semibold'>
@@ -2553,8 +2579,8 @@ function UserFormUmumHeader({ sekolahIdc }) {
                     <Pemeriksaan
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
-                      allKPBMPBForNegeri={allKPBMPBForNegeri}
                       sekolahIdc={sekolahIdc}
+                      allUsedKPBMPB={allUsedKPBMPB}
                       theCheckTPRShow={theCheckTPRShow}
                     />
                     <Rawatan
@@ -2565,6 +2591,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                     <Promosi
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
+                      operatorLain={operatorLain}
                     />
                   </>
                 )}
@@ -2574,7 +2601,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       operatorLain={operatorLain}
-                      allKPBMPBForNegeri={allKPBMPBForNegeri}
                     />
                     <Promosi
                       {...masterForm}
