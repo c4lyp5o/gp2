@@ -870,9 +870,14 @@ const DeleteModal = ({
               return;
             }
             if (res.response.status !== 200) {
-              toast.error(
-                `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-              );
+              if (FType === 'program') {
+                toast.error(`${res.response.data.msg}`);
+              }
+              if (FType !== 'program') {
+                toast.error(
+                  `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+                );
+              }
               setShowDeleteModal(false);
               setDeletingData(false);
             }
