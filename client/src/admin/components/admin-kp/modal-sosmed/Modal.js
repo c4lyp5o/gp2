@@ -14,7 +14,7 @@ import {
 } from 'react-icons/fa';
 
 import { SubmitButton, BusyButton } from '../../Buttons';
-import { ConfirmModalForData } from '../../superadmin/Confirmation';
+import { ConfirmModalForData } from '../../Confirmation';
 import { Loading } from '../../Screens';
 
 import RenderSection from './Cards';
