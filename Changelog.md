@@ -11,7 +11,7 @@
 
 #### Changed
 
-- GIS skor wajib diisi sekiranya pesakit berumur 17 tahun dan ke bawah
+- GIS skor dibuka semula tanpa ada apa-apa kondisi untuk pengisian
 
 #### Fixed
 
