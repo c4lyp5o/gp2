@@ -2476,7 +2476,6 @@ const processFasilitiQuery = async (req, res) => {
   const filteredFS = allMatchingFS.filter(
     (item) => !kodFasiliti.includes(item.kodFasilitiGiret)
   );
-  console.log(filteredFS);
   if (filteredFS.length === 0) {
     return res.status(404).json({ message: 'No data found' });
   }

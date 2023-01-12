@@ -1,7 +1,7 @@
 import { FaUserCircle, FaFingerprint } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 
-import { ConfirmModalForLogOut } from '../../admin/components/superadmin/Confirmation';
+import { ConfirmModalForLogOut } from '../../admin/components/Confirmation';
 import CountdownTimer from '../../admin/context/countdownTimer';
 
 function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
