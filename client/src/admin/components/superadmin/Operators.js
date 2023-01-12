@@ -31,7 +31,7 @@ export default function Operators(props) {
     return (
       <div className='flex flex-col items-center gap-5'>
         <h1 className='text-3xl font-bold mt-10 mb-10'>
-          Senarai {Dictionary[props.FType]} {props.daerah}
+          Senarai {Dictionary[props.FType]} Daerah {props.daerah}
         </h1>
         <div className='grid gap-1 absolute top-2 left-5'>
           <p>carian</p>
