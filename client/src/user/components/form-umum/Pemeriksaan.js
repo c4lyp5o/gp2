@@ -1508,46 +1508,46 @@ export default function Pemeriksaan(props) {
                       className='text-lg m-1'
                     />
                   </div>
-                  {props.singlePersonUmum.umur <= 17 ? (
-                    <div className='flex items-center flex-row pl-5'>
-                      <p className='text-sm font-m'>
-                        GIS Skor:
-                        <span className='text-user6'>*</span>
-                      </p>
-                      <select
-                        disabled={isDisabled}
-                        required={
-                          props.singlePersonUmum.umur <= 17 ? true : false
+                  {/* {props.singlePersonUmum.umur <= 17 ? ( */}
+                  <div className='flex items-center flex-row pl-5'>
+                    <p className='text-sm font-m'>
+                      GIS Skor:
+                      {/* <span className='text-user6'>*</span> */}
+                    </p>
+                    <select
+                      disabled={isDisabled}
+                      // required={
+                      //   props.singlePersonUmum.umur <= 17 ? true : false
+                      // }
+                      name='skor-gis-pemeriksaan-umum'
+                      id='skor-gis-pemeriksaan-umum'
+                      value={props.skorGisMulutOralHygienePemeriksaanUmum}
+                      onChange={(e) => {
+                        props.setSkorGisMulutOralHygienePemeriksaanUmum(
+                          e.target.value
+                        );
+                        if (
+                          parseInt(e.target.value) === 1 ||
+                          parseInt(e.target.value) === 3
+                        ) {
+                          props.setTidakPerluRawatanPemeriksaanUmum(false);
                         }
-                        name='skor-gis-pemeriksaan-umum'
-                        id='skor-gis-pemeriksaan-umum'
-                        value={props.skorGisMulutOralHygienePemeriksaanUmum}
-                        onChange={(e) => {
-                          props.setSkorGisMulutOralHygienePemeriksaanUmum(
-                            e.target.value
-                          );
-                          if (
-                            parseInt(e.target.value) === 1 ||
-                            parseInt(e.target.value) === 3
-                          ) {
-                            props.setTidakPerluRawatanPemeriksaanUmum(false);
-                          }
-                        }}
-                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='tiada'>-</option>
-                        <option value='0'>0</option>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                      </select>
-                      <FaInfoCircle
-                        title='Tanda (-) jika tidak berkenaan'
-                        className='text-lg m-1'
-                      />
-                    </div>
-                  ) : null}
+                      }}
+                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                    >
+                      <option value=''></option>
+                      <option value='tiada'>-</option>
+                      <option value='0'>0</option>
+                      <option value='1'>1</option>
+                      <option value='2'>2</option>
+                      <option value='3'>3</option>
+                    </select>
+                    <FaInfoCircle
+                      title='Tanda (-) jika tidak berkenaan'
+                      className='text-lg m-1'
+                    />
+                  </div>
+                  {/* ) : null} */}
                   <div className='flex items-center flex-row pl-5'>
                     <input
                       disabled={isDisabled}
