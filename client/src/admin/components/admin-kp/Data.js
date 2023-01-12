@@ -15,7 +15,7 @@ import {
   ModalSosMed,
   ModalDataIkutProgram,
   ModalAddFollowers,
-} from './modal-sosmed/Modal';
+} from '../modal-sosmed/Modal';
 import { AddModalForKp, EditModalForKp, DeleteModal } from '../Modal';
 import { Loading, NothingHereBoi } from '../Screens';
 

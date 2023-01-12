@@ -3,7 +3,7 @@ import { useGlobalAdminAppContext } from '../context/adminAppContext';
 import { FaAddressCard, FaRegSun, FaCreativeCommonsBy } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 
-import { ConfirmModalForLogOut } from './superadmin/Confirmation';
+import { ConfirmModalForLogOut } from './Confirmation';
 import CountdownTimer from '../context/countdownTimer';
 
 export default function Header(props) {
