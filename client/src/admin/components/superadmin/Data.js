@@ -13,7 +13,7 @@ import Program from './Program';
 import { AddModal, EditModal, DeleteModal } from '../Modal';
 import { Loading, NothingHereBoi } from '../Screens';
 
-export default function Data({ FType, kp }) {
+export default function Data({ FType }) {
   // modal
   const [showAddModal, setShowAddModal] = useState(false);
   const [showEditModal, setShowEditModal] = useState(false);
@@ -24,8 +24,8 @@ export default function Data({ FType, kp }) {
   // data
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [daerah, setDaerah] = useState(null);
   const [negeri, setNegeri] = useState(null);
+  const [daerah, setDaerah] = useState(null);
   const [user, setUser] = useState(null);
   const [showPassword, setShowPassword] = useState(null);
   const [showInfo, setShowInfo] = useState(false);
@@ -102,7 +102,6 @@ export default function Data({ FType, kp }) {
     FType,
     negeri,
     daerah,
-    kp,
     user,
     id,
     setId,

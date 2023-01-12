@@ -2424,13 +2424,13 @@ const processOperatorQuery = async (req, res) => {
       const { data: allMatchingPP } = await axios.get(
         `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
       );
-      const mdcNumber = await Operator.find({
+      let mdcNumber = await Operator.find({
         statusPegawai: 'pp',
         activationStatus: true,
       }).select('mdcNumber');
-      const mdcNumbers = mdcNumber.map((mdc) => parseInt(mdc.mdcNumber));
+      mdcNumber = mdcNumber.map((mdc) => parseInt(mdc.mdcNumber));
       const filteredPP = allMatchingPP.filter(
-        (item) => !mdcNumbers.includes(item.mdcNumber)
+        (item) => !mdcNumber.includes(item.mdcNumber)
       );
       if (filteredPP.length === 0) {
         return res.status(404).json({ message: 'No data found' });
@@ -2441,13 +2441,13 @@ const processOperatorQuery = async (req, res) => {
       const { data: allMatchingJP } = await axios.get(
         `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
       );
-      const mdtbNumber = await Operator.find({
+      let mdtbNumber = await Operator.find({
         statusPegawai: 'jp',
         activationStatus: true,
       }).select('mdtbNumber');
-      const mdtbNumbers = mdtbNumber.map((mdc) => mdc.mdtbNumber);
+      mdtbNumber = mdtbNumber.map((mdc) => mdc.mdtbNumber);
       const filteredJP = allMatchingJP.filter(
-        (item) => !mdtbNumbers.includes(item.mdtbNumber)
+        (item) => !mdtbNumber.includes(item.mdtbNumber)
       );
       if (filteredJP.length === 0) {
         return res.status(404).json({ message: 'No data found' });
@@ -2467,16 +2467,15 @@ const processFasilitiQuery = async (req, res) => {
   const { data: allMatchingFS } = await axios.get(
     `https://g2u.calypsocloud.one/api/getfs?negeri=${negeri}&daerah=${daerah}`
   );
-  const kodFasiliti = await User.find({
+  let kodFasiliti = await User.find({
     accountType: 'kpUser',
     negeri,
     daerah,
   }).select('kodFasiliti');
-  const semuaKodFasiliti = kodFasiliti.map((kod) => kod.kodFasiliti);
+  kodFasiliti = kodFasiliti.map((kod) => kod.kodFasiliti);
   const filteredFS = allMatchingFS.filter(
-    (item) => !semuaKodFasiliti.includes(item.kodFasilitiGiret)
+    (item) => !kodFasiliti.includes(item.kodFasilitiGiret)
   );
-  console.log(filteredFS);
   if (filteredFS.length === 0) {
     return res.status(404).json({ message: 'No data found' });
   }
@@ -2488,13 +2487,13 @@ const processKkiakdQuery = async (req, res) => {
   const { data: allMatchingKKIAKD } = await axios.get(
     `https://g2u.calypsocloud.one/api/getkkiakd?negeri=${negeri}`
   );
-  const kodFasiliti = await Fasiliti.find({
+  let kodFasiliti = await Fasiliti.find({
     createdByNegeri: negeri,
     jenisFasiliti: 'kkiakd',
   }).select('kodKkiaKd');
-  const semuaKodKkiaKd = kodFasiliti.map((kod) => kod.kodKkiaKd);
+  kodFasiliti = kodFasiliti.map((kod) => kod.kodKkiaKd);
   const filteredKKIAKD = allMatchingKKIAKD.filter(
-    (item) => !semuaKodKkiaKd.includes(item.kodFasiliti)
+    (item) => !kodFasiliti.includes(item.kodFasiliti)
   );
   if (filteredKKIAKD.length === 0) {
     return res.status(404).json({ message: 'No data found' });

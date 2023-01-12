@@ -24,7 +24,7 @@ import {
   InputKpEditEventFromDaerah,
   InputKpEditKPBMPB,
 } from './Inputs';
-import { ConfirmModalForData } from './superadmin/Confirmation';
+import { ConfirmModalForData } from './Confirmation';
 import { SubmitButton, BusyButton } from './Buttons';
 
 const AddModal = ({
