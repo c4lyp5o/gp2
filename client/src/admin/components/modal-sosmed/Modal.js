@@ -1,4 +1,4 @@
-import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { useState, useEffect } from 'react';
 import moment from 'moment';
 import Select from 'react-select';
@@ -13,17 +13,17 @@ import {
   FaTrashAlt,
 } from 'react-icons/fa';
 
-import { SubmitButton, BusyButton } from '../../Buttons';
-import { ConfirmModalForData } from '../../superadmin/Confirmation';
-import { Loading } from '../../Screens';
+import { SubmitButton, BusyButton } from '../Buttons';
+import { ConfirmModalForData } from '../Confirmation';
+import { Loading } from '../Screens';
 
 import RenderSection from './Cards';
 
-import Facebook from '../../../assets/socmed/facebook.svg';
-import Instagram from '../../../assets/socmed/instagram.png';
-import Twitter from '../../../assets/socmed/twitter.svg';
-import Tiktok from '../../../assets/socmed/tiktok.svg';
-import Youtube from '../../../assets/socmed/youtube.svg';
+import Facebook from '../../assets/socmed/facebook.svg';
+import Instagram from '../../assets/socmed/instagram.png';
+import Twitter from '../../assets/socmed/twitter.svg';
+import Tiktok from '../../assets/socmed/tiktok.svg';
+import Youtube from '../../assets/socmed/youtube.svg';
 
 import {
   SiInstagram,

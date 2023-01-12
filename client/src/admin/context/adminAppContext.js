@@ -2,7 +2,7 @@ import { createContext, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
-import { useToken } from './Tokenizer';
+import { useToken } from './useToken';
 import DatePicker from 'react-datepicker';
 
 const AdminAppContext = createContext();
