@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -48,6 +48,12 @@ function UserUmum({ sekolahIdc }) {
   const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
+
+  const bawahRef = useRef(null);
+
+  const scrollBawah = () => {
+    bawahRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
 
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
@@ -509,6 +515,7 @@ function UserUmum({ sekolahIdc }) {
                           onClick={() => {
                             setOperasiHapus(false);
                             setPilih(singlePersonUmum._id);
+                            scrollBawah();
                           }}
                           className={`${
                             pilih === singlePersonUmum._id && 'bg-user3'
@@ -687,108 +694,110 @@ function UserUmum({ sekolahIdc }) {
             </table>
           </div>
         </section>
-        <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2'>
-          {resultPilih.map((singlePersonUmum) => {
-            return (
-              <>
-                <div className='lg:mb-3'>
-                  <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                    <h1>
-                      MAKLUMAT AM PESAKIT{' '}
-                      {singlePersonUmum.kedatangan === 'baru-kedatangan' ? (
-                        <span className='text-user7 inline-flex' title='Baru'>
-                          <BsFilePerson />
-                        </span>
-                      ) : (
-                        <span
-                          className='text-user9 inline-flex'
-                          title='Ulangan'
-                        >
-                          <BsFillFilePersonFill />
-                        </span>
-                      )}
-                    </h1>
+        <div ref={bawahRef}>
+          <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2'>
+            {resultPilih.map((singlePersonUmum) => {
+              return (
+                <>
+                  <div className='lg:mb-3'>
+                    <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                      <h1>
+                        MAKLUMAT AM PESAKIT{' '}
+                        {singlePersonUmum.kedatangan === 'baru-kedatangan' ? (
+                          <span className='text-user7 inline-flex' title='Baru'>
+                            <BsFilePerson />
+                          </span>
+                        ) : (
+                          <span
+                            className='text-user9 inline-flex'
+                            title='Ulangan'
+                          >
+                            <BsFillFilePersonFill />
+                          </span>
+                        )}
+                      </h1>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>NAMA :</h2>
+                      <p className='ml-1'>{singlePersonUmum.nama}</p>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>UMUR :</h2>
+                      <p className='ml-1'>
+                        {singlePersonUmum.umur} tahun{' '}
+                        {singlePersonUmum.umurBulan} bulan
+                      </p>
+                    </div>
                   </div>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>NAMA :</h2>
-                    <p className='ml-1'>{singlePersonUmum.nama}</p>
-                  </div>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>UMUR :</h2>
-                    <p className='ml-1'>
-                      {singlePersonUmum.umur} tahun {singlePersonUmum.umurBulan}{' '}
-                      bulan
-                    </p>
-                  </div>
-                </div>
-                <div className='lg:pt-10'>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>JANTINA :</h2>
-                    <p className='ml-1'>{singlePersonUmum.jantina}</p>
-                  </div>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>IC/Passport :</h2>
-                    <p className='ml-1'>{singlePersonUmum.ic}</p>
-                  </div>
-                  {operasiHapus ? (
-                    <button
-                      className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                      onClick={() => {
-                        setModalHapus(true);
-                      }}
-                    >
-                      hapus pesakit?
-                    </button>
-                  ) : singlePersonUmum.statusReten === 'telah diisi' ||
-                    singlePersonUmum.rawatanDibuatOperatorLain === true ? (
-                    <Link
-                      target='_blank'
-                      to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                    >
-                      lihat reten
-                    </Link>
-                  ) : singlePersonUmum.statusReten === 'reten salah' ||
-                    singlePersonUmum.rawatanDibuatOperatorLain === true ? (
-                    <Link
-                      target='_blank'
-                      to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                    >
-                      lihat reten
-                    </Link>
-                  ) : singlePersonUmum.statusReten === 'belum diisi' ? (
-                    <Link
-                      target='_blank'
-                      to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                    >
-                      masukkan reten
-                    </Link>
-                  ) : null}
-                  {singlePersonUmum.statusReten === 'belum diisi' &&
-                    singlePersonUmum.rawatanDibuatOperatorLain === true && (
+                  <div className='lg:pt-10'>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>JANTINA :</h2>
+                      <p className='ml-1'>{singlePersonUmum.jantina}</p>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>IC/Passport :</h2>
+                      <p className='ml-1'>{singlePersonUmum.ic}</p>
+                    </div>
+                    {operasiHapus ? (
+                      <button
+                        className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                        onClick={() => {
+                          setModalHapus(true);
+                        }}
+                      >
+                        hapus pesakit?
+                      </button>
+                    ) : singlePersonUmum.statusReten === 'telah diisi' ||
+                      singlePersonUmum.rawatanDibuatOperatorLain === true ? (
                       <Link
                         target='_blank'
-                        to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
+                        to={`form-umum/${singlePersonUmum._id}`}
                         className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
-                        masukkan reten bagi operator tambahan
+                        lihat reten
                       </Link>
-                    )}
-                </div>
-                {modalHapus && (
-                  <UserDeleteModal
-                    handleDelete={handleDelete}
-                    setModalHapus={setModalHapus}
-                    id={singlePersonUmum._id}
-                    nama={singlePersonUmum.nama}
-                  />
-                )}
-              </>
-            );
-          })}
-        </section>
+                    ) : singlePersonUmum.statusReten === 'reten salah' ||
+                      singlePersonUmum.rawatanDibuatOperatorLain === true ? (
+                      <Link
+                        target='_blank'
+                        to={`form-umum/${singlePersonUmum._id}`}
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                      >
+                        lihat reten
+                      </Link>
+                    ) : singlePersonUmum.statusReten === 'belum diisi' ? (
+                      <Link
+                        target='_blank'
+                        to={`form-umum/${singlePersonUmum._id}`}
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                      >
+                        masukkan reten
+                      </Link>
+                    ) : null}
+                    {singlePersonUmum.statusReten === 'belum diisi' &&
+                      singlePersonUmum.rawatanDibuatOperatorLain === true && (
+                        <Link
+                          target='_blank'
+                          to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
+                          className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                        >
+                          masukkan reten bagi operator tambahan
+                        </Link>
+                      )}
+                  </div>
+                  {modalHapus && (
+                    <UserDeleteModal
+                      handleDelete={handleDelete}
+                      setModalHapus={setModalHapus}
+                      id={singlePersonUmum._id}
+                      nama={singlePersonUmum.nama}
+                    />
+                  )}
+                </>
+              );
+            })}
+          </section>
+        </div>
       </div>
     </>
   );
