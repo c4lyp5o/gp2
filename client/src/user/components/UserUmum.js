@@ -10,6 +10,7 @@ import {
   BsPersonCircle,
   BsCalendarPlusFill,
   BsFillCaretDownFill,
+  BsFillArrowUpCircleFill,
 } from 'react-icons/bs';
 import moment from 'moment';
 
@@ -50,10 +51,7 @@ function UserUmum({ sekolahIdc }) {
   const [reloadState, setReloadState] = useState(false);
 
   const bawahRef = useRef(null);
-
-  const scrollBawah = () => {
-    bawahRef.current?.scrollIntoView({ behavior: 'smooth' });
-  };
+  const atasRef = useRef(null);
 
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
@@ -110,6 +108,16 @@ function UserUmum({ sekolahIdc }) {
     });
     setResultPilih(resultFilter);
   }, [pilih]);
+
+  //scrollBawah after resultPilih
+  const scrollBawah = () => {
+    bawahRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  useEffect(() => {
+    if (resultPilih.length > 0) {
+      scrollBawah();
+    }
+  }, [resultPilih]);
 
   // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState
   useEffect(() => {
@@ -322,7 +330,7 @@ function UserUmum({ sekolahIdc }) {
           </h2>
           <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
-              <thead className='text-userWhite bg-user2'>
+              <thead className='text-userWhite bg-user2' ref={atasRef}>
                 <tr>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     BIL
@@ -797,6 +805,16 @@ function UserUmum({ sekolahIdc }) {
               );
             })}
           </section>
+          {resultPilih.length === 1 && (
+            <button
+              className='mt-3'
+              onClick={() => {
+                atasRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <BsFillArrowUpCircleFill className='text-user3 text-2xl animate-bounce' />
+            </button>
+          )}
         </div>
       </div>
     </>
