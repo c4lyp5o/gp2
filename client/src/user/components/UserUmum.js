@@ -11,6 +11,7 @@ import {
   BsCalendarPlusFill,
   BsFillCaretDownFill,
   BsFillArrowUpCircleFill,
+  BsExclamationCircleFill,
 } from 'react-icons/bs';
 import moment from 'moment';
 
@@ -50,6 +51,9 @@ function UserUmum({ sekolahIdc }) {
 
   const [reloadState, setReloadState] = useState(false);
 
+  //carian ic semua
+  const keys = ['nama', 'ic', 'createdByUsername'];
+
   const bawahRef = useRef(null);
   const atasRef = useRef(null);
 
@@ -75,7 +79,7 @@ function UserUmum({ sekolahIdc }) {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${moment(
+          `/api/v1/query/umum?tarikhKedatangan=${moment(
             tarikhKedatangan
           ).format(
             'YYYY-MM-DD'
@@ -100,7 +104,7 @@ function UserUmum({ sekolahIdc }) {
       }
     };
     query();
-  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
+  }, [tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
@@ -214,8 +218,15 @@ function UserUmum({ sekolahIdc }) {
             )}
           </h2>
           <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
-            <label htmlFor='nama-pesakit' className='flex flex-row my-2'>
-              nama pesakit :
+            <label
+              htmlFor='nama-pesakit'
+              className='flex flex-row my-2 items-center'
+            >
+              carian pesakit
+              <BsExclamationCircleFill
+                className='ml-2 text-lg text-user3'
+                title='carian untuk nama , kad pengenalan dan operator'
+              />
             </label>
             <input
               onChange={(e) => {
@@ -382,172 +393,178 @@ function UserUmum({ sekolahIdc }) {
                 </tr>
               </thead>
               {!isLoading &&
-                queryResult.map((singlePersonUmum, index) => {
-                  return (
-                    <tbody className='bg-user4'>
-                      <tr>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {index + 1}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {formatTime(singlePersonUmum.waktuSampai)}
-                        </td>
-                        {singlePersonUmum.noPendaftaranBaru ? (
-                          <td
-                            className={`${
-                              pilih === singlePersonUmum._id && 'bg-user3'
-                            } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
-                          >
-                            {noPendaftaranSplitter(
-                              singlePersonUmum.noPendaftaranBaru
-                            )}
-                            <BsPersonCircle
-                              className='text-user7 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7'
-                              title='Baru'
-                            />
-                          </td>
-                        ) : (
-                          <td
-                            className={`${
-                              pilih === singlePersonUmum._id && 'bg-user3'
-                            } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
-                          >
-                            {noPendaftaranSplitter(
-                              singlePersonUmum.noPendaftaranUlangan
-                            )}
-                            <BsPersonCircle
-                              className='text-user9 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user9'
-                              title='Ulangan'
-                            />
-                          </td>
-                        )}
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.nama.toUpperCase()}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.ic.toUpperCase()}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {statusPesakit(singlePersonUmum)}
-                        </td>
-                        {jenisFasiliti === 'kk-kd' ? (
+                queryResult
+                  .filter((pt) =>
+                    keys.some((key) => pt[key].toLowerCase().includes(nama))
+                  )
+                  .map((singlePersonUmum, index) => {
+                    return (
+                      <tbody className='bg-user4'>
+                        <tr>
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.namaFasilitiKkKd}
+                            {index + 1}
                           </td>
-                        ) : null}
-                        {jenisFasiliti === 'taska-tadika' ? (
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.namaFasilitiTaskaTadika}
+                            {formatTime(singlePersonUmum.waktuSampai)}
                           </td>
-                        ) : null}
-                        {jenisFasiliti === 'projek-komuniti-lain' ? (
+                          {singlePersonUmum.noPendaftaranBaru ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {noPendaftaranSplitter(
+                                singlePersonUmum.noPendaftaranBaru
+                              )}
+                              <BsPersonCircle
+                                className='text-user7 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7'
+                                title='Baru'
+                              />
+                            </td>
+                          ) : (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {noPendaftaranSplitter(
+                                singlePersonUmum.noPendaftaranUlangan
+                              )}
+                              <BsPersonCircle
+                                className='text-user9 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user9'
+                                title='Ulangan'
+                              />
+                            </td>
+                          )}
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.namaProgram}
+                            {singlePersonUmum.nama.toUpperCase()}
                           </td>
-                        ) : null}
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.createdByUsername === 'kaunter'
-                            ? null
-                            : singlePersonUmum.createdByUsername}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.statusReten === 'belum diisi' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Belum Diisi</span>
-                              <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
-                            </div>
-                          ) : singlePersonUmum.statusKehadiran === true &&
-                            singlePersonUmum.statusReten === 'reten salah' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Terdapat Kesalahan Reten</span>
-                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
-                            </div>
-                          ) : singlePersonUmum.statusKehadiran === true ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <strike>data tiada</strike>
-                              <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
-                            </div>
-                          ) : singlePersonUmum.statusReten === 'telah diisi' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Selesai Diisi</span>
-                              <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
-                            </div>
-                          ) : singlePersonUmum.statusReten === 'reten salah' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Terdapat Kesalahan Reten</span>
-                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
-                            </div>
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.ic.toUpperCase()}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {statusPesakit(singlePersonUmum)}
+                          </td>
+                          {jenisFasiliti === 'kk-kd' ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {singlePersonUmum.namaFasilitiKkKd}
+                            </td>
                           ) : null}
-                        </td>
-                        <td
-                          onClick={() => {
-                            setOperasiHapus(false);
-                            setPilih(singlePersonUmum._id);
-                            scrollBawah();
-                          }}
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
-                        >
-                          <u>PILIH</u>
-                        </td>
-                        {userinfo.role === 'admin' && (
+                          {jenisFasiliti === 'taska-tadika' ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {singlePersonUmum.namaFasilitiTaskaTadika}
+                            </td>
+                          ) : null}
+                          {jenisFasiliti === 'projek-komuniti-lain' ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {singlePersonUmum.namaProgram}
+                            </td>
+                          ) : null}
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.createdByUsername === 'kaunter'
+                              ? null
+                              : singlePersonUmum.createdByUsername}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.statusReten === 'belum diisi' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Belum Diisi</span>
+                                <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
+                              </div>
+                            ) : singlePersonUmum.statusKehadiran === true &&
+                              singlePersonUmum.statusReten === 'reten salah' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Terdapat Kesalahan Reten</span>
+                                <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                              </div>
+                            ) : singlePersonUmum.statusKehadiran === true ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <strike>data tiada</strike>
+                                <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
+                              </div>
+                            ) : singlePersonUmum.statusReten ===
+                              'telah diisi' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Selesai Diisi</span>
+                                <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
+                              </div>
+                            ) : singlePersonUmum.statusReten ===
+                              'reten salah' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Terdapat Kesalahan Reten</span>
+                                <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                              </div>
+                            ) : null}
+                          </td>
                           <td
                             onClick={() => {
-                              setOperasiHapus(true);
+                              setOperasiHapus(false);
                               setPilih(singlePersonUmum._id);
+                              scrollBawah();
                             }}
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                           >
-                            <u>HAPUS</u>
+                            <u>PILIH</u>
                           </td>
-                        )}
-                      </tr>
-                    </tbody>
-                  );
-                })}
+                          {userinfo.role === 'admin' && (
+                            <td
+                              onClick={() => {
+                                setOperasiHapus(true);
+                                setPilih(singlePersonUmum._id);
+                              }}
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                            >
+                              <u>HAPUS</u>
+                            </td>
+                          )}
+                        </tr>
+                      </tbody>
+                    );
+                  })}
               {isLoading && (
                 <tbody className='bg-user4'>
                   <tr>
