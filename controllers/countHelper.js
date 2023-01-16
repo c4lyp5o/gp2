@@ -2225,6 +2225,7 @@ const countPG206 = async (payload) => {
         },
       },
       TPR: {
+        //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
         $sum: {
           $cond: [
             {
@@ -2233,6 +2234,7 @@ const countPG206 = async (payload) => {
                 { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                 {
                   $or: [
                     {
@@ -2246,10 +2248,10 @@ const countPG206 = async (payload) => {
                 {
                   $or: [
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
                     },
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
                     },
                   ],
                 },
@@ -2870,41 +2872,33 @@ const countPG206 = async (payload) => {
         },
       },
       TPR: {
+        //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
         $sum: {
           $cond: [
             {
               $and: [
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                 {
-                  $eq: ['$merged.dAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.dAdaGigiDesidus', 0],
-                },
-                {
-                  $gte: ['$merged.mAdaGigiKekal', 0],
-                },
-                {
-                  $gte: ['$merged.mAdaGigiDesidus', 0],
-                },
-                {
-                  $gte: ['$merged.fAdaGigiKekal', 0],
-                },
-                {
-                  $gte: ['$merged.fAdaGigiDesidus', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiDesidus', 0],
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
                 },
                 {
                   $or: [
                     {
-                      $eq: ['$merged.skorGisMulutOralHygiene', '0'],
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
                     },
                     {
-                      $eq: ['$merged.skorGisMulutOralHygiene', '2'],
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
                     },
                   ],
                 },
@@ -5537,16 +5531,39 @@ const countPG201 = async (klinik, bulan, sekolah) => {
         },
       },
       jumlahTprICDAS: {
-        //TPR ICDAS (Criteria = tidak boleh ada E / cabutan / scaling needed / filling)
+        //TPR ICDAS - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling, E10 = 0 (perlu FS); E11 = 0 (perlu PRR) ; E12 = 0 (perlu FV)
         $sum: {
           $cond: [
             {
               $and: [
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
+                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
               ],
             },
             1,
@@ -6622,29 +6639,34 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
           ],
         },
       },
-      tpr: {
-        //TPR can be considered if (f/F >1 +/- m/M >1 +/- SM>1); cannot claim TPR if d/D > 1 or x/X > 1 or GIS skor 1 or 3
-        //no mixed dentition ; dx =0 ; sm = 0 ; fm >=0; GIS skor 0 or 2
-        //mixed dentition ; dfmx =0 ; DMFX = 0 ; sm = 0 ; GIS skor 0 or 2
+      TPR: {
+        //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
         $sum: {
           $cond: [
             {
               $and: [
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
-                { $gte: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
-                { $gte: ['$pemeriksaanSekolah.mAdaGigiDesidus', 0] },
-                { $gte: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
-                { $gte: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                 {
                   $or: [
                     {
-                      $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
                     },
                     {
-                      $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'],
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
                     },
                   ],
                 },
@@ -7434,16 +7456,39 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         },
       },
       jumlahTprICDAS: {
-        //TPR ICDAS (Criteria = tidak boleh ada E / cabutan / scaling needed / filling)
+        //TPR ICDAS - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling, E10 = 0 (perlu FS); E11 = 0 (perlu PRR) ; E12 = 0 (perlu FV)
         $sum: {
           $cond: [
             {
               $and: [
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
+                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
               ],
             },
             1,
@@ -8566,16 +8611,39 @@ const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
         },
       },
       jumlahTprICDAS: {
-        //TPR ICDAS (Criteria = tidak boleh ada E / cabutan / scaling needed / filling)
+        //TPR ICDAS - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling, E10 = 0 (perlu FS); E11 = 0 (perlu PRR) ; E12 = 0 (perlu FV)
         $sum: {
           $cond: [
             {
               $and: [
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
+                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
               ],
             },
             1,
@@ -8583,30 +8651,34 @@ const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
           ],
         },
       },
-      tpr: {
-        //ini utk keluar reten PG201SMKP - added by Leong 03.08.2022
-        //TPR can be considered if (f/F >1 +/- m/M >1 +/- SM>1); cannot claim TPR if d/D > 1 or x/X > 1 or GIS skor 1 or 3
-        //no mixed dentition ; dx =0 ; sm = 0 ; fm >=0; GIS skor 0 or 2
-        //mixed dentition ; dfmx =0 ; DMFX = 0 ; sm = 0 ; GIS skor 0 or 2
+      TPR: {
+        //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
         $sum: {
           $cond: [
             {
               $and: [
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
-                { $gte: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
-                { $gte: ['$pemeriksaanSekolah.mAdaGigiDesidus', 0] },
-                { $gte: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
-                { $gte: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                 {
                   $or: [
                     {
-                      $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
                     },
                     {
-                      $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'],
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
                     },
                   ],
                 },
@@ -9802,16 +9874,39 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
         },
       },
       jumlahTprICDAS: {
-        //TPR ICDAS (Criteria = tidak boleh ada E / cabutan / scaling needed / filling)
+        //TPR ICDAS - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling, E10 = 0 (perlu FS); E11 = 0 (perlu PRR) ; E12 = 0 (perlu FV)
         $sum: {
           $cond: [
             {
               $and: [
-                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
-                { $eq: ['$pemeriksaanSekolah.eAdaGigiKekal', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
+                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
               ],
             },
             1,
