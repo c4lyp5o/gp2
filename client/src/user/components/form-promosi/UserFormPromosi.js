@@ -8,6 +8,7 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 import UserFormPromosiConfirmation from '../UserFormPromosiConfirmation';
 
 const optionsBahagianB = [
+  { value: 'lihat-semua', label: 'Lihat Semua' },
   { value: 'ceramah', label: 'Ceramah' },
   { value: 'lmg', label: 'Latihan Memberus Gigi' },
   { value: 'pameran-kempen', label: 'Pameran / Kempen' },
@@ -29,6 +30,7 @@ const optionsBahagianB = [
 ];
 
 const optionsIndividu = [
+  { value: 'lihat-semua', label: 'Lihat Semua' },
   { value: 'ceramah', label: 'Ceramah' },
   { value: 'lmg', label: 'Latihan Memberus Gigi' },
   { value: 'pameran-kempen', label: 'Pameran / Kempen' },
@@ -409,7 +411,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </article>
                     ) : null}
                     {pilihanPromosi.includes('ceramah') ||
-                    singleAktivitiPromosi.ceramahBahagianA ? (
+                    singleAktivitiPromosi.ceramahBahagianA ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='grid grid-cols-[1fr_2fr] shadow-md'>
                         <div className='col-span-2 p-1 relative w-full'>
                           <input
@@ -615,7 +618,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('lmg') ||
-                    singleAktivitiPromosi.latihanMemberusGigiBahagianA ? (
+                    singleAktivitiPromosi.latihanMemberusGigiBahagianA ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='grid grid-cols-[1fr_2fr] shadow-md'>
                         <div className='col-span-2 p-1 relative w-full'>
                           <input
@@ -823,7 +827,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('pameran-kempen') ||
-                    singleAktivitiPromosi.pameranKempenBahagianB ? (
+                    singleAktivitiPromosi.pameranKempenBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -904,7 +909,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('pertunjukan-boneka') ||
-                    singleAktivitiPromosi.pertunjukanBonekaBahagianB ? (
+                    singleAktivitiPromosi.pertunjukanBonekaBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -985,7 +991,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('main-peranan') ||
-                    singleAktivitiPromosi.mainPerananBahagianB ? (
+                    singleAktivitiPromosi.mainPerananBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1064,7 +1071,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('bercerita') ||
-                    singleAktivitiPromosi.berceritaBahagianB ? (
+                    singleAktivitiPromosi.berceritaBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1143,7 +1151,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('pertandingan') ||
-                    singleAktivitiPromosi.pertandinganBahagianB ? (
+                    singleAktivitiPromosi.pertandinganBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1224,7 +1233,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('permainan-interaktif') ||
-                    singleAktivitiPromosi.permainanInteraktifBahagianB ? (
+                    singleAktivitiPromosi.permainanInteraktifBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1305,7 +1315,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('kursus-seminar-bengkel') ||
-                    singleAktivitiPromosi.kursusSeminarBengkelBahagianB ? (
+                    singleAktivitiPromosi.kursusSeminarBengkelBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1386,7 +1397,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('pertunjukan-multimedia') ||
-                    singleAktivitiPromosi.pertunjukanMultimediaBahagianB ? (
+                    singleAktivitiPromosi.pertunjukanMultimediaBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1467,7 +1479,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('dental-buskers') ||
-                    singleAktivitiPromosi.dentalBuskerBahagianB ? (
+                    singleAktivitiPromosi.dentalBuskerBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1548,7 +1561,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('flashmob') ||
-                    singleAktivitiPromosi.flashmobBahagianB ? (
+                    singleAktivitiPromosi.flashmobBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1627,7 +1641,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                       </div>
                     ) : null}
                     {pilihanPromosi.includes('lawatan-ke-rumah') ||
-                    singleAktivitiPromosi.lawatanKeRumahBahagianB ? (
+                    singleAktivitiPromosi.lawatanKeRumahBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <div className='outline outline-1 outline-userBlack'>
                         <div className='flex flex-row pl-5 py-2 text-lg font-semibold'>
                           <input
@@ -1711,7 +1726,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                     singleAktivitiPromosi.plakGigiNasihatKesihatanPergigianBahagianB ||
                     singleAktivitiPromosi.dietPemakananNasihatKesihatanPergigianBahagianB ||
                     singleAktivitiPromosi.penjagaanKesihatanMulutNasihatKesihatanPergigianBahagianB ||
-                    singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB ? (
+                    singleAktivitiPromosi.kanserMulutNasihatKesihatanPergigianBahagianB ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <article className='grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                         <div className='flex flex-row justify-start lg:col-span-2 items-center'>
                           <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>
@@ -2036,7 +2052,8 @@ function UserFormPromosi({ individuOrKlinik }) {
                     singleAktivitiPromosi.merokokIntervensiTabiatBerisikoTinggi ||
                     singleAktivitiPromosi.mengunyahSirihIntervensiTabiatBerisikoTinggi ||
                     singleAktivitiPromosi.alkoholIntervensiTabiatBerisikoTinggi ||
-                    singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi ? (
+                    singleAktivitiPromosi.lainLainIntervensiTabiatBerisikoTinggi ||
+                    pilihanPromosi.includes('lihat-semua') ? (
                       <article className='grid grid-cols-1 lg:grid-cols-2 lg:col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                         <div className='flex flex-row justify-start lg:col-span-2 items-center'>
                           <h1 className='text-base font-bold flex flex-row pl-5 mr-5'>

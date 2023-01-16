@@ -148,6 +148,9 @@ export default function Header(props) {
                         <NavLink
                           className='p-1 my-1 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
                           to='/pentadbir/landing/tetapan'
+                          onClick={() => {
+                            setShowProfile(!showProfile);
+                          }}
                         >
                           <FaRegSun className='m-1' />
                           Tetapan Saya

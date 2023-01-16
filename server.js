@@ -39,6 +39,7 @@ const genRouter = require('./routes/generateRouter');
 
 // IMPORT MIDDLEWARES ------------------------------------------
 const authCheck = require('./middlewares/authCheck');
+const { adminAuth } = require('./middlewares/adminAuth');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
 
@@ -107,7 +108,7 @@ app.use('/api/v1/kaunter', authCheck, kaunter);
 app.use('/api/v1/superadmin', adminAPI);
 
 // generate route
-app.use('/api/v1/generate', genRouter);
+app.use('/api/v1/generate', adminAuth, genRouter);
 
 // for use in deployment
 app.get('*', (req, res) => {

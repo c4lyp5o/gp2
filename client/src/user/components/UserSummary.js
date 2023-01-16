@@ -10,58 +10,58 @@ export default function UserSummary() {
   const [data, setData] = useState(null);
   const [profileImage, setProfileImage] = useState(null);
 
-  const uploadImage = useId();
+  // const uploadImage = useId();
 
-  async function resizeImage(data) {
-    const response = await axios.post('/api/v1/superadmin/newroute', {
-      image: data.image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''),
-      type: data.type,
-      main: 'ImageResizer',
-      Fn: 'resize',
-      token: userToken,
-    });
-    return response;
-  }
+  // async function resizeImage(data) {
+  //   const response = await axios.post('/api/v1/superadmin/newroute', {
+  //     image: data.image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''),
+  //     type: data.type,
+  //     main: 'ImageResizer',
+  //     Fn: 'resize',
+  //     token: userToken,
+  //   });
+  //   return response;
+  // }
 
-  const encodeImageFileAsURL = (e) => {
-    const filesSelected = document.getElementById(uploadImage).files;
+  // const encodeImageFileAsURL = (e) => {
+  //   const filesSelected = document.getElementById(uploadImage).files;
 
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      if (fileToLoad.size > 1000000) {
-        toast.error(
-          'Gambar terlalu besar. Sila muat naik gambar yang lebih kecil. Maksimum 1MB.'
-        );
-        return;
-      }
-      const fileReader = new FileReader();
-      fileReader.onload = async function (fileLoadedEvent) {
-        const srcData = fileLoadedEvent.target.result;
-        const data = {
-          type: fileToLoad.type,
-          image: srcData,
-        };
-        try {
-          const resizedImage = await resizeImage(data);
-          setProfileImage(resizedImage.data.imgSrc);
-          // upload image to server
-          const res = await axios.patch(
-            `/api/v1/operator/${userinfo._id}`,
-            {
-              image: resizedImage.data.imgSrc,
-            },
-            {
-              headers: { Authorization: `Bearer ${userToken}` },
-            }
-          );
-          toast.success(res.data.msg);
-        } catch (error) {
-          toast.error('Gambar tidak sah.');
-        }
-      };
-      fileReader.readAsDataURL(fileToLoad);
-    }
-  };
+  //   if (filesSelected.length > 0) {
+  //     const fileToLoad = filesSelected[0];
+  //     if (fileToLoad.size > 1000000) {
+  //       toast.error(
+  //         'Gambar terlalu besar. Sila muat naik gambar yang lebih kecil. Maksimum 1MB.'
+  //       );
+  //       return;
+  //     }
+  //     const fileReader = new FileReader();
+  //     fileReader.onload = async function (fileLoadedEvent) {
+  //       const srcData = fileLoadedEvent.target.result;
+  //       const data = {
+  //         type: fileToLoad.type,
+  //         image: srcData,
+  //       };
+  //       try {
+  //         const resizedImage = await resizeImage(data);
+  //         setProfileImage(resizedImage.data.imgSrc);
+  //         // upload image to server
+  //         const res = await axios.patch(
+  //           `/api/v1/operator/${userinfo._id}`,
+  //           {
+  //             image: resizedImage.data.imgSrc,
+  //           },
+  //           {
+  //             headers: { Authorization: `Bearer ${userToken}` },
+  //           }
+  //         );
+  //         toast.success(res.data.msg);
+  //       } catch (error) {
+  //         toast.error('Gambar tidak sah.');
+  //       }
+  //     };
+  //     fileReader.readAsDataURL(fileToLoad);
+  //   }
+  // };
 
   useEffect(() => {
     const fetchData = async () => {
@@ -91,9 +91,9 @@ export default function UserSummary() {
   }
 
   return (
-    <div className='px-3 lg:px-10 h-full p-3 overflow-y-auto'>
+    <div className='px-3 mt-3 lg:px-10 h-full p-3 overflow-y-auto'>
       <div className='flex flex-col items-center'>
-        <img
+        {/* <img
           src={profileImage}
           alt='profile'
           className='w-32 h-32 rounded-full'
@@ -108,7 +108,7 @@ export default function UserSummary() {
           onChange={(e) => {
             encodeImageFileAsURL(e);
           }}
-        />
+        /> */}
         <h2 className='text-2xl font-bold'>{userinfo.nama}</h2>
         <h3 className='text-lg'>
           {userinfo.statusPegawai === 'pp'

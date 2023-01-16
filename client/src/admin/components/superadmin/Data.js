@@ -300,7 +300,7 @@ export default function Data({ FType, kp }) {
                         onClick={() => {
                           setShowDeleteModal(true);
                           setId(kkia._id);
-                          setDeleteCandidate(kkia.kp);
+                          setDeleteCandidate(kkia.nama);
                         }}
                       >
                         Hapus
