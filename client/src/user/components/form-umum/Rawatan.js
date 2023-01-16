@@ -243,14 +243,14 @@ export default function Rawatan(props) {
                     props.cabutDesidusRawatanUmum ||
                     props.cabutKekalRawatanUmum ||
                     props.komplikasiSelepasCabutanRawatanUmum ? (
-                      <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                        <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                      <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
                           cabutan
                         </h4>
-                        <p className='flex items-center flex-row pl-5 text-m font-m col-span-2'>
+                        <p className='flex items-center flex-row pl-5 text-m font-m lg:col-span-2'>
                           Jumlah gigi telah dicabut
                         </p>
-                        <div className='flex items-center justify-center'>
+                        <div className='grid grid-cols-[2fr_1fr] items-center'>
                           <p className='text-sm font-m'>Desidus: </p>
                           <input
                             disabled={isDisabled}
@@ -261,12 +261,12 @@ export default function Rawatan(props) {
                             onChange={(e) => {
                               props.setCabutDesidusRawatanUmum(e.target.value);
                             }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
                             min='0'
                             max='20'
                           />
                         </div>
-                        <div className='flex items-center justify-center col-start-1'>
+                        <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                           <p className='text-sm font-m'>Kekal: </p>
                           <input
                             disabled={isDisabled}
@@ -280,13 +280,13 @@ export default function Rawatan(props) {
                                 0
                               );
                             }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
                             min='0'
                             max='32'
                           />
                         </div>
                         {props.cabutKekalRawatanUmum > 0 ? (
-                          <div className='flex items-center flex-row pl-5'>
+                          <div className='grid grid-cols-[2fr_1fr] items-center'>
                             <p className='text-sm font-m'>
                               Cabutan disebabkan periodontitis:
                             </p>
@@ -303,13 +303,13 @@ export default function Rawatan(props) {
                                   e.target.value
                                 );
                               }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
                               min='0'
                               max={props.cabutKekalRawatanUmum}
                             />
                           </div>
                         ) : null}
-                        <div className='flex items-center flex-row col-span-2 pl-5'>
+                        <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                           <p className='text-sm font-m'>
                             Komplikasi selepas cabutan:{' '}
                           </p>
@@ -324,7 +324,7 @@ export default function Rawatan(props) {
                                 e.target.value
                               );
                             }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
                             min='0'
                             max='32'
                           />
@@ -639,7 +639,7 @@ export default function Rawatan(props) {
                             max='32'
                           />
                         </div>
-                        <div className='flex flex-row items-center pl-5'>
+                        <div className='flex flex-row items-center'>
                           <label
                             htmlFor='semula-jumlah-crown-bridge-rawatan-umum'
                             className='text-sm font-m'
@@ -688,7 +688,7 @@ export default function Rawatan(props) {
                             max='32'
                           />
                         </div>
-                        <div className='flex flex-row items-center pl-5'>
+                        <div className='flex flex-row items-center'>
                           <label
                             htmlFor='semula-jumlah-post-core-rawatan-umum'
                             className='text-sm font-m'
@@ -1337,8 +1337,8 @@ export default function Rawatan(props) {
                         <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                           Terapi Periodontium
                         </h4>
-                        <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
-                          <h4 className='font-semibold flex flex-row items-center pl-3 col-span-2'>
+                        <article className='grid grid-cols-1 gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
+                          <h4 className='font-semibold flex flex-row items-center pl-3'>
                             Pengurusan Faktor Risiko
                           </h4>
                           {/* <label
@@ -1358,57 +1358,61 @@ export default function Rawatan(props) {
                           }}
                           className='w-4 h-4 rounded flex items-center'
                         /> */}
-                          <label
-                            htmlFor='nasihat-berhenti-merokok'
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Nasihat Berhenti Merokok :
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='nasihat-berhenti-merokok'
-                            id='nasihat-berhenti-merokok'
-                            checked={
-                              props.nasihatBerhentiMerokok ? true : false
-                            }
-                            onChange={() => {
-                              props.setNasihatBerhentiMerokok(
-                                !props.nasihatBerhentiMerokok
-                              );
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
-                          <label
-                            htmlFor='lain-lain-pengurusan-faktor-risiko '
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Lain-lain :
-                            <FaInfoCircle
-                              className='text-xs ml-1'
-                              title='Contoh: Rujukan kepada Pengamal Perubatan bagi pesakit yang disyaki mengidap diabetes atau rujukan semula pesakit yang tidak patuh kepada pengambilan ubat-ubatan'
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='nasihat-berhenti-merokok'
+                              id='nasihat-berhenti-merokok'
+                              checked={
+                                props.nasihatBerhentiMerokok ? true : false
+                              }
+                              onChange={() => {
+                                props.setNasihatBerhentiMerokok(
+                                  !props.nasihatBerhentiMerokok
+                                );
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                             />
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='lain-lain-pengurusan-faktor-risiko'
-                            id='lain-lain-pengurusan-faktor-risiko'
-                            checked={
-                              props.lainLainPengurusanFaktorRisiko
-                                ? true
-                                : false
-                            }
-                            onChange={() => {
-                              props.setLainLainPengurusanFaktorRisiko(
-                                !props.lainLainPengurusanFaktorRisiko
-                              );
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
+                            <label
+                              htmlFor='nasihat-berhenti-merokok'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Nasihat Berhenti Merokok
+                            </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='lain-lain-pengurusan-faktor-risiko'
+                              id='lain-lain-pengurusan-faktor-risiko'
+                              checked={
+                                props.lainLainPengurusanFaktorRisiko
+                                  ? true
+                                  : false
+                              }
+                              onChange={() => {
+                                props.setLainLainPengurusanFaktorRisiko(
+                                  !props.lainLainPengurusanFaktorRisiko
+                                );
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='lain-lain-pengurusan-faktor-risiko '
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Lain-lain
+                              <FaInfoCircle
+                                className='text-xs ml-1'
+                                title='Contoh: Rujukan kepada Pengamal Perubatan bagi pesakit yang disyaki mengidap diabetes atau rujukan semula pesakit yang tidak patuh kepada pengambilan ubat-ubatan'
+                              />
+                            </label>
+                          </div>
                         </article>
-                        <article className='grid grid-cols-[2fr_1fr] md:grid-cols-[3fr_2fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
-                          <h4 className='font-semibold flex flex-row items-center pl-3 col-span-2'>
+                        <article className='grid grid-cols-1 gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2 '>
+                          <h4 className='font-semibold flex flex-row items-center pl-3'>
                             Pengurusan Faktor Setempat
                           </h4>
                           {/* <label
@@ -1432,48 +1436,54 @@ export default function Rawatan(props) {
                           }}
                           className='w-4 h-4 rounded flex items-center'
                         /> */}
-                          <label
-                            htmlFor='pengilapan-tampalan-rungkup'
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Penggilapan Tampalan Rungkup :{' '}
-                            <FaInfoCircle
-                              className='text-xs ml-1'
-                              title='Polished Overhanged Filling'
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='pengilapan-tampalan-rungkup'
+                              id='pengilapan-tampalan-rungkup'
+                              checked={
+                                props.pengilapanTampalanRungkup ? true : false
+                              }
+                              onChange={() => {
+                                props.setPengilapanTampalanRungkup(
+                                  !props.pengilapanTampalanRungkup
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
                             />
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='pengilapan-tampalan-rungkup'
-                            id='pengilapan-tampalan-rungkup'
-                            checked={
-                              props.pengilapanTampalanRungkup ? true : false
-                            }
-                            onChange={() => {
-                              props.setPengilapanTampalanRungkup(
-                                !props.pengilapanTampalanRungkup
-                              );
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
-                          <label
-                            htmlFor='adjustasi-oklusi'
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Adjustasi Oklusi :
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='adjustasi-oklusi'
-                            id='adjustasi-oklusi'
-                            checked={props.adjustasiOklusi ? true : false}
-                            onChange={() => {
-                              props.setAdjustasiOklusi(!props.adjustasiOklusi);
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
+                            <label
+                              htmlFor='pengilapan-tampalan-rungkup'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Penggilapan Tampalan Rungkup
+                              <FaInfoCircle
+                                className='text-xs ml-1'
+                                title='Polished Overhanged Filling'
+                              />
+                            </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='adjustasi-oklusi'
+                              id='adjustasi-oklusi'
+                              checked={props.adjustasiOklusi ? true : false}
+                              onChange={() => {
+                                props.setAdjustasiOklusi(
+                                  !props.adjustasiOklusi
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='adjustasi-oklusi'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Adjustasi Oklusi
+                            </label>
+                          </div>
                           {/* <label
                           htmlFor='cabutan-pengurusan-faktor-setempat'
                           className='text-left flex justify-start items-center text-sm pl-3'
@@ -1495,135 +1505,66 @@ export default function Rawatan(props) {
                           }}
                           className='w-4 h-4 rounded flex items-center'
                         /> */}
-                          <label
-                            htmlFor='ektiparsi-pulpa'
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Ekstirpasi Disebabkan Periodontitis :
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='ektiparsi-pulpa'
-                            id='ektiparsi-pulpa'
-                            checked={props.ektiparsiPulpa ? true : false}
-                            onChange={() => {
-                              props.setEktiparsiPulpa(!props.ektiparsiPulpa);
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
-                          <label
-                            htmlFor='rawatan-lain-terapi-periodontik-rawatan-umum'
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Lain-Lain :
-                            <FaInfoCircle
-                              className='text-xs ml-1'
-                              title='seperti penyahpekaan, pensplinan, pengurusan abses periodontium seperti incision and drainage'
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='ektiparsi-pulpa'
+                              id='ektiparsi-pulpa'
+                              checked={props.ektiparsiPulpa ? true : false}
+                              onChange={() => {
+                                props.setEktiparsiPulpa(!props.ektiparsiPulpa);
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
                             />
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='rawatan-lain-terapi-periodontik-rawatan-umum'
-                            id='rawatan-lain-terapi-periodontik-rawatan-umum'
-                            checked={
-                              props.rawatanLainPeriodontikRawatanUmum
-                                ? true
-                                : false
-                            }
-                            onChange={() => {
-                              props.setRawatanLainPeriodontikRawatanUmum(
-                                !props.rawatanLainPeriodontikRawatanUmum
-                              );
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
+                            <label
+                              htmlFor='ektiparsi-pulpa'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Ekstirpasi Disebabkan Periodontitis
+                            </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='rawatan-lain-terapi-periodontik-rawatan-umum'
+                              id='rawatan-lain-terapi-periodontik-rawatan-umum'
+                              checked={
+                                props.rawatanLainPeriodontikRawatanUmum
+                                  ? true
+                                  : false
+                              }
+                              onChange={() => {
+                                props.setRawatanLainPeriodontikRawatanUmum(
+                                  !props.rawatanLainPeriodontikRawatanUmum
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='rawatan-lain-terapi-periodontik-rawatan-umum'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Lain-Lain
+                              <FaInfoCircle
+                                className='text-xs ml-1'
+                                title='seperti penyahpekaan, pensplinan, pengurusan abses periodontium seperti incision and drainage'
+                              />
+                            </label>
+                          </div>
                         </article>
-                        <article className='grid grid-cols-[2fr_1fr] gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2'>
-                          <h4 className='font-semibold flex flex-row pl-3 col-span-2 '>
+                        <article className='grid grid-cols-1 gap-2 items-center border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-span-2'>
+                          <h4 className='font-semibold flex flex-row pl-3'>
                             Rujukan berkaitan terapi peridontium
                           </h4>
-                          <label className='text-left flex justify-start items-center text-sm pl-3'>
-                            Pakar Periodontik :
-                            {props.skorBpeOralHygienePemeriksaanUmum ===
-                              '4' && <span className='text-user6'>*</span>}
-                          </label>
-                          <div className='flex flex-row items-center whitespace-nowrap'>
-                            <input
-                              disabled={isDisabled}
-                              required={
-                                props.skorBpeOralHygienePemeriksaanUmum === '4'
-                                  ? true
-                                  : false
-                              }
-                              type='radio'
-                              name='rujukan-pakar-periodontik'
-                              id='ya-rujukan-pakar-periodontik'
-                              value='ya-rujukan-pakar-periodontik'
-                              checked={
-                                props.rujukanPakarPeriodontik ===
-                                'ya-rujukan-pakar-periodontik'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setRujukanPakarPeriodontik(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 rounded flex items-center'
-                            />
-                            <label
-                              htmlFor='ya-rujukan-pakar-periodontik'
-                              className='text-left flex justify-start items-center text-sm px-3'
-                            >
-                              Ya
+                          <div className='grid grid-cols-[2fr_3fr] gap-2 items-center pl-5 m-1'>
+                            <label className='text-left flex justify-start items-center text-sm'>
+                              Pakar Periodontik :
+                              {props.skorBpeOralHygienePemeriksaanUmum ===
+                                '4' && <span className='text-user6'>*</span>}
                             </label>
-                            <input
-                              disabled={isDisabled}
-                              required={
-                                props.skorBpeOralHygienePemeriksaanUmum === '4'
-                                  ? true
-                                  : false
-                              }
-                              type='radio'
-                              name='rujukan-pakar-periodontik'
-                              id='tidak-rujukan-pakar-periodontik'
-                              value='tidak-rujukan-pakar-periodontik'
-                              checked={
-                                props.rujukanPakarPeriodontik ===
-                                'tidak-rujukan-pakar-periodontik'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                props.setRujukanPakarPeriodontik(
-                                  e.target.value
-                                );
-                              }}
-                              className='w-4 h-4 rounded flex items-center'
-                            />
-                            <label
-                              htmlFor='tidak-rujukan-pakar-periodontik'
-                              className='text-left flex justify-start items-center text-sm px-3'
-                            >
-                              Tidak
-                            </label>
-                            {props.rujukanPakarPeriodontik ? (
-                              <span
-                                className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
-                                onClick={() => {
-                                  props.setRujukanPakarPeriodontik('');
-                                }}
-                              >
-                                X
-                              </span>
-                            ) : null}
-                          </div>
-                          {props.rujukanPakarPeriodontik ===
-                            'tidak-rujukan-pakar-periodontik' && (
-                            <div className='border border-userBlack flex flex-row items-center whitespace-nowrap p-2 col-start-2'>
+                            <div className='flex flex-row items-center whitespace-nowrap'>
                               <input
                                 disabled={isDisabled}
                                 required={
@@ -1633,29 +1574,27 @@ export default function Rawatan(props) {
                                     : false
                                 }
                                 type='radio'
-                                name='enggan-lain-rujukan-pakar-periodontik'
-                                id='enggan-rujukan-pakar-periodontik'
-                                value='enggan-rujukan-pakar-periodontik'
+                                name='rujukan-pakar-periodontik'
+                                id='ya-rujukan-pakar-periodontik'
+                                value='ya-rujukan-pakar-periodontik'
                                 checked={
-                                  props.engganLainRujukanPakarPeriodontik ===
-                                  'enggan-rujukan-pakar-periodontik'
+                                  props.rujukanPakarPeriodontik ===
+                                  'ya-rujukan-pakar-periodontik'
                                     ? true
                                     : false
                                 }
                                 onChange={(e) => {
-                                  props.setEngganLainRujukanPakarPeriodontik(
+                                  props.setRujukanPakarPeriodontik(
                                     e.target.value
                                   );
                                 }}
                                 className='w-4 h-4 rounded flex items-center'
                               />
                               <label
-                                htmlFor='enggan-rujukan-pakar-periodontik'
+                                htmlFor='ya-rujukan-pakar-periodontik'
                                 className='text-left flex justify-start items-center text-sm px-3'
                               >
-                                Enggan
-                                {props.skorBpeOralHygienePemeriksaanUmum ===
-                                  '4' && <span className='text-user6'>*</span>}
+                                Ya
                               </label>
                               <input
                                 disabled={isDisabled}
@@ -1666,93 +1605,184 @@ export default function Rawatan(props) {
                                     : false
                                 }
                                 type='radio'
-                                name='enggan-lain-rujukan-pakar-periodontik'
-                                id='lain-rujukan-pakar-periodontik'
-                                value='lain-rujukan-pakar-periodontik'
+                                name='rujukan-pakar-periodontik'
+                                id='tidak-rujukan-pakar-periodontik'
+                                value='tidak-rujukan-pakar-periodontik'
                                 checked={
-                                  props.engganLainRujukanPakarPeriodontik ===
-                                  'lain-rujukan-pakar-periodontik'
+                                  props.rujukanPakarPeriodontik ===
+                                  'tidak-rujukan-pakar-periodontik'
                                     ? true
                                     : false
                                 }
                                 onChange={(e) => {
-                                  props.setEngganLainRujukanPakarPeriodontik(
+                                  props.setRujukanPakarPeriodontik(
                                     e.target.value
                                   );
                                 }}
                                 className='w-4 h-4 rounded flex items-center'
                               />
                               <label
-                                htmlFor='lain-rujukan-pakar-periodontik'
+                                htmlFor='tidak-rujukan-pakar-periodontik'
                                 className='text-left flex justify-start items-center text-sm px-3'
                               >
-                                Lain-lain
-                                {props.skorBpeOralHygienePemeriksaanUmum ===
-                                  '4' && <span className='text-user6'>*</span>}
-                                <FaInfoCircle
-                                  className='text-xs ml-1'
-                                  title='Contoh: Pesakit belum memutuskan boleh ke Klinik Pakar atau tidak, tidak sempat dirujuk kerana masa tidak mencukupi atau kekangan fasiliti'
-                                />
+                                Tidak
                               </label>
+                              {props.rujukanPakarPeriodontik ? (
+                                <span
+                                  className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
+                                  onClick={() => {
+                                    props.setRujukanPakarPeriodontik('');
+                                  }}
+                                >
+                                  X
+                                </span>
+                              ) : null}
                             </div>
-                          )}
-                          <label
-                            htmlFor='rujukan-pakar-scd'
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Pakar Pergigian Penjagaan Khas :
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='rujukan-pakar-scd'
-                            id='rujukan-pakar-scd'
-                            checked={props.rujukanPakarScd ? true : false}
-                            onChange={() => {
-                              props.setRujukanPakarScd(!props.rujukanPakarScd);
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
-                          <label
-                            htmlFor='rujukan-pakar-upkka'
-                            className='text-left flex justify-start items-center text-sm pl-3'
-                          >
-                            Pakar Pergigian Kesihatan Awam :
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='rujukan-pakar-upkka'
-                            id='rujukan-pakar-upkka'
-                            checked={props.rujukanPakarUpkka ? true : false}
-                            onChange={() => {
-                              props.setRujukanPakarUpkka(
-                                !props.rujukanPakarUpkka
-                              );
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
-                          <label
-                            htmlFor='kes-selesai-periodontium'
-                            className='text-left flex justify-start items-center text-sm pl-3 whitespace-nowrap'
-                          >
-                            Kes Selesai Periodontium :
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='kes-selesai-periodontium'
-                            id='kes-selesai-periodontium'
-                            checked={
-                              props.kesSelesaiPeriodontium ? true : false
-                            }
-                            onChange={() => {
-                              props.setKesSelesaiPeriodontium(
-                                !props.kesSelesaiPeriodontium
-                              );
-                            }}
-                            className='w-4 h-4 rounded flex items-center'
-                          />
+                            {props.rujukanPakarPeriodontik ===
+                              'tidak-rujukan-pakar-periodontik' && (
+                              <div className='border border-userBlack flex flex-row items-center whitespace-nowrap p-2 col-start-2'>
+                                <input
+                                  disabled={isDisabled}
+                                  required={
+                                    props.skorBpeOralHygienePemeriksaanUmum ===
+                                    '4'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='enggan-lain-rujukan-pakar-periodontik'
+                                  id='enggan-rujukan-pakar-periodontik'
+                                  value='enggan-rujukan-pakar-periodontik'
+                                  checked={
+                                    props.engganLainRujukanPakarPeriodontik ===
+                                    'enggan-rujukan-pakar-periodontik'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    props.setEngganLainRujukanPakarPeriodontik(
+                                      e.target.value
+                                    );
+                                  }}
+                                  className='w-4 h-4 rounded flex items-center'
+                                />
+                                <label
+                                  htmlFor='enggan-rujukan-pakar-periodontik'
+                                  className='text-left flex justify-start items-center text-sm px-3'
+                                >
+                                  Enggan
+                                  {props.skorBpeOralHygienePemeriksaanUmum ===
+                                    '4' && (
+                                    <span className='text-user6'>*</span>
+                                  )}
+                                </label>
+                                <input
+                                  disabled={isDisabled}
+                                  required={
+                                    props.skorBpeOralHygienePemeriksaanUmum ===
+                                    '4'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='enggan-lain-rujukan-pakar-periodontik'
+                                  id='lain-rujukan-pakar-periodontik'
+                                  value='lain-rujukan-pakar-periodontik'
+                                  checked={
+                                    props.engganLainRujukanPakarPeriodontik ===
+                                    'lain-rujukan-pakar-periodontik'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    props.setEngganLainRujukanPakarPeriodontik(
+                                      e.target.value
+                                    );
+                                  }}
+                                  className='w-4 h-4 rounded flex items-center'
+                                />
+                                <label
+                                  htmlFor='lain-rujukan-pakar-periodontik'
+                                  className='text-left flex justify-start items-center text-sm px-3'
+                                >
+                                  Lain-lain
+                                  {props.skorBpeOralHygienePemeriksaanUmum ===
+                                    '4' && (
+                                    <span className='text-user6'>*</span>
+                                  )}
+                                  <FaInfoCircle
+                                    className='text-xs ml-1'
+                                    title='Contoh: Pesakit belum memutuskan boleh ke Klinik Pakar atau tidak, tidak sempat dirujuk kerana masa tidak mencukupi atau kekangan fasiliti'
+                                  />
+                                </label>
+                              </div>
+                            )}
+                          </div>
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='rujukan-pakar-scd'
+                              id='rujukan-pakar-scd'
+                              checked={props.rujukanPakarScd ? true : false}
+                              onChange={() => {
+                                props.setRujukanPakarScd(
+                                  !props.rujukanPakarScd
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='rujukan-pakar-scd'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Pakar Pergigian Penjagaan Khas
+                            </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='rujukan-pakar-upkka'
+                              id='rujukan-pakar-upkka'
+                              checked={props.rujukanPakarUpkka ? true : false}
+                              onChange={() => {
+                                props.setRujukanPakarUpkka(
+                                  !props.rujukanPakarUpkka
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='rujukan-pakar-upkka'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Pakar Pergigian Kesihatan Awam
+                            </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='kes-selesai-periodontium'
+                              id='kes-selesai-periodontium'
+                              checked={
+                                props.kesSelesaiPeriodontium ? true : false
+                              }
+                              onChange={() => {
+                                props.setKesSelesaiPeriodontium(
+                                  !props.kesSelesaiPeriodontium
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='kes-selesai-periodontium'
+                              className='text-left flex justify-start items-center text-sm pl-3 whitespace-nowrap'
+                            >
+                              Kes Selesai Periodontium
+                            </label>
+                          </div>
                         </article>
                       </article>
                     ) : null}
@@ -1873,14 +1903,14 @@ export default function Rawatan(props) {
                     props.memenuhiRditnKod3KesRujukUpprRawatanUmum ||
                     props.restorasiPascaEndodontikKesRujukUpprRawatanUmum ||
                     props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum ? (
-                      <article className='grid grid-cols-1 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-semibold flex flex-row pl-3'>
+                      <article className='grid grid-cols-1 lg:grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                        <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
                           kes endodontik selesai
                         </h4>
-                        <div className='flex flex-row items-center pl-3'>
+                        <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                           <label
                             htmlFor='jumlah-anterior-kes-endodontik-selesai-rawatan-umum'
-                            className='text-sm font-m m-1'
+                            className='text-sm font-m m-1 justify-start text-left pl-3'
                           >
                             anterior :
                           </label>
@@ -1902,10 +1932,10 @@ export default function Rawatan(props) {
                             className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
-                        <div className='flex flex-row items-center pl-3'>
+                        <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                           <label
                             htmlFor='jumlah-premolar-kes-endodontik-selesai-rawatan-umum'
-                            className='text-sm font-m m-1'
+                            className='text-sm font-m m-1 justify-start text-left pl-3'
                           >
                             premolar :
                           </label>
@@ -1927,10 +1957,10 @@ export default function Rawatan(props) {
                             className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
-                        <div className='flex flex-row items-center pl-3'>
+                        <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                           <label
                             htmlFor='jumlah-molar-kes-endodontik-selesai-rawatan-umum'
-                            className='text-sm font-m m-1'
+                            className='text-sm font-m m-1 justify-start text-left pl-3'
                           >
                             molar :
                           </label>
@@ -1952,10 +1982,10 @@ export default function Rawatan(props) {
                             className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
-                        <div className='flex flex-row items-center pl-3'>
+                        <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                           <label
                             htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-selesai-rawatan-umum'
-                            className='text-sm font-m m-1'
+                            className='text-sm font-m m-1 justify-start text-left pl-3'
                           >
                             rawatan semula endodontik :
                           </label>
@@ -1977,14 +2007,14 @@ export default function Rawatan(props) {
                             className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           />
                         </div>
-                        <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                          <h4 className='font-semibold flex flex-row pl-3'>
+                        <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md lg:col-span-2'>
+                          <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
                             rawatan semula di KEPP
                           </h4>
-                          <div className='flex flex-row items-center pl-3'>
+                          <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                             <label
                               htmlFor='jumlah-anterior-rawatan-semula-kepp-rawatan-umum'
-                              className='text-sm font-m m-1'
+                              className='text-sm font-m m-1 justify-start text-left pl-3'
                             >
                               anterior :
                             </label>
@@ -2006,10 +2036,10 @@ export default function Rawatan(props) {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
                           </div>
-                          <div className='flex flex-row items-center pl-3'>
+                          <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                             <label
                               htmlFor='jumlah-premolar-rawatan-semula-kepp-rawatan-umum'
-                              className='text-sm font-m m-1'
+                              className='text-sm font-m m-1 justify-start text-left pl-3'
                             >
                               premolar :
                             </label>
@@ -2031,10 +2061,10 @@ export default function Rawatan(props) {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             />
                           </div>
-                          <div className='flex flex-row items-center pl-3'>
+                          <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                             <label
                               htmlFor='jumlah-molar-rawatan-semula-kepp-rawatan-umum'
-                              className='text-sm font-m m-1'
+                              className='text-sm font-m m-1 justify-start text-left pl-3'
                             >
                               molar :
                             </label>
@@ -2057,7 +2087,7 @@ export default function Rawatan(props) {
                             />
                           </div>
                         </article>
-                        <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min lg:col-span-2'>
                           <h4 className='font-semibold flex flex-row pl-3'>
                             kes rujuk Unit Pakar Pergigian Restoratif
                           </h4>

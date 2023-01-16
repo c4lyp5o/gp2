@@ -2059,14 +2059,14 @@ export default function Pemeriksaan(props) {
                 ) : null}
                 {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
                 props.statusKehadiran === false ? (
-                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-semibold flex flex-row pl-3'>
+                  <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
                       kes endodontik diperlukan
                     </h4>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-left flex justify-start items-center text-sm pl-3'
+                        className='text-left flex justify-start items-center text-sm'
                       >
                         anterior :
                       </label>
@@ -2088,10 +2088,10 @@ export default function Pemeriksaan(props) {
                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
+                        className='text-sm font-m m-1 flex justify-start text-left'
                       >
                         premolar :
                       </label>
@@ -2113,10 +2113,10 @@ export default function Pemeriksaan(props) {
                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
+                        className='text-sm font-m m-1 flex justify-start text-left'
                       >
                         molar :
                       </label>
@@ -2138,10 +2138,10 @@ export default function Pemeriksaan(props) {
                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
+                        className='text-sm font-m m-1 flex justify-start text-left'
                       >
                         rawatan semula endodontik :
                       </label>
