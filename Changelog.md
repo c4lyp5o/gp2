@@ -1,11 +1,35 @@
 # Changelog
 
+### 11/1/2023 (v2.0.8)
+
+#### Added
+
+- Penambahan 4 kod program promosi (PRO1022, PRO6007, PRO8010, PRO8011)
+- Menambah pilihan 'Lihat semua' ketika mengisi reten promosi
+- Mewujudkan penetapan syarat-syarat TPR ketika mengisi borang pesakit umum
+- Fungsi penjanaan reten dibuka untuk Pentadbir Negeri
+
+#### Changed
+
+- GIS skor dibuka semula tanpa ada apa-apa kondisi untuk pengisian
+
+#### Fixed
+
+- Pembetulan bagi operator yang dihapuskan di modul Pentadbir Daerah, operator akan boleh dicari semula sekiranya telah dihapuskan
+- Memperbaiki tetingkap pengesahan ketika ingin menghapuskan data di semua peringkat modul Pentadbir
+- Pembetulan notifikasi mesej yang dikeluarkan sekiranya program komuniti yang ingin dihapuskan adalah daripada peringkat Pentadbir Daerah
+
+#### Removed
+
+- Pengisian BPE tidak lagi perlu diisi bagi pesakit yang didaftarkan di bawah Program Pergigian Sekolah Sesi 2022/2023
+- Menutup fungsi muat naik gambar di modul Pentadbir & modul Pengguna sehingga pengoptimuman fungsi dapat dilaksanakan
+
 ### 9/1/2023 (v2.0.7)
 
 #### Added
 
 - Menambah 3 jenis enrolmen ketika mengemaskini taska & tadika di modul Pentadbir bagi Pentadbir Klinik (diminta semua Pentadbir Klinik mengemaskini semula enrolmen taska/tadika di modul Pentadbir)
-- Perubahan-perubahan di dalam sistem di dokumentasikan dan pautan tersebut boleh didapatkan di sebelah pautan meja bantuan
+- Perubahan-perubahan di dalam sistem didokumentasikan dan pautan tersebut boleh didapatkan di sebelah pautan meja bantuan
 
 #### Changed
 

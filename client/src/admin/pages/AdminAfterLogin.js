@@ -18,13 +18,13 @@ import AdminCenterStage from '../components/superadmin/AdminCenterStage';
 import KpCenterStage from '../components/admin-kp/KpCenterStage';
 
 // negeri details
-import Negeri from '../components/superadmin/Negeri';
+import Negeri from '../components/superadmin/NegeriDetails';
 
 // daerah details
-import Daerah from '../components/superadmin/Daerah';
+import Daerah from '../components/superadmin/DaerahDetails';
 
 // klinik details
-import Klinik from '../components/superadmin/Klinik';
+import Klinik from '../components/superadmin/KlinikDetails';
 
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';

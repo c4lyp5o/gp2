@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import {
@@ -10,6 +10,8 @@ import {
   BsPersonCircle,
   BsCalendarPlusFill,
   BsFillCaretDownFill,
+  BsFillArrowUpCircleFill,
+  BsExclamationCircleFill,
 } from 'react-icons/bs';
 import moment from 'moment';
 
@@ -49,6 +51,12 @@ function UserUmum({ sekolahIdc }) {
 
   const [reloadState, setReloadState] = useState(false);
 
+  //carian ic semua
+  const keys = ['nama', 'ic', 'createdByUsername'];
+
+  const bawahRef = useRef(null);
+  const atasRef = useRef(null);
+
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
     new Date(dateToday)
@@ -71,7 +79,7 @@ function UserUmum({ sekolahIdc }) {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${moment(
+          `/api/v1/query/umum?tarikhKedatangan=${moment(
             tarikhKedatangan
           ).format(
             'YYYY-MM-DD'
@@ -96,7 +104,7 @@ function UserUmum({ sekolahIdc }) {
       }
     };
     query();
-  }, [nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
+  }, [tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
@@ -104,6 +112,16 @@ function UserUmum({ sekolahIdc }) {
     });
     setResultPilih(resultFilter);
   }, [pilih]);
+
+  //scrollBawah after resultPilih
+  const scrollBawah = () => {
+    bawahRef.current?.scrollIntoView({ behavior: 'smooth' });
+  };
+  useEffect(() => {
+    if (resultPilih.length > 0) {
+      scrollBawah();
+    }
+  }, [resultPilih]);
 
   // clear pilihan if change nama, tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState
   useEffect(() => {
@@ -200,8 +218,15 @@ function UserUmum({ sekolahIdc }) {
             )}
           </h2>
           <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
-            <label htmlFor='nama-pesakit' className='flex flex-row my-2'>
-              nama pesakit :
+            <label
+              htmlFor='nama-pesakit'
+              className='flex flex-row my-2 items-center'
+            >
+              carian pesakit
+              <BsExclamationCircleFill
+                className='ml-2 text-lg text-user3'
+                title='carian untuk nama , kad pengenalan dan operator'
+              />
             </label>
             <input
               onChange={(e) => {
@@ -316,7 +341,7 @@ function UserUmum({ sekolahIdc }) {
           </h2>
           <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
             <table className='table-auto'>
-              <thead className='text-userWhite bg-user2'>
+              <thead className='text-userWhite bg-user2' ref={atasRef}>
                 <tr>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     BIL
@@ -368,171 +393,178 @@ function UserUmum({ sekolahIdc }) {
                 </tr>
               </thead>
               {!isLoading &&
-                queryResult.map((singlePersonUmum, index) => {
-                  return (
-                    <tbody className='bg-user4'>
-                      <tr>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {index + 1}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {formatTime(singlePersonUmum.waktuSampai)}
-                        </td>
-                        {singlePersonUmum.noPendaftaranBaru ? (
-                          <td
-                            className={`${
-                              pilih === singlePersonUmum._id && 'bg-user3'
-                            } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
-                          >
-                            {noPendaftaranSplitter(
-                              singlePersonUmum.noPendaftaranBaru
-                            )}
-                            <BsPersonCircle
-                              className='text-user7 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7'
-                              title='Baru'
-                            />
-                          </td>
-                        ) : (
-                          <td
-                            className={`${
-                              pilih === singlePersonUmum._id && 'bg-user3'
-                            } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
-                          >
-                            {noPendaftaranSplitter(
-                              singlePersonUmum.noPendaftaranUlangan
-                            )}
-                            <BsPersonCircle
-                              className='text-user9 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user9'
-                              title='Ulangan'
-                            />
-                          </td>
-                        )}
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.nama.toUpperCase()}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.ic.toUpperCase()}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {statusPesakit(singlePersonUmum)}
-                        </td>
-                        {jenisFasiliti === 'kk-kd' ? (
+                queryResult
+                  .filter((pt) =>
+                    keys.some((key) => pt[key].toLowerCase().includes(nama))
+                  )
+                  .map((singlePersonUmum, index) => {
+                    return (
+                      <tbody className='bg-user4'>
+                        <tr>
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.namaFasilitiKkKd}
+                            {index + 1}
                           </td>
-                        ) : null}
-                        {jenisFasiliti === 'taska-tadika' ? (
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.namaFasilitiTaskaTadika}
+                            {formatTime(singlePersonUmum.waktuSampai)}
                           </td>
-                        ) : null}
-                        {jenisFasiliti === 'projek-komuniti-lain' ? (
+                          {singlePersonUmum.noPendaftaranBaru ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {noPendaftaranSplitter(
+                                singlePersonUmum.noPendaftaranBaru
+                              )}
+                              <BsPersonCircle
+                                className='text-user7 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7'
+                                title='Baru'
+                              />
+                            </td>
+                          ) : (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 lowercase outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {noPendaftaranSplitter(
+                                singlePersonUmum.noPendaftaranUlangan
+                              )}
+                              <BsPersonCircle
+                                className='text-user9 text-2xl inline-table mx-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user9'
+                                title='Ulangan'
+                              />
+                            </td>
+                          )}
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {singlePersonUmum.namaProgram}
+                            {singlePersonUmum.nama.toUpperCase()}
                           </td>
-                        ) : null}
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.createdByUsername === 'kaunter'
-                            ? null
-                            : singlePersonUmum.createdByUsername}
-                        </td>
-                        <td
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
-                        >
-                          {singlePersonUmum.statusReten === 'belum diisi' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Belum Diisi</span>
-                              <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
-                            </div>
-                          ) : singlePersonUmum.statusKehadiran === true &&
-                            singlePersonUmum.statusReten === 'reten salah' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Terdapat Kesalahan Reten</span>
-                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
-                            </div>
-                          ) : singlePersonUmum.statusKehadiran === true ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <strike>data tiada</strike>
-                              <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
-                            </div>
-                          ) : singlePersonUmum.statusReten === 'telah diisi' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Selesai Diisi</span>
-                              <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
-                            </div>
-                          ) : singlePersonUmum.statusReten === 'reten salah' ? (
-                            <div className='flex items-center justify-center whitespace-nowrap'>
-                              <span>Terdapat Kesalahan Reten</span>
-                              <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
-                            </div>
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.ic.toUpperCase()}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {statusPesakit(singlePersonUmum)}
+                          </td>
+                          {jenisFasiliti === 'kk-kd' ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {singlePersonUmum.namaFasilitiKkKd}
+                            </td>
                           ) : null}
-                        </td>
-                        <td
-                          onClick={() => {
-                            setOperasiHapus(false);
-                            setPilih(singlePersonUmum._id);
-                          }}
-                          className={`${
-                            pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
-                        >
-                          <u>PILIH</u>
-                        </td>
-                        {userinfo.role === 'admin' && (
+                          {jenisFasiliti === 'taska-tadika' ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {singlePersonUmum.namaFasilitiTaskaTadika}
+                            </td>
+                          ) : null}
+                          {jenisFasiliti === 'projek-komuniti-lain' ? (
+                            <td
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            >
+                              {singlePersonUmum.namaProgram}
+                            </td>
+                          ) : null}
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.createdByUsername === 'kaunter'
+                              ? null
+                              : singlePersonUmum.createdByUsername}
+                          </td>
+                          <td
+                            className={`${
+                              pilih === singlePersonUmum._id && 'bg-user3'
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          >
+                            {singlePersonUmum.statusReten === 'belum diisi' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Belum Diisi</span>
+                                <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
+                              </div>
+                            ) : singlePersonUmum.statusKehadiran === true &&
+                              singlePersonUmum.statusReten === 'reten salah' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Terdapat Kesalahan Reten</span>
+                                <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                              </div>
+                            ) : singlePersonUmum.statusKehadiran === true ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <strike>data tiada</strike>
+                                <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
+                              </div>
+                            ) : singlePersonUmum.statusReten ===
+                              'telah diisi' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Selesai Diisi</span>
+                                <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
+                              </div>
+                            ) : singlePersonUmum.statusReten ===
+                              'reten salah' ? (
+                              <div className='flex items-center justify-center whitespace-nowrap'>
+                                <span>Terdapat Kesalahan Reten</span>
+                                <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                              </div>
+                            ) : null}
+                          </td>
                           <td
                             onClick={() => {
-                              setOperasiHapus(true);
+                              setOperasiHapus(false);
                               setPilih(singlePersonUmum._id);
+                              scrollBawah();
                             }}
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                           >
-                            <u>HAPUS</u>
+                            <u>PILIH</u>
                           </td>
-                        )}
-                      </tr>
-                    </tbody>
-                  );
-                })}
+                          {userinfo.role === 'admin' && (
+                            <td
+                              onClick={() => {
+                                setOperasiHapus(true);
+                                setPilih(singlePersonUmum._id);
+                              }}
+                              className={`${
+                                pilih === singlePersonUmum._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                            >
+                              <u>HAPUS</u>
+                            </td>
+                          )}
+                        </tr>
+                      </tbody>
+                    );
+                  })}
               {isLoading && (
                 <tbody className='bg-user4'>
                   <tr>
@@ -687,108 +719,120 @@ function UserUmum({ sekolahIdc }) {
             </table>
           </div>
         </section>
-        <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2'>
-          {resultPilih.map((singlePersonUmum) => {
-            return (
-              <>
-                <div className='lg:mb-3'>
-                  <div className='text-l font-bold flex flex-row pl-5 p-2'>
-                    <h1>
-                      MAKLUMAT AM PESAKIT{' '}
-                      {singlePersonUmum.kedatangan === 'baru-kedatangan' ? (
-                        <span className='text-user7 inline-flex' title='Baru'>
-                          <BsFilePerson />
-                        </span>
-                      ) : (
-                        <span
-                          className='text-user9 inline-flex'
-                          title='Ulangan'
-                        >
-                          <BsFillFilePersonFill />
-                        </span>
-                      )}
-                    </h1>
+        <div ref={bawahRef}>
+          <section className='outline outline-1 outline-userBlack grid grid-cols-1 lg:grid-cols-2'>
+            {resultPilih.map((singlePersonUmum) => {
+              return (
+                <>
+                  <div className='lg:mb-3'>
+                    <div className='text-l font-bold flex flex-row pl-5 p-2'>
+                      <h1>
+                        MAKLUMAT AM PESAKIT{' '}
+                        {singlePersonUmum.kedatangan === 'baru-kedatangan' ? (
+                          <span className='text-user7 inline-flex' title='Baru'>
+                            <BsFilePerson />
+                          </span>
+                        ) : (
+                          <span
+                            className='text-user9 inline-flex'
+                            title='Ulangan'
+                          >
+                            <BsFillFilePersonFill />
+                          </span>
+                        )}
+                      </h1>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>NAMA :</h2>
+                      <p className='ml-1'>{singlePersonUmum.nama}</p>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>UMUR :</h2>
+                      <p className='ml-1'>
+                        {singlePersonUmum.umur} tahun{' '}
+                        {singlePersonUmum.umurBulan} bulan
+                      </p>
+                    </div>
                   </div>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>NAMA :</h2>
-                    <p className='ml-1'>{singlePersonUmum.nama}</p>
-                  </div>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>UMUR :</h2>
-                    <p className='ml-1'>
-                      {singlePersonUmum.umur} tahun {singlePersonUmum.umurBulan}{' '}
-                      bulan
-                    </p>
-                  </div>
-                </div>
-                <div className='lg:pt-10'>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>JANTINA :</h2>
-                    <p className='ml-1'>{singlePersonUmum.jantina}</p>
-                  </div>
-                  <div className='text-xs lg:text-sm flex flex-row pl-5'>
-                    <h2 className='font-semibold'>IC/Passport :</h2>
-                    <p className='ml-1'>{singlePersonUmum.ic}</p>
-                  </div>
-                  {operasiHapus ? (
-                    <button
-                      className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                      onClick={() => {
-                        setModalHapus(true);
-                      }}
-                    >
-                      hapus pesakit?
-                    </button>
-                  ) : singlePersonUmum.statusReten === 'telah diisi' ||
-                    singlePersonUmum.rawatanDibuatOperatorLain === true ? (
-                    <Link
-                      target='_blank'
-                      to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                    >
-                      lihat reten
-                    </Link>
-                  ) : singlePersonUmum.statusReten === 'reten salah' ||
-                    singlePersonUmum.rawatanDibuatOperatorLain === true ? (
-                    <Link
-                      target='_blank'
-                      to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                    >
-                      lihat reten
-                    </Link>
-                  ) : singlePersonUmum.statusReten === 'belum diisi' ? (
-                    <Link
-                      target='_blank'
-                      to={`form-umum/${singlePersonUmum._id}`}
-                      className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
-                    >
-                      masukkan reten
-                    </Link>
-                  ) : null}
-                  {singlePersonUmum.statusReten === 'belum diisi' &&
-                    singlePersonUmum.rawatanDibuatOperatorLain === true && (
+                  <div className='lg:pt-10'>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>JANTINA :</h2>
+                      <p className='ml-1'>{singlePersonUmum.jantina}</p>
+                    </div>
+                    <div className='text-xs lg:text-sm flex flex-row pl-5'>
+                      <h2 className='font-semibold'>IC/Passport :</h2>
+                      <p className='ml-1'>{singlePersonUmum.ic}</p>
+                    </div>
+                    {operasiHapus ? (
+                      <button
+                        className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                        onClick={() => {
+                          setModalHapus(true);
+                        }}
+                      >
+                        hapus pesakit?
+                      </button>
+                    ) : singlePersonUmum.statusReten === 'telah diisi' ||
+                      singlePersonUmum.rawatanDibuatOperatorLain === true ? (
                       <Link
                         target='_blank'
-                        to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
+                        to={`form-umum/${singlePersonUmum._id}`}
                         className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
-                        masukkan reten bagi operator tambahan
+                        lihat reten
                       </Link>
-                    )}
-                </div>
-                {modalHapus && (
-                  <UserDeleteModal
-                    handleDelete={handleDelete}
-                    setModalHapus={setModalHapus}
-                    id={singlePersonUmum._id}
-                    nama={singlePersonUmum.nama}
-                  />
-                )}
-              </>
-            );
-          })}
-        </section>
+                    ) : singlePersonUmum.statusReten === 'reten salah' ||
+                      singlePersonUmum.rawatanDibuatOperatorLain === true ? (
+                      <Link
+                        target='_blank'
+                        to={`form-umum/${singlePersonUmum._id}`}
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                      >
+                        lihat reten
+                      </Link>
+                    ) : singlePersonUmum.statusReten === 'belum diisi' ? (
+                      <Link
+                        target='_blank'
+                        to={`form-umum/${singlePersonUmum._id}`}
+                        className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                      >
+                        masukkan reten
+                      </Link>
+                    ) : null}
+                    {singlePersonUmum.statusReten === 'belum diisi' &&
+                      singlePersonUmum.rawatanDibuatOperatorLain === true && (
+                        <Link
+                          target='_blank'
+                          to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
+                          className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                        >
+                          masukkan reten bagi operator tambahan
+                        </Link>
+                      )}
+                  </div>
+                  {modalHapus && (
+                    <UserDeleteModal
+                      handleDelete={handleDelete}
+                      setModalHapus={setModalHapus}
+                      id={singlePersonUmum._id}
+                      nama={singlePersonUmum.nama}
+                    />
+                  )}
+                </>
+              );
+            })}
+          </section>
+          {resultPilih.length === 1 && (
+            <button
+              className='mt-3'
+              onClick={() => {
+                atasRef.current?.scrollIntoView({ behavior: 'smooth' });
+              }}
+            >
+              <BsFillArrowUpCircleFill className='text-user3 text-2xl animate-bounce' />
+            </button>
+          )}
+        </div>
       </div>
     </>
   );

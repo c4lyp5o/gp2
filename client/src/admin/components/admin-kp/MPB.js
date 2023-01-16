@@ -3,7 +3,7 @@ import moment from 'moment';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 export default function MakmalPergigianBergerak(props) {
-  const { toast, readOneDataForKp } = useGlobalAdminAppContext();
+  const { readOneDataForKp } = useGlobalAdminAppContext();
   const [show, setShow] = useState(false);
   const [singleMpbData, setSingleMpbData] = useState(null);
 

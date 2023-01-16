@@ -448,7 +448,7 @@ const getDataRoute = async (req, res) => {
       data = await Operator.find({
         statusPegawai: 'pp',
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'pegawai':
       data = await Operator.find({
@@ -456,13 +456,13 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'jp-all':
       data = await Operator.find({
         statusPegawai: 'jp',
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -470,7 +470,7 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'program':
       data = await Event.find({
@@ -478,7 +478,7 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         assignedByDaerah: true,
         tahunDibuat: new Date().getFullYear(),
-      });
+      }).lean();
       break;
     case 'sosmed':
       countedData = [];
@@ -491,7 +491,7 @@ const getDataRoute = async (req, res) => {
       }
       sosMeddata = await Sosmed.find({
         belongsTo: owner,
-      });
+      }).lean();
       countedData = sosmedDataCompactor(sosMeddata);
       data = countedData;
       break;
@@ -505,7 +505,7 @@ const getDataRoute = async (req, res) => {
       }
       data = await Sosmed.find({
         belongsTo: owner,
-      });
+      }).lean();
       break;
     case 'followers':
       owner = '';
@@ -517,14 +517,14 @@ const getDataRoute = async (req, res) => {
       }
       data = await Followers.find({
         belongsTo: owner,
-      });
+      }).lean();
       break;
     default:
       data = await Fasiliti.find({
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-      });
+      }).lean();
       break;
   }
   // 3rd phase
@@ -558,7 +558,7 @@ const getDataKpRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         tahunDibuat: new Date().getFullYear(),
-      });
+      }).lean();
       break;
     case 'sosmed':
       countedData = [];
@@ -574,19 +574,19 @@ const getDataKpRoute = async (req, res) => {
     case 'sosmedByKodProgram':
       data = await Sosmed.find({
         belongsTo: kp,
-      });
+      }).lean();
       break;
     case 'followers':
       data = await Followers.find({
         belongsTo: kp,
-      });
+      }).lean();
       break;
     case 'tastad':
       data = await Fasiliti.find({
         jenisFasiliti: ['taska', 'tadika'],
         handler: kp,
         kodFasilitiHandler: kodFasiliti,
-      });
+      }).lean();
       data.sort((a, b) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
       });
@@ -597,7 +597,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -605,7 +605,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      });
+      }).lean();
       break;
     case 'institusi':
       data = await Fasiliti.find({
@@ -618,23 +618,23 @@ const getDataKpRoute = async (req, res) => {
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
-      });
+      }).lean();
       break;
     case 'kp-bergerak-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'kp-bergerak',
-      });
+      }).lean();
       break;
     case 'makmal-pergigian':
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
-      });
+      }).lean();
       break;
     case 'makmal-pergigian-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'makmal-pergigian',
-      });
+      }).lean();
       break;
     default:
       console.log('default');
@@ -660,16 +660,16 @@ const getOneDataRoute = async (req, res) => {
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id);
+      data = await Operator.findById(Id).lean();
       break;
     case 'klinik':
-      data = await User.findById(Id);
+      data = await User.findById(Id).lean();
       break;
     case 'program':
-      data = await Event.findById(Id);
+      data = await Event.findById(Id).lean();
       break;
     default:
-      data = await Fasiliti.findById(Id);
+      data = await Fasiliti.findById(Id).lean();
       break;
   }
   // 3rd phase
@@ -691,14 +691,14 @@ const getOneDataKpRoute = async (req, res) => {
   let data;
   switch (type) {
     case 'program':
-      data = await Event.findById(Id);
+      data = await Event.findById(Id).lean();
       break;
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id);
+      data = await Operator.findById(Id).lean();
       break;
     default:
-      data = await Fasiliti.findById(Id);
+      data = await Fasiliti.findById(Id).lean();
       break;
   }
   // 3rd phase
@@ -745,7 +745,6 @@ const getStatisticsData = async (req, res) => {
       .lean();
   }
   // 3rd phase
-  // console.log(data);
   res.status(200).json(data);
 };
 
@@ -2425,12 +2424,13 @@ const processOperatorQuery = async (req, res) => {
       const { data: allMatchingPP } = await axios.get(
         `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
       );
-      const mdcNumber = await Operator.find({ statusPegawai: 'pp' }).select(
-        'mdcNumber'
-      );
-      const mdcNumbers = mdcNumber.map((mdc) => parseInt(mdc.mdcNumber));
+      let mdcNumber = await Operator.find({
+        statusPegawai: 'pp',
+        activationStatus: true,
+      }).select('mdcNumber');
+      mdcNumber = mdcNumber.map((mdc) => parseInt(mdc.mdcNumber));
       const filteredPP = allMatchingPP.filter(
-        (item) => !mdcNumbers.includes(item.mdcNumber)
+        (item) => !mdcNumber.includes(item.mdcNumber)
       );
       if (filteredPP.length === 0) {
         return res.status(404).json({ message: 'No data found' });
@@ -2441,12 +2441,13 @@ const processOperatorQuery = async (req, res) => {
       const { data: allMatchingJP } = await axios.get(
         `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
       );
-      const mdtbNumber = await Operator.find({ statusPegawai: 'jp' }).select(
-        'mdtbNumber'
-      );
-      const mdtbNumbers = mdtbNumber.map((mdc) => mdc.mdtbNumber);
+      let mdtbNumber = await Operator.find({
+        statusPegawai: 'jp',
+        activationStatus: true,
+      }).select('mdtbNumber');
+      mdtbNumber = mdtbNumber.map((mdc) => mdc.mdtbNumber);
       const filteredJP = allMatchingJP.filter(
-        (item) => !mdtbNumbers.includes(item.mdtbNumber)
+        (item) => !mdtbNumber.includes(item.mdtbNumber)
       );
       if (filteredJP.length === 0) {
         return res.status(404).json({ message: 'No data found' });
@@ -2466,16 +2467,15 @@ const processFasilitiQuery = async (req, res) => {
   const { data: allMatchingFS } = await axios.get(
     `https://g2u.calypsocloud.one/api/getfs?negeri=${negeri}&daerah=${daerah}`
   );
-  const kodFasiliti = await User.find({
+  let kodFasiliti = await User.find({
     accountType: 'kpUser',
     negeri,
     daerah,
   }).select('kodFasiliti');
-  const semuaKodFasiliti = kodFasiliti.map((kod) => kod.kodFasiliti);
+  kodFasiliti = kodFasiliti.map((kod) => kod.kodFasiliti);
   const filteredFS = allMatchingFS.filter(
-    (item) => !semuaKodFasiliti.includes(item.kodFasilitiGiret)
+    (item) => !kodFasiliti.includes(item.kodFasilitiGiret)
   );
-  console.log(filteredFS);
   if (filteredFS.length === 0) {
     return res.status(404).json({ message: 'No data found' });
   }
@@ -2487,13 +2487,13 @@ const processKkiakdQuery = async (req, res) => {
   const { data: allMatchingKKIAKD } = await axios.get(
     `https://g2u.calypsocloud.one/api/getkkiakd?negeri=${negeri}`
   );
-  const kodFasiliti = await Fasiliti.find({
+  let kodFasiliti = await Fasiliti.find({
     createdByNegeri: negeri,
     jenisFasiliti: 'kkiakd',
   }).select('kodKkiaKd');
-  const semuaKodKkiaKd = kodFasiliti.map((kod) => kod.kodKkiaKd);
+  kodFasiliti = kodFasiliti.map((kod) => kod.kodKkiaKd);
   const filteredKKIAKD = allMatchingKKIAKD.filter(
-    (item) => !semuaKodKkiaKd.includes(item.kodFasiliti)
+    (item) => !kodFasiliti.includes(item.kodFasiliti)
   );
   if (filteredKKIAKD.length === 0) {
     return res.status(404).json({ message: 'No data found' });

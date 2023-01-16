@@ -356,6 +356,24 @@ const queryPersonUmum = async (req, res) => {
   res.status(200).json({ umumResultQuery });
 };
 
+// query /umum/kk-kd
+const getKkKdList = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const kkKdAll = await Fasiliti.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    handler: req.user.kp,
+    kodFasilitiHandler: req.user.kodFasiliti,
+    jenisFasiliti: 'kkiakd',
+    statusPerkhidmatan: 'active',
+  });
+
+  res.status(200).json({ kkKdAll });
+};
+
 // query /umum/taska-tadika
 const getTaskaTadikaList = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -368,9 +386,29 @@ const getTaskaTadikaList = async (req, res) => {
     handler: req.user.kp,
     kodFasilitiHandler: req.user.kodFasiliti,
     jenisFasiliti: ['taska', 'tadika'],
+    statusPerkhidmatan: 'active',
   });
 
   res.status(200).json({ taskaTadikaAll });
+};
+
+// query /umum/events
+const getProjekKomuniti = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const projekKomuniti = await Event.find({
+    createdByNegeri: req.user.negeri,
+    createdByDaerah: req.user.daerah,
+    createdByKp: req.user.kp,
+    createdByKodFasiliti: req.user.kodFasiliti,
+    tarikhStart: { $nin: [null, ''] },
+    tarikhEnd: { $nin: [null, ''] },
+    tahunDibuat: new Date().getFullYear(),
+  });
+
+  res.status(200).json({ projekKomuniti });
 };
 
 module.exports = {
@@ -382,5 +420,7 @@ module.exports = {
   softDeletePersonUmum,
   deletePersonUmum,
   queryPersonUmum,
+  getKkKdList,
   getTaskaTadikaList,
+  getProjekKomuniti,
 };
