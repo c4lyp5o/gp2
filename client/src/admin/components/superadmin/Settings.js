@@ -129,9 +129,9 @@ export default function Settings({ update }) {
     <TotpConfirmation callbackFunction={enableTotp} image={totpImage}>
       {(confirm) => (
         <div>
-          <div className='w-1/3 mx-auto'>
+          <div className='w-1/3 mx-auto mt-10'>
             <form onSubmit={handleSubmit}>
-              {loginInfo.accountType !== 'kpSuperadmin' ? (
+              {/* {loginInfo.accountType !== 'kpSuperadmin' ? (
                 <>
                   <label
                     htmlFor={uploadImage}
@@ -174,7 +174,7 @@ export default function Settings({ update }) {
                     />
                   </div>
                 </>
-              ) : null}
+              ) : null} */}
               <div className='relative border-b border-user1'>
                 <input
                   type='text'

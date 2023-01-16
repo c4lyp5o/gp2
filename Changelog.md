@@ -24,7 +24,7 @@
 #### Removed
 
 - Enrolmen taska & tadika tidak lagi perlu dimasukkan di modul Pentadbir bagi Pentadbir Daerah
-- Butang jana reten PG101 di submodul senarai daftar pesakit ditutup buat sementara waktu untuk penambahbaikan yang terakhir
+- Butang penjanaan reten PG101 di submodul senarai daftar pesakit ditutup buat sementara waktu untuk penambahbaikan yang terakhir
 - Membuang carta-carta pesakit di paparan masuk pertama selepas Pentadbir Daerah & Pentadbir Negeri log masuk di modul Pentadbir
 - Menutup penjanaan reten di semua modul di dalam sistem sehingga pemberitahuan semula kelak
 
