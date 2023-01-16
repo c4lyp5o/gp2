@@ -44,7 +44,7 @@ function UserLoginForm() {
     const fetchKlinik = async () => {
       try {
         const { data } = await axios.get(
-          `https://g2u.calypsocloud.one/api/getfs?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
+          `https://gpass.nocturnal.quest/api/getfs?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
         );
         setListKlinik(data);
       } catch (error) {
