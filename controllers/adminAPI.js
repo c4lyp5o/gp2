@@ -2422,7 +2422,7 @@ const processOperatorQuery = async (req, res) => {
   switch (type) {
     case 'pp':
       const { data: allMatchingPP } = await axios.get(
-        `https://g2u.calypsocloud.one/api/getpp?nama=${nama}`
+        `https://gpass.nocturnal.quest/api/getpp?nama=${nama}`
       );
       let mdcNumber = await Operator.find({
         statusPegawai: 'pp',
@@ -2439,7 +2439,7 @@ const processOperatorQuery = async (req, res) => {
       break;
     case 'jp':
       const { data: allMatchingJP } = await axios.get(
-        `https://g2u.calypsocloud.one/api/getjp?nama=${nama}`
+        `https://gpass.nocturnal.quest/api/getjp?nama=${nama}`
       );
       let mdtbNumber = await Operator.find({
         statusPegawai: 'jp',
@@ -2465,7 +2465,7 @@ const processFasilitiQuery = async (req, res) => {
     return res.status(400).json({ message: 'Invalid query' });
   }
   const { data: allMatchingFS } = await axios.get(
-    `https://g2u.calypsocloud.one/api/getfs?negeri=${negeri}&daerah=${daerah}`
+    `https://gpass.nocturnal.quest/api/getfs?negeri=${negeri}&daerah=${daerah}`
   );
   let kodFasiliti = await User.find({
     accountType: 'kpUser',
@@ -2485,7 +2485,7 @@ const processFasilitiQuery = async (req, res) => {
 const processKkiakdQuery = async (req, res) => {
   const { negeri } = req.query;
   const { data: allMatchingKKIAKD } = await axios.get(
-    `https://g2u.calypsocloud.one/api/getkkiakd?negeri=${negeri}`
+    `https://gpass.nocturnal.quest/api/getkkiakd?negeri=${negeri}`
   );
   let kodFasiliti = await Fasiliti.find({
     createdByNegeri: negeri,
