@@ -46,6 +46,9 @@ export default function Tastad(props) {
                   Bil.
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Nama {Dictionary[props.FType]}
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Nama Klinik Bertugas
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
