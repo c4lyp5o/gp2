@@ -9,6 +9,6 @@ const generator = require('../controllers/generateRetenController');
 router.get('/download', generator.downloader);
 
 // debug
-// router.get('/debug', generator.debug);
+router.get('/debug', generator.debug);
 
 module.exports = router;
