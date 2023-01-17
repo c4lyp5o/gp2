@@ -1,5 +1,24 @@
 # Changelog
 
+### 17/1/2023 (v2.0.9)
+
+#### Added
+
+- Skroll ke bawah secara automatik selepas memilih pesakit di submodul umum
+- Carian pesakit di sobmodul umum & submodul carian boleh menggunakan nama, ic atau operator bagi pesakit tersebut
+
+#### Changed
+
+- Ringkasan beban kerja di submodul rekod pegawai diperkemaskan untuk memaparkan jumlah-jumlah pesakit yang berkaitan
+
+#### Fixed
+
+- Menyahaktifkan kebolehan untuk mengubah taska/tadika dan KKIA/KD apabila mengemaskini pesakit di hari yang sama di modul pendaftaran
+- Membetulkan penggunaan 'Menggunakan data sedia ada' di modul Pendaftaran supaya pesakit yang didaftarkan di _Environment Training_ tidak berkongsi data bersama pesakit di _Environment Production_
+- Pembaikan bagi senarai-senarai PP, JP, Fasiliti KP & Fasiliti KKIA/KD menggunakan data yang lebih efisien
+- Pembaikan bagi sesetengah operator yang tidak dapat masuk ke dalam modul Pengguna bagi yang sudah mempunyai beban kerja yang banyak
+- Pilihan aktiviti yang dijalankan bagi promosi klinik & promosi individu dibetulkan perbezaannya ketika mengisi borang promosi individu & promosi klinik
+
 ### 11/1/2023 (v2.0.8)
 
 #### Added
