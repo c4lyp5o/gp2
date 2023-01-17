@@ -123,7 +123,7 @@ function UserNavbar() {
                 >
                   UMUM
                 </NavLink>
-                <NavLink
+                {/* <NavLink
                   to='senarai-sekolah'
                   onClick={() => {
                     setShowLinks(!showLinks);
@@ -136,7 +136,7 @@ function UserNavbar() {
                   }
                 >
                   PRA SEKOLAH & SEKOLAH
-                </NavLink>
+                </NavLink> */}
                 <NavLink
                   to='promosi-individu'
                   onClick={() => {
