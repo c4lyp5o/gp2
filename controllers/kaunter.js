@@ -190,21 +190,24 @@ const deletePersonKaunter = async (req, res) => {
   });
 };
 
-// check from cache if ic is same
+// check from db if ic is same
 // GET /check
 const getPersonFromCache = async (req, res) => {
   const { personKaunterId } = req.params;
   // const person = await cache.get(ic.toString());
   try {
-    const { data } = await axios.get(
-      process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
-      {
-        headers: {
-          'x-api-key': process.env.CACHE_SERVER_PASS,
-        },
-      }
-    );
-    return res.status(200).json({ person: data });
+    // const { data } = await axios.get(
+    //   process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
+    //   {
+    //     headers: {
+    //       'x-api-key': process.env.CACHE_SERVER_PASS,
+    //     },
+    //   }
+    // );
+    const person = await Umum.findOne({ ic: personKaunterId }, null, {
+      sort: { _id: -1 },
+    });
+    return res.status(200).json({ person });
   } catch (error) {
     res.status(404).json({ msg: 'No person found' });
   }
