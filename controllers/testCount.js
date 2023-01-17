@@ -5172,6 +5172,481 @@ exports.testFunctionPGPro01Pindah2Penuh = function (req, res) {
     }
   );
 };
+
+// //Reten Toddler 02 (Pind. 1/2022)
+const Toddler02 = async (payload) => {
+  let match_stage_pemeriksaan = [];
+
+  //pemeriksaan
+  const match_pemeriksaan_below_4years = {
+    $match: {
+      kedatangan: 'baru-kedatangan',
+      umur: { $lte: 4 },
+    },
+  };
+  const match_pemeriksaan_Taska = { $match: { jenisFasiliti: 'taska' } };
+  const match_pemeriksaan_Tadika = { $match: { jenisFasiliti: 'tadika' } };
+  const match_pemeriksaan_kkiaKD = { $match: { jenisFasiliti: 'kkiakd' } };
+  const match_pemeriksaan_pesakit_luar = { $match: { jenisFasiliti: 'kp' } };
+  const match_pemeriksaan_komuniti_Program = {
+    $match: { jenisFasiliti: 'program' },
+  };
+  match_stage_pemeriksaan.push(match_pemeriksaan_below_4years);
+  match_stage_pemeriksaan.push(match_pemeriksaan_Taska);
+  match_stage_pemeriksaan.push(match_pemeriksaan_Tadika);
+  match_stage_pemeriksaan.push(match_pemeriksaan_kkiaKD);
+  match_stage_pemeriksaan.push(match_pemeriksaan_pesakit_luar);
+  match_stage_pemeriksaan.push(match_pemeriksaan_komuniti_Program);
+
+  const group_pemeriksaan = {
+    $group: {
+      _id: placeModifier(payload),
+      // pemeriksaan
+      kedatanganTahunSemasaBaru: {
+        $sum: {
+          $cond: [
+            {
+              $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      kedatanganTahunSemasaUlangan: {
+        $sum: {
+          $cond: [
+            {
+              $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //perlu rawatan
+      jumlahd: {
+        $sum: '$dAdaGigiDesidusPemeriksaanUmum',
+      },
+      jumlahf: {
+        $sum: '$fAdaGigiDesidusPemeriksaanUmum',
+      },
+      jumlahx: {
+        $sum: '$xAdaGigiDesidusPemeriksaanUmum',
+      },
+      jumlahDFXkosong: {
+        //MBK
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$kedatangan', 'baru-kedatangan'] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      skorPlakA: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'A'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      skorPlakC: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'C'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      skorPlakE: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'E'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      TPR: {
+        //TPR toddler - d = 0 ; x = 0 ; GIS = 0 / 2
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      perluSapuanFV: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                '$fvPerluSapuanPemeriksaanUmum',
+                'ya-fv-perlu-sapuan-pemeriksaan-umum',
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      faktorRiskoRendah: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$kedatangan', 'baru-kedatangan'] },
+                { $gte: ['$jumlahFaktorRisikoPemeriksaanUmum', '0'] },
+                { $lte: ['$jumlahFaktorRisikoPemeriksaanUmum', '2'] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      faktorRiskoSederhana: {
+        //formula kena cross check semula
+        $sum: {
+          $cond: [
+            {
+              $or: [
+                {
+                  $and: [
+                    { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', 0] },
+                    {
+                      $gte: [
+                        '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                        1,
+                      ],
+                    },
+                    { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
+                    { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', 1] },
+                    {
+                      $gte: [
+                        '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                        1,
+                      ],
+                    },
+                    { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
+                    { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', 2] },
+                    {
+                      $gte: [
+                        '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                        1,
+                      ],
+                    },
+                    { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
+                    { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$jumlahFaktorRisikoPemeriksaanUmum', 3] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    {
+                      $eq: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 0],
+                    },
+                    { $eq: ['$fvPerluSapuanPemeriksaanUmum', 0] },
+                    { $eq: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 0] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', 0] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      faktorRiskoTinggi: {
+        //formula kena cross check semula
+        $sum: {
+          $cond: [
+            {
+              $or: [
+                {
+                  $and: [
+                    { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', '1'] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', '1'] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', '1'] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', '1'] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $eq: ['$jumlahFaktorRisikoPemeriksaanUmum', '2'] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', '1'] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', '1'] },
+                    { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', '1'] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$jumlahFaktorRisikoPemeriksaanUmum', '3'] },
+                    {
+                      $gte: [
+                        '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                        '1',
+                      ],
+                    },
+                    { $gte: ['$fvPerluSapuanPemeriksaanUmum', '1'] },
+                    { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', '1'] },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  const project_pemeriksaan = {
+    $project: {
+      _id: 1,
+      // pemeriksaan
+      kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
+      kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
+      jumlahd: '$jumlahd',
+      jumlahf: '$jumlahf',
+      jumlahx: '$jumlahx',
+      jumlahDFXkosong: '$jumlahDFXkosong',
+      skorPlakA: '$skorPlakA',
+      skorPlakC: '$skorPlakC',
+      skorPlakE: '$skorPlakE',
+      TPR: '$TPR',
+      perluSapuanFV: '$perluJumlahPesaperluSapuanFVkitPrrJenis1',
+      faktorRiskoRendah: '$faktorRiskoRendah',
+      faktorRiskoSederhana: '$faktorRiskoSederhana',
+      faktorRiskoTinggi: '$faktorRiskoTinggi',
+    },
+  };
+
+  let match_stage = [];
+
+  const match_below_4years = {
+    $match: {
+      umur: { $lte: 4 },
+    },
+  };
+  const match_rawatan_Taska = {
+    $match: {
+      jenisFasiliti: 'taska',
+    },
+  };
+  const match_rawatan_Tadika = {
+    $match: {
+      jenisFasiliti: 'tadika',
+    },
+  };
+  const match_rawatan_kkiaKD = {
+    $match: {
+      jenisFasiliti: 'kkiakd',
+    },
+  };
+  const match_rawatan_pesakit_luar = {
+    $match: {
+      jenisFasiliti: 'kp',
+    },
+  };
+  const match_rawatan_komuniti_Program = {
+    $match: {
+      jenisFasiliti: 'program',
+    },
+  };
+
+  match_stage_rawatan.push(match_below_4years);
+  match_stage_rawatan.push(match_rawatan_Taska);
+  match_stage_rawatan.push(match_rawatan_Tadika);
+  match_stage_rawatan.push(match_rawatan_kkiaKD);
+  match_stage_rawatan.push(match_rawatan_pesakit_luar);
+  match_stage_rawatan.push(match_rawatan_komuniti_Program);
+
+  const group = {
+    $group: {
+      _id: placeModifier(payload),
+
+      //Rawatan
+      kkecederaanTisuLembut: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kecederaanTisuLembutUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      kecederaanTisuKeras: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kecederaanTulangMukaUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      telahDibuatFV: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$pesakitDibuatFluorideVarnish', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      telahTampalGigiAnterior: {
+        $sum: {
+          $add: [
+            '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          ],
+        },
+      },
+      telahTampalGigiPosterior: {
+        $sum: {
+          $add: [
+            '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+            '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+          ],
+        },
+      },
+      jumlahCabutan: {
+        $sum: '$cabutDesidusRawatanUmum',
+      },
+      jumlahAbses: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahPulpotomi: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$ektiparsiPulpa', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  const project = {
+    $project: {
+      _id: 1,
+      // rawatan
+      kecederaanTisuLembut: '$kecederaanTisuLembut',
+      kecederaanTisuKeras: '$kecederaanTisuKeras',
+      telahDibuatFV: '$telahDibuatFV',
+      telahTampalGigiAnterior: '$telahTampalGigiAnterior',
+      telahTampalGigiPosterior: '$telahTampalGigiPosterior',
+      jumlahCabutan: '$jumlahCabutan',
+      jumlahAbses: '$jumlahAbses',
+      jumlahPulpotomi: '$jumlahPulpotomi',
+    },
+  };
+
+  match_stage.push(match);
+  project_stage.push(project);
+
+  const pipeline = match_stage.concat(project_stage);
+
+  const data = await Umum.aggregate(pipeline);
+
+  return data;
+
+  const placeModifier = (payload) => {
+    if (payload.pegawai) {
+      return '$createdByUsername';
+    }
+    if (
+      !payload.pegawai &&
+      payload.daerah !== 'all' &&
+      payload.klinik !== 'all'
+    ) {
+      return '$createdByKlinik';
+    }
+    if (payload.daerah !== 'all' && payload.klinik === 'all') {
+      return '$createdByDaerah';
+    }
+    if (payload.daerah === 'all') {
+      return '$createdByNegeri';
+    }
+  };
+};
+
 //PG307 (Sekolah RETEN selepas PG 101 kena flow ke sini pulak)
 exports.testFunctionPG307 = function (req, res) {
   //PG 307 (Pind.2/2022)
