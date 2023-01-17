@@ -113,10 +113,11 @@ function UserUmum({ sekolahIdc }) {
     setResultPilih(resultFilter);
   }, [pilih]);
 
-  //scrollBawah after resultPilih
+  // scrollBawah if resultPilih > 1
   const scrollBawah = () => {
     bawahRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
+
   useEffect(() => {
     if (resultPilih.length > 0) {
       scrollBawah();
@@ -553,6 +554,7 @@ function UserUmum({ sekolahIdc }) {
                               onClick={() => {
                                 setOperasiHapus(true);
                                 setPilih(singlePersonUmum._id);
+                                scrollBawah();
                               }}
                               className={`${
                                 pilih === singlePersonUmum._id && 'bg-user3'
