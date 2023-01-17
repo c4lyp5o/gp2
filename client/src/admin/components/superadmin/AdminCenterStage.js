@@ -146,10 +146,7 @@ export default function AdminCenterStage(props) {
         ) : (
           <h1>Selamat datang, BIG BOSS</h1>
         )}
-        <p>
-          Hari ini{' '}
-          {moment(new Date().toLocaleDateString()).format('DD/MM/YYYY')}
-        </p>
+        <p>Hari ini {moment(new Date()).format('DD/MM/YYYY')}</p>
       </div>
       <div className='grid grid-cols-5 mb-4 m-10 rounded justify-center'>
         {data.map((item) => {
