@@ -1958,41 +1958,44 @@ export default function Pemeriksaan(props) {
                               <span className='text-user6'>*</span>
                             )}
                           </p>
-                          <select
-                            disabled={isDisabled}
-                            required={
-                              props.singlePersonUmum.kedatangan ===
-                              'baru-kedatangan'
-                                ? true
-                                : false
-                            }
-                            name='skor-bpe-pemeriksaan-umum'
-                            id='skor-bpe-pemeriksaan-umum'
-                            value={props.skorBpeOralHygienePemeriksaanUmum}
-                            onChange={(e) => {
-                              props.setSkorBpeOralHygienePemeriksaanUmum(
-                                e.target.value
-                              );
-                              if (parseInt(e.target.value) > 0) {
-                                props.setTidakPerluRawatanPemeriksaanUmum(
-                                  false
-                                );
+                          <div className='flex flex-row items-center relative'>
+                            <select
+                              disabled={isDisabled}
+                              required={
+                                props.singlePersonUmum.kedatangan ===
+                                'baru-kedatangan'
+                                  ? true
+                                  : false
                               }
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          >
-                            <option value=''></option>
-                            <option value='tiada'>-</option>
-                            <option value='0'>0</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                          </select>
-                          <FaInfoCircle
-                            title='Tanda (-) jika tidak berkenaan'
-                            className='text-lg m-1'
-                          />
+                              name='skor-bpe-pemeriksaan-umum'
+                              id='skor-bpe-pemeriksaan-umum'
+                              value={props.skorBpeOralHygienePemeriksaanUmum}
+                              onChange={(e) => {
+                                props.setSkorBpeOralHygienePemeriksaanUmum(
+                                  e.target.value
+                                );
+                                if (parseInt(e.target.value) > 0) {
+                                  props.setTidakPerluRawatanPemeriksaanUmum(
+                                    false
+                                  );
+                                }
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='tiada'>-</option>
+                              <option value='0'>0</option>
+                              <option value='1'>1</option>
+                              <option value='2'>2</option>
+                              <option value='3'>3</option>
+                              <option value='4'>4</option>
+                            </select>
+                            <FaCaretDown className='absolute top-3 left-12 text-user4' />
+                            <FaInfoCircle
+                              title='Tanda (-) jika tidak berkenaan'
+                              className='text-lg m-1'
+                            />
+                          </div>
                         </div>
                         <div className='flex items-center justify-start pl-3 col-span-2'>
                           <input

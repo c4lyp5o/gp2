@@ -2091,13 +2091,7 @@ export default function Rawatan(props) {
                           <h4 className='font-semibold flex flex-row pl-3'>
                             kes rujuk Unit Pakar Pergigian Restoratif
                           </h4>
-                          <div className='grid grid-cols-[2fr_3fr] items-center pl-3'>
-                            <label
-                              htmlFor='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
-                              className='text-sm font-m m-1 flex flex-row'
-                            >
-                              memenuhi RDITN kod 3 :
-                            </label>
+                          <div className='flex flex-row items-center pl-3'>
                             <input
                               disabled={isDisabled}
                               type='checkbox'
@@ -2116,16 +2110,16 @@ export default function Rawatan(props) {
                                   !props.memenuhiRditnKod3KesRujukUpprRawatanUmum
                                 );
                               }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-2'
                             />
-                          </div>
-                          <div className='grid grid-cols-[2fr_3fr] items-center pl-3'>
                             <label
-                              htmlFor='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
-                              className='text-sm font-m m-1 flex flex-row'
+                              htmlFor='memenuhi-rditn-kod3-kes-rujuk-uppr-rawatan-umum'
+                              className='text-sm font-m m-1 mx-1 flex flex-row'
                             >
-                              restorasi pasca endodontik :
+                              memenuhi RDITN kod 3
                             </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-3'>
                             <input
                               disabled={isDisabled}
                               type='checkbox'
@@ -2144,16 +2138,16 @@ export default function Rawatan(props) {
                                   !props.restorasiPascaEndodontikKesRujukUpprRawatanUmum
                                 );
                               }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-2'
                             />
-                          </div>
-                          <div className='grid grid-cols-[2fr_3fr] items-center pl-3'>
                             <label
-                              htmlFor='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
-                              className='text-sm font-m m-1 flex flex-row'
+                              htmlFor='restorasi-pasca-endodontik-kes-rujuk-uppr-rawatan-umum'
+                              className='text-sm font-m m-1 mx-1 flex flex-row'
                             >
-                              komplikasi semasa rawatan KEPP :
+                              restorasi pasca endodontik
                             </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-3'>
                             <input
                               disabled={isDisabled}
                               type='checkbox'
@@ -2169,8 +2163,14 @@ export default function Rawatan(props) {
                                   !props.komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum
                                 );
                               }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-2'
                             />
+                            <label
+                              htmlFor='komplikasi-semasa-rawatan-kepp-kes-rujuk-uppr-rawatan-umum'
+                              className='text-sm font-m m-1 flex flex-row'
+                            >
+                              komplikasi semasa rawatan KEPP
+                            </label>
                           </div>
                         </article>
                       </article>
