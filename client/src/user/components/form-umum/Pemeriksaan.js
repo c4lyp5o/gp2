@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaCaretDown } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -1533,79 +1533,87 @@ export default function Pemeriksaan(props) {
               <div className='grid gap-2 auto-rows-min'>
                 {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
                 props.statusKehadiran === false ? (
-                  <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5'>
+                  <article className='grid grid-cols-1 lg:grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
                       Kebersihan Mulut
                     </h4>
-                    <div className='flex items-center '>
+                    <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                       <p className='flex flex-row pl-5 text-sm font-m '>
                         Gred Skor Plak<span className='text-user6'>*</span>
                       </p>
-                      <select
-                        disabled={isDisabled}
-                        required
-                        name='kebersihan-mulut-pemeriksaan-umum'
-                        id='kebersihan-mulut-pemeriksaan-umum'
-                        value={props.kebersihanMulutOralHygienePemeriksaanUmum}
-                        onChange={(e) => {
-                          props.setKebersihanMulutOralHygienePemeriksaanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='tiada'>-</option>
-                        <option value='A'>A</option>
-                        <option value='C'>C</option>
-                        <option value='E'>E</option>
-                      </select>
-                      <FaInfoCircle
-                        title='Tanda (-) jika tidak berkenaan'
-                        className='text-lg m-1'
-                      />
+                      <div className='flex flex-row items-center relative'>
+                        <select
+                          disabled={isDisabled}
+                          required
+                          name='kebersihan-mulut-pemeriksaan-umum'
+                          id='kebersihan-mulut-pemeriksaan-umum'
+                          value={
+                            props.kebersihanMulutOralHygienePemeriksaanUmum
+                          }
+                          onChange={(e) => {
+                            props.setKebersihanMulutOralHygienePemeriksaanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        >
+                          <option value=''></option>
+                          <option value='tiada'>-</option>
+                          <option value='A'>A</option>
+                          <option value='C'>C</option>
+                          <option value='E'>E</option>
+                        </select>
+                        <FaCaretDown className='absolute top-3 left-12 text-user4' />
+                        <FaInfoCircle
+                          title='Tanda (-) jika tidak berkenaan'
+                          className='text-lg m-1'
+                        />
+                      </div>
                     </div>
                     {/* {props.singlePersonUmum.umur <= 17 ? ( */}
-                    <div className='flex items-center flex-row pl-5'>
-                      <p className='text-sm font-m'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
+                      <p className='flex flex-row pl-5 text-sm font-m'>
                         GIS Skor:
                         {/* <span className='text-user6'>*</span> */}
                       </p>
-                      <select
-                        disabled={isDisabled}
-                        // required={
-                        //   props.singlePersonUmum.umur <= 17 ? true : false
-                        // }
-                        name='skor-gis-pemeriksaan-umum'
-                        id='skor-gis-pemeriksaan-umum'
-                        value={props.skorGisMulutOralHygienePemeriksaanUmum}
-                        onChange={(e) => {
-                          props.setSkorGisMulutOralHygienePemeriksaanUmum(
-                            e.target.value
-                          );
-                          if (
-                            parseInt(e.target.value) === 1 ||
-                            parseInt(e.target.value) === 3
-                          ) {
-                            props.setTidakPerluRawatanPemeriksaanUmum(false);
-                          }
-                        }}
-                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='tiada'>-</option>
-                        <option value='0'>0</option>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                      </select>
-                      <FaInfoCircle
-                        title='Tanda (-) jika tidak berkenaan'
-                        className='text-lg m-1'
-                      />
+                      <div className='flex flex-row items-center relative'>
+                        <select
+                          disabled={isDisabled}
+                          // required={
+                          //   props.singlePersonUmum.umur <= 17 ? true : false
+                          // }
+                          name='skor-gis-pemeriksaan-umum'
+                          id='skor-gis-pemeriksaan-umum'
+                          value={props.skorGisMulutOralHygienePemeriksaanUmum}
+                          onChange={(e) => {
+                            props.setSkorGisMulutOralHygienePemeriksaanUmum(
+                              e.target.value
+                            );
+                            if (
+                              parseInt(e.target.value) === 1 ||
+                              parseInt(e.target.value) === 3
+                            ) {
+                              props.setTidakPerluRawatanPemeriksaanUmum(false);
+                            }
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        >
+                          <option value=''></option>
+                          <option value='tiada'>-</option>
+                          <option value='0'>0</option>
+                          <option value='1'>1</option>
+                          <option value='2'>2</option>
+                          <option value='3'>3</option>
+                        </select>
+                        <FaCaretDown className='absolute top-3 left-12 text-user4' />
+                        <FaInfoCircle
+                          title='Tanda (-) jika tidak berkenaan'
+                          className='text-lg m-1'
+                        />
+                      </div>
                     </div>
                     {/* ) : null} */}
-                    <div className='flex items-center flex-row pl-5'>
+                    <div className='flex items-center flex-row pl-5 col-start-1'>
                       <input
                         disabled={isDisabled}
                         type='checkbox'
@@ -1634,15 +1642,15 @@ export default function Pemeriksaan(props) {
                 ) : null}
                 {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
                 props.statusKehadiran === false ? (
-                  <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                    <div className='grid grid-cols-1'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        Risiko Karies
-                      </h4>
-                      <div className='flex flex-row'>
-                        <p className='flex items-center flex-row pl-5'>
-                          Jumlah Faktor Risiko:
-                        </p>
+                  <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 lg:grid-cols-2'>
+                    <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
+                      Risiko Karies
+                    </h4>
+                    <div className='grid grid-cols-[2fr_1fr]'>
+                      <p className='flex items-center flex-row pl-5'>
+                        Jumlah Faktor Risiko:
+                      </p>
+                      <div className='flex flex-row items-center relative'>
                         <select
                           disabled={isDisabled}
                           name='jumlah-faktor-risiko-pemeriksaan-umum'
@@ -1653,7 +1661,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         >
                           <option value=''></option>
                           <option value='0'>0</option>
@@ -1666,6 +1674,7 @@ export default function Pemeriksaan(props) {
                           <option value='7'>7</option>
                           <option value='8'>8</option>
                         </select>
+                        <FaCaretDown className='absolute top-3 left-12 text-user4' />
                       </div>
                     </div>
                   </article>
@@ -1972,7 +1981,7 @@ export default function Pemeriksaan(props) {
                                 );
                               }
                             }}
-                            className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           >
                             <option value=''></option>
                             <option value='tiada'>-</option>
