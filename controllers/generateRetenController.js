@@ -473,6 +473,42 @@ exports.downloader = async function (req, res) {
           break;
       }
       break;
+    case 'GENDER':
+      const dataGender = await makeGender(payload);
+      if (dataGender === 'No data found') {
+        return res.status(404).json({
+          message: 'No data found',
+        });
+      }
+      switch (formatFile) {
+        case 'xlsx':
+          res.setHeader('Content-Type', 'application/vnd.ms-excel');
+          res.status(200).send(dataGender);
+          break;
+        case 'pdf':
+          let excelGender = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-GENDER.xlsx'
+          );
+          let pdfGender = path.join(
+            __dirname,
+            '..',
+            'public',
+            'exports',
+            'test-' + kp + '-GENDER.pdf'
+          );
+          convertToPdf(excelGender, pdfGender);
+          const pdfFile = fs.readFileSync(
+            path.resolve(process.cwd(), pdfGender)
+          );
+          res.setHeader('Content-Type', 'application/pdf');
+          res.status(200).send(pdfFile);
+          break;
+      }
+      break;
     default:
       res.status(404).json({
         message: 'No reten type provided',
@@ -2607,14 +2643,13 @@ const makeGender = async (payload) => {
       intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
     }
 
+    let j = 0;
+
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(12 + i);
-      rowNew.getCell(3).value = data[i].pesakitLelakiPrimer1859;
-      rowNew.getCell(4).value = data[i].pesakitPerempuanPrimer1859;
-      rowNew.getCell(13).value = data[i].pesakitLelakiOutreach1859;
-      rowNew.getCell(14).value = data[i].pesakitPerempuanOutreach1859;
-      rowNew.getCell(18).value = data[i].pesakitLelakiUtc1859;
-      rowNew.getCell(19).value = data[i].pesakitPerempuanUtc1859;
+      if (data[i]) {
+        rowNew.getCell(3).value = data[i].pesakitLelakiBaru;
+        rowNew.getCell(4).value = data[i].pesakitPerempuanBaru;
+      }
     }
   } catch (err) {
     console.log(err);

@@ -2133,14 +2133,14 @@ const countPG206 = async (payload) => {
     $match: {
       ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pemeriksaan_bukanWarganegara = {
     $match: {
       ...getParams206(payload),
       kedatangan: 'baru-kedatangan',
-      bukanWarganegara: true,
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
     },
   };
 
@@ -2381,13 +2381,13 @@ const countPG206 = async (payload) => {
   const match_oku = {
     $match: {
       ...getParams206(payload),
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_bukanWarganegara = {
     $match: {
       ...getParams206(payload),
-      bukanWarganegara: true,
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
     },
   };
 
@@ -2679,7 +2679,7 @@ const countPG206 = async (payload) => {
     $match: {
       ...getParams206sekolah(payload),
       statusRawatan: 'belum selesai',
-      bukanWarganegara: true,
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
     },
   };
 
@@ -3131,6 +3131,8 @@ const countPG206 = async (payload) => {
     bigData.push(dataRawatan);
     bigData.push(dataSekolah);
 
+    console.log(bigData);
+
     return bigData;
   } catch (error) {
     console.log(error);
@@ -3244,7 +3246,7 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
-      bukanWarganegara: true,
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
     },
   };
 
@@ -3584,20 +3586,20 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207(payload),
       ibuMengandung: true,
-      orangKurangUpaya: false,
+      // orangKurangUpaya: false,
     },
   };
   const match_oku = {
     $match: {
       ...getParams207(payload),
-      ibuMengandung: false,
+      // ibuMengandung: false,
       orangKurangUpaya: true,
     },
   };
   const match_bukanWarganegara = {
     $match: {
       ...getParams207(payload),
-      kumpulanEtnik: 'bukan warganegara',
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
     },
   };
 
@@ -4117,7 +4119,7 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
-      bukanWarganegara: true,
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
     },
   };
 
@@ -11790,24 +11792,6 @@ const countGender = async (payload) => {
     },
   };
 
-  const pesakitLelakiPrimer60above = {
-    $match: {
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
-      jantina: 'lelaki',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanPrimer60above = {
-    $match: {
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
-      jantina: 'perempuan',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
   const pesakitLelakiOutreach1859 = {
     $match: {
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
@@ -11822,24 +11806,6 @@ const countGender = async (payload) => {
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiOutreach60above = {
-    $match: {
-      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
-      jantina: 'lelaki',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanOutreach60above = {
-    $match: {
-      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
-      jantina: 'perempuan',
-      umur: { $gte: 60 },
       ...getParamsGender(payload),
     },
   };
@@ -11860,6 +11826,42 @@ const countGender = async (payload) => {
       // jenisFasiliti: { $eq: 'utc' },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiPrimer60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPrimer60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiOutreach60above = {
+    $match: {
+      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanOutreach60above = {
+    $match: {
+      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
       ...getParamsGender(payload),
     },
   };
@@ -11886,14 +11888,14 @@ const countGender = async (payload) => {
 
   match_stage.push(pesakitLelakiPrimer1859);
   match_stage.push(pesakitPerempuanPrimer1859);
-  match_stage.push(pesakitLelakiPrimer60above);
-  match_stage.push(pesakitPerempuanPrimer60above);
   match_stage.push(pesakitLelakiOutreach1859);
   match_stage.push(pesakitPerempuanOutreach1859);
-  match_stage.push(pesakitLelakiOutreach60above);
-  match_stage.push(pesakitPerempuanOutreach60above);
   match_stage.push(pesakitLelakiUtc1859);
   match_stage.push(pesakitPerempuanUtc1859);
+  match_stage.push(pesakitLelakiPrimer60above);
+  match_stage.push(pesakitPerempuanPrimer60above);
+  match_stage.push(pesakitLelakiOutreach60above);
+  match_stage.push(pesakitPerempuanOutreach60above);
   match_stage.push(pesakitLelakiUtc60above);
   match_stage.push(pesakitPerempuanUtc60above);
   //
@@ -12784,89 +12786,20 @@ const getParams206 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKp: klinik,
+      createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-    };
-    return param;
-  };
-
-  const byKp = () => {
-    let param = {
-      createdByKp: klinik,
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
         // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
-      orangKurangUpaya: false,
-    };
-    return param;
-  };
-
-  const byDaerah = () => {
-    let param = {
-      createdByDaerah: daerah,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      ibuMengandung: false,
-      orangKurangUpaya: false,
-    };
-    return param;
-  };
-
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      jenisFasiliti: 'kp',
-      tarikhKedatangan: {
-        $gte: '2022-10-01',
-        $lte: '2022-11-30',
-      },
-      ibuMengandung: false,
-      orangKurangUpaya: false,
-    };
-    return param;
-  };
-
-  if (payload.pegawai) {
-    return byPegawai(payload);
-  }
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (payload.daerah === 'all') {
-    return byNegeri(payload);
-  }
-};
-const getParams206sekolah = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
-
-  const byPegawai = () => {
-    let param = {
-      createdByKp: klinik,
-      createdByMdcMdtb: id,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
     };
     return param;
   };
 
   const byKp = () => {
     let param = {
-      createdByKp: klinik,
+      createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: {
@@ -12881,10 +12814,87 @@ const getParams206sekolah = (payload) => {
 
   const byDaerah = () => {
     let param = {
+      createdByNegeri: negeri,
       createdByDaerah: daerah,
+      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      createdByNegeri: negeri,
+      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  if (payload.pegawai) {
+    return byPegawai(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (payload.daerah === 'all') {
+    console.log('jana negeri');
+    return byNegeri(payload);
+  }
+};
+const getParams206sekolah = (payload) => {
+  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+
+  const byPegawai = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      createdByMdcMdtb: id,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ibuMengandung: false,
+      orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byKp = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      // createdByUsername: { $regex: /^(?!dr.).*$/ },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ibuMengandung: false,
+      orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -12895,10 +12905,10 @@ const getParams206sekolah = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      jenisFasiliti: 'kp',
+      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: {
-        $gte: '2022-10-01',
-        $lte: '2022-11-30',
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -12924,11 +12934,11 @@ const getParams207 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKp: klinik,
+      createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -12936,28 +12946,30 @@ const getParams207 = (payload) => {
 
   const byKp = () => {
     let param = {
-      createdByKp: klinik,
+      createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
         // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
-      ibuMengandung: false,
-      orangKurangUpaya: false,
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
     };
     return param;
   };
 
   const byDaerah = () => {
     let param = {
+      createdByNegeri: negeri,
       createdByDaerah: daerah,
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/ },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
-      ibuMengandung: false,
-      orangKurangUpaya: false,
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -12965,13 +12977,13 @@ const getParams207 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      jenisFasiliti: 'kp',
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/ },
       tarikhKedatangan: {
-        $gte: '2022-10-01',
-        $lte: '2022-11-30',
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
-      ibuMengandung: false,
-      orangKurangUpaya: false,
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -12994,11 +13006,11 @@ const getParams207sekolah = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKp: klinik,
+      createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -13006,7 +13018,7 @@ const getParams207sekolah = (payload) => {
 
   const byKp = () => {
     let param = {
-      createdByKp: klinik,
+      createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: {
@@ -13021,10 +13033,12 @@ const getParams207sekolah = (payload) => {
 
   const byDaerah = () => {
     let param = {
+      createdByNegeri: negeri,
       createdByDaerah: daerah,
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -13035,10 +13049,10 @@ const getParams207sekolah = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      jenisFasiliti: 'kp',
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
-        $gte: '2022-10-01',
-        $lte: '2022-11-30',
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,

@@ -522,6 +522,7 @@ const Generate = (props) => {
                   </div>
                 ) : null}
                 {props.loginInfo.accountType === 'daerahSuperadmin' ||
+                props.loginInfo.accountType === 'negeriSuperadmin' ||
                 (pilihanDaerah !== '' && pilihanDaerah !== 'all') ? (
                   <div className='px-3 py-1'>
                     <label
