@@ -22,7 +22,8 @@ export default function Promosi(props) {
               </span>
               <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
                 <div className='grid gap-2 auto-rows-min'>
-                  {props.singlePersonUmum.umur <= 12 ? (
+                  {props.singlePersonUmum.umur <= 12 &&
+                  props.singlePersonUmum.jenisFasiliti === 'taska-tadika' ? (
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         menerima aktiviti
@@ -260,12 +261,14 @@ export default function Promosi(props) {
                 <div className='grid gap-2 auto-rows-min'>
                   {props.singlePersonUmum.umur <= 4 && (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row col-span-2'>
+                      <h4 className='font-bold flex flex-row col-span-2 pl-5'>
                         bilangan ibu bapa / penjaga diberi anticipatory guidance
                         (AG)
                       </h4>
-                      <div className='flex items-center flex-row pl-5'>
-                        <p className='text-sm font-m'>umur 15-17: </p>
+                      <div className='grid grid-cols-[2fr_1fr] items-center pl-5'>
+                        <p className='text-sm font-m flex justify-start text-left'>
+                          umur 15-17:{' '}
+                        </p>
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -281,11 +284,13 @@ export default function Promosi(props) {
                           }}
                           min='0'
                           max='10'
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <p className='text-sm font-m'>umur 18-19: </p>
+                      <div className='grid grid-cols-[2fr_1fr] items-center pl-5'>
+                        <p className='text-sm font-m flex justify-start text-left'>
+                          umur 18-19:{' '}
+                        </p>
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -301,11 +306,13 @@ export default function Promosi(props) {
                           }}
                           min='0'
                           max='10'
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <p className='text-sm font-m'>umur 20-29: </p>
+                      <div className='grid grid-cols-[2fr_1fr] items-center pl-5'>
+                        <p className='text-sm font-m flex justify-start text-left'>
+                          umur 20-29:{' '}
+                        </p>
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -321,11 +328,13 @@ export default function Promosi(props) {
                           }}
                           min='0'
                           max='10'
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <p className='text-sm font-m'>umur 30-49: </p>
+                      <div className='grid grid-cols-[2fr_1fr] items-center pl-5'>
+                        <p className='text-sm font-m flex justify-start text-left'>
+                          umur 30-49:{' '}
+                        </p>
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -341,11 +350,13 @@ export default function Promosi(props) {
                           }}
                           min='0'
                           max='10'
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <p className='text-sm font-m'>umur 50-59: </p>
+                      <div className='grid grid-cols-[2fr_1fr] items-center pl-5'>
+                        <p className='text-sm font-m flex justify-start text-left'>
+                          umur 50-59:{' '}
+                        </p>
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -361,11 +372,13 @@ export default function Promosi(props) {
                           }}
                           min='0'
                           max='10'
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <p className='text-sm font-m'>umur 60 ke atas: </p>
+                      <div className='grid grid-cols-[2fr_1fr] items-center pl-5'>
+                        <p className='text-sm font-m flex justify-start text-left'>
+                          umur 60 ke atas:{' '}
+                        </p>
                         <input
                           disabled={isDisabled}
                           type='number'
@@ -381,7 +394,7 @@ export default function Promosi(props) {
                           }}
                           min='0'
                           max='10'
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                     </article>
