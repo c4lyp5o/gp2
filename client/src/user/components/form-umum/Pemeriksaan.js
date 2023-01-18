@@ -142,7 +142,7 @@ export default function Pemeriksaan(props) {
                     className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                   />
                 </div>
-                {/* {props.allUsedKPBMPB.length > 0 && (
+                {props.allUsedKPBMPB.length > 0 && (
                   <div className='flex flex-row items-center'>
                     <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
                       Penggunaan KPB / MPB :
@@ -168,7 +168,7 @@ export default function Pemeriksaan(props) {
                         : null}
                     </select>
                   </div>
-                )} */}
+                )}
                 {props.singlePersonUmum.umur >= 18 &&
                 props.singlePersonUmum.jenisFasiliti === 'kp' ? (
                   <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
