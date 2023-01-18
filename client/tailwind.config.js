@@ -27,6 +27,7 @@ module.exports = {
       kaunter3: '#ffbf99', // oren pucat
       kaunter4: '#3e6c70', // turqoise?????
       kaunter5: '#2f5653', // turqoise gelap?????
+      kaunter6: '#f3e19b', // bg color kuning untuk double confirm pendaftaran
       kaunterWhite: 'white',
       kaunterBlack: 'black',
     },
