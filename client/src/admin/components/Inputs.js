@@ -2783,19 +2783,19 @@ export function InputKpEditEvent(props) {
                     <div className='grid grid-gap-1 mt-2'>
                       <p>
                         Enrolmen:{' '}
-                        <span className='font-semibold text-lg text-user6'>
+                        {/* <span className='font-semibold text-lg text-user6'>
                           *
-                        </span>
+                        </span> */}
                       </p>
                       <input
-                        required
+                        // required
                         type='number'
-                        min='1'
+                        min='0'
                         className='border-2'
                         value={
                           props.editedEntity.enrolmenInstitusi ===
                           'NOT APPLICABLE'
-                            ? ''
+                            ? 0
                             : props.editedEntity.enrolmenInstitusi
                         }
                         onChange={(e) => {
@@ -3366,19 +3366,19 @@ export function InputKpEditEventFromDaerah(props) {
                     <div className='grid grid-gap-1 mt-2'>
                       <p>
                         Enrolmen:{' '}
-                        <span className='font-semibold text-lg text-user6'>
+                        {/* <span className='font-semibold text-lg text-user6'>
                           *
-                        </span>
+                        </span> */}
                       </p>
                       <input
-                        required
+                        // required
                         type='number'
-                        min='1'
+                        min='0'
                         className='border-2'
                         value={
                           props.editedEntity.enrolmenInstitusi ===
                           'NOT APPLICABLE'
-                            ? ''
+                            ? 0
                             : props.editedEntity.enrolmenInstitusi
                         }
                         onChange={(e) => {
