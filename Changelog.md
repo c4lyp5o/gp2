@@ -5,7 +5,7 @@
 #### Added
 
 - Skroll ke bawah secara automatik selepas memilih pesakit di submodul umum
-- Carian pesakit di sobmodul umum & submodul carian boleh menggunakan nama, ic atau operator bagi pesakit tersebut
+- Carian pesakit di submodul umum & submodul carian boleh menggunakan nama, ic atau operator bagi pesakit tersebut
 
 #### Changed
 
