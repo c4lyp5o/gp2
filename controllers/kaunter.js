@@ -129,13 +129,13 @@ const createPersonKaunter = async (req, res) => {
     req.body.kedatangan = 'baru-kedatangan';
   }
 
-  logger.info(`${req.method} ${req.url} sending to cache`);
-  // cache.set(req.body.ic, req.body);
-  const resp = await axios.post(process.env.CACHE_SERVER_URL, req.body, {
-    headers: {
-      'x-api-key': process.env.CACHE_SERVER_PASS,
-    },
-  });
+  // logger.info(`${req.method} ${req.url} sending to cache`);
+  // // cache.set(req.body.ic, req.body);
+  // const resp = await axios.post(process.env.CACHE_SERVER_URL, req.body, {
+  //   headers: {
+  //     'x-api-key': process.env.CACHE_SERVER_PASS,
+  //   },
+  // });
 
   const singlePersonKaunter = await Umum.create(req.body);
 
