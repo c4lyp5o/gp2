@@ -155,9 +155,9 @@ export default function Pemeriksaan(props) {
                       onChange={(e) => {
                         props.setPenggunaanKPBMPB(e.target.value);
                       }}
-                      className='appearance-none w-32 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                      className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                     >
-                      <option value=''>Sila Pilih</option>
+                      <option value=''>Pilih Jika Berkenaan</option>
                       {props.allUsedKPBMPB
                         ? props.allUsedKPBMPB.map((kpbmpb) => (
                             <option key={kpbmpb.nama} value={kpbmpb.nama}>
