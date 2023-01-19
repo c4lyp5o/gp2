@@ -12098,7 +12098,6 @@ const countGender = async (payload) => {
 
   return bigData;
 };
-};
 
 exports.testFunctionPGPro01Pindah2Program = function (req, res) {
   //PGPRO01 Pind.2 - 2022 - Program
