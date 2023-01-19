@@ -605,6 +605,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    pendebridmenAkar: {
+      type: Boolean,
+      default: false,
+    },
     rawatanLainPeriodontikRawatanUmum: {
       type: Boolean,
       default: false,
@@ -710,6 +714,10 @@ const UmumSchema = new mongoose.Schema(
       default: false,
     },
     rujukanPakarPergigianPediatrik: {
+      type: Boolean,
+      default: false,
+    },
+    rujukanKeKlinikKesihatan: {
       type: Boolean,
       default: false,
     },

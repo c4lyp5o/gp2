@@ -286,7 +286,8 @@ function UserPromosi({ individuOrKlinik }) {
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       AKTIFKAN
                     </th>
-                    {userinfo.role === 'admin' && (
+                    {(userinfo.role === 'admin' ||
+                      userinfo.rolePromosiKlinik === true) && (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                         HAPUS
                       </th>
@@ -382,7 +383,8 @@ function UserPromosi({ individuOrKlinik }) {
                           >
                             <u>PILIH</u>
                           </td>
-                          {userinfo.role === 'admin' && (
+                          {(userinfo.role === 'admin' ||
+                            userinfo.rolePromosiKlinik === true) && (
                             <td
                               onClick={() => {
                                 setOperasiHapus(true);
