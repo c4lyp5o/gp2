@@ -21,6 +21,18 @@ function Faq() {
   const [showSubPendaftaran2, setShowSubPendaftaran2] = useState(false);
   const [showSubPendaftaran3, setShowSubPendaftaran3] = useState(false);
   const [showSubPendaftaran4, setShowSubPendaftaran4] = useState(false);
+  const [showSubPendaftaran5, setShowSubPendaftaran5] = useState(false);
+  const [showSubPendaftaran6, setShowSubPendaftaran6] = useState(false);
+  const [showSubPendaftaran7, setShowSubPendaftaran7] = useState(false);
+  const [showSubPendaftaran8, setShowSubPendaftaran8] = useState(false);
+  const [showSubPendaftaran9, setShowSubPendaftaran9] = useState(false);
+  const [showSubPendaftaran10, setShowSubPendaftaran10] = useState(false);
+  const [showSubPendaftaran11, setShowSubPendaftaran11] = useState(false);
+  const [showSubPendaftaran12, setShowSubPendaftaran12] = useState(false);
+  const [showSubPendaftaran13, setShowSubPendaftaran13] = useState(false);
+  const [showSubPendaftaran14, setShowSubPendaftaran14] = useState(false);
+  const [showSubPendaftaran15, setShowSubPendaftaran15] = useState(false);
+  const [showSubPendaftaran16, setShowSubPendaftaran16] = useState(false);
 
   // Pengguna
   const [showPengguna, setShowPengguna] = useState(false);
@@ -28,6 +40,20 @@ function Faq() {
   const [showSubPengguna2, setShowSubPengguna2] = useState(false);
   const [showSubPengguna3, setShowSubPengguna3] = useState(false);
   const [showSubPengguna4, setShowSubPengguna4] = useState(false);
+  const [showSubPengguna5, setShowSubPengguna5] = useState(false);
+  const [showSubPengguna6, setShowSubPengguna6] = useState(false);
+  const [showSubPengguna7, setShowSubPengguna7] = useState(false);
+  const [showSubPengguna8, setShowSubPengguna8] = useState(false);
+  const [showSubPengguna9, setShowSubPengguna9] = useState(false);
+  const [showSubPengguna10, setShowSubPengguna10] = useState(false);
+  const [showSubPengguna11, setShowSubPengguna11] = useState(false);
+  const [showSubPengguna12, setShowSubPengguna12] = useState(false);
+  const [showSubPengguna13, setShowSubPengguna13] = useState(false);
+  const [showSubPengguna14, setShowSubPengguna14] = useState(false);
+  const [showSubPengguna15, setShowSubPengguna15] = useState(false);
+  const [showSubPengguna16, setShowSubPengguna16] = useState(false);
+  const [showSubPengguna17, setShowSubPengguna17] = useState(false);
+  const [showSubPengguna18, setShowSubPengguna18] = useState(false);
 
   // unUsed
   const [showUnused, setShowUnused] = useState(true);
@@ -90,7 +116,7 @@ function Faq() {
                   setShowUnused(false);
                 }}
               >
-                PANDAFTARAN
+                PENDAFTARAN
               </button>
             </div>
             <div>
@@ -222,7 +248,6 @@ function Faq() {
                   apapapa huhu
                 </p>
               </article>
-              {/* copy starts here */}
               <article className='my-1'>
                 <span
                   className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
@@ -251,7 +276,6 @@ function Faq() {
                   Jawapan soalan 5......
                 </p>
               </article>
-              {/* copy ends here*/}
               <article className='my-1'>
                 <span
                   className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
@@ -497,6 +521,7 @@ function Faq() {
                   apapapa huhu
                 </p>
               </article>
+              {/* copy starts here */}
               <article className='my-1'>
                 <span
                   className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
@@ -522,6 +547,409 @@ function Faq() {
                   } `}
                 >
                   apapapa huhu
+                </p>
+              </article>
+              {/* copy ends here*/}
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran5(!showSubPendaftaran5);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                  }}
+                >
+                  {showSubPendaftaran5 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 5
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran5
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 5..
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran6(!showSubPendaftaran6);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                  }}
+                >
+                  {showSubPendaftaran6 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 6
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran6
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 6..
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran7(!showSubPendaftaran7);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                  }}
+                >
+                  {showSubPendaftaran7 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 7
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran7
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 7..
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran8(!showSubPendaftaran8);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                  }}
+                >
+                  {showSubPendaftaran8 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 8
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran8
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 8...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran9(!showSubPendaftaran9);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                  }}
+                >
+                  {showSubPendaftaran9 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 9
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran9
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 9...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran10(!showSubPendaftaran10);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                    setShowSubPendaftaran9(false);
+                  }}
+                >
+                  {showSubPendaftaran10 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 10
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran10
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 10...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran11(!showSubPendaftaran11);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                    setShowSubPendaftaran9(false);
+                    setShowSubPendaftaran10(false);
+                  }}
+                >
+                  {showSubPendaftaran11 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 11
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran11
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 11...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran12(!showSubPendaftaran12);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                    setShowSubPendaftaran9(false);
+                    setShowSubPendaftaran10(false);
+                    setShowSubPendaftaran11(false);
+                  }}
+                >
+                  {showSubPendaftaran12 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 12
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran12
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 12...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran13(!showSubPendaftaran13);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                    setShowSubPendaftaran9(false);
+                    setShowSubPendaftaran10(false);
+                    setShowSubPendaftaran11(false);
+                    setShowSubPendaftaran12(false);
+                  }}
+                >
+                  {showSubPendaftaran13 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 13
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran13
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 13...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran14(!showSubPendaftaran14);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                    setShowSubPendaftaran9(false);
+                    setShowSubPendaftaran10(false);
+                    setShowSubPendaftaran11(false);
+                    setShowSubPendaftaran12(false);
+                    setShowSubPendaftaran13(false);
+                  }}
+                >
+                  {showSubPendaftaran14 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 14
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran14
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 14...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran15(!showSubPendaftaran15);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                    setShowSubPendaftaran9(false);
+                    setShowSubPendaftaran10(false);
+                    setShowSubPendaftaran11(false);
+                    setShowSubPendaftaran12(false);
+                    setShowSubPendaftaran13(false);
+                    setShowSubPendaftaran14(false);
+                  }}
+                >
+                  {showSubPendaftaran15 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 15
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran15
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 15...
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPendaftaran16(!showSubPendaftaran16);
+                    setShowSubPendaftaran1(false);
+                    setShowSubPendaftaran2(false);
+                    setShowSubPendaftaran3(false);
+                    setShowSubPendaftaran4(false);
+                    setShowSubPendaftaran5(false);
+                    setShowSubPendaftaran6(false);
+                    setShowSubPendaftaran7(false);
+                    setShowSubPendaftaran8(false);
+                    setShowSubPendaftaran9(false);
+                    setShowSubPendaftaran10(false);
+                    setShowSubPendaftaran11(false);
+                    setShowSubPendaftaran12(false);
+                    setShowSubPendaftaran13(false);
+                    setShowSubPendaftaran14(false);
+                    setShowSubPendaftaran15(false);
+                  }}
+                >
+                  {showSubPendaftaran16 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 16
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPendaftaran16
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan Soalan 16...
                 </p>
               </article>
             </article>
@@ -639,6 +1067,489 @@ function Faq() {
                   } `}
                 >
                   apapapa huhu
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna5(!showSubPengguna5);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                  }}
+                >
+                  {showSubPengguna5 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 5
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna5
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 5
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna6(!showSubPengguna6);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                  }}
+                >
+                  {showSubPengguna6 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 6
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna6
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 6
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna7(!showSubPengguna7);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                  }}
+                >
+                  {showSubPengguna7 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 7
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna7
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 7
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna8(!showSubPengguna8);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                  }}
+                >
+                  {showSubPengguna8 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 8
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna8
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 8
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna9(!showSubPengguna9);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                  }}
+                >
+                  {showSubPengguna9 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 9
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna9
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 9
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna10(!showSubPengguna10);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                  }}
+                >
+                  {showSubPengguna10 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 10
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna10
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 10
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna11(!showSubPengguna11);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                  }}
+                >
+                  {showSubPengguna11 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 11
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna11
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 11
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna12(!showSubPengguna12);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                    setShowSubPengguna11(false);
+                  }}
+                >
+                  {showSubPengguna12 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 12
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna12
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 12
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna13(!showSubPengguna13);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                    setShowSubPengguna11(false);
+                    setShowSubPengguna12(false);
+                  }}
+                >
+                  {showSubPengguna13 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 13
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna13
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 13
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna14(!showSubPengguna14);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                    setShowSubPengguna11(false);
+                    setShowSubPengguna12(false);
+                    setShowSubPengguna13(false);
+                  }}
+                >
+                  {showSubPengguna14 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 14
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna14
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 14
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna15(!showSubPengguna15);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                    setShowSubPengguna11(false);
+                    setShowSubPengguna12(false);
+                    setShowSubPengguna13(false);
+                    setShowSubPengguna14(false);
+                  }}
+                >
+                  {showSubPengguna15 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 15
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna15
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 15
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna16(!showSubPengguna16);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                    setShowSubPengguna11(false);
+                    setShowSubPengguna12(false);
+                    setShowSubPengguna13(false);
+                    setShowSubPengguna14(false);
+                    setShowSubPengguna15(false);
+                  }}
+                >
+                  {showSubPengguna16 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 16
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna16
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 16
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna17(!showSubPengguna17);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                    setShowSubPengguna11(false);
+                    setShowSubPengguna12(false);
+                    setShowSubPengguna13(false);
+                    setShowSubPengguna14(false);
+                    setShowSubPengguna15(false);
+                    setShowSubPengguna16(false);
+                  }}
+                >
+                  {showSubPengguna17 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 17
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna17
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 17
+                </p>
+              </article>
+              <article className='my-1'>
+                <span
+                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                  onClick={() => {
+                    setShowSubPengguna18(!showSubPengguna18);
+                    setShowSubPengguna1(false);
+                    setShowSubPengguna2(false);
+                    setShowSubPengguna3(false);
+                    setShowSubPengguna4(false);
+                    setShowSubPengguna5(false);
+                    setShowSubPengguna6(false);
+                    setShowSubPengguna7(false);
+                    setShowSubPengguna8(false);
+                    setShowSubPengguna9(false);
+                    setShowSubPengguna10(false);
+                    setShowSubPengguna11(false);
+                    setShowSubPengguna12(false);
+                    setShowSubPengguna13(false);
+                    setShowSubPengguna14(false);
+                    setShowSubPengguna15(false);
+                    setShowSubPengguna16(false);
+                    setShowSubPengguna17(false);
+                  }}
+                >
+                  {showSubPengguna18 ? (
+                    <FaMinus className='pt-1' />
+                  ) : (
+                    <FaPlus className='pt-1' />
+                  )}
+                  Soalan 18
+                </span>
+                <p
+                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                    showSubPengguna18
+                      ? 'max-h-full overflow-y-auto'
+                      : 'max-h-0 overflow-hidden'
+                  } `}
+                >
+                  Jawapan soalan 18
                 </p>
               </article>
             </article>
