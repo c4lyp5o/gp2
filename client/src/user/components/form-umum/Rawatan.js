@@ -1528,6 +1528,27 @@ export default function Rawatan(props) {
                             <input
                               disabled={isDisabled}
                               type='checkbox'
+                              name='pendebridmen-akar'
+                              id='pendebridmen-akar'
+                              checked={props.pendebridmenAkar ? true : false}
+                              onChange={() => {
+                                props.setPendebridmenAkar(
+                                  !props.pendebridmenAkar
+                                );
+                              }}
+                              className='w-4 h-4 rounded flex items-center'
+                            />
+                            <label
+                              htmlFor='pendebridmen-akar'
+                              className='text-left flex justify-start items-center text-sm pl-3'
+                            >
+                              Pendebridmen Akar
+                            </label>
+                          </div>
+                          <div className='flex flex-row items-center pl-5 m-1'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
                               name='rawatan-lain-terapi-periodontik-rawatan-umum'
                               id='rawatan-lain-terapi-periodontik-rawatan-umum'
                               checked={
@@ -2311,6 +2332,33 @@ export default function Rawatan(props) {
                             className='text-left flex justify-start items-center text-sm pl-3'
                           >
                             Rujukan Ke Pakar Pergigian Pediatrik
+                          </label>
+                        </div>
+                        <div className='flex flex-row items-center pl-5 m-1'>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='rujukan-ke-klinik-kesihatan'
+                            id='rujukan-ke-klinik-kesihatan'
+                            checked={
+                              props.rujukanKeKlinikKesihatan ? true : false
+                            }
+                            onChange={() => {
+                              props.setRujukanKeKlinikKesihatan(
+                                !props.rujukanKeKlinikKesihatan
+                              );
+                            }}
+                            className='w-4 h-4 rounded flex items-center'
+                          />
+                          <label
+                            htmlFor='rujukan-ke-klinik-kesihatan'
+                            className='text-left flex justify-start items-center text-sm pl-3'
+                          >
+                            Rujukan Ke Klinik Kesihatan
+                            <FaInfoCircle
+                              className='text-sm ml-1'
+                              title='Bukan Kes Kecemasan'
+                            />
                           </label>
                         </div>
                       </article>
