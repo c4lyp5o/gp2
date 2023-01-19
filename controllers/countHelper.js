@@ -12862,7 +12862,7 @@ const getParams2 = (payload, reten) => {
   const byKp = () => {
     let param = {
       tarikhKedatangan: {
-        $gte: bulan,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
       },
       createdByKp: {
         $eq: klinik,
@@ -12875,7 +12875,7 @@ const getParams2 = (payload, reten) => {
   const byDaerah = () => {
     let param = {
       tarikhKedatangan: {
-        $gte: bulan,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
       },
       createdByDaerah: {
         $eq: daerah,
@@ -12888,7 +12888,7 @@ const getParams2 = (payload, reten) => {
   const byNegeri = () => {
     let param = {
       tarikhKedatangan: {
-        $gte: bulan,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
