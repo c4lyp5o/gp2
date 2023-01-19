@@ -2542,6 +2542,7 @@ const countPG206 = async (payload) => {
           $cond: [
             {
               $eq: ['$penskaleranRawatanUmum', true],
+            },
             1,
             0,
           ],
