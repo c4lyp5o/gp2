@@ -11885,7 +11885,8 @@ const countPGPro01 = async (payload) => {
 const countGender = async (payload) => {
   console.log(payload);
   //
-  let match_stage = [];
+  let match_stage_lelaki = [];
+  let match_stage_perempuan = [];
   //
   const pesakitLelakiPrimer1859 = {
     $match: {
@@ -11999,18 +12000,18 @@ const countGender = async (payload) => {
     },
   };
 
-  match_stage.push(pesakitLelakiPrimer1859);
-  match_stage.push(pesakitPerempuanPrimer1859);
-  match_stage.push(pesakitLelakiOutreach1859);
-  match_stage.push(pesakitPerempuanOutreach1859);
-  match_stage.push(pesakitLelakiUtc1859);
-  match_stage.push(pesakitPerempuanUtc1859);
-  match_stage.push(pesakitLelakiPrimer60above);
-  match_stage.push(pesakitPerempuanPrimer60above);
-  match_stage.push(pesakitLelakiOutreach60above);
-  match_stage.push(pesakitPerempuanOutreach60above);
-  match_stage.push(pesakitLelakiUtc60above);
-  match_stage.push(pesakitPerempuanUtc60above);
+  match_stage_lelaki.push(pesakitLelakiPrimer1859);
+  match_stage_perempuan.push(pesakitPerempuanPrimer1859);
+  match_stage_lelaki.push(pesakitLelakiOutreach1859);
+  match_stage_perempuan.push(pesakitPerempuanOutreach1859);
+  match_stage_lelaki.push(pesakitLelakiUtc1859);
+  match_stage_perempuan.push(pesakitPerempuanUtc1859);
+  match_stage_lelaki.push(pesakitLelakiPrimer60above);
+  match_stage_perempuan.push(pesakitPerempuanPrimer60above);
+  match_stage_lelaki.push(pesakitLelakiOutreach60above);
+  match_stage_perempuan.push(pesakitPerempuanOutreach60above);
+  match_stage_lelaki.push(pesakitLelakiUtc60above);
+  match_stage_perempuan.push(pesakitPerempuanUtc60above);
   //
   const group_stage = {
     $group: {
@@ -12075,16 +12076,28 @@ const countGender = async (payload) => {
   };
 
   //bismillah
-  let data = [];
+  let dataLelaki = [];
+  let dataPerempuan = [];
+  let bigData = [];
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const result = await Umum.aggregate([match_stage[i], group_stage]);
-    data.push(result);
+  for (let i = 0; i < match_stage_lelaki.length; i++) {
+    const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
+    dataLelaki.push(result);
   }
 
-  console.log(data);
+  for (let i = 0; i < match_stage_perempuan.length; i++) {
+    const result = await Umum.aggregate([
+      match_stage_perempuan[i],
+      group_stage,
+    ]);
+    dataPerempuan.push(result);
+  }
 
-  return data;
+  bigData.push(dataLelaki);
+  bigData.push(dataPerempuan);
+
+  return bigData;
+};
 };
 
 exports.testFunctionPGPro01Pindah2Program = function (req, res) {
