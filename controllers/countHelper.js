@@ -12851,7 +12851,7 @@ const getParams2 = (payload, reten) => {
 
   const AorC = (reten) => {
     if (reten === 'A' || reten === undefined) {
-      return { $eq: 'kp' };
+      return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
       return { $ne: 'kp' };
@@ -12863,7 +12863,7 @@ const getParams2 = (payload, reten) => {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
       },
-      createdByKp: {
+      createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
@@ -12875,6 +12875,9 @@ const getParams2 = (payload, reten) => {
     let param = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+      },
+      createdByNegeri: {
+        $eq: negeri,
       },
       createdByDaerah: {
         $eq: daerah,
