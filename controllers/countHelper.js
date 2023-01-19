@@ -3309,11 +3309,21 @@ const countPG207 = async (payload) => {
         },
       },
       jumlahMBK: {
-        //MBK
+        //MBK criterias; No 1 (dmfx = 0 + sm =0 ; ) +/- No 2 (DFMX = 0); Cuma boleh gigi susu and mixed dentition
         $sum: {
           $cond: [
             {
-              $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0],
+              $and: [
+                { $lte: ['$umur', 18] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+              ],
             },
             1,
             0,
@@ -3384,15 +3394,21 @@ const countPG207 = async (payload) => {
       },
       perluSapuanFluorida: {
         $sum: {
-          $eq: [
-            '$fvPerluSapuanPemeriksaanUmum',
-            'ya-fv-perlu-sapuan-pemeriksaan-umum',
+          $cond: [
+            {
+              $eq: [
+                '$fvPerluSapuanPemeriksaanUmum',
+                'ya-fv-perlu-sapuan-pemeriksaan-umum',
+              ],
+            },
+            1,
+            0,
           ],
         },
       },
       perluJumlahPesakitPrrJenis1: {
         $sum: {
-          $eq: ['$prrJenis1PemeriksaanUmum', true],
+          $cond: [{ $eq: ['$prrJenis1PemeriksaanUmum', true] }, 1, 0],
         },
       },
       perluJumlahGigiPrrJenis1: {
@@ -3400,13 +3416,13 @@ const countPG207 = async (payload) => {
       },
       perluJumlahPesakitFS: {
         $sum: {
-          $eq: ['$fissureSealantPemeriksaanUmum', true],
+          $cond: [{ $eq: ['$fissureSealantPemeriksaanUmum', true] }, 1, 0],
         },
       },
       perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
       perluPenskaleran: {
         $sum: {
-          $eq: ['$perluPenskaleranPemeriksaanUmum', true],
+          $cond: [{ $eq: ['$perluPenskaleranPemeriksaanUmum', true] }, 1, 0],
         },
       },
       perluEndoAnterior: {
