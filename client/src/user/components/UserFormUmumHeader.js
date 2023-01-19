@@ -1243,6 +1243,10 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.rujukanPakarPergigianPediatrik = rujukanPakarPergigianPediatrik;
   masterForm.setRujukanPakarPergigianPediatrik =
     setRujukanPakarPergigianPediatrik;
+  const [rujukanKeKlinikKesihatan, setRujukanKeKlinikKesihatan] =
+    useState(false);
+  masterForm.rujukanKeKlinikKesihatan = rujukanKeKlinikKesihatan;
+  masterForm.setRujukanKeKlinikKesihatan = setRujukanKeKlinikKesihatan;
   const [kesSelesaiRawatanUmum, setKesSelesaiRawatanUmum] = useState(false);
   masterForm.kesSelesaiRawatanUmum = kesSelesaiRawatanUmum;
   masterForm.setKesSelesaiRawatanUmum = setKesSelesaiRawatanUmum;
@@ -1890,6 +1894,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
           setRujukanPakarPergigianPediatrik(
             data.singlePersonUmum.rujukanPakarPergigianPediatrik
           );
+          setRujukanKeKlinikKesihatan(
+            data.singlePersonUmum.rujukanKeKlinikKesihatan
+          );
           setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
           setRawatanDibuatOperatorLain(
             data.singlePersonUmum.rawatanDibuatOperatorLain
@@ -2226,6 +2233,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               rujukanPakarPatologiMulutDanPerubatanMulut,
               rujukanPakarBedahMulut,
               rujukanPakarPergigianPediatrik,
+              rujukanKeKlinikKesihatan,
               kesSelesaiRawatanUmum,
               rawatanDibuatOperatorLain,
               //promosi ------------------------------------------------------------
@@ -2374,6 +2382,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               rujukanPakarPatologiMulutDanPerubatanMulut,
               rujukanPakarBedahMulut,
               rujukanPakarPergigianPediatrik,
+              rujukanKeKlinikKesihatan,
               kesSelesaiRawatanUmum,
               rawatanDibuatOperatorLain,
               //promosi ------------------------------------------------------------

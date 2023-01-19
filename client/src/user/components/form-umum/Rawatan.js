@@ -2334,6 +2334,33 @@ export default function Rawatan(props) {
                             Rujukan Ke Pakar Pergigian Pediatrik
                           </label>
                         </div>
+                        <div className='flex flex-row items-center pl-5 m-1'>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='rujukan-ke-klinik-kesihatan'
+                            id='rujukan-ke-klinik-kesihatan'
+                            checked={
+                              props.rujukanKeKlinikKesihatan ? true : false
+                            }
+                            onChange={() => {
+                              props.setRujukanKeKlinikKesihatan(
+                                !props.rujukanKeKlinikKesihatan
+                              );
+                            }}
+                            className='w-4 h-4 rounded flex items-center'
+                          />
+                          <label
+                            htmlFor='rujukan-ke-klinik-kesihatan'
+                            className='text-left flex justify-start items-center text-sm pl-3'
+                          >
+                            Rujukan Ke Klinik Kesihatan
+                            <FaInfoCircle
+                              className='text-sm ml-1'
+                              title='Bukan Kes Kecemasan'
+                            />
+                          </label>
+                        </div>
                       </article>
                     ) : null}
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>

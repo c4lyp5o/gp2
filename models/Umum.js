@@ -717,6 +717,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    rujukanKeKlinikKesihatan: {
+      type: Boolean,
+      default: false,
+    },
     kesSelesaiRawatanUmum: {
       type: Boolean,
       default: false,
