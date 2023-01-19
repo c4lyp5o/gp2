@@ -12860,10 +12860,10 @@ const getParams = (payload, reten) => {
 
   const AorC = (reten) => {
     if (reten === 'A') {
-      return { $eq: 'kp' };
+      return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
-      return { $ne: 'kp' };
+      return { $nin: ['kp', 'kk-kd'] };
     }
   };
 
@@ -12872,7 +12872,7 @@ const getParams = (payload, reten) => {
       tarikhKedatangan: {
         $gte: tarikhMula,
       },
-      createdByKp: {
+      createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
@@ -12883,7 +12883,7 @@ const getParams = (payload, reten) => {
         $gte: tarikhMula,
         $lte: tarikhAkhir,
       },
-      createdByKp: {
+      createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
@@ -12901,6 +12901,9 @@ const getParams = (payload, reten) => {
       tarikhKedatangan: {
         $gte: tarikhMula,
       },
+      createdByNegeri: {
+        $eq: negeri,
+      },
       createdByDaerah: {
         $eq: daerah,
       },
@@ -12910,6 +12913,9 @@ const getParams = (payload, reten) => {
       tarikhKedatangan: {
         $gte: tarikhMula,
         $lte: tarikhAkhir,
+      },
+      createdByNegeri: {
+        $eq: negeri,
       },
       createdByDaerah: {
         $eq: daerah,
