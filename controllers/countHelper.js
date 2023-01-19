@@ -2289,9 +2289,15 @@ const countPG206 = async (payload) => {
       },
       perluSapuanFluorida: {
         $sum: {
-          $eq: [
-            '$fvPerluSapuanPemeriksaanUmum',
-            'ya-fv-perlu-sapuan-pemeriksaan-umum',
+          $cond: [
+            {
+              $eq: [
+                '$fvPerluSapuanPemeriksaanUmum',
+                'ya-fv-perlu-sapuan-pemeriksaan-umum',
+              ],
+            },
+            1,
+            0,
           ],
         },
       },
@@ -2433,14 +2439,7 @@ const countPG206 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                {
-                  $or: [
-                    { $gt: ['$baruJumlahGigiKekalDiberiFVRawatanUmum', 0] },
-                    { $gt: ['$semulaJumlahGigiKekalDiberiFVRawatanUmum', 0] },
-                  ],
-                },
-              ],
+              $eq: ['$pesakitDibuatFluorideVarnish', true],
             },
             1,
             0,
