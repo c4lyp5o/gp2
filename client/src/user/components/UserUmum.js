@@ -52,7 +52,7 @@ function UserUmum({ sekolahIdc }) {
   const [reloadState, setReloadState] = useState(false);
 
   //carian ic semua
-  const keys = ['nama', 'ic', 'createdByUsername'];
+  const keys = ['nama', 'ic', 'createdByUsername', 'namaProgram'];
 
   const bawahRef = useRef(null);
   const atasRef = useRef(null);
@@ -226,7 +226,7 @@ function UserUmum({ sekolahIdc }) {
               carian pesakit
               <BsExclamationCircleFill
                 className='ml-2 text-lg text-user3'
-                title='carian untuk nama , kad pengenalan dan operator'
+                title='Carian Untuk Nama , Kad Pengenalan Dan Operator , Nama Program'
               />
             </label>
             <input
