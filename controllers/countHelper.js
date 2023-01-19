@@ -3506,7 +3506,7 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$setBaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              $gt: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
             },
             1,
             0,
@@ -4507,7 +4507,13 @@ const countPG207 = async (payload) => {
       },
       perluJumlahPesakitPrrJenis1: {
         $sum: {
-          $eq: ['$merged.prrJenis1', true],
+          $cond: [
+            {
+              $gt: ['$merged.BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+            },
+            1,
+            0,
+          ],
         },
       },
       perluJumlahGigiPrrJenis1: {
