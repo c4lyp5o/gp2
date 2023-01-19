@@ -2196,7 +2196,7 @@ const countPG206 = async (payload) => {
           $cond: [
             {
               $and: [
-                { $gte: ['$umur', 18] },
+                { $lte: ['$umur', 18] },
                 { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
