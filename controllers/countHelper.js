@@ -4994,7 +4994,7 @@ const countPGPR201 = async (payload) => {
 
   const group_stage = {
     $group: {
-      _id: '$createdByKp',
+      _id: placeModifier(payload),
       count: { $sum: 1 },
       jumlahAGumur1517: {
         $sum: '$umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',

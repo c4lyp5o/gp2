@@ -2277,14 +2277,14 @@ const makePGS203 = async (payload) => {
 const makePGPR201 = async (payload) => {
   console.log('PGPR201');
   try {
-    // const { kp, sekolah } = payload;
-    let klinik = 'Klinik Pergigian Kangar';
-    let bulan = '2022-10-01';
-    let bulan2 = '2022-11-01';
-    let daerah = 'KANGAR';
-    let negeri = 'PERLIS';
+    const { klinik, daerah, negeri, bulan } = payload;
+    // let klinik = 'Klinik Pergigian Kangar';
+    // let bulan = '2023-01-16';
+    // let bulan2 = '2022-01-18';
+    // let daerah = 'KANGAR';
+    // let negeri = 'PERLIS';
     //
-    const data = await Helper.countPGPR201(klinik, bulan, bulan2);
+    const data = await Helper.countPGPR201(payload);
     //
     if (data.length === 0) {
       return 'No data found';

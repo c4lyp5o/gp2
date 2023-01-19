@@ -205,6 +205,7 @@ const Generate = (props) => {
                 <option value='PG211A'>PG211A</option>
                 <option value='PG211C'>PG211C</option>
                 <option value='PG214'>PG214</option>
+                <option value='PGPR201'>PGPR201</option>
                 {/* <option value='BEGIN'>BEGIN 01/2020</option>
                 <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
                 <option value='CPPC1'>CPPC 1</option>
@@ -411,7 +412,8 @@ const Generate = (props) => {
               jenisReten === 'PG211C' ||
               jenisReten === 'PG214' ||
               jenisReten === 'PG206' ||
-              jenisReten === 'PG207') && (
+              jenisReten === 'PG207' ||
+              jenisReten === 'PGPR201') && (
               <>
                 <div className='px-3 py-1'>
                   <label
