@@ -1091,6 +1091,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [ektiparsiPulpa, setEktiparsiPulpa] = useState(false);
   masterForm.ektiparsiPulpa = ektiparsiPulpa;
   masterForm.setEktiparsiPulpa = setEktiparsiPulpa;
+  const [pendebridmenAkar, setPendebridmenAkar] = useState(false);
+  masterForm.pendebridmenAkar = pendebridmenAkar;
+  masterForm.setPendebridmenAkar = setPendebridmenAkar;
   const [
     rawatanLainPeriodontikRawatanUmum,
     setRawatanLainPeriodontikRawatanUmum,
@@ -1812,6 +1815,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
             data.singlePersonUmum.cabutanPengurusanFaktorSetempat
           );
           setEktiparsiPulpa(data.singlePersonUmum.ektiparsiPulpa);
+          setPendebridmenAkar(data.singlePersonUmum.pendebridmenAkar);
           setRawatanLainPeriodontikRawatanUmum(
             data.singlePersonUmum.rawatanLainPeriodontikRawatanUmum
           );
@@ -2196,6 +2200,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               adjustasiOklusi,
               cabutanPengurusanFaktorSetempat,
               ektiparsiPulpa,
+              pendebridmenAkar,
               rawatanLainPeriodontikRawatanUmum,
               rujukanPakarPeriodontik,
               engganLainRujukanPakarPeriodontik,
@@ -2343,6 +2348,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               adjustasiOklusi,
               cabutanPengurusanFaktorSetempat,
               ektiparsiPulpa,
+              pendebridmenAkar,
               rawatanLainPeriodontikRawatanUmum,
               rujukanPakarPeriodontik,
               engganLainRujukanPakarPeriodontik,
