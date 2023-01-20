@@ -2525,7 +2525,7 @@ export function InputKpEditPegawai(props) {
 export function InputKpEditFacility(props) {
   const { Dictionary } = useGlobalAdminAppContext();
 
-  //calculate sum enrolmenTastad = enrolmenKurang4Tahun + enrolmen5Tahun + enrolmen6Tahun
+  // calculate sum enrolmenTastad = enrolmenKurang4Tahun + enrolmen5Tahun + enrolmen6Tahun
   useEffect(() => {
     props.setEditedEntity({
       ...props.editedEntity,
