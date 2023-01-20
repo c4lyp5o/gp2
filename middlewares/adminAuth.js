@@ -26,4 +26,12 @@ const adminAuthInt = (req, res, next) => {
   }
 };
 
-module.exports = { adminAuth, adminAuthInt };
+const etlAuth = (req, res, next) => {
+  const { 'x-api-key': apiKey } = req.headers;
+  if (!apiKey) {
+    return res.status(401).json({ msg: 'Nice try, but no cigar' });
+  }
+  next();
+};
+
+module.exports = { adminAuth, adminAuthInt, etlAuth };
