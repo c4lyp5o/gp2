@@ -1693,7 +1693,7 @@ const countPG211C = async (payload) => {
   let data = [];
 
   for (let i = 0; i < match_stage.length; i++) {
-    const pipeline = [match_stage[i], group_stage(payload)];
+    const pipeline = [match_stage[i], group_stage];
     const query = await Umum.aggregate(pipeline);
     data.push(query);
   }
@@ -3212,8 +3212,6 @@ const countPG206 = async (payload) => {
     bigData.push(dataPemeriksaan);
     bigData.push(dataRawatan);
     bigData.push(dataSekolah);
-
-    console.log(bigData);
 
     return bigData;
   } catch (error) {
@@ -4962,8 +4960,6 @@ const countPG207 = async (payload) => {
     bigData.push(dataRawatan);
     bigData.push(dataSekolah);
 
-    console.log(bigData);
-
     return bigData;
   } catch (error) {
     console.log(error);
@@ -5268,7 +5264,6 @@ const countPGPR201 = async (payload) => {
 };
 //Reten Sekolah (Lama)
 const countPG201 = async (klinik, bulan, sekolah) => {
-  console.log(klinik, bulan, sekolah);
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
@@ -6428,7 +6423,6 @@ const countPG201 = async (klinik, bulan, sekolah) => {
 };
 //Reten Sekolah (effective until Feb 2023)
 const countSMKPG201 = async (klinik, bulan, sekolah) => {
-  console.log(klinik, bulan, sekolah);
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
@@ -7233,7 +7227,6 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
   }
 };
 const countPG201A = async (klinik, bulan, sekolah) => {
-  console.log(klinik, bulan, sekolah);
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
@@ -8344,7 +8337,6 @@ const countPG201A = async (klinik, bulan, sekolah) => {
 };
 //Reten Sekolah (effective starting on March 2023)
 const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
-  console.log(klinik, bulan, sekolah);
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
@@ -10760,7 +10752,6 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
         group_stage,
       ];
       const queryRawatan = await Sekolah.aggregate(pipeline);
-      console.log(queryRawatan);
       dataRawatan.push({ queryRawatan });
     }
 
@@ -10774,7 +10765,6 @@ const countPGS203 = async (klinik, bulan, sekolah) => {
 };
 //Reten Sekolah (Kekal sampai diberitahu kelak)
 const countPPIM03 = async (klinik, bulan, sekolah) => {
-  console.log(klinik, bulan, sekolah);
   let match_stage = [];
 
   // year selector
@@ -13101,7 +13091,6 @@ const getParams206 = (payload) => {
     return byDaerah(payload);
   }
   if (payload.daerah === 'all') {
-    console.log('jana negeri');
     return byNegeri(payload);
   }
 };
