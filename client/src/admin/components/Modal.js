@@ -610,25 +610,29 @@ const EditModalForKp = ({
         // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
         if (
           res.data.enrolmenTastad === 'NOT APPLICABLE' ||
-          res.data.enrolmenTastad === null
+          res.data.enrolmenTastad === null ||
+          res.data.enrolmenTastad === undefined
         ) {
           res.data.enrolmenTastad = 0;
         }
         if (
           res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmenKurang4Tahun === null
+          res.data.enrolmenKurang4Tahun === null ||
+          res.data.enrolmenKurang4Tahun === undefined
         ) {
           res.data.enrolmenKurang4Tahun = 0;
         }
         if (
           res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen5Tahun === null
+          res.data.enrolmen5Tahun === null ||
+          res.data.enrolmen5Tahun === undefined
         ) {
           res.data.enrolmen5Tahun = 0;
         }
         if (
           res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen6Tahun === null
+          res.data.enrolmen6Tahun === null ||
+          res.data.enrolmen6Tahun === undefined
         ) {
           res.data.enrolmen6Tahun = 0;
         }
