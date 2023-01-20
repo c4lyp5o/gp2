@@ -42,36 +42,28 @@ const EndDate = (props) => {
 };
 
 export function NothingToBeAdded(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
-
   return (
     <>
       <div
-        className='fixed top-0 left-0 w-full h-full bg-adminBlack opacity-50'
+        className={styles.darkBG}
         onClick={() => props.setShowAddModal(false)}
       />
-      <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center'>
-        <div className='bg-adminWhite rounded-lg p-6'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Tiada {Dictionary[props.FType]} untuk ditambah
-            </h5>
-            <button
-              onClick={() => props.setShowAddModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
-              >
-                <path
-                  fill-rule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clip-rule='evenodd'
-                ></path>
-              </svg>
-            </button>
+      <div className={styles.centered}>
+        <div className={styles.modalAdd}>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowAddModal(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='admin-pegawai-handler-container'>
+              <div className='admin-pegawai-handler-input'>
+                <div className='flex-wrap justify-center'>
+                  Tiada {props.FType} untuk ditambah
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -88,186 +80,167 @@ export function InputKlinik(props) {
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
         <div
-          className='fixed top-0 left-0 w-full h-full bg-adminBlack opacity-50'
+          className={styles.darkBG}
           onClick={() => props.setShowAddModal(false)}
         />
-        <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center'>
-          <div className='bg-adminWhite rounded-lg p-6'>
-            <div className='flex justify-between items-center mb-3'>
-              <h5 className='text-lg font-medium'>
-                Penambahan Klinik Pergigian
-              </h5>
-              <button
-                onClick={() => props.setShowAddModal(false)}
-                className='text-2xl font-medium text-adminBlack'
-              >
-                <svg
-                  viewBox='0 0 20 20'
-                  fill='currentColor'
-                  className='x-circle w-6 h-6'
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Tambah Klinik Pergigian</h5>
+            </div>
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowAddModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
+                  <div className='grid gap-1'>
+                    <label htmlFor='nama'>
+                      Pilih Klinik{' '}
+                      <span className='font-semibold text-lg text-admin3'>
+                        *
+                      </span>
+                    </label>
+                    <select
+                      required
+                      onChange={(e) => {
+                        const selectedKlinik = props.klinik.find(
+                          (k) => k.kodFasilitiGiret === e.target.value
+                        );
+                        props.setName(selectedKlinik.nama);
+                        props.setKodFasiliti(selectedKlinik.kodFasilitiGiret); // PROBABLY ONE OF THE MOST IMPORTANT CODE EVER. PLEASE DON'T TOUCH OR CHANGE THIS AT THE LATER POINT IN LIFE. CAUSE THE ORIGINAL NAME OF PROPERTIES LATER ON IS JUST kodFasiliti
+                      }}
+                      className='border-2 max-w-sm'
+                    >
+                      <option value=''>Pilih Klinik</option>
+                      {props.klinik.map((k) => (
+                        <option key={k.bil} value={k.kodFasilitiGiret}>
+                          {k.nama}
+                        </option>
+                      ))}
+                    </select>
+                    <label htmlFor='nama'>
+                      Emel{' '}
+                      <span className='font-semibold text-lg text-admin3'>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      required
+                      className='border-2'
+                      type='text'
+                      name='email'
+                      id='email'
+                      onChange={(e) =>
+                        props.setEmail(e.target.value.toLowerCase())
+                      }
+                    />
+                  </div>
+                  <p className='mt-3 font-semibold'>
+                    Peranan Klinik Pergigian{' '}
+                    <span className='font-semibold text-lg text-admin3'>*</span>
+                  </p>
+                  <div className='grid grid-cols-4 gap-1'>
+                    <label htmlFor='nama'>KEPP</label>
+                    <input
+                      required
+                      type='radio'
+                      id='role'
+                      name='checkbox'
+                      value='kepp'
+                      onChange={(e) =>
+                        props.setRole(e.target.value.toLowerCase())
+                      }
+                    />
+                    <label htmlFor='nama'>UTC</label>
+                    <input
+                      required
+                      type='radio'
+                      id='role'
+                      name='checkbox'
+                      value='utc'
+                      onChange={(e) =>
+                        props.setRole(e.target.value.toLowerCase())
+                      }
+                    />
+                    <label htmlFor='nama'>RTC</label>
+                    <input
+                      required
+                      type='radio'
+                      id='role'
+                      name='checkbox'
+                      value='rtc'
+                      onChange={(e) => props.setRole(e.target.value)}
+                    />
+                    <label htmlFor='nama'>Visiting</label>
+                    <input
+                      required
+                      type='radio'
+                      id='role'
+                      name='checkbox'
+                      value='visiting'
+                      onChange={(e) => props.setRole(e.target.value)}
+                    />
+                    <div className='col-span-4'>
+                      <label htmlFor='nama' className='m-3'>
+                        Bukan pilihan di atas
+                      </label>
+                      <input
+                        required
+                        type='radio'
+                        id='role'
+                        name='checkbox'
+                        value='klinik'
+                        onChange={(e) => props.setRole(e.target.value)}
+                      />
+                    </div>
+                  </div>
+                  <p className='mt-3 font-semibold'>
+                    Status Klinik Pergigian{' '}
+                    <span className='font-semibold text-lg text-admin3'>*</span>
+                  </p>
+                  <div className='grid grid-cols-2 gap-1'>
+                    <label htmlFor='nama'>Aktif</label>
+                    <input
+                      required
+                      type='radio'
+                      name='status'
+                      value='active'
+                      onChange={(e) =>
+                        props.setStatusPerkhidmatan(e.target.value)
+                      }
+                    />
+                    <label htmlFor='nama'>Tidak Aktif</label>
+                    <input
+                      required
+                      type='radio'
+                      name='status'
+                      value='non-active'
+                      onChange={(e) =>
+                        props.setStatusPerkhidmatan(e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                {props.addingData ? (
+                  <BusyButton func='add' />
+                ) : (
+                  <SubmitButton func='add' />
+                )}
+                <span
+                  className={styles.cancelBtn}
+                  onClick={() => props.setShowAddModal(false)}
                 >
-                  <path
-                    fill-rule='evenodd'
-                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                    clip-rule='evenodd'
-                  ></path>
-                </svg>
-              </button>
-            </div>
-            <div className='mb-4'>
-              <label
-                className='block mb-2 text-sm font-medium text-adminBlack'
-                htmlFor='nama'
-              >
-                Pilih Klinik
-                <span className='text-admin3'>*</span>
-              </label>
-              <select
-                required
-                onChange={(e) => {
-                  const selectedKlinik = props.klinik.find(
-                    (k) => k.kodFasilitiGiret === e.target.value
-                  );
-                  props.setName(selectedKlinik.nama);
-                  props.setKodFasiliti(selectedKlinik.kodFasilitiGiret);
-                }}
-                className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-              >
-                <option key='0' value=''>
-                  Pilih Klinik...
-                </option>
-                {props.klinik.map((k) => (
-                  <option key={k.bil} value={k.kodFasilitiGiret}>
-                    {k.nama}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className='mb-4'>
-              <label
-                className='block mb-2 text-sm font-medium text-adminBlack'
-                htmlFor='email'
-              >
-                Emel
-                <span className='text-admin3'>*</span>
-              </label>
-              <input
-                required
-                className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                type='text'
-                name='email'
-                id='email'
-                onChange={(e) => props.setEmail(e.target.value.toLowerCase())}
-              />
-            </div>
-            <p className='mb-3 text-sm font-medium text-adminBlack'>
-              Peranan Klinik Pergigian
-              <span className='text-admin3'>*</span>
-            </p>
-            <div className='grid grid-cols-4 gap-2 mb-3'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='kepp'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user3'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='kepp'
-                  onChange={(e) => props.setRole(e.target.value.toLowerCase())}
-                />
-                <span className='ml-2'>KEPP</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='utc'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user2'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='utc'
-                  onChange={(e) => props.setRole(e.target.value.toLowerCase())}
-                />
-                <span className='ml-2'>UTC</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='rtc'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user2'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='rtc'
-                  onChange={(e) => props.setRole(e.target.value)}
-                />
-                <span className='ml-2'>RTC</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='rtc'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user2'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value=''
-                  onChange={(e) => props.setRole(e.target.value)}
-                />
-                <span className='ml-2'>Klinik Pergigian</span>
-              </label>
-            </div>
-            <p className='mb-3 text-sm font-medium text-adminBlack'>
-              Status Klinik Pergigian
-              <span className='text-admin3'>*</span>
-            </p>
-            <div className='grid grid-cols-2 gap-1'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user3'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='active'
-                  onChange={(e) => props.setStatusPerkhidmatan(e.target.value)}
-                />
-                <span className='ml-2'>Aktif</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user2'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='non-active'
-                  onChange={(e) => props.setStatusPerkhidmatan(e.target.value)}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
-              </label>
-            </div>
-            <div className='mt-5'>
-              {props.addingData ? (
-                <BusyButton func='add' />
-              ) : (
-                <SubmitButton func='add' />
-              )}
+                  Kembali
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -285,130 +258,117 @@ export function InputKkiakd(props) {
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
         <div
-          className='fixed top-0 left-0 w-full h-full bg-adminBlack opacity-50'
+          className={styles.darkBG}
           onClick={() => props.setShowAddModal(false)}
         />
-        <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center'>
-          <div className='bg-adminWhite rounded-lg p-6'>
-            <div className='flex justify-between items-center mb-3'>
-              <h5 className='text-lg font-medium'>Penambahan KKIA / KD</h5>
-              <button
-                onClick={() => props.setShowAddModal(false)}
-                className='text-2xl font-medium text-adminBlack'
-              >
-                <svg
-                  viewBox='0 0 20 20'
-                  fill='currentColor'
-                  className='x-circle w-6 h-6'
-                >
-                  <path
-                    fill-rule='evenodd'
-                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                    clip-rule='evenodd'
-                  ></path>
-                </svg>
-              </button>
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>Tambah KKIA / KD</h5>
             </div>
-            <div className='mb-4'>
-              <div className='text-xs text-admin1 m-2'>
-                *Daerah pada senarai KKIA/KD adalah bukan mengikut daerah
-                pentadbiran perkhidmatan pergigian
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowAddModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
+                  <div className='text-xs text-admin1'>
+                    *Daerah pada senarai KKIA/KD adalah bukan mengikut daerah
+                    pentadbiran perkhidmatan pergigian
+                  </div>
+                  <div className='grid gap-1'>
+                    <label htmlFor='nama'>Pilih KKIA / KD</label>
+                    <select
+                      required
+                      onChange={(e) => {
+                        const selectedKkia = props.kkia.find(
+                          (k) => k.kodFasiliti === e.target.value
+                        );
+                        props.setName(selectedKkia.nama);
+                        props.setKodKkiaKd(selectedKkia.kodFasiliti);
+                      }}
+                      className='border-2 max-w-sm'
+                    >
+                      <option value=''>Pilih KKIA / KD</option>
+                      {props.kkia.map((k) => (
+                        <option key={k.kodFasiliti} value={k.kodFasiliti}>
+                          {k.nama} | di {k.daerah}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Klinik Bertugas{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <select
+                      required
+                      className='border-2'
+                      onChange={(e) => {
+                        const selectedKlinik = props.klinik.find(
+                          (k) => k.kodFasiliti === e.target.value
+                        );
+                        props.setKp(selectedKlinik.kp);
+                        props.setKodFasiliti(selectedKlinik.kodFasiliti);
+                      }}
+                    >
+                      <option value=''>Pilih Klinik</option>
+                      {props.klinik.map((k) => (
+                        <option className='capitalize' value={k.kodFasiliti}>
+                          {k.kp}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+                  <p className='mt-3 font-semibold'>
+                    Status KKIA / KD{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid grid-cols-2 gap-1'>
+                    <label htmlFor='nama'>Aktif</label>
+                    <input
+                      required
+                      type='radio'
+                      name='status'
+                      value='active'
+                      onChange={(e) =>
+                        props.setStatusPerkhidmatan(e.target.value)
+                      }
+                    />
+                    <label htmlFor='nama'>Tidak Aktif</label>
+                    <input
+                      required
+                      type='radio'
+                      name='status'
+                      value='non-active'
+                      onChange={(e) =>
+                        props.setStatusPerkhidmatan(e.target.value)
+                      }
+                    />
+                  </div>
+                </div>
               </div>
-              <label
-                className='block mb-2 text-sm font-medium text-adminBlack'
-                htmlFor='nama'
-              >
-                Pilih Klinik
-                <span className='text-admin3'>*</span>
-              </label>
-              <select
-                required
-                className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark mb-3'
-                onChange={(e) => {
-                  const selectedKkia = props.kkia.find(
-                    (k) => k.kodFasiliti === e.target.value
-                  );
-                  props.setName(selectedKkia.nama);
-                  props.setKodKkiaKd(selectedKkia.kodFasiliti);
-                }}
-              >
-                <option value=''>Pilih KKIA / KD</option>
-                {props.kkia.map((k) => (
-                  <option key={k.kodFasiliti} value={k.kodFasiliti}>
-                    {k.nama} | di {k.daerah}
-                  </option>
-                ))}
-              </select>
             </div>
-            <div className='mb-4'>
-              <label
-                className='block mb-2 text-sm font-medium text-adminBlack'
-                htmlFor='klinikbertugas'
-              >
-                Klinik Bertugas
-                <span className='text-admin3'>*</span>
-              </label>
-              <select
-                required
-                name='klinikbertugas'
-                className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                onChange={(e) => {
-                  const selectedKlinik = props.klinik.find(
-                    (k) => k.kodFasiliti === e.target.value
-                  );
-                  props.setKp(selectedKlinik.kp);
-                  props.setKodFasiliti(selectedKlinik.kodFasiliti);
-                }}
-              >
-                <option value=''>Pilih Klinik</option>
-                {props.klinik.map((k) => (
-                  <option className='capitalize' value={k.kodFasiliti}>
-                    {k.kp}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <p className='mt-3 font-medium mb-1'>
-              Status KKIA / KD <span className='text-admin3'>*</span>
-            </p>
-            <div className='grid grid-cols-2 gap-1'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user3'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='active'
-                  onChange={(e) => props.setStatusPerkhidmatan(e.target.value)}
-                />
-                <span className='ml-2'>Aktif</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user2'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='non-active'
-                  onChange={(e) => props.setStatusPerkhidmatan(e.target.value)}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
-              </label>
-            </div>
-            <div className='mt-5'>
-              {props.addingData ? (
-                <BusyButton func='add' />
-              ) : (
-                <SubmitButton func='add' />
-              )}
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                {props.addingData ? (
+                  <BusyButton func='add' />
+                ) : (
+                  <SubmitButton func='add' />
+                )}
+                <span
+                  className={styles.cancelBtn}
+                  onClick={() => props.setShowAddModal(false)}
+                >
+                  Kembali
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -423,401 +383,405 @@ export function InputPegawai(props) {
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
         <div
-          className='fixed top-0 left-0 w-full h-full bg-adminBlack opacity-50'
+          className={styles.darkBG}
           onClick={() => props.setShowAddModal(false)}
         />
-        <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center'>
-          <div className='bg-adminWhite rounded-lg p-6'>
-            <div className='flex justify-between items-center mb-3'>
-              <h5 className='text-lg font-medium'>
-                Penambahan {Dictionary[props.FType]}
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>
+                Tambah {Dictionary[props.FType]}
               </h5>
-              <button
-                onClick={() => props.setShowAddModal(false)}
-                className='text-2xl font-medium text-adminBlack'
-              >
-                <svg
-                  viewBox='0 0 20 20'
-                  fill='currentColor'
-                  className='x-circle w-6 h-6'
-                >
-                  <path
-                    fill-rule='evenodd'
-                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                    clip-rule='evenodd'
-                  ></path>
-                </svg>
-              </button>
             </div>
-            <div className='mb-4'>
-              <label
-                className='block mb-2 text-sm font-medium text-adminBlack'
-                htmlFor='nama'
-              >
-                Nama {Dictionary[props.FType]}
-                <span className='text-admin3'>*</span>
-              </label>
-              {props.FType === 'pp' && (
-                <div className='grid gap-1'>
-                  <label
-                    htmlFor='default-search'
-                    className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
-                  >
-                    Cari
-                  </label>
-                  <div className='relative rounded-md shadow-sm'>
-                    <div className='absolute inset-y-0 left-0 pl-3 flex items-center'>
-                      <svg
-                        className='w-5 h-5 text-gray-500'
-                        viewBox='0 0 20 20'
-                        fill='none'
-                        stroke='currentColor'
-                      >
-                        <path d='M12 12l4-4 4 4M8 8h8v8H8z' />
-                      </svg>
-                    </div>
-                    <input
-                      value={props.carianNama}
-                      type='search'
-                      className='block w-full pl-10 pr-3 py-2 rounded-md text-gray-700 placeholder-gray-500 focus:outline-none focus:shadow-outline-blue focus:border-blue-300'
-                      placeholder='Search...'
-                      onChange={(e) => {
-                        props.setCarianNama(e.target.value);
-                      }}
-                    />
-                    {props.searching === false ? (
-                      <button
-                        type='button'
-                        className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          if (!props.carianNama) {
-                            toast.error('Sila isi nama pegawai');
-                            return;
-                          }
-                          props.setSearching(true);
-                          props.setNoPpJp('');
-                          props.setAllPegawai([]);
-                          const res = await readOperatorData(
-                            props.FType,
-                            props.carianNama
-                          );
-                          if (res) {
-                            props.setAllPegawai(res);
-                          }
-                          if (!res) {
-                            props.setNoPpJp('Tiada pegawai dijumpai');
-                          }
-                          props.setSearching(false);
-                        }}
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowAddModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='admin-pegawai-handler-input'>
+                  <p>
+                    Nama {Dictionary[props.FType]}{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  {props.FType === 'pp' && (
+                    <div className='grid gap-1'>
+                      <label
+                        htmlFor='default-search'
+                        className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                       >
                         Cari
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          type='button'
-                          className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
-                          disabled={true}
-                        >
+                      </label>
+                      <div className='relative'>
+                        <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
                           <svg
-                            className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
-                            xmlns='http://www.w3.org/2000/svg'
+                            aria-hidden='true'
+                            className='w-5 h-3 text-gray-500 dark:text-gray-400'
                             fill='none'
+                            stroke='currentColor'
                             viewBox='0 0 24 24'
+                            xmlns='http://www.w3.org/2000/svg'
                           >
-                            <circle
-                              className='opacity-25'
-                              cx='12'
-                              cy='12'
-                              r='10'
-                              stroke='currentColor'
-                              strokeWidth='4'
-                            ></circle>
                             <path
-                              className='opacity-75'
-                              fill='currentColor'
-                              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth='2'
+                              d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
                             ></path>
                           </svg>
-                        </button>
-                      </>
-                    )}
-                  </div>
-                  {props.allPegawai.length > 0 ? (
-                    <select
-                      required
-                      className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                      onChange={(e) => {
-                        const selectedPp = props.allPegawai.find(
-                          (p) => p.mdcNumber === parseInt(e.target.value)
-                        );
-                        props.setName(selectedPp.nama);
-                        props.setRegNumber(selectedPp.mdcNumber);
-                      }}
-                    >
-                      <option key='no-value' value=''>
-                        Pilih Pegawai...
-                      </option>
-                      {props.allPegawai.map((p) => (
-                        <option className='capitalize' value={p.mdcNumber}>
-                          {p.nama} | MDC {p.mdcNumber}
-                        </option>
-                      ))}
-                    </select>
-                  ) : (
-                    <span>{props.noPpJp}</span>
-                  )}
-                </div>
-              )}
-              {props.FType === 'jp' && (
-                <div className='grid gap-1'>
-                  <label
-                    htmlFor='default-search'
-                    className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
-                  >
-                    Cari
-                  </label>
-                  <div className='relative'>
-                    <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
-                      <svg
-                        aria-hidden='true'
-                        className='w-5 h-3 text-gray-500 dark:text-gray-400'
-                        fill='none'
-                        stroke='currentColor'
-                        viewBox='0 0 24 24'
-                        xmlns='http://www.w3.org/2000/svg'
-                      >
-                        <path
-                          strokeLinecap='round'
-                          strokeLinejoin='round'
-                          strokeWidth='2'
-                          d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
-                        ></path>
-                      </svg>
-                    </div>
-                    <input
-                      autoFocus
-                      value={props.carianNama}
-                      type='search'
-                      className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
-                      placeholder='Cari juruterapi pergigian...'
-                      onChange={(e) => {
-                        props.setCarianNama(e.target.value);
-                      }}
-                    />
-                    {props.searching === false ? (
-                      <button
-                        type='button'
-                        className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
-                        onClick={async (e) => {
-                          e.preventDefault();
-                          if (!props.carianNama) {
-                            toast.error('Sila isi nama juruterapi pergigian');
-                            return;
-                          }
-                          props.setSearching(true);
-                          props.setNoPpJp('');
-                          props.setAllJp([]);
-                          const res = await readOperatorData(
-                            props.FType,
-                            props.carianNama
-                          );
-                          if (res) {
-                            props.setAllJp(res);
-                          }
-                          if (!res) {
-                            props.setNoPpJp(
-                              'Tiada juruterapi pergigian dijumpai'
+                        </div>
+                        <input
+                          autoFocus
+                          value={props.carianNama}
+                          type='search'
+                          className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          placeholder='Cari pegawai...'
+                          onChange={(e) => {
+                            props.setCarianNama(e.target.value);
+                          }}
+                        />
+                        {props.searching === false ? (
+                          <button
+                            type='button'
+                            className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                            onClick={async (e) => {
+                              e.preventDefault();
+                              if (!props.carianNama) {
+                                toast.error('Sila isi nama pegawai');
+                                return;
+                              }
+                              props.setSearching(true);
+                              props.setNoPpJp('');
+                              props.setAllPegawai([]);
+                              const res = await readOperatorData(
+                                props.FType,
+                                props.carianNama
+                              );
+                              if (res) {
+                                props.setAllPegawai(res);
+                              }
+                              if (!res) {
+                                props.setNoPpJp('Tiada pegawai dijumpai');
+                              }
+                              props.setSearching(false);
+                            }}
+                          >
+                            Cari
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              type='button'
+                              className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                              disabled={true}
+                            >
+                              <svg
+                                className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                              >
+                                <circle
+                                  className='opacity-25'
+                                  cx='12'
+                                  cy='12'
+                                  r='10'
+                                  stroke='currentColor'
+                                  strokeWidth='4'
+                                ></circle>
+                                <path
+                                  className='opacity-75'
+                                  fill='currentColor'
+                                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                ></path>
+                              </svg>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {props.allPegawai.length > 0 ? (
+                        <select
+                          required
+                          className='border-2 max-w-sm'
+                          onChange={(e) => {
+                            const selectedPp = props.allPegawai.find(
+                              (p) => p.mdcNumber === parseInt(e.target.value)
                             );
-                          }
-                          props.setSearching(false);
-                        }}
+                            props.setName(selectedPp.nama);
+                            props.setRegNumber(selectedPp.mdcNumber);
+                          }}
+                        >
+                          <option key='no-value' value=''>
+                            Pilih Pegawai...
+                          </option>
+                          {props.allPegawai.map((p) => (
+                            <option className='capitalize' value={p.mdcNumber}>
+                              {p.nama} | MDC {p.mdcNumber}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <span>{props.noPpJp}</span>
+                      )}
+                    </div>
+                  )}
+                  {props.FType === 'jp' && (
+                    <div className='grid gap-1'>
+                      <label
+                        htmlFor='default-search'
+                        className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                       >
                         Cari
-                      </button>
-                    ) : (
-                      <>
-                        <button
-                          type='button'
-                          className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
-                          disabled={true}
-                        >
+                      </label>
+                      <div className='relative'>
+                        <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
                           <svg
-                            className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
-                            xmlns='http://www.w3.org/2000/svg'
+                            aria-hidden='true'
+                            className='w-5 h-3 text-gray-500 dark:text-gray-400'
                             fill='none'
+                            stroke='currentColor'
                             viewBox='0 0 24 24'
+                            xmlns='http://www.w3.org/2000/svg'
                           >
-                            <circle
-                              className='opacity-25'
-                              cx='12'
-                              cy='12'
-                              r='10'
-                              stroke='currentColor'
-                              strokeWidth='4'
-                            ></circle>
                             <path
-                              className='opacity-75'
-                              fill='currentColor'
-                              d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth='2'
+                              d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
                             ></path>
                           </svg>
-                        </button>
-                      </>
+                        </div>
+                        <input
+                          autoFocus
+                          value={props.carianNama}
+                          type='search'
+                          className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          placeholder='Cari juruterapi pergigian...'
+                          onChange={(e) => {
+                            props.setCarianNama(e.target.value);
+                          }}
+                        />
+                        {props.searching === false ? (
+                          <button
+                            type='button'
+                            className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                            onClick={async (e) => {
+                              e.preventDefault();
+                              if (!props.carianNama) {
+                                toast.error(
+                                  'Sila isi nama juruterapi pergigian'
+                                );
+                                return;
+                              }
+                              props.setSearching(true);
+                              props.setNoPpJp('');
+                              props.setAllJp([]);
+                              const res = await readOperatorData(
+                                props.FType,
+                                props.carianNama
+                              );
+                              if (res) {
+                                props.setAllJp(res);
+                              }
+                              if (!res) {
+                                props.setNoPpJp(
+                                  'Tiada juruterapi pergigian dijumpai'
+                                );
+                              }
+                              props.setSearching(false);
+                            }}
+                          >
+                            Cari
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              type='button'
+                              className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                              disabled={true}
+                            >
+                              <svg
+                                className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                              >
+                                <circle
+                                  className='opacity-25'
+                                  cx='12'
+                                  cy='12'
+                                  r='10'
+                                  stroke='currentColor'
+                                  strokeWidth='4'
+                                ></circle>
+                                <path
+                                  className='opacity-75'
+                                  fill='currentColor'
+                                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                ></path>
+                              </svg>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {props.allJp.length > 0 ? (
+                        <select
+                          required
+                          className='border-2 max-w-sm'
+                          onChange={(e) => {
+                            const selectedJp = props.allJp.find(
+                              (p) => p.mdtbNumber === e.target.value
+                            );
+                            props.setName(selectedJp.nama);
+                            props.setRegNumber(selectedJp.mdtbNumber);
+                          }}
+                        >
+                          <option key='no-value' value=''>
+                            Pilih Juruterapi Pergigian...
+                          </option>
+                          {props.allJp.map((p) => (
+                            <option className='capitalize' value={p.mdtbNumber}>
+                              {p.nama} | {p.mdtbNumber}
+                            </option>
+                          ))}
+                        </select>
+                      ) : (
+                        <span>{props.noPpJp}</span>
+                      )}
+                    </div>
+                  )}
+                  <p>
+                    Emel{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    <input
+                      required
+                      className='border-2'
+                      type='text'
+                      name='nama'
+                      id='nama'
+                      onChange={(e) => props.setEmail(e.target.value)}
+                    />
+                  </div>
+                  <p>
+                    Gred{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='grid gap-1'>
+                    {props.FType === 'pp' && (
+                      <select
+                        required
+                        className='border-2'
+                        onChange={(e) => props.setGred(e.target.value)}
+                      >
+                        <option value=''>Pilih Gred</option>
+                        <option value='jusa'>JUSA</option>
+                        <option value='ug56'>UG56</option>
+                        <option value='ug54'>UG54</option>
+                        <option value='ug52'>UG52</option>
+                        <option value='ug48'>UG48</option>
+                        <option value='ug44'>UG44</option>
+                        <option value='ug41'>UG41</option>
+                      </select>
+                    )}
+                    {props.FType === 'jp' && (
+                      <select
+                        required
+                        className='border-2'
+                        onChange={(e) => props.setGred(e.target.value)}
+                      >
+                        <option value=''>Pilih Gred</option>
+                        <option value='u40'>U40</option>
+                        <option value='u38'>U38</option>
+                        <option value='u36'>U36</option>
+                        <option value='u32'>U32</option>
+                        <option value='u29'>U29</option>
+                      </select>
                     )}
                   </div>
-                  {props.allJp.length > 0 ? (
+                  <div className='grid gap-1'>
+                    <p>
+                      Klinik Bertugas{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
                     <select
                       required
-                      className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
+                      className='border-2'
                       onChange={(e) => {
-                        const selectedJp = props.allJp.find(
-                          (p) => p.mdtbNumber === e.target.value
+                        const selectedKlinik = props.klinik.find(
+                          (k) => k.kodFasiliti === e.target.value
                         );
-                        props.setName(selectedJp.nama);
-                        props.setRegNumber(selectedJp.mdtbNumber);
+                        props.setKp(selectedKlinik.kp);
+                        props.setKodFasiliti(selectedKlinik.kodFasiliti);
                       }}
                     >
-                      <option key='no-value' value=''>
-                        Pilih Juruterapi Pergigian...
-                      </option>
-                      {props.allJp.map((p) => (
-                        <option className='capitalize' value={p.mdtbNumber}>
-                          {p.nama} | {p.mdtbNumber}
+                      <option value=''>Pilih Klinik</option>
+                      {props.klinik.map((k) => (
+                        <option className='capitalize' value={k.kodFasiliti}>
+                          {k.kp}
                         </option>
                       ))}
                     </select>
-                  ) : (
-                    <span>{props.noPpJp}</span>
-                  )}
+                  </div>
+                  <div className='grid gap-1'>
+                    <p>
+                      Peranan{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <select
+                      required
+                      className='border-2'
+                      onChange={(e) => props.setRole(e.target.value)}
+                    >
+                      <option value=''>Pilih Peranan</option>
+                      <option value='admin'>Pentadbir Klinik</option>
+                      <option value='umum'>Pengguna</option>
+                    </select>
+                  </div>
+                  <div className='mt-3'>
+                    <label htmlFor='role-promosi-klinik' className='mr-3'>
+                      Pegawai promosi fasiliti?
+                    </label>
+                    <input
+                      type='checkbox'
+                      id='role-promosi-klinik'
+                      ref={props.currentRolePromosiKlinik}
+                    />
+                  </div>
+                  <div className='mt-3'>
+                    <label htmlFor='role-media-sosial-klinik' className='mr-3'>
+                      Pegawai media sosial fasiliti?
+                    </label>
+                    <input
+                      type='checkbox'
+                      id='role-media-sosial-klinik'
+                      ref={props.currentRoleMediaSosialKlinik}
+                    />
+                  </div>
                 </div>
-              )}
-              <div className='mb-4 mt-4'>
-                <label
-                  className='block mb-2 text-sm font-medium text-adminBlack'
-                  htmlFor='email'
-                >
-                  Emel
-                  <span className='text-admin3'>*</span>
-                </label>
-                <input
-                  required
-                  className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                  type='text'
-                  name='email'
-                  id='email'
-                  onChange={(e) => props.setEmail(e.target.value.toLowerCase())}
-                />
-              </div>
-              <p className='mb-3 text-sm font-medium text-adminBlack'>
-                Gred <span className='text-admin3'>*</span>
-              </p>
-              <div className='grid gap-1 mb-4'>
-                {props.FType === 'pp' && (
-                  <select
-                    required
-                    className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                    onChange={(e) => props.setGred(e.target.value)}
-                  >
-                    <option value=''>Pilih Gred</option>
-                    <option value='jusa'>JUSA</option>
-                    <option value='ug56'>UG56</option>
-                    <option value='ug54'>UG54</option>
-                    <option value='ug52'>UG52</option>
-                    <option value='ug48'>UG48</option>
-                    <option value='ug44'>UG44</option>
-                    <option value='ug41'>UG41</option>
-                  </select>
-                )}
-                {props.FType === 'jp' && (
-                  <select
-                    required
-                    className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                    onChange={(e) => props.setGred(e.target.value)}
-                  >
-                    <option value=''>Pilih Gred</option>
-                    <option value='u40'>U40</option>
-                    <option value='u38'>U38</option>
-                    <option value='u36'>U36</option>
-                    <option value='u32'>U32</option>
-                    <option value='u29'>U29</option>
-                  </select>
-                )}
-              </div>
-              <div className='mb-4'>
-                <label
-                  className='block mb-2 text-sm font-medium text-adminBlack'
-                  htmlFor='klinikbertugas'
-                >
-                  Klinik Bertugas
-                  <span className='text-admin3'>*</span>
-                </label>
-                <select
-                  required
-                  name='klinikbertugas'
-                  className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                  onChange={(e) => {
-                    const selectedKlinik = props.klinik.find(
-                      (k) => k.kodFasiliti === e.target.value
-                    );
-                    props.setKp(selectedKlinik.kp);
-                    props.setKodFasiliti(selectedKlinik.kodFasiliti);
-                  }}
-                >
-                  <option value=''>Pilih Klinik</option>
-                  {props.klinik.map((k) => (
-                    <option className='capitalize' value={k.kodFasiliti}>
-                      {k.kp}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className='mb-4'>
-                <label
-                  className='block mb-2 text-sm font-medium text-adminBlack'
-                  htmlFor='klinikbertugas'
-                >
-                  Peranan
-                  <span className='text-admin3'>*</span>
-                </label>
-                <select
-                  required
-                  className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                  onChange={(e) => props.setRole(e.target.value)}
-                >
-                  <option value=''>Pilih Peranan</option>
-                  <option value='admin'>Pentadbir Klinik</option>
-                  <option value='umum'>Pengguna</option>
-                </select>
-              </div>
-              <div className='mt-3'>
-                <label htmlFor='role-promosi-klinik' className='mr-3'>
-                  Pegawai promosi fasiliti?
-                  <input
-                    type='checkbox'
-                    id='role-promosi-klinik'
-                    ref={props.currentRolePromosiKlinik}
-                  />
-                </label>
-              </div>
-              <div className='mt-3'>
-                <label htmlFor='role-media-sosial-klinik' className='mr-3'>
-                  Pegawai media sosial fasiliti?
-                  <input
-                    type='checkbox'
-                    id='role-media-sosial-klinik'
-                    ref={props.currentRoleMediaSosialKlinik}
-                  />
-                </label>
               </div>
             </div>
-            <div className='mt-5'>
-              {props.addingData ? (
-                <BusyButton func='add' />
-              ) : (
-                <SubmitButton func='add' />
-              )}
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                {props.addingData ? (
+                  <BusyButton func='add' />
+                ) : (
+                  <SubmitButton func='add' />
+                )}
+                <span
+                  className={styles.cancelBtn}
+                  onClick={() => props.setShowAddModal(false)}
+                >
+                  Kembali
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -832,168 +796,170 @@ export function InputFacility(props) {
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
         <div
-          className='fixed top-0 left-0 w-full h-full bg-adminBlack opacity-50'
+          className={styles.darkBG}
           onClick={() => props.setShowAddModal(false)}
         />
-        <div className='fixed top-0 left-0 bottom-0 right-0 flex items-center justify-center'>
-          <div className='bg-adminWhite rounded-lg p-6'>
-            <div className='flex justify-between items-center mb-3'>
-              <h5 className='text-lg font-medium'>
-                Penambahan {Dictionary[props.FType]}
+        <div className={styles.centered}>
+          <div className={styles.modalAdd}>
+            <div className={styles.modalHeader}>
+              <h5 className={styles.heading}>
+                Tambah {Dictionary[props.FType]}
               </h5>
-              <button
-                onClick={() => props.setShowAddModal(false)}
-                className='text-2xl font-medium text-adminBlack'
-              >
-                <svg
-                  viewBox='0 0 20 20'
-                  fill='currentColor'
-                  className='x-circle w-6 h-6'
-                >
-                  <path
-                    fill-rule='evenodd'
-                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                    clip-rule='evenodd'
-                  ></path>
-                </svg>
-              </button>
             </div>
-            <div className='mb-4'>
-              {(props.FType === 'sm' || props.FType === 'sr') &&
-                (props.statusApdm === true ? (
+            <span
+              className={styles.closeBtn}
+              onClick={() => props.setShowAddModal(false)}
+            >
+              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            </span>
+            <div className={styles.modalContent}>
+              <div className='admin-pegawai-handler-container'>
+                <div className='mb-3'>
+                  {(props.FType === 'sm' || props.FType === 'sr') &&
+                    (props.statusApdm === true ? (
+                      <>
+                        <div>
+                          <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                            APDM Aktif
+                          </span>
+                        </div>
+                        <div>
+                          <span className='text-xs'>
+                            Tarikh kemaskini:{' '}
+                            {new Date().toLocaleDateString('en-GB')}
+                          </span>
+                        </div>
+                      </>
+                    ) : (
+                      <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                        APDM Tidak Aktif
+                      </span>
+                    ))}
+                  {props.FType === 'kpb' || props.FType === 'mpb' ? (
+                    <>
+                      <div>
+                        <span className='font-bold uppercase'>Nombor plat</span>{' '}
+                        {Dictionary[props.FType]}{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </div>
+                      <div className='text-user9 text-lg font-semibold uppercase'>
+                        Pastikan diisi dengan huruf besar & jarak{' '}
+                        <i className='mr-1'>space</i> yang betul
+                      </div>
+                    </>
+                  ) : (
+                    <div>
+                      <p>
+                        Nama {Dictionary[props.FType]}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                    </div>
+                  )}
+                  {props.FType !== 'sr' && props.FType !== 'sm' ? (
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        onChange={(e) => props.setName(e.target.value)}
+                      />
+                    </div>
+                  ) : (
+                    <div className='grid gap-1'>
+                      <select
+                        required
+                        className='border-2 max-w-sm'
+                        name='kp'
+                        onChange={(e) => {
+                          props.setName(e.target.value);
+                          const index = e.target.selectedIndex;
+                          const el = e.target.childNodes[index];
+                          props.setKodSekolah(el.getAttribute('id'));
+                        }}
+                      >
+                        <option value=''>Pilih Sekolah</option>
+                        {props.sekolah.map((s) => (
+                          <option value={s.namaSekolah} id={s.kodSekolah}>
+                            {s.namaSekolah}
+                          </option>
+                        ))}
+                      </select>
+                    </div>
+                  )}
+                </div>
+                {(props.FType === 'kpb' || props.FType === 'mpb') && (
                   <>
-                    <label className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                      APDM Aktif
-                    </label>
-                    <label className='text-xs'>
-                      Tarikh kemaskini: {new Date().toLocaleDateString('en-GB')}
-                    </label>
+                    <div>
+                      <span className='font-bold uppercase'>Jenis</span>{' '}
+                      {Dictionary[props.FType]}{' '}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                      <p>
+                        Contoh:{' '}
+                        <span className='font-bold'>
+                          Lori Trak, Caravan, Van, Treler, Bas, Coaster
+                        </span>
+                      </p>
+                    </div>
+                    <div className='grid gap-1 mb-3'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='nama'
+                        id='nama'
+                        onChange={(e) =>
+                          props.setSubJenisKPBMPB(e.target.value)
+                        }
+                      />
+                    </div>
                   </>
-                ) : (
-                  <label className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                    APDM Tidak Aktif
-                  </label>
-                ))}
-              {props.FType === 'kpb' || props.FType === 'mpb' ? (
-                <>
-                  <label
-                    className='block mb-2 text-sm font-medium text-adminBlack'
-                    htmlFor='nama'
-                  >
-                    Nombor plat {Dictionary[props.FType]}
-                    <span className='text-admin3'>*</span>
-                  </label>
-                  <label
-                    className='block mb-2 text-sm font-medium text-adminBlack'
-                    htmlFor='nama'
-                  >
-                    Pastikan diisi dengan huruf besar & jarak{' '}
-                    <i className='mr-1'>space</i> yang betul
-                  </label>
-                </>
-              ) : (
-                <label
-                  className='block mb-2 text-sm font-medium text-adminBlack'
-                  htmlFor='nama'
-                >
-                  Nama {Dictionary[props.FType]}
-                  <span className='text-admin3'>*</span>
-                </label>
-              )}
-              {props.FType !== 'sr' && props.FType !== 'sm' ? (
-                <input
-                  required
-                  className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                  type='text'
-                  name='nama'
-                  id='nama'
-                  onChange={(e) => props.setName(e.target.value)}
-                />
-              ) : (
-                <select
-                  required
-                  className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                  name='kp'
-                  onChange={(e) => {
-                    props.setName(e.target.value);
-                    const index = e.target.selectedIndex;
-                    const el = e.target.childNodes[index];
-                    props.setKodSekolah(el.getAttribute('id'));
-                  }}
-                >
-                  <option value=''>Pilih Sekolah</option>
-                  {props.sekolah.map((s) => (
-                    <option value={s.namaSekolah} id={s.kodSekolah}>
-                      {s.namaSekolah}
-                    </option>
-                  ))}
-                </select>
-              )}
-            </div>
-            <div className='mb-4'>
-              {(props.FType === 'kpb' || props.FType === 'mpb') && (
-                <>
-                  <label
-                    className='block mb-2 text-sm font-medium text-adminBlack'
-                    htmlFor='jenis'
-                  >
-                    Jenis
-                    <span className='text-admin3'>*</span>
-                  </label>
-                  <label
-                    className='block mb-2 text-sm font-medium text-adminBlack'
-                    htmlFor='example'
-                  >
-                    Contoh:{' '}
-                    <span className='font-bold'>
-                      Lori Trak, Caravan, Van, Treler, Bas, Coaster
-                    </span>
-                  </label>
-                  <input
-                    required
-                    className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                    type='text'
-                    name='nama'
-                    id='nama'
-                    onChange={(e) => props.setSubJenisKPBMPB(e.target.value)}
-                  />
-                </>
-              )}
-            </div>
-            <div className='mb-4'>
-              {props.FType === 'taska' || props.FType === 'tadika' ? (
-                <>
-                  <label
-                    className='block mb-2 text-sm font-medium text-adminBlack'
-                    htmlFor='email'
-                  >
-                    Kod {Dictionary[props.FType]}
-                    <span className='text-admin3'>*</span>
-                  </label>
-                  <input
-                    required
-                    className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                    type='text'
-                    name='kodTastad'
-                    id='kodTastad'
-                    onChange={(e) => props.setKodTastad(e.target.value)}
-                  />
-                  <label
-                    className='block mb-2 mt-4 text-sm font-medium text-adminBlack'
-                    htmlFor='alamat'
-                  >
-                    Alamat {Dictionary[props.FType]}
-                    <span className='text-admin3'>*</span>
-                  </label>
-                  <input
-                    required
-                    className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                    type='text'
-                    name='alamat'
-                    id='alamat'
-                    onChange={(e) => props.setAlamatTastad(e.target.value)}
-                  />
-                  {/* <div>
+                )}
+                {props.FType === 'taska' || props.FType === 'tadika' ? (
+                  <>
+                    <div>
+                      <p>
+                        Kod {Dictionary[props.FType]}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                    </div>
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='kodTastad'
+                        id='kodTastad'
+                        onChange={(e) => props.setKodTastad(e.target.value)}
+                      />
+                    </div>
+                    <div>
+                      <p>
+                        Alamat {Dictionary[props.FType]}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                    </div>
+                    <div className='grid gap-1'>
+                      <input
+                        required
+                        className='border-2'
+                        type='text'
+                        name='catatan'
+                        id='catatan'
+                        onChange={(e) => props.setAlamatTastad(e.target.value)}
+                      />
+                      {/* <div>
                         <p>
                           Enrolmen {Dictionary[props.FType]}
                           <span className='font-semibold text-lg text-user6'>
@@ -1014,98 +980,132 @@ export function InputFacility(props) {
                           }
                         />
                       </div> */}
-                </>
-              ) : null}
+                    </div>
+                  </>
+                ) : null}
+                {props.FType === 'ins' ? (
+                  <>
+                    <div>
+                      <p>
+                        Jenis {Dictionary[props.FType]}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                    </div>
+                    <div className='grid gap-1'>
+                      <select
+                        required
+                        className='border-2'
+                        onChange={(e) =>
+                          props.setKategoriInstitusi(e.target.value)
+                        }
+                      >
+                        <option value=''>Pilih Jenis Institusi</option>
+                        <option value='kolej-komuniti'>Kolej Komuniti</option>
+                        <option value='kolej-vokasional'>
+                          Kolej Vokasional
+                        </option>
+                        <option value='ipg'>
+                          Institusi Pendidikan Guru (IPG)
+                        </option>
+                        <option value='ipta'>
+                          Institusi Pengajian Tinggi Awam
+                        </option>
+                        <option value='lain-lain'>
+                          Lain-lain Institusi Pengajian
+                        </option>
+                      </select>
+                    </div>
+                  </>
+                ) : null}
+                <p>
+                  Status {Dictionary[props.FType]}{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <div className='grid grid-cols-2 mb-3'>
+                  <label htmlFor='nama'>Aktif</label>
+                  <input
+                    required
+                    type='radio'
+                    id='act-stat'
+                    name='checkbox'
+                    value='active'
+                    onChange={(e) =>
+                      props.setStatusPerkhidmatan(e.target.value)
+                    }
+                  />
+                  <label htmlFor='nama'>Tidak Aktif</label>
+                  <input
+                    required
+                    type='radio'
+                    id='act-stat'
+                    name='checkbox'
+                    value='non-active'
+                    onChange={(e) =>
+                      props.setStatusPerkhidmatan(e.target.value)
+                    }
+                  />
+                </div>
+                <p>
+                  Klinik Bertanggungjawab{' '}
+                  <span className='font-semibold text-lg text-user6'>*</span>
+                </p>
+                <div className='grid gap-1'>
+                  <select
+                    required
+                    className='border-2'
+                    onChange={(e) => {
+                      const selectedKlinik = props.klinik.find(
+                        (k) => k.kodFasiliti === e.target.value
+                      );
+                      props.setKp(selectedKlinik.kp);
+                      props.setKodFasiliti(selectedKlinik.kodFasiliti);
+                    }}
+                  >
+                    <option value=''>Pilih Klinik</option>
+                    {props.klinik.map((k) => (
+                      <option className='capitalize' value={k.kodFasiliti}>
+                        {k.kp}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
+                  <p>
+                    Risiko Sekolah (PERSiS){' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                )}
+                {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
+                  <div className='grid gap-1'>
+                    <select
+                      required
+                      className='border-2'
+                      onChange={(e) => props.setRisiko(e.target.value)}
+                    >
+                      <option value=''>Pilih Risiko</option>
+                      <option value='rendah'>Rendah</option>
+                      <option value='tinggi'>Tinggi</option>
+                    </select>
+                  </div>
+                )}
+              </div>
             </div>
-            <p className='mb-3 text-sm font-medium text-adminBlack'>
-              Status {Dictionary[props.FType]}{' '}
-              <span className='font-semibold text-lg text-user6'>*</span>
-            </p>
-            <div className='grid grid-cols-2 gap-1 mb-4'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user3'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='active'
-                  onChange={(e) => props.setStatusPerkhidmatan(e.target.value)}
-                />
-                <span className='ml-2'>Aktif</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  required
-                  className='form-checkbox text-user2'
-                  type='radio'
-                  id='role'
-                  name='checkbox'
-                  value='non-active'
-                  onChange={(e) => props.setStatusPerkhidmatan(e.target.value)}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
-              </label>
-            </div>
-            <div className='mb-4'>
-              <label
-                className='block mb-2 text-sm font-medium text-adminBlack'
-                htmlFor='klinikbertugas'
-              >
-                Klinik Bertugas
-                <span className='text-admin3'>*</span>
-              </label>
-              <select
-                required
-                className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                onChange={(e) => {
-                  const selectedKlinik = props.klinik.find(
-                    (k) => k.kodFasiliti === e.target.value
-                  );
-                  props.setKp(selectedKlinik.kp);
-                  props.setKodFasiliti(selectedKlinik.kodFasiliti);
-                }}
-              >
-                <option value=''>Pilih Klinik</option>
-                {props.klinik.map((k) => (
-                  <option className='capitalize' value={k.kodFasiliti}>
-                    {k.kp}
-                  </option>
-                ))}
-              </select>
-            </div>
-            {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
-              <>
-                <label
-                  className='block mb-2 text-sm font-medium text-adminBlack'
-                  htmlFor='klinikbertugas'
+            <div className={styles.modalActions}>
+              <div className={styles.actionsContainer}>
+                {props.addingData ? (
+                  <BusyButton func='add' />
+                ) : (
+                  <SubmitButton func='add' />
+                )}
+                <span
+                  className={styles.cancelBtn}
+                  onClick={() => props.setShowAddModal(false)}
                 >
-                  Risiko Sekolah (PERSiS)
-                  <span className='text-admin3'>*</span>
-                </label>
-                <select
-                  required
-                  className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
-                  onChange={(e) => props.setRisiko(e.target.value)}
-                >
-                  <option value=''>Pilih Risiko</option>
-                  <option value='rendah'>Rendah</option>
-                  <option value='tinggi'>Tinggi</option>
-                </select>
-              </>
-            )}
-            <div className='mt-5'>
-              {props.addingData ? (
-                <BusyButton func='add' />
-              ) : (
-                <SubmitButton func='add' />
-              )}
+                  Kembali
+                </span>
+              </div>
             </div>
           </div>
         </div>
@@ -1126,7 +1126,7 @@ export function InputEvent(props) {
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Penambahan Program Komuniti</h5>
+              <h5 className={styles.heading}>Tambah Program Komuniti</h5>
             </div>
             <span
               className={styles.closeBtn}
@@ -2104,7 +2104,7 @@ export function InputKpAddEvent(props) {
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
             <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>Penambahan Program Komuniti</h5>
+              <h5 className={styles.heading}>Tambah Program Komuniti</h5>
             </div>
             <span
               className={styles.closeBtn}
@@ -2525,7 +2525,7 @@ export function InputKpEditPegawai(props) {
 export function InputKpEditFacility(props) {
   const { Dictionary } = useGlobalAdminAppContext();
 
-  //calculate sum enrolmenTastad = enrolmenKurang4Tahun + enrolmen5Tahun + enrolmen6Tahun
+  // calculate sum enrolmenTastad = enrolmenKurang4Tahun + enrolmen5Tahun + enrolmen6Tahun
   useEffect(() => {
     props.setEditedEntity({
       ...props.editedEntity,
