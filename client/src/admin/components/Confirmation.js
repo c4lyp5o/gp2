@@ -1,7 +1,4 @@
 import { useState } from 'react';
-import { RiCloseLine } from 'react-icons/ri';
-
-import styles from '../../Modal.module.css';
 
 export const ConfirmModalForData = ({ children, func }) => {
   const [open, setOpen] = useState(false);

@@ -22,10 +22,9 @@ import {
   InputKpEditFacility,
   InputKpEditEvent,
   InputKpEditEventFromDaerah,
-  InputKpEditInstitusi,
   InputKpEditKPBMPB,
 } from './Inputs';
-import { ConfirmModalForData } from './superadmin/Confirmation';
+import { ConfirmModalForData } from './Confirmation';
 import { SubmitButton, BusyButton } from './Buttons';
 
 const AddModal = ({
@@ -712,12 +711,6 @@ const EditModalForKp = ({
         enrolmen6Tahun: editedEntity.enrolmen6Tahun,
       };
     }
-    if (FType === 'ins') {
-      Data = {
-        // nama: currentName.current,
-        enrolmenInstitusi: editedEntity.enrolmenInstitusi,
-      };
-    }
     if (FType === 'kpb' || FType === 'mpb') {
       Data = {
         // nama: currentName.current,
@@ -810,11 +803,6 @@ const EditModalForKp = ({
           {(confirm) => (
             <InputKpEditEventFromDaerah {...props} confirm={confirm} />
           )}
-        </ConfirmModalForData>
-      )}
-      {FType === 'ins' && (
-        <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
-          {(confirm) => <InputKpEditInstitusi {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
       {(FType === 'kpb' || FType === 'mpb') && (

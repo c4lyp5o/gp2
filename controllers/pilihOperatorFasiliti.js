@@ -12,7 +12,10 @@ const getOperatorList = async (req, res) => {
     kpSkrg: req.user.kp,
     kodFasiliti: req.user.kodFasiliti,
     activationStatus: true,
-  });
+  }).select(
+    'nama email mdcNumber mdtbNumber gred createdByNegeri createdByDaerah kpSkrg kodFasiliti role rolePromosiKlinik roleMediaSosialKlinik statusPegawai cscspVerified activationStatus'
+  );
+
   res.status(200).json({ operators });
 };
 

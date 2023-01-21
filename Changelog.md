@@ -1,11 +1,30 @@
 # Changelog
 
+### 17/1/2023 (v2.0.9)
+
+#### Added
+
+- Skroll ke bawah secara automatik selepas memilih pesakit di submodul umum
+- Carian pesakit di sobmodul umum & submodul carian boleh menggunakan nama, ic atau operator bagi pesakit tersebut
+
+#### Changed
+
+- Ringkasan beban kerja di submodul rekod pegawai diperkemaskan untuk memaparkan jumlah-jumlah pesakit yang berkaitan
+
+#### Fixed
+
+- Menyahaktifkan kebolehan untuk mengubah taska/tadika dan KKIA/KD apabila mengemaskini pesakit di hari yang sama di modul pendaftaran
+- Membetulkan penggunaan 'Menggunakan data sedia ada' di modul Pendaftaran supaya pesakit yang didaftarkan di _Environment Training_ tidak berkongsi data bersama pesakit di _Environment Production_
+- Pembaikan bagi senarai-senarai PP, JP, Fasiliti KP & Fasiliti KKIA/KD menggunakan data yang lebih efisien
+- Pembaikan bagi sesetengah operator yang tidak dapat masuk ke dalam modul Pengguna bagi yang sudah mempunyai beban kerja yang banyak
+- Pilihan aktiviti yang dijalankan bagi promosi klinik & promosi individu dibetulkan perbezaannya ketika mengisi borang promosi individu & promosi klinik
+
 ### 11/1/2023 (v2.0.8)
 
 #### Added
 
 - Penambahan 4 kod program promosi (PRO1022, PRO6007, PRO8010, PRO8011)
-- Menambah pilihan lihat semua ketika mengisi reten promosi
+- Menambah pilihan 'Lihat semua' ketika mengisi reten promosi
 - Mewujudkan penetapan syarat-syarat TPR ketika mengisi borang pesakit umum
 - Fungsi penjanaan reten dibuka untuk Pentadbir Negeri
 
@@ -13,7 +32,7 @@
 
 - GIS skor dibuka semula tanpa ada apa-apa kondisi untuk pengisian
 
-### Fixed
+#### Fixed
 
 - Pembetulan bagi operator yang dihapuskan di modul Pentadbir Daerah, operator akan boleh dicari semula sekiranya telah dihapuskan
 - Memperbaiki tetingkap pengesahan ketika ingin menghapuskan data di semua peringkat modul Pentadbir
