@@ -11988,7 +11988,6 @@ const countPGPro01 = async (payload) => {
   }
 };
 const countGender = async (payload) => {
-  console.log(payload);
   //
   let match_stage_lelaki = [];
   let match_stage_perempuan = [];
@@ -12203,6 +12202,15 @@ const countGender = async (payload) => {
 
   return bigData;
 };
+const countMasa = async (payload) => {
+  let match_stage_baru = [];
+  let match_stage_ulangan = [];
+  //
+  const pesakitJanuari = {
+    $match: {
+      jenisFasiliti: { $eq: 'kp' },
+    },
+  };
 
 exports.testFunctionPGPro01Pindah2Program = function (req, res) {
   //PGPRO01 Pind.2 - 2022 - Program
