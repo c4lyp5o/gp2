@@ -12203,14 +12203,319 @@ const countGender = async (payload) => {
   return bigData;
 };
 const countMasa = async (payload) => {
-  let match_stage_baru = [];
-  let match_stage_ulangan = [];
+  // get month number from date
+  const month = moment().startOf('month').format('YYYY-MM-DD');
+  // count how many months has elapsed
+  const count = moment().diff(month, 'months');
+  let match_stage_op = [];
+  let match_stage_temujanji = [];
   //
-  const pesakitJanuari = {
+  const opJanuari = {
     $match: {
-      jenisFasiliti: { $eq: 'kp' },
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-01-01`,
+        $lte: `${new Date().getFullYear()}-01-31`,
+      },
+      ...getParamsPiagamMasa('op'),
     },
   };
+  const opFebruari = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-02-01`,
+        $lte: `${new Date().getFullYear()}-02-28`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opMac = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-03-01`,
+        $lte: `${new Date().getFullYear()}-03-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opApril = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-04-01`,
+        $lte: `${new Date().getFullYear()}-04-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opMei = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-05-01`,
+        $lte: `${new Date().getFullYear()}-05-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opJun = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-06-01`,
+        $lte: `${new Date().getFullYear()}-06-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opJulai = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-07-01`,
+        $lte: `${new Date().getFullYear()}-07-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opOgos = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-08-01`,
+        $lte: `${new Date().getFullYear()}-08-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opSeptember = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-09-01`,
+        $lte: `${new Date().getFullYear()}-09-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opOktober = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-10-01`,
+        $lte: `${new Date().getFullYear()}-10-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opNovember = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-11-01`,
+        $lte: `${new Date().getFullYear()}-11-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opDisember = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-12-01`,
+        $lte: `${new Date().getFullYear()}-12-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+
+  match_stage_op.push(opJanuari);
+  match_stage_op.push(opFebruari);
+  match_stage_op.push(opMac);
+  match_stage_op.push(opApril);
+  match_stage_op.push(opMei);
+  match_stage_op.push(opJun);
+  match_stage_op.push(opJulai);
+  match_stage_op.push(opOgos);
+  match_stage_op.push(opSeptember);
+  match_stage_op.push(opOktober);
+  match_stage_op.push(opNovember);
+  match_stage_op.push(opDisember);
+
+  const temujanjiJanuari = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-01-01`,
+        $lte: `${new Date().getFullYear()}-01-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiFebruari = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-02-01`,
+        $lte: `${new Date().getFullYear()}-02-28`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiMac = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-03-01`,
+        $lte: `${new Date().getFullYear()}-03-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiApril = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-04-01`,
+        $lte: `${new Date().getFullYear()}-04-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiMei = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-05-01`,
+        $lte: `${new Date().getFullYear()}-05-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiJun = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-06-01`,
+        $lte: `${new Date().getFullYear()}-06-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiJulai = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-07-01`,
+        $lte: `${new Date().getFullYear()}-07-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiOgos = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-08-01`,
+        $lte: `${new Date().getFullYear()}-08-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiSeptember = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-09-01`,
+        $lte: `${new Date().getFullYear()}-09-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiOktober = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-10-01`,
+        $lte: `${new Date().getFullYear()}-10-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiNovember = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-11-01`,
+        $lte: `${new Date().getFullYear()}-11-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiDisember = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-12-01`,
+        $lte: `${new Date().getFullYear()}-12-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+
+  match_stage_temujanji.push(temujanjiJanuari);
+  match_stage_temujanji.push(temujanjiFebruari);
+  match_stage_temujanji.push(temujanjiMac);
+  match_stage_temujanji.push(temujanjiApril);
+  match_stage_temujanji.push(temujanjiMei);
+  match_stage_temujanji.push(temujanjiJun);
+  match_stage_temujanji.push(temujanjiJulai);
+  match_stage_temujanji.push(temujanjiOgos);
+  match_stage_temujanji.push(temujanjiSeptember);
+  match_stage_temujanji.push(temujanjiOktober);
+  match_stage_temujanji.push(temujanjiNovember);
+  match_stage_temujanji.push(temujanjiDisember);
+
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      total: { $sum: 1 },
+      jumlahOpYangDipanggilSebelum30Minit: {
+        $sum: {
+          $cond: [
+            {
+              $lt: [
+                { $subtract: ['$waktuDipanggil', '$waktuSampai'] },
+                30 * 60 * 1000,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  //bismillah
+  let bigData = [];
+  let temujanjiData = [];
+  let opData = [];
+
+  for (let i = 0; i < match_stage_temujanji.length; i++) {
+    const dataTemujanji = await Umum.aggregate([
+      match_stage_temujanji[i],
+      group_stage,
+    ]);
+    temujanjiData.push(dataTemujanji);
+  }
+
+  for (let i = 0; i < match_stage.length; i++) {
+    const dataOp = await Umum.aggregate([match_stage_op[i], group_stage]);
+    opData.push(dataOp);
+  }
+
+  bigData.push(temujanjiData);
+  bigData.push(opData);
+
+  return bigData;
+};
+const countBp = async (payload) => {
+  let match_stage_melayu = [];
+  let match_stage_cina = [];
+  let match_stage_india = [];
+  let match_stage_dayak = [];
+  let match_stage_lain = [];
+  //
+  const umur1829 = {
+    $match: {
+      umur: {
+        $gte: 18,
+        $lte: 29,
+      },
+      kumpulanEtnik: 'melayu',
+      deleted: false,
+    },
+  };
+};
 
 exports.testFunctionPGPro01Pindah2Program = function (req, res) {
   //PGPRO01 Pind.2 - 2022 - Program
@@ -13373,6 +13678,19 @@ const getParamsGender = (payload) => {
     return byNegeri();
   }
 };
+const getParamsPiagamMasa = (jenis) => {
+  if (jenis === 'op') {
+    return {
+      jenisFasiliti: { $eq: 'kp' },
+      temujanji: false,
+    };
+  } else {
+    return {
+      jenisFasiliti: { $eq: 'kp' },
+      temujanji: true,
+    };
+  }
+};
 
 // place
 const placeModifier = (payload) => {
@@ -13412,4 +13730,5 @@ module.exports = {
   countAdHocQuery,
   countPGPro01,
   countGender,
+  countMasa,
 };
