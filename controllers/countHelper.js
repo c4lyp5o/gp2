@@ -12811,7 +12811,22 @@ const countBp = async (payload) => {
   let match_stage_dayak = [];
   let match_stage_lain = [];
   //
-  const umur1829 = {
+  match_stage_melayu.push(getParamsBp('melayu'));
+  match_stage_cina.push(getParamsBp('cina'));
+  match_stage_india.push(getParamsBp('india'));
+  match_stage_dayak.push(getParamsBp('dayak'));
+  match_stage_lain.push(
+    getParamsBp({ $nin: ['melayu', 'cina', 'india', 'dayak'] })
+  );
+
+  console.log(match_stage_melayu);
+  console.log(match_stage_cina);
+  console.log(match_stage_india);
+  console.log(match_stage_dayak);
+  console.log(match_stage_lain);
+
+  return 'No data found';
+};
     $match: {
       umur: {
         $gte: 18,
@@ -14038,4 +14053,5 @@ module.exports = {
   countPGPro01,
   countGender,
   countMasa,
+  countBp,
 };
