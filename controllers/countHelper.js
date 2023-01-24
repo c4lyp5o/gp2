@@ -6,6 +6,7 @@ const Pemeriksaan = require('../models/Pemeriksaansekolah');
 const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
+const MediaSosial = require('../models/MediaSosial');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
@@ -12131,7 +12132,7 @@ const countPGPro01 = async (payload) => {
 
   const group_stage = {
     $group: {
-      _id: '$namaSekolah', //tukar to $nameEvent ??
+      _id: placeModifier(payload),
       jumlahAktivitiCeramahBaru: {
         $sum: '$bilanganAktivitiBaruCeramahBahagianA',
       },
@@ -12293,8 +12294,229 @@ const countPGPro01 = async (payload) => {
     console.log(err);
   }
 };
+const countPGPro02 = async (payload) => {
+  // match stage
+  let match_stage = [];
+
+  const allData = {
+    $match: {
+      belongsTo: getParamsPgPro02(payload),
+    },
+  };
+
+  match_stage.push(allData);
+  //
+  const project_stage = {
+    $project: {
+      // go live
+      jumlahFBGoLivePenonton: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_live_bilPenonton',
+          },
+        },
+      },
+      jumlahFBGoLiveShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_live_bilShare',
+          },
+        },
+      },
+      jumlahIGGoLivePenonton: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_live_bilPenonton',
+          },
+        },
+      },
+      jumlahIGGoLiveShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_live_bilShare',
+          },
+        },
+      },
+      jumlahYTGoLivePenonton: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_live_bilPenonton',
+          },
+        },
+      },
+      jumlahYTGoLiveShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_live_bilShare',
+          },
+        },
+      },
+      // poster infografik
+      jumlahFBPosterReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_poster_bilReach',
+          },
+        },
+      },
+      jumlahFBPosterShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_poster_bilShare',
+          },
+        },
+      },
+      jumlahIGPosterReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_poster_bilReach',
+          },
+        },
+      },
+      jumlahIGPosterShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_poster_bilShare',
+          },
+        },
+      },
+      jumlahTWPosterReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_poster_bilReach',
+          },
+        },
+      },
+      jumlahTWPosterShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_poster_bilShare',
+          },
+        },
+      },
+      // video
+      jumlahFBVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_video_bilReach',
+          },
+        },
+      },
+      jumlahFBVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_video_bilShare',
+          },
+        },
+      },
+      jumlahIGVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_video_bilReach',
+          },
+        },
+      },
+      jumlahIGVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_video_bilShare',
+          },
+        },
+      },
+      jumlahTWVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_video_bilReach',
+          },
+        },
+      },
+      jumlahTWVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_video_bilShare',
+          },
+        },
+      },
+      jumlahYTVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_video_bilReach',
+          },
+        },
+      },
+      jumlahYTVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_video_bilShare',
+          },
+        },
+      },
+      jumlahTTVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.tiktok.Tiktok_video_bilReach',
+          },
+        },
+      },
+      jumlahTTVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.tiktok.Tiktok_video_bilShare',
+          },
+        },
+      },
+    },
+  };
+  // bismillah
+  let bigData = await MediaSosial.aggregate([...match_stage, group_stage]);
+  console.log(bigData);
+  return bigData;
+};
 const countGender = async (payload) => {
-  console.log(payload);
   //
   let match_stage_lelaki = [];
   let match_stage_perempuan = [];
@@ -12506,6 +12728,531 @@ const countGender = async (payload) => {
 
   bigData.push(dataLelaki);
   bigData.push(dataPerempuan);
+
+  return bigData;
+};
+const countMasa = async (payload) => {
+  // get month number from date
+  const month = moment().startOf('month').format('YYYY-MM-DD');
+  // count how many months has elapsed
+  const count = moment().diff(month, 'months');
+  let match_stage_op = [];
+  let match_stage_temujanji = [];
+  //
+  const opJanuari = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-01-01`,
+        $lte: `${new Date().getFullYear()}-01-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opFebruari = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-02-01`,
+        $lte: `${new Date().getFullYear()}-02-28`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opMac = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-03-01`,
+        $lte: `${new Date().getFullYear()}-03-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opApril = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-04-01`,
+        $lte: `${new Date().getFullYear()}-04-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opMei = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-05-01`,
+        $lte: `${new Date().getFullYear()}-05-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opJun = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-06-01`,
+        $lte: `${new Date().getFullYear()}-06-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opJulai = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-07-01`,
+        $lte: `${new Date().getFullYear()}-07-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opOgos = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-08-01`,
+        $lte: `${new Date().getFullYear()}-08-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opSeptember = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-09-01`,
+        $lte: `${new Date().getFullYear()}-09-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opOktober = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-10-01`,
+        $lte: `${new Date().getFullYear()}-10-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opNovember = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-11-01`,
+        $lte: `${new Date().getFullYear()}-11-30`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+  const opDisember = {
+    $match: {
+      tarikhKedatangan: {
+        $gte: `${new Date().getFullYear()}-12-01`,
+        $lte: `${new Date().getFullYear()}-12-31`,
+      },
+      ...getParamsPiagamMasa('op'),
+    },
+  };
+
+  match_stage_op.push(opJanuari);
+  match_stage_op.push(opFebruari);
+  match_stage_op.push(opMac);
+  match_stage_op.push(opApril);
+  match_stage_op.push(opMei);
+  match_stage_op.push(opJun);
+  match_stage_op.push(opJulai);
+  match_stage_op.push(opOgos);
+  match_stage_op.push(opSeptember);
+  match_stage_op.push(opOktober);
+  match_stage_op.push(opNovember);
+  match_stage_op.push(opDisember);
+
+  const temujanjiJanuari = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-01-01`,
+        $lte: `${new Date().getFullYear()}-01-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiFebruari = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-02-01`,
+        $lte: `${new Date().getFullYear()}-02-28`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiMac = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-03-01`,
+        $lte: `${new Date().getFullYear()}-03-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiApril = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-04-01`,
+        $lte: `${new Date().getFullYear()}-04-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiMei = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-05-01`,
+        $lte: `${new Date().getFullYear()}-05-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiJun = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-06-01`,
+        $lte: `${new Date().getFullYear()}-06-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiJulai = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-07-01`,
+        $lte: `${new Date().getFullYear()}-07-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiOgos = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-08-01`,
+        $lte: `${new Date().getFullYear()}-08-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiSeptember = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-09-01`,
+        $lte: `${new Date().getFullYear()}-09-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiOktober = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-10-01`,
+        $lte: `${new Date().getFullYear()}-10-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiNovember = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-11-01`,
+        $lte: `${new Date().getFullYear()}-11-30`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+  const temujanjiDisember = {
+    $match: {
+      tarikhTemujanji: {
+        $gte: `${new Date().getFullYear()}-12-01`,
+        $lte: `${new Date().getFullYear()}-12-31`,
+      },
+      ...getParamsPiagamMasa('temujanji'),
+    },
+  };
+
+  match_stage_temujanji.push(temujanjiJanuari);
+  match_stage_temujanji.push(temujanjiFebruari);
+  match_stage_temujanji.push(temujanjiMac);
+  match_stage_temujanji.push(temujanjiApril);
+  match_stage_temujanji.push(temujanjiMei);
+  match_stage_temujanji.push(temujanjiJun);
+  match_stage_temujanji.push(temujanjiJulai);
+  match_stage_temujanji.push(temujanjiOgos);
+  match_stage_temujanji.push(temujanjiSeptember);
+  match_stage_temujanji.push(temujanjiOktober);
+  match_stage_temujanji.push(temujanjiNovember);
+  match_stage_temujanji.push(temujanjiDisember);
+
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      total: { $sum: 1 },
+      jumlahOpYangDipanggilSebelum30Minit: {
+        $sum: {
+          $cond: [
+            {
+              $lt: [
+                { $subtract: ['$waktuDipanggil', '$waktuSampai'] },
+                30 * 60 * 1000,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  //bismillah
+  let bigData = [];
+  let temujanjiData = [];
+  let opData = [];
+
+  for (let i = 0; i < match_stage_temujanji.length; i++) {
+    const dataTemujanji = await Umum.aggregate([
+      match_stage_temujanji[i],
+      group_stage,
+    ]);
+    temujanjiData.push(dataTemujanji);
+  }
+
+  for (let i = 0; i < match_stage.length; i++) {
+    const dataOp = await Umum.aggregate([match_stage_op[i], group_stage]);
+    opData.push(dataOp);
+  }
+
+  bigData.push(temujanjiData);
+  bigData.push(opData);
+
+  return bigData;
+};
+const countBp = async (payload) => {
+  let match_stage_melayu = [];
+  let match_stage_cina = [];
+  let match_stage_india = [];
+  let match_stage_dayak = [];
+  let match_stage_lain = [];
+  //
+  match_stage_melayu.push(getParamsBp('melayu'));
+  match_stage_cina.push(getParamsBp('cina'));
+  match_stage_india.push(getParamsBp('india'));
+  match_stage_dayak.push(getParamsBp('dayak'));
+  match_stage_lain.push(
+    getParamsBp({ $nin: ['melayu', 'cina', 'india', 'dayak'] })
+  );
+
+  console.log(match_stage_melayu);
+  console.log(match_stage_cina);
+  console.log(match_stage_india);
+  console.log(match_stage_dayak);
+  console.log(match_stage_lain);
+
+  return 'No data found';
+};
+const countBpe = async (payload) => {
+  //
+  let match_stage = [];
+  //
+  const kurang18 = {
+    $match: {
+      umur: { $lt: 18 },
+      deleted: false,
+    },
+  };
+  const umur1819 = {
+    $match: {
+      umur: { $gte: 18, $lte: 19 },
+      deleted: false,
+    },
+  };
+  const umur2029 = {
+    $match: {
+      umur: { $gte: 20, $lte: 29 },
+      deleted: false,
+    },
+  };
+  const umur3039 = {
+    $match: {
+      umur: { $gte: 30, $lte: 39 },
+      deleted: false,
+    },
+  };
+  const umur4049 = {
+    $match: {
+      umur: { $gte: 40, $lte: 49 },
+      deleted: false,
+    },
+  };
+  const umur5059 = {
+    $match: {
+      umur: { $gte: 50, $lte: 59 },
+      deleted: false,
+    },
+  };
+  const umur60keatas = {
+    $match: {
+      umur: { $gte: 60 },
+      deleted: false,
+    },
+  };
+
+  match_stage.push(kurang18);
+  match_stage.push(umur1819);
+  match_stage.push(umur2029);
+  match_stage.push(umur3039);
+  match_stage.push(umur4049);
+  match_stage.push(umur5059);
+  match_stage.push(umur60keatas);
+  //
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      total: { $sum: 1 },
+      kedatanganTahunSemasaBaru: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+      },
+      kedatanganTahunSemasaUlangan: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
+      },
+      puncaRujukanKK: {
+        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'klinik-kesihatan'] }, 1, 0] },
+      },
+      puncaRujukanLainlain: {
+        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'lain-lain'] }, 1, 0] },
+      },
+      tiadaPuncaRujukan: {
+        $sum: {
+          $cond: [{ $eq: ['$puncaRujukan', 'tiada-punca-rujukan'] }, 1, 0],
+        },
+      },
+      faktorRisikoDiabetes: {
+        $sum: { $cond: [{ $eq: ['$perokokFaktorRisikoBpe, true'] }, 1, 0] },
+      },
+      faktorRisikoMerokok: {
+        $sum: { $cond: [{ $eq: ['$diabetesFaktorRisikoBpe', true] }, 1, 0] },
+      },
+      faktorRisikoLainlain: {
+        $sum: { $cond: [{ $eq: ['$lainlainFaktorRisikoBpe', true] }, 1, 0] },
+      },
+      engganBPE: {
+        $sum: { $cond: [{ $eq: ['$engganBpeImplan', true] }, 1, 0] },
+      },
+      skorBPEZero: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 0] }, 1, 0],
+        },
+      },
+      skorBPEOne: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 1] }, 1, 0],
+        },
+      },
+      skorBPETwo: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 2] }, 1, 0],
+        },
+      },
+      skorBPEThree: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 3] }, 1, 0],
+        },
+      },
+      skorBPEFour: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 4] }, 1, 0],
+        },
+      },
+      periimplanmukositis: {
+        $sum: { $cond: [{ $eq: ['$periImplantMucositis', true] }, 1, 0] },
+      },
+      periimplantitis: {
+        $sum: { $cond: [{ $eq: ['$periImplantitis', true] }, 1, 0] },
+      },
+      kaunselingDiet: {
+        $sum: { $cond: [{ $eq: ['$kaunselingDiet', true] }, 1, 0] },
+      },
+      nasihatBerhentiMerokok: {
+        $sum: { $cond: [{ $eq: ['$nasihatBerhentiMerokok', true] }, 1, 0] },
+      },
+      nasihatLainlain: {
+        $sum: {
+          $cond: [{ $eq: ['$lainLainPengurusanFaktorRisiko', true] }, 1, 0],
+        },
+      },
+      pengurusanOHE: {
+        $sum: {
+          $cond: [{ $eq: ['$ohePengurusanFaktorSetempat, true'] }, 1, 0],
+        },
+      },
+      penskaleran: { $sum: { $cond: [{ $eq: ['$penskaleran', true] }, 1, 0] } },
+      pendebridmenAkar: {
+        $sum: { $cond: [{ $eq: ['$pendebridmenAkar', true] }, 1, 0] },
+      },
+      pengilapanTampalanRungkup: {
+        $sum: { $cond: [{ $eq: ['$pengilapanTampalanRungkup, true'] }, 1, 0] },
+      },
+      adjustasiOklusi: {
+        $sum: { $cond: [{ $eq: ['$adjustasiOklusi', true] }, 1, 0] },
+      },
+      cabutanPengurusanFaktorSetempat: {
+        $sum: {
+          $cond: [{ $eq: ['$cabutanPengurusanFaktorSetempat, true'] }, 1, 0],
+        },
+      },
+      ektiparsiPulpa: {
+        $sum: { $cond: [{ $eq: ['$ektiparsiPulpa', true] }, 1, 0] },
+      },
+      rawatanLainPeriodontikRawatanUmum: {
+        $sum: {
+          $cond: [{ $eq: ['$rawatanLainPeriodontikRawatanUmum', true] }, 1, 0],
+        },
+      },
+      rujukPakar: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukanPakarPeriodontik', 'ya-rujukan-pakar-periodontik'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      engganRujukPakar: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                '$engganLainRujukanPakarPeriodontik',
+                'enggan-rujukan-pakar-periodontik',
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      lainlainPakar: { $sum: 1 },
+      rujukanPakarScd: {
+        $sum: { $cond: [{ $eq: ['$rujukanPakarScd', true] }, 1, 0] },
+      },
+      rujukanPakarUpkka: {
+        $sum: { $cond: [{ $eq: ['$rujukanPakarUpkka', true] }, 1, 0] },
+      },
+      kesSelesaiPeriodontium: {
+        $sum: { $cond: [{ $eq: ['$kesSelesaiPeriodontium', true] }, 1, 0] },
+      },
+    },
+  };
+  // bismillah
+  let bigData = [];
+
+  for (let i = 0; i < match_stage.length; i++) {
+    const pipeline = [match_stage[i], group_stage];
+    const data = await Umum.aggregate(pipeline);
+    bigData.push(data);
+  }
 
   return bigData;
 };
@@ -13645,6 +14392,21 @@ const getParamsPgPro = (payload) => {
     return byKp();
   }
 };
+const getParamsPgPro02 = (payload) => {
+  const { klinik, daerah, negeri } = payload;
+  //
+  if (klinik) {
+    return klinik;
+  }
+
+  if (daerah) {
+    return daerah;
+  }
+
+  if (negeri) {
+    return negeri;
+  }
+};
 const getParamsGender = (payload) => {
   const { daerah, negeri } = payload;
 
@@ -13670,6 +14432,181 @@ const getParamsGender = (payload) => {
   } else {
     return byNegeri();
   }
+};
+const getParamsPiagamMasa = (jenis) => {
+  if (jenis === 'op') {
+    return {
+      jenisFasiliti: { $eq: 'kp' },
+      temujanji: false,
+    };
+  } else {
+    return {
+      jenisFasiliti: { $eq: 'kp' },
+      temujanji: true,
+    };
+  }
+};
+const getParamsBp = (kaum) => {
+  const umur1829lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur3039lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: 'kaum',
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur4049lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur5059lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur60keataslelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur1829perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur3039perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur4049perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur5059perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur60keatasperempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  return {
+    umur1829lelaki,
+    umur3039lelaki,
+    umur4049lelaki,
+    umur5059lelaki,
+    umur60keataslelaki,
+    umur1829perempuan,
+    umur3039perempuan,
+    umur4049perempuan,
+    umur5059perempuan,
+    umur60keatasperempuan,
+  };
 };
 
 // place
@@ -13710,5 +14647,9 @@ module.exports = {
   countPPIM03,
   countAdHocQuery,
   countPGPro01,
+  countPGPro02,
   countGender,
+  countMasa,
+  countBp,
+  countBpe,
 };
