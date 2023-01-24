@@ -3504,7 +3504,7 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gt: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
             },
             1,
             0,
@@ -4489,7 +4489,7 @@ const countPG207 = async (payload) => {
                   $eq: ['$merged.kedatangan', 'baru-kedatangan'],
                 },
                 {
-                  $gt: ['$merged.skorBpeOralHygiene', 0],
+                  $gte: ['$merged.skorBpeOralHygiene', 1],
                 },
               ],
             },
@@ -4519,7 +4519,13 @@ const countPG207 = async (payload) => {
       },
       perluJumlahPesakitFS: {
         $sum: {
-          $eq: ['$merged.fissureSealant', true],
+          $cond: [
+            {
+              $gt: ['$merged.fissureSealant', true],
+            },
+            1,
+            0,
+          ],
         },
       },
       perluJumlahGigiFS: {
@@ -5238,6 +5244,306 @@ const countPGPR201 = async (payload) => {
       },
       //
       jumlahBidayuh: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'bidayuh'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+    },
+  };
+
+  let data = [];
+
+  for (let i = 0; i < match_stage.length; i++) {
+    const pipeline = [match_stage[i], group_stage];
+    const query = await Umum.aggregate(pipeline);
+    data.push(query);
+  }
+
+  return data;
+};
+const countPGPR201Baru = async (payload) => {
+  let match_stage = [];
+
+  const age_below_1 = {
+    $match: {
+      umur: {
+        $lt: 1,
+      },
+      umurBulan: {
+        $lt: 13,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_1_4 = {
+    $match: {
+      umur: {
+        $gte: 1,
+        $lte: 4,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_5_6 = {
+    $match: {
+      umur: {
+        $gte: 5,
+        $lte: 6,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_7_9 = {
+    $match: {
+      umur: {
+        $gte: 7,
+        $lte: 9,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_10_12 = {
+    $match: {
+      umur: {
+        $gte: 10,
+        $lte: 12,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_13_14 = {
+    $match: {
+      umur: {
+        $gte: 13,
+        $lte: 14,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_15_17 = {
+    $match: {
+      umur: {
+        $gte: 15,
+        $lte: 17,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_18_19 = {
+    $match: {
+      umur: {
+        $gte: 18,
+        $lte: 19,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_20_29 = {
+    $match: {
+      umur: {
+        $gte: 20,
+        $lte: 29,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_30_49 = {
+    $match: {
+      umur: {
+        $gte: 30,
+        $lte: 49,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_50_59 = {
+    $match: {
+      umur: {
+        $gte: 50,
+        $lte: 59,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const age_60yearsandup = {
+    $match: {
+      umur: {
+        $gte: 60,
+      },
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ...getParams2(payload),
+    },
+  };
+  const ibumengandung = {
+    $match: {
+      kedatangan: { $eq: 'baru-kedatangan' },
+      ibuMengandung: true,
+      ...getParams2(payload),
+    },
+  };
+  const oku = {
+    $match: {
+      kedatangan: { $eq: 'baru-kedatangan' },
+      oku: true,
+      ...getParams2(payload),
+    },
+  };
+
+  match_stage.push(age_below_1);
+  match_stage.push(age_1_4);
+  match_stage.push(age_5_6);
+  match_stage.push(age_7_9);
+  match_stage.push(age_10_12);
+  match_stage.push(age_13_14);
+  match_stage.push(age_15_17);
+  match_stage.push(age_18_19);
+  match_stage.push(age_20_29);
+  match_stage.push(age_30_49);
+  match_stage.push(age_50_59);
+  match_stage.push(age_60yearsandup);
+  match_stage.push(ibumengandung);
+  match_stage.push(oku);
+
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      count: { $sum: 1 },
+      jumlahAGumur1517: {
+        $sum: '$umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur1819: {
+        $sum: '$umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur2029: {
+        $sum: '$umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur3049: {
+        $sum: '$umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur5059: {
+        $sum: '$umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahAGumur60KeAtas: {
+        $sum: '$umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
+      },
+      //
+      jumlahLawatanKeRumah: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                '$lawatanKeRumahPromosiUmum',
+                'ya-lawatan-ke-rumah-promosi-umum',
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahNasihatPergigianIndividu: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$plakGigiNasihatPergigianIndividuPromosiUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahNasihatKesihatanOral: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                '$penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahNasihatPemakanan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahNasihatKanserMulut: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kanserMulutNasihatPergigianIndividuPromosiUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahKedayan: {
+        //nanti ini tukar ke intervensi tabiat merokok (saringan) - data dari KOTAK
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'kedayan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahIban: {
+        //nanti ini tukar ke intervensi tabiat merokok (nasihat ringkas) - data dari KOTAK
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kumpulanEtnik', 'iban'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahBidayuh: {
+        //nanti ini tukar ke intervensi tabiat merokok (intervensi) - data dari KOTAK
         $sum: {
           $cond: [
             {
@@ -13726,6 +14032,7 @@ module.exports = {
   countPG201PindSatu2022,
   countPGS203,
   countPGPR201,
+  countPGPR201Baru,
   countPPIM03,
   countAdHocQuery,
   countPGPro01,
