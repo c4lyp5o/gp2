@@ -12827,15 +12827,211 @@ const countBp = async (payload) => {
 
   return 'No data found';
 };
+const countBpe = async (payload) => {
+  //
+  let match_stage = [];
+  //
+  const kurang18 = {
     $match: {
-      umur: {
-        $gte: 18,
-        $lte: 29,
-      },
-      kumpulanEtnik: 'melayu',
+      umur: { $lt: 18 },
       deleted: false,
     },
   };
+  const umur1819 = {
+    $match: {
+      umur: { $gte: 18, $lte: 19 },
+      deleted: false,
+    },
+  };
+  const umur2029 = {
+    $match: {
+      umur: { $gte: 20, $lte: 29 },
+      deleted: false,
+    },
+  };
+  const umur3039 = {
+    $match: {
+      umur: { $gte: 30, $lte: 39 },
+      deleted: false,
+    },
+  };
+  const umur4049 = {
+    $match: {
+      umur: { $gte: 40, $lte: 49 },
+      deleted: false,
+    },
+  };
+  const umur5059 = {
+    $match: {
+      umur: { $gte: 50, $lte: 59 },
+      deleted: false,
+    },
+  };
+  const umur60keatas = {
+    $match: {
+      umur: { $gte: 60 },
+      deleted: false,
+    },
+  };
+
+  match_stage.push(kurang18);
+  match_stage.push(umur1819);
+  match_stage.push(umur2029);
+  match_stage.push(umur3039);
+  match_stage.push(umur4049);
+  match_stage.push(umur5059);
+  match_stage.push(umur60keatas);
+  //
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      total: { $sum: 1 },
+      kedatanganTahunSemasaBaru: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+      },
+      kedatanganTahunSemasaUlangan: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
+      },
+      puncaRujukanKK: {
+        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'klinik-kesihatan'] }, 1, 0] },
+      },
+      puncaRujukanLainlain: {
+        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'lain-lain'] }, 1, 0] },
+      },
+      tiadaPuncaRujukan: {
+        $sum: {
+          $cond: [{ $eq: ['$puncaRujukan', 'tiada-punca-rujukan'] }, 1, 0],
+        },
+      },
+      faktorRisikoDiabetes: {
+        $sum: { $cond: [{ $eq: ['$perokokFaktorRisikoBpe, true'] }, 1, 0] },
+      },
+      faktorRisikoMerokok: {
+        $sum: { $cond: [{ $eq: ['$diabetesFaktorRisikoBpe', true] }, 1, 0] },
+      },
+      faktorRisikoLainlain: {
+        $sum: { $cond: [{ $eq: ['$lainlainFaktorRisikoBpe', true] }, 1, 0] },
+      },
+      engganBPE: {
+        $sum: { $cond: [{ $eq: ['$engganBpeImplan', true] }, 1, 0] },
+      },
+      skorBPEZero: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 0] }, 1, 0],
+        },
+      },
+      skorBPEOne: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 1] }, 1, 0],
+        },
+      },
+      skorBPETwo: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 2] }, 1, 0],
+        },
+      },
+      skorBPEThree: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 3] }, 1, 0],
+        },
+      },
+      skorBPEFour: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 4] }, 1, 0],
+        },
+      },
+      periimplanmukositis: {
+        $sum: { $cond: [{ $eq: ['$periImplantMucositis', true] }, 1, 0] },
+      },
+      periimplantitis: {
+        $sum: { $cond: [{ $eq: ['$periImplantitis', true] }, 1, 0] },
+      },
+      kaunselingDiet: {
+        $sum: { $cond: [{ $eq: ['$kaunselingDiet', true] }, 1, 0] },
+      },
+      nasihatBerhentiMerokok: {
+        $sum: { $cond: [{ $eq: ['$nasihatBerhentiMerokok', true] }, 1, 0] },
+      },
+      nasihatLainlain: {
+        $sum: {
+          $cond: [{ $eq: ['$lainLainPengurusanFaktorRisiko', true] }, 1, 0],
+        },
+      },
+      pengurusanOHE: {
+        $sum: {
+          $cond: [{ $eq: ['$ohePengurusanFaktorSetempat, true'] }, 1, 0],
+        },
+      },
+      penskaleran: { $sum: { $cond: [{ $eq: ['$penskaleran', true] }, 1, 0] } },
+      pendebridmenAkar: {
+        $sum: { $cond: [{ $eq: ['$pendebridmenAkar', true] }, 1, 0] },
+      },
+      pengilapanTampalanRungkup: {
+        $sum: { $cond: [{ $eq: ['$pengilapanTampalanRungkup, true'] }, 1, 0] },
+      },
+      adjustasiOklusi: {
+        $sum: { $cond: [{ $eq: ['$adjustasiOklusi', true] }, 1, 0] },
+      },
+      cabutanPengurusanFaktorSetempat: {
+        $sum: {
+          $cond: [{ $eq: ['$cabutanPengurusanFaktorSetempat, true'] }, 1, 0],
+        },
+      },
+      ektiparsiPulpa: {
+        $sum: { $cond: [{ $eq: ['$ektiparsiPulpa', true] }, 1, 0] },
+      },
+      rawatanLainPeriodontikRawatanUmum: {
+        $sum: {
+          $cond: [{ $eq: ['$rawatanLainPeriodontikRawatanUmum', true] }, 1, 0],
+        },
+      },
+      rujukPakar: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukanPakarPeriodontik', 'ya-rujukan-pakar-periodontik'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      engganRujukPakar: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                '$engganLainRujukanPakarPeriodontik',
+                'enggan-rujukan-pakar-periodontik',
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      lainlainPakar: { $sum: 1 },
+      rujukanPakarScd: {
+        $sum: { $cond: [{ $eq: ['$rujukanPakarScd', true] }, 1, 0] },
+      },
+      rujukanPakarUpkka: {
+        $sum: { $cond: [{ $eq: ['$rujukanPakarUpkka', true] }, 1, 0] },
+      },
+      kesSelesaiPeriodontium: {
+        $sum: { $cond: [{ $eq: ['$kesSelesaiPeriodontium', true] }, 1, 0] },
+      },
+    },
+  };
+  // bismillah
+  let bigData = [];
+
+  for (let i = 0; i < match_stage.length; i++) {
+    const pipeline = [match_stage[i], group_stage];
+    const data = await Umum.aggregate(pipeline);
+    bigData.push(data);
+  }
+
+  return bigData;
 };
 
 exports.testFunctionPGPro01Pindah2Program = function (req, res) {
@@ -14054,4 +14250,5 @@ module.exports = {
   countGender,
   countMasa,
   countBp,
+  countBpe,
 };
