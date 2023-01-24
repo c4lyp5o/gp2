@@ -12131,7 +12131,7 @@ const countPGPro01 = async (payload) => {
 
   const group_stage = {
     $group: {
-      _id: '$namaSekolah', //tukar to $nameEvent ??
+      _id: placeModifier(payload),
       jumlahAktivitiCeramahBaru: {
         $sum: '$bilanganAktivitiBaruCeramahBahagianA',
       },
