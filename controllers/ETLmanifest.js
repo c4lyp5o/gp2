@@ -62,11 +62,16 @@ const initialDataKlinik = async (allDaerah) => {
       daerah: allDaerah[i].daerah,
       accountType: 'kpUser',
     })
-      .select('kodFasiliti')
+      .select('negeri daerah kodFasiliti')
       .lean();
     const specKlinik = _.uniqBy(all, 'kodFasiliti');
     specKlinik.forEach((item) => {
-      klinik.push(item.kodFasiliti);
+      let klinikObj = {
+        negeri: item.negeri,
+        daerah: item.daerah,
+        kodFasiliti: item.kodFasiliti,
+      };
+      klinik.push(klinikObj);
     });
   }
   return klinik;
@@ -87,7 +92,7 @@ const initiateETL = async (req, res) => {
           negeri: negeri[i],
           daerah: 'all',
           klinik: 'all',
-          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          tarikhMula: moment().subtract(5, 'days').format('YYYY-MM-DD'),
         };
         console.log(
           `generating daily data ${dailyCount[j].name} for ${negeri[i]}`
@@ -99,7 +104,7 @@ const initiateETL = async (req, res) => {
           createdByKodFasiliti: 'all',
           dataType: dailyCount[j].name,
           dataFormat: 'Daily',
-          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          dataDate: moment().subtract(5, 'days').format('YYYY-MM-DD'),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -145,7 +150,7 @@ const initiateETL = async (req, res) => {
           negeri: daerah[i].negeri,
           daerah: daerah[i].daerah,
           klinik: 'all',
-          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          tarikhMula: moment().subtract(5, 'days').format('YYYY-MM-DD'),
         };
         console.log(
           `generating daily data ${dailyCount[j].name} for ${daerah[i].daerah}`
@@ -157,7 +162,7 @@ const initiateETL = async (req, res) => {
           createdByKodFasiliti: 'all',
           dataType: dailyCount[j].name,
           dataFormat: 'Daily',
-          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          dataDate: moment().subtract(5, 'days').format('YYYY-MM-DD'),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -200,22 +205,20 @@ const initiateETL = async (req, res) => {
     for (let i = 0; i < klinik.length; i++) {
       for (let j = 0; j < dailyCount.length; j++) {
         let payload = {
-          negeri: 'all',
-          daerah: 'all',
-          klinik: klinik[i],
-          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          klinik: klinik[i].kodFasiliti,
+          tarikhMula: moment().subtract(5, 'days').format('YYYY-MM-DD'),
         };
         console.log(
-          `generating daily data ${dailyCount[j].name} for ${klinik[i]}`
+          `generating daily data ${dailyCount[j].name} for ${klinik[i].kodFasiliti}`
         );
         const data = await dailyCount[j].func(payload);
         const dataObj = {
-          createdByNegeri: 'all',
-          createdByDaerah: 'all',
-          createdByKodFasiliti: klinik[i],
+          createdByNegeri: klinik[i].negeri,
+          createdByDaerah: klinik[i].daerah,
+          createdByKodFasiliti: klinik[i].kodFasiliti,
           dataType: dailyCount[j].name,
           dataFormat: 'Daily',
-          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          dataDate: moment().subtract(5, 'days').format('YYYY-MM-DD'),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -230,19 +233,17 @@ const initiateETL = async (req, res) => {
       for (let i = 0; i < klinik.length; i++) {
         for (let j = 0; j < monthlyCount.length; j++) {
           let payload = {
-            negeri: 'all',
-            daerah: 'all',
-            klinik: klinik[i],
+            klinik: klinik[i].kodFasiliti,
             bulan: moment(new Date()).startOf('month').format('YYYY-MM-DD'),
           };
           console.log(
-            `generating monthly data ${monthlyCount[j].name} for ${klinik[i]}`
+            `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
           );
           const data = await monthlyCount[j].func(payload);
           const dataObj = {
-            createdByNegeri: 'all',
-            createdByDaerah: 'all',
-            createdByKodFasiliti: klinik[i],
+            createdByNegeri: klinik[i].negeri,
+            createdByDaerah: klinik[i].daerah,
+            createdByKodFasiliti: klinik[i].kodFasiliti,
             dataType: monthlyCount[j].name,
             dataFormat: 'Monthly',
             dataDate: moment(new Date()).endOf('month').format('YYYY-MM-DD'),
