@@ -6,6 +6,7 @@ const Pemeriksaan = require('../models/Pemeriksaansekolah');
 const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
+const MediaSosial = require('../models/MediaSosial');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
@@ -12293,6 +12294,228 @@ const countPGPro01 = async (payload) => {
     console.log(err);
   }
 };
+const countPGPro02 = async (payload) => {
+  // match stage
+  let match_stage = [];
+
+  const allData = {
+    $match: {
+      belongsTo: getParamsPgPro02(payload),
+    },
+  };
+
+  match_stage.push(allData);
+  //
+  const project_stage = {
+    $project: {
+      // go live
+      jumlahFBGoLivePenonton: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_live_bilPenonton',
+          },
+        },
+      },
+      jumlahFBGoLiveShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_live_bilShare',
+          },
+        },
+      },
+      jumlahIGGoLivePenonton: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_live_bilPenonton',
+          },
+        },
+      },
+      jumlahIGGoLiveShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_live_bilShare',
+          },
+        },
+      },
+      jumlahYTGoLivePenonton: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_live_bilPenonton',
+          },
+        },
+      },
+      jumlahYTGoLiveShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_live_bilShare',
+          },
+        },
+      },
+      // poster infografik
+      jumlahFBPosterReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_poster_bilReach',
+          },
+        },
+      },
+      jumlahFBPosterShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_poster_bilShare',
+          },
+        },
+      },
+      jumlahIGPosterReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_poster_bilReach',
+          },
+        },
+      },
+      jumlahIGPosterShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_poster_bilShare',
+          },
+        },
+      },
+      jumlahTWPosterReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_poster_bilReach',
+          },
+        },
+      },
+      jumlahTWPosterShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_poster_bilShare',
+          },
+        },
+      },
+      // video
+      jumlahFBVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_video_bilReach',
+          },
+        },
+      },
+      jumlahFBVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.facebook.Facebook_video_bilShare',
+          },
+        },
+      },
+      jumlahIGVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_video_bilReach',
+          },
+        },
+      },
+      jumlahIGVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.instagram.Instagram_video_bilShare',
+          },
+        },
+      },
+      jumlahTWVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_video_bilReach',
+          },
+        },
+      },
+      jumlahTWVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.twitter.Twitter_video_bilShare',
+          },
+        },
+      },
+      jumlahYTVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_video_bilReach',
+          },
+        },
+      },
+      jumlahYTVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.youtube.Youtube_video_bilShare',
+          },
+        },
+      },
+      jumlahTTVideoReach: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.tiktok.Tiktok_video_bilReach',
+          },
+        },
+      },
+      jumlahTTVideoShare: {
+        $sum: {
+          $map: {
+            input: '$data',
+            as: 'activity',
+            in: '$$activity.tiktok.Tiktok_video_bilShare',
+          },
+        },
+      },
+    },
+  };
+  // bismillah
+  let bigData = await MediaSosial.aggregate([...match_stage, group_stage]);
+  console.log(bigData);
+  return bigData;
+};
 const countGender = async (payload) => {
   //
   let match_stage_lelaki = [];
@@ -14169,6 +14392,21 @@ const getParamsPgPro = (payload) => {
     return byKp();
   }
 };
+const getParamsPgPro02 = (payload) => {
+  const { klinik, daerah, negeri } = payload;
+  //
+  if (klinik) {
+    return klinik;
+  }
+
+  if (daerah) {
+    return daerah;
+  }
+
+  if (negeri) {
+    return negeri;
+  }
+};
 const getParamsGender = (payload) => {
   const { daerah, negeri } = payload;
 
@@ -14409,6 +14647,7 @@ module.exports = {
   countPPIM03,
   countAdHocQuery,
   countPGPro01,
+  countPGPro02,
   countGender,
   countMasa,
   countBp,
