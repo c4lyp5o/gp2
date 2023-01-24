@@ -14208,6 +14208,168 @@ const getParamsPiagamMasa = (jenis) => {
     };
   }
 };
+const getParamsBp = (kaum) => {
+  const umur1829lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur3039lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: 'kaum',
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur4049lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur5059lelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur60keataslelaki = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        jantina: 'lelaki',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur1829perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur3039perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur4049perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur5059perempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  const umur60keatasperempuan = () => {
+    let param = {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        jantina: 'perempuan',
+        kumpulanEtnik: kaum,
+        deleted: false,
+      },
+    };
+    return param;
+  };
+
+  return {
+    umur1829lelaki,
+    umur3039lelaki,
+    umur4049lelaki,
+    umur5059lelaki,
+    umur60keataslelaki,
+    umur1829perempuan,
+    umur3039perempuan,
+    umur4049perempuan,
+    umur5059perempuan,
+    umur60keatasperempuan,
+  };
+};
 
 // place
 const placeModifier = (payload) => {
