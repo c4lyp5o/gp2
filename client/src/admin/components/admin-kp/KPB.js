@@ -59,7 +59,7 @@ export default function KlinikPergigianBergerak(props) {
                     Tarikh
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Klinik Bertanggungjawab
+                    Fasiliti Bertanggungjawab
                   </th>
                   {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
@@ -76,8 +76,10 @@ export default function KlinikPergigianBergerak(props) {
                       {moment(kpb.tarikhStart).format('DD/MM/YYYY')} -{' '}
                       {moment(kpb.tarikhEnd).format('DD/MM/YYYY')}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {kpb.klinikBertanggungjawab}
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
+                      {kpb.klinikBertanggungjawab ||
+                        kpb.kkiaKdBertanggungjawab ||
+                        kpb.tastadBertanggungjawab}
                     </td>
                     {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button

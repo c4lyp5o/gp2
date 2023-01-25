@@ -3837,6 +3837,13 @@ export function InputKpEditKPBMPB(props) {
                 required
                 onChange={(e) => {
                   props.setTempatPenggunaan(e.target.value);
+                  // reset value
+                  delete props.editedEntity.handlerKp;
+                  delete props.editedEntity.kodKpHandler;
+                  delete props.editedEntity.handlerKkiaKd;
+                  delete props.editedEntity.kodKkiaKdHandler;
+                  delete props.editedEntity.handlerTastad;
+                  delete props.editedEntity.kodTastadHandler;
                 }}
                 className='border-2'
               >
@@ -3860,8 +3867,8 @@ export function InputKpEditKPBMPB(props) {
                       );
                       props.setEditedEntity({
                         ...props.editedEntity,
-                        handler: selectedKlinik.kp,
-                        kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                        handlerKp: selectedKlinik.kp,
+                        kodKpHandler: selectedKlinik.kodFasiliti,
                       });
                     }}
                   >
