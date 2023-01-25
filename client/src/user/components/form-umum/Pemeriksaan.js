@@ -158,13 +158,53 @@ export default function Pemeriksaan(props) {
                       className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                     >
                       <option value=''>Pilih Jika Berkenaan</option>
-                      {props.allUsedKPBMPB
+                      {props.singlePersonUmum.jenisFasiliti !==
+                      'projek-komuniti-lain'
                         ? props.allUsedKPBMPB.map((kpbmpb) => (
-                            <option key={kpbmpb.nama} value={kpbmpb.nama}>
+                            <option value={kpbmpb.nama}>
                               {dictionaryJenisFasiliti[kpbmpb.jenisFasiliti]} |{' '}
                               {kpbmpb.nama}
                             </option>
                           ))
+                        : null}
+                      {props.singlePersonUmum.jenisFasiliti ===
+                      'projek-komuniti-lain'
+                        ? props.allUsedKPBMPB.map((kpbmpb) => {
+                            return (
+                              <>
+                                {kpbmpb.penggunaanKpb !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanKpb}>
+                                    KPB | {kpbmpb.penggunaanKpb}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanKpb2 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanKpb2}>
+                                    KPB | {kpbmpb.penggunaanKpb2}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanKpb3 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanKpb3}>
+                                    KPB | {kpbmpb.penggunaanKpb3}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanMpb !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanMpb}>
+                                    MPB | {kpbmpb.penggunaanMpb}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanMpb2 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanMpb2}>
+                                    MPB | {kpbmpb.penggunaanMpb2}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanMpb3 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanMpb3}>
+                                    MPB | {kpbmpb.penggunaanMpb3}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })
                         : null}
                     </select>
                   </div>
