@@ -1976,13 +1976,16 @@ function UserFormUmumHeader({ sekolahIdc }) {
   useEffect(() => {
     const getAllKPBMPBForNegeri = async () => {
       try {
-        const dataKPBMPB = await axios.get('/api/v1/query/kpbmpb', {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        });
+        const dataKPBMPB = await axios.get(
+          `/api/v1/query/kpbmpb?personUmumId=${personUmumId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        );
         const dataSinglePersonUmum = await axios.get(
           `/api/v1/umum/${personUmumId}`,
           {
@@ -1995,7 +1998,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
         );
         let KPBMPBInRangeDate = [];
         // checking if KPBMPB date is within range of singlePersonUmum
-        dataKPBMPB.data.penggunaanKPBMPBForKp.forEach((singleUseKPBMPB) => {
+        dataKPBMPB.data.penggunaanKPBMPBForPt.forEach((singleUseKPBMPB) => {
           if (
             new Date(singleUseKPBMPB.tarikhStart) <=
               new Date(
@@ -2449,7 +2452,10 @@ function UserFormUmumHeader({ sekolahIdc }) {
                             onMouseLeave={() => setIsShown(false)}
                           >
                             Fasiliti :{' '}
-                            {Dictionary[singlePersonUmum.jenisFasiliti]}
+                            {Dictionary[singlePersonUmum.jenisFasiliti]} |{' '}
+                            {singlePersonUmum.namaFasilitiKkKd ||
+                              singlePersonUmum.namaFasilitiTaskaTadika ||
+                              singlePersonUmum.namaProgram}
                           </span>
                           {isShown && (
                             <div className='z-50 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>
