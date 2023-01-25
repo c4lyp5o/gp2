@@ -3793,6 +3793,7 @@ export function InputKpEditEventFromDaerah(props) {
 
 export function InputKpEditKPBMPB(props) {
   const { Dictionary } = useGlobalAdminAppContext();
+
   return (
     <form onSubmit={props.confirm(props.handleSubmit)}>
       <div
@@ -3823,89 +3824,121 @@ export function InputKpEditKPBMPB(props) {
                   Tarikh Beroperasi:{' '}
                   <span className='font-semibold text-lg text-user6'>*</span>
                 </p>
-                {/* <input
-                  type='text'
-                  className='border-2'
-                  value={
-                    props.editedEntity.jumlahHariBeroperasi === 'NOT APPLICABLE'
-                      ? ''
-                      : props.editedEntity.jumlahHariBeroperasi
-                  }
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      jumlahHariBeroperasi: e.target.value,
-                    });
-                  }}
-                /> */}
                 <div className='flex flex-row justify-center items-center px-5'>
                   <StartDate {...props} />
                   <EndDate {...props} />
                 </div>
               </div>
-              {/* <div className='grid grid-gap-1'>
-                <p>Jumlah Pesakit Baru: </p>
-                <input
-                  type='text'
-                  className='border-2'
-                  value={
-                    props.editedEntity.jumlahPesakitBaru === 'NOT APPLICABLE'
-                      ? ''
-                      : props.editedEntity.jumlahPesakitBaru
-                  }
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      jumlahPesakitBaru: e.target.value,
-                    });
-                  }}
-                />
-              </div>
-              <div className='grid grid-gap-1'>
-                <p>Jumlah Pesakit Ulangan: </p>
-                <input
-                  type='text'
-                  className='border-2'
-                  value={
-                    props.editedEntity.jumlahPesakitUlangan === 'NOT APPLICABLE'
-                      ? ''
-                      : props.editedEntity.jumlahPesakitUlangan
-                  }
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      jumlahPesakitUlangan: e.target.value,
-                    });
-                  }}
-                />
-              </div> */}
-              <div className='grid gap-1'>
-                <p>
-                  Klinik Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </p>
-                <select
-                  required
-                  className='border-2'
-                  onChange={(e) => {
-                    const selectedKlinik = props.allKlinik.find(
-                      (k) => k.kodFasiliti === e.target.value
-                    );
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handler: selectedKlinik.kp,
-                      kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                    });
-                  }}
-                >
-                  <option value=''>Pilih Klinik</option>
-                  {props.allKlinik.map((k) => (
-                    <option className='capitalize' value={k.kodFasiliti}>
-                      {k.kp}
-                    </option>
-                  ))}
-                </select>
-              </div>
+              <p>
+                Digunakan di:{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </p>
+              <select
+                required
+                onChange={(e) => {
+                  props.setTempatPenggunaan(e.target.value);
+                  // reset value
+                  delete props.editedEntity.handlerKp;
+                  delete props.editedEntity.kodKpHandler;
+                  delete props.editedEntity.handlerKkiaKd;
+                  delete props.editedEntity.kodKkiaKdHandler;
+                  delete props.editedEntity.handlerTastad;
+                  delete props.editedEntity.kodTastadHandler;
+                }}
+                className='border-2'
+              >
+                <option value=''>Pilih tempat penggunaan</option>
+                <option value='kp'>Klinik Pergigian</option>
+                <option value='kkiakd'>KKIA / KD</option>
+                <option value='tastad'>Taska / Tadika</option>
+              </select>
+              {props.tempatPenggunaan === 'kp' ? (
+                <div className='grid gap-1'>
+                  <p>
+                    Klinik Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    className='border-2'
+                    onChange={(e) => {
+                      const selectedKlinik = props.allKlinik.find(
+                        (k) => k.kodFasiliti === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerKp: selectedKlinik.kp,
+                        kodKpHandler: selectedKlinik.kodFasiliti,
+                      });
+                    }}
+                  >
+                    <option value=''>Pilih Klinik</option>
+                    {props.allKlinik.map((k) => (
+                      <option className='capitalize' value={k.kodFasiliti}>
+                        {k.daerah} | {k.kp}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
+              {props.tempatPenggunaan === 'kkiakd' ? (
+                <div className='grid gap-1'>
+                  <p>
+                    KKIA / KD Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    className='border-2'
+                    onChange={(e) => {
+                      const selectedKkiaKd = props.allKkiaKd.find(
+                        (k) => k.kodKkiaKd === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerKkiaKd: selectedKkiaKd.nama,
+                        kodKkiaKdHandler: selectedKkiaKd.kodKkiaKd,
+                      });
+                    }}
+                  >
+                    <option value=''>Pilih KKIA / KD</option>
+                    {props.allKkiaKd.map((k) => (
+                      <option className='capitalize' value={k.kodKkiaKd}>
+                        {k.nama}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
+              {props.tempatPenggunaan === 'tastad' ? (
+                <div className='grid gap-1'>
+                  <p>
+                    Taska / Tadika Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    className='border-2'
+                    onChange={(e) => {
+                      const selectedTastad = props.allTastad.find(
+                        (k) => k.kodTastad === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerTastad: selectedTastad.nama,
+                        kodTastadHandler: selectedTastad.kodTastad,
+                      });
+                    }}
+                  >
+                    <option value=''>Pilih Taska / Tadika</option>
+                    {props.allTastad.map((tt) => (
+                      <option className='capitalize' value={tt.kodTastad}>
+                        {tt.createdByDaerah} | {tt.nama}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              ) : null}
             </div>
           </div>
           <div className={styles.modalActions}>

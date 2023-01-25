@@ -352,7 +352,7 @@ const ConfirmModal = ({
         <>
           <form
             onSubmit={confirm}
-            className='absolute inset-x-10 inset-y-5 lg:inset-x-1/3 lg:inset-y-7 text-sm bg-kaunter6 z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+            className='absolute inset-x-10 inset-y-5 lg:inset-x-60 lg:inset-y-7 2xl:inset-x-1/3 text-sm bg-kaunter6 z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
           >
             <FaWindowClose
               onClick={hideDoubleConfirm}
