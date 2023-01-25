@@ -591,7 +591,10 @@ const EditModalForKp = ({
   const { toast, readDataForKp, readOneDataForKp, updateDataForKp } =
     useGlobalAdminAppContext();
 
+  const [tempatPenggunaan, setTempatPenggunaan] = useState('');
   const [allKlinik, setAllKlinik] = useState([]);
+  const [allKkiaKd, setAllKkiaKd] = useState([]);
+  const [allTastad, setAllTastad] = useState([]);
   const [editedEntity, setEditedEntity] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -601,8 +604,14 @@ const EditModalForKp = ({
 
   useEffect(() => {
     if (FType === 'kpb' || FType === 'mpb') {
-      readDataForKp('kp').then((res) => {
+      readDataForKp('kpallnegeri').then((res) => {
         setAllKlinik(res.data);
+      });
+      readDataForKp('kkiakdallnegeri').then((res) => {
+        setAllKkiaKd(res.data);
+      });
+      readDataForKp('tastadallnegeri').then((res) => {
+        setAllTastad(res.data);
       });
     }
     readOneDataForKp(FType, id).then((res) => {
@@ -721,10 +730,15 @@ const EditModalForKp = ({
         // jumlahHariBeroperasi: editedEntity.jumlahHariBeroperasi,
         // jumlahPesakitBaru: editedEntity.jumlahPesakitBaru,
         // jumlahPesakitUlangan: editedEntity.jumlahPesakitUlangan,
-        klinikBertanggungjawab: editedEntity.handler,
-        kodKlinikBertanggungjawab: editedEntity.kodFasilitiHandler,
         tarikhStart: editedEntity.tarikhStart,
         tarikhEnd: editedEntity.tarikhEnd,
+        tempatPenggunaan: tempatPenggunaan,
+        klinikBertanggungjawab: editedEntity.handlerKp,
+        kodKlinikBertanggungjawab: editedEntity.kodKpHandler,
+        kkiaKdBertanggungjawab: editedEntity.handlerKkiaKd,
+        kodKkiaKdBertanggungjawab: editedEntity.kodKkiaKdHandler,
+        tastadBertanggungjawab: editedEntity.handlerTastad,
+        kodTastadBertanggungjawab: editedEntity.kodTastadHandler,
       };
     }
     updateDataForKp(FType, id, Data).then(() => {
@@ -773,9 +787,13 @@ const EditModalForKp = ({
     startDateDP,
     setEndDateDP,
     endDateDP,
-    //
+    // ---
     setShowEditModal,
+    tempatPenggunaan,
+    setTempatPenggunaan,
     allKlinik,
+    allKkiaKd,
+    allTastad,
     FType,
     eventModeChecker,
     handleSubmit,

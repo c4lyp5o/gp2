@@ -45,9 +45,9 @@ router.get('/getonekpdata', adminAuth, getOneDataKpRoute);
 // Statistics
 router.get('/getstats', adminAuth, getStatisticsData);
 
-// Operator
-router.get('/getoperator', adminAuth, processOperatorQuery);
+// Fasiliti KP, Operator, KKIA/KD
 router.get('/getfasiliti', adminAuth, processFasilitiQuery);
+router.get('/getoperator', adminAuth, processOperatorQuery);
 router.get('/getkkiakd', adminAuth, processKkiakdQuery);
 
 // Legacy
