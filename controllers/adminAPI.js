@@ -2750,6 +2750,7 @@ module.exports = {
   initialDataAdmins,
   checkUser,
   loginUser,
+  readUserData,
   getData,
   getDataRoute,
   getDataKpRoute,
