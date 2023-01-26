@@ -12732,9 +12732,7 @@ const countGender = async (payload) => {
   return bigData;
 };
 const countMasa = async (payload) => {
-  // get month number from date
   const month = moment().startOf('month').format('YYYY-MM-DD');
-  // count how many months has elapsed
   const count = moment().diff(month, 'months');
   let match_stage_op = [];
   let match_stage_temujanji = [];
