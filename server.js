@@ -111,7 +111,7 @@ app.use('/api/v1/kaunter', authCheck, kaunter);
 app.use('/api/v1/superadmin', adminAPI);
 
 // generate route
-app.use('/api/v1/generate', adminAuth, genRouter);
+app.use('/api/v1/generate', genRouter);
 
 // ETL
 app.use('/api/v1/etl', etlAuth, ETL);

@@ -100,15 +100,21 @@ const Generate = (props) => {
     let file = '';
     if (pilihanDaerah !== 'all' && pilihanKlinik !== 'all') {
       console.log('1');
-      file = `${jenisReten}-${namaKlinik}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${namaKlinik}-${moment(new Date()).format(
+        'DD-MM-YYYY'
+      )}.${formatFile}`;
     }
     if (pilihanDaerah !== 'all' && pilihanKlinik === 'all') {
       console.log('2');
-      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${moment(
+        new Date()
+      ).format('DD-MM-YYYY')}.${formatFile}`;
     }
     if (pilihanDaerah === 'all') {
       console.log('3');
-      file = `${jenisReten}-${props.loginInfo.negeri.toUpperCase()}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${props.loginInfo.negeri.toUpperCase()}-${moment(
+        new Date()
+      ).format('DD-MM-YYYY')}.${formatFile}`;
     }
     // if (!endDate) {
     //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
@@ -130,33 +136,41 @@ const Generate = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    await toast
-      .promise(
-        axios.get(
-          `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${
-            props.loginInfo.accountType === 'hqSuperadmin'
-              ? ''
-              : props.loginInfo.negeri
-          }&daerah=${pilihanDaerah === '' ? 'all' : pilihanDaerah}&klinik=${
-            pilihanKlinik === '' ? 'all' : pilihanKlinik
-          }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}&formatFile=${formatFile}`,
-          {
-            headers: {
-              Authorization: adminToken,
-            },
-            responseType: 'blob',
-          }
-        ),
+    try {
+      const res = await axios.get(
+        `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${
+          props.loginInfo.accountType === 'hqSuperadmin'
+            ? ''
+            : props.loginInfo.negeri
+        }&daerah=${pilihanDaerah === '' ? 'all' : pilihanDaerah}&klinik=${
+          pilihanKlinik === '' ? 'all' : pilihanKlinik
+        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&bulan=${new Date().getFullYear()}-${month}`,
         {
-          pending: 'Menghasilkan reten...',
-          success: 'Reten berjaya dihasilkan',
-          error: 'Tiada data untuk tarikh yang dipilih',
-        },
-        { autoClose: 2000 }
-      )
-      .then((blob) => {
-        saveFile(blob.data);
-      });
+          headers: {
+            Authorization: adminToken,
+          },
+          responseType: 'blob',
+        }
+      );
+      saveFile(res.data);
+    } catch (err) {
+      switch (err.response.status) {
+        case 401:
+          toast.error(
+            `Anda telah mencapai jumlah batasan penjanaan ${jenisReten} bagi bulan ini`
+          );
+          break;
+        case 403:
+          toast.error('Anda tidak dibenarkan untuk menjana reten');
+          break;
+        case 404:
+          toast.error('Tiada data untuk tarikh yang dipilih');
+          break;
+        default:
+          toast.error('Internal Server Error');
+          break;
+      }
+    }
   };
 
   useEffect(() => {

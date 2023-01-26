@@ -3,24 +3,6 @@ const Runningnumber = require('../models/Runningnumber');
 const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const logger = require('../logs/logger');
-const LRU = require('lru-cache');
-const axios = require('axios').default;
-
-const options = {
-  max: 5000,
-  // for use with tracking overall storage size
-  maxSize: 50000,
-  sizeCalculation: (value, key) => {
-    return 1;
-  },
-  ttl: 1000 * 60 * 60 * 24 * 30, // 30 days
-  allowStale: false,
-  updateAgeOnGet: false,
-  updateAgeOnHas: false,
-  fetchMethod: async (key, staleValue, { options, signal }) => {},
-};
-
-const cache = new LRU(options);
 
 // GET /:personKaunterId
 const getSinglePersonKaunter = async (req, res) => {
@@ -129,14 +111,6 @@ const createPersonKaunter = async (req, res) => {
     req.body.kedatangan = 'baru-kedatangan';
   }
 
-  // logger.info(`${req.method} ${req.url} sending to cache`);
-  // // cache.set(req.body.ic, req.body);
-  // const resp = await axios.post(process.env.CACHE_SERVER_URL, req.body, {
-  //   headers: {
-  //     'x-api-key': process.env.CACHE_SERVER_PASS,
-  //   },
-  // });
-
   const singlePersonKaunter = await Umum.create(req.body);
 
   res.status(201).json({ singlePersonKaunter });
@@ -194,16 +168,7 @@ const deletePersonKaunter = async (req, res) => {
 // GET /check
 const getPersonFromCache = async (req, res) => {
   const { personKaunterId } = req.params;
-  // const person = await cache.get(ic.toString());
   try {
-    // const { data } = await axios.get(
-    //   process.env.CACHE_SERVER_URL + `?pid=${personKaunterId}`,
-    //   {
-    //     headers: {
-    //       'x-api-key': process.env.CACHE_SERVER_PASS,
-    //     },
-    //   }
-    // );
     const person = await Umum.findOne({ ic: personKaunterId }, null, {
       sort: { _id: -1 },
     });
