@@ -93,6 +93,7 @@ adminSchema.methods.getProfile = function () {
   const adminObject = admin.toObject();
 
   adminObject.username = admin.nama;
+
   delete adminObject.user_name;
   delete adminObject.tempKey;
   delete adminObject.ascii;
@@ -109,6 +110,7 @@ adminSchema.methods.createJWT = function () {
   const token = jwt.sign(
     {
       userId: this._id.toString(),
+      userAccount: this.user_name,
       username: this.nama,
       accountType: this.accountType,
     },

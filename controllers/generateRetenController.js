@@ -1,19 +1,119 @@
 'use strict';
 const fs = require('fs');
+const async = require('async');
 const path = require('path');
 const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const Umum = require('../models/Umum');
+const GenerateToken = require('../models/GenerateToken');
+const { generateRandomString, readUserData } = require('./adminAPI');
 const logger = require('../logs/logger');
+
+exports.startQueue = async function (req, res) {
+  // get userdata
+  const { authorization } = req.headers;
+  const { username, accountType } = await readUserData(authorization);
+  //
+  const { jenisReten } = req.query;
+  //
+  let userTokenData = await GenerateToken.findOne({
+    belongsTo: username,
+    jenisReten,
+  });
+
+  // create if there is no userTokenData
+  if (!userTokenData) {
+    switch (accountType) {
+      case 'negeriSuperadmin':
+        const negeriToken = new GenerateToken({
+          belongsTo: username,
+          accountType,
+          jenisReten,
+          jumlahToken: 5,
+        });
+        await negeriToken.save();
+        userTokenData = negeriToken;
+        console.log('dah save token negeri');
+        break;
+      case 'daerahSuperadmin':
+        const daerahToken = new GenerateToken({
+          belongsTo: username,
+          accountType,
+          jenisReten,
+          jumlahToken: 3,
+        });
+        await daerahToken.save();
+        userTokenData = daerahToken;
+        break;
+      default:
+        res
+          .status(403)
+          .json({ message: 'Anda tidak dibenarkan untuk menjana reten' });
+    }
+  }
+
+  if (userTokenData.jumlahToken <= 0) {
+    return res.status(401).json({ msg: 'no more coins left' });
+  }
+
+  // get in line soldier!
+  const downloadQueue = async.queue(async (task, callback) => {
+    try {
+      const result = await task();
+      callback(null, result);
+    } catch (err) {
+      callback(err);
+    }
+  }, 5);
+
+  downloadQueue.push(() =>
+    downloader(req, res, async (err, result) => {
+      console.log('Queue now is', downloadQueue.length());
+      if (err) {
+        if (err === 'No data found') {
+          return res.status(404).json({ message: err });
+        }
+        return res.status(500).json({ message: err });
+      }
+      userTokenData.jumlahToken -= 1;
+      await userTokenData.save();
+      res.setHeader('Content-Type', 'application/vnd.ms-excel');
+      res.status(200).send(result);
+    })
+  );
+};
+exports.refreshTokens = async function (req, res) {
+  const { 'x-api-key': apiKey } = req.headers;
+  if (apiKey !== process.env.REFRESH_TOKENS_KEY) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  // refresh negeri tokens
+  const negeriTokens = GenerateToken.find({ accountType: 'negeriSuperadmin' });
+  negeriTokens.forEach(async (token) => {
+    token.jumlahToken = 5;
+    await token.save();
+  });
+  console.log('dah refresh token negeri');
+
+  // refresh token daerah
+  const daerahTokens = GenerateToken.find({ accountType: 'daerahSuperadmin' });
+  daerahTokens.forEach(async (token) => {
+    token.jumlahToken = 3;
+    await token.save();
+  });
+  console.log('dah refresh token daerah');
+
+  res.status(200).json({ message: 'Tokens refreshed' });
+};
 
 // helper
 const Helper = require('../controllers/countHelper');
 
 // gateway
-exports.downloader = async function (req, res) {
-  // console.log('dah masuk');
+const downloader = async (req, res, callback) => {
+  console.log('this is in downloader');
   const { authorization } = req.headers;
   //
   let currentKodFasiliti, currentDaerah, currentNegeri, username;
