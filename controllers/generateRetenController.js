@@ -84,26 +84,25 @@ exports.startQueue = async function (req, res) {
   );
 };
 exports.refreshTokens = async function (req, res) {
-  const { 'x-api-key': apiKey } = req.headers;
-  if (apiKey !== process.env.REFRESH_TOKENS_KEY) {
-    return res.status(401).json({ message: 'Unauthorized' });
-  }
-
   // refresh negeri tokens
   const negeriTokens = GenerateToken.find({ accountType: 'negeriSuperadmin' });
-  negeriTokens.forEach(async (token) => {
-    token.jumlahToken = 5;
-    await token.save();
-  });
-  console.log('dah refresh token negeri');
+  if (negeriTokens) {
+    negeriTokens.forEach(async (token) => {
+      token.jumlahToken = 5;
+      await token.save();
+    });
+    console.log('dah refresh token negeri');
+  }
 
   // refresh token daerah
   const daerahTokens = GenerateToken.find({ accountType: 'daerahSuperadmin' });
-  daerahTokens.forEach(async (token) => {
-    token.jumlahToken = 3;
-    await token.save();
-  });
-  console.log('dah refresh token daerah');
+  if (daerahTokens) {
+    daerahTokens.forEach(async (token) => {
+      token.jumlahToken = 3;
+      await token.save();
+    });
+    console.log('dah refresh token daerah');
+  }
 
   res.status(200).json({ message: 'Tokens refreshed' });
 };
