@@ -100,15 +100,21 @@ const Generate = (props) => {
     let file = '';
     if (pilihanDaerah !== 'all' && pilihanKlinik !== 'all') {
       console.log('1');
-      file = `${jenisReten}-${namaKlinik}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${namaKlinik}-${moment(new Date()).format(
+        'DD-MM-YYYY'
+      )}.${formatFile}`;
     }
     if (pilihanDaerah !== 'all' && pilihanKlinik === 'all') {
       console.log('2');
-      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${moment(
+        new Date()
+      ).format('DD-MM-YYYY')}.${formatFile}`;
     }
     if (pilihanDaerah === 'all') {
       console.log('3');
-      file = `${jenisReten}-${props.loginInfo.negeri.toUpperCase()}-${startDate}.${formatFile}`;
+      file = `${jenisReten}-${props.loginInfo.negeri.toUpperCase()}-${moment(
+        new Date()
+      ).format('DD-MM-YYYY')}.${formatFile}`;
     }
     // if (!endDate) {
     //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
