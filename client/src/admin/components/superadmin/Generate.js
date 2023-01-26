@@ -153,7 +153,9 @@ const Generate = (props) => {
         }
       );
       saveFile(res.data);
+      toast.success('Berjaya menjana reten');
     } catch (err) {
+      // console.log(err.response);
       switch (err.response.status) {
         case 401:
           toast.error(
