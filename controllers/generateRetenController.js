@@ -53,9 +53,9 @@ exports.startQueue = async function (req, res) {
     }
   }
 
-  if (userTokenData.jumlahToken <= 0) {
-    return res.status(401).json({ msg: 'no more coins left' });
-  }
+  // if (userTokenData.jumlahToken <= 0) {
+  //   return res.status(401).json({ msg: 'no more coins left' });
+  // }
 
   // get in line soldier!
   const downloadQueue = async.queue(async (task, callback) => {
