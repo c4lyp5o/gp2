@@ -438,6 +438,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [diastolicTekananDarah, setDiastolicTekananDarah] = useState('');
   masterForm.diastolicTekananDarah = diastolicTekananDarah;
   masterForm.setDiastolicTekananDarah = setDiastolicTekananDarah;
+  const [sejarahDarahTinggi, setSejarahDarahTinggi] = useState('');
+  masterForm.sejarahDarahTinggi = sejarahDarahTinggi;
+  masterForm.setSejarahDarahTinggi = setSejarahDarahTinggi;
   const [rujukKeKlinik, setRujukKeKlinik] = useState(false);
   masterForm.rujukKeKlinik = rujukKeKlinik;
   masterForm.setRujukKeKlinik = setRujukKeKlinik;
@@ -1506,6 +1509,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
         setPenggunaanKPBMPB(data.singlePersonUmum.penggunaanKPBMPB);
         setSystolicTekananDarah(data.singlePersonUmum.systolicTekananDarah);
         setDiastolicTekananDarah(data.singlePersonUmum.diastolicTekananDarah);
+        setSejarahDarahTinggi(data.singlePersonUmum.sejarahDarahTinggi);
         setRujukKeKlinik(data.singlePersonUmum.rujukKeKlinik);
         setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
         setTidakHadirTaskaTadika(data.singlePersonUmum.tidakHadirTaskaTadika);
@@ -2103,6 +2107,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               penggunaanKPBMPB,
               systolicTekananDarah,
               diastolicTekananDarah,
+              sejarahDarahTinggi,
               rujukKeKlinik,
               engganTaskaTadika,
               tidakHadirTaskaTadika,

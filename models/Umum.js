@@ -129,6 +129,10 @@ const UmumSchema = new mongoose.Schema(
       type: Number,
       default: 0,
     },
+    sejarahDarahTinggi: {
+      type: Boolean,
+      default: false,
+    },
     rujukKeKlinik: {
       type: Boolean,
       default: false,

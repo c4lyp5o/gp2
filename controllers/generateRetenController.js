@@ -1,19 +1,119 @@
 'use strict';
 const fs = require('fs');
+const async = require('async');
 const path = require('path');
 const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
-const Umum = require('../models/Umum');
+const GenerateToken = require('../models/GenerateToken');
+const { generateRandomString, readUserData } = require('./adminAPI');
 const logger = require('../logs/logger');
+
+exports.startQueue = async function (req, res) {
+  // get userdata
+  const { authorization } = req.headers;
+  const { username, accountType } = await readUserData(authorization);
+  //
+  const { jenisReten } = req.query;
+  //
+  let userTokenData = await GenerateToken.findOne({
+    belongsTo: username,
+    jenisReten,
+  });
+
+  // create if there is no userTokenData
+  if (!userTokenData) {
+    switch (accountType) {
+      case 'negeriSuperadmin':
+        const negeriToken = new GenerateToken({
+          belongsTo: username,
+          accountType,
+          jenisReten,
+          jumlahToken: 5,
+        });
+        await negeriToken.save();
+        userTokenData = negeriToken;
+        console.log('dah save token negeri');
+        break;
+      case 'daerahSuperadmin':
+        const daerahToken = new GenerateToken({
+          belongsTo: username,
+          accountType,
+          jenisReten,
+          jumlahToken: 3,
+        });
+        await daerahToken.save();
+        userTokenData = daerahToken;
+        break;
+      default:
+        res
+          .status(403)
+          .json({ message: 'Anda tidak dibenarkan untuk menjana reten' });
+    }
+  }
+
+  if (userTokenData.jumlahToken <= 0) {
+    return res.status(401).json({ msg: 'no more coins left' });
+  }
+
+  // get in line soldier!
+  const downloadQueue = async.queue(async (task, callback) => {
+    try {
+      const result = await task();
+      callback(null, result);
+    } catch (err) {
+      callback(err);
+    }
+  }, 5);
+
+  downloadQueue.push(() =>
+    downloader(req, res, async (err, result) => {
+      console.log('Queue now is', downloadQueue.length());
+      if (err) {
+        if (err === 'No data found') {
+          return res.status(404).json({ message: err });
+        }
+        return res.status(500).json({ message: err });
+      }
+      userTokenData.jumlahToken -= 1;
+      await userTokenData.save();
+      res.setHeader('Content-Type', 'application/vnd.ms-excel');
+      res.status(200).send(result);
+    })
+  );
+};
+exports.refreshTokens = async function (req, res) {
+  const { 'x-api-key': apiKey } = req.headers;
+  if (apiKey !== process.env.REFRESH_TOKENS_KEY) {
+    return res.status(401).json({ message: 'Unauthorized' });
+  }
+
+  // refresh negeri tokens
+  const negeriTokens = GenerateToken.find({ accountType: 'negeriSuperadmin' });
+  negeriTokens.forEach(async (token) => {
+    token.jumlahToken = 5;
+    await token.save();
+  });
+  console.log('dah refresh token negeri');
+
+  // refresh token daerah
+  const daerahTokens = GenerateToken.find({ accountType: 'daerahSuperadmin' });
+  daerahTokens.forEach(async (token) => {
+    token.jumlahToken = 3;
+    await token.save();
+  });
+  console.log('dah refresh token daerah');
+
+  res.status(200).json({ message: 'Tokens refreshed' });
+};
 
 // helper
 const Helper = require('../controllers/countHelper');
 
 // gateway
-exports.downloader = async function (req, res) {
-  // console.log('dah masuk');
+const downloader = async (req, res, callback) => {
+  console.log('this is in downloader');
   const { authorization } = req.headers;
   //
   let currentKodFasiliti, currentDaerah, currentNegeri, username;
@@ -45,9 +145,7 @@ exports.downloader = async function (req, res) {
     tarikhAkhir,
     bulan,
     id,
-    formatFile,
   } = req.query;
-  console.log(req.query);
   // if kaunter user
   if (!klinik) {
     klinik = currentKodFasiliti;
@@ -59,7 +157,6 @@ exports.downloader = async function (req, res) {
     daerah,
     negeri,
     username,
-    formatFile,
     tarikhMula,
     tarikhAkhir,
     bulan,
@@ -68,525 +165,58 @@ exports.downloader = async function (req, res) {
     id,
   };
   console.log(payload);
-  logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
+  // logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
+  let excelFile;
   switch (jenisReten) {
     case 'PG101A':
-      const data101A = await makePG101A(payload);
-      if (data101A === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data101A);
-          break;
-        case 'pdf':
-          let excel101 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + klinik + '-PG101.xlsx'
-          );
-          let pdf101 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + klinik + '-PG101.pdf'
-          );
-          convertToPdf(excel101, pdf101);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf101));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG101A(payload);
       break;
     case 'PG101C':
-      const data101C = await makePG101C(payload);
-      if (data101C === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data101C);
-          break;
-        case 'pdf':
-          let excel101 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + klinik + '-PG101.xlsx'
-          );
-          let pdf101 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + klinik + '-PG101.pdf'
-          );
-          convertToPdf(excel101, pdf101);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf101));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG101C(payload);
       break;
     case 'PG211A':
-      const data211A = await makePG211A(payload);
-      if (data211A === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data211A);
-          break;
-        case 'pdf':
-          let excel211 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG211.xlsx'
-          );
-          let pdf211 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG211.pdf'
-          );
-          convertToPdf(excel211, pdf211);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf211));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG211A(payload);
       break;
     case 'PG211C':
-      const data211C = await makePG211C(payload);
-      if (data211C === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data211C);
-          break;
-        case 'pdf':
-          let excel211 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG211.xlsx'
-          );
-          let pdf211 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG211.pdf'
-          );
-          convertToPdf(excel211, pdf211);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf211));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG211C(payload);
       break;
     case 'PG214':
-      const data214 = await makePG214(payload);
-      if (data214 === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data214);
-          break;
-        case 'pdf':
-          let excel214 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG214.xlsx'
-          );
-          let pdf214 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG214.pdf'
-          );
-          convertToPdf(excel214, pdf214);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf214));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG214(payload);
       break;
     case 'PG206':
-      const data206 = await makePG206(payload);
-      if (data206 === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data206);
-          break;
-        case 'pdf':
-          let excel206 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG206.xlsx'
-          );
-          let pdf206 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG206.pdf'
-          );
-          convertToPdf(excel206, pdf206);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf206));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG206(payload);
       break;
     case 'PG207':
-      const data207 = await makePG207(payload);
-      if (data207 === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader(
-            'Content-Type',
-            'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-          );
-          res.status(200).send(data207);
-          break;
-        case 'pdf':
-          let excel207 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG207.xlsx'
-          );
-          let pdf207 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG207.pdf'
-          );
-          convertToPdf(excel207, pdf207);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf207));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG207(payload);
       break;
     case 'PG201':
-      const data201 = await makePG201(payload);
-      if (data201 === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data201);
-          break;
-        case 'pdf':
-          let excel201 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG201.xlsx'
-          );
-          let pdf201 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG201.pdf'
-          );
-          convertToPdf(excel201, pdf201);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf201));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePG201(payload);
       break;
     case 'PGS203':
-      const data203 = await makePGS203(payload);
-      if (data203 === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(data203);
-          break;
-        case 'pdf':
-          let excel203 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG203.xlsx'
-          );
-          let pdf203 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PG203.pdf'
-          );
-          convertToPdf(excel203, pdf203);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdf203));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePGS203(payload);
       break;
     case 'PGPR201':
-      const dataPR201 = await makePGPR201(payload);
-      if (dataPR201 === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(dataPR201);
-          break;
-        case 'pdf':
-          let excelPR201 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PGPR201.xlsx'
-          );
-          let pdfPR201 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PGPR201.pdf'
-          );
-          convertToPdf(excelPR201, pdfPR201);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), pdfPR201)
-          );
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePGPR201(payload);
       break;
     case 'PGPR201Baru':
-      const dataPR201Baru = await makePGPR201Baru(payload);
-      if (dataPR201Baru === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(dataPR201Baru);
-          break;
-        case 'pdf':
-          let excelPR201Baru = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PGPR201Baru.xlsx'
-          );
-          let pdfPR201Baru = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PGPR201Baru.pdf'
-          );
-          convertToPdf(excelPR201Baru, pdfPR201Baru);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), pdfPR201)
-          );
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePGPR201Baru(payload);
       break;
     case 'PGPRO01':
-      const dataPgPro01 = await makePgPro01(payload);
-      if (dataPgPro01 === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(dataPgPro01);
-          break;
-        case 'pdf':
-          let excelPgPro01 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PGPRO01.xlsx'
-          );
-          let pdfPgPro01 = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-PGPRO01.pdf'
-          );
-          convertToPdf(excel206, pdf206);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), pdfPgPro01)
-          );
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-        default:
-          break;
-      }
+      excelFile = await makePgPro01(payload);
       break;
     case 'GENDER':
-      const dataGender = await makeGender(payload);
-      if (dataGender === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(dataGender);
-          break;
-        case 'pdf':
-          let excelGender = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-GENDER.xlsx'
-          );
-          let pdfGender = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-GENDER.pdf'
-          );
-          convertToPdf(excelGender, pdfGender);
-          const pdfFile = fs.readFileSync(
-            path.resolve(process.cwd(), pdfGender)
-          );
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-      }
+      excelFile = await makeGender(payload);
       break;
     case 'MASA':
-      const dataMasa = await makeMasa(payload);
-      if (dataMasa === 'No data found') {
-        return res.status(404).json({
-          message: 'No data found',
-        });
-      }
-      switch (formatFile) {
-        case 'xlsx':
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(dataMasa);
-          break;
-        case 'pdf':
-          let excelMasa = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-MASA.xlsx'
-          );
-          let pdfMasa = path.join(
-            __dirname,
-            '..',
-            'public',
-            'exports',
-            'test-' + kp + '-MASA.pdf'
-          );
-          convertToPdf(excelMasa, pdfMasa);
-          const pdfFile = fs.readFileSync(path.resolve(process.cwd(), pdfMasa));
-          res.setHeader('Content-Type', 'application/pdf');
-          res.status(200).send(pdfFile);
-          break;
-      }
+      excelFile = await makeMasa(payload);
       break;
     default:
-      res.status(404).json({
-        message: 'No reten type provided',
-      });
-      break;
+      return 'No data found';
   }
+  if (excelFile === 'No data found') {
+    return callback('No data found');
+  }
+  return callback(null, excelFile);
 };
 
 // functions
@@ -790,15 +420,11 @@ const makePG101A = async (payload) => {
     console.log('writing file');
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      console.log('deleting file');
     }, 1000);
-    // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
     return file;
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: err.message });
   }
 };
 const makePG101C = async (payload) => {
@@ -3089,7 +2715,7 @@ exports.debug = async (req, res) => {
   // let tarikhMula = '2021-01-01';
   // let tarikhAkhir = '2021-01-31';
   // let pegawai = 'dr. faizatul hawa binti mohd zuki';
-  const data = await makeGender(payload);
+  const data = await makeMasa(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
@@ -3099,19 +2725,20 @@ exports.debug = async (req, res) => {
 
 // helper
 const makeFile = (payload, reten) => {
-  const { pegawai, klinik, daerah, negeri } = payload;
-  if (pegawai) {
-    return fileName(pegawai, reten);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return fileName(klinik, reten);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return fileName(daerah, reten);
-  }
-  if (daerah === 'all') {
-    return fileName(negeri, reten);
-  }
+  // const { pegawai, klinik, daerah, negeri } = payload;
+  // if (pegawai) {
+  //   return fileName(pegawai, reten);
+  // }
+  // if (daerah !== 'all' && klinik !== 'all') {
+  //   return fileName(klinik, reten);
+  // }
+  // if (daerah !== 'all' && klinik === 'all') {
+  //   return fileName(daerah, reten);
+  // }
+  // if (daerah === 'all') {
+  //   return fileName(negeri, reten);
+  // }
+  return fileName(generateRandomString(20), reten);
 };
 
 const fileName = (params, reten) => {
@@ -3120,6 +2747,7 @@ const fileName = (params, reten) => {
     '..',
     'public',
     'exports',
-    `test-${params}-${reten}.xlsx`
+    // `test-${params}-${reten}.xlsx`
+    `${params}.xlsx`
   );
 };

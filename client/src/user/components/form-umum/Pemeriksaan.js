@@ -276,6 +276,7 @@ export default function Pemeriksaan(props) {
                     props.systolicTekananDarah >= 140 ||
                     props.diastolicTekananDarah >= 90 ? (
                       <div className='flex items-center text-left px-1'>
+                        {/* <div className='flex items-center text-left px-1' /> placeholder ada sejarah darah tinggi, state: sejarahDarahTinggi, Boolean */}
                         <input
                           disabled={isDisabled}
                           type='checkbox'
