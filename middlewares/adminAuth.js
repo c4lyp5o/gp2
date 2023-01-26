@@ -36,10 +36,18 @@ const adminAuthInt = (req, res, next) => {
 
 const etlAuth = (req, res, next) => {
   const { 'x-api-key': apiKey } = req.headers;
-  if (!apiKey) {
+  if (!apiKey || apiKey !== process.env.ETL_SECRET) {
     return res.status(401).json({ msg: 'Nice try, but no cigar' });
   }
   next();
 };
 
-module.exports = { adminAuth, adminAuthInt, etlAuth };
+const refreshAuth = (req, res, next) => {
+  const { 'x-api-key': apiKey } = req.headers;
+  if (!apiKey || apiKey !== process.env.REFRESH_TOKENS_SECRET) {
+    return res.status(401).json({ msg: 'Nice try, but no cigar' });
+  }
+  next();
+};
+
+module.exports = { adminAuth, adminAuthInt, etlAuth, refreshAuth };
