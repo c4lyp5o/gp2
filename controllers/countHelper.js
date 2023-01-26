@@ -12732,9 +12732,7 @@ const countGender = async (payload) => {
   return bigData;
 };
 const countMasa = async (payload) => {
-  // get month number from date
   const month = moment().startOf('month').format('YYYY-MM-DD');
-  // count how many months has elapsed
   const count = moment().diff(month, 'months');
   let match_stage_op = [];
   let match_stage_temujanji = [];
@@ -13025,6 +13023,8 @@ const countMasa = async (payload) => {
   bigData.push(temujanjiData);
   bigData.push(opData);
 
+  console.log(bigData);
+
   return bigData;
 };
 const countBp = async (payload) => {
@@ -13047,7 +13047,110 @@ const countBp = async (payload) => {
   console.log(match_stage_india);
   console.log(match_stage_dayak);
   console.log(match_stage_lain);
+  //
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      total: { $sum: 1 },
+      jumlahLelaki: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jantina', 'lelaki'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahPerempuan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jantina', 'perempuan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      adaSejarahDarahTinggi: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$sejarahDarahTinggi', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      tiadaadaSejarahDarahTinggi: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$sejarahDarahTinggi', false],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahDirujukKeKk: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukKeKlinik', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+  // bismillah
+  let bigData = [];
+  let melayu = [];
+  let cina = [];
+  let india = [];
+  let dayak = [];
+  let lain2 = [];
 
+  for (let i = 0; i < match_stage_melayu.length; i++) {
+    const dataMelayu = await Umum.aggregate([
+      match_stage_melayu[i],
+      group_stage,
+    ]);
+    melayu.push(dataMelayu);
+  }
+  for (let i = 0; i < match_stage_cina.length; i++) {
+    const dataCina = await Umum.aggregate([match_stage_cina[i], group_stage]);
+    cina.push(dataCina);
+  }
+  for (let i = 0; i < match_stage_india.length; i++) {
+    const dataIndia = await Umum.aggregate([match_stage_india[i], group_stage]);
+    india.push(dataIndia);
+  }
+  for (let i = 0; i < match_stage_dayak.length; i++) {
+    const dataDayak = await Umum.aggregate([match_stage_dayak[i], group_stage]);
+    dayak.push(dataDayak);
+  }
+  for (let i = 0; i < match_stage_lain.length; i++) {
+    const dataLain = await Umum.aggregate([match_stage_lain[i], group_stage]);
+    lain2.push(dataLain);
+  }
+
+  bigData.push(melayu);
+  bigData.push(cina);
+  bigData.push(india);
+  bigData.push(dayak);
+  bigData.push(lain2);
+
+  console.log(bigData);
+
+  // return bigData;
   return 'No data found';
 };
 const countBpe = async (payload) => {
