@@ -790,15 +790,11 @@ const makePG101A = async (payload) => {
     console.log('writing file');
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      console.log('deleting file');
     }, 1000);
-    // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
     return file;
   } catch (err) {
     console.log(err);
-    res.status(500).json({ message: err.message });
   }
 };
 const makePG101C = async (payload) => {
