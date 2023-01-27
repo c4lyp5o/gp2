@@ -200,8 +200,8 @@ const downloader = async (req, res, callback) => {
     case 'PGPR201':
       excelFile = await makePGPR201Baru(payload);
       break;
-    case 'Reten BPE':
-      excelFile = await makeRetenBPE(payload);
+    case 'BPE':
+      excelFile = await makeBPE(payload);
       break;
     case 'PGPRO01':
       excelFile = await makePgPro01(payload);
@@ -2697,7 +2697,7 @@ const makeMasa = async (payload) => {
     res.status(500).json({ message: err.message });
   }
 };
-const makeRetenBPE = async (payload) => {
+const makeBPE = async (payload) => {
   console.log('Reten BPE');
   try {
     let { klinik, daerah, negeri, bulan, pegawai } = payload;
@@ -2706,6 +2706,11 @@ const makeRetenBPE = async (payload) => {
     //
     if (data.length === 0) {
       return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
     }
     //
     let filename = path.join(__dirname, '..', 'public', 'exports', 'BPE.xlsx');
@@ -2717,87 +2722,57 @@ const makeRetenBPE = async (payload) => {
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
-    //   let details = worksheet.getRow(6);
-    //   details.getCell(
-    //     2
-    //   ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+    let details = worksheet.getRow(6);
+    details.getCell(
+      2
+    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
 
     let intro1 = worksheet.getRow(8);
-    intro1.getCell(4).value = `${klinik.toUpperCase()}`;
-
-    let intro2 = worksheet.getRow(8);
-    intro2.getCell(6).value = `/${daerah.toUpperCase()}`;
+    intro1.getCell(
+      4
+    ).value = `${klinik.toUpperCase()} / ${daerah.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(9);
     intro3.getCell(4).value = `${negeri.toUpperCase()}`;
 
-    // let j = 0;
-    for (let i = 0; i < data[0].length; i++) {
+    for (let i = 0; i < data.length; i++) {
       let row = worksheet.getRow(17 + i);
-      // j += 1;
-      if (data[i][0].queryPemeriksaan[0]) {
-        // pemeriksaan
+      if (data[i][0]) {
         row.getCell(4).value =
-          data[i][0].queryPemeriksaan[0].kedatanganTahunSemasaBaru; //Column D (4)
-        row.getCell(5).value =
-          data[i][0].queryPemeriksaan[0].adaRujukanT2DMdariKK; //Column E (5)
-        row.getCell(6).value =
-          data[i][0].queryPemeriksaan[0].adaRujukanT2DMdariLainLain; //Column F (6)
-        row.getCell(7).value = data[i][0].queryPemeriksaan[0].tiadaRujukanT2DM; //Column G (7)
-        row.getCell(8).value = data[i][0].queryPemeriksaan[0].risikoBpeDiabetes; //Column H (8)
-        // if (i > 1) {
-        row.getCell(9).value = data[i][0].queryPemeriksaan[0].risikoBpePerokok; //Column I (9)
-        row.getCell(10).value =
-          data[i][0].queryPemeriksaan[0].risikoBpeLainLain; //Column J (10)
-        row.getCell(11).value = data[i][0].queryPemeriksaan[0].engganBPE; //Column K (11)
-        row.getCell(12).value = data[i][0].queryPemeriksaan[0].skorBPE0; //Column L (12)
-        row.getCell(13).value = data[i][0].queryPemeriksaan[0].skorBPE1; //Column M (13)
-        row.getCell(14).value = data[i][0].queryPemeriksaan[0].skorBPE2; //Column N (14)
-        row.getCell(15).value = data[i][0].queryPemeriksaan[0].skorBPE3; //Column O (15)
-        row.getCell(16).value = data[i][0].queryPemeriksaan[0].skorBPE4; //Column P (16)
-        row.getCell(17).value =
-          data[i][0].queryPemeriksaan[0].adaPeriImplantMucositis; //Column Q (17)
-        row.getCell(18).value =
-          data[i][0].queryPemeriksaan[0].adaPeriImplantitis; //Column R (18)
+          i % 2 == 0
+            ? data[i][0].kedatanganTahunSemasaBaru
+            : data[i][0].kedatanganTahunSemasaUlangan; // leong, since match kita odd numbers adalah baru, dan even adalah ulangan, jd aku ckp ngn dia, kalau i/2 xde remainder, dia baru, kalau ada remainder dia ulangan
+        row.getCell(5).value = data[i][0].adaRujukanT2DMdariKK; //Column E (5)
+        row.getCell(6).value = data[i][0].adaRujukanT2DMdariLainLain; //Column F (6)
+        row.getCell(7).value = data[i][0].tiadaRujukanT2DM; //Column G (7)
+        row.getCell(8).value = data[i][0].risikoBpeDiabetes; //Column H (8)
+        row.getCell(9).value = data[i][0].risikoBpePerokok; //Column I (9)
+        row.getCell(10).value = data[i][0].risikoBpeLainLain; //Column J (10)
+        row.getCell(11).value = data[i][0].engganBPE; //Column K (11)
+        row.getCell(12).value = data[i][0].skorBPE0; //Column L (12)
+        row.getCell(13).value = data[i][0].skorBPE1; //Column M (13)
+        row.getCell(14).value = data[i][0].skorBPE2; //Column N (14)
+        row.getCell(15).value = data[i][0].skorBPE3; //Column O (15)
+        row.getCell(16).value = data[i][0].skorBPE4; //Column P (16)
+        row.getCell(17).value = data[i][0].adaPeriImplantMucositis; //Column Q (17)
+        row.getCell(18).value = data[i][0].adaPeriImplantitis; //Column R (18)
+        row.getCell(20).value = data[i][0].nasihatBerhentiMerokok; //Column T (20)
+        row.getCell(21).value = data[i][0].nasihatLainlain; //Column U (21)
+        row.getCell(23).value = data[i][0].telahPenskaleran; //Column W (23)
+        row.getCell(24).value = data[i][0].telahPendebridmenAkar; //Column X (24)
+        row.getCell(25).value = data[i][0].telahPengilapanTampalanRungkup; //Column Y (25)
+        row.getCell(26).value = data[i][0].telahAdjustasiOklusi; //Column Z (26)
+        row.getCell(27).value = data[i][0].telahCabutGigiPerio; //Column AA (27)
+        row.getCell(28).value = data[i][0].telahExtirpasiPulpaSebabPerio; //Column AB (28)
+        row.getCell(29).value = data[i][0].telahRawatanPerioLain; //Column AC (29)
+        row.getCell(30).value = data[i][0].telahRujukPakarPerio; //Column AD (30)
+        row.getCell(31).value = data[i][0].engganRujukPakarPerio; //Column AE (31)
+        row.getCell(32).value = data[i][0].engganRujukPakarPerio; //Column AF (32)
+        row.getCell(33).value = data[i][0].rujukanKeKlinikSCD; //Column AG (33)
+        row.getCell(34).value = data[i][0].rujukanKeKlinikUPPKA; //Column AH (34)
+        row.getCell(35).value = data[i][0].kesSelesaiPerio; //Column AI (35)
       }
     }
-    // if (i === 15) {
-    //   j += 1;
-    // }
-
-    // j = 0;
-    for (let i = 0; i < data[0].length; i++) {
-      //   j += 1;
-      let row = worksheet.getRow(17 + i);
-      if (data[1][i].queryRawatan[0]) {
-        // rawatan
-        row.getCell(20).value =
-          data[1][i].queryRawatan[0].nasihatBerhentiMerokok; //Column T (20)
-        row.getCell(21).value = data[1][i].queryRawatan[0].nasihatLainlain; //Column U (21)
-        row.getCell(23).value = data[1][i].queryRawatan[0].telahPenskaleran; //Column W (23)
-        row.getCell(24).value =
-          data[1][i].queryRawatan[0].telahPendebridmenAkar; //Column X (24)
-        row.getCell(25).value =
-          data[1][i].queryRawatan[0].telahPengilapanTampalanRungkup; //Column Y (25)
-        row.getCell(26).value = data[0][i].queryRawatan[0].telahAdjustasiOklusi; //Column Z (26)
-        row.getCell(27).value = data[0][i].queryRawatan[0].telahCabutGigiPerio; //Column AA (27)
-        row.getCell(28).value =
-          data[0][i].queryRawatan[0].telahExtirpasiPulpaSebabPerio; //Column AB (28)
-        row.getCell(29).value =
-          data[0][i].queryRawatan[0].telahRawatanPerioLain; //Column AC (29)
-        row.getCell(30).value = data[0][i].queryRawatan[0].telahRujukPakarPerio; //Column AD (30)
-        row.getCell(31).value =
-          data[0][i].queryRawatan[0].engganRujukPakarPerio; //Column AE (31)
-        row.getCell(32).value =
-          data[0][i].queryRawatan[0].engganRujukPakarPerio; //Column AF (32)
-        row.getCell(33).value = data[0][i].queryRawatan[0].rujukanKeKlinikSCD; //Column AG (33)
-        row.getCell(34).value = data[0][i].queryRawatan[0].rujukanKeKlinikUPPKA; //Column AH (34)
-        row.getCell(35).value = data[0][i].queryRawatan[0].kesSelesaiPerio; //Column AI (35)
-      }
-      //   if (i === 6) {
-      //     j += 1;
-    }
-    // }
 
     // j = 0;
     // for (let i = 0; i < data[0].length; i++) {
@@ -2819,16 +2794,13 @@ const makeRetenBPE = async (payload) => {
     await workbook.xlsx.writeFile(newfile);
     console.log('writing file');
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      fs.unlinkSync(newfile);
       console.log('deleting file');
     }, 1000);
-    // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
     return file;
   } catch (err) {
     console.log(err);
-    // res.status(500).json({ message: err.message });
   }
 };
 

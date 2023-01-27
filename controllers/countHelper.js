@@ -13177,18 +13177,10 @@ const countBPE = async (payload) => {
       deleted: false,
     },
   };
-  const bUmur3039 = {
+  const bUmur3049 = {
     $match: {
       ...getParamsBPE(payload),
-      umur: { $gte: 30, $lte: 39 },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      deleted: false,
-    },
-  };
-  const bUmur4049 = {
-    $match: {
-      ...getParamsBPE(payload),
-      umur: { $gte: 40, $lte: 49 },
+      umur: { $gte: 30, $lte: 49 },
       kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
@@ -13234,18 +13226,10 @@ const countBPE = async (payload) => {
       deleted: false,
     },
   };
-  const uUmur3039 = {
+  const uUmur3049 = {
     $match: {
       ...getParamsBPE(payload),
-      umur: { $gte: 30, $lte: 39 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-      deleted: false,
-    },
-  };
-  const uUmur4049 = {
-    $match: {
-      ...getParamsBPE(payload),
-      umur: { $gte: 40, $lte: 49 },
+      umur: { $gte: 30, $lte: 49 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
       deleted: false,
     },
@@ -13276,11 +13260,8 @@ const countBPE = async (payload) => {
   match_stage.push(bUmur2029);
   match_stage.push(uUmur2029);
 
-  match_stage.push(bUmur3039);
-  match_stage.push(uUmur3039);
-
-  match_stage.push(bUmur4049);
-  match_stage.push(uUmur4049);
+  match_stage.push(bUmur3049);
+  match_stage.push(uUmur3049);
 
   match_stage.push(bUmur5059);
   match_stage.push(uUmur5059);
@@ -13293,13 +13274,13 @@ const countBPE = async (payload) => {
       _id: placeModifier(payload),
       total: { $sum: 1 },
 
-      // //kedatangan
-      // kedatanganTahunSemasaBaru: {
-      //   $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
-      // },
-      // kedatanganTahunSemasaUlangan: {
-      //   $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
-      // },
+      //kedatangan
+      kedatanganTahunSemasaBaru: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+      },
+      kedatanganTahunSemasaUlangan: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
+      },
 
       //Punca Rujukan T2DM
       adaRujukanT2DMdariKK: {
@@ -13576,7 +13557,6 @@ const countBPE = async (payload) => {
     const dataBPE = await Umum.aggregate(pipeline);
     bigData.push(dataBPE);
   }
-  console.log(bigData);
   return bigData;
 };
 
@@ -14293,11 +14273,11 @@ const getParamsBPE = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
+      createdByKodFasiliti: klinik,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -14306,11 +14286,9 @@ const getParamsBPE = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      // createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14322,10 +14300,9 @@ const getParamsBPE = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      // createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14336,10 +14313,9 @@ const getParamsBPE = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14363,15 +14339,11 @@ const getParamsBPE = (payload) => {
 
 // place
 const placeModifier = (payload) => {
-  if (payload.pegawai) {
-    return '$createdByUsername';
-  }
-  if (
-    !payload.pegawai &&
-    payload.daerah !== 'all' &&
-    payload.klinik !== 'all'
-  ) {
-    return '$createdByKlinik';
+  // if (payload.pegawai) {
+  //   return '$createdByUsername';
+  // }
+  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+    return '$createdByKodFasiliti';
   }
   if (payload.daerah !== 'all' && payload.klinik === 'all') {
     return '$createdByDaerah';
