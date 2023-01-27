@@ -191,10 +191,10 @@ export default function UserCarian() {
                 htmlFor='pilihanNama'
                 className='whitespace-nowrap flex items-center mb-1'
               >
-                Carian Nama{' '}
+                Carian{' '}
                 <BsExclamationCircleFill
                   className='ml-2 text-lg text-user3'
-                  title='carian untuk nama , kad pengenalan dan operator'
+                  title='Carian Untuk Nama , Kad Pengenalan Dan Operator'
                 />
               </label>
               <input
@@ -203,7 +203,7 @@ export default function UserCarian() {
                 className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase lg:ml-2'
                 id='pilihanNama'
                 onChange={(e) => {
-                  setNama(e.target.value);
+                  setNama(e.target.value.toLowerCase());
                 }}
               />
             </div>
