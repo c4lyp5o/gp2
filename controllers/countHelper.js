@@ -3469,18 +3469,14 @@ const countPG207 = async (payload) => {
       },
       skorBPEZero: {
         $sum: {
-          $cond: [
-            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0] },
-            1,
-            0,
-          ],
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
         },
       },
       skorBPEMoreThanZero: {
         $sum: {
           $cond: [
             {
-              $gte: ['$skorGisMulutOralHygienePemeriksaanUmum', 1],
+              $gte: ['$skorBpeOralHygienePemeriksaanUmum', '1'],
             },
             1,
             0,
@@ -4972,7 +4968,7 @@ const countPG207 = async (payload) => {
     console.log(error);
   }
 };
-const countPGPR201 = async (payload) => {
+const countPGPR201Lama = async (payload) => {
   let match_stage = [];
 
   const age_below_1 = {
@@ -13153,128 +13149,230 @@ const countBp = async (payload) => {
   // return bigData;
   return 'No data found';
 };
-const countBpe = async (payload) => {
+const countBPE = async (payload) => {
   //
   let match_stage = [];
   //
-  const kurang18 = {
+  const bKurang18 = {
     $match: {
+      ...getParamsBPE(payload),
       umur: { $lt: 18 },
+      kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
   };
-  const umur1819 = {
+  const bUmur1819 = {
     $match: {
+      ...getParamsBPE(payload),
       umur: { $gte: 18, $lte: 19 },
+      kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
   };
-  const umur2029 = {
+  const bUmur2029 = {
     $match: {
+      ...getParamsBPE(payload),
       umur: { $gte: 20, $lte: 29 },
+      kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
   };
-  const umur3039 = {
+  const bUmur3039 = {
     $match: {
+      ...getParamsBPE(payload),
       umur: { $gte: 30, $lte: 39 },
+      kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
   };
-  const umur4049 = {
+  const bUmur4049 = {
     $match: {
+      ...getParamsBPE(payload),
       umur: { $gte: 40, $lte: 49 },
+      kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
   };
-  const umur5059 = {
+  const bUmur5059 = {
     $match: {
+      ...getParamsBPE(payload),
       umur: { $gte: 50, $lte: 59 },
+      kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
   };
-  const umur60keatas = {
+  const bUmur60keatas = {
     $match: {
+      ...getParamsBPE(payload),
       umur: { $gte: 60 },
+      kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
   };
 
-  match_stage.push(kurang18);
-  match_stage.push(umur1819);
-  match_stage.push(umur2029);
-  match_stage.push(umur3039);
-  match_stage.push(umur4049);
-  match_stage.push(umur5059);
-  match_stage.push(umur60keatas);
+  const uKurang18 = {
+    $match: {
+      ...getParamsBPE(payload),
+      umur: { $lt: 18 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      deleted: false,
+    },
+  };
+  const uUmur1819 = {
+    $match: {
+      ...getParamsBPE(payload),
+      umur: { $gte: 18, $lte: 19 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      deleted: false,
+    },
+  };
+  const uUmur2029 = {
+    $match: {
+      ...getParamsBPE(payload),
+      umur: { $gte: 20, $lte: 29 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      deleted: false,
+    },
+  };
+  const uUmur3039 = {
+    $match: {
+      ...getParamsBPE(payload),
+      umur: { $gte: 30, $lte: 39 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      deleted: false,
+    },
+  };
+  const uUmur4049 = {
+    $match: {
+      ...getParamsBPE(payload),
+      umur: { $gte: 40, $lte: 49 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      deleted: false,
+    },
+  };
+  const uUmur5059 = {
+    $match: {
+      ...getParamsBPE(payload),
+      umur: { $gte: 50, $lte: 59 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      deleted: false,
+    },
+  };
+  const uUmur60keatas = {
+    $match: {
+      ...getParamsBPE(payload),
+      umur: { $gte: 60 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
+      deleted: false,
+    },
+  };
+
+  match_stage.push(bKurang18);
+  match_stage.push(uKurang18);
+
+  match_stage.push(bUmur1819);
+  match_stage.push(uUmur1819);
+
+  match_stage.push(bUmur2029);
+  match_stage.push(uUmur2029);
+
+  match_stage.push(bUmur3039);
+  match_stage.push(uUmur3039);
+
+  match_stage.push(bUmur4049);
+  match_stage.push(uUmur4049);
+
+  match_stage.push(bUmur5059);
+  match_stage.push(uUmur5059);
+
+  match_stage.push(bUmur60keatas);
+  match_stage.push(uUmur60keatas);
   //
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
       total: { $sum: 1 },
-      kedatanganTahunSemasaBaru: {
-        $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
-      },
-      kedatanganTahunSemasaUlangan: {
-        $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
-      },
-      puncaRujukanKK: {
+
+      // //kedatangan
+      // kedatanganTahunSemasaBaru: {
+      //   $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+      // },
+      // kedatanganTahunSemasaUlangan: {
+      //   $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
+      // },
+
+      //Punca Rujukan T2DM
+      adaRujukanT2DMdariKK: {
         $sum: { $cond: [{ $eq: ['$puncaRujukan', 'klinik-kesihatan'] }, 1, 0] },
       },
-      puncaRujukanLainlain: {
+      adaRujukanT2DMdariLainLain: {
         $sum: { $cond: [{ $eq: ['$puncaRujukan', 'lain-lain'] }, 1, 0] },
       },
-      tiadaPuncaRujukan: {
+      tiadaRujukanT2DM: {
         $sum: {
           $cond: [{ $eq: ['$puncaRujukan', 'tiada-punca-rujukan'] }, 1, 0],
         },
       },
-      faktorRisikoDiabetes: {
-        $sum: { $cond: [{ $eq: ['$perokokFaktorRisikoBpe, true'] }, 1, 0] },
-      },
-      faktorRisikoMerokok: {
+      //Risiko Perio - Perio Risk
+      risikoBpeDiabetes: {
         $sum: { $cond: [{ $eq: ['$diabetesFaktorRisikoBpe', true] }, 1, 0] },
       },
-      faktorRisikoLainlain: {
+      risikoBpePerokok: {
+        $sum: { $cond: [{ $eq: ['$perokokFaktorRisikoBpe', true] }, 1, 0] },
+      },
+      risikoBpeLainLain: {
         $sum: { $cond: [{ $eq: ['$lainlainFaktorRisikoBpe', true] }, 1, 0] },
       },
+      //Basic Periodontal Examination (BPE)
       engganBPE: {
         $sum: { $cond: [{ $eq: ['$engganBpeImplan', true] }, 1, 0] },
       },
-      skorBPEZero: {
+      skorBPE0: {
         $sum: {
           $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 0] }, 1, 0],
         },
       },
-      skorBPEOne: {
+      skorBPE1: {
         $sum: {
           $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 1] }, 1, 0],
         },
       },
-      skorBPETwo: {
+      skorBPE2: {
         $sum: {
           $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 2] }, 1, 0],
         },
       },
-      skorBPEThree: {
+      skorBPE3: {
         $sum: {
           $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 3] }, 1, 0],
         },
       },
-      skorBPEFour: {
+      skorBPE4: {
         $sum: {
           $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 4] }, 1, 0],
         },
       },
-      periimplanmukositis: {
+      adaPeriImplantMucositis: {
         $sum: { $cond: [{ $eq: ['$periImplantMucositis', true] }, 1, 0] },
       },
-      periimplantitis: {
+      adaPeriImplantitis: {
         $sum: { $cond: [{ $eq: ['$periImplantitis', true] }, 1, 0] },
       },
-      kaunselingDiet: {
-        $sum: { $cond: [{ $eq: ['$kaunselingDiet', true] }, 1, 0] },
-      },
+
+      // Periodontium therapy - Terapi Periodontium - Pengurusan Faktor Risiko - Perio Risk Management
+
+      // nasihatKaunselingDiet: {//ada mmasalah tak dapat baca value sini
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
+
       nasihatBerhentiMerokok: {
         $sum: { $cond: [{ $eq: ['$nasihatBerhentiMerokok', true] }, 1, 0] },
       },
@@ -13283,35 +13381,57 @@ const countBpe = async (payload) => {
           $cond: [{ $eq: ['$lainLainPengurusanFaktorRisiko', true] }, 1, 0],
         },
       },
-      pengurusanOHE: {
+      //Periodontium therapy - Terapi Periodontium - Pengurusan Faktor Risiko Setempat - Perio Risk Management (Local)
+
+      nasihatOHE: {
         $sum: {
-          $cond: [{ $eq: ['$ohePengurusanFaktorSetempat, true'] }, 1, 0],
+          $cond: [
+            {
+              $or: [
+                { $eq: ['plakGigiNasihatPergigianIndividuPromosiUmum', true] },
+                {
+                  $eq: [
+                    '$penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum',
+                    true,
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
         },
       },
-      penskaleran: { $sum: { $cond: [{ $eq: ['$penskaleran', true] }, 1, 0] } },
-      pendebridmenAkar: {
+
+      telahPenskaleran: {
+        $sum: {
+          $cond: [{ $eq: ['$penskaleranRawatanUmum', true] }, 1, 0],
+        },
+      },
+      telahPendebridmenAkar: {
         $sum: { $cond: [{ $eq: ['$pendebridmenAkar', true] }, 1, 0] },
       },
-      pengilapanTampalanRungkup: {
-        $sum: { $cond: [{ $eq: ['$pengilapanTampalanRungkup, true'] }, 1, 0] },
+      telahPengilapanTampalanRungkup: {
+        //telah remove overhang filling
+        $sum: { $cond: [{ $eq: ['$pengilapanTampalanRungkup', true] }, 1, 0] },
       },
-      adjustasiOklusi: {
+      telahAdjustasiOklusi: {
         $sum: { $cond: [{ $eq: ['$adjustasiOklusi', true] }, 1, 0] },
       },
-      cabutanPengurusanFaktorSetempat: {
-        $sum: {
-          $cond: [{ $eq: ['$cabutanPengurusanFaktorSetempat, true'] }, 1, 0],
-        },
+      telahCabutGigiPerio: {
+        $sum: '$cabutanDisebabkanPeriodontitisRawatanUmum',
       },
-      ektiparsiPulpa: {
+      telahExtirpasiPulpaSebabPerio: {
         $sum: { $cond: [{ $eq: ['$ektiparsiPulpa', true] }, 1, 0] },
       },
-      rawatanLainPeriodontikRawatanUmum: {
+      telahRawatanPerioLain: {
         $sum: {
           $cond: [{ $eq: ['$rawatanLainPeriodontikRawatanUmum', true] }, 1, 0],
         },
       },
-      rujukPakar: {
+
+      //Referral
+      telahRujukPakarPerio: {
         $sum: {
           $cond: [
             {
@@ -13322,13 +13442,23 @@ const countBpe = async (payload) => {
           ],
         },
       },
-      engganRujukPakar: {
+      engganRujukPakarPerio: {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$engganLainRujukanPakarPeriodontik',
-                'enggan-rujukan-pakar-periodontik',
+              $and: [
+                {
+                  $eq: [
+                    '$rujukanPakarPeriodontik',
+                    'tidak-rujukan-pakar-periodontik',
+                  ],
+                },
+                {
+                  $eq: [
+                    '$engganLainRujukanPakarPeriodontik',
+                    'enggan-rujukan-pakar-periodontik',
+                  ],
+                },
               ],
             },
             1,
@@ -13336,16 +13466,106 @@ const countBpe = async (payload) => {
           ],
         },
       },
-      lainlainPakar: { $sum: 1 },
-      rujukanPakarScd: {
-        $sum: { $cond: [{ $eq: ['$rujukanPakarScd', true] }, 1, 0] },
+      engganLainRujukPakarPerio: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $eq: [
+                    '$rujukanPakarPeriodontik',
+                    'tidak-rujukan-pakar-periodontik',
+                  ],
+                },
+                {
+                  $eq: [
+                    '$engganLainRujukanPakarPeriodontik',
+                    'lain-rujukan-pakar-periodontik',
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      }, // lainlainPakar: { $sum: 1 },
+      rujukanKeKlinikSCD: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukanPakarScd', true],
+            },
+            1,
+            0,
+          ],
+        },
       },
-      rujukanPakarUpkka: {
-        $sum: { $cond: [{ $eq: ['$rujukanPakarUpkka', true] }, 1, 0] },
+      rujukanKeKlinikUPPKA: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rujukanPakarUpkka', true],
+            },
+            1,
+            0,
+          ],
+        },
       },
-      kesSelesaiPeriodontium: {
-        $sum: { $cond: [{ $eq: ['$kesSelesaiPeriodontium', true] }, 1, 0] },
+      kesSelesaiPerio: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kesSelesaiPeriodontium', true],
+            },
+            1,
+            0,
+          ],
+        },
       },
+    },
+  };
+
+  const project_pemeriksaan = {
+    $project: {
+      _id: 1,
+      // pemeriksaan
+      kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
+      kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
+
+      adaRujukanT2DMdariKK: '$adaRujukanT2DMdariKK',
+      adaRujukanT2DMdariLainLain: '$adaRujukanT2DMdariLainLain',
+      tiadaRujukanT2DM: '$tiadaRujukanT2DM',
+      risikoBpeDiabetes: '$risikoBpeDiabetes',
+      risikoBpePerokok: '$risikoBpePerokok',
+      risikoBpeLainLain: '$risikoBpeLainLain',
+      engganBPE: '$engganBPE',
+      skorBPE0: '$skorBPE0',
+      skorBPE1: '$skorBPE1',
+      skorBPE2: '$skorBPE2',
+      skorBPE3: '$skorBPE3',
+      skorBPE4: '$skorBPE4',
+      adaPeriImplantMucositis: '$adaPeriImplantMucositis',
+      adaPeriImplantitis: '$adaPeriImplantitis',
+      // nasihatKaunselingDiet: '$nasihatKaunselingDiet',
+      nasihatBerhentiMerokok: '$nasihatBerhentiMerokok',
+      nasihatLainlain: '$nasihatLainlain',
+      nasihatOHE: '$nasihatOHE',
+      telahPenskaleran: '$telahPenskaleran',
+      telahPendebridmenAkar: '$telahPendebridmenAkar',
+      telahPengilapanTampalanRungkup: '$telahPengilapanTampalanRungkup',
+      telahAdjustasiOklusi: '$telahAdjustasiOklusi',
+      telahCabutGigiPerio: '$telahCabutGigiPerio',
+      telahExtirpasiPulpaSebabPerio: '$telahExtirpasiPulpaSebabPerio',
+      telahRawatanPerioLain: '$telahRawatanPerioLain',
+
+      telahRujukPakarPerio: '$telahRujukPakarPerio',
+      engganRujukPakarPerio: '$engganRujukPakarPerio',
+      engganLainRujukPakarPerio: '$engganLainRujukPakarPerio',
+
+      rujukanKeKlinikSCD: '$rujukanKeKlinikSCD',
+      rujukanKeKlinikUPPKA: '$rujukanKeKlinikUPPKA',
+      kesSelesaiPerio: '$kesSelesaiPerio',
     },
   };
   // bismillah
@@ -13353,654 +13573,11 @@ const countBpe = async (payload) => {
 
   for (let i = 0; i < match_stage.length; i++) {
     const pipeline = [match_stage[i], group_stage];
-    const data = await Umum.aggregate(pipeline);
-    bigData.push(data);
+    const dataBPE = await Umum.aggregate(pipeline);
+    bigData.push(dataBPE);
   }
-
+  console.log(bigData);
   return bigData;
-};
-
-exports.testFunctionPGPro01Pindah2Program = function (req, res) {
-  //PGPRO01 Pind.2 - 2022 - Program
-  async.parallel(
-    {
-      // break line to add more aggregate. please add this break line if you are using multiple aggregate
-      resultPGPro01Pindah2Program: function (callback) {
-        Sekolah.aggregate(
-          //Event.aggregate
-          [
-            {
-              $match: {
-                statusRawatan: 'selesai', //statusEvent "selesai"??
-              },
-            },
-            {
-              $group: {
-                _id: '$namaSekolah', //tukar to $nameEvent ??
-                jumlahAktivitiCeramahBaru: {
-                  $sum: '$bilanganAktivitiBaruCeramahBahagianA',
-                },
-                jumlahPesertaCeramahBaru: {
-                  $sum: '$bilanganPesertaBaruCeramahBahagianA',
-                },
-                jumlahAktivitiCeramahUlangan: {
-                  $sum: '$bilanganAktivitiUlangCeramahBahagianA',
-                },
-                jumlahPesertaCeramahUlangan: {
-                  $sum: '$bilanganPesertaUlangCeramahBahagianA',
-                },
-                jumlahAktivitiBaruLMG: {
-                  $sum: '$bilanganAktivitiBaruLatihanMemberusGigiBahagianA',
-                },
-                jumlahPesertaBaruLMG: {
-                  $sum: '$bilanganPesertaBaruLatihanMemberusGigiBahagianA',
-                },
-                jumlahAktivitiUlanganLMG: {
-                  $sum: '$bilanganAktivitiUlangLatihanMemberusGigiBahagianA',
-                },
-                jumlahPesertaUlanganLMG: {
-                  $sum: '$bilanganPesertaUlangLatihanMemberusGigiBahagianA',
-                },
-                jumlahAktivitiPerananKempen: {
-                  $sum: '$bilanganAktivitiMainPerananBahagianB',
-                },
-                jumlahPesertaPerananKempen: {
-                  $sum: '$bilanganPesertaMainPerananBahagianB',
-                },
-                jumlahAktivitiBoneka: {
-                  $sum: '$bilanganAktivitiPertunjukanBonekaBahagianB',
-                },
-                jumlahPesertaBoneka: {
-                  $sum: '$bilanganPesertaPertunjukanBonekaBahagianB',
-                },
-                jumlahAktivitiPeranan: {
-                  $sum: '$bilanganAktivitiMainPerananBahagianB',
-                },
-                jumlahPesertaPeranan: {
-                  $sum: '$bilanganPesertaMainPerananBahagianB',
-                },
-                jumlahAktivitiBercerita: {
-                  $sum: '$bilanganAktivitiBerceritaBahagianB',
-                },
-                jumlahPesertaBercerita: {
-                  $sum: '$bilanganPesertaBerceritaBahagianB',
-                },
-                jumlahAktivitiPertandingan: {
-                  $sum: '$bilanganAktivitiPertandinganBahagianB',
-                },
-                jumlahPesertaPertandingan: {
-                  $sum: 'bilanganPesertaPertandinganBahagianB',
-                },
-                jumlahAktivitiInteraktif: {
-                  $sum: '$bilanganAktivitiPermainanInteraktifBahagianB',
-                },
-                jumlahPesertaInteraktif: {
-                  $sum: '$bilanganPesertaPermainanInteraktifBahagianB',
-                },
-                jumlahAktivitiKursusSeminarBengkel: {
-                  $sum: '$bilanganAktivitiKursusSeminarBengkelBahagianB',
-                },
-                jumlahPesertaKursusSeminarBengkel: {
-                  $sum: '$bilanganPesertaKursusSeminarBengkelBahagianB',
-                },
-                jumlahAktivitiMultimedia: {
-                  $sum: '$bilanganAktivitiPertunjukanMultimediaBahagianB',
-                },
-                jumlahPesertaMultimedia: {
-                  $sum: '$bilanganPesertaPertunjukanMultimediaBahagianB',
-                },
-                jumlahAktivitiDentalBuskers: {
-                  $sum: '$bilanganAktivitiDentalBuskerBahagianB',
-                },
-                jumlahPesertaDentalBuskers: {
-                  $sum: '$bilanganPesertaDentalBuskerBahagianB',
-                },
-                jumlahAktivitiFlashMob: {
-                  $sum: '$bilanganAktivitiFlashmobBahagianB',
-                },
-                jumlahPesertaFlashMob: {
-                  $sum: '$bilanganPesertaFlashmobBahagianB',
-                },
-                jumlahAktivitiLawatanRumah: {
-                  $sum: '$bilanganAktivitiLawatanKeRumahBahagianB',
-                },
-                jumlahPesertaLawatanRumah: {
-                  $sum: '$bilanganPesertaLawatanKeRumahBahagianB',
-                },
-                jumlahAktivitiPlaqueOHE: {
-                  $sum: '$bilanganAktivitiPlakGigiBahagianB',
-                },
-                jumlahPesertaPlaqueOHE: {
-                  $sum: '$bilanganPesertaPlakGigiBahagianB',
-                },
-                jumlahAktivitiOHI: {
-                  $sum: '$bilanganAktivitiPenjagaanKesihatanMulutBahagianB',
-                },
-                jumlahPesertaOHI: {
-                  $sum: '$bilanganPesertaPenjagaanKesihatanMulutBahagianB',
-                },
-                jumlahAktivitiDietAdvice: {
-                  $sum: '$bilanganAktivitiDietPemakananBahagianB',
-                },
-                jumlahPesertaDietAdvice: {
-                  $sum: '$bilanganPesertaDietPemakananBahagianB',
-                },
-                jumlahAktivitiKanserMulutOHE: {
-                  $sum: '$bilanganAktivitiKanserMulutBahagianB',
-                },
-                jumlahPesertaKanserMulutOHE: {
-                  $sum: '$bilanganPesertaKanserMulutBahagianB',
-                },
-                jumlahAKtivitiHentiRokok: {
-                  $sum: '$bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiRokok: {
-                  $sum: '$bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiHentiSirih: {
-                  $sum: '$bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiSirih: {
-                  $sum: '$bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiHentiAlkohol: {
-                  $sum: '$bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiAlkohol: {
-                  $sum: '$bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiHentiTabiatLain: {
-                  $sum: '$bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiTabiatLain: {
-                  $sum: '$bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiTelevisyen: {
-                  $sum: '$bilanganAktivitiTelevisyen',
-                },
-                jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
-                jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
-                jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
-                jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
-              },
-            },
-          ],
-          callback
-        );
-      },
-    },
-    async function (err, results) {
-      console.log(results);
-      try {
-        let filename = path.join(
-          __dirname,
-          '..',
-          'public',
-          'exports',
-          'PGPRO01 Pind2_2022 Program .xlsx'
-        );
-        console.log('getting workbook: ' + filename);
-        let workbook = new Excel.Workbook();
-        await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('PGPro01');
-        console.log('setting row1');
-
-        //PGPRO01 Pind.2 2022 Program
-        //KOlaborasi bersama agensi awam/swasta / NGO
-        let rowNew = worksheet.get(22);
-        rowNew.getCell(2).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiCeramahBaru; //B22
-        rowNew.getCell(3).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaCeramahBaru; //C22
-        rowNew.getCell(4).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiCeramahUlangan; //D22
-        rowNew.getCell(5).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaCeramahUlangan; //E22
-        rowNew.getCell(8).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiBaruLMG; //H22
-        rowNew.getCell(9).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaBaruLMG; //I22
-        rowNew.getCell(10).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiUlanganLMG; //J22
-        rowNew.getCell(11).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaUlanganLMG; //K22
-        rowNew.getCell(14).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiPerananKempen; //N22
-        rowNew.getCell(15).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaPerananKempen; //O22
-        rowNew.getCell(16).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiBoneka; //P22
-        rowNew.getCell(17).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaBoneka; //Q22
-        rowNew.getCell(18).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiPeranan; //R22
-        rowNew.getCell(19).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaPeranan; //S22
-        rowNew.getCell(20).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiBercerita; //T22
-        rowNew.getCell(21).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaBercerita; //U22
-        rowNew.getCell(22).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiPertandingan; //V22
-        rowNew.getCell(23).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaPertandingan; //W22
-        rowNew.getCell(24).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiInteraktif; //X22
-        rowNew.getCell(25).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaInteraktif; //Y22
-        rowNew.getCell(26).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiKursusSeminarBengkel; //Z22
-        rowNew.getCell(27).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaKursusSeminarBengkel; //AA22
-        rowNew.getCell(28).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiMultimedia; //AB22
-        rowNew.getCell(29).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaMultimedia; //AC22
-        rowNew.getCell(30).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiDentalBuskers; //AD22
-        rowNew.getCell(31).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaDentalBuskers; //AE22
-        rowNew.getCell(32).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiFlashMob; //AF22
-        rowNew.getCell(33).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaFlashMob; //AG22
-        rowNew.getCell(34).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiLawatanRumah; //AH22
-        rowNew.getCell(35).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaLawatanRumah; //AI22
-        rowNew.getCell(36).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiPlaqueOHE; //AJ22
-        rowNew.getCell(37).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaPlaqueOHE; //AK22
-        rowNew.getCell(38).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiOHI; //AL22
-        rowNew.getCell(39).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaOHI; //AM22
-        rowNew.getCell(40).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiDietAdvice; //AN22
-        rowNew.getCell(41).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaDietAdvice; //AO22
-        rowNew.getCell(42).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiKanserMulutOHE; //AP22
-        rowNew.getCell(43).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaKanserMulutOHE; //AQ22
-        rowNew.getCell(44).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAKtivitiHentiRokok; //AR22
-        rowNew.getCell(45).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaHentiRokok; //AS22
-        rowNew.getCell(46).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiHentiSirih; //AT22
-        rowNew.getCell(47).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaHentiSirih; //AU22
-        rowNew.getCell(48).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiHentiAlkohol; //AV22
-        rowNew.getCell(49).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaHentiAlkohol; //AW22
-        rowNew.getCell(50).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiHentiTabiatLain; //AX22
-        rowNew.getCell(51).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaHentiTabiatLain; //AY22
-        rowNew.getCell(54).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiTelevisyen; //BB22
-        rowNew.getCell(55).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaTelevisyen; //BC22
-        rowNew.getCell(56).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiRadio; //BD22
-        rowNew.getCell(57).value =
-          results.resultPGPro01Pindah2Program[0].jumlahPesertaRadio; //BE22
-        rowNew.getCell(58).value =
-          results.resultPGPro01Pindah2Program[0].jumlahAktivitiCetak; //BF22
-        rowNew.commit();
-        console.log('setting row4');
-        let rowIdnt = worksheet.getRow(47);
-        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
-        console.log('done setting data');
-
-        let newfile = path.join(
-          __dirname,
-          '..',
-          'public',
-          'exports',
-          'test-PG201A.xlsx'
-        );
-        // Write the file
-        await workbook.xlsx.writeFile(newfile);
-        console.log('writing file');
-        setTimeout(function () {
-          fs.unlinkSync(newfile); // delete this file after 30 seconds
-          console.log('deleting file');
-        }, 30000);
-        setTimeout(function () {
-          console.log('downloading file');
-          return res.download(newfile); // delete this file after 30 seconds
-        }, 3000);
-      } catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-      }
-    }
-  );
-};
-exports.testFunctionPGPro01Pindah2Penuh = function (req, res) {
-  //PGPRO01 Pind.2 - 2022 - Penuh
-  async.parallel(
-    {
-      // break line to add more aggregate. please add this break line if you are using multiple aggregate
-      resultPGPro01Pindah2Penuh: function (callback) {
-        Sekolah.aggregate(
-          //Event.aggregate
-          [
-            {
-              $match: {
-                statusRawatan: 'selesai', //statusEvent "selesai"??
-              },
-            },
-            {
-              $group: {
-                _id: '$namaSekolah', //tukar to $nameEvent ??
-                jumlahAktivitiCeramahBaru: {
-                  $sum: '$bilanganAktivitiBaruCeramahBahagianA',
-                },
-                jumlahPesertaCeramahBaru: {
-                  $sum: '$bilanganPesertaBaruCeramahBahagianA',
-                },
-                jumlahAktivitiCeramahUlangan: {
-                  $sum: '$bilanganAktivitiUlangCeramahBahagianA',
-                },
-                jumlahPesertaCeramahUlangan: {
-                  $sum: '$bilanganPesertaUlangCeramahBahagianA',
-                },
-                jumlahAktivitiBaruLMG: {
-                  $sum: '$bilanganAktivitiBaruLatihanMemberusGigiBahagianA',
-                },
-                jumlahPesertaBaruLMG: {
-                  $sum: '$bilanganPesertaBaruLatihanMemberusGigiBahagianA',
-                },
-                jumlahAktivitiUlanganLMG: {
-                  $sum: '$bilanganAktivitiUlangLatihanMemberusGigiBahagianA',
-                },
-                jumlahPesertaUlanganLMG: {
-                  $sum: '$bilanganPesertaUlangLatihanMemberusGigiBahagianA',
-                },
-                jumlahAktivitiPerananKempen: {
-                  $sum: '$bilanganAktivitiMainPerananBahagianB',
-                },
-                jumlahPesertaPerananKempen: {
-                  $sum: '$bilanganPesertaMainPerananBahagianB',
-                },
-                jumlahAktivitiBoneka: {
-                  $sum: '$bilanganAktivitiPertunjukanBonekaBahagianB',
-                },
-                jumlahPesertaBoneka: {
-                  $sum: '$bilanganPesertaPertunjukanBonekaBahagianB',
-                },
-                jumlahAktivitiPeranan: {
-                  $sum: '$bilanganAktivitiMainPerananBahagianB',
-                },
-                jumlahPesertaPeranan: {
-                  $sum: '$bilanganPesertaMainPerananBahagianB',
-                },
-                jumlahAktivitiBercerita: {
-                  $sum: '$bilanganAktivitiBerceritaBahagianB',
-                },
-                jumlahPesertaBercerita: {
-                  $sum: '$bilanganPesertaBerceritaBahagianB',
-                },
-                jumlahAktivitiPertandingan: {
-                  $sum: '$bilanganAktivitiPertandinganBahagianB',
-                },
-                jumlahPesertaPertandingan: {
-                  $sum: 'bilanganPesertaPertandinganBahagianB',
-                },
-                jumlahAktivitiInteraktif: {
-                  $sum: '$bilanganAktivitiPermainanInteraktifBahagianB',
-                },
-                jumlahPesertaInteraktif: {
-                  $sum: '$bilanganPesertaPermainanInteraktifBahagianB',
-                },
-                jumlahAktivitiKursusSeminarBengkel: {
-                  $sum: '$bilanganAktivitiKursusSeminarBengkelBahagianB',
-                },
-                jumlahPesertaKursusSeminarBengkel: {
-                  $sum: '$bilanganPesertaKursusSeminarBengkelBahagianB',
-                },
-                jumlahAktivitiMultimedia: {
-                  $sum: '$bilanganAktivitiPertunjukanMultimediaBahagianB',
-                },
-                jumlahPesertaMultimedia: {
-                  $sum: '$bilanganPesertaPertunjukanMultimediaBahagianB',
-                },
-                jumlahAktivitiDentalBuskers: {
-                  $sum: '$bilanganAktivitiDentalBuskerBahagianB',
-                },
-                jumlahPesertaDentalBuskers: {
-                  $sum: '$bilanganPesertaDentalBuskerBahagianB',
-                },
-                jumlahAktivitiFlashMob: {
-                  $sum: '$bilanganAktivitiFlashmobBahagianB',
-                },
-                jumlahPesertaFlashMob: {
-                  $sum: '$bilanganPesertaFlashmobBahagianB',
-                },
-                jumlahAktivitiLawatanRumah: {
-                  $sum: '$bilanganAktivitiLawatanKeRumahBahagianB',
-                },
-                jumlahPesertaLawatanRumah: {
-                  $sum: '$bilanganPesertaLawatanKeRumahBahagianB',
-                },
-                jumlahAktivitiPlaqueOHE: {
-                  $sum: '$bilanganAktivitiPlakGigiBahagianB',
-                },
-                jumlahPesertaPlaqueOHE: {
-                  $sum: '$bilanganPesertaPlakGigiBahagianB',
-                },
-                jumlahAktivitiOHI: {
-                  $sum: '$bilanganAktivitiPenjagaanKesihatanMulutBahagianB',
-                },
-                jumlahPesertaOHI: {
-                  $sum: '$bilanganPesertaPenjagaanKesihatanMulutBahagianB',
-                },
-                jumlahAktivitiDietAdvice: {
-                  $sum: '$bilanganAktivitiDietPemakananBahagianB',
-                },
-                jumlahPesertaDietAdvice: {
-                  $sum: '$bilanganPesertaDietPemakananBahagianB',
-                },
-                jumlahAktivitiKanserMulutOHE: {
-                  $sum: '$bilanganAktivitiKanserMulutBahagianB',
-                },
-                jumlahPesertaKanserMulutOHE: {
-                  $sum: '$bilanganPesertaKanserMulutBahagianB',
-                },
-                jumlahAKtivitiHentiRokok: {
-                  $sum: '$bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiRokok: {
-                  $sum: '$bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiHentiSirih: {
-                  $sum: '$bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiSirih: {
-                  $sum: '$bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiHentiAlkohol: {
-                  $sum: '$bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiAlkohol: {
-                  $sum: '$bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiHentiTabiatLain: {
-                  $sum: '$bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahPesertaHentiTabiatLain: {
-                  $sum: '$bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi',
-                },
-                jumlahAktivitiTelevisyen: {
-                  $sum: '$bilanganAktivitiTelevisyen',
-                },
-                jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
-                jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
-                jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
-                jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
-              },
-            },
-          ],
-          callback
-        );
-      },
-    },
-    async function (err, results) {
-      console.log(results);
-      try {
-        let filename = path.join(
-          __dirname,
-          '..',
-          'public',
-          'exports',
-          'PGPRO01 Pind2_2022.xlsx'
-        );
-        console.log('getting workbook: ' + filename);
-        let workbook = new Excel.Workbook();
-        await workbook.xlsx.readFile(filename);
-        let worksheet = workbook.getWorksheet('PGPro01');
-        console.log('setting row1');
-
-        //PGPRO01 Pind.2 2022 Program
-        //KOlaborasi bersama agensi awam/swasta / NGO
-        let rowNew = worksheet.get(16);
-        rowNew.getCell(4).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiCeramahBaru; //D16
-        rowNew.getCell(5).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaCeramahBaru; //E16
-        rowNew.getCell(6).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiCeramahUlangan; //F16
-        rowNew.getCell(7).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaCeramahUlangan; //G16
-        rowNew.getCell(10).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiBaruLMG; //J16
-        rowNew.getCell(11).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaBaruLMG; //K16
-        rowNew.getCell(12).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiUlanganLMG; //L16
-        rowNew.getCell(13).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaUlanganLMG; //M16
-        rowNew.getCell(16).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiPerananKempen; //P16
-        rowNew.getCell(17).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaPerananKempen; //Q16
-        rowNew.getCell(18).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiBoneka; //R16
-        rowNew.getCell(19).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaBoneka; //S16
-        rowNew.getCell(20).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiPeranan; //T16
-        rowNew.getCell(21).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaPeranan; //U16
-        rowNew.getCell(22).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiBercerita; //V16
-        rowNew.getCell(23).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaBercerita; //W16
-        rowNew.getCell(24).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiPertandingan; //X16
-        rowNew.getCell(25).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaPertandingan; //Y16
-        rowNew.getCell(26).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiInteraktif; //Z16
-        rowNew.getCell(27).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaInteraktif; //AA16
-        rowNew.getCell(28).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiKursusSeminarBengkel; //AB16
-        rowNew.getCell(29).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaKursusSeminarBengkel; //AC16
-        rowNew.getCell(30).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiMultimedia; //AD16
-        rowNew.getCell(31).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaMultimedia; //AE16
-        rowNew.getCell(32).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiDentalBuskers; //AF16
-        rowNew.getCell(33).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaDentalBuskers; //AG16
-        rowNew.getCell(34).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiFlashMob; //AH16
-        rowNew.getCell(35).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaFlashMob; //AI16
-        rowNew.getCell(36).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiLawatanRumah; //AJ16
-        rowNew.getCell(37).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaLawatanRumah; //AK16
-        rowNew.getCell(38).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiPlaqueOHE; //AL16
-        rowNew.getCell(39).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaPlaqueOHE; //AM16
-        rowNew.getCell(40).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiOHI; //AN16
-        rowNew.getCell(41).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaOHI; //AO16
-        rowNew.getCell(42).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiDietAdvice; //AP16
-        rowNew.getCell(43).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaDietAdvice; //AQ16
-        rowNew.getCell(44).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiKanserMulutOHE; //AR16
-        rowNew.getCell(45).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaKanserMulutOHE; //AS16
-        rowNew.getCell(46).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAKtivitiHentiRokok; //AT16
-        rowNew.getCell(47).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaHentiRokok; //AU16
-        rowNew.getCell(48).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiHentiSirih; //AV16
-        rowNew.getCell(49).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaHentiSirih; //AW16
-        rowNew.getCell(50).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiHentiAlkohol; //AX16
-        rowNew.getCell(51).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaHentiAlkohol; //AY16
-        rowNew.getCell(52).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiHentiTabiatLain; //AZ16
-        rowNew.getCell(53).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaHentiTabiatLain; //BA16
-        rowNew.getCell(56).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiTelevisyen; //BD16
-        rowNew.getCell(57).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaTelevisyen; //BE16
-        rowNew.getCell(58).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiRadio; //BF16
-        rowNew.getCell(59).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahPesertaRadio; //BG16
-        rowNew.getCell(60).value =
-          results.resultPGPro01Pindah2Penuh[0].jumlahAktivitiCetak; //BH16
-        rowNew.commit();
-        console.log('setting row4');
-        let rowIdnt = worksheet.getRow(47);
-        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
-        console.log('done setting data');
-
-        let newfile = path.join(
-          __dirname,
-          '..',
-          'public',
-          'exports',
-          'test-PGPRO01Pind2Penuh.xlsx'
-        );
-        // Write the file
-        await workbook.xlsx.writeFile(newfile);
-        console.log('writing file');
-        setTimeout(function () {
-          fs.unlinkSync(newfile); // delete this file after 30 seconds
-          console.log('deleting file');
-        }, 30000);
-        setTimeout(function () {
-          console.log('downloading file');
-          return res.download(newfile); // delete this file after 30 seconds
-        }, 3000);
-      } catch (error) {
-        console.log(error);
-        res.status(500).json({ error });
-      }
-    }
-  );
 };
 
 // helper function
@@ -14711,6 +14288,78 @@ const getParamsBp = (kaum) => {
     umur60keatasperempuan,
   };
 };
+const getParamsBPE = (payload) => {
+  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+
+  const byPegawai = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      createdByMdcMdtb: id,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+    };
+    return param;
+  };
+
+  const byKp = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      // createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      // createdByUsername: { $regex: /^dr./, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+      // createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      createdByNegeri: negeri,
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  if (payload.pegawai) {
+    return byPegawai(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (payload.daerah === 'all') {
+    return byNegeri(payload);
+  }
+};
 
 // place
 const placeModifier = (payload) => {
@@ -14745,7 +14394,7 @@ module.exports = {
   countPG201A,
   countPG201PindSatu2022,
   countPGS203,
-  countPGPR201,
+  countPGPR201Lama,
   countPGPR201Baru,
   countPPIM03,
   countAdHocQuery,
@@ -14754,5 +14403,5 @@ module.exports = {
   countGender,
   countMasa,
   countBp,
-  countBpe,
+  countBPE,
 };
