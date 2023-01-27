@@ -22,6 +22,7 @@ const Generate = (props) => {
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kp, setKp] = useState('');
+  const [generating, setGenerating] = useState(false);
 
   // masalah negara
   const [negeri, setNegeri] = useState([]);
@@ -96,25 +97,24 @@ const Generate = (props) => {
   }, [jenisReten]);
 
   const fileName = () => {
-    console.log(pilihanDaerah, pilihanKlinik);
     let file = '';
     if (pilihanDaerah !== 'all' && pilihanKlinik !== 'all') {
       console.log('1');
-      file = `${jenisReten}-${namaKlinik}-${moment(new Date()).format(
-        'DD-MM-YYYY'
+      file = `${jenisReten}_${namaKlinik}_${moment(new Date()).format(
+        'DDMMYYYY'
       )}.${formatFile}`;
     }
     if (pilihanDaerah !== 'all' && pilihanKlinik === 'all') {
       console.log('2');
-      file = `${jenisReten}-${pilihanDaerah.toUpperCase()}-${moment(
+      file = `${jenisReten}_${pilihanDaerah.toUpperCase()}_${moment(
         new Date()
-      ).format('DD-MM-YYYY')}.${formatFile}`;
+      ).format('DDMMYYYY')}.${formatFile}`;
     }
     if (pilihanDaerah === 'all') {
       console.log('3');
-      file = `${jenisReten}-${props.loginInfo.negeri.toUpperCase()}-${moment(
+      file = `${jenisReten}_${props.loginInfo.negeri.toUpperCase()}_${moment(
         new Date()
-      ).format('DD-MM-YYYY')}.${formatFile}`;
+      ).format('DDMMYYYY')}.${formatFile}`;
     }
     // if (!endDate) {
     //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
@@ -136,6 +136,7 @@ const Generate = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
+    setGenerating(true);
     try {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${
@@ -173,6 +174,9 @@ const Generate = (props) => {
           break;
       }
     }
+    setTimeout(() => {
+      setGenerating(false);
+    }, 5000);
   };
 
   useEffect(() => {
@@ -222,7 +226,7 @@ const Generate = (props) => {
                 <option value='PG211C'>PG211C</option>
                 <option value='PG214'>PG214</option>
                 {/* <option value='PGPR201Lama'>PGPR201Lama</option> */}
-                {/* <option value='Reten BPE'>Reten BPE</option> */}
+                <option value='BPE'>BPE</option>
                 <option value='PGPR201'>PGPR201</option>
                 {/* <option value='BEGIN'>BEGIN 01/2020</option>
                 <option value='PGS203'>PGS203 (Pind. 1/2021)</option>
@@ -432,7 +436,7 @@ const Generate = (props) => {
               jenisReten === 'PG206' ||
               jenisReten === 'PG207' ||
               // jenisReten === 'PGPR201Lama' ||
-              // jenisReten === 'Reten BPE' ||
+              jenisReten === 'BPE' ||
               jenisReten === 'PGPR201') && (
               <>
                 <div className='px-3 py-1'>
@@ -588,44 +592,44 @@ const Generate = (props) => {
             )}
           </div>
           <div className='grid grid-cols-3 lg:grid-cols-5'>
-            {/* <button className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-2 hover:bg-user1 transition-all'>
-              cetak
-            </button> */}
-            {/* <div className='col-start-2 lg:col-start-3 px-3 py-1'>
-              <label
-                htmlFor='formatFile'
-                className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+            {generating ? (
+              <button
+                className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3 mt-3'
+                type='button'
               >
-                Format:
-              </label>
-              <select
-                required
-                name='formatFile'
-                id='formatFile'
-                onChange={(e) => setFormatFile(e.target.value)}
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                <div className='flex flex-row items-center'>
+                  <svg
+                    className='animate-spin -ml-1 mr-3 h-5 w-5 text-userWhite'
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                  >
+                    <circle
+                      className='opacity-25'
+                      cx='12'
+                      cy='12'
+                      r='10'
+                      stroke='currentColor'
+                      stroke-width='4'
+                    ></circle>
+                    <path
+                      className='opacity-75'
+                      fill='currentColor'
+                      d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
+                    ></path>
+                  </svg>
+                  <span>menjana...</span>
+                </div>
+              </button>
+            ) : (
+              <button
+                className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3 mt-3'
+                type='submit'
               >
-                <option value=''>Sila pilih format file</option>
-                <option value='xlsx'>Excel</option>
-                <option value='pdf'>PDF</option>
-              </select>
-            </div> */}
-            <button
-              className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3 mt-3'
-              type='submit'
-            >
-              jana
-            </button>
+                jana
+              </button>
+            )}
           </div>
-          {/* <div className='p-2 items-center mt-2'>
-            <iframe
-              className='w-full'
-              height='400'
-              title='iframe'
-              src=''
-              frameBorder='0'
-            ></iframe>
-          </div> */}
         </form>
       </div>
     </>
