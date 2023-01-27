@@ -211,9 +211,9 @@ export default function Pemeriksaan(props) {
                 )}
                 {props.singlePersonUmum.umur >= 18 &&
                 props.singlePersonUmum.jenisFasiliti === 'kp' ? (
-                  <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
+                  <div className='flex flex-col l border border-userBlack py-2 text-left'>
                     <div className='flex flex-col lg:flex-row items-center pl-5 '>
-                      <p className='items-center pl-5 font-bold whitespace-nowrap'>
+                      <p className='items-center font-bold whitespace-nowrap'>
                         Tekanan Darah :{' '}
                         {props.singlePersonUmum.kedatangan ===
                           'baru-kedatangan' && (
@@ -269,14 +269,34 @@ export default function Pemeriksaan(props) {
                         </p>
                       </div>
                     </div>
+                    <div className='flex items-center text-left pl-5'>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='sejarah-darah-tinggi'
+                        id='sejarah-darah-tinggi'
+                        checked={props.sejarahDarahTinggi}
+                        onChange={() => {
+                          props.setSejarahDarahTinggi(
+                            !props.sejarahDarahTinggi
+                          );
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='sejarah-darah-tinggi'
+                        className='m-2 text-sm font-m text-left'
+                      >
+                        Ada Sejarah darah tinggi ?
+                      </label>
+                    </div>
                     {(props.systolicTekananDarah >= 1 &&
                       props.systolicTekananDarah <= 89) ||
                     (props.diastolicTekananDarah >= 1 &&
                       props.diastolicTekananDarah <= 59) ||
                     props.systolicTekananDarah >= 140 ||
                     props.diastolicTekananDarah >= 90 ? (
-                      <div className='flex items-center text-left px-1'>
-                        {/* <div className='flex items-center text-left px-1' /> placeholder ada sejarah darah tinggi, state: sejarahDarahTinggi, Boolean */}
+                      <div className='flex items-center text-left pl-5'>
                         <input
                           disabled={isDisabled}
                           type='checkbox'
