@@ -438,7 +438,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [diastolicTekananDarah, setDiastolicTekananDarah] = useState('');
   masterForm.diastolicTekananDarah = diastolicTekananDarah;
   masterForm.setDiastolicTekananDarah = setDiastolicTekananDarah;
-  const [sejarahDarahTinggi, setSejarahDarahTinggi] = useState('');
+  const [sejarahDarahTinggi, setSejarahDarahTinggi] = useState(false);
   masterForm.sejarahDarahTinggi = sejarahDarahTinggi;
   masterForm.setSejarahDarahTinggi = setSejarahDarahTinggi;
   const [rujukKeKlinik, setRujukKeKlinik] = useState(false);
