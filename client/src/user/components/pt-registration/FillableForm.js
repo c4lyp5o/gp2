@@ -45,7 +45,7 @@ export default function FillableForm({
     Dictionary,
     dateToday,
     masterDatePicker,
-    convertWaktuSampai,
+    formatTime,
     toast,
   } = useGlobalUserAppContext();
 
@@ -63,7 +63,7 @@ export default function FillableForm({
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
-  const [waktuSampaiDP, setWaktuSampaiDP] = useState(null);
+  const [waktuSampaiDP, setWaktuSampaiDP] = useState(new Date());
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
   const [nama, setNama] = useState('');
@@ -810,6 +810,7 @@ export default function FillableForm({
     // kampung angkat
     setKgAngkat('');
     //datepicker issues
+    setWaktuSampaiDP(new Date());
     setTarikhKedatanganDP(new Date(dateToday));
     setTarikhLahirDP(null);
     setTarikhRujukanKeppDP(null);
@@ -1087,7 +1088,6 @@ export default function FillableForm({
           // kampung angkat
           setKgAngkat(data.singlePersonKaunter.kgAngkat);
           // datepicker issues
-          setWaktuSampaiDP(new Date(data.singlePersonKaunter.waktuSampai));
           setTarikhKedatanganDP(
             new Date(data.singlePersonKaunter.tarikhKedatangan)
           );
@@ -1286,23 +1286,28 @@ export default function FillableForm({
                       <div className='relative w-full md:w-56'>
                         {!editId ? (
                           <Datetime
-                            disabled={editId ? true : false}
                             required
                             value={waktuSampaiDP}
+                            input={true}
                             onChange={(e) => {
                               const time = moment(e).format('HH:mm');
                               setWaktuSampai(time);
                               setWaktuSampaiDP(e);
                             }}
                             dateFormat={false}
-                            initialValue={new Date().toLocaleTimeString(
-                              'en-US',
-                              {
-                                hour: '2-digit',
-                                minute: '2-digit',
-                                hour12: true,
-                              }
-                            )}
+                            initialValue={
+                              waktuSampai
+                                ? waktuSampai
+                                : setWaktuSampai(
+                                    new Date().toLocaleTimeString('en-US', {
+                                      hour: '2-digit',
+                                      minute: '2-digit',
+                                      hour12: false,
+                                    })
+                                  )
+                            }
+                            initialViewMode='time'
+                            timeFormat='hh:mm A'
                             name='waktuSampai'
                             className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                           />
@@ -1311,7 +1316,7 @@ export default function FillableForm({
                             disabled={editId ? true : false}
                             type='text'
                             name='waktuSampai'
-                            value={convertWaktuSampai(waktuSampai)}
+                            value={formatTime(waktuSampai)}
                             className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                           />
                         )}
