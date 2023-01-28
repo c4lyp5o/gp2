@@ -114,19 +114,6 @@ function masterDatePicker({
   );
 }
 
-//convert waktuSampai from db to 12 hour format
-const convertWaktuSampai = (waktuSampai) => {
-  let waktu = waktuSampai.split(':');
-  let hour = waktu[0];
-  let minute = waktu[1];
-  let ampm = hour >= 12 ? 'PM' : 'AM';
-  hour = hour % 12;
-  hour = hour ? hour : 12; // the hour '0' should be '12'
-  minute = minute < 10 ? minute : minute;
-  let strTime = hour + ':' + minute + ' ' + ampm;
-  return strTime;
-};
-
 const Dictionary = {
   kp: 'Klinik Pergigian',
   'kk-kd': 'Klinik Kesihatan / Klinik Desa',
@@ -483,7 +470,6 @@ function UserAppProvider({ children }) {
         noPendaftaranSplitter,
         statusPesakit,
         masterDatePicker,
-        convertWaktuSampai,
         Dictionary,
         dictionaryDaerah,
         dictionaryJenisFasiliti,
