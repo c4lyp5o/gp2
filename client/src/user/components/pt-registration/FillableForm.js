@@ -1247,7 +1247,10 @@ export default function FillableForm({
         {(confirm) => (
           <>
             <form onSubmit={confirm(handleSubmit)}>
-              <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
+              <h1 className='bg-kaunter3 font-bold text-2xl sticky top-0 py-1 z-50 mt-1'>
+                pendaftaran {Dictionary[jenisFasiliti]}
+                {namaProgram ? ` - ${namaProgram}` : null}
+              </h1>
               <div className='grid grid-cols-1 lg:grid-cols-2'>
                 <p className='font-semibold text-user6 mt-3 ml-3 lg:mr-auto'>
                   * mandatori
@@ -1321,7 +1324,7 @@ export default function FillableForm({
                           />
                         )}
                         <span>
-                          <FaClock className='absolute top-2 right-4 text-kaunter3' />
+                          <FaClock className='absolute top-2 right-2 text-kaunter3' />
                         </span>
                       </div>
                       <div className='flex justify-start mt-2'>
