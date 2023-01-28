@@ -1321,7 +1321,7 @@ export default function FillableForm({
                           />
                         )}
                         <span>
-                          <FaClock className='absolute top-2 right-4 text-kaunter3' />
+                          <FaClock className='absolute top-2 right-2 text-kaunter3' />
                         </span>
                       </div>
                       <div className='flex justify-start mt-2'>
