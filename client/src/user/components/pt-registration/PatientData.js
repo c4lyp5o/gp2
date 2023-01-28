@@ -1,5 +1,9 @@
 import axios from 'axios';
-import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import {
+  BsFilePerson,
+  BsFillFilePersonFill,
+  BsFillInfoCircleFill,
+} from 'react-icons/bs';
 import { TbArrowBigLeftLine } from 'react-icons/tb';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -113,13 +117,18 @@ export default function PatientData({
           </p>
         </div>
         <div className='flex justify-center'>
-          <div className='mb-3 xl:w-96'>
+          <div className='mb-3 w-64 relative'>
             <input
               type='search'
               className='outline outline-1 outline-userBlack rounded-md p-3'
               id='carianPesakit'
               placeholder='Carian Pesakit'
+              title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
               onChange={(e) => setPhilter(e.target.value.toLowerCase())}
+            />
+            <BsFillInfoCircleFill
+              className='text-user9 text-2xl inline-table ml-5 pb-1 absolute top-3 right-0.5'
+              title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
             />
           </div>
         </div>
