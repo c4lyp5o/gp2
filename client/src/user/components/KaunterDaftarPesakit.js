@@ -2,7 +2,11 @@ import { useEffect, useState } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import moment from 'moment';
-import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import {
+  BsFilePerson,
+  BsFillFilePersonFill,
+  BsFillInfoCircleFill,
+} from 'react-icons/bs';
 import { FaSort, FaSortUp } from 'react-icons/fa';
 import DatePicker from 'react-datepicker';
 
@@ -28,7 +32,7 @@ export default function DaftarPesakit({ createdByKp }) {
 
   const [allPersonKaunter, setAllPersonKaunter] = useState(null);
   const [philter, setPhilter] = useState('');
-  const [showAll, setShowAll] = useState(false);
+  const [showHover, setShowHover] = useState(false);
   const [date, setDate] = useState(new Date(dateToday));
   const [generating, setGenerating] = useState(false);
   const [pilihanTarikh, setPilihanTarikh] = useState(
@@ -125,6 +129,14 @@ export default function DaftarPesakit({ createdByKp }) {
     }
   }, [pilihanTarikh, showKemaskiniResit]);
 
+  //philter less than 8 pilihanTarikh dateToday
+  useEffect(() => {
+    if (philter.length <= 7) {
+      setPilihanTarikh(dateToday);
+      setDate(new Date(dateToday));
+    }
+  }, [philter]);
+
   //carian ic semua
   const keys = ['nama', 'ic'];
 
@@ -132,24 +144,55 @@ export default function DaftarPesakit({ createdByKp }) {
     <>
       <div className='px-2 lg:px-7 h-full py-3 overflow-y-auto'>
         <div className='flex flex-col lg:flex-row justify-center items-center'>
-          <div
-            className='m-1 lg:m-3 px-5 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-center w-full lg:w-auto'
-            title='carian nama dan kad pengenalan'
-          >
+          <div className='m-1 lg:m-3 px-5 lg:px-0 flex flex-col lg:flex-row lg:items-center lg:justify-center w-full lg:w-auto'>
             <label
               htmlFor='pilihanNama'
-              className='whitespace-nowrap flex flex-row justify-start text-left'
+              className='flex flex-row justify-start items-center text-left'
             >
-              Carian :{' '}
+              Carian
+              <div className='relative inline-flex'>
+                <BsFillInfoCircleFill
+                  className='text-kaunter2 text-xl m-2 cursor-help'
+                  onMouseEnter={() => setShowHover(true)}
+                  onMouseLeave={() => setShowHover(false)}
+                />
+                {showHover && (
+                  <div className='absolute z-10 top-4 left-6 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60'>
+                    <div className='bg-white rounded-md shadow-lg p-2'>
+                      <p className='text-sm font-semibold normal-case'>
+                        Carian nama dan kad pengenalan
+                      </p>
+                      <p className='text-xs border-t border-t-user1 normal-case'>
+                        Jika nama atau kad pengenalan melebihi 8 karakter ,
+                        carian tanpa tarikh boleh dilakukan
+                      </p>
+                    </div>
+                  </div>
+                )}
+              </div>
             </label>
-            <input
-              type='search'
-              name='pilihanNama'
-              className='appearance-none w-full lg:w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase ml-2'
-              id='pilihanNama'
-              placeholder='Cari pesakit...'
-              onChange={(e) => setPhilter(e.target.value.toLowerCase())}
-            />
+            <div className='flex justify-start'>
+              <input
+                type='search'
+                name='pilihanNama'
+                className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase ml-2'
+                id='pilihanNama'
+                placeholder='Cari pesakit...'
+                onChange={(e) => setPhilter(e.target.value.toLowerCase())}
+              />
+              {philter.length >= 8 && (
+                <button
+                  type='button'
+                  className='w-24 py-3 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                  onClick={() => {
+                    setPilihanTarikh('');
+                    setDate('');
+                  }}
+                >
+                  cari
+                </button>
+              )}
+            </div>
           </div>
           <div className='flex flex-row w-full lg:w-auto px-5 lg:px-0'>
             <div className='flex flex-col lg:flex-row lg:items-center lg:justify-center m-1 lg:m-3'>
