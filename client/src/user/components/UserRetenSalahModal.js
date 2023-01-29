@@ -11,7 +11,8 @@ export default function UserRetenSalahModal({
   nama,
   statusReten,
 }) {
-  const { userinfo, toast } = useGlobalUserAppContext();
+  const { userToken, userinfo, reliefUserToken, toast } =
+    useGlobalUserAppContext();
 
   const [otpQuestion, setOtpQuestion] = useState(false);
   const [otpInput, setOtpInput] = useState('');
@@ -19,7 +20,13 @@ export default function UserRetenSalahModal({
 
   const handleOtpRequest = async () => {
     await toast.promise(
-      axios.get(`/api/v1/getotp?id=${userinfo._id}`),
+      axios.get(`/api/v1/getotp?id=${userinfo._id}`, {
+        headers: {
+          Authorization: `Bearer ${
+            reliefUserToken ? reliefUserToken : userToken
+          }`,
+        },
+      }),
       {
         pending: `Menghantar OTP ke emel ${userinfo.email}`,
         success: `OTP telah dihantar ke emel ${userinfo.email}`,
@@ -35,7 +42,13 @@ export default function UserRetenSalahModal({
   const handleOtpVerify = async () => {
     await toast
       .promise(
-        axios.get(`/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`),
+        axios.get(`/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`, {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }),
         {
           pending: 'Mengesahkan OTP...',
           success: 'OTP berjaya disahkan',
