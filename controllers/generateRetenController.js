@@ -53,9 +53,13 @@ exports.startQueue = async function (req, res) {
     }
   }
 
-  // if (userTokenData.jumlahToken <= 0) {
-  //   return res.status(401).json({ msg: 'no more coins left' });
-  // }
+  if (
+    process.env.BUILD_ENV === 'production' &&
+    userTokenData.jumlahToken <= 0
+  ) {
+    console.log('no more coins left');
+    return res.status(401).json({ msg: 'no more coins left' });
+  }
 
   // get in line soldier!
   const downloadQueue = async.queue(async (task, callback) => {
@@ -65,7 +69,7 @@ exports.startQueue = async function (req, res) {
     } catch (err) {
       callback(err);
     }
-  }, 5);
+  }, process.env.GENERATE_WORKERS || 5);
 
   downloadQueue.push(() =>
     downloader(req, res, async (err, result) => {
@@ -76,8 +80,13 @@ exports.startQueue = async function (req, res) {
         }
         return res.status(500).json({ message: err });
       }
-      userTokenData.jumlahToken -= 1;
-      await userTokenData.save();
+      if (process.env.BUILD_ENV === 'production') {
+        userTokenData.jumlahToken -= 1;
+        await userTokenData.save();
+        console.log('dah kurangkan token');
+      } else {
+        console.log('not production');
+      }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
     })
@@ -85,7 +94,10 @@ exports.startQueue = async function (req, res) {
 };
 exports.refreshTokens = async function (req, res) {
   // refresh negeri tokens
-  const negeriTokens = GenerateToken.find({ accountType: 'negeriSuperadmin' });
+  const negeriTokens = await GenerateToken.find({
+    accountType: 'negeriSuperadmin',
+  });
+
   if (negeriTokens) {
     negeriTokens.forEach(async (token) => {
       token.jumlahToken = 5;
@@ -95,7 +107,9 @@ exports.refreshTokens = async function (req, res) {
   }
 
   // refresh token daerah
-  const daerahTokens = GenerateToken.find({ accountType: 'daerahSuperadmin' });
+  const daerahTokens = await GenerateToken.find({
+    accountType: 'daerahSuperadmin',
+  });
   if (daerahTokens) {
     daerahTokens.forEach(async (token) => {
       token.jumlahToken = 3;
