@@ -116,6 +116,9 @@ app.use('/api/v1/generate', genRouter);
 // ETL
 app.use('/api/v1/etl', etlAuth, ETL);
 
+// test
+app.get('/api/v1/ip', (request, response) => response.send(request.ip));
+
 // for use in deployment
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
