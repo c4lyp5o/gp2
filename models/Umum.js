@@ -108,7 +108,7 @@ const UmumSchema = new mongoose.Schema(
     jenisProgram: { type: String, default: '' },
     namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
-    //pemeriksaan -------------------------------------------------------------------
+    //pemeriksaan -----------------------------------------------
     statusKehadiran: {
       type: Boolean,
       default: false,
@@ -117,10 +117,24 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // untuk KPBMPB. kalau ada isi penggunaanKPBMPB akan ada perubahan dalam kedatanganKPBMPB & noPendaftaranKPBMPB
     penggunaanKPBMPB: {
       type: String,
       default: '',
     },
+    kedatanganKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranBaruKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranUlanganKPBMPB: {
+      type: String,
+      default: '',
+    },
+    // ----------------------------------------------------------
     systolicTekananDarah: {
       type: Number,
       default: 0,
