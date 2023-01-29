@@ -2,7 +2,7 @@ const Umum = require('../models/Umum');
 const Fasiliti = require('../models/Fasiliti');
 const Event = require('../models/Event');
 
-// GET /
+// query /kpbmpb
 const getAllKPBMPBForNegeri = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
