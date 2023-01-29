@@ -594,7 +594,7 @@ const Generate = (props) => {
           <div className='grid grid-cols-3 lg:grid-cols-5'>
             {generating ? (
               <button
-                className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3 mt-3'
+                className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
                 type='button'
               >
                 <div className='flex flex-row items-center'>
@@ -623,7 +623,7 @@ const Generate = (props) => {
               </button>
             ) : (
               <button
-                className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-user1 transition-all col-start-2 lg:col-start-3 mt-3'
+                className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-admin1 transition-all col-start-2 lg:col-start-3 mt-3'
                 type='submit'
               >
                 jana
