@@ -1,6 +1,8 @@
 const Umum = require('../models/Umum');
+const Runningnumber = require('../models/Runningnumber');
 const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
+const Event = require('../models/Event');
 
 // GET /
 const getAllPersonUmum = async (req, res) => {
@@ -88,6 +90,74 @@ const updatePersonUmum = async (req, res) => {
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
+  // apa-apa cari dulu singlePersonUmum ni
+  const singlePersonUmum = await Umum.findOne({
+    _id: personUmumId,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  });
+
+  // handling penggunaanKPBMPB, kedatanganKPBMPB & noPendaftaranKPBMPB
+  if (
+    req.body.penggunaanKPBMPB !== '' &&
+    req.query.operatorLain !== 'rawatan-operator-lain'
+  ) {
+    // find if this person already use this KPBMPB, find by ic
+    const personExistForKPBMPB = await Umum.findOne({
+      ic: singlePersonUmum.ic,
+      penggunaanKPBMPB: req.body.penggunaanKPBMPB,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    });
+    if (personExistForKPBMPB) {
+      console.log('pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'ulangan-kedatangan-KPBMPB';
+      req.body.noPendaftaranUlanganKPBMPB =
+        personExistForKPBMPB.noPendaftaranBaruKPBMPB;
+      console.log(
+        'no pendaftaran ulangan KPBMPB: ',
+        req.body.noPendaftaranUlanganKPBMPB
+      );
+    }
+    if (!personExistForKPBMPB) {
+      console.log('tak pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'baru-kedatangan-KPBMPB';
+
+      // check running number for this KPBMPB
+      let currentRunningNumberKPBMPB = await Runningnumber.findOne({
+        jenis: 'KPBMPB',
+        tahun: new Date().getFullYear(),
+        kodFasiliti: req.body.penggunaanKPBMPB,
+      });
+
+      // start no 1 running number kalau tak exist untuk KPBMPB ni
+      if (!currentRunningNumberKPBMPB) {
+        const newRunningNumberKPBMPB = await Runningnumber.create({
+          runningnumber: 1,
+          jenis: 'KPBMPB',
+          tahun: new Date().getFullYear(),
+          kodFasiliti: req.body.penggunaanKPBMPB,
+        });
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          newRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log('no pendaftaran baru KPBMPB: ', newRegKPBMPB);
+      }
+
+      // increment +1 running number KPBMPB ni kalau exist
+      if (currentRunningNumberKPBMPB) {
+        currentRunningNumberKPBMPB.runningnumber += 1;
+        await currentRunningNumberKPBMPB.save();
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          currentRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log('no pendaftaran baru KPBMPB: ', newRegKPBMPB);
+      }
+    }
+  }
+
   // save summary of patient history to each operator
   let summary = {};
   let shortened = {};
@@ -103,11 +173,7 @@ const updatePersonUmum = async (req, res) => {
       shortened[key] = req.body[key];
     }
   });
-  const singlePersonUmum = await Umum.findOne({
-    _id: personUmumId,
-    tahunDaftar: new Date().getFullYear(),
-    deleted: false,
-  });
+
   summary = { ...singlePersonUmum._doc, ...shortened };
 
   // handling kedatangan baru for rawatan operator lain

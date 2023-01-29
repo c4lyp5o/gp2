@@ -102,12 +102,14 @@ const createPersonKaunter = async (req, res) => {
   if (personExist) {
     logger.info(`${req.method} ${req.url} ic telah wujud. tagging ulangan`);
     req.body.kedatangan = 'ulangan-kedatangan';
+    console.log('ic telah wujud. tagging ulangan');
     req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+    console.log('no pendaftaran ulangan: ', req.body.noPendaftaranUlangan);
   }
 
   if (!personExist) {
     logger.info(`${req.method} ${req.url} ic tidak wujud. tagging baru`);
-    console.log('belum wujud. tagging baru');
+    console.log('ic belum wujud. tagging baru');
     req.body.kedatangan = 'baru-kedatangan';
   }
 
