@@ -1429,7 +1429,8 @@ const ConfirmModal = ({ children, data }) => {
                         {data.rujukanPakarBedahMulut ||
                         data.rujukanPakarOrtodontik ||
                         data.rujukanPakarPatologiMulutDanPerubatanMulut ||
-                        data.rujukanPakarPergigianPediatrik ? (
+                        data.rujukanPakarPergigianPediatrik ||
+                        data.rujukanKeKlinikKesihatan ? (
                           <div className='grid grid-cols-[1fr_2fr] text-xs'>
                             <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                               Rujukan
@@ -1472,6 +1473,16 @@ const ConfirmModal = ({ children, data }) => {
                                   Rujukan Pakar Pergigian Pediatrik:{' '}
                                   {data.rujukanPakarPergigianPediatrik ===
                                   true ? (
+                                    <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                                  ) : (
+                                    <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                                  )}
+                                </p>
+                              ) : null}
+                              {data.rujukanKeKlinikKesihatan ? (
+                                <p>
+                                  Rujukan Ke Klinik Kesihatan:{' '}
+                                  {data.rujukanKeKlinikKesihatan === true ? (
                                     <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                                   ) : (
                                     <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
