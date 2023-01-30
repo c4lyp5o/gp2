@@ -8,6 +8,7 @@ const path = require('path');
 const logger = require('./logs/logger');
 
 // security package
+const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
 
 // IMPORT ROUTER -----------------------------------------------
@@ -56,6 +57,7 @@ const connectDB = require('./database/connect');
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
+app.use(helmet());
 app.use(mongoSanitize());
 
 // getting date from the server because it shouldn't rely on the client to have correct date
