@@ -1350,14 +1350,14 @@ function UserFormUmumHeader({ sekolahIdc }) {
     umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
   masterForm.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
     setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
-  const [
-    dirujukKaunselingPakarPublicHealthPromosiUmum,
-    setDirujukKaunselingPakarPublicHealthPromosiUmum,
-  ] = useState(false);
-  masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
-    dirujukKaunselingPakarPublicHealthPromosiUmum;
-  masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
-    setDirujukKaunselingPakarPublicHealthPromosiUmum;
+  // const [
+  //   dirujukKaunselingPakarPublicHealthPromosiUmum,
+  //   setDirujukKaunselingPakarPublicHealthPromosiUmum,
+  // ] = useState(false);
+  // masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
+  //   dirujukKaunselingPakarPublicHealthPromosiUmum;
+  // masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
+  //   setDirujukKaunselingPakarPublicHealthPromosiUmum;
   //kotak
   const [statusMUmum, setStatusMUmum] = useState('');
   masterForm.statusMUmum = statusMUmum;
@@ -1950,9 +1950,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
             data.singlePersonUmum
               .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
           );
-          setDirujukKaunselingPakarPublicHealthPromosiUmum(
-            data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
-          );
+          // setDirujukKaunselingPakarPublicHealthPromosiUmum(
+          //   data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
+          // );
         }
         //map kotak
         setStatusMUmum(data.singlePersonUmum.statusMUmum);
@@ -2257,7 +2257,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-              dirujukKaunselingPakarPublicHealthPromosiUmum,
+              // dirujukKaunselingPakarPublicHealthPromosiUmum,
               //kotak
               statusMUmum,
               jenisRUmum,
@@ -2406,7 +2406,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-              dirujukKaunselingPakarPublicHealthPromosiUmum,
+              // dirujukKaunselingPakarPublicHealthPromosiUmum,
             },
             {
               headers: {
