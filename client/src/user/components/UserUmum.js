@@ -226,7 +226,7 @@ function UserUmum({ sekolahIdc }) {
               carian
               <BsExclamationCircleFill
                 className='ml-2 text-lg text-user3'
-                title='Carian Untuk Nama , Kad Pengenalan Dan Operator , Nama Program'
+                title='Carian untuk Nama, Pengenalan Diri, Operator dan Nama Program'
               />
             </label>
             <input
