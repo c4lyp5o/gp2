@@ -58,7 +58,11 @@ const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
 app.use(helmet());
-app.use(mongoSanitize());
+app.use(
+  mongoSanitize({
+    replaceWith: '_',
+  })
+);
 
 // getting date from the server because it shouldn't rely on the client to have correct date
 app.use('/api/v1/getdate', getdate);

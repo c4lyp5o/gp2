@@ -2234,7 +2234,8 @@ export default function Rawatan(props) {
                     props.rujukanPakarOrtodontik ||
                     props.rujukanPakarPatologiMulutDanPerubatanMulut ||
                     props.rujukanPakarBedahMulut ||
-                    props.rujukanPakarPergigianPediatrik ? (
+                    props.rujukanPakarPergigianPediatrik ||
+                    props.rujukanKeKlinikKesihatan ? (
                       <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5 py-2'>
                           Rujukan
