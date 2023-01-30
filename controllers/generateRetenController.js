@@ -13,52 +13,57 @@ const logger = require('../logs/logger');
 exports.startQueue = async function (req, res) {
   // get userdata
   const { authorization } = req.headers;
-  const { username, accountType } = await readUserData(authorization);
+  const { username, accountType } = jwt.verify(
+    authorization,
+    process.env.JWT_SECRET
+  );
   //
   const { jenisReten } = req.query;
   //
-  let userTokenData = await GenerateToken.findOne({
-    belongsTo: username,
-    jenisReten,
-  });
+  if (accountType !== 'kaunterUser') {
+    let userTokenData = await GenerateToken.findOne({
+      belongsTo: username,
+      jenisReten,
+    });
 
-  // create if there is no userTokenData
-  if (!userTokenData) {
-    switch (accountType) {
-      case 'negeriSuperadmin':
-        const negeriToken = new GenerateToken({
-          belongsTo: username,
-          accountType,
-          jenisReten,
-          jumlahToken: 5,
-        });
-        await negeriToken.save();
-        userTokenData = negeriToken;
-        console.log('dah save token negeri');
-        break;
-      case 'daerahSuperadmin':
-        const daerahToken = new GenerateToken({
-          belongsTo: username,
-          accountType,
-          jenisReten,
-          jumlahToken: 3,
-        });
-        await daerahToken.save();
-        userTokenData = daerahToken;
-        break;
-      default:
-        res
-          .status(403)
-          .json({ message: 'Anda tidak dibenarkan untuk menjana reten' });
+    // create if there is no userTokenData
+    if (!userTokenData) {
+      switch (accountType) {
+        case 'negeriSuperadmin':
+          const negeriToken = new GenerateToken({
+            belongsTo: username,
+            accountType,
+            jenisReten,
+            jumlahToken: 5,
+          });
+          await negeriToken.save();
+          userTokenData = negeriToken;
+          console.log('dah save token negeri');
+          break;
+        case 'daerahSuperadmin':
+          const daerahToken = new GenerateToken({
+            belongsTo: username,
+            accountType,
+            jenisReten,
+            jumlahToken: 3,
+          });
+          await daerahToken.save();
+          userTokenData = daerahToken;
+          break;
+        default:
+          res
+            .status(403)
+            .json({ message: 'Anda tidak dibenarkan untuk menjana reten' });
+      }
     }
-  }
 
-  if (
-    process.env.BUILD_ENV === 'production' &&
-    userTokenData.jumlahToken <= 0
-  ) {
-    console.log('no more coins left');
-    return res.status(401).json({ msg: 'no more coins left' });
+    if (
+      process.env.BUILD_ENV === 'production' &&
+      userTokenData.jumlahToken <= 0
+    ) {
+      console.log('no more coins left');
+      return res.status(401).json({ msg: 'no more coins left' });
+    }
   }
 
   // get in line soldier!
@@ -73,14 +78,16 @@ exports.startQueue = async function (req, res) {
 
   downloadQueue.push(() =>
     downloader(req, res, async (err, result) => {
-      console.log('Queue now is', downloadQueue.length());
       if (err) {
         if (err === 'No data found') {
           return res.status(404).json({ message: err });
         }
         return res.status(500).json({ message: err });
       }
-      if (process.env.BUILD_ENV === 'production') {
+      if (
+        process.env.BUILD_ENV === 'production' &&
+        accountType !== 'kaunterUser'
+      ) {
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
         console.log('dah kurangkan token');
@@ -177,8 +184,8 @@ const downloader = async (req, res, callback) => {
     pegawai,
     id,
   };
-  console.log(payload);
-  // logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
+  // console.log(payload);
+  logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
   let excelFile;
   switch (jenisReten) {
     case 'PG101A':
