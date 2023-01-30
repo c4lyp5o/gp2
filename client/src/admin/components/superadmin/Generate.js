@@ -134,9 +134,7 @@ const Generate = (props) => {
     link.click();
   };
 
-  const handleJana = async (e) => {
-    e.preventDefault();
-    setGenerating(true);
+  const penjanaanReten = async (e) => {
     try {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${jenisReten}&negeri=${
@@ -153,8 +151,7 @@ const Generate = (props) => {
           responseType: 'blob',
         }
       );
-      saveFile(res.data);
-      toast.success('Berjaya menjana reten');
+      return res;
     } catch (err) {
       // console.log(err.response);
       switch (err.response.status) {
@@ -174,9 +171,27 @@ const Generate = (props) => {
           break;
       }
     }
-    setTimeout(() => {
-      setGenerating(false);
-    }, 5000);
+  };
+
+  const handleJana = async (e) => {
+    e.preventDefault();
+    setGenerating(true);
+    const id = toast.loading('Sedang menjana reten...');
+    await penjanaanReten()
+      .then((res) => {
+        saveFile(res.data);
+      })
+      .then(() => {
+        toast.update(id, {
+          render: 'Berjaya menjana reten',
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000,
+        });
+        setTimeout(() => {
+          setGenerating(false);
+        }, 5000);
+      });
   };
 
   useEffect(() => {
