@@ -1086,11 +1086,11 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [adjustasiOklusi, setAdjustasiOklusi] = useState(false);
   masterForm.adjustasiOklusi = adjustasiOklusi;
   masterForm.setAdjustasiOklusi = setAdjustasiOklusi;
-  const [cabutanPengurusanFaktorSetempat, setCabutanPengurusanFaktorSetempat] =
-    useState(false);
-  masterForm.cabutanPengurusanFaktorSetempat = cabutanPengurusanFaktorSetempat;
-  masterForm.setCabutanPengurusanFaktorSetempat =
-    setCabutanPengurusanFaktorSetempat;
+  // const [cabutanPengurusanFaktorSetempat, setCabutanPengurusanFaktorSetempat] =
+  //   useState(false);
+  // masterForm.cabutanPengurusanFaktorSetempat = cabutanPengurusanFaktorSetempat;
+  // masterForm.setCabutanPengurusanFaktorSetempat =
+  //   setCabutanPengurusanFaktorSetempat;
   const [ektiparsiPulpa, setEktiparsiPulpa] = useState(false);
   masterForm.ektiparsiPulpa = ektiparsiPulpa;
   masterForm.setEktiparsiPulpa = setEktiparsiPulpa;
@@ -1819,9 +1819,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
             data.singlePersonUmum.pengilapanTampalanRungkup
           );
           setAdjustasiOklusi(data.singlePersonUmum.adjustasiOklusi);
-          setCabutanPengurusanFaktorSetempat(
-            data.singlePersonUmum.cabutanPengurusanFaktorSetempat
-          );
+          // setCabutanPengurusanFaktorSetempat(
+          //   data.singlePersonUmum.cabutanPengurusanFaktorSetempat
+          // );
           setEktiparsiPulpa(data.singlePersonUmum.ektiparsiPulpa);
           setPendebridmenAkar(data.singlePersonUmum.pendebridmenAkar);
           setRawatanLainPeriodontikRawatanUmum(
@@ -2213,7 +2213,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               // ohePengurusanFaktorSetempat,
               pengilapanTampalanRungkup,
               adjustasiOklusi,
-              cabutanPengurusanFaktorSetempat,
+              // cabutanPengurusanFaktorSetempat,
               ektiparsiPulpa,
               pendebridmenAkar,
               rawatanLainPeriodontikRawatanUmum,
@@ -2362,7 +2362,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               // ohePengurusanFaktorSetempat,
               pengilapanTampalanRungkup,
               adjustasiOklusi,
-              cabutanPengurusanFaktorSetempat,
+              // cabutanPengurusanFaktorSetempat,
               ektiparsiPulpa,
               pendebridmenAkar,
               rawatanLainPeriodontikRawatanUmum,

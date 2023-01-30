@@ -615,10 +615,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    cabutanPengurusanFaktorSetempat: {
-      type: Boolean,
-      default: false,
-    },
+    // cabutanPengurusanFaktorSetempat: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     ektiparsiPulpa: {
       type: Boolean,
       default: false,
