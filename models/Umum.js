@@ -806,10 +806,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    dirujukKaunselingPakarPublicHealthPromosiUmum: {
-      type: Boolean,
-      default: false,
-    },
+    // dirujukKaunselingPakarPublicHealthPromosiUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   { timestamps: true }
 );
