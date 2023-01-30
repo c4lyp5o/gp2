@@ -1328,6 +1328,7 @@ export default function Rawatan(props) {
                     props.pengilapanTampalanRungkup ||
                     props.adjustasiOklusi ||
                     props.ektiparsiPulpa ||
+                    props.pendebridmenAkar ||
                     props.rawatanLainPeriodontikRawatanUmum ||
                     props.rujukanPakarPeriodontik ||
                     props.rujukanPakarScd ||
