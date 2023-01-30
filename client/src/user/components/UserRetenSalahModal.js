@@ -96,8 +96,9 @@ export default function UserRetenSalahModal({
             )}
             {statusReten === 'reten salah' && (
               <span className='lowercase'>
-                untuk kembalikan reten <span className='uppercase'>{nama}</span>{' '}
-                yang <span className='uppercase'>salah</span> ini kepada{' '}
+                untuk <span className='uppercase'>kembalikan</span> reten{' '}
+                <span className='uppercase'>{nama}</span> yang{' '}
+                <span className='uppercase'>salah</span> ini kepada{' '}
                 <span className='uppercase'>status asal</span>?
               </span>
             )}
