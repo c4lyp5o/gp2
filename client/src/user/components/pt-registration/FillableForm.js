@@ -63,7 +63,6 @@ export default function FillableForm({
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
   const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
   const [waktuSampai, setWaktuSampai] = useState('');
-  const [waktuSampaiDP, setWaktuSampaiDP] = useState(new Date());
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
   const [nama, setNama] = useState('');
@@ -163,6 +162,9 @@ export default function FillableForm({
   const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] =
     useState(null);
   const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
+
+  // datetime issues
+  const [waktuSampaiDT, setWaktuSampaiDT] = useState(new Date());
 
   // myidentity
   const [myIdVerified, setMyIdVerified] = useState(false);
@@ -783,10 +785,10 @@ export default function FillableForm({
     // setPasukanPergigianBergerak(false);
     // setMakmalPergigianBergerak(false);
     // setLabelMakmalPergigianBergerak('');
-    // taska / tadika
     // kk / kd
     setNamaFasilitiKkKd('');
     setKodFasilitiKkKd('');
+    // taska / tadika
     setFasilitiTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
@@ -809,13 +811,14 @@ export default function FillableForm({
     setInstitusiOku('');
     // kampung angkat
     setKgAngkat('');
-    //datepicker issues
-    setWaktuSampaiDP(new Date());
+    // datepicker issues
     setTarikhKedatanganDP(new Date(dateToday));
     setTarikhLahirDP(null);
     setTarikhRujukanKeppDP(null);
     setTarikhRundinganPertamaDP(null);
     setTarikhMulaRawatanKeppDP(null);
+    // datetime issues
+    setWaktuSampaiDT(new Date());
     if (showForm === false) {
       // reset editId when change jenisFasiliti & showForm === false
       setEditId('');
@@ -1290,12 +1293,12 @@ export default function FillableForm({
                         {!editId ? (
                           <Datetime
                             required
-                            value={waktuSampaiDP}
+                            value={waktuSampaiDT}
                             input={true}
                             onChange={(e) => {
                               const time = moment(e).format('HH:mm');
                               setWaktuSampai(time);
-                              setWaktuSampaiDP(e);
+                              setWaktuSampaiDT(e);
                             }}
                             dateFormat={false}
                             initialValue={
@@ -1312,7 +1315,7 @@ export default function FillableForm({
                             initialViewMode='time'
                             timeFormat='hh:mm A'
                             name='waktuSampai'
-                            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                            className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                           />
                         ) : (
                           <input
