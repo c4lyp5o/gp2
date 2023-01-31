@@ -2045,12 +2045,18 @@ function UserFormUmumHeader({ sekolahIdc }) {
     }
 
     if (
-      singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-      singlePersonUmum.jenisFasiliti === 'kp' &&
-      singlePersonUmum.umur >= 18 &&
-      statusKehadiran === false &&
-      systolicTekananDarah === 0 &&
-      diastolicTekananDarah === 0
+      (singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+        singlePersonUmum.jenisFasiliti === 'kp' &&
+        singlePersonUmum.umur >= 18 &&
+        statusKehadiran === false &&
+        systolicTekananDarah === 0 &&
+        diastolicTekananDarah === 0) ||
+      (singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+        singlePersonUmum.jenisFasiliti === 'kp' &&
+        singlePersonUmum.umur >= 18 &&
+        statusKehadiran === false &&
+        systolicTekananDarah === '0' &&
+        diastolicTekananDarah === '0')
     ) {
       toast.error('Sila isi tekanan darah');
       return;
