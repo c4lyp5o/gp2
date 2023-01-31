@@ -136,7 +136,7 @@ const downloader = async (req, res, callback) => {
   console.log('this is in downloader');
   const { authorization } = req.headers;
   //
-  let currentKodFasiliti, currentDaerah, currentNegeri, username;
+  let currentKodFasiliti, currentDaerah, currentNegeri, accountType, username;
   if (!authorization) {
     console.log('no authorization');
     // kp = klinikid;
@@ -146,6 +146,7 @@ const downloader = async (req, res, callback) => {
   if (authorization) {
     // console.log(authorization);
     // const token = authorization.split(' ')[1];
+    accountType = jwt.verify(authorization, process.env.JWT_SECRET).accountType;
     currentKodFasiliti = jwt.verify(
       authorization,
       process.env.JWT_SECRET
@@ -167,12 +168,15 @@ const downloader = async (req, res, callback) => {
     id,
   } = req.query;
   // if kaunter user
-  if (!klinik) {
+  if (accountType === 'kaunterUser') {
     klinik = currentKodFasiliti;
     daerah = currentDaerah;
     negeri = currentNegeri;
+    const { kp } = await User.findOne({ kodFasiliti: klinik });
+    username = `Kaunter ${kp}`;
   }
   const payload = {
+    accountType,
     klinik,
     daerah,
     negeri,
@@ -246,7 +250,7 @@ const downloader = async (req, res, callback) => {
 const makePG101A = async (payload) => {
   console.log('PG101A');
   try {
-    var { klinik, daerah, negeri } = payload;
+    var { klinik, daerah, negeri, username } = payload;
     //
     const data = await Helper.countPG101A(payload);
     //
@@ -292,6 +296,7 @@ const makePG101A = async (payload) => {
     intro4.getCell(2).value = `Negeri: ${negeri ? negeri.toUpperCase() : null}`;
     //
     for (let i = 0; i < data.length; i++) {
+      worksheet.getRow(16 + i).height = 33;
       let rowNew = worksheet.getRow(16 + i);
       // change tarikh kedatangan to local
       const localDate = moment(data[i].tarikhKedatangan).format('DD/MM/YYYY');
@@ -432,7 +437,144 @@ const makePG101A = async (payload) => {
       }
     });
 
-    // worksheet.eachRow((row, rowNumber) => {
+    let rowTambahan = 1;
+    let rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value =
+      '* Kedatangan Baru Ibu Mengandung hanya dikira sekali sahaja bagi setiap episod baru mengandung, pada ruangan ini.';
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value =
+      '**Sila masukkan nombor kad OKU bagi pesakit yang berkenaan.';
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value =
+      '***Sila nyatakan nombor kad pesara Kerajaan / ATM di Ruangan Catatan.';
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value =
+      '****Punca rujukan: Rujukan Dalaman, Klinik Pergigian Kerajaan, Klinik Kesihatan Kerajaan, Hospital/Institusi Kerajaan, Swasta atau Lain-lain. Hanya Punca Rujukan Baru sahaja direkod.';
+    // info
+    rowTambahan = rowTambahan + 2;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value = 'Gi-Ret 2.0';
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    // rowNew.getCell(1).font = {
+    //     color: { argb: 'FF0000' },
+    //    };
+    rowNew.getCell(1).value = 'v 2.0.8';
+    //
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value = 'Memaparkan maklumat dari';
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    // worksheet.mergeCells(
+    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    // );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    // rowNew.getCell(1).font = {
+    //     color: { argb: 'FF0000' },
+    //    };
+    rowNew.getCell(1).value = `${moment(new Date())
+      .startOf('month')
+      .format('DD-MM-YYYY')} - ${moment(new Date()).format('DD-MM-YYYY')}`;
+    //
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value = 'Tarikh dan masa penjanaan';
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    // rowNew.getCell(1).font = {
+    //     color: { argb: 'FF0000' },
+    //    };
+    rowNew.getCell(1).value = `${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')}`;
+    //
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    // rowNew.getCell(1).font = {
+    //     color: { argb: 'FF0000' },
+    //    };
+    rowNew.getCell(1).value = 'TIDAK BERKENAAN';
+    //
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    rowNew.getCell(1).value = 'Dijana oleh';
+    rowTambahan++;
+    console.log(rowTambahan);
+    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
+    worksheet.mergeCells(
+      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
+    );
+    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
+    // rowNew.getCell(1).font = {
+    //     color: { argb: 'FF0000' },
+    //    };
+    rowNew.getCell(1).value = username;
+    //
 
     worksheet.name = 'PG101A';
 
