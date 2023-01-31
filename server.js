@@ -127,7 +127,7 @@ app.use('/api/v1/generate', genRouter);
 app.use('/api/v1/etl', etlAuth, ETL);
 
 // test ip
-app.get('/api/v1/ip', (request, response) => response.send(request.ip));
+// app.get('/api/v1/ip', (request, response) => response.send(request.ip));
 
 // for use in deployment
 app.get('*', (req, res) => {
