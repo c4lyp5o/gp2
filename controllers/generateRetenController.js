@@ -134,6 +134,23 @@ const Helper = require('../controllers/countHelper');
 // gateway
 const downloader = async (req, res, callback) => {
   console.log('this is in downloader');
+  // check query
+  let {
+    jenisReten,
+    negeri,
+    daerah,
+    klinik,
+    pegawai,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    id,
+  } = req.query;
+  // check if there is any query
+  if (!jenisReten) {
+    return callback('No data found');
+  }
+  //
   const { authorization } = req.headers;
   //
   let currentKodFasiliti, currentDaerah, currentNegeri, accountType, username;
@@ -155,18 +172,6 @@ const downloader = async (req, res, callback) => {
     currentNegeri = jwt.verify(authorization, process.env.JWT_SECRET).negeri;
     username = jwt.verify(authorization, process.env.JWT_SECRET).username;
   }
-  // check query
-  let {
-    jenisReten,
-    negeri,
-    daerah,
-    klinik,
-    pegawai,
-    tarikhMula,
-    tarikhAkhir,
-    bulan,
-    id,
-  } = req.query;
   // if kaunter user
   if (accountType === 'kaunterUser') {
     klinik = currentKodFasiliti;

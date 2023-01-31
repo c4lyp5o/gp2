@@ -5,13 +5,128 @@ import {
   BsFillFilePersonFill,
   BsFillInfoCircleFill,
 } from 'react-icons/bs';
+import { RiCloseLine } from 'react-icons/ri';
 import { TbArrowBigLeftLine } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
-
 import PrintPatientDetails from './PrintPatientDetails';
+
+import styles from '../../../admin/Modal.module.css';
+
+const PilihanBulan = (props) => {
+  return (
+    <form onSubmit={props.handleJana}>
+      <div
+        className={styles.darkBG}
+        onClick={() => props.setShowBulan(false)}
+      />
+      <div className={styles.centered}>
+        <div className={styles.modalPilihBulan}>
+          <div className={styles.modalHeader}>
+            <h5 className={styles.heading}>
+              Sila Pilh Bulan Untuk Penjanaan PG101A
+            </h5>
+          </div>
+          <span
+            className={styles.closeBtn}
+            onClick={() => props.setShowBulan(false)}
+          >
+            <RiCloseLine style={{ marginBottom: '-3px' }} />
+          </span>
+          <div className={styles.modalContent}>
+            <div className='admin-pegawai-handler-container'>
+              <div className='mb-3'>
+                <div className='grid gap-1'>
+                  <div className='px-3 py-1'>
+                    <label
+                      htmlFor='negeri'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Bulan:
+                    </label>
+                    <select
+                      required
+                      name='bulan'
+                      id='bulan'
+                      onChange={(e) => {
+                        props.setPilihanBulan(e.target.value);
+                      }}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    >
+                      <option value=''>Sila pilih bulan..</option>
+                      {props.namaNamaBulan.map((n, index) => {
+                        return (
+                          <option
+                            value={n.value}
+                            key={index}
+                            className='capitalize'
+                          >
+                            {n.nama}
+                          </option>
+                        );
+                      })}
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div>
+                {props.generating ? (
+                  <button
+                    className='px-6 py-2.5 m-1 w-32 bg-admin3 font-medium text-xs uppercase rounded-md shadow-md transition-all cursor-not-allowed'
+                    type='button'
+                  >
+                    <div className='flex flex-row items-center'>
+                      <svg
+                        className='animate-spin -ml-1 mr-3 h-3 w-5 text-userWhite'
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                      >
+                        <circle
+                          className='opacity-25'
+                          cx='12'
+                          cy='12'
+                          r='10'
+                          stroke='currentColor'
+                          strokeWidth='4'
+                        ></circle>
+                        <path
+                          className='opacity-75'
+                          fill='currentColor'
+                          d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
+                        ></path>
+                      </svg>
+                      <span className='text-userWhite'>
+                        {props.defaultTimer}
+                      </span>
+                    </div>
+                  </button>
+                ) : (
+                  <button
+                    type='submit'
+                    className='px-6 py-2.5 m-1 w-32 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                  >
+                    Jana!
+                  </button>
+                )}
+                <button
+                  className='px-6 py-2.5 m-1 w-32 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                  onClick={() => props.setShowBulan(false)}
+                >
+                  Kembali
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </form>
+  );
+};
 
 export default function PatientData({
   jenisFasiliti,
@@ -38,9 +153,10 @@ export default function PatientData({
     formatTime,
     noPendaftaranSplitter,
     statusPesakit,
-    dictionaryBulan,
   } = useGlobalUserAppContext();
 
+  const [showBulan, setShowBulan] = useState(false);
+  const [pilihanBulan, setPilihanBulan] = useState('');
   const [generating, setGenerating] = useState(false);
   const [defaultTimer, setDefaultTimer] = useState(60);
 
@@ -69,14 +185,30 @@ export default function PatientData({
 
   //carian ic semua
   const keys = ['nama', 'ic', 'statusReten'];
+  const namaNamaBulan = [
+    { nama: 'Januari', value: `${new Date().getFullYear()}-01-01` },
+    { nama: 'Februari', value: `${new Date().getFullYear()}-02-01` },
+    { nama: 'Mac', value: `${new Date().getFullYear()}-03-01` },
+    { nama: 'April', value: `${new Date().getFullYear()}-04-01` },
+    { nama: 'Mei', value: `${new Date().getFullYear()}-05-01` },
+    { nama: 'Jun', value: `${new Date().getFullYear()}-06-01` },
+    { nama: 'Julai', value: `${new Date().getFullYear()}-07-01` },
+    { nama: 'Ogos', value: `${new Date().getFullYear()}-08-01` },
+    { nama: 'September', value: `${new Date().getFullYear()}-09-01` },
+    { nama: 'Oktober', value: `${new Date().getFullYear()}-10-01` },
+    { nama: 'November', value: `${new Date().getFullYear()}-11-01` },
+    { nama: 'Disember', value: `${new Date().getFullYear()}-12-01` },
+  ];
 
   const penjanaanReten = async (e) => {
     try {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=PG101A&tarikhMula=${moment(
-          new Date()
+          pilihanBulan
         )
           .startOf('month')
+          .format('YYYY-MM-DD')}&tarikhAkhir=${moment(pilihanBulan)
+          .endOf('month')
           .format('YYYY-MM-DD')}`,
         {
           headers: {
@@ -108,6 +240,7 @@ export default function PatientData({
   };
 
   const handleJana = async (e) => {
+    e.preventDefault();
     setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -130,6 +263,10 @@ export default function PatientData({
           setDefaultTimer(60);
           setGenerating(false);
         }, 60000);
+      })
+      .catch((err) => {
+        toast.dismiss(id);
+        setGenerating(false);
       });
   };
 
@@ -168,6 +305,16 @@ export default function PatientData({
     } catch (error) {
       console.log(error);
     }
+  };
+
+  const props = {
+    handleJana,
+    pilihanBulan,
+    setPilihanBulan,
+    setShowBulan,
+    namaNamaBulan,
+    generating,
+    defaultTimer,
   };
 
   if (!showForm && !showPilihanProgram) {
@@ -225,43 +372,12 @@ export default function PatientData({
             >
               Daftar Pesakit
             </button>
-            {generating ? (
-              <button
-                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-                type='button'
-              >
-                <div className='flex flex-row items-center'>
-                  <svg
-                    className='animate-spin -ml-1 mr-3 h-3 w-5 text-userWhite'
-                    xmlns='http://www.w3.org/2000/svg'
-                    fill='none'
-                    viewBox='0 0 24 24'
-                  >
-                    <circle
-                      className='opacity-25'
-                      cx='12'
-                      cy='12'
-                      r='10'
-                      stroke='currentColor'
-                      stroke-width='4'
-                    ></circle>
-                    <path
-                      className='opacity-75'
-                      fill='currentColor'
-                      d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
-                    ></path>
-                  </svg>
-                  <span>Cooldown {defaultTimer} saat</span>
-                </div>
-              </button>
-            ) : (
-              <button
-                onClick={() => handleJana()}
-                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-              >
-                Jana Reten PG101A ({dictionaryBulan[new Date().getMonth() + 1]})
-              </button>
-            )}
+            <button
+              onClick={() => setShowBulan(true)}
+              className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+            >
+              Jana Reten PG101A
+            </button>
           </div>
         ) : (
           <button
@@ -410,6 +526,7 @@ export default function PatientData({
               </table>
             </div>
           </div>
+          {showBulan ? <PilihanBulan {...props} /> : null}
         </div>
       </>
     );
