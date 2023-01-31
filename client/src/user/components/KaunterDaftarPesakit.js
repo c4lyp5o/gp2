@@ -378,7 +378,9 @@ export default function DaftarPesakit({ createdByKp }) {
                           {moment(p.tarikhKedatangan).format('DD/MM/YYYY')}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {formatTime(p.waktuSampai)}
+                          {p.waktuSampai !== ''
+                            ? formatTime(p.waktuSampai)
+                            : '-'}
                         </td>
                         {p.noPendaftaranBaru ? (
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
