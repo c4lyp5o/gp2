@@ -211,7 +211,7 @@ export default function PatientData({
               onChange={(e) => setPhilter(e.target.value.toLowerCase())}
             />
             <BsFillInfoCircleFill
-              className='text-user9 text-2xl inline-table ml-5 pb-1 absolute top-3 right-0.5'
+              className='text-user9 text-2xl inline-table ml-5 pb-1 absolute top-3 -right-5'
               title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
             />
           </div>
@@ -343,7 +343,9 @@ export default function PatientData({
                             {index + 1}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {formatTime(p.waktuSampai)}
+                            {p.waktuSampai !== ''
+                              ? formatTime(p.waktuSampai)
+                              : '-'}
                           </td>
                           {p.noPendaftaranBaru ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
