@@ -591,7 +591,10 @@ const EditModalForKp = ({
   const { toast, readDataForKp, readOneDataForKp, updateDataForKp } =
     useGlobalAdminAppContext();
 
+  const [tempatPenggunaan, setTempatPenggunaan] = useState('');
   const [allKlinik, setAllKlinik] = useState([]);
+  const [allKkiaKd, setAllKkiaKd] = useState([]);
+  const [allTastad, setAllTastad] = useState([]);
   const [editedEntity, setEditedEntity] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -601,8 +604,14 @@ const EditModalForKp = ({
 
   useEffect(() => {
     if (FType === 'kpb' || FType === 'mpb') {
-      readDataForKp('kp').then((res) => {
+      readDataForKp('kpallnegeri').then((res) => {
         setAllKlinik(res.data);
+      });
+      readDataForKp('kkiakdallnegeri').then((res) => {
+        setAllKkiaKd(res.data);
+      });
+      readDataForKp('tastadallnegeri').then((res) => {
+        setAllTastad(res.data);
       });
     }
     readOneDataForKp(FType, id).then((res) => {
@@ -610,25 +619,29 @@ const EditModalForKp = ({
         // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
         if (
           res.data.enrolmenTastad === 'NOT APPLICABLE' ||
-          res.data.enrolmenTastad === null
+          res.data.enrolmenTastad === null ||
+          res.data.enrolmenTastad === undefined
         ) {
           res.data.enrolmenTastad = 0;
         }
         if (
           res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmenKurang4Tahun === null
+          res.data.enrolmenKurang4Tahun === null ||
+          res.data.enrolmenKurang4Tahun === undefined
         ) {
           res.data.enrolmenKurang4Tahun = 0;
         }
         if (
           res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen5Tahun === null
+          res.data.enrolmen5Tahun === null ||
+          res.data.enrolmen5Tahun === undefined
         ) {
           res.data.enrolmen5Tahun = 0;
         }
         if (
           res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen6Tahun === null
+          res.data.enrolmen6Tahun === null ||
+          res.data.enrolmen6Tahun === undefined
         ) {
           res.data.enrolmen6Tahun = 0;
         }
@@ -717,10 +730,15 @@ const EditModalForKp = ({
         // jumlahHariBeroperasi: editedEntity.jumlahHariBeroperasi,
         // jumlahPesakitBaru: editedEntity.jumlahPesakitBaru,
         // jumlahPesakitUlangan: editedEntity.jumlahPesakitUlangan,
-        klinikBertanggungjawab: editedEntity.handler,
-        kodKlinikBertanggungjawab: editedEntity.kodFasilitiHandler,
         tarikhStart: editedEntity.tarikhStart,
         tarikhEnd: editedEntity.tarikhEnd,
+        tempatPenggunaan: tempatPenggunaan,
+        klinikBertanggungjawab: editedEntity.handlerKp,
+        kodKlinikBertanggungjawab: editedEntity.kodKpHandler,
+        kkiaKdBertanggungjawab: editedEntity.handlerKkiaKd,
+        kodKkiaKdBertanggungjawab: editedEntity.kodKkiaKdHandler,
+        tastadBertanggungjawab: editedEntity.handlerTastad,
+        kodTastadBertanggungjawab: editedEntity.kodTastadHandler,
       };
     }
     updateDataForKp(FType, id, Data).then(() => {
@@ -769,9 +787,13 @@ const EditModalForKp = ({
     startDateDP,
     setEndDateDP,
     endDateDP,
-    //
+    // ---
     setShowEditModal,
+    tempatPenggunaan,
+    setTempatPenggunaan,
     allKlinik,
+    allKkiaKd,
+    allTastad,
     FType,
     eventModeChecker,
     handleSubmit,

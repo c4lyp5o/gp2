@@ -1,6 +1,13 @@
+import { useState } from 'react';
 import axios from 'axios';
-import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import {
+  BsFilePerson,
+  BsFillFilePersonFill,
+  BsFillInfoCircleFill,
+} from 'react-icons/bs';
 import { TbArrowBigLeftLine } from 'react-icons/tb';
+import { toast } from 'react-toastify';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -31,7 +38,11 @@ export default function PatientData({
     formatTime,
     noPendaftaranSplitter,
     statusPesakit,
+    dictionaryBulan,
   } = useGlobalUserAppContext();
+
+  const [generating, setGenerating] = useState(false);
+  const [defaultTimer, setDefaultTimer] = useState(60);
 
   const formatMelayu = (date) => {
     const months = {
@@ -58,6 +69,83 @@ export default function PatientData({
 
   //carian ic semua
   const keys = ['nama', 'ic', 'statusReten'];
+
+  const penjanaanReten = async (e) => {
+    try {
+      const res = await axios.get(
+        `/api/v1/generate/download?jenisReten=PG101A&tarikhMula=${moment(
+          new Date()
+        )
+          .startOf('month')
+          .format('YYYY-MM-DD')}`,
+        {
+          headers: {
+            Authorization: kaunterToken,
+          },
+          responseType: 'blob',
+        }
+      );
+      return res;
+    } catch (err) {
+      // console.log(err.response);
+      switch (err.response.status) {
+        case 401:
+          toast.error(
+            'Anda telah mencapai jumlah batasan penjanaan PG101A bagi bulan ini'
+          );
+          break;
+        case 403:
+          toast.error('Anda tidak dibenarkan untuk menjana reten');
+          break;
+        case 404:
+          toast.error('Tiada data untuk tarikh yang dipilih');
+          break;
+        default:
+          toast.error('Internal Server Error');
+          break;
+      }
+    }
+  };
+
+  const handleJana = async (e) => {
+    setGenerating(true);
+    const id = toast.loading('Sedang menjana reten...');
+    await penjanaanReten()
+      .then((res) => {
+        saveFile(res.data);
+      })
+      .then(() => {
+        toast.update(id, {
+          render: 'Berjaya menjana reten',
+          type: 'success',
+          isLoading: false,
+          autoClose: 2000,
+        });
+        // kalau diorang refresh, hehehe...
+        const cooldown = setInterval(() => {
+          setDefaultTimer((timer) => timer - 1);
+        }, 1000);
+        setTimeout(() => {
+          clearInterval(cooldown);
+          setDefaultTimer(60);
+          setGenerating(false);
+        }, 60000);
+      });
+  };
+
+  const saveFile = (blob) => {
+    const link = document.createElement('a');
+    link.download = `PG101A_${kp}_${moment(new Date()).format(
+      'DDMMYYYY'
+    )}.xlsx`;
+    link.href = URL.createObjectURL(new Blob([blob]));
+    link.addEventListener('click', (e) => {
+      setTimeout(() => {
+        URL.revokeObjectURL(link.href);
+      }, 100);
+    });
+    link.click();
+  };
 
   const reloadData = async () => {
     try {
@@ -113,23 +201,77 @@ export default function PatientData({
           </p>
         </div>
         <div className='flex justify-center'>
-          <div className='mb-3 xl:w-96'>
+          <div className='mb-3 w-64 relative'>
             <input
               type='search'
               className='outline outline-1 outline-userBlack rounded-md p-3'
               id='carianPesakit'
               placeholder='Carian Pesakit'
+              title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
               onChange={(e) => setPhilter(e.target.value.toLowerCase())}
+            />
+            <BsFillInfoCircleFill
+              className='text-user9 text-2xl inline-table ml-5 pb-1 absolute top-3 -right-5'
+              title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
             />
           </div>
         </div>
-        <button
-          type='button'
-          className='px-6 py-2.5 m-1 w-52 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-          onClick={() => setShowForm(true)}
-        >
-          Daftar Pesakit
-        </button>
+        {jenisFasiliti === 'kp' ? (
+          <div>
+            <button
+              type='button'
+              className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+              onClick={() => setShowForm(true)}
+            >
+              Daftar Pesakit
+            </button>
+            {generating ? (
+              <button
+                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                type='button'
+              >
+                <div className='flex flex-row items-center'>
+                  <svg
+                    className='animate-spin -ml-1 mr-3 h-3 w-5 text-userWhite'
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                  >
+                    <circle
+                      className='opacity-25'
+                      cx='12'
+                      cy='12'
+                      r='10'
+                      stroke='currentColor'
+                      stroke-width='4'
+                    ></circle>
+                    <path
+                      className='opacity-75'
+                      fill='currentColor'
+                      d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
+                    ></path>
+                  </svg>
+                  <span>Cooldown {defaultTimer} saat</span>
+                </div>
+              </button>
+            ) : (
+              <button
+                onClick={() => handleJana()}
+                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+              >
+                Jana Reten PG101A ({dictionaryBulan[new Date().getMonth() + 1]})
+              </button>
+            )}
+          </div>
+        ) : (
+          <button
+            type='button'
+            className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+            onClick={() => setShowForm(true)}
+          >
+            Daftar Pesakit
+          </button>
+        )}
         <div className='mt-2'>
           <div className='justify-center items-center'>
             <p className='text-xs text-user9 lowercase'>
@@ -201,7 +343,9 @@ export default function PatientData({
                             {index + 1}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {formatTime(p.waktuSampai)}
+                            {p.waktuSampai !== ''
+                              ? formatTime(p.waktuSampai)
+                              : '-'}
                           </td>
                           {p.noPendaftaranBaru ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>

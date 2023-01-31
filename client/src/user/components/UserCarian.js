@@ -191,10 +191,10 @@ export default function UserCarian() {
                 htmlFor='pilihanNama'
                 className='whitespace-nowrap flex items-center mb-1'
               >
-                Carian Nama{' '}
+                Carian{' '}
                 <BsExclamationCircleFill
                   className='ml-2 text-lg text-user3'
-                  title='carian untuk nama , kad pengenalan dan operator'
+                  title='Carian untuk Nama, Pengenalan Diri dan Operator'
                 />
               </label>
               <input
@@ -203,7 +203,7 @@ export default function UserCarian() {
                 className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase lg:ml-2'
                 id='pilihanNama'
                 onChange={(e) => {
-                  setNama(e.target.value);
+                  setNama(e.target.value.toLowerCase());
                 }}
               />
             </div>
@@ -308,7 +308,7 @@ export default function UserCarian() {
                   NAMA PESAKIT
                 </th>
                 <th className={`px-2 py-1 outline outline-1 outline-offset-1`}>
-                  NO. PENGENALAN DIRI
+                  PENGENALAN DIRI
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   STATUS PESAKIT
@@ -362,7 +362,9 @@ export default function UserCarian() {
                             pilihanId === singlePersonUmum._id && 'bg-user3'
                           } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                         >
-                          {formatTime(singlePersonUmum.waktuSampai)}
+                          {singlePersonUmum.waktuSampai !== ''
+                            ? formatTime(singlePersonUmum.waktuSampai)
+                            : '-'}
                         </td>
                         {singlePersonUmum.noPendaftaranBaru ? (
                           <td

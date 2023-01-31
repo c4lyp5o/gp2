@@ -438,6 +438,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [diastolicTekananDarah, setDiastolicTekananDarah] = useState('');
   masterForm.diastolicTekananDarah = diastolicTekananDarah;
   masterForm.setDiastolicTekananDarah = setDiastolicTekananDarah;
+  const [sejarahDarahTinggi, setSejarahDarahTinggi] = useState(false);
+  masterForm.sejarahDarahTinggi = sejarahDarahTinggi;
+  masterForm.setSejarahDarahTinggi = setSejarahDarahTinggi;
   const [rujukKeKlinik, setRujukKeKlinik] = useState(false);
   masterForm.rujukKeKlinik = rujukKeKlinik;
   masterForm.setRujukKeKlinik = setRujukKeKlinik;
@@ -1083,14 +1086,17 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [adjustasiOklusi, setAdjustasiOklusi] = useState(false);
   masterForm.adjustasiOklusi = adjustasiOklusi;
   masterForm.setAdjustasiOklusi = setAdjustasiOklusi;
-  const [cabutanPengurusanFaktorSetempat, setCabutanPengurusanFaktorSetempat] =
-    useState(false);
-  masterForm.cabutanPengurusanFaktorSetempat = cabutanPengurusanFaktorSetempat;
-  masterForm.setCabutanPengurusanFaktorSetempat =
-    setCabutanPengurusanFaktorSetempat;
+  // const [cabutanPengurusanFaktorSetempat, setCabutanPengurusanFaktorSetempat] =
+  //   useState(false);
+  // masterForm.cabutanPengurusanFaktorSetempat = cabutanPengurusanFaktorSetempat;
+  // masterForm.setCabutanPengurusanFaktorSetempat =
+  //   setCabutanPengurusanFaktorSetempat;
   const [ektiparsiPulpa, setEktiparsiPulpa] = useState(false);
   masterForm.ektiparsiPulpa = ektiparsiPulpa;
   masterForm.setEktiparsiPulpa = setEktiparsiPulpa;
+  const [pendebridmenAkar, setPendebridmenAkar] = useState(false);
+  masterForm.pendebridmenAkar = pendebridmenAkar;
+  masterForm.setPendebridmenAkar = setPendebridmenAkar;
   const [
     rawatanLainPeriodontikRawatanUmum,
     setRawatanLainPeriodontikRawatanUmum,
@@ -1240,6 +1246,10 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.rujukanPakarPergigianPediatrik = rujukanPakarPergigianPediatrik;
   masterForm.setRujukanPakarPergigianPediatrik =
     setRujukanPakarPergigianPediatrik;
+  const [rujukanKeKlinikKesihatan, setRujukanKeKlinikKesihatan] =
+    useState(false);
+  masterForm.rujukanKeKlinikKesihatan = rujukanKeKlinikKesihatan;
+  masterForm.setRujukanKeKlinikKesihatan = setRujukanKeKlinikKesihatan;
   const [kesSelesaiRawatanUmum, setKesSelesaiRawatanUmum] = useState(false);
   masterForm.kesSelesaiRawatanUmum = kesSelesaiRawatanUmum;
   masterForm.setKesSelesaiRawatanUmum = setKesSelesaiRawatanUmum;
@@ -1340,14 +1350,14 @@ function UserFormUmumHeader({ sekolahIdc }) {
     umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
   masterForm.setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum =
     setUmur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum;
-  const [
-    dirujukKaunselingPakarPublicHealthPromosiUmum,
-    setDirujukKaunselingPakarPublicHealthPromosiUmum,
-  ] = useState(false);
-  masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
-    dirujukKaunselingPakarPublicHealthPromosiUmum;
-  masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
-    setDirujukKaunselingPakarPublicHealthPromosiUmum;
+  // const [
+  //   dirujukKaunselingPakarPublicHealthPromosiUmum,
+  //   setDirujukKaunselingPakarPublicHealthPromosiUmum,
+  // ] = useState(false);
+  // masterForm.dirujukKaunselingPakarPublicHealthPromosiUmum =
+  //   dirujukKaunselingPakarPublicHealthPromosiUmum;
+  // masterForm.setDirujukKaunselingPakarPublicHealthPromosiUmum =
+  //   setDirujukKaunselingPakarPublicHealthPromosiUmum;
   //kotak
   const [statusMUmum, setStatusMUmum] = useState('');
   masterForm.statusMUmum = statusMUmum;
@@ -1499,6 +1509,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
         setPenggunaanKPBMPB(data.singlePersonUmum.penggunaanKPBMPB);
         setSystolicTekananDarah(data.singlePersonUmum.systolicTekananDarah);
         setDiastolicTekananDarah(data.singlePersonUmum.diastolicTekananDarah);
+        setSejarahDarahTinggi(data.singlePersonUmum.sejarahDarahTinggi);
         setRujukKeKlinik(data.singlePersonUmum.rujukKeKlinik);
         setEngganTaskaTadika(data.singlePersonUmum.engganTaskaTadika);
         setTidakHadirTaskaTadika(data.singlePersonUmum.tidakHadirTaskaTadika);
@@ -1808,10 +1819,11 @@ function UserFormUmumHeader({ sekolahIdc }) {
             data.singlePersonUmum.pengilapanTampalanRungkup
           );
           setAdjustasiOklusi(data.singlePersonUmum.adjustasiOklusi);
-          setCabutanPengurusanFaktorSetempat(
-            data.singlePersonUmum.cabutanPengurusanFaktorSetempat
-          );
+          // setCabutanPengurusanFaktorSetempat(
+          //   data.singlePersonUmum.cabutanPengurusanFaktorSetempat
+          // );
           setEktiparsiPulpa(data.singlePersonUmum.ektiparsiPulpa);
+          setPendebridmenAkar(data.singlePersonUmum.pendebridmenAkar);
           setRawatanLainPeriodontikRawatanUmum(
             data.singlePersonUmum.rawatanLainPeriodontikRawatanUmum
           );
@@ -1886,6 +1898,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
           setRujukanPakarPergigianPediatrik(
             data.singlePersonUmum.rujukanPakarPergigianPediatrik
           );
+          setRujukanKeKlinikKesihatan(
+            data.singlePersonUmum.rujukanKeKlinikKesihatan
+          );
           setKesSelesaiRawatanUmum(data.singlePersonUmum.kesSelesaiRawatanUmum);
           setRawatanDibuatOperatorLain(
             data.singlePersonUmum.rawatanDibuatOperatorLain
@@ -1935,9 +1950,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
             data.singlePersonUmum
               .umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
           );
-          setDirujukKaunselingPakarPublicHealthPromosiUmum(
-            data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
-          );
+          // setDirujukKaunselingPakarPublicHealthPromosiUmum(
+          //   data.singlePersonUmum.dirujukKaunselingPakarPublicHealthPromosiUmum
+          // );
         }
         //map kotak
         setStatusMUmum(data.singlePersonUmum.statusMUmum);
@@ -1965,13 +1980,16 @@ function UserFormUmumHeader({ sekolahIdc }) {
   useEffect(() => {
     const getAllKPBMPBForNegeri = async () => {
       try {
-        const dataKPBMPB = await axios.get('/api/v1/query/kpbmpb', {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        });
+        const dataKPBMPB = await axios.get(
+          `/api/v1/query/kpbmpb?personUmumId=${personUmumId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        );
         const dataSinglePersonUmum = await axios.get(
           `/api/v1/umum/${personUmumId}`,
           {
@@ -1984,7 +2002,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
         );
         let KPBMPBInRangeDate = [];
         // checking if KPBMPB date is within range of singlePersonUmum
-        dataKPBMPB.data.penggunaanKPBMPBForKp.forEach((singleUseKPBMPB) => {
+        dataKPBMPB.data.penggunaanKPBMPBForPt.forEach((singleUseKPBMPB) => {
           if (
             new Date(singleUseKPBMPB.tarikhStart) <=
               new Date(
@@ -2027,12 +2045,18 @@ function UserFormUmumHeader({ sekolahIdc }) {
     }
 
     if (
-      singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-      singlePersonUmum.jenisFasiliti === 'kp' &&
-      singlePersonUmum.umur >= 18 &&
-      statusKehadiran === false &&
-      systolicTekananDarah === 0 &&
-      diastolicTekananDarah === 0
+      (singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+        singlePersonUmum.jenisFasiliti === 'kp' &&
+        singlePersonUmum.umur >= 18 &&
+        statusKehadiran === false &&
+        systolicTekananDarah === 0 &&
+        diastolicTekananDarah === 0) ||
+      (singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+        singlePersonUmum.jenisFasiliti === 'kp' &&
+        singlePersonUmum.umur >= 18 &&
+        statusKehadiran === false &&
+        systolicTekananDarah === '0' &&
+        diastolicTekananDarah === '0')
     ) {
       toast.error('Sila isi tekanan darah');
       return;
@@ -2089,6 +2113,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               penggunaanKPBMPB,
               systolicTekananDarah,
               diastolicTekananDarah,
+              sejarahDarahTinggi,
               rujukKeKlinik,
               engganTaskaTadika,
               tidakHadirTaskaTadika,
@@ -2194,8 +2219,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
               // ohePengurusanFaktorSetempat,
               pengilapanTampalanRungkup,
               adjustasiOklusi,
-              cabutanPengurusanFaktorSetempat,
+              // cabutanPengurusanFaktorSetempat,
               ektiparsiPulpa,
+              pendebridmenAkar,
               rawatanLainPeriodontikRawatanUmum,
               rujukanPakarPeriodontik,
               engganLainRujukanPakarPeriodontik,
@@ -2221,6 +2247,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               rujukanPakarPatologiMulutDanPerubatanMulut,
               rujukanPakarBedahMulut,
               rujukanPakarPergigianPediatrik,
+              rujukanKeKlinikKesihatan,
               kesSelesaiRawatanUmum,
               rawatanDibuatOperatorLain,
               //promosi ------------------------------------------------------------
@@ -2236,7 +2263,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-              dirujukKaunselingPakarPublicHealthPromosiUmum,
+              // dirujukKaunselingPakarPublicHealthPromosiUmum,
               //kotak
               statusMUmum,
               jenisRUmum,
@@ -2341,8 +2368,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
               // ohePengurusanFaktorSetempat,
               pengilapanTampalanRungkup,
               adjustasiOklusi,
-              cabutanPengurusanFaktorSetempat,
+              // cabutanPengurusanFaktorSetempat,
               ektiparsiPulpa,
+              pendebridmenAkar,
               rawatanLainPeriodontikRawatanUmum,
               rujukanPakarPeriodontik,
               engganLainRujukanPakarPeriodontik,
@@ -2368,6 +2396,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               rujukanPakarPatologiMulutDanPerubatanMulut,
               rujukanPakarBedahMulut,
               rujukanPakarPergigianPediatrik,
+              rujukanKeKlinikKesihatan,
               kesSelesaiRawatanUmum,
               rawatanDibuatOperatorLain,
               //promosi ------------------------------------------------------------
@@ -2383,7 +2412,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
               umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
               umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-              dirujukKaunselingPakarPublicHealthPromosiUmum,
+              // dirujukKaunselingPakarPublicHealthPromosiUmum,
             },
             {
               headers: {
@@ -2434,7 +2463,10 @@ function UserFormUmumHeader({ sekolahIdc }) {
                             onMouseLeave={() => setIsShown(false)}
                           >
                             Fasiliti :{' '}
-                            {Dictionary[singlePersonUmum.jenisFasiliti]}
+                            {Dictionary[singlePersonUmum.jenisFasiliti]} |{' '}
+                            {singlePersonUmum.namaFasilitiKkKd ||
+                              singlePersonUmum.namaFasilitiTaskaTadika ||
+                              singlePersonUmum.namaProgram}
                           </span>
                           {isShown && (
                             <div className='z-50 absolute float-right box-border outline outline-1 outline-userBlack p-5 bg-userWhite top-8'>

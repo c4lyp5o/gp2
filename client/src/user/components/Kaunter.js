@@ -115,7 +115,7 @@ function Kaunter({
 
   return (
     <>
-      <div className='px-2 lg:px-10 h-full p-3 overflow-y-auto'>
+      <div className='px-2 lg:px-10 h-full overflow-y-auto'>
         {!showPilihanProgram ? (
           <PatientData
             jenisFasiliti={jenisFasiliti}

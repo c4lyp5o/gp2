@@ -4,8 +4,12 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 const path = require('path');
-const axios = require('axios');
+// const axios = require('axios');
 const logger = require('./logs/logger');
+
+// security package
+const helmet = require('helmet');
+const mongoSanitize = require('express-mongo-sanitize');
 
 // IMPORT ROUTER -----------------------------------------------
 // getdate import
@@ -37,9 +41,12 @@ const adminAPI = require('./routes/adminAPI');
 // generate import
 const genRouter = require('./routes/generateRouter');
 
+// ETL
+const ETL = require('./routes/ETL');
+
 // IMPORT MIDDLEWARES ------------------------------------------
 const authCheck = require('./middlewares/authCheck');
-const { adminAuth } = require('./middlewares/adminAuth');
+const { etlAuth } = require('./middlewares/adminAuth');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
 
@@ -50,8 +57,14 @@ const connectDB = require('./database/connect');
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
+app.use(helmet());
+app.use(
+  mongoSanitize({
+    replaceWith: '_',
+  })
+);
 
-// getting date from the server, better way because it shoudn't rely on the client to have correct date
+// getting date from the server because it shouldn't rely on the client to have correct date
 app.use('/api/v1/getdate', getdate);
 
 // the dpims scrap
@@ -97,7 +110,7 @@ app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
 app.use('/api/v1/sekolah', authCheck, sekolah);
 app.use('/api/v1/promosi', authCheck, promosi);
-app.use('/api/v1/getotp', getotp);
+app.use('/api/v1/getotp', authCheck, getotp);
 app.use('/api/v1/operator', authCheck, operator);
 app.use('/api/v1/query', authCheck, allQueryRoute);
 
@@ -108,7 +121,13 @@ app.use('/api/v1/kaunter', authCheck, kaunter);
 app.use('/api/v1/superadmin', adminAPI);
 
 // generate route
-app.use('/api/v1/generate', adminAuth, genRouter);
+app.use('/api/v1/generate', genRouter);
+
+// ETL
+app.use('/api/v1/etl', etlAuth, ETL);
+
+// test ip
+// app.get('/api/v1/ip', (request, response) => response.send(request.ip));
 
 // for use in deployment
 app.get('*', (req, res) => {
