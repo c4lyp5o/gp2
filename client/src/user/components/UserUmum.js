@@ -245,7 +245,7 @@ function UserUmum({ sekolahIdc }) {
           </div>
           <div className='mx-2 flex flex-col mb-2'>
             <label
-              htmlFor='kad-pengenalan'
+              htmlFor='tarikh-kedatangan'
               className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
             >
               tarikh kedatangan :
@@ -357,7 +357,7 @@ function UserUmum({ sekolahIdc }) {
                     NAMA PESAKIT
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                    KAD PENGENALAN
+                    PENGENALAN DIRI
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     STATUS PESAKIT

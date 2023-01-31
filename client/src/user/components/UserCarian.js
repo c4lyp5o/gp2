@@ -194,7 +194,7 @@ export default function UserCarian() {
                 Carian{' '}
                 <BsExclamationCircleFill
                   className='ml-2 text-lg text-user3'
-                  title='Carian Untuk Nama , Kad Pengenalan Dan Operator'
+                  title='Carian untuk Nama, Pengenalan Diri dan Operator'
                 />
               </label>
               <input
@@ -308,7 +308,7 @@ export default function UserCarian() {
                   NAMA PESAKIT
                 </th>
                 <th className={`px-2 py-1 outline outline-1 outline-offset-1`}>
-                  NO. PENGENALAN DIRI
+                  PENGENALAN DIRI
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   STATUS PESAKIT
