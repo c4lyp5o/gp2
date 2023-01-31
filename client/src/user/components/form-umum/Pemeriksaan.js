@@ -237,6 +237,14 @@ export default function Pemeriksaan(props) {
                             props.setSystolicTekananDarah(e.target.value);
                             props.setRujukKeKlinik(false);
                           }}
+                          onClick={() => {
+                            if (
+                              props.systolicTekananDarah === 0 ||
+                              props.systolicTekananDarah === '0'
+                            ) {
+                              props.setSystolicTekananDarah('');
+                            }
+                          }}
                           min='0'
                           max='300'
                           className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
@@ -257,6 +265,14 @@ export default function Pemeriksaan(props) {
                           onChange={(e) => {
                             props.setDiastolicTekananDarah(e.target.value);
                             props.setRujukKeKlinik(false);
+                          }}
+                          onClick={() => {
+                            if (
+                              props.diastolicTekananDarah === 0 ||
+                              props.diastolicTekananDarah === '0'
+                            ) {
+                              props.setDiastolicTekananDarah('');
+                            }
                           }}
                           min='0'
                           max='300'
