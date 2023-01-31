@@ -92,7 +92,7 @@ exports.startQueue = async function (req, res) {
         await userTokenData.save();
         console.log('dah kurangkan token');
       } else {
-        console.log('not production');
+        console.log('not production and ' + accountType);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
