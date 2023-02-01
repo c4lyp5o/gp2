@@ -129,6 +129,11 @@ app.use('/api/v1/etl', etlAuth, ETL);
 // test ip
 // app.get('/api/v1/ip', (request, response) => response.send(request.ip));
 
+// test version
+app.get('/api/v1/version', (req, res) =>
+  res.json({ version: process.env.npm_package_version })
+);
+
 // for use in deployment
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
