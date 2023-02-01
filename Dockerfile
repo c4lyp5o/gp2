@@ -24,4 +24,4 @@ RUN npm run build-client
 EXPOSE 5000
 
 # run the server
-CMD [ "node", "server.js" ]
+CMD ["npm", "start"]

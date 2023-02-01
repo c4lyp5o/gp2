@@ -10,7 +10,8 @@
     "client": "cd client && npm start",
     "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
     "build-client": "cd client && npm run build",
-    "deploy-local": "npm run build-client && npm run server"
+    "deploy-local": "npm run build-client && npm run server",
+    "start": "node server.js"
   },
   "repository": {
     "type": "git",
