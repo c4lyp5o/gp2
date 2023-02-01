@@ -13566,10 +13566,10 @@ const getParams = (payload, reten) => {
 
   const AorC = (reten) => {
     if (reten === 'A') {
-      return { $in: ['kp', 'kk-kd'] };
+      return { $eq: 'kp' };
     }
     if (reten === 'C') {
-      return { $nin: ['kp', 'kk-kd'] };
+      return { $ne: 'kp' };
     }
   };
 
