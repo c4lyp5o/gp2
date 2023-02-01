@@ -13194,7 +13194,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-01-01`,
         $lte: `${new Date().getFullYear()}-01-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opFebruari = {
@@ -13203,7 +13203,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-02-01`,
         $lte: `${new Date().getFullYear()}-02-28`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opMac = {
@@ -13212,7 +13212,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-03-01`,
         $lte: `${new Date().getFullYear()}-03-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opApril = {
@@ -13221,7 +13221,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-04-01`,
         $lte: `${new Date().getFullYear()}-04-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opMei = {
@@ -13230,7 +13230,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-05-01`,
         $lte: `${new Date().getFullYear()}-05-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opJun = {
@@ -13239,7 +13239,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-06-01`,
         $lte: `${new Date().getFullYear()}-06-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opJulai = {
@@ -13248,7 +13248,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-07-01`,
         $lte: `${new Date().getFullYear()}-07-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opOgos = {
@@ -13257,7 +13257,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-08-01`,
         $lte: `${new Date().getFullYear()}-08-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opSeptember = {
@@ -13266,7 +13266,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-09-01`,
         $lte: `${new Date().getFullYear()}-09-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opOktober = {
@@ -13275,7 +13275,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-10-01`,
         $lte: `${new Date().getFullYear()}-10-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opNovember = {
@@ -13284,7 +13284,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-11-01`,
         $lte: `${new Date().getFullYear()}-11-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opDisember = {
@@ -13293,7 +13293,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-12-01`,
         $lte: `${new Date().getFullYear()}-12-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
 
@@ -13316,7 +13316,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-01-01`,
         $lte: `${new Date().getFullYear()}-01-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiFebruari = {
@@ -13325,7 +13325,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-02-01`,
         $lte: `${new Date().getFullYear()}-02-28`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiMac = {
@@ -13334,7 +13334,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-03-01`,
         $lte: `${new Date().getFullYear()}-03-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiApril = {
@@ -13343,7 +13343,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-04-01`,
         $lte: `${new Date().getFullYear()}-04-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiMei = {
@@ -13352,7 +13352,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-05-01`,
         $lte: `${new Date().getFullYear()}-05-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiJun = {
@@ -13361,7 +13361,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-06-01`,
         $lte: `${new Date().getFullYear()}-06-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiJulai = {
@@ -13370,7 +13370,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-07-01`,
         $lte: `${new Date().getFullYear()}-07-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiOgos = {
@@ -13379,7 +13379,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-08-01`,
         $lte: `${new Date().getFullYear()}-08-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiSeptember = {
@@ -13388,7 +13388,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-09-01`,
         $lte: `${new Date().getFullYear()}-09-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiOktober = {
@@ -13397,7 +13397,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-10-01`,
         $lte: `${new Date().getFullYear()}-10-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiNovember = {
@@ -13406,7 +13406,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-11-01`,
         $lte: `${new Date().getFullYear()}-11-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiDisember = {
@@ -13415,7 +13415,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-12-01`,
         $lte: `${new Date().getFullYear()}-12-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
 
@@ -13432,6 +13432,29 @@ const countMasa = async (payload) => {
   match_stage_temujanji.push(temujanjiNovember);
   match_stage_temujanji.push(temujanjiDisember);
 
+  const add_fields_stage = {
+    $addFields: {
+      waktuDipanggilUnix: {
+        $toLong: {
+          $dateFromString: {
+            dateString: {
+              $concat: ['1970-01-01T', '$waktuDipanggil'],
+            },
+          },
+        },
+      },
+      waktuSampaiUnix: {
+        $toLong: {
+          $dateFromString: {
+            dateString: {
+              $concat: ['1970-01-01T', '$waktuSampai'],
+            },
+          },
+        },
+      },
+    },
+  };
+
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
@@ -13441,7 +13464,7 @@ const countMasa = async (payload) => {
           $cond: [
             {
               $lt: [
-                { $subtract: ['$waktuDipanggil', '$waktuSampai'] },
+                { $subtract: ['$waktuDipanggilUnix', '$waktuSampaiUnix'] },
                 30 * 60 * 1000,
               ],
             },
@@ -13458,96 +13481,291 @@ const countMasa = async (payload) => {
   let temujanjiData = [];
   let opData = [];
 
+  for (let i = 0; i < match_stage_op.length; i++) {
+    const dataOp = await Umum.aggregate([
+      match_stage_op[i],
+      add_fields_stage,
+      group_stage,
+    ]);
+    opData.push(dataOp);
+  }
+
   for (let i = 0; i < match_stage_temujanji.length; i++) {
     const dataTemujanji = await Umum.aggregate([
       match_stage_temujanji[i],
+      add_fields_stage,
       group_stage,
     ]);
     temujanjiData.push(dataTemujanji);
   }
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const dataOp = await Umum.aggregate([match_stage_op[i], group_stage]);
-    opData.push(dataOp);
-  }
-
-  bigData.push(temujanjiData);
-  bigData.push(opData);
-
-  console.log(bigData);
+  bigData.push({ opData });
+  bigData.push({ temujanjiData });
 
   return bigData;
 };
 const countBp = async (payload) => {
+  //
+  const umur1829lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur3039lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur4049lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur5059lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur60keataslelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur1829perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur3039perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur4049perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur5059perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur60keatasperempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+  //
   let match_stage_melayu = [];
   let match_stage_cina = [];
   let match_stage_india = [];
   let match_stage_dayak = [];
   let match_stage_lain = [];
   //
-  match_stage_melayu.push(getParamsBp('melayu'));
-  match_stage_cina.push(getParamsBp('cina'));
-  match_stage_india.push(getParamsBp('india'));
-  match_stage_dayak.push(getParamsBp('dayak'));
-  match_stage_lain.push(
-    getParamsBp({ $nin: ['melayu', 'cina', 'india', 'dayak'] })
-  );
-
-  console.log(match_stage_melayu);
-  console.log(match_stage_cina);
-  console.log(match_stage_india);
-  console.log(match_stage_dayak);
-  console.log(match_stage_lain);
+  match_stage_melayu = [
+    umur1829lelaki(payload, 'melayu', 'l'),
+    umur3039lelaki(payload, 'melayu', 'l'),
+    umur4049lelaki(payload, 'melayu', 'l'),
+    umur5059lelaki(payload, 'melayu', 'l'),
+    umur60keataslelaki(payload, 'melayu', 'l'),
+    umur1829perempuan(payload, 'melayu', 'p'),
+    umur3039perempuan(payload, 'melayu', 'p'),
+    umur4049perempuan(payload, 'melayu', 'p'),
+    umur5059perempuan(payload, 'melayu', 'p'),
+    umur60keatasperempuan(payload, 'melayu', 'p'),
+  ];
+  match_stage_cina = [
+    umur1829lelaki(payload, 'cina', 'l'),
+    umur3039lelaki(payload, 'cina', 'l'),
+    umur4049lelaki(payload, 'cina', 'l'),
+    umur5059lelaki(payload, 'cina', 'l'),
+    umur60keataslelaki(payload, 'cina', 'l'),
+    umur1829perempuan(payload, 'cina', 'p'),
+    umur3039perempuan(payload, 'cina', 'p'),
+    umur4049perempuan(payload, 'cina', 'p'),
+    umur5059perempuan(payload, 'cina', 'p'),
+    umur60keatasperempuan(payload, 'cina', 'p'),
+  ];
+  match_stage_india = [
+    umur1829lelaki(payload, 'india', 'l'),
+    umur3039lelaki(payload, 'india', 'l'),
+    umur4049lelaki(payload, 'india', 'l'),
+    umur5059lelaki(payload, 'india', 'l'),
+    umur60keataslelaki(payload, 'india', 'l'),
+    umur1829perempuan(payload, 'india', 'p'),
+    umur3039perempuan(payload, 'india', 'p'),
+    umur4049perempuan(payload, 'india', 'p'),
+    umur5059perempuan(payload, 'india', 'p'),
+    umur60keatasperempuan(payload, 'india', 'p'),
+  ];
+  match_stage_dayak = [
+    umur1829lelaki(payload, 'dayak', 'l'),
+    umur3039lelaki(payload, 'dayak', 'l'),
+    umur4049lelaki(payload, 'dayak', 'l'),
+    umur5059lelaki(payload, 'dayak', 'l'),
+    umur60keataslelaki(payload, 'dayak', 'l'),
+    umur1829perempuan(payload, 'dayak', 'p'),
+    umur3039perempuan(payload, 'dayak', 'p'),
+    umur4049perempuan(payload, 'dayak', 'p'),
+    umur5059perempuan(payload, 'dayak', 'p'),
+    umur60keatasperempuan(payload, 'dayak', 'p'),
+  ];
+  match_stage_lain = [
+    umur1829lelaki(payload, 'lain lain', 'l'),
+    umur3039lelaki(payload, 'lain lain', 'l'),
+    umur4049lelaki(payload, 'lain lain', 'l'),
+    umur5059lelaki(payload, 'lain lain', 'l'),
+    umur60keataslelaki(payload, 'lain lain', 'l'),
+    umur1829perempuan(payload, 'lain lain', 'p'),
+    umur3039perempuan(payload, 'lain lain', 'p'),
+    umur4049perempuan(payload, 'lain lain', 'p'),
+    umur5059perempuan(payload, 'lain lain', 'p'),
+    umur60keatasperempuan(payload, 'lain lain', 'p'),
+  ];
   //
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
       total: { $sum: 1 },
-      jumlahLelaki: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'lelaki'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPerempuan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'perempuan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
+      // jumlahLelaki: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$jantina', 'lelaki'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
+      // //
+      // jumlahPerempuan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$jantina', 'perempuan'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
       adaSejarahDarahTinggi: {
         $sum: {
           $cond: [
             {
               $eq: ['$sejarahDarahTinggi', true],
+              // $eq: ['$jantina', 'lelaki'],
             },
             1,
             0,
           ],
         },
       },
-      tiadaadaSejarahDarahTinggi: {
+      // adaSejarahDarahTinggiPerempuan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$sejarahDarahTinggi', true],
+      //         $eq: ['$jantina', 'perempuan'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
+      tiadaSejarahDarahTinggi: {
         $sum: {
           $cond: [
             {
               $eq: ['$sejarahDarahTinggi', false],
+              // $eq: ['$jantina', 'lelaki'],
             },
             1,
             0,
           ],
         },
       },
+      // tiadaSejarahDarahTinggiPerempuan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$sejarahDarahTinggi', false],
+      //         $eq: ['$jantina', 'perempuan'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
       jumlahDirujukKeKk: {
         $sum: {
           $cond: [
@@ -13593,16 +13811,18 @@ const countBp = async (payload) => {
     lain2.push(dataLain);
   }
 
-  bigData.push(melayu);
-  bigData.push(cina);
-  bigData.push(india);
-  bigData.push(dayak);
-  bigData.push(lain2);
+  bigData.push({ melayu });
+  bigData.push({ cina });
+  bigData.push({ india });
+  bigData.push({ dayak });
+  bigData.push({ lain2 });
 
-  console.log(bigData);
+  // console.log(bigData[0].melayu[5][0].jumlahLelaki);
+  // console.log(bigData.length);
+  // console.log(bigData[0].melayu.length);
 
-  // return bigData;
-  return 'No data found';
+  return bigData;
+  // return 'No data found';
 };
 const countBPE = async (payload) => {
   //
@@ -14550,180 +14770,121 @@ const getParamsGender = (payload) => {
     return byNegeri();
   }
 };
-const getParamsPiagamMasa = (jenis) => {
-  if (jenis === 'op') {
-    return {
-      jenisFasiliti: { $eq: 'kp' },
-      temujanji: false,
+const getParamsPiagamMasa = (payload, jenis) => {
+  const { klinik, daerah, negeri, bulan } = payload;
+  //
+  const opAtauTemujanji = (jenis) => {
+    if (jenis === 'op') {
+      return {
+        temujanji: false,
+      };
+    } else {
+      return {
+        temujanji: true,
+      };
+    }
+  };
+
+  const byKp = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      createdByDaerah: daerah,
+      createdByNegeri: negeri,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ...opAtauTemujanji(jenis),
     };
-  } else {
-    return {
-      jenisFasiliti: { $eq: 'kp' },
-      temujanji: true,
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      createdByDaerah: daerah,
+      createdByNegeri: negeri,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ...opAtauTemujanji(jenis),
     };
-  }
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      createdByNegeri: negeri,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ...opAtauTemujanji(jenis),
+    };
+    return param;
+  };
+
+  // if (jenis === 'op') {
+  //   return {
+  //     createdByUsername: { $ne: 'kaunter' },
+  //     waktuDipanggil: { $ne: '' },
+  //     jenisFasiliti: { $eq: 'kp' },
+  //     temujanji: false,
+  //   };
+  // } else {
+  //   return {
+  //     createdByUsername: { $ne: 'kaunter' },
+  //     waktuDipanggil: { $ne: '' },
+  //     jenisFasiliti: { $eq: 'kp' },
+  //     temujanji: true,
+  //   };
+  // }
 };
-const getParamsBp = (kaum) => {
-  const umur1829lelaki = () => {
+const getParamsBp = (payload, kaum, jantina) => {
+  const { klinik, daerah, negeri } = payload;
+  //
+  let theSex = jantina === 'l' ? 'lelaki' : 'perempuan';
+
+  const byKp = () => {
     let param = {
-      $match: {
-        umur: {
-          $gte: 18,
-          $lte: 29,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
+      createdByKodFasiliti: klinik,
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+      kumpulanEtnik: kaum,
+      jantina: theSex,
+      deleted: false,
     };
     return param;
   };
 
-  const umur3039lelaki = () => {
+  const byDaerah = () => {
     let param = {
-      $match: {
-        umur: {
-          $gte: 30,
-          $lte: 39,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: 'kaum',
-        deleted: false,
-      },
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+      kumpulanEtnik: kaum,
+      jantina: theSex,
+      deleted: false,
     };
     return param;
   };
 
-  const umur4049lelaki = () => {
+  const byNegeri = () => {
     let param = {
-      $match: {
-        umur: {
-          $gte: 40,
-          $lte: 49,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
+      createdByNegeri: negeri,
+      kumpulanEtnik: kaum,
+      jantina: theSex,
+      deleted: false,
     };
     return param;
   };
 
-  const umur5059lelaki = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 50,
-          $lte: 59,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur60keataslelaki = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 60,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur1829perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 18,
-          $lte: 29,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur3039perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 30,
-          $lte: 39,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur4049perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 40,
-          $lte: 49,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur5059perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 50,
-          $lte: 59,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur60keatasperempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 60,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  return {
-    umur1829lelaki,
-    umur3039lelaki,
-    umur4049lelaki,
-    umur5059lelaki,
-    umur60keataslelaki,
-    umur1829perempuan,
-    umur3039perempuan,
-    umur4049perempuan,
-    umur5059perempuan,
-    umur60keatasperempuan,
-  };
+  if (klinik !== 'all') {
+    return byKp();
+  } else if (daerah !== 'all') {
+    return byDaerah();
+  } else {
+    return byNegeri();
+  }
 };
 const getParamsBPE = (payload) => {
   const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
