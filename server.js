@@ -129,11 +129,6 @@ app.use('/api/v1/etl', etlAuth, ETL);
 // test ip
 // app.get('/api/v1/ip', (request, response) => response.send(request.ip));
 
-// test version
-app.get('/api/v1/version', (req, res) =>
-  res.json({ version: process.env.npm_package_version })
-);
-
 // for use in deployment
 app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
@@ -147,16 +142,20 @@ app.use(notFound);
 const port = process.env.PORT || 5000;
 
 const start = async () => {
+  console.log('Starting server...');
   logger.info('Starting server...');
   try {
     await connectDB(process.env.MONGO_URI);
-    logger.info('Connected to database');
     console.log('Connected to Giret Database!');
+    logger.info('Connected to Giret Database!');
     app.listen(
       port,
       console.log(`Server is listening at port: ${port}. Lessgo!`),
       logger.info(`Server is listening at port: ${port}. Lessgo!`)
     );
+    // display application version number everytime server start
+    console.log('v' + process.env.npm_package_version);
+    logger.info('v' + process.env.npm_package_version);
   } catch (error) {
     logger.error(error.message);
     console.log('Could not Connect to Giret Database!');
