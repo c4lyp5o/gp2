@@ -953,7 +953,7 @@ const getData = async (req, res) => {
             });
             if (exists) {
               return res.status(400).json({
-                message: 'Taska/Tadika telah wujud',
+                message: 'Kod Taska/Tadika ini telah wujud',
               });
             } else {
               Data = {
@@ -969,10 +969,11 @@ const getData = async (req, res) => {
           if (theType === 'kp-bergerak' || theType === 'makmal-pergigian') {
             const exists = await Fasiliti.findOne({
               nama: Data.nama,
+              jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
             });
             if (exists) {
               return res.status(400).json({
-                message: 'KPB/MPB telah wujud',
+                message: 'No plat KPB/MPB ini telah wujud',
               });
             } else {
               Data = {
