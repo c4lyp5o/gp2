@@ -2595,7 +2595,7 @@ const makeGender = async (payload) => {
 const makeMasa = async (payload) => {
   console.log('makeMasa');
   try {
-    const { pegawai, klinik, daerah, negeri, bulan } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai } = payload;
     //
     const data = await Helper.countMasa(payload);
     //
@@ -2603,99 +2603,53 @@ const makeMasa = async (payload) => {
       return 'No data found';
     }
     //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
+    //
     let filename = path.join(__dirname, '..', 'public', 'exports', 'MASA.xlsx');
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet[1];
+    // get first worksheet
+    let worksheet = workbook.getWorksheet('Bulan');
+    // write facility
+    let intro3 = worksheet.getCell('B5');
+    intro3.value = `${klinik.toUpperCase()}`;
+    // write daerah
+    let intro4 = worksheet.getCell('B4');
+    intro4.value = `${daerah.toUpperCase()}`;
+    // write negeri
+    let intro5 = worksheet.getCell('B3');
+    intro5.value = `${negeri.toUpperCase()}`;
+    // end intro
 
-    const monthName = moment(bulan).format('MMMM');
-    const yearNow = moment(new Date()).format('YYYY');
-
-    // let intro1 = worksheet.getCell('B3');
-    // intro1.value = `${negeri.toUpperCase()}`;
-
-    // let intro2 = worksheet.getCell('B4');
-    // intro2.value = yearNow;
-
-    // let intro2 = worksheet.getRow(8);
-    // intro2.getCell(2).value = `${daerah.toUpperCase()}`; quarterly
-
-    // let intro3 = worksheet.getCell('B6');
-    // intro3.value = `${daerah.toUpperCase()}`;
-
-    // let j = 3;
-    // let k = 9;
-
-    // for (let i = 0; i < 2; i++) {
-    //   let rowNew = worksheet.getRow(k);
-    //   for (let l = 0; l < data.length; l++) {
-    //     if (data[i]) {
-    //       rowNew.getCell(j).value = data[i].pesakitLelakiBaru;
-    //       rowNew.getCell(j).value = data[i].pesakitPerempuanBaru;
-    //     }
-    //     if (l < 6) {
-    //       j += 3;
-    //     } else {
-    //       j = 0;
-    //       k += 3;
-    //     }
-    //   }
-    // }
-
-    let rowNumber;
-    let cellNumber;
-
-    rowNumber = 9;
-    cellNumber = 3;
+    let cellNumber = 5;
 
     for (let i = 0; i < data.length; i++) {
-      if (data[0].dataLelaki[i][0]) {
-        console.log(`writing ${rowNumber} & ${cellNumber} lelaki`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataLelaki[i][0].pesakitLelakiBaru;
-        rowNumber++;
-        console.log(`writing ${rowNumber} & ${cellNumber} lelaki`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataLelaki[i][0].pesakitLelakiUlangan;
-        rowNumber--;
-      }
-      // if (i === 3) {
-      //   cellNumber += 6;
-      // }
-      if (i < 6 || i > 6) {
-        cellNumber += 5;
-      }
-      if (i === 6) {
-        cellNumber = 3;
-        rowNumber = 12;
+      for (let j = 0; j < data[i].opData.length; j++) {
+        if (data[i].opData[j]) {
+          worksheet.getRow(i + 15).getCell(cellNumber).value =
+            data[i].opData[j].total;
+          cellNumber = cellNumber + 3;
+          worksheet.getRow(i + 15).getCell(cellNumber).value =
+            data[i].opData[j].jumlahOpYangDipanggilSebelum30Minit;
+        }
+        cellNumber = 5;
       }
     }
 
-    rowNumber = 9;
-    cellNumber = 4;
-
     for (let i = 0; i < data.length; i++) {
-      console.log('belah perempuan');
-      if (data[0].dataPerempuan[i][0]) {
-        console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataPerempuan[i][0].pesakitPerempuanBaru;
-        rowNumber++;
-        console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataPerempuan[i][0].pesakitPerempuanUlangan;
-        rowNumber--;
-      }
-      // if (i === 3) {
-      //   cellNumber += 6;
-      // }
-      if (i < 6 || i > 6) {
-        cellNumber += 5;
-      }
-      if (i === 6) {
-        cellNumber = 4;
-        rowNumber = 12;
+      for (let j = 0; j < data[i].temujanjiData.length; j++) {
+        if (data[i].temujanjiData[j]) {
+          worksheet.getRow(i + 15).getCell(cellNumber).value =
+            data[i].temujanjiData[j].total;
+          cellNumber = cellNumber + 3;
+          worksheet.getRow(i + 15).getCell(cellNumber).value =
+            data[i].temujanjiData[j].jumlahOpYangDipanggilSebelum30Minit;
+        }
+        cellNumber = 5;
       }
     }
 
@@ -2707,7 +2661,7 @@ const makeMasa = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 100000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -3061,7 +3015,7 @@ exports.debug = async (req, res) => {
   // let tarikhMula = '2021-01-01';
   // let tarikhAkhir = '2021-01-31';
   // let pegawai = 'dr. faizatul hawa binti mohd zuki';
-  const data = await makeBp(payload);
+  const data = await makeMasa(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);

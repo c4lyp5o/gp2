@@ -13194,7 +13194,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-01-01`,
         $lte: `${new Date().getFullYear()}-01-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opFebruari = {
@@ -13203,7 +13203,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-02-01`,
         $lte: `${new Date().getFullYear()}-02-28`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opMac = {
@@ -13212,7 +13212,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-03-01`,
         $lte: `${new Date().getFullYear()}-03-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opApril = {
@@ -13221,7 +13221,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-04-01`,
         $lte: `${new Date().getFullYear()}-04-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opMei = {
@@ -13230,7 +13230,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-05-01`,
         $lte: `${new Date().getFullYear()}-05-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opJun = {
@@ -13239,7 +13239,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-06-01`,
         $lte: `${new Date().getFullYear()}-06-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opJulai = {
@@ -13248,7 +13248,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-07-01`,
         $lte: `${new Date().getFullYear()}-07-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opOgos = {
@@ -13257,7 +13257,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-08-01`,
         $lte: `${new Date().getFullYear()}-08-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opSeptember = {
@@ -13266,7 +13266,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-09-01`,
         $lte: `${new Date().getFullYear()}-09-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opOktober = {
@@ -13275,7 +13275,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-10-01`,
         $lte: `${new Date().getFullYear()}-10-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opNovember = {
@@ -13284,7 +13284,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-11-01`,
         $lte: `${new Date().getFullYear()}-11-30`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
   const opDisember = {
@@ -13293,7 +13293,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-12-01`,
         $lte: `${new Date().getFullYear()}-12-31`,
       },
-      ...getParamsPiagamMasa('op'),
+      ...getParamsPiagamMasa(payload, 'op'),
     },
   };
 
@@ -13316,7 +13316,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-01-01`,
         $lte: `${new Date().getFullYear()}-01-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiFebruari = {
@@ -13325,7 +13325,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-02-01`,
         $lte: `${new Date().getFullYear()}-02-28`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiMac = {
@@ -13334,7 +13334,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-03-01`,
         $lte: `${new Date().getFullYear()}-03-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiApril = {
@@ -13343,7 +13343,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-04-01`,
         $lte: `${new Date().getFullYear()}-04-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiMei = {
@@ -13352,7 +13352,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-05-01`,
         $lte: `${new Date().getFullYear()}-05-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiJun = {
@@ -13361,7 +13361,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-06-01`,
         $lte: `${new Date().getFullYear()}-06-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiJulai = {
@@ -13370,7 +13370,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-07-01`,
         $lte: `${new Date().getFullYear()}-07-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiOgos = {
@@ -13379,7 +13379,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-08-01`,
         $lte: `${new Date().getFullYear()}-08-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiSeptember = {
@@ -13388,7 +13388,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-09-01`,
         $lte: `${new Date().getFullYear()}-09-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiOktober = {
@@ -13397,7 +13397,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-10-01`,
         $lte: `${new Date().getFullYear()}-10-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiNovember = {
@@ -13406,7 +13406,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-11-01`,
         $lte: `${new Date().getFullYear()}-11-30`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
   const temujanjiDisember = {
@@ -13415,7 +13415,7 @@ const countMasa = async (payload) => {
         $gte: `${new Date().getFullYear()}-12-01`,
         $lte: `${new Date().getFullYear()}-12-31`,
       },
-      ...getParamsPiagamMasa('temujanji'),
+      ...getParamsPiagamMasa(payload, 'temujanji'),
     },
   };
 
@@ -13432,6 +13432,29 @@ const countMasa = async (payload) => {
   match_stage_temujanji.push(temujanjiNovember);
   match_stage_temujanji.push(temujanjiDisember);
 
+  const add_fields_stage = {
+    $addFields: {
+      waktuDipanggilUnix: {
+        $toLong: {
+          $dateFromString: {
+            dateString: {
+              $concat: ['1970-01-01T', '$waktuDipanggil'],
+            },
+          },
+        },
+      },
+      waktuSampaiUnix: {
+        $toLong: {
+          $dateFromString: {
+            dateString: {
+              $concat: ['1970-01-01T', '$waktuSampai'],
+            },
+          },
+        },
+      },
+    },
+  };
+
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
@@ -13441,7 +13464,7 @@ const countMasa = async (payload) => {
           $cond: [
             {
               $lt: [
-                { $subtract: ['$waktuDipanggil', '$waktuSampai'] },
+                { $subtract: ['$waktuDipanggilUnix', '$waktuSampaiUnix'] },
                 30 * 60 * 1000,
               ],
             },
@@ -13458,23 +13481,26 @@ const countMasa = async (payload) => {
   let temujanjiData = [];
   let opData = [];
 
+  for (let i = 0; i < match_stage_op.length; i++) {
+    const dataOp = await Umum.aggregate([
+      match_stage_op[i],
+      add_fields_stage,
+      group_stage,
+    ]);
+    opData.push(dataOp);
+  }
+
   for (let i = 0; i < match_stage_temujanji.length; i++) {
     const dataTemujanji = await Umum.aggregate([
       match_stage_temujanji[i],
+      add_fields_stage,
       group_stage,
     ]);
     temujanjiData.push(dataTemujanji);
   }
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const dataOp = await Umum.aggregate([match_stage_op[i], group_stage]);
-    opData.push(dataOp);
-  }
-
-  bigData.push(temujanjiData);
-  bigData.push(opData);
-
-  console.log(bigData);
+  bigData.push({ opData });
+  bigData.push({ temujanjiData });
 
   return bigData;
 };
@@ -13790,7 +13816,7 @@ const countBp = async (payload) => {
   bigData.push({ india });
   bigData.push({ dayak });
   bigData.push({ lain2 });
-  
+
   // console.log(bigData[0].melayu[5][0].jumlahLelaki);
   // console.log(bigData.length);
   // console.log(bigData[0].melayu.length);
@@ -14744,18 +14770,75 @@ const getParamsGender = (payload) => {
     return byNegeri();
   }
 };
-const getParamsPiagamMasa = (jenis) => {
-  if (jenis === 'op') {
-    return {
-      jenisFasiliti: { $eq: 'kp' },
-      temujanji: false,
+const getParamsPiagamMasa = (payload, jenis) => {
+  const { klinik, daerah, negeri, bulan } = payload;
+  //
+  const opAtauTemujanji = (jenis) => {
+    if (jenis === 'op') {
+      return {
+        temujanji: false,
+      };
+    } else {
+      return {
+        temujanji: true,
+      };
+    }
+  };
+
+  const byKp = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      createdByDaerah: daerah,
+      createdByNegeri: negeri,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ...opAtauTemujanji(jenis),
     };
-  } else {
-    return {
-      jenisFasiliti: { $eq: 'kp' },
-      temujanji: true,
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      createdByDaerah: daerah,
+      createdByNegeri: negeri,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ...opAtauTemujanji(jenis),
     };
-  }
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      createdByNegeri: negeri,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      ...opAtauTemujanji(jenis),
+    };
+    return param;
+  };
+
+  // if (jenis === 'op') {
+  //   return {
+  //     createdByUsername: { $ne: 'kaunter' },
+  //     waktuDipanggil: { $ne: '' },
+  //     jenisFasiliti: { $eq: 'kp' },
+  //     temujanji: false,
+  //   };
+  // } else {
+  //   return {
+  //     createdByUsername: { $ne: 'kaunter' },
+  //     waktuDipanggil: { $ne: '' },
+  //     jenisFasiliti: { $eq: 'kp' },
+  //     temujanji: true,
+  //   };
+  // }
 };
 const getParamsBp = (payload, kaum, jantina) => {
   const { klinik, daerah, negeri } = payload;
