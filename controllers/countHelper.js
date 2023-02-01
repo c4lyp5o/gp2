@@ -13024,75 +13024,267 @@ const countMasa = async (payload) => {
   return bigData;
 };
 const countBp = async (payload) => {
+  //
+  const umur1829lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur3039lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur4049lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur5059lelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur60keataslelaki = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur1829perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 18,
+          $lte: 29,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur3039perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 30,
+          $lte: 39,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur4049perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 40,
+          $lte: 49,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur5059perempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 50,
+          $lte: 59,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+
+  const umur60keatasperempuan = (payload, kaum, jantina) => {
+    return {
+      $match: {
+        umur: {
+          $gte: 60,
+        },
+        ...getParamsBp(payload, kaum, jantina),
+      },
+    };
+  };
+  //
   let match_stage_melayu = [];
   let match_stage_cina = [];
   let match_stage_india = [];
   let match_stage_dayak = [];
   let match_stage_lain = [];
   //
-  match_stage_melayu.push(getParamsBp('melayu'));
-  match_stage_cina.push(getParamsBp('cina'));
-  match_stage_india.push(getParamsBp('india'));
-  match_stage_dayak.push(getParamsBp('dayak'));
-  match_stage_lain.push(
-    getParamsBp({ $nin: ['melayu', 'cina', 'india', 'dayak'] })
-  );
-
-  console.log(match_stage_melayu);
-  console.log(match_stage_cina);
-  console.log(match_stage_india);
-  console.log(match_stage_dayak);
-  console.log(match_stage_lain);
+  match_stage_melayu = [
+    umur1829lelaki(payload, 'melayu', 'l'),
+    umur3039lelaki(payload, 'melayu', 'l'),
+    umur4049lelaki(payload, 'melayu', 'l'),
+    umur5059lelaki(payload, 'melayu', 'l'),
+    umur60keataslelaki(payload, 'melayu', 'l'),
+    umur1829perempuan(payload, 'melayu', 'p'),
+    umur3039perempuan(payload, 'melayu', 'p'),
+    umur4049perempuan(payload, 'melayu', 'p'),
+    umur5059perempuan(payload, 'melayu', 'p'),
+    umur60keatasperempuan(payload, 'melayu', 'p'),
+  ];
+  match_stage_cina = [
+    umur1829lelaki(payload, 'cina', 'l'),
+    umur3039lelaki(payload, 'cina', 'l'),
+    umur4049lelaki(payload, 'cina', 'l'),
+    umur5059lelaki(payload, 'cina', 'l'),
+    umur60keataslelaki(payload, 'cina', 'l'),
+    umur1829perempuan(payload, 'cina', 'p'),
+    umur3039perempuan(payload, 'cina', 'p'),
+    umur4049perempuan(payload, 'cina', 'p'),
+    umur5059perempuan(payload, 'cina', 'p'),
+    umur60keatasperempuan(payload, 'cina', 'p'),
+  ];
+  match_stage_india = [
+    umur1829lelaki(payload, 'india', 'l'),
+    umur3039lelaki(payload, 'india', 'l'),
+    umur4049lelaki(payload, 'india', 'l'),
+    umur5059lelaki(payload, 'india', 'l'),
+    umur60keataslelaki(payload, 'india', 'l'),
+    umur1829perempuan(payload, 'india', 'p'),
+    umur3039perempuan(payload, 'india', 'p'),
+    umur4049perempuan(payload, 'india', 'p'),
+    umur5059perempuan(payload, 'india', 'p'),
+    umur60keatasperempuan(payload, 'india', 'p'),
+  ];
+  match_stage_dayak = [
+    umur1829lelaki(payload, 'dayak', 'l'),
+    umur3039lelaki(payload, 'dayak', 'l'),
+    umur4049lelaki(payload, 'dayak', 'l'),
+    umur5059lelaki(payload, 'dayak', 'l'),
+    umur60keataslelaki(payload, 'dayak', 'l'),
+    umur1829perempuan(payload, 'dayak', 'p'),
+    umur3039perempuan(payload, 'dayak', 'p'),
+    umur4049perempuan(payload, 'dayak', 'p'),
+    umur5059perempuan(payload, 'dayak', 'p'),
+    umur60keatasperempuan(payload, 'dayak', 'p'),
+  ];
+  match_stage_lain = [
+    umur1829lelaki(payload, 'lain lain', 'l'),
+    umur3039lelaki(payload, 'lain lain', 'l'),
+    umur4049lelaki(payload, 'lain lain', 'l'),
+    umur5059lelaki(payload, 'lain lain', 'l'),
+    umur60keataslelaki(payload, 'lain lain', 'l'),
+    umur1829perempuan(payload, 'lain lain', 'p'),
+    umur3039perempuan(payload, 'lain lain', 'p'),
+    umur4049perempuan(payload, 'lain lain', 'p'),
+    umur5059perempuan(payload, 'lain lain', 'p'),
+    umur60keatasperempuan(payload, 'lain lain', 'p'),
+  ];
   //
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
       total: { $sum: 1 },
-      jumlahLelaki: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'lelaki'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      jumlahPerempuan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$jantina', 'perempuan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
+      // jumlahLelaki: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$jantina', 'lelaki'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
+      // //
+      // jumlahPerempuan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$jantina', 'perempuan'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
       adaSejarahDarahTinggi: {
         $sum: {
           $cond: [
             {
               $eq: ['$sejarahDarahTinggi', true],
+              // $eq: ['$jantina', 'lelaki'],
             },
             1,
             0,
           ],
         },
       },
-      tiadaadaSejarahDarahTinggi: {
+      // adaSejarahDarahTinggiPerempuan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$sejarahDarahTinggi', true],
+      //         $eq: ['$jantina', 'perempuan'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
+      tiadaSejarahDarahTinggi: {
         $sum: {
           $cond: [
             {
               $eq: ['$sejarahDarahTinggi', false],
+              // $eq: ['$jantina', 'lelaki'],
             },
             1,
             0,
           ],
         },
       },
+      // tiadaSejarahDarahTinggiPerempuan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $eq: ['$sejarahDarahTinggi', false],
+      //         $eq: ['$jantina', 'perempuan'],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
       jumlahDirujukKeKk: {
         $sum: {
           $cond: [
@@ -13138,16 +13330,18 @@ const countBp = async (payload) => {
     lain2.push(dataLain);
   }
 
-  bigData.push(melayu);
-  bigData.push(cina);
-  bigData.push(india);
-  bigData.push(dayak);
-  bigData.push(lain2);
+  bigData.push({ melayu });
+  bigData.push({ cina });
+  bigData.push({ india });
+  bigData.push({ dayak });
+  bigData.push({ lain2 });
+  
+  // console.log(bigData[0].melayu[5][0].jumlahLelaki);
+  // console.log(bigData.length);
+  // console.log(bigData[0].melayu.length);
 
-  console.log(bigData);
-
-  // return bigData;
-  return 'No data found';
+  return bigData;
+  // return 'No data found';
 };
 const countBPE = async (payload) => {
   //
@@ -14106,167 +14300,51 @@ const getParamsPiagamMasa = (jenis) => {
     };
   }
 };
-const getParamsBp = (kaum) => {
-  const umur1829lelaki = () => {
+const getParamsBp = (payload, kaum, jantina) => {
+  const { klinik, daerah, negeri } = payload;
+  //
+  let theSex = jantina === 'l' ? 'lelaki' : 'perempuan';
+
+  const byKp = () => {
     let param = {
-      $match: {
-        umur: {
-          $gte: 18,
-          $lte: 29,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
+      createdByKodFasiliti: klinik,
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+      kumpulanEtnik: kaum,
+      jantina: theSex,
+      deleted: false,
     };
     return param;
   };
 
-  const umur3039lelaki = () => {
+  const byDaerah = () => {
     let param = {
-      $match: {
-        umur: {
-          $gte: 30,
-          $lte: 39,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: 'kaum',
-        deleted: false,
-      },
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+      kumpulanEtnik: kaum,
+      jantina: theSex,
+      deleted: false,
     };
     return param;
   };
 
-  const umur4049lelaki = () => {
+  const byNegeri = () => {
     let param = {
-      $match: {
-        umur: {
-          $gte: 40,
-          $lte: 49,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
+      createdByNegeri: negeri,
+      kumpulanEtnik: kaum,
+      jantina: theSex,
+      deleted: false,
     };
     return param;
   };
 
-  const umur5059lelaki = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 50,
-          $lte: 59,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur60keataslelaki = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 60,
-        },
-        jantina: 'lelaki',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur1829perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 18,
-          $lte: 29,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur3039perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 30,
-          $lte: 39,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur4049perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 40,
-          $lte: 49,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur5059perempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 50,
-          $lte: 59,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  const umur60keatasperempuan = () => {
-    let param = {
-      $match: {
-        umur: {
-          $gte: 60,
-        },
-        jantina: 'perempuan',
-        kumpulanEtnik: kaum,
-        deleted: false,
-      },
-    };
-    return param;
-  };
-
-  return {
-    umur1829lelaki,
-    umur3039lelaki,
-    umur4049lelaki,
-    umur5059lelaki,
-    umur60keataslelaki,
-    umur1829perempuan,
-    umur3039perempuan,
-    umur4049perempuan,
-    umur5059perempuan,
-    umur60keatasperempuan,
-  };
+  if (klinik !== 'all') {
+    return byKp();
+  } else if (daerah !== 'all') {
+    return byDaerah();
+  } else {
+    return byNegeri();
+  }
 };
 const getParamsBPE = (payload) => {
   const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
