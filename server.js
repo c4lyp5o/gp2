@@ -57,7 +57,7 @@ const connectDB = require('./database/connect');
 const root = path.join(__dirname, 'client', 'build');
 app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
-app.use(helmet());
+app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(
   mongoSanitize({
     replaceWith: '_',
