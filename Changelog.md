@@ -10,7 +10,7 @@
 - Pilihan penggunaan KPB/MPB akan ada di borang pesakit Umum sekiranya pesakit tersebut datang di dalam lingkungan tarikh penggunaan KPB/MPB tersebut
 - Penambahan kotak penandaan Ada Sejarah Darah Tinggi di borang pesakit umum
 - Menambah jenis fasiliti & nama program di bahagian atas borang pendaftaran ketika mendaftarkan pesakit
-- Penjanaan PG101A bagi fasiliti klinik pergigian dibuka di modul pendaftaran
+- Penjanaan PG101A dibuka di modul Pendaftaran bagi submodul Klinik Pergigian sahaja
 
 #### Changed
 
@@ -25,11 +25,11 @@
 #### Fixed
 
 - Carian nama pesakit diperbetulkan sekiranya menggunakan huruf besar di modul Pengguna bagi submodul Umum & submodul Carian
-- Pengawai promosi klinik boleh menghapuskan promosi individu dan juga promosi klinik
+- Pegawai promosi klinik boleh menghapuskan promosi individu dan juga promosi klinik
 
 #### Security
 
-- Memperbaiki sekuriti secara keseluruhan untuk sistem
+- Menambahbaik sekuriti secara keseluruhan untuk sistem
 
 ### 17/1/2023 (v2.0.9)
 
