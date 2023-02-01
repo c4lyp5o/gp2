@@ -5,7 +5,7 @@ import {
   BsFillFilePersonFill,
   BsFillInfoCircleFill,
 } from 'react-icons/bs';
-import { RiCloseLine } from 'react-icons/ri';
+import { FaWindowClose } from 'react-icons/fa';
 import { TbArrowBigLeftLine } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -13,118 +13,111 @@ import moment from 'moment';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 import PrintPatientDetails from './PrintPatientDetails';
 
-import styles from '../../../admin/Modal.module.css';
-
 const PilihanBulan = (props) => {
+  const noWayBack = () => {
+    if (props.generatingNoWayBack) {
+      toast.warning('Sila sabar menunggu...', {
+        autoClose: 2000,
+        pauseOnHover: false,
+      });
+      return;
+    }
+    if (!props.generatingNoWayBack) {
+      props.setShowBulan(false);
+    }
+  };
+
   return (
-    <form onSubmit={props.handleJana}>
-      <div
-        className={styles.darkBG}
-        onClick={() => props.setShowBulan(false)}
-      />
-      <div className={styles.centered}>
-        <div className={styles.modalPilihBulan}>
-          <div className={styles.modalHeader}>
-            <h5 className={styles.heading}>
-              Sila Pilh Bulan Untuk Penjanaan PG101A
-            </h5>
+    <>
+      <div className='absolute inset-x-10 inset-y-5 lg:inset-x-1/3 lg:inset-y-7 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+        <FaWindowClose
+          onClick={noWayBack}
+          className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
+        />
+
+        <h5 className='bg-kaunter1 text-userWhite font-semibold text-lg'>
+          Pilih Bulan Untuk Penjanaan PG101A
+        </h5>
+        <form onSubmit={props.handleJana}>
+          <div className='p-10'>
+            <label
+              htmlFor='bulan-jana'
+              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+            >
+              Bulan:
+            </label>
+            <select
+              required
+              name='bulan-jana'
+              id='bulan-jana'
+              onChange={(e) => {
+                props.setPilihanBulan(e.target.value);
+              }}
+              className='w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+            >
+              <option value=''>Sila pilih bulan..</option>
+              {props.namaNamaBulan.map((n, index) => {
+                return (
+                  <option value={n.value} key={index} className='capitalize'>
+                    {n.nama}
+                  </option>
+                );
+              })}
+            </select>
           </div>
-          <span
-            className={styles.closeBtn}
-            onClick={() => props.setShowBulan(false)}
-          >
-            <RiCloseLine style={{ marginBottom: '-3px' }} />
-          </span>
-          <div className={styles.modalContent}>
-            <div className='admin-pegawai-handler-container'>
-              <div className='mb-3'>
-                <div className='grid gap-1'>
-                  <div className='px-3 py-1'>
-                    <label
-                      htmlFor='negeri'
-                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                    >
-                      Bulan:
-                    </label>
-                    <select
-                      required
-                      name='bulan'
-                      id='bulan'
-                      onChange={(e) => {
-                        props.setPilihanBulan(e.target.value);
-                      }}
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    >
-                      <option value=''>Sila pilih bulan..</option>
-                      {props.namaNamaBulan.map((n, index) => {
-                        return (
-                          <option
-                            value={n.value}
-                            key={index}
-                            className='capitalize'
-                          >
-                            {n.nama}
-                          </option>
-                        );
-                      })}
-                    </select>
-                  </div>
+          <div className='absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
+            {props.generating ? (
+              <button
+                type='button'
+                className='capitalize bg-kaunter3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                disabled
+              >
+                <div className='flex flex-row items-center'>
+                  <svg
+                    className='animate-spin -ml-1 mr-3 h-3 w-5 text-userWhite'
+                    xmlns='http://www.w3.org/2000/svg'
+                    fill='none'
+                    viewBox='0 0 24 24'
+                  >
+                    <circle
+                      className='opacity-25'
+                      cx='12'
+                      cy='12'
+                      r='10'
+                      stroke='currentColor'
+                      strokeWidth='4'
+                    ></circle>
+                    <path
+                      className='opacity-75'
+                      fill='currentColor'
+                      d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
+                    ></path>
+                  </svg>
+                  <span className='text-userWhite'>{props.defaultTimer}</span>
                 </div>
-              </div>
-            </div>
-            <div>
-              <div>
-                {props.generating ? (
-                  <button
-                    className='px-6 py-2.5 m-1 w-32 bg-admin3 font-medium text-xs uppercase rounded-md shadow-md transition-all cursor-not-allowed'
-                    type='button'
-                  >
-                    <div className='flex flex-row items-center'>
-                      <svg
-                        className='animate-spin -ml-1 mr-3 h-3 w-5 text-userWhite'
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                      >
-                        <circle
-                          className='opacity-25'
-                          cx='12'
-                          cy='12'
-                          r='10'
-                          stroke='currentColor'
-                          strokeWidth='4'
-                        ></circle>
-                        <path
-                          className='opacity-75'
-                          fill='currentColor'
-                          d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
-                        ></path>
-                      </svg>
-                      <span className='text-userWhite'>
-                        {props.defaultTimer}
-                      </span>
-                    </div>
-                  </button>
-                ) : (
-                  <button
-                    type='submit'
-                    className='px-6 py-2.5 m-1 w-32 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-                  >
-                    Jana!
-                  </button>
-                )}
-                <button
-                  className='px-6 py-2.5 m-1 w-32 bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-                  onClick={() => props.setShowBulan(false)}
-                >
-                  Kembali
-                </button>
-              </div>
-            </div>
+              </button>
+            ) : (
+              <button
+                type='submit'
+                className='capitalize bg-kaunter1 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
+              >
+                Jana !
+              </button>
+            )}
+            <span
+              className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 hover:cursor-pointer transition-all'
+              onClick={noWayBack}
+            >
+              Kembali
+            </span>
           </div>
-        </div>
+        </form>
       </div>
-    </form>
+      <div
+        onClick={noWayBack}
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+      />
+    </>
   );
 };
 
@@ -158,6 +151,7 @@ export default function PatientData({
   const [showBulan, setShowBulan] = useState(false);
   const [pilihanBulan, setPilihanBulan] = useState('');
   const [generating, setGenerating] = useState(false);
+  const [generatingNoWayBack, setGeneratingNoWayBack] = useState(false);
   const [defaultTimer, setDefaultTimer] = useState(60);
 
   const formatMelayu = (date) => {
@@ -183,8 +177,10 @@ export default function PatientData({
     return output;
   };
 
-  //carian ic semua
+  // carian dengan nama, ic, statusReten
   const keys = ['nama', 'ic', 'statusReten'];
+
+  // bulan untuk jana reten PG101A
   const namaNamaBulan = [
     { nama: 'Januari', value: `${new Date().getFullYear()}-01-01` },
     { nama: 'Februari', value: `${new Date().getFullYear()}-02-01` },
@@ -230,7 +226,7 @@ export default function PatientData({
           toast.error('Anda tidak dibenarkan untuk menjana reten');
           break;
         case 404:
-          toast.error('Tiada data untuk tarikh yang dipilih');
+          toast.error('Tiada pesakit untuk bulan yang dipilih');
           break;
         default:
           toast.error('Internal Server Error');
@@ -242,32 +238,38 @@ export default function PatientData({
   const handleJana = async (e) => {
     e.preventDefault();
     setGenerating(true);
-    const id = toast.loading('Sedang menjana reten...');
-    await penjanaanReten()
-      .then((res) => {
-        saveFile(res.data);
-      })
-      .then(() => {
-        toast.update(id, {
-          render: 'Berjaya menjana reten',
-          type: 'success',
-          isLoading: false,
-          autoClose: 2000,
-        });
-        // kalau diorang refresh, hehehe...
-        const cooldown = setInterval(() => {
-          setDefaultTimer((timer) => timer - 1);
-        }, 1000);
-        setTimeout(() => {
-          clearInterval(cooldown);
-          setDefaultTimer(60);
+    setGeneratingNoWayBack(true);
+    const id = toast.loading('Sedang menjana reten, sila tunggu...');
+    setTimeout(async () => {
+      await penjanaanReten()
+        .then((res) => {
+          saveFile(res.data);
+        })
+        .then(() => {
+          toast.update(id, {
+            render: 'Berjaya menjana reten',
+            type: 'success',
+            isLoading: false,
+            autoClose: 2000,
+          });
+          setGeneratingNoWayBack(false);
+          // kalau diorang refresh, hehehe...
+          const cooldown = setInterval(() => {
+            setDefaultTimer((timer) => timer - 1);
+          }, 1000);
+          setTimeout(() => {
+            clearInterval(cooldown);
+            setDefaultTimer(60);
+            setGenerating(false);
+          }, 60000);
+          setShowBulan(false);
+        })
+        .catch((err) => {
+          toast.dismiss(id);
           setGenerating(false);
-        }, 60000);
-      })
-      .catch((err) => {
-        toast.dismiss(id);
-        setGenerating(false);
-      });
+          setGeneratingNoWayBack(false);
+        });
+    }, 10000);
   };
 
   const saveFile = (blob) => {
@@ -314,57 +316,74 @@ export default function PatientData({
     setShowBulan,
     namaNamaBulan,
     generating,
+    generatingNoWayBack,
     defaultTimer,
   };
 
   if (!showForm && !showPilihanProgram) {
     return (
       <>
-        <div className='grid grid-cols-1 lg:grid-cols-2'>
-          <div className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
-            <p className='flex flex-row'>
-              Fasiliti: {Dictionary[jenisFasiliti]}
+        <div className='py-3'>
+          <div className='grid grid-cols-1 lg:grid-cols-2'>
+            <div className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
+              <p className='flex flex-row'>
+                Fasiliti: {Dictionary[jenisFasiliti]}
+              </p>
+              {jenisFasiliti === 'projek-komuniti-lain' ? (
+                <>
+                  <span
+                    className='absolute top-5 left-2 text-admin2 text-lg h-96 cursor-pointer'
+                    onClick={() => {
+                      setNamaProgram('');
+                      setShowPilihanProgram(true);
+                    }}
+                  >
+                    <TbArrowBigLeftLine />
+                  </span>
+                  <p className='flex flex-row'>
+                    Jenis Program: {Dictionary[jenisProgram]}
+                  </p>
+                  <p className='flex flex-row'>Nama Program: {namaProgram}</p>
+                </>
+              ) : null}
+            </div>
+            <p className='font-semibold text-user6 lg:mt-2 mr-3 lg:ml-auto'>
+              Tarikh: {formatMelayu(dateToday)}
             </p>
-            {jenisFasiliti === 'projek-komuniti-lain' ? (
-              <>
-                <span
-                  className='absolute top-5 left-2 text-admin2 text-lg h-96 cursor-pointer'
-                  onClick={() => {
-                    setNamaProgram('');
-                    setShowPilihanProgram(true);
-                  }}
-                >
-                  <TbArrowBigLeftLine />
-                </span>
-                <p className='flex flex-row'>
-                  Jenis Program: {Dictionary[jenisProgram]}
-                </p>
-                <p className='flex flex-row'>Nama Program: {namaProgram}</p>
-              </>
-            ) : null}
           </div>
-          <p className='font-semibold text-user6 lg:mt-2 mr-3 lg:ml-auto'>
-            Tarikh: {formatMelayu(dateToday)}
-          </p>
-        </div>
-        <div className='flex justify-center'>
-          <div className='mb-3 w-64 relative'>
-            <input
-              type='search'
-              className='outline outline-1 outline-userBlack rounded-md p-3'
-              id='carianPesakit'
-              placeholder='Carian Pesakit'
-              title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
-              onChange={(e) => setPhilter(e.target.value.toLowerCase())}
-            />
-            <BsFillInfoCircleFill
-              className='text-user9 text-2xl inline-table ml-5 pb-1 absolute top-3 -right-5'
-              title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
-            />
+          <div className='flex justify-center'>
+            <div className='mb-3 w-64 relative'>
+              <input
+                type='search'
+                className='outline outline-1 outline-userBlack rounded-md p-3'
+                id='carianPesakit'
+                placeholder='Carian Pesakit'
+                title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
+                onChange={(e) => setPhilter(e.target.value.toLowerCase())}
+              />
+              <BsFillInfoCircleFill
+                className='text-user9 text-2xl inline-table ml-5 pb-1 absolute top-3 -right-5'
+                title='Ruangan carian ini hanyalah untuk tujuan kemaskini pesakit yg didaftar pada hari tersebut sahaja'
+              />
+            </div>
           </div>
-        </div>
-        {jenisFasiliti === 'kp' ? (
-          <div>
+          {jenisFasiliti === 'kp' ? (
+            <div>
+              <button
+                type='button'
+                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                onClick={() => setShowForm(true)}
+              >
+                Daftar Pesakit
+              </button>
+              <button
+                onClick={() => setShowBulan(true)}
+                className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+              >
+                Jana Reten PG101A
+              </button>
+            </div>
+          ) : (
             <button
               type='button'
               className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
@@ -372,161 +391,149 @@ export default function PatientData({
             >
               Daftar Pesakit
             </button>
-            <button
-              onClick={() => setShowBulan(true)}
-              className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-            >
-              Jana Reten PG101A
-            </button>
-          </div>
-        ) : (
-          <button
-            type='button'
-            className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-            onClick={() => setShowForm(true)}
-          >
-            Daftar Pesakit
-          </button>
-        )}
-        <div className='mt-2'>
-          <div className='justify-center items-center'>
-            <p className='text-xs text-user9 lowercase'>
-              * sekiranya terdapat dua pendaftaran yang sama, sila hubungi
-              pengguna
-              <b className='mr-1 uppercase'> 'pentadbir'</b>
-              klinik pergigian anda
-            </p>
-            <button
-              onClick={reloadData}
-              className='flex ml-auto pr-3 px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-            >
-              Kemaskini senarai pesakit
-            </button>
-            <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
-              <table className='table-auto'>
-                <thead className='text-userWhite bg-kaunter2'>
-                  <tr>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      BIL
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                      WAKTU SAMPAI
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                      NO. PENDAFTARAN
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
-                      NAMA PESAKIT
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                      NO. PENGENALAN DIRI
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                      STATUS PESAKIT
-                    </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                      STATUS PENGISIAN RETEN
-                    </th>
-                    {jenisFasiliti === 'kk-kd' ? (
-                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                        NAMA KKIA / KD
+          )}
+          <div className='mt-2'>
+            <div className='justify-center items-center'>
+              <p className='text-xs text-user9 lowercase'>
+                * sekiranya terdapat dua pendaftaran yang sama, sila hubungi
+                pengguna
+                <b className='mr-1 uppercase'> 'pentadbir'</b>
+                klinik pergigian anda
+              </p>
+              <button
+                onClick={reloadData}
+                className='flex ml-auto pr-3 px-6 py-2.5 my-1 bg-kaunter2 hover:bg-kaunter3 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+              >
+                Kemaskini senarai pesakit
+              </button>
+              <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
+                <table className='table-auto'>
+                  <thead className='text-userWhite bg-kaunter2'>
+                    <tr>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        BIL
                       </th>
-                    ) : null}
-                    {jenisFasiliti === 'taska-tadika' ? (
-                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                        NAMA TASKA/TADIKA
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                        WAKTU SAMPAI
                       </th>
-                    ) : null}
-                    {jenisFasiliti === 'projek-komuniti-lain' ? (
-                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
-                        NAMA PROGRAM
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                        NO. PENDAFTARAN
                       </th>
-                    ) : null}
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                      TINDAKAN
-                    </th>
-                  </tr>
-                </thead>
-                {data.kaunterResultQuery
-                  .filter((pt) =>
-                    keys.some((key) => pt[key].toLowerCase().includes(philter))
-                  )
-                  .map((p, index) => (
-                    <>
-                      <tbody className='bg-kaunter3'>
-                        <tr>
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {index + 1}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {p.waktuSampai !== ''
-                              ? formatTime(p.waktuSampai)
-                              : '-'}
-                          </td>
-                          {p.noPendaftaranBaru ? (
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
+                        NAMA PESAKIT
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                        NO. PENGENALAN DIRI
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                        STATUS PESAKIT
+                      </th>
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                        STATUS PENGISIAN RETEN
+                      </th>
+                      {jenisFasiliti === 'kk-kd' ? (
+                        <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                          NAMA KKIA / KD
+                        </th>
+                      ) : null}
+                      {jenisFasiliti === 'taska-tadika' ? (
+                        <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                          NAMA TASKA/TADIKA
+                        </th>
+                      ) : null}
+                      {jenisFasiliti === 'projek-komuniti-lain' ? (
+                        <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                          NAMA PROGRAM
+                        </th>
+                      ) : null}
+                      <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                        TINDAKAN
+                      </th>
+                    </tr>
+                  </thead>
+                  {data.kaunterResultQuery
+                    .filter((pt) =>
+                      keys.some((key) =>
+                        pt[key].toLowerCase().includes(philter)
+                      )
+                    )
+                    .map((p, index) => (
+                      <>
+                        <tbody className='bg-kaunter3'>
+                          <tr>
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                              {index + 1}
+                            </td>
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                              {p.waktuSampai !== ''
+                                ? formatTime(p.waktuSampai)
+                                : '-'}
+                            </td>
+                            {p.noPendaftaranBaru ? (
+                              <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                                {noPendaftaranSplitter(p.noPendaftaranBaru)}
+                                <BsFilePerson
+                                  className='text-user7 text-2xl inline-table mx-2 pb-1'
+                                  title='Baru'
+                                />
+                              </td>
+                            ) : (
+                              <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                                {noPendaftaranSplitter(p.noPendaftaranUlangan)}
+                                <BsFillFilePersonFill
+                                  className='text-user9 text-2xl inline-table mx-2 pb-1'
+                                  title='Ulangan'
+                                />
+                              </td>
+                            )}
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                              {noPendaftaranSplitter(p.noPendaftaranBaru)}
-                              <BsFilePerson
-                                className='text-user7 text-2xl inline-table mx-2 pb-1'
-                                title='Baru'
-                              />
+                              {p.nama}
                             </td>
-                          ) : (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                              {noPendaftaranSplitter(p.noPendaftaranUlangan)}
-                              <BsFillFilePersonFill
-                                className='text-user9 text-2xl inline-table mx-2 pb-1'
-                                title='Ulangan'
-                              />
+                              {p.ic}
                             </td>
-                          )}
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                            {p.nama}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
-                            {p.ic}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {statusPesakit(p)}
-                          </td>
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                            {p.statusReten}
-                          </td>
-                          {jenisFasiliti === 'kk-kd' ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                              {p.namaFasilitiKkKd}
+                              {statusPesakit(p)}
                             </td>
-                          ) : null}
-                          {jenisFasiliti === 'taska-tadika' ? (
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                              {p.namaFasilitiTaskaTadika}
+                              {p.statusReten}
                             </td>
-                          ) : null}
-                          {jenisFasiliti === 'projek-komuniti-lain' ? (
-                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                              {p.namaProgram}
+                            {jenisFasiliti === 'kk-kd' ? (
+                              <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                                {p.namaFasilitiKkKd}
+                              </td>
+                            ) : null}
+                            {jenisFasiliti === 'taska-tadika' ? (
+                              <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                                {p.namaFasilitiTaskaTadika}
+                              </td>
+                            ) : null}
+                            {jenisFasiliti === 'projek-komuniti-lain' ? (
+                              <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
+                                {p.namaProgram}
+                              </td>
+                            ) : null}
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 flex flex-row'>
+                              <button
+                                className='w-24 py-2.5 my-1 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
+                                onClick={(e) => {
+                                  setEditId(p._id);
+                                  setShowForm(true);
+                                }}
+                              >
+                                Kemaskini
+                              </button>
+                              {/* <PrintPatientDetails data={p} /> */}
                             </td>
-                          ) : null}
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 flex flex-row'>
-                            <button
-                              className='w-24 py-2.5 my-1 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
-                              onClick={(e) => {
-                                setEditId(p._id);
-                                setShowForm(true);
-                              }}
-                            >
-                              Kemaskini
-                            </button>
-                            {/* <PrintPatientDetails data={p} /> */}
-                          </td>
-                        </tr>
-                      </tbody>
-                    </>
-                  ))}
-              </table>
+                          </tr>
+                        </tbody>
+                      </>
+                    ))}
+                </table>
+              </div>
             </div>
+            {showBulan ? <PilihanBulan {...props} /> : null}
           </div>
-          {showBulan ? <PilihanBulan {...props} /> : null}
         </div>
       </>
     );
