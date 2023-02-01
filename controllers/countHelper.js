@@ -9687,7 +9687,462 @@ const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
     console.log(error);
   }
 };
-const countPGS203 = async (klinik, bulan, sekolah) => {
+//PGS203 yang focus pada taska and tadika - dengan harapan nanty campur dengan PGS203 Sek
+const countPGS203 = async (payload) => {
+  //utk taska and tadika - data umum sahaja ; belum masuk sekolah lagi
+  let match_stage = [];
+  //
+  const pra_tad_kerajaan = {
+    $match: {
+      ...getParamsPGS203(payload),
+      umur: { $lt: 7 },
+      jenisFasiliti: { $eq: 'taska-tadika' },
+      deleted: false,
+    },
+  };
+  const pra_tad_swasta = {
+    $match: {
+      ...getParamsPGS203(payload),
+      umur: { $lt: 7 },
+      jenisFasiliti: { $eq: 'taska-tadika' },
+      deleted: false,
+    },
+  };
+  const pra_tad_OKU = {
+    $match: {
+      ...getParamsPGS203(payload),
+      umur: { $lt: 7 },
+      jenisFasiliti: { $eq: 'taska-tadika' },
+      orangKurangUpaya: true,
+      deleted: false,
+    },
+  };
+  const pra_tad_OA_penan = {
+    $match: {
+      ...getParamsPGS203(payload),
+      umur: { $lt: 7 },
+      jenisFasiliti: { $eq: 'taska-tadika' },
+      kumpulanEtnik: 'penan',
+      deleted: false,
+    },
+  };
+
+  match_stage.push(pra_tad_kerajaan);
+  match_stage.push(pra_tad_swasta);
+  match_stage.push(pra_tad_OKU);
+  match_stage.push(pra_tad_OA_penan);
+  //
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      total: { $sum: 1 },
+
+      //enrolment - dpt dari fasiliti?
+
+      //kedatangan
+      kedatanganTahunSemasaBaru: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+      },
+      kedatanganTahunSemasaUlangan: {
+        $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
+      },
+      //status gigi desidus
+      jumlahd: { $sum: '$dAdaGigiDesidusPemeriksaanUmum' },
+      jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
+      jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
+      //status gigi kekal
+      jumlahD: { $sum: '$dAdaGigiKekalPemeriksaanUmum' },
+      jumlahM: { $sum: '$mAdaGigiKekalPemeriksaanUmum' },
+      jumlahF: { $sum: '$fAdaGigiKekalPemeriksaanUmum' },
+      jumlahX: { $sum: '$xAdaGigiKekalPemeriksaanUmum' },
+      //status kesihatan mulut murid
+      dfxSamaKosong: {
+        //dfx=0
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahMBK: {
+        //MBK criterias; No 1 (dmfx = 0 + sm =0 ; ) +/- No 2 (DFMX = 0); Cuma boleh gigi susu and mixed dentition
+        $sum: {
+          $cond: [
+            {
+              $or: [
+                {
+                  $and: [
+                    { $gte: ['$umur', 6] },
+                    { $lte: ['$umur', 18] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $lte: ['$umur', 6] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      statusBebasKaries: {
+        //DMFX=0
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      xTambahMsamaKosong: {
+        // X+M = 0
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      eLebihAtauSamaDenganSatu: {
+        $sum: {
+          $cond: [{ $gte: ['$eAdaGigiKekalPemeriksaanUmum', 1] }, 1, 0],
+        },
+      },
+      bebasKariesTetapiElebihAtauSamaDenganSatu: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $gte: ['$eAdaGigiKekalPemeriksaanUmum', 1] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      skorGIS0: {
+        $sum: {
+          $cond: [
+            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
+            1,
+            0,
+          ],
+        },
+      },
+      skorGIS1: {
+        $sum: {
+          $cond: [
+            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'] },
+            1,
+            0,
+          ],
+        },
+      },
+      skorGIS2: {
+        $sum: {
+          $cond: [
+            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'] },
+            1,
+            0,
+          ],
+        },
+      },
+      skorGIS3: {
+        $sum: {
+          $cond: [
+            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '3'] },
+            1,
+            0,
+          ],
+        },
+      },
+      skorBPE0: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
+        },
+      },
+      skorBPE1: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] }, 1, 0],
+        },
+      },
+      skorBPE2: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] }, 1, 0],
+        },
+      },
+      skorBPE3: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] }, 1, 0],
+        },
+      },
+      skorBPE4: {
+        $sum: {
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] }, 1, 0],
+        },
+      },
+      //rawatan pencegahan perlu dibuat
+      perluSapuanFluorida: {
+        $sum: {
+          $cond: [
+            {
+              $eq: [
+                '$fvPerluSapuanPemeriksaanUmum',
+                'ya-fv-perlu-sapuan-pemeriksaan-umum',
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      perluJumlahPesakitPrrJenis1: {
+        $sum: {
+          $cond: [
+            {
+              $gte: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      perluJumlahGigiPrrJenis1: {
+        $sum: '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+      },
+      perluJumlahPesakitFS: {
+        $sum: {
+          $cond: [
+            {
+              $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
+      //jenis rawatan diberi
+      sapuanFluorida: {
+        //fvMuridB
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$pesakitDibuatFluorideVarnish', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahPesakitPrrJenis1: {
+        //prrJ1MuridB
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $gte: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 1],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahGigiPrrJenis1: {
+        $sum: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+      },
+      jumlahPesakitDiBuatFs: {
+        //Pesaakit Dibaut FS
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                {
+                  $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahGigiDibuatFs: { $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+      tampalanAntGdBaru: {
+        $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanAntGdSemula: {
+        $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanAntGkBaru: {
+        $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanAntGkSemula: {
+        $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGdBaru: {
+        $sum: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGdSemula: {
+        $sum: '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGkBaru: {
+        $sum: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostGkSemula: {
+        $sum: '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGdBaru: {
+        $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGdSemula: {
+        $sum: '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGkBaru: {
+        $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      tampalanPostAmgGkSemula: {
+        $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+      },
+      cabutanGd: { $sum: '$cabutDesidusRawatanUmum' },
+      cabutanGk: { $sum: '$cabutKekalRawatanUmum' },
+      penskaleran: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$penskaleranRawatanUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      kesSelesai: {
+        $sum: {
+          $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
+        },
+      },
+    },
+  };
+
+  const project_pemeriksaan = {
+    $project: {
+      _id: 1,
+      // pemeriksaan
+      kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
+      kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
+
+      jumlahd: '$jumlahd',
+      jumlahf: '$jumlahf',
+      jumlahx: '$jumlahx',
+      jumlahD: '$jumlahD',
+      jumlahM: '$jumlahM',
+      jumlahF: '$jumlahF',
+      jumlahX: '$jumlahX',
+      dfxSamaKosong: '$dfxSamaKosong',
+      jumlahMBK: '$jumlahMBK',
+      statusBebasKaries: '$statusBebasKaries',
+      xTambahMsamaKosong: '$xTambahMsamaKosong',
+
+      eLebihAtauSamaDenganSatu: '$eLebihAtauSamaDenganSatu',
+      bebasKariesTetapiElebihAtauSamaDenganSatu:
+        '$bebasKariesTetapiElebihAtauSamaDenganSatu',
+      skorGIS0: '$skorGIS0',
+      skorGIS1: '$skorGIS1',
+      skorGIS2: '$skorGIS2',
+      skorGIS3: '$skorGIS3',
+      skorBPE0: '$skorBPE0',
+      skorBPE1: '$skorBPE1',
+      skorBPE2: '$skorBPE2',
+      skorBPE3: '$skorBPE3',
+      skorBPE4: '$skorBPE4',
+
+      perluSapuanFluorida: '$perluSapuanFluorida',
+      perluJumlahPesakitPrrJenis1: '$perluJumlahPesakitPrrJenis1',
+      perluJumlahGigiPrrJenis1: '$perluJumlahGigiPrrJenis1',
+      perluJumlahPesakitFS: '$perluJumlahPesakitFS',
+      perluJumlahGigiFS: '$perluJumlahGigiFS',
+      jumlahPesakitPrrJenis1: '$jumlahPesakitPrrJenis1',
+      jumlahGigiPrrJenis1: '$jumlahGigiPrrJenis1',
+      jumlahPesakitDiBuatFs: '$jumlahPesakitDiBuatFs',
+      jumlahGigiDibuatFs: '$jumlahGigiDibuatFs',
+
+      tampalanAntGdBaru: '$tampalanAntGdBaru',
+      tampalanAntGdSemula: '$tampalanAntGdSemula',
+      tampalanAntGkBaru: '$tampalanAntGkBaru',
+      tampalanAntGkSemula: '$tampalanAntGkSemula',
+      tampalanPostGdBaru: '$tampalanPostGdBaru',
+      tampalanPostGdSemula: '$tampalanPostGdSemula',
+      tampalanPostGkBaru: '$tampalanPostGkBaru',
+      tampalanPostGkSemula: '$tampalanPostGkSemula',
+      tampalanPostAmgGdBaru: '$tampalanPostAmgGdBaru',
+
+      tampalanPostAmgGdSemula: '$tampalanPostAmgGdSemula',
+      tampalanPostAmgGkBaru: '$tampalanPostAmgGkBaru',
+      tampalanPostAmgGkSemula: '$tampalanPostAmgGkSemula',
+
+      cabutanGd: '$cabutanGd',
+      cabutanGk: '$cabutanGk',
+      penskaleran: '$penskaleran',
+      kesSelesai: '$kesSelesai',
+    },
+  };
+  // bismillah
+  let bigData = [];
+
+  for (let i = 0; i < match_stage.length; i++) {
+    const pipeline = [match_stage[i], group_stage];
+    const dataBPE = await Umum.aggregate(pipeline);
+    bigData.push(dataBPE);
+  }
+  return bigData;
+};
+//PGS yang ada campur sekolah - untuk dimasukkan ke PGS203
+const countPGS203Sek = async (klinik, bulan, sekolah) => {
   let match_stage = [];
   // pra/tadika
   const match_pra_kerajaan = {
@@ -13485,7 +13940,7 @@ const countBPE = async (payload) => {
       },
       tiadaRujukanT2DM: {
         $sum: {
-          $cond: [{ $eq: ['$puncaRujukan', 'tiada-punca-rujukan'] }, 1, 0],
+          $cond: [{ $eq: ['$puncaRujukan', 'tiada'] }, 1, 0],
         },
       },
       //Risiko Perio - Perio Risk
@@ -13496,7 +13951,7 @@ const countBPE = async (payload) => {
         $sum: { $cond: [{ $eq: ['$perokokFaktorRisikoBpe', true] }, 1, 0] },
       },
       risikoBpeLainLain: {
-        $sum: { $cond: [{ $eq: ['$lainlainFaktorRisikoBpe', true] }, 1, 0] },
+        $sum: { $cond: [{ $eq: ['$lainLainFaktorRisikoBpe', true] }, 1, 0] },
       },
       //Basic Periodontal Examination (BPE)
       engganBPE: {
@@ -13504,27 +13959,27 @@ const countBPE = async (payload) => {
       },
       skorBPE0: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 0] }, 1, 0],
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
         },
       },
       skorBPE1: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 1] }, 1, 0],
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] }, 1, 0],
         },
       },
       skorBPE2: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 2] }, 1, 0],
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] }, 1, 0],
         },
       },
       skorBPE3: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 3] }, 1, 0],
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] }, 1, 0],
         },
       },
       skorBPE4: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', 4] }, 1, 0],
+          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] }, 1, 0],
         },
       },
       adaPeriImplantMucositis: {
@@ -13536,17 +13991,18 @@ const countBPE = async (payload) => {
 
       // Periodontium therapy - Terapi Periodontium - Pengurusan Faktor Risiko - Perio Risk Management
 
-      // nasihatKaunselingDiet: {//ada mmasalah tak dapat baca value sini
-      //   $sum: {
-      //     $cond: [
-      //       {
-      //         $eq: ['$$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
-      //       },
-      //       1,
-      //       0,
-      //     ],
-      //   },
-      // },
+      nasihatKaunselingDiet: {
+        //ada mmasalah tak dapat baca value sini
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
+      },
 
       nasihatBerhentiMerokok: {
         $sum: { $cond: [{ $eq: ['$nasihatBerhentiMerokok', true] }, 1, 0] },
@@ -13556,8 +14012,8 @@ const countBPE = async (payload) => {
           $cond: [{ $eq: ['$lainLainPengurusanFaktorRisiko', true] }, 1, 0],
         },
       },
-      //Periodontium therapy - Terapi Periodontium - Pengurusan Faktor Risiko Setempat - Perio Risk Management (Local)
 
+      //Periodontium therapy - Terapi Periodontium - Pengurusan Faktor Risiko Setempat - Perio Risk Management (Local)
       nasihatOHE: {
         $sum: {
           $cond: [
@@ -13622,12 +14078,12 @@ const countBPE = async (payload) => {
           $cond: [
             {
               $and: [
-                {
-                  $eq: [
-                    '$rujukanPakarPeriodontik',
-                    'tidak-rujukan-pakar-periodontik',
-                  ],
-                },
+                // {
+                //   $eq: [
+                //     '$rujukanPakarPeriodontik',
+                //     'tidak-rujukan-pakar-periodontik',
+                //   ],
+                // },
                 {
                   $eq: [
                     '$engganLainRujukanPakarPeriodontik',
@@ -13664,7 +14120,8 @@ const countBPE = async (payload) => {
             0,
           ],
         },
-      }, // lainlainPakar: { $sum: 1 },
+      },
+      // lainlainPakar: { $sum: 1 },
       rujukanKeKlinikSCD: {
         $sum: {
           $cond: [
@@ -14414,6 +14871,78 @@ const getParamsBPE = (payload) => {
     return byNegeri(payload);
   }
 };
+const getParamsPGS203 = (payload) => {
+  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+
+  const byPegawai = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      createdByMdcMdtb: id,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+    };
+    return param;
+  };
+
+  const byKp = () => {
+    let param = {
+      createdByKodFasiliti: klinik,
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      // createdByUsername: { $regex: /^dr./, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      createdByNegeri: negeri,
+      createdByDaerah: daerah,
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      createdByNegeri: negeri,
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
+    };
+    return param;
+  };
+
+  if (payload.pegawai) {
+    return byPegawai(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (payload.daerah === 'all') {
+    return byNegeri(payload);
+  }
+};
 
 // place
 const placeModifier = (payload) => {
@@ -14444,6 +14973,7 @@ module.exports = {
   countPG201A,
   countPG201PindSatu2022,
   countPGS203,
+  countPGS203Sek,
   countPGPR201Lama,
   countPGPR201Baru,
   countPPIM03,
