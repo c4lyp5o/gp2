@@ -2477,38 +2477,13 @@ const makeGender = async (payload) => {
     let intro2 = worksheet.getCell('B4');
     intro2.value = yearNow;
 
-    // let intro2 = worksheet.getRow(8);
-    // intro2.getCell(2).value = `${daerah.toUpperCase()}`; quarterly
-
-    // let intro3 = worksheet.getCell('B6');
-    // intro3.value = `${daerah.toUpperCase()}`;
-
-    // let j = 3;
-    // let k = 9;
-
-    // for (let i = 0; i < 2; i++) {
-    //   let rowNew = worksheet.getRow(k);
-    //   for (let l = 0; l < data.length; l++) {
-    //     if (data[i]) {
-    //       rowNew.getCell(j).value = data[i].pesakitLelakiBaru;
-    //       rowNew.getCell(j).value = data[i].pesakitPerempuanBaru;
-    //     }
-    //     if (l < 6) {
-    //       j += 3;
-    //     } else {
-    //       j = 0;
-    //       k += 3;
-    //     }
-    //   }
-    // }
-
     let rowNumber;
     let cellNumber;
 
     rowNumber = 9;
     cellNumber = 3;
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data[0].dataLelaki.length; i++) {
       if (data[0].dataLelaki[i][0]) {
         console.log(`writing ${rowNumber} & ${cellNumber} lelaki`);
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
@@ -2519,43 +2494,24 @@ const makeGender = async (payload) => {
           data[0].dataLelaki[i][0].pesakitLelakiUlangan;
         rowNumber--;
       }
-      // if (i === 3) {
-      //   cellNumber += 6;
-      // }
-      if (i < 6 || i > 6) {
-        cellNumber += 5;
-      }
-      if (i === 6) {
-        cellNumber = 3;
-        rowNumber = 12;
-      }
+      cellNumber += 5;
     }
 
     rowNumber = 9;
     cellNumber = 4;
 
-    for (let i = 0; i < data.length; i++) {
-      console.log('belah perempuan');
-      if (data[0].dataPerempuan[i][0]) {
+    for (let i = 0; i < data[1].dataPerempuan.length; i++) {
+      if (data[1].dataPerempuan[i][0]) {
         console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataPerempuan[i][0].pesakitPerempuanBaru;
+          data[1].dataPerempuan[i][0].pesakitPerempuanBaru;
         rowNumber++;
         console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataPerempuan[i][0].pesakitPerempuanUlangan;
+          data[1].dataPerempuan[i][0].pesakitPerempuanUlangan;
         rowNumber--;
       }
-      // if (i === 3) {
-      //   cellNumber += 6;
-      // }
-      if (i < 6 || i > 6) {
-        cellNumber += 5;
-      }
-      if (i === 6) {
-        cellNumber = 4;
-        rowNumber = 12;
-      }
+      cellNumber += 5;
     }
 
     worksheet.name = 'GENDER';
