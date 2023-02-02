@@ -347,11 +347,77 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // get kkia data
+  // read kkia data
   const readKkiaData = async ({ negeri }) => {
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getkkiakd?negeri=${negeri}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+
+  const readGenerateTokenData = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=tokenbal`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+
+  // specifics for each kp
+  const readSpesifikKkiaData = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=kkiakdspesifik&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+  const readSpesifikProgramData = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=programspesifik&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+  const readSpesifikKPBMPBData = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=kpbmpbspesifik&kp=${kp}`,
         {
           headers: {
             Authorization: adminToken,
@@ -680,6 +746,10 @@ function AdminAppProvider({ children }) {
         readSekolahData,
         readFasilitiData,
         readKodProgramData,
+        readGenerateTokenData,
+        readSpesifikKkiaData,
+        readSpesifikProgramData,
+        readSpesifikKPBMPBData,
         // stats data
         getStatsData,
         // misc
@@ -698,6 +768,7 @@ function AdminAppProvider({ children }) {
         formatTime,
         resizeImage,
         masterDatePicker,
+        EmailValidator,
         // auth
         loginUser,
         checkUser,
@@ -709,7 +780,6 @@ function AdminAppProvider({ children }) {
         getKlinikData,
         // ahq
         adhocQuery,
-        EmailValidator,
       }}
     >
       {children}

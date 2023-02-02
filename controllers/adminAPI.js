@@ -27,6 +27,7 @@ const Dictionary = {
   kp: 'klinik',
   kpallnegeri: 'klinik-all-negeri',
   kkiakd: 'kkiakd',
+  kkiakdspesifik: 'kkiakd-spesifik',
   kkiakdallnegeri: 'kkiakd-all-negeri',
   pp: 'pegawai',
   ppall: 'pegawai-all',
@@ -41,6 +42,7 @@ const Dictionary = {
   ins: 'institusi',
   kpb: 'kp-bergerak',
   'kpb-all': 'kp-bergerak-all',
+  kpbmpbspesifik: 'kpbmpb-spesifik',
   mpb: 'makmal-pergigian',
   'mpb-all': 'makmal-pergigian-all',
   event: 'event',
@@ -49,6 +51,7 @@ const Dictionary = {
   sosmedByKodProgram: 'sosmedByKodProgram',
   followers: 'followers',
   program: 'program',
+  programspesifik: 'program-spesifik',
   // negeri
   negerijohor: 'Johor',
   negerikedah: 'Kedah',
@@ -418,8 +421,8 @@ const getDataRoute = async (req, res) => {
   const currentUser = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
-  const { negeri, daerah } = currentUser.getProfile();
-  const { FType } = req.query;
+  const { negeri, daerah, user_name } = currentUser.getProfile();
+  const { FType, kp } = req.query;
   const type = Dictionary[FType];
   // 2nd phase
   let data, countedData, owner;
@@ -446,6 +449,22 @@ const getDataRoute = async (req, res) => {
           }
         }
       }
+      break;
+    case 'kkiakd-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kp,
+        jenisFasiliti: 'kkiakd',
+      })
+        .select('nama kodKkiaKd')
+        .lean();
+      break;
+    case 'kpbmpb-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kp,
+        jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
+      })
+        .select('nama proposedName')
+        .lean();
       break;
     case 'pegawai-all':
       data = await Operator.find({
@@ -482,6 +501,13 @@ const getDataRoute = async (req, res) => {
         assignedByDaerah: true,
         tahunDibuat: new Date().getFullYear(),
       }).lean();
+      break;
+    case 'program-spesifik':
+      data = await Event.find({
+        createdByKodFasiliti: kp,
+      })
+        .select('nama jenisEvent')
+        .lean();
       break;
     case 'sosmed':
       countedData = [];
