@@ -94,7 +94,6 @@ adminSchema.methods.getProfile = function () {
 
   adminObject.username = admin.nama;
 
-  delete adminObject.user_name;
   delete adminObject.tempKey;
   delete adminObject.ascii;
   delete adminObject.hex;
