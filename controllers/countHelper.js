@@ -1,4 +1,3 @@
-const async = require('async');
 const moment = require('moment');
 const Umum = require('../models/Umum');
 const Sekolah = require('../models/Sekolah');
@@ -12990,6 +12989,24 @@ const countGender = async (payload) => {
     },
   };
 
+  const pesakitLelakiPakar1859 = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'lelaki',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPakar1859 = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'perempuan',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
   const pesakitLelakiOutreach1859 = {
     $match: {
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
@@ -13046,6 +13063,24 @@ const countGender = async (payload) => {
     },
   };
 
+  const pesakitLelakiPakar60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPakar60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
   const pesakitLelakiOutreach60above = {
     $match: {
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
@@ -13086,12 +13121,16 @@ const countGender = async (payload) => {
 
   match_stage_lelaki.push(pesakitLelakiPrimer1859);
   match_stage_perempuan.push(pesakitPerempuanPrimer1859);
+  match_stage_lelaki.push(pesakitLelakiPakar1859);
+  match_stage_perempuan.push(pesakitPerempuanPakar1859);
   match_stage_lelaki.push(pesakitLelakiOutreach1859);
   match_stage_perempuan.push(pesakitPerempuanOutreach1859);
   match_stage_lelaki.push(pesakitLelakiUtc1859);
   match_stage_perempuan.push(pesakitPerempuanUtc1859);
   match_stage_lelaki.push(pesakitLelakiPrimer60above);
   match_stage_perempuan.push(pesakitPerempuanPrimer60above);
+  match_stage_lelaki.push(pesakitLelakiPakar60above);
+  match_stage_perempuan.push(pesakitPerempuanPakar60above);
   match_stage_lelaki.push(pesakitLelakiOutreach60above);
   match_stage_perempuan.push(pesakitPerempuanOutreach60above);
   match_stage_lelaki.push(pesakitLelakiUtc60above);
@@ -13099,7 +13138,7 @@ const countGender = async (payload) => {
   //
   const group_stage = {
     $group: {
-      _id: '$createdByNegeri',
+      _id: placeModifier(payload),
       pesakitLelakiBaru: {
         $sum: {
           $cond: [
@@ -13177,14 +13216,12 @@ const countGender = async (payload) => {
     dataPerempuan.push(result);
   }
 
-  bigData.push(dataLelaki);
-  bigData.push(dataPerempuan);
+  bigData.push({ dataLelaki });
+  bigData.push({ dataPerempuan });
 
   return bigData;
 };
 const countMasa = async (payload) => {
-  const month = moment().startOf('month').format('YYYY-MM-DD');
-  const count = moment().diff(month, 'months');
   let match_stage_op = [];
   let match_stage_temujanji = [];
   //
@@ -14239,7 +14276,18 @@ const countBPE = async (payload) => {
 
 // helper function
 const getParams = (payload, reten) => {
-  const { negeri, daerah, klinik, tarikhMula, tarikhAkhir } = payload;
+  const {
+    negeri,
+    daerah,
+    klinik,
+    pilihanFasiliti,
+    pilihanKkia,
+    pilihanProgram,
+    pilihanKpbmpb,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+  } = payload;
 
   const AorC = (reten) => {
     if (reten === 'A') {
@@ -14253,14 +14301,14 @@ const getParams = (payload, reten) => {
   const byKp = () => {
     const noEndDate = {
       tarikhKedatangan: {
-        $gte: tarikhMula,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
     };
-
     const withEndDate = {
       tarikhKedatangan: {
         $gte: tarikhMula,
@@ -14271,8 +14319,36 @@ const getParams = (payload, reten) => {
       },
       jenisFasiliti: AorC(reten),
     };
-
-    if (!tarikhAkhir) {
+    const forKkia = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kodFasilitiKkKd: { $eq: pilihanKkia },
+      createdByKodFasiliti: { $eq: klinik },
+      jenisFasiliti: { $in: ['kk-kd'] },
+    };
+    const forProgram = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByKodFasiliti: { $eq: klinik },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    const forKpbmpb = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByKodFasiliti: { $eq: klinik },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    if (pilihanKkia) {
+      return forKkia;
+    } else if (!tarikhAkhir) {
       return noEndDate;
     } else {
       return withEndDate;
@@ -14282,7 +14358,8 @@ const getParams = (payload, reten) => {
   const byDaerah = () => {
     const noEndDate = {
       tarikhKedatangan: {
-        $gte: tarikhMula,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14305,16 +14382,49 @@ const getParams = (payload, reten) => {
       },
       jenisFasiliti: AorC(reten),
     };
-    if (!tarikhAkhir) {
+    const forKkia = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByDaerah: { $eq: daerah },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['kk-kd'] },
+    };
+    const forProgram = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByDaerah: { $eq: daerah },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    const forKpbmpb = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByDaerah: { $eq: daerah },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    if (pilihanKkia) {
+      return forKkia;
+    } else if (!tarikhAkhir) {
       return noEndDate;
     } else {
       return withEndDate;
     }
   };
+
   const byNegeri = () => {
     const noEndDate = {
       tarikhKedatangan: {
-        $gte: tarikhMula,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14331,7 +14441,35 @@ const getParams = (payload, reten) => {
       },
       jenisFasiliti: AorC(reten),
     };
-    if (!tarikhAkhir) {
+    const forKkia = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['kk-kd'] },
+    };
+    const forProgram = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    const forKpbmpb = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    if (pilihanKkia) {
+      return forKkia;
+    } else if (!tarikhAkhir) {
       return noEndDate;
     } else {
       return withEndDate;
@@ -14745,26 +14883,48 @@ const getParamsPgPro02 = (payload) => {
   }
 };
 const getParamsGender = (payload) => {
-  const { daerah, negeri } = payload;
+  const { klinik, daerah, negeri, bulan } = payload;
+
+  const byKp = () => {
+    let param = {
+      deleted: false,
+      createdByKodFasiliti: klinik,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+    };
+    return param;
+  };
 
   const byDaerah = () => {
     let param = {
+      deleted: false,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      // deleted: false,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
     };
     return param;
   };
 
   const byNegeri = () => {
     let param = {
+      deleted: false,
       createdByNegeri: negeri,
-      // deleted: false,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
     };
     return param;
   };
 
-  if (daerah) {
+  if (klinik !== 'all') {
+    return byKp();
+  } else if (daerah !== 'all') {
     return byDaerah();
   } else {
     return byNegeri();
@@ -14790,10 +14950,6 @@ const getParamsPiagamMasa = (payload, jenis) => {
       createdByKodFasiliti: klinik,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       ...opAtauTemujanji(jenis),
     };
     return param;
@@ -14803,10 +14959,6 @@ const getParamsPiagamMasa = (payload, jenis) => {
     let param = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       ...opAtauTemujanji(jenis),
     };
     return param;
@@ -14815,30 +14967,18 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       ...opAtauTemujanji(jenis),
     };
     return param;
   };
 
-  // if (jenis === 'op') {
-  //   return {
-  //     createdByUsername: { $ne: 'kaunter' },
-  //     waktuDipanggil: { $ne: '' },
-  //     jenisFasiliti: { $eq: 'kp' },
-  //     temujanji: false,
-  //   };
-  // } else {
-  //   return {
-  //     createdByUsername: { $ne: 'kaunter' },
-  //     waktuDipanggil: { $ne: '' },
-  //     jenisFasiliti: { $eq: 'kp' },
-  //     temujanji: true,
-  //   };
-  // }
+  if (klinik !== 'all') {
+    return byKp();
+  } else if (daerah !== 'all') {
+    return byDaerah();
+  } else {
+    return byNegeri();
+  }
 };
 const getParamsBp = (payload, kaum, jantina) => {
   const { klinik, daerah, negeri } = payload;
