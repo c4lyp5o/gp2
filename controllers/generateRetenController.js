@@ -2944,22 +2944,15 @@ const makeBPE = async (payload) => {
 
 // debug
 exports.debug = async (req, res) => {
-  let klinik = 'Klinik Pergigian Arau';
-  let bulan = '2022-10-01';
-  let bulan2 = '2022-11-01';
-  let sekolah = 'RBA0012';
   let payload = {
-    negeri: 'Perlis',
+    negeri: 'Johor',
     // daerah: 'Arau',
     daerah: 'all',
     // klinik: 'Klinik Pergigian Kaki Bukit',
     klinik: 'all',
-    bulan: '2022-10-01',
+    bulan: '2023-01-01',
   };
-  // let tarikhMula = '2021-01-01';
-  // let tarikhAkhir = '2021-01-31';
-  // let pegawai = 'dr. faizatul hawa binti mohd zuki';
-  const data = await makeMasa(payload);
+  const data = await makeGender(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
