@@ -1016,12 +1016,11 @@ const makePG214 = async (payload) => {
     const yearNow = moment(new Date()).format('YYYY');
 
     let details = worksheet.getRow(5);
-    details.getCell(
-      2
-    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+    let intro0 = worksheet.getCell('L5');
+    intro0.getCell(2).value = `BAGI BULAN ${monthName.toUpperCase()}`;
 
-    // let intro1 = worksheet.getRow(6);
-    // intro1.getCell(2).value = 'PRIMER';
+    let intro1 = worksheet.getCell('P5');
+    intro1.getCell(2).value = `TAHUN ${yearNow}`;
 
     let intro2 = worksheet.getRow(6);
     intro2.getCell(2).value = `${klinik.toUpperCase()}`;
