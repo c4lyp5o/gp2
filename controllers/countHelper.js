@@ -12990,6 +12990,24 @@ const countGender = async (payload) => {
     },
   };
 
+  const pesakitLelakiPakar1859 = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'lelaki',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPakar1859 = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'perempuan',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
   const pesakitLelakiOutreach1859 = {
     $match: {
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
@@ -13046,6 +13064,24 @@ const countGender = async (payload) => {
     },
   };
 
+  const pesakitLelakiPakar60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPakar60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
   const pesakitLelakiOutreach60above = {
     $match: {
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
@@ -13086,12 +13122,16 @@ const countGender = async (payload) => {
 
   match_stage_lelaki.push(pesakitLelakiPrimer1859);
   match_stage_perempuan.push(pesakitPerempuanPrimer1859);
+  match_stage_lelaki.push(pesakitLelakiPakar1859);
+  match_stage_perempuan.push(pesakitPerempuanPakar1859);
   match_stage_lelaki.push(pesakitLelakiOutreach1859);
   match_stage_perempuan.push(pesakitPerempuanOutreach1859);
   match_stage_lelaki.push(pesakitLelakiUtc1859);
   match_stage_perempuan.push(pesakitPerempuanUtc1859);
   match_stage_lelaki.push(pesakitLelakiPrimer60above);
   match_stage_perempuan.push(pesakitPerempuanPrimer60above);
+  match_stage_lelaki.push(pesakitLelakiPakar60above);
+  match_stage_perempuan.push(pesakitPerempuanPakar60above);
   match_stage_lelaki.push(pesakitLelakiOutreach60above);
   match_stage_perempuan.push(pesakitPerempuanOutreach60above);
   match_stage_lelaki.push(pesakitLelakiUtc60above);
@@ -13099,7 +13139,7 @@ const countGender = async (payload) => {
   //
   const group_stage = {
     $group: {
-      _id: '$createdByNegeri',
+      _id: placeModifier(payload),
       pesakitLelakiBaru: {
         $sum: {
           $cond: [
@@ -13177,8 +13217,8 @@ const countGender = async (payload) => {
     dataPerempuan.push(result);
   }
 
-  bigData.push(dataLelaki);
-  bigData.push(dataPerempuan);
+  bigData.push({ dataLelaki });
+  bigData.push({ dataPerempuan });
 
   return bigData;
 };
