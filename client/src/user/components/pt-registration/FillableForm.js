@@ -433,9 +433,9 @@ export default function FillableForm({
       const {
         nama,
         tarikhLahir,
-        umur,
-        umurBulan,
-        umurHari,
+        // umur,
+        // umurBulan,
+        // umurHari,
         jantina,
         kumpulanEtnik,
         alamat,
@@ -453,9 +453,13 @@ export default function FillableForm({
       setIc(ic);
       setNama(nama);
       setTarikhLahir(tarikhLahir);
-      setUmur(umur);
-      setUmurBulan(umurBulan);
-      setUmurHari(umurHari);
+      // recalculate umur kalau autofill triggered
+      const newUmur = parseInt(howOldAreYouMyFriendtahun(tarikhLahir));
+      const newBulan = parseInt(howOldAreYouMyFriendbulan(tarikhLahir));
+      const newHari = parseInt(howOldAreYouMyFrienddays(tarikhLahir));
+      setUmur(newUmur);
+      setUmurBulan(newBulan);
+      setUmurHari(newHari);
       setJantina(jantina);
       setKumpulanEtnik(kumpulanEtnik);
       setAlamat(alamat);
@@ -476,9 +480,9 @@ export default function FillableForm({
         ic: ic,
         nama: nama,
         tarikhLahir: tarikhLahir,
-        umur: umur,
-        umurBulan: umurBulan,
-        umurHari: umurHari,
+        umur: newUmur,
+        umurBulan: newBulan,
+        umurHari: newHari,
         jantina: jantina,
         kumpulanEtnik: kumpulanEtnik,
         alamat: alamat,
@@ -493,7 +497,9 @@ export default function FillableForm({
         orangKurangUpaya: orangKurangUpaya,
         statusPesara: statusPesara,
       });
-      toast.success('Menggunakan data sedia ada');
+      toast.success(
+        'Menggunakan maklumat pesakit sedia ada, sila semak semula untuk memastikan maklumat adalah tepat'
+      );
       return true;
     } catch (error) {
       toast.warning('Pesakit tidak pernah didaftarkan sebelum ini');
