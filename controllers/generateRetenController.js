@@ -2555,7 +2555,7 @@ const makeMasa = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     // get first worksheet
-    let worksheet = workbook.getWorksheet('Bulan');
+    let worksheet = workbook.getWorksheet('LAMPIRAN 2 - MAKLUMAT TAMBAHAN');
     // write facility
     let intro3 = worksheet.getCell('B5');
     intro3.value = `${klinik.toUpperCase()}`;
@@ -2567,32 +2567,34 @@ const makeMasa = async (payload) => {
     intro5.value = `${negeri.toUpperCase()}`;
     // end intro
 
-    let cellNumber = 5;
+    let cellNumber = 2;
 
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i].opData.length; j++) {
-        if (data[i].opData[j]) {
-          worksheet.getRow(i + 15).getCell(cellNumber).value =
-            data[i].opData[j].total;
-          cellNumber = cellNumber + 3;
-          worksheet.getRow(i + 15).getCell(cellNumber).value =
-            data[i].opData[j].jumlahOpYangDipanggilSebelum30Minit;
-        }
-        cellNumber = 5;
+    console.log(data[0].opData.length);
+
+    for (let j = 0; j < data[0].opData.length; j++) {
+      if (data[0].opData[j][0]) {
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
+          data[0].opData[j][0].total;
+        console.log(`index number: ${j}, ${data[0].opData[j][0].total}`);
+        cellNumber = cellNumber + 3;
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
+          data[0].opData[j][0].jumlahOpYangDipanggilSebelum30Minit;
+        console.log(
+          `index number: ${j}, ${data[0].opData[j][0].jumlahOpYangDipanggilSebelum30Minit}`
+        );
       }
+      cellNumber = 2;
     }
 
-    for (let i = 0; i < data.length; i++) {
-      for (let j = 0; j < data[i].temujanjiData.length; j++) {
-        if (data[i].temujanjiData[j]) {
-          worksheet.getRow(i + 15).getCell(cellNumber).value =
-            data[i].temujanjiData[j].total;
-          cellNumber = cellNumber + 3;
-          worksheet.getRow(i + 15).getCell(cellNumber).value =
-            data[i].temujanjiData[j].jumlahOpYangDipanggilSebelum30Minit;
-        }
-        cellNumber = 5;
+    for (let j = 0; j < data[1].temujanjiData.length; j++) {
+      if (data[1].temujanjiData[j][0]) {
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
+          data[1].temujanjiData[j][0].total;
+        cellNumber = cellNumber + 3;
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
+          data[1].temujanjiData[j][0].jumlahOpYangDipanggilSebelum30Minit;
       }
+      cellNumber = 3;
     }
 
     const newfile = makeFile(payload, 'MASA');
