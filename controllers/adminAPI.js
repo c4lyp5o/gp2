@@ -18,6 +18,7 @@ const Event = require('../models/Event');
 const Sosmed = require('../models/MediaSosial');
 const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
+const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
 
 // helper
@@ -52,6 +53,8 @@ const Dictionary = {
   followers: 'followers',
   program: 'program',
   programspesifik: 'program-spesifik',
+  // token
+  tokenbal: 'token-balance',
   // negeri
   negerijohor: 'Johor',
   negerikedah: 'Kedah',
@@ -547,6 +550,13 @@ const getDataRoute = async (req, res) => {
       data = await Followers.find({
         belongsTo: owner,
       }).lean();
+      break;
+    case 'token-balance':
+      data = await GenerateToken.find({
+        belongsTo: user_name,
+      })
+        .select('jumlahToken jenisReten')
+        .lean();
       break;
     default:
       data = await Fasiliti.find({
