@@ -141,6 +141,10 @@ const downloader = async (req, res, callback) => {
     daerah,
     klinik,
     pegawai,
+    pilihanFasiliti,
+    pilihanKkia,
+    pilihanProgram,
+    pilihanKpbmpb,
     tarikhMula,
     tarikhAkhir,
     bulan,
@@ -181,17 +185,20 @@ const downloader = async (req, res, callback) => {
     username = `Kaunter ${kp}`;
   }
   const payload = {
+    username,
+    id,
     accountType,
+    pegawai,
     klinik,
     daerah,
     negeri,
-    username,
+    pilihanFasiliti,
+    pilihanKkia,
+    pilihanProgram,
+    pilihanKpbmpb,
     tarikhMula,
     tarikhAkhir,
     bulan,
-    username,
-    pegawai,
-    id,
   };
   // console.log(payload);
   logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
