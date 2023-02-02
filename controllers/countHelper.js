@@ -1,4 +1,3 @@
-const async = require('async');
 const moment = require('moment');
 const Umum = require('../models/Umum');
 const Sekolah = require('../models/Sekolah');
@@ -13223,8 +13222,6 @@ const countGender = async (payload) => {
   return bigData;
 };
 const countMasa = async (payload) => {
-  const month = moment().startOf('month').format('YYYY-MM-DD');
-  const count = moment().diff(month, 'months');
   let match_stage_op = [];
   let match_stage_temujanji = [];
   //
@@ -14785,26 +14782,48 @@ const getParamsPgPro02 = (payload) => {
   }
 };
 const getParamsGender = (payload) => {
-  const { daerah, negeri } = payload;
+  const { klinik, daerah, negeri, bulan } = payload;
+
+  const byKp = () => {
+    let param = {
+      deleted: false,
+      createdByKodFasiliti: klinik,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+    };
+    return param;
+  };
 
   const byDaerah = () => {
     let param = {
+      deleted: false,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      // deleted: false,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
     };
     return param;
   };
 
   const byNegeri = () => {
     let param = {
+      deleted: false,
       createdByNegeri: negeri,
-      // deleted: false,
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
     };
     return param;
   };
 
-  if (daerah) {
+  if (klinik !== 'all') {
+    return byKp();
+  } else if (daerah !== 'all') {
     return byDaerah();
   } else {
     return byNegeri();
@@ -14830,10 +14849,6 @@ const getParamsPiagamMasa = (payload, jenis) => {
       createdByKodFasiliti: klinik,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       ...opAtauTemujanji(jenis),
     };
     return param;
@@ -14843,10 +14858,6 @@ const getParamsPiagamMasa = (payload, jenis) => {
     let param = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       ...opAtauTemujanji(jenis),
     };
     return param;
@@ -14855,30 +14866,18 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
       ...opAtauTemujanji(jenis),
     };
     return param;
   };
 
-  // if (jenis === 'op') {
-  //   return {
-  //     createdByUsername: { $ne: 'kaunter' },
-  //     waktuDipanggil: { $ne: '' },
-  //     jenisFasiliti: { $eq: 'kp' },
-  //     temujanji: false,
-  //   };
-  // } else {
-  //   return {
-  //     createdByUsername: { $ne: 'kaunter' },
-  //     waktuDipanggil: { $ne: '' },
-  //     jenisFasiliti: { $eq: 'kp' },
-  //     temujanji: true,
-  //   };
-  // }
+  if (klinik !== 'all') {
+    return byKp();
+  } else if (daerah !== 'all') {
+    return byDaerah();
+  } else {
+    return byNegeri();
+  }
 };
 const getParamsBp = (payload, kaum, jantina) => {
   const { klinik, daerah, negeri } = payload;
