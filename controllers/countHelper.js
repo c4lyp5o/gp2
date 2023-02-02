@@ -14276,7 +14276,18 @@ const countBPE = async (payload) => {
 
 // helper function
 const getParams = (payload, reten) => {
-  const { negeri, daerah, klinik, tarikhMula, tarikhAkhir } = payload;
+  const {
+    negeri,
+    daerah,
+    klinik,
+    pilihanFasiliti,
+    pilihanKkia,
+    pilihanProgram,
+    pilihanKpbmpb,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+  } = payload;
 
   const AorC = (reten) => {
     if (reten === 'A') {
@@ -14290,14 +14301,14 @@ const getParams = (payload, reten) => {
   const byKp = () => {
     const noEndDate = {
       tarikhKedatangan: {
-        $gte: tarikhMula,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: {
         $eq: klinik,
       },
       jenisFasiliti: AorC(reten),
     };
-
     const withEndDate = {
       tarikhKedatangan: {
         $gte: tarikhMula,
@@ -14308,8 +14319,36 @@ const getParams = (payload, reten) => {
       },
       jenisFasiliti: AorC(reten),
     };
-
-    if (!tarikhAkhir) {
+    const forKkia = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      kodFasilitiKkKd: { $eq: pilihanKkia },
+      createdByKodFasiliti: { $eq: klinik },
+      jenisFasiliti: { $in: ['kk-kd'] },
+    };
+    const forProgram = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByKodFasiliti: { $eq: klinik },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    const forKpbmpb = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByKodFasiliti: { $eq: klinik },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    if (pilihanKkia) {
+      return forKkia;
+    } else if (!tarikhAkhir) {
       return noEndDate;
     } else {
       return withEndDate;
@@ -14319,7 +14358,8 @@ const getParams = (payload, reten) => {
   const byDaerah = () => {
     const noEndDate = {
       tarikhKedatangan: {
-        $gte: tarikhMula,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14342,16 +14382,49 @@ const getParams = (payload, reten) => {
       },
       jenisFasiliti: AorC(reten),
     };
-    if (!tarikhAkhir) {
+    const forKkia = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByDaerah: { $eq: daerah },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['kk-kd'] },
+    };
+    const forProgram = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByDaerah: { $eq: daerah },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    const forKpbmpb = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByDaerah: { $eq: daerah },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    if (pilihanKkia) {
+      return forKkia;
+    } else if (!tarikhAkhir) {
       return noEndDate;
     } else {
       return withEndDate;
     }
   };
+
   const byNegeri = () => {
     const noEndDate = {
       tarikhKedatangan: {
-        $gte: tarikhMula,
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14368,7 +14441,35 @@ const getParams = (payload, reten) => {
       },
       jenisFasiliti: AorC(reten),
     };
-    if (!tarikhAkhir) {
+    const forKkia = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['kk-kd'] },
+    };
+    const forProgram = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    const forKpbmpb = {
+      tarikhKedatangan: {
+        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+      },
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
+      namaProgram: { $in: pilihanProgram },
+    };
+    if (pilihanKkia) {
+      return forKkia;
+    } else if (!tarikhAkhir) {
       return noEndDate;
     } else {
       return withEndDate;
