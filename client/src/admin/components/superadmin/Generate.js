@@ -1104,6 +1104,8 @@ const Generate = (props) => {
 
   const init = useRef(false);
 
+  const [currentUser, setCurrentUser] = useState('');
+
   const [openModalGenerateAdHoc, setOpenModalGenerateAdHoc] = useState(false);
   const [openModalGenerateBulanan, setOpenModalGenerateBulanan] =
     useState(false);
@@ -1267,7 +1269,6 @@ const Generate = (props) => {
 
   useEffect(() => {
     if (pilihanKlinik === '') {
-      setPilihanDaerah('');
       setPilihanFasiliti('');
       setPilihanKkia('');
       setPilihanProgram('');
@@ -1284,7 +1285,12 @@ const Generate = (props) => {
   }, [pilihanDaerah]);
 
   useEffect(() => {
-    setPilihanDaerah('');
+    if (
+      loginInfo.accountType === 'negeriSuperadmin' ||
+      loginInfo.accountType === 'hqSuperadmin'
+    ) {
+      setPilihanDaerah('');
+    }
     setPilihanKlinik('');
     setPilihanFasiliti('');
     setPilihanKkia('');
@@ -1295,17 +1301,21 @@ const Generate = (props) => {
   useEffect(() => {
     if (init.current === false) {
       if (loginInfo.accountType === 'hqSuperadmin') {
+        setCurrentUser('PKP KKM');
         readNegeri().then((res) => {
           setNegeri(res.data);
         });
       }
       if (loginInfo.accountType === 'negeriSuperadmin') {
-        readDaerah(props.loginInfo.nama).then((res) => {
+        setCurrentUser(`Negeri ${loginInfo.negeri}`);
+        readDaerah(loginInfo.nama).then((res) => {
           setDaerah(res.data);
         });
       }
       if (loginInfo.accountType === 'daerahSuperadmin') {
-        readKlinik(props.loginInfo.daerah).then((res) => {
+        setPilihanDaerah(loginInfo.daerah);
+        setCurrentUser(`Daerah ${loginInfo.daerah}`);
+        readKlinik(loginInfo.daerah).then((res) => {
           setKlinik(res.data);
         });
       }
@@ -1363,7 +1373,7 @@ const Generate = (props) => {
     <>
       <div className='p-2'>
         <h1 className='font-bold text-lg text-user1 mb-2'>
-          Penjanaan Laporan bagi negeri daerah kp eksdee
+          Penjanaan Laporan bagi {currentUser}
         </h1>
         <div className='flex flex-col items-center gap-1'>
           <p>
