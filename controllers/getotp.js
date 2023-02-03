@@ -11,7 +11,7 @@ const transporter = mailer.createTransport({
   },
 });
 
-// save tempkey and send to email
+// GET / - save tempkey and send to email
 const saveTempKey = async (req, res) => {
   const { id } = req.query;
 
@@ -44,7 +44,7 @@ const saveTempKey = async (req, res) => {
   });
 };
 
-// verify tempkey
+// GET /verify - verify tempkey
 const verifyTempKey = async (req, res) => {
   const { id, otp } = req.query;
   const { tempKey } = await Operator.findOne({ _id: id });

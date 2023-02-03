@@ -1,11 +1,42 @@
 # Changelog
 
+### 31/1/2023 (v2.0.10)
+
+#### Added
+
+- Penambahan kotak penandaan Pendebridmen Akar di borang pesakit umum bagi pilihan rawatan Terapi Periodontium
+- Penambahan kotak penandaan Rujukan Ke Klinik Kesihatan di borang pesakit umum bagi pilihan rawatan Rujukan
+- Carian pesakit umum di submodul Umum juga boleh menggunakan Nama Program
+- Pilihan penggunaan KPB/MPB akan ada di borang pesakit Umum sekiranya pesakit tersebut datang di dalam lingkungan tarikh penggunaan KPB/MPB tersebut
+- Penambahan kotak penandaan Ada Sejarah Darah Tinggi di borang pesakit umum
+- Menambah jenis fasiliti & nama program di bahagian atas borang pendaftaran ketika mendaftarkan pesakit
+- Penjanaan PG101A dibuka di modul Pendaftaran bagi submodul Klinik Pergigian sahaja
+
+#### Changed
+
+- Borang pesakit umum disusun dengan lebih kemas
+- Konfirmasi kedua semasa mendaftarkan pesakit diubah warna latar kepada warna yang berlainan
+- Enrolmen bagi institusi semasa mengemaskini program komuniti di modul Pentadbir bagi Pentadbir Klinik ditukar kepada tidak wajib
+- Boleh memilih jenis fasiliti ketika membuat penetapan tarikh penggunaan KPB/MPB di modul Pentadbir bagi Pentadbir Klinik
+- Pilihan jenis fasiliti untuk tarikh penggunaan KPB/MPB adalah fasiliti daripada seluruh negeri tersebut
+- Waktu sampai tidak perlu diisi bagi pesakit yang didaftarkan di fasiliti selain klinik pergigian
+- Tekanan darah akan bertukar daripada 0 kepada tiada apa-apa sekiranya di klik untuk diisi di borang pesakit umum
+
+#### Fixed
+
+- Carian nama pesakit diperbetulkan sekiranya menggunakan huruf besar di modul Pengguna bagi submodul Umum & submodul Carian
+- Pegawai promosi klinik boleh menghapuskan promosi individu dan juga promosi klinik
+
+#### Security
+
+- Menambahbaik sekuriti secara keseluruhan untuk sistem
+
 ### 17/1/2023 (v2.0.9)
 
 #### Added
 
 - Skroll ke bawah secara automatik selepas memilih pesakit di submodul umum
-- Carian pesakit di sobmodul umum & submodul carian boleh menggunakan nama, ic atau operator bagi pesakit tersebut
+- Carian pesakit di submodul umum & submodul carian boleh menggunakan nama, ic atau operator bagi pesakit tersebut
 
 #### Changed
 

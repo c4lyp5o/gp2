@@ -59,7 +59,7 @@ export default function MakmalPergigianBergerak(props) {
                     Tarikh
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Klinik Bertanggungjawab
+                    Fasiliti Bertanggungjawab
                   </th>
                   {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
@@ -67,22 +67,24 @@ export default function MakmalPergigianBergerak(props) {
                 </tr>
               </thead>
               <tbody className='bg-admin4'>
-                {singleMpbData.penggunaanKPBMPB.map((kpb, index) => (
-                  <tr key={kpb._id}>
+                {singleMpbData.penggunaanKPBMPB.map((mpb, index) => (
+                  <tr key={mpb._id}>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {index + 1}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {moment(kpb.tarikhStart).format('DD/MM/YYYY')} -{' '}
-                      {moment(kpb.tarikhEnd).format('DD/MM/YYYY')}
+                      {moment(mpb.tarikhStart).format('DD/MM/YYYY')} -{' '}
+                      {moment(mpb.tarikhEnd).format('DD/MM/YYYY')}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {kpb.klinikBertanggungjawab}
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
+                      {mpb.klinikBertanggungjawab ||
+                        mpb.kkiaKdBertanggungjawab ||
+                        mpb.tastadBertanggungjawab}
                     </td>
                     {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button
                         className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                        id={kpb._id}
+                        id={mpb._id}
                         onClick={() => {
                           // props.setShowEditModal(true);
                           // props.setId(singleMpbData._id);

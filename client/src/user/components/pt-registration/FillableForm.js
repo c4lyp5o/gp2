@@ -13,9 +13,12 @@ import {
   FaMoneyCheckAlt,
   FaPlusCircle,
   FaMinusCircle,
+  FaClock,
 } from 'react-icons/fa';
 import moment from 'moment';
+import Datetime from 'react-datetime';
 
+import 'react-datetime/css/react-datetime.css';
 import 'react-datepicker/dist/react-datepicker.css';
 
 import Confirmation from './Confirmation';
@@ -37,8 +40,14 @@ export default function FillableForm({
   setFetchProgramData,
   kp,
 }) {
-  const { kaunterToken, Dictionary, dateToday, masterDatePicker, toast } =
-    useGlobalUserAppContext();
+  const {
+    kaunterToken,
+    Dictionary,
+    dateToday,
+    masterDatePicker,
+    formatTime,
+    toast,
+  } = useGlobalUserAppContext();
 
   const [editLoading, setIsEditLoading] = useState(false);
   const [addingData, setAddingData] = useState(false);
@@ -153,6 +162,9 @@ export default function FillableForm({
   const [tarikhRundinganPertamaDP, setTarikhRundinganPertamaDP] =
     useState(null);
   const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
+
+  // datetime issues
+  const [waktuSampaiDT, setWaktuSampaiDT] = useState(new Date());
 
   // myidentity
   const [myIdVerified, setMyIdVerified] = useState(false);
@@ -773,10 +785,10 @@ export default function FillableForm({
     // setPasukanPergigianBergerak(false);
     // setMakmalPergigianBergerak(false);
     // setLabelMakmalPergigianBergerak('');
-    // taska / tadika
     // kk / kd
     setNamaFasilitiKkKd('');
     setKodFasilitiKkKd('');
+    // taska / tadika
     setFasilitiTaskaTadika('');
     setKelasToddler(false);
     setNamaFasilitiTaskaTadika('');
@@ -799,12 +811,14 @@ export default function FillableForm({
     setInstitusiOku('');
     // kampung angkat
     setKgAngkat('');
-    //datepicker issues
+    // datepicker issues
     setTarikhKedatanganDP(new Date(dateToday));
     setTarikhLahirDP(null);
     setTarikhRujukanKeppDP(null);
     setTarikhRundinganPertamaDP(null);
     setTarikhMulaRawatanKeppDP(null);
+    // datetime issues
+    setWaktuSampaiDT(new Date());
     if (showForm === false) {
       // reset editId when change jenisFasiliti & showForm === false
       setEditId('');
@@ -1236,7 +1250,11 @@ export default function FillableForm({
         {(confirm) => (
           <>
             <form onSubmit={confirm(handleSubmit)}>
-              <h1 className='bg-kaunter3 font-bold text-2xl'>pendaftaran</h1>
+              <h1 className='bg-kaunter3 font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md'>
+                pendaftaran {Dictionary[jenisFasiliti]}
+                <br />
+                {namaProgram ? `${namaProgram}` : null}
+              </h1>
               <div className='grid grid-cols-1 lg:grid-cols-2'>
                 <p className='font-semibold text-user6 mt-3 ml-3 lg:mr-auto'>
                   * mandatori
@@ -1265,22 +1283,54 @@ export default function FillableForm({
                     </span>
                   </div>
                 </div>
-                <div className='grid grid-cols-[1fr_2fr] m-2'>
-                  <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
-                    waktu sampai:{' '}
-                    <span className='font-semibold text-user6'>*</span>
-                  </p>
-                  <div className='flex flex-col justify-start'>
-                    <input
-                      disabled={editId ? true : false}
-                      required
-                      value={waktuSampai}
-                      onChange={(e) => setWaktuSampai(e.target.value)}
-                      type='time'
-                      name='waktuSampai'
-                      className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                    />
-                    {jenisFasiliti === 'kp' ? (
+                {jenisFasiliti === 'kp' ? (
+                  <div className='grid grid-cols-[1fr_2fr] m-2'>
+                    <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
+                      waktu sampai:{' '}
+                      <span className='font-semibold text-user6'>*</span>
+                    </p>
+                    <div className='flex flex-col justify-start'>
+                      <div className='relative w-full md:w-56'>
+                        {!editId ? (
+                          <Datetime
+                            required
+                            value={waktuSampaiDT}
+                            input={true}
+                            onChange={(e) => {
+                              const time = moment(e).format('HH:mm');
+                              setWaktuSampai(time);
+                              setWaktuSampaiDT(e);
+                            }}
+                            dateFormat={false}
+                            initialValue={
+                              waktuSampai
+                                ? waktuSampai
+                                : setWaktuSampai(
+                                    new Date().toLocaleTimeString('en-US', {
+                                      hour: '2-digit',
+                                      minute: '2-digit',
+                                      hour12: false,
+                                    })
+                                  )
+                            }
+                            initialViewMode='time'
+                            timeFormat='hh:mm A'
+                            name='waktuSampai'
+                            className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                          />
+                        ) : (
+                          <input
+                            disabled={editId ? true : false}
+                            type='text'
+                            name='waktuSampai'
+                            value={formatTime(waktuSampai)}
+                            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                          />
+                        )}
+                        <span>
+                          <FaClock className='absolute top-2 right-2 text-kaunter3' />
+                        </span>
+                      </div>
                       <div className='flex justify-start mt-2'>
                         <input
                           type='checkbox'
@@ -1300,10 +1350,10 @@ export default function FillableForm({
                           Pesakit Janji Temu
                         </label>
                       </div>
-                    ) : null}
+                    </div>
                   </div>
-                </div>
-                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min'>
+                ) : null}
+                <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min col-start-1'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
                     jenis pengenalan:{' '}
                     <span className='font-semibold text-user6'>*</span>

@@ -25,7 +25,9 @@ const Helper = require('../controllers/countHelper');
 
 const Dictionary = {
   kp: 'klinik',
+  kpallnegeri: 'klinik-all-negeri',
   kkiakd: 'kkiakd',
+  kkiakdallnegeri: 'kkiakd-all-negeri',
   pp: 'pegawai',
   ppall: 'pegawai-all',
   jp: 'juruterapi pergigian',
@@ -33,6 +35,7 @@ const Dictionary = {
   taska: 'taska',
   tadika: 'tadika',
   tastad: 'tastad',
+  tastadallnegeri: 'tastad-all-negeri',
   sr: 'sekolah-rendah',
   sm: 'sekolah-menengah',
   ins: 'institusi',
@@ -549,6 +552,14 @@ const getDataKpRoute = async (req, res) => {
         accountType: 'kpUser',
         negeri,
         daerah,
+        statusPerkhidmatan: 'active',
+      });
+      break;
+    case 'klinik-all-negeri':
+      data = await User.find({
+        accountType: 'kpUser',
+        negeri,
+        statusPerkhidmatan: 'active',
       });
       break;
     case 'program':
@@ -581,11 +592,35 @@ const getDataKpRoute = async (req, res) => {
         belongsTo: kp,
       }).lean();
       break;
+    case 'kkiakd':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'kkiakd',
+        createdByNegeri: negeri,
+        statusPerkhidmatan: 'active',
+      }).lean();
+    case 'kkiakd-all-negeri':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'kkiakd',
+        createdByNegeri: negeri,
+        statusPerkhidmatan: 'active',
+      }).lean();
+      break;
     case 'tastad':
       data = await Fasiliti.find({
         jenisFasiliti: ['taska', 'tadika'],
         handler: kp,
         kodFasilitiHandler: kodFasiliti,
+        statusPerkhidmatan: 'active',
+      }).lean();
+      data.sort((a, b) => {
+        return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
+      });
+      break;
+    case 'tastad-all-negeri':
+      data = await Fasiliti.find({
+        jenisFasiliti: ['taska', 'tadika'],
+        createdByNegeri: negeri,
+        statusPerkhidmatan: 'active',
       }).lean();
       data.sort((a, b) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
@@ -618,22 +653,26 @@ const getDataKpRoute = async (req, res) => {
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
+        statusPerkhidmatan: 'active',
       }).lean();
       break;
     case 'kp-bergerak-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'kp-bergerak',
+        statusPerkhidmatan: 'active',
       }).lean();
       break;
     case 'makmal-pergigian':
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
+        statusPerkhidmatan: 'active',
       }).lean();
       break;
     case 'makmal-pergigian-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'makmal-pergigian',
+        statusPerkhidmatan: 'active',
       }).lean();
       break;
     default:
@@ -2711,6 +2750,7 @@ module.exports = {
   initialDataAdmins,
   checkUser,
   loginUser,
+  readUserData,
   getData,
   getDataRoute,
   getDataKpRoute,

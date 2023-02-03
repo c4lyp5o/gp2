@@ -52,7 +52,7 @@ function UserUmum({ sekolahIdc }) {
   const [reloadState, setReloadState] = useState(false);
 
   //carian ic semua
-  const keys = ['nama', 'ic', 'createdByUsername'];
+  const keys = ['nama', 'ic', 'createdByUsername', 'namaProgram'];
 
   const bawahRef = useRef(null);
   const atasRef = useRef(null);
@@ -223,21 +223,21 @@ function UserUmum({ sekolahIdc }) {
               htmlFor='nama-pesakit'
               className='flex flex-row my-2 items-center'
             >
-              carian pesakit
+              carian
               <BsExclamationCircleFill
                 className='ml-2 text-lg text-user3'
-                title='carian untuk nama , kad pengenalan dan operator'
+                title='Carian untuk Nama, Pengenalan Diri, Operator dan Nama Program'
               />
             </label>
             <input
               onChange={(e) => {
-                setNama(e.target.value);
+                setNama(e.target.value.toLowerCase());
               }}
               value={nama}
               type='text'
               name='nama-pesakit'
               id='nama-pesakit'
-              className='appearance-none leading-7 py-1 px-3 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 lg:mb-2'
+              className='appearance-none leading-7 py-1 px-3 ring-2 w-full focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md col-span-2 uppercase lg:mb-2'
             />
             <span className='absolute text-user3 bottom-4 lg:bottom-6 text-xl right-2'>
               <BsPersonCircle />
@@ -245,7 +245,7 @@ function UserUmum({ sekolahIdc }) {
           </div>
           <div className='mx-2 flex flex-col mb-2'>
             <label
-              htmlFor='kad-pengenalan'
+              htmlFor='tarikh-kedatangan'
               className='whitespace-nowrap flex items-center pb-1 text-base font-medium'
             >
               tarikh kedatangan :
@@ -357,7 +357,7 @@ function UserUmum({ sekolahIdc }) {
                     NAMA PESAKIT
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                    KAD PENGENALAN
+                    PENGENALAN DIRI
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                     STATUS PESAKIT
@@ -414,7 +414,9 @@ function UserUmum({ sekolahIdc }) {
                               pilih === singlePersonUmum._id && 'bg-user3'
                             } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
                           >
-                            {formatTime(singlePersonUmum.waktuSampai)}
+                            {singlePersonUmum.waktuSampai !== ''
+                              ? formatTime(singlePersonUmum.waktuSampai)
+                              : '-'}
                           </td>
                           {singlePersonUmum.noPendaftaranBaru ? (
                             <td

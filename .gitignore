@@ -1,3 +1,4 @@
+# core
 /node_modules
 .env
 /data
@@ -5,7 +6,10 @@
 # config file for graphql development
 graphql.config.json
 /.idea
+
+# logs file
 /logs/everything.log
 
+# postman like test
 /thunder-tests
 /.vscode

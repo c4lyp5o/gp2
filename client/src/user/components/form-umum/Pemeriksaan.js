@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaCaretDown } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -142,7 +142,7 @@ export default function Pemeriksaan(props) {
                     className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                   />
                 </div>
-                {/* {props.allUsedKPBMPB.length > 0 && (
+                {props.allUsedKPBMPB.length > 0 && (
                   <div className='flex flex-row items-center'>
                     <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
                       Penggunaan KPB / MPB :
@@ -155,25 +155,65 @@ export default function Pemeriksaan(props) {
                       onChange={(e) => {
                         props.setPenggunaanKPBMPB(e.target.value);
                       }}
-                      className='appearance-none w-32 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                      className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
                     >
-                      <option value=''>Sila Pilih</option>
-                      {props.allUsedKPBMPB
+                      <option value=''>Pilih Jika Berkenaan</option>
+                      {props.singlePersonUmum.jenisFasiliti !==
+                      'projek-komuniti-lain'
                         ? props.allUsedKPBMPB.map((kpbmpb) => (
-                            <option key={kpbmpb.nama} value={kpbmpb.nama}>
+                            <option value={kpbmpb.nama}>
                               {dictionaryJenisFasiliti[kpbmpb.jenisFasiliti]} |{' '}
                               {kpbmpb.nama}
                             </option>
                           ))
                         : null}
+                      {props.singlePersonUmum.jenisFasiliti ===
+                      'projek-komuniti-lain'
+                        ? props.allUsedKPBMPB.map((kpbmpb) => {
+                            return (
+                              <>
+                                {kpbmpb.penggunaanKpb !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanKpb}>
+                                    KPB | {kpbmpb.penggunaanKpb}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanKpb2 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanKpb2}>
+                                    KPB | {kpbmpb.penggunaanKpb2}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanKpb3 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanKpb3}>
+                                    KPB | {kpbmpb.penggunaanKpb3}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanMpb !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanMpb}>
+                                    MPB | {kpbmpb.penggunaanMpb}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanMpb2 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanMpb2}>
+                                    MPB | {kpbmpb.penggunaanMpb2}
+                                  </option>
+                                )}
+                                {kpbmpb.penggunaanMpb3 !== 'NOT APPLICABLE' && (
+                                  <option value={kpbmpb.penggunaanMpb3}>
+                                    MPB | {kpbmpb.penggunaanMpb3}
+                                  </option>
+                                )}
+                              </>
+                            );
+                          })
+                        : null}
                     </select>
                   </div>
-                )} */}
+                )}
                 {props.singlePersonUmum.umur >= 18 &&
                 props.singlePersonUmum.jenisFasiliti === 'kp' ? (
-                  <div className='flex flex-col lg:flex-row l border border-userBlack py-2 items-center'>
+                  <div className='flex flex-col l border border-userBlack py-2 text-left'>
                     <div className='flex flex-col lg:flex-row items-center pl-5 '>
-                      <p className='items-center pl-5 font-bold whitespace-nowrap'>
+                      <p className='items-center font-bold whitespace-nowrap'>
                         Tekanan Darah :{' '}
                         {props.singlePersonUmum.kedatangan ===
                           'baru-kedatangan' && (
@@ -197,6 +237,14 @@ export default function Pemeriksaan(props) {
                             props.setSystolicTekananDarah(e.target.value);
                             props.setRujukKeKlinik(false);
                           }}
+                          onClick={() => {
+                            if (
+                              props.systolicTekananDarah === 0 ||
+                              props.systolicTekananDarah === '0'
+                            ) {
+                              props.setSystolicTekananDarah('');
+                            }
+                          }}
                           min='0'
                           max='300'
                           className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
@@ -218,6 +266,14 @@ export default function Pemeriksaan(props) {
                             props.setDiastolicTekananDarah(e.target.value);
                             props.setRujukKeKlinik(false);
                           }}
+                          onClick={() => {
+                            if (
+                              props.diastolicTekananDarah === 0 ||
+                              props.diastolicTekananDarah === '0'
+                            ) {
+                              props.setDiastolicTekananDarah('');
+                            }
+                          }}
                           min='0'
                           max='300'
                           className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
@@ -229,13 +285,34 @@ export default function Pemeriksaan(props) {
                         </p>
                       </div>
                     </div>
+                    <div className='flex items-center text-left pl-5'>
+                      <input
+                        disabled={isDisabled}
+                        type='checkbox'
+                        name='sejarah-darah-tinggi'
+                        id='sejarah-darah-tinggi'
+                        checked={props.sejarahDarahTinggi}
+                        onChange={() => {
+                          props.setSejarahDarahTinggi(
+                            !props.sejarahDarahTinggi
+                          );
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='sejarah-darah-tinggi'
+                        className='m-2 text-sm font-m text-left'
+                      >
+                        Ada Sejarah darah tinggi ?
+                      </label>
+                    </div>
                     {(props.systolicTekananDarah >= 1 &&
                       props.systolicTekananDarah <= 89) ||
                     (props.diastolicTekananDarah >= 1 &&
                       props.diastolicTekananDarah <= 59) ||
                     props.systolicTekananDarah >= 140 ||
                     props.diastolicTekananDarah >= 90 ? (
-                      <div className='flex items-center text-left px-1'>
+                      <div className='flex items-center text-left pl-5'>
                         <input
                           disabled={isDisabled}
                           type='checkbox'
@@ -1531,79 +1608,87 @@ export default function Pemeriksaan(props) {
               <div className='grid gap-2 auto-rows-min'>
                 {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
                 props.statusKehadiran === false ? (
-                  <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5'>
+                  <article className='grid grid-cols-1 lg:grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
                       Kebersihan Mulut
                     </h4>
-                    <div className='flex items-center '>
+                    <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
                       <p className='flex flex-row pl-5 text-sm font-m '>
                         Gred Skor Plak<span className='text-user6'>*</span>
                       </p>
-                      <select
-                        disabled={isDisabled}
-                        required
-                        name='kebersihan-mulut-pemeriksaan-umum'
-                        id='kebersihan-mulut-pemeriksaan-umum'
-                        value={props.kebersihanMulutOralHygienePemeriksaanUmum}
-                        onChange={(e) => {
-                          props.setKebersihanMulutOralHygienePemeriksaanUmum(
-                            e.target.value
-                          );
-                        }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='tiada'>-</option>
-                        <option value='A'>A</option>
-                        <option value='C'>C</option>
-                        <option value='E'>E</option>
-                      </select>
-                      <FaInfoCircle
-                        title='Tanda (-) jika tidak berkenaan'
-                        className='text-lg m-1'
-                      />
+                      <div className='flex flex-row items-center relative'>
+                        <select
+                          disabled={isDisabled}
+                          required
+                          name='kebersihan-mulut-pemeriksaan-umum'
+                          id='kebersihan-mulut-pemeriksaan-umum'
+                          value={
+                            props.kebersihanMulutOralHygienePemeriksaanUmum
+                          }
+                          onChange={(e) => {
+                            props.setKebersihanMulutOralHygienePemeriksaanUmum(
+                              e.target.value
+                            );
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        >
+                          <option value=''></option>
+                          <option value='tiada'>-</option>
+                          <option value='A'>A</option>
+                          <option value='C'>C</option>
+                          <option value='E'>E</option>
+                        </select>
+                        <FaCaretDown className='absolute top-3 left-12 text-user4' />
+                        <FaInfoCircle
+                          title='Tanda (-) jika tidak berkenaan'
+                          className='text-lg m-1'
+                        />
+                      </div>
                     </div>
                     {/* {props.singlePersonUmum.umur <= 17 ? ( */}
-                    <div className='flex items-center flex-row pl-5'>
-                      <p className='text-sm font-m'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center col-start-1'>
+                      <p className='flex flex-row pl-5 text-sm font-m'>
                         GIS Skor:
                         {/* <span className='text-user6'>*</span> */}
                       </p>
-                      <select
-                        disabled={isDisabled}
-                        // required={
-                        //   props.singlePersonUmum.umur <= 17 ? true : false
-                        // }
-                        name='skor-gis-pemeriksaan-umum'
-                        id='skor-gis-pemeriksaan-umum'
-                        value={props.skorGisMulutOralHygienePemeriksaanUmum}
-                        onChange={(e) => {
-                          props.setSkorGisMulutOralHygienePemeriksaanUmum(
-                            e.target.value
-                          );
-                          if (
-                            parseInt(e.target.value) === 1 ||
-                            parseInt(e.target.value) === 3
-                          ) {
-                            props.setTidakPerluRawatanPemeriksaanUmum(false);
-                          }
-                        }}
-                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='tiada'>-</option>
-                        <option value='0'>0</option>
-                        <option value='1'>1</option>
-                        <option value='2'>2</option>
-                        <option value='3'>3</option>
-                      </select>
-                      <FaInfoCircle
-                        title='Tanda (-) jika tidak berkenaan'
-                        className='text-lg m-1'
-                      />
+                      <div className='flex flex-row items-center relative'>
+                        <select
+                          disabled={isDisabled}
+                          // required={
+                          //   props.singlePersonUmum.umur <= 17 ? true : false
+                          // }
+                          name='skor-gis-pemeriksaan-umum'
+                          id='skor-gis-pemeriksaan-umum'
+                          value={props.skorGisMulutOralHygienePemeriksaanUmum}
+                          onChange={(e) => {
+                            props.setSkorGisMulutOralHygienePemeriksaanUmum(
+                              e.target.value
+                            );
+                            if (
+                              parseInt(e.target.value) === 1 ||
+                              parseInt(e.target.value) === 3
+                            ) {
+                              props.setTidakPerluRawatanPemeriksaanUmum(false);
+                            }
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        >
+                          <option value=''></option>
+                          <option value='tiada'>-</option>
+                          <option value='0'>0</option>
+                          <option value='1'>1</option>
+                          <option value='2'>2</option>
+                          <option value='3'>3</option>
+                        </select>
+                        <FaCaretDown className='absolute top-3 left-12 text-user4' />
+                        <FaInfoCircle
+                          title='Tanda (-) jika tidak berkenaan'
+                          className='text-lg m-1'
+                        />
+                      </div>
                     </div>
                     {/* ) : null} */}
-                    <div className='flex items-center flex-row pl-5'>
+                    <div className='flex items-center flex-row pl-5 col-start-1'>
                       <input
                         disabled={isDisabled}
                         type='checkbox'
@@ -1632,15 +1717,15 @@ export default function Pemeriksaan(props) {
                 ) : null}
                 {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
                 props.statusKehadiran === false ? (
-                  <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                    <div className='grid grid-cols-1'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        Risiko Karies
-                      </h4>
-                      <div className='flex flex-row'>
-                        <p className='flex items-center flex-row pl-5'>
-                          Jumlah Faktor Risiko:
-                        </p>
+                  <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 lg:grid-cols-2'>
+                    <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
+                      Risiko Karies
+                    </h4>
+                    <div className='grid grid-cols-[2fr_1fr]'>
+                      <p className='flex items-center flex-row pl-5'>
+                        Jumlah Faktor Risiko:
+                      </p>
+                      <div className='flex flex-row items-center relative'>
                         <select
                           disabled={isDisabled}
                           name='jumlah-faktor-risiko-pemeriksaan-umum'
@@ -1651,7 +1736,7 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         >
                           <option value=''></option>
                           <option value='0'>0</option>
@@ -1664,6 +1749,7 @@ export default function Pemeriksaan(props) {
                           <option value='7'>7</option>
                           <option value='8'>8</option>
                         </select>
+                        <FaCaretDown className='absolute top-3 left-12 text-user4' />
                       </div>
                     </div>
                   </article>
@@ -1949,41 +2035,44 @@ export default function Pemeriksaan(props) {
                               <span className='text-user6'>*</span>
                             )}
                           </p>
-                          <select
-                            disabled={isDisabled}
-                            required={
-                              props.singlePersonUmum.kedatangan ===
-                              'baru-kedatangan'
-                                ? true
-                                : false
-                            }
-                            name='skor-bpe-pemeriksaan-umum'
-                            id='skor-bpe-pemeriksaan-umum'
-                            value={props.skorBpeOralHygienePemeriksaanUmum}
-                            onChange={(e) => {
-                              props.setSkorBpeOralHygienePemeriksaanUmum(
-                                e.target.value
-                              );
-                              if (parseInt(e.target.value) > 0) {
-                                props.setTidakPerluRawatanPemeriksaanUmum(
-                                  false
-                                );
+                          <div className='flex flex-row items-center relative'>
+                            <select
+                              disabled={isDisabled}
+                              required={
+                                props.singlePersonUmum.kedatangan ===
+                                'baru-kedatangan'
+                                  ? true
+                                  : false
                               }
-                            }}
-                            className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                          >
-                            <option value=''></option>
-                            <option value='tiada'>-</option>
-                            <option value='0'>0</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                          </select>
-                          <FaInfoCircle
-                            title='Tanda (-) jika tidak berkenaan'
-                            className='text-lg m-1'
-                          />
+                              name='skor-bpe-pemeriksaan-umum'
+                              id='skor-bpe-pemeriksaan-umum'
+                              value={props.skorBpeOralHygienePemeriksaanUmum}
+                              onChange={(e) => {
+                                props.setSkorBpeOralHygienePemeriksaanUmum(
+                                  e.target.value
+                                );
+                                if (parseInt(e.target.value) > 0) {
+                                  props.setTidakPerluRawatanPemeriksaanUmum(
+                                    false
+                                  );
+                                }
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='tiada'>-</option>
+                              <option value='0'>0</option>
+                              <option value='1'>1</option>
+                              <option value='2'>2</option>
+                              <option value='3'>3</option>
+                              <option value='4'>4</option>
+                            </select>
+                            <FaCaretDown className='absolute top-3 left-12 text-user4' />
+                            <FaInfoCircle
+                              title='Tanda (-) jika tidak berkenaan'
+                              className='text-lg m-1'
+                            />
+                          </div>
                         </div>
                         <div className='flex items-center justify-start pl-3 col-span-2'>
                           <input
@@ -2057,14 +2146,14 @@ export default function Pemeriksaan(props) {
                 ) : null}
                 {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
                 props.statusKehadiran === false ? (
-                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-semibold flex flex-row pl-3'>
+                  <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
                       kes endodontik diperlukan
                     </h4>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='jumlah-anterior-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-left flex justify-start items-center text-sm pl-3'
+                        className='text-left flex justify-start items-center text-sm'
                       >
                         anterior :
                       </label>
@@ -2086,10 +2175,10 @@ export default function Pemeriksaan(props) {
                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='jumlah-premolar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
+                        className='text-sm font-m m-1 flex justify-start text-left'
                       >
                         premolar :
                       </label>
@@ -2111,10 +2200,10 @@ export default function Pemeriksaan(props) {
                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='jumlah-molar-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
+                        className='text-sm font-m m-1 flex justify-start text-left'
                       >
                         molar :
                       </label>
@@ -2136,10 +2225,10 @@ export default function Pemeriksaan(props) {
                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                     </div>
-                    <div className='flex flex-row items-center pl-3'>
+                    <div className='grid grid-cols-[2fr_1fr] items-center pl-3 col-start-1'>
                       <label
                         htmlFor='rawatan-semula-endodontik-dari-primer-kes-endodontik-diperlukan-pemeriksaan-umum'
-                        className='text-sm font-m m-1'
+                        className='text-sm font-m m-1 flex justify-start text-left'
                       >
                         rawatan semula endodontik :
                       </label>

@@ -352,13 +352,13 @@ const ConfirmModal = ({
         <>
           <form
             onSubmit={confirm}
-            className='absolute inset-x-10 inset-y-5 lg:inset-x-1/4 lg:inset-y-7 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+            className='absolute inset-x-10 inset-y-5 lg:inset-x-60 lg:inset-y-7 2xl:inset-x-1/3 text-sm bg-kaunter6 z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
           >
             <FaWindowClose
               onClick={hideDoubleConfirm}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
             />
-            <div className='bg-userWhite rounded-md p-5'>
+            <div className='bg-kaunter6 rounded-md p-5'>
               <div className='flex justify-center mb-3 2xl:mb-10'>
                 <p className='text-bold text-kaunter1 text-2xl font-bold mr-1'>
                   AWAS!
@@ -371,27 +371,27 @@ const ConfirmModal = ({
                 </p>
               </div>
               <p className='font-semibold text-3xl'>
-                Anda <span className='text-user9'>PASTI</span>
+                Anda <span className='text-kaunter1'>PASTI</span>
                 <span className='lowercase'> maklumat ini </span>
-                <span className='text-user9'>BENAR?</span>
+                <span className='text-kaunter1'>BENAR?</span>
               </p>
               <div className='grid grid-cols-[1fr_2fr] mt-3'>
                 <p className='text-sm p-1 flex justify-end text-right mt-2'>
                   Pengenalan Diri:
                 </p>
-                <p className='text-3xl p-1 flex justify-start text-left text-user9 font-bold bg-opacity-5'>
+                <p className='text-3xl p-1 flex justify-start text-left text-kaunter1 font-bold bg-opacity-5'>
                   {data.ic}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right mt-2'>
                   Tarikh Lahir:
                 </p>
-                <p className='text-3xl p-1 flex justify-start text-left text-user9 font-bold bg-opacity-5'>
+                <p className='text-3xl p-1 flex justify-start text-left text-kaunter1 font-bold bg-opacity-5'>
                   {moment(data.tarikhLahir).format('DD/MM/YYYY')}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right mt-2 bg-opacity-5'>
                   Umur:
                 </p>
-                <p className='text-3xl p-1 flex justify-start text-user9 font-bold text-left'>
+                <p className='text-3xl p-1 flex justify-start text-kaunter1 font-bold text-left'>
                   {data.umur} tahun, {data.umurBulan} bulan
                 </p>
               </div>
@@ -417,23 +417,23 @@ const ConfirmModal = ({
                 <div className='text-xl p-1 justify-end bg-user1 bg-opacity-5'>
                   Sekiranya
                   <span className='lowercase'> maklumat di atas </span>
-                  <span className='text-xl text-user9 font-bold'>
+                  <span className='text-xl text-kaunter1 font-bold'>
                     TIDAK TEPAT
                   </span>
                   <span className='lowercase'> akan menyebabkan </span>
-                  <span className='text-xl text-user9 font-bold'>
+                  <span className='text-xl text-kaunter1 font-bold'>
                     NOMBOR PENDAFTARAN
                   </span>
                   <span>, </span>
-                  <span className='text-xl text-user9 font-bold'>
+                  <span className='text-xl text-kaunter1 font-bold'>
                     JENIS KEDATANGAN
                   </span>
                   <span className='lowercase'> dan </span>
-                  <span className='text-xl text-user9 font-bold'>
+                  <span className='text-xl text-kaunter1 font-bold'>
                     PAPARAN BORANG RETEN
                   </span>
                   <span className='lowercase'> yang </span>
-                  <span className='text-xl text-user9 font-bold'>SALAH</span>
+                  <span className='text-xl text-kaunter1 font-bold'>SALAH</span>
                 </div>
               </div>
               <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>

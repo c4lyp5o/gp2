@@ -108,7 +108,7 @@ const UmumSchema = new mongoose.Schema(
     jenisProgram: { type: String, default: '' },
     namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
-    //pemeriksaan -------------------------------------------------------------------
+    //pemeriksaan -----------------------------------------------
     statusKehadiran: {
       type: Boolean,
       default: false,
@@ -117,10 +117,24 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // untuk KPBMPB. kalau ada isi penggunaanKPBMPB akan ada perubahan dalam kedatanganKPBMPB & noPendaftaranKPBMPB
     penggunaanKPBMPB: {
       type: String,
       default: '',
     },
+    kedatanganKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranBaruKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranUlanganKPBMPB: {
+      type: String,
+      default: '',
+    },
+    // ----------------------------------------------------------
     systolicTekananDarah: {
       type: Number,
       default: 0,
@@ -128,6 +142,10 @@ const UmumSchema = new mongoose.Schema(
     diastolicTekananDarah: {
       type: Number,
       default: 0,
+    },
+    sejarahDarahTinggi: {
+      type: Boolean,
+      default: false,
     },
     rujukKeKlinik: {
       type: Boolean,
@@ -597,11 +615,15 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
-    cabutanPengurusanFaktorSetempat: {
+    // cabutanPengurusanFaktorSetempat: {
+    //   type: Boolean,
+    //   default: false,
+    // },
+    ektiparsiPulpa: {
       type: Boolean,
       default: false,
     },
-    ektiparsiPulpa: {
+    pendebridmenAkar: {
       type: Boolean,
       default: false,
     },
@@ -713,6 +735,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    rujukanKeKlinikKesihatan: {
+      type: Boolean,
+      default: false,
+    },
     kesSelesaiRawatanUmum: {
       type: Boolean,
       default: false,
@@ -780,10 +806,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
-    dirujukKaunselingPakarPublicHealthPromosiUmum: {
-      type: Boolean,
-      default: false,
-    },
+    // dirujukKaunselingPakarPublicHealthPromosiUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   { timestamps: true }
 );
