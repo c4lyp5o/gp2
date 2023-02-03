@@ -7,8 +7,15 @@ const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const GenerateToken = require('../models/GenerateToken');
-const { generateRandomString, readUserData } = require('./adminAPI');
+const { generateRandomString } = require('./adminAPI');
 const logger = require('../logs/logger');
+
+const borderStyle = {
+  top: { style: 'thin' },
+  left: { style: 'thin' },
+  bottom: { style: 'thin' },
+  right: { style: 'thin' },
+};
 
 exports.startQueue = async function (req, res) {
   // get userdata
@@ -296,31 +303,33 @@ const makePG101A = async (payload) => {
     const monthName = moment(new Date()).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
-    let details = worksheet.getRow(5);
-    details.getCell(
-      11
-    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+    // let details = worksheet.getCell(5);
+    // details.getCell(
+    //   11
+    // ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+    worksheet.getCell('I5').value = monthName;
+    worksheet.getCell('M5').value = yearNow;
 
     let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = 'Servis: PRIMER';
+    intro1.getCell(2).value = 'PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `Fasiliti: ${klinik.toUpperCase()}`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
-    intro3.getCell(2).value = `Daerah: ${daerah ? daerah.toUpperCase() : null}`;
+    intro3.getCell(2).value = `${daerah ? daerah.toUpperCase() : null}`;
 
     let intro4 = worksheet.getRow(9);
-    intro4.getCell(2).value = `Negeri: ${negeri ? negeri.toUpperCase() : null}`;
+    intro4.getCell(2).value = `${negeri ? negeri.toUpperCase() : null}`;
     //
     for (let i = 0; i < data.length; i++) {
       worksheet.getRow(16 + i).height = 33;
-      worksheet.getRow(16 + i).border = {
-        top: { style: 'thin' },
-        left: { style: 'thin' },
-        bottom: { style: 'thin' },
-        right: { style: 'thin' },
-      };
+      // worksheet.getRow(16 + i).border = {
+      //   top: { style: 'thin' },
+      //   left: { style: 'thin' },
+      //   bottom: { style: 'thin' },
+      //   right: { style: 'thin' },
+      // };
       let rowNew = worksheet.getRow(16 + i);
       // change tarikh kedatangan to local
       const localDate = moment(data[i].tarikhKedatangan).format('DD/MM/YYYY');
@@ -420,7 +429,9 @@ const makePG101A = async (payload) => {
           console.log('');
       }
       rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      let catatan = `${data[i].noBayaran ? data[i].noBayaran : ''} ${
+      let catatan = `Operator: ${
+        data[i].createdByUsername !== 'kaunter' ? data[i].createdByUsername : ''
+      }${data[i].noBayaran ? data[i].noBayaran : ''} ${
         data[i].noResit ? data[i].noResit : ''
       } ${data[i].noBayaran2 ? data[i].noBayaran2 : ''} ${
         data[i].noResit2 ? data[i].noResit2 : ''
@@ -430,6 +441,9 @@ const makePG101A = async (payload) => {
       rowNew.getCell(35).value = catatan; //catatan
       if (data[i].deleted) {
         rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
+      }
+      for (let z = 1; z < 36; z++) {
+        rowNew.getCell(z).border = borderStyle;
       }
     }
 

@@ -18,6 +18,7 @@ const countPG101A = async (payload) => {
   const project = {
     $project: {
       _id: placeModifier(payload),
+      createdByUsername: 1,
       tarikhKedatangan: '$tarikhKedatangan',
       noSiri: '$noSiri',
       noPendaftaranBaru: '$noPendaftaranBaru',
