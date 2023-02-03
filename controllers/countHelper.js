@@ -1773,6 +1773,8 @@ const countPG214 = async (payload) => {
     $group: {
       _id: placeModifier(payload),
       count: { $sum: 1 },
+      kedatangan: { $first: '$kedatangan' },
+      umur: { $max: '$umur' },
       //
       jumlahMelayu: {
         $sum: {
@@ -2454,6 +2456,7 @@ const countPG206 = async (payload) => {
   const group = {
     $group: {
       _id: placeModifier(payload),
+      retenSalah: { $sum: '$retenSalah' },
       kedatanganTahunSemasaUlangan: {
         $sum: {
           $cond: [
@@ -2601,6 +2604,7 @@ const countPG206 = async (payload) => {
       cabutanGk: '$cabutanGk',
       penskaleran: '$penskaleran',
       kesSelesai: '$kesSelesai',
+      retenSalah: '$retenSalah',
     },
   };
 
