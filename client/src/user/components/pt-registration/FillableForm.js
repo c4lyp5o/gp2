@@ -1307,6 +1307,10 @@ export default function FillableForm({
                               setWaktuSampai(time);
                               setWaktuSampaiDT(e);
                             }}
+                            inputProps={{
+                              className:
+                                'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+                            }}
                             dateFormat={false}
                             initialValue={
                               waktuSampai
@@ -1322,7 +1326,6 @@ export default function FillableForm({
                             initialViewMode='time'
                             timeFormat='hh:mm A'
                             name='waktuSampai'
-                            className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
                           />
                         ) : (
                           <input
