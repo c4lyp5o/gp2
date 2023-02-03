@@ -12734,13 +12734,13 @@ const countPGPro01 = async (payload) => {
 
   // run aggregate
   try {
-    let data = [];
+    let bigData = [];
     for (let i = 0; i < match_stage.length; i++) {
       const pipeline = [match_stage[i], group_stage];
-      data = await Promosi.aggregate(pipeline);
-      console.log(data);
+      const data = await Promosi.aggregate(pipeline);
+      bigData.push(data[0]);
     }
-    return data;
+    return bigData;
   } catch (err) {
     console.log(err);
   }
