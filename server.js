@@ -7,6 +7,9 @@ const path = require('path');
 // const axios = require('axios');
 const logger = require('./logs/logger');
 
+// cron job
+const startETL = require('./jobs/ETL');
+
 // security package
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -164,3 +167,8 @@ const start = async () => {
 };
 
 start();
+// .then(() => {
+//   console.log('Server has started, starting ETL... Warp drives engaged!');
+//   logger.info('Server has started, starting ETL... Warp drives engaged!');
+//   startETL();
+// });

@@ -205,7 +205,7 @@ export default function PatientData({
           .startOf('month')
           .format('YYYY-MM-DD')}&tarikhAkhir=${moment(pilihanBulan)
           .endOf('month')
-          .format('YYYY-MM-DD')}`,
+          .format('YYYY-MM-DD')}&fromEtl=false`,
         {
           headers: {
             Authorization: kaunterToken,
@@ -215,7 +215,6 @@ export default function PatientData({
       );
       return res;
     } catch (err) {
-      // console.log(err.response);
       switch (err.response.status) {
         case 401:
           toast.error(
