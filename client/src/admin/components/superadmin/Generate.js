@@ -111,7 +111,7 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanKkia
         }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
           props.pilihanKpbmpb
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}`,
+        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
@@ -142,12 +142,12 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (
-      props.pilihanFasiliti === 'program' ||
-      props.pilihanFasiliti === 'kpbmpb'
-    ) {
-      return toast.error('Sabar bos. Sikit lg nk ejas..');
-    }
+    // if (
+    //   props.pilihanFasiliti === 'program' ||
+    //   props.pilihanFasiliti === 'kpbmpb'
+    // ) {
+    //   return toast.error('Sabar bos. Sikit lg nk ejas..');
+    // }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -627,7 +627,7 @@ const ModalGenerateBulanan = (props) => {
         }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
           props.pilihanKpbmpb
         }
-        &bulan=${new Date().getFullYear()}-${bulan}`,
+        &bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
@@ -658,12 +658,12 @@ const ModalGenerateBulanan = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (
-      props.pilihanFasiliti === 'program' ||
-      props.pilihanFasiliti === 'kpbmpb'
-    ) {
-      return toast.error('Sabar bos. Sikit lg nk ejas..');
-    }
+    // if (
+    //   props.pilihanFasiliti === 'program' ||
+    //   props.pilihanFasiliti === 'kpbmpb'
+    // ) {
+    //   return toast.error('Sabar bos. Sikit lg nk ejas..');
+    // }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -1104,6 +1104,8 @@ const Generate = (props) => {
 
   const init = useRef(false);
 
+  const [currentUser, setCurrentUser] = useState('');
+
   const [openModalGenerateAdHoc, setOpenModalGenerateAdHoc] = useState(false);
   const [openModalGenerateBulanan, setOpenModalGenerateBulanan] =
     useState(false);
@@ -1267,7 +1269,6 @@ const Generate = (props) => {
 
   useEffect(() => {
     if (pilihanKlinik === '') {
-      setPilihanDaerah('');
       setPilihanFasiliti('');
       setPilihanKkia('');
       setPilihanProgram('');
@@ -1284,7 +1285,12 @@ const Generate = (props) => {
   }, [pilihanDaerah]);
 
   useEffect(() => {
-    setPilihanDaerah('');
+    if (
+      loginInfo.accountType === 'negeriSuperadmin' ||
+      loginInfo.accountType === 'hqSuperadmin'
+    ) {
+      setPilihanDaerah('');
+    }
     setPilihanKlinik('');
     setPilihanFasiliti('');
     setPilihanKkia('');
@@ -1295,17 +1301,21 @@ const Generate = (props) => {
   useEffect(() => {
     if (init.current === false) {
       if (loginInfo.accountType === 'hqSuperadmin') {
+        setCurrentUser('PKP KKM');
         readNegeri().then((res) => {
           setNegeri(res.data);
         });
       }
       if (loginInfo.accountType === 'negeriSuperadmin') {
-        readDaerah(props.loginInfo.nama).then((res) => {
+        setCurrentUser(`Negeri ${loginInfo.negeri}`);
+        readDaerah(loginInfo.nama).then((res) => {
           setDaerah(res.data);
         });
       }
       if (loginInfo.accountType === 'daerahSuperadmin') {
-        readKlinik(props.loginInfo.daerah).then((res) => {
+        setPilihanDaerah(loginInfo.daerah);
+        setCurrentUser(`Daerah ${loginInfo.daerah}`);
+        readKlinik(loginInfo.daerah).then((res) => {
           setKlinik(res.data);
         });
       }
@@ -1363,7 +1373,7 @@ const Generate = (props) => {
     <>
       <div className='p-2'>
         <h1 className='font-bold text-lg text-user1 mb-2'>
-          Penjanaan Laporan bagi negeri daerah kp eksdee
+          Penjanaan Laporan bagi {currentUser}
         </h1>
         <div className='flex flex-col items-center gap-1'>
           <p>
