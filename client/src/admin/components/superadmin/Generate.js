@@ -111,7 +111,7 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanKkia
         }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
           props.pilihanKpbmpb
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}`,
+        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
@@ -142,12 +142,12 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (
-      props.pilihanFasiliti === 'program' ||
-      props.pilihanFasiliti === 'kpbmpb'
-    ) {
-      return toast.error('Sabar bos. Sikit lg nk ejas..');
-    }
+    // if (
+    //   props.pilihanFasiliti === 'program' ||
+    //   props.pilihanFasiliti === 'kpbmpb'
+    // ) {
+    //   return toast.error('Sabar bos. Sikit lg nk ejas..');
+    // }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -627,7 +627,7 @@ const ModalGenerateBulanan = (props) => {
         }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
           props.pilihanKpbmpb
         }
-        &bulan=${new Date().getFullYear()}-${bulan}`,
+        &bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
@@ -658,12 +658,12 @@ const ModalGenerateBulanan = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (
-      props.pilihanFasiliti === 'program' ||
-      props.pilihanFasiliti === 'kpbmpb'
-    ) {
-      return toast.error('Sabar bos. Sikit lg nk ejas..');
-    }
+    // if (
+    //   props.pilihanFasiliti === 'program' ||
+    //   props.pilihanFasiliti === 'kpbmpb'
+    // ) {
+    //   return toast.error('Sabar bos. Sikit lg nk ejas..');
+    // }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()

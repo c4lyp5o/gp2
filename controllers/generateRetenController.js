@@ -18,9 +18,14 @@ exports.startQueue = async function (req, res) {
     process.env.JWT_SECRET
   );
   //
-  const { jenisReten } = req.query;
+  const { jenisReten, fromEtl } = req.query;
   //
-  if (accountType !== 'kaunterUser') {
+  if (
+    accountType !== 'kaunterUser' &&
+    !fromEtl &&
+    (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
+  ) {
+    console.log('not kaunter user n from etl');
     let userTokenData = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
@@ -86,7 +91,9 @@ exports.startQueue = async function (req, res) {
       }
       if (
         process.env.BUILD_ENV === 'production' &&
-        accountType !== 'kaunterUser'
+        accountType !== 'kaunterUser' &&
+        !fromEtl &&
+        (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
       ) {
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
@@ -587,7 +594,7 @@ const makePG101A = async (payload) => {
 const makePG101C = async (payload) => {
   console.log('PG101C');
   try {
-    const { klinik, daerah, negeri, tarikhMula, tarikhAkhir } = payload;
+    const { klinik, daerah, negeri, tarikhMula } = payload;
     //
     const data = await Helper.countPG101C(payload);
     //
