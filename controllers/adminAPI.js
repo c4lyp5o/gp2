@@ -711,6 +711,36 @@ const getDataKpRoute = async (req, res) => {
         statusPerkhidmatan: 'active',
       }).lean();
       break;
+    case 'kkiakd-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kodFasiliti,
+        jenisFasiliti: 'kkiakd',
+      })
+        .select('nama kodKkiaKd')
+        .lean();
+      break;
+    case 'kpbmpb-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kodFasiliti,
+        jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
+      })
+        .select('nama proposedName')
+        .lean();
+      break;
+    case 'program-spesifik':
+      data = await Event.find({
+        createdByKodFasiliti: kodFasiliti,
+      })
+        .select('nama jenisEvent')
+        .lean();
+      break;
+    case 'token-balance':
+      data = await GenerateToken.find({
+        belongsTo: kodFasiliti,
+      })
+        .select('jumlahToken jenisReten')
+        .lean();
+      break;
     default:
       console.log('default');
       break;
