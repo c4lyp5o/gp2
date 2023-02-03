@@ -1405,13 +1405,13 @@ const Generate = (props) => {
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Jana Mengikut Tarikh
-                    <div className='grid grid-cols-2'>
-                      <div className='flex flex-col items-center gap-1 text-center'>
+                    <div className='grid grid-cols-2 items-center'>
+                      <p className='flex flex-col items-center gap-1 text-center'>
                         Baki Token
-                      </div>
-                      <div className='flex flex-col items-center gap-1 text-center'>
+                      </p>
+                      <p className='flex flex-col items-center gap-1 text-center'>
                         Jana
-                      </div>
+                      </p>
                     </div>
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
