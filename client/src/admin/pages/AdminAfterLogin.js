@@ -40,6 +40,7 @@ import Settings from '../components/superadmin/Settings';
 
 // generate
 import Generate from '../components/superadmin/Generate';
+import GenerateKp from '../components/admin-kp/Generate';
 
 //ad hoc query
 import AdHocQuery from '../components/superadmin/AdHocQuery';
@@ -156,7 +157,6 @@ export default function AdminAfterLogin() {
               <Route path='mpb' element={<Data FType='mpb' />} />
               <Route path='tetapan' element={<Settings />} />
               <Route path='generate' element={<Generate {...props} />} />
-              {/* <Route path='ins' element={<Data FType='ins' />} /> */}
               {/* AdHoc Query thanks myhdw! */}
               <Route
                 path='aq'
@@ -178,7 +178,7 @@ export default function AdminAfterLogin() {
               <Route path='kp/program' element={<DataKp FType='program' />} />
               <Route path='kp/kpb' element={<DataKp FType='kpb' />} />
               <Route path='kp/mpb' element={<DataKp FType='mpb' />} />
-              {/* <Route path='kp/ins' element={<DataKp FType='ins' />} /> */}
+              {/* <Route path='kp/generate' element={<GenerateKp {...props} />} /> */}
             </>
           ) : null}
           <Route path='*' element={<AdminLoggedInNotFound />} />
