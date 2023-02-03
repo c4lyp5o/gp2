@@ -1,5 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
+const logger = require('../logs/logger');
 
 const Helper = require('../controllers/countHelper');
 
@@ -78,6 +79,8 @@ const initialDataKlinik = async (allDaerah) => {
 };
 
 const initiateETL = async (req, res) => {
+  console.log(`ETL initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
+  logger.info(`ETL initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
   try {
     // first launch
     const negeri = await initialDataNegeri();
@@ -92,9 +95,12 @@ const initiateETL = async (req, res) => {
           negeri: negeri[i],
           daerah: 'all',
           klinik: 'all',
-          tarikhMula: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
         };
         console.log(
+          `generating daily data ${dailyCount[j].name} for ${negeri[i]}`
+        );
+        logger.info(
           `generating daily data ${dailyCount[j].name} for ${negeri[i]}`
         );
         const data = await dailyCount[j].func(payload);
@@ -104,7 +110,7 @@ const initiateETL = async (req, res) => {
           createdByKodFasiliti: 'all',
           dataType: dailyCount[j].name,
           dataFormat: 'Daily',
-          dataDate: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -113,7 +119,7 @@ const initiateETL = async (req, res) => {
 
     // monthly count
     if (
-      moment().endOf('month').format('YYYY-MM-DD') ===
+      moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
       moment().format('YYYY-MM-DD')
     ) {
       for (let i = 0; i < negeri.length; i++) {
@@ -122,9 +128,15 @@ const initiateETL = async (req, res) => {
             negeri: negeri[i],
             daerah: 'all',
             klinik: 'all',
-            bulan: moment(new Date()).startOf('month').format('YYYY-MM-DD'),
+            bulan: moment()
+              .subtract(1, 'month')
+              .startOf('month')
+              .format('YYYY-MM-DD'),
           };
           console.log(
+            `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
+          );
+          logger.info(
             `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
           );
           const data = await monthlyCount[j].func(payload);
@@ -134,7 +146,10 @@ const initiateETL = async (req, res) => {
             createdByKodFasiliti: 'all',
             dataType: monthlyCount[j].name,
             dataFormat: 'Monthly',
-            dataDate: moment(new Date()).endOf('month').format('YYYY-MM-DD'),
+            dataDate: moment()
+              .subtract(1, 'month')
+              .endOf('month')
+              .format('YYYY-MM-DD'),
             data: data,
           };
           await Reservoir.create(dataObj);
@@ -150,9 +165,12 @@ const initiateETL = async (req, res) => {
           negeri: daerah[i].negeri,
           daerah: daerah[i].daerah,
           klinik: 'all',
-          tarikhMula: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
         };
         console.log(
+          `generating daily data ${dailyCount[j].name} for ${daerah[i].daerah}`
+        );
+        logger.info(
           `generating daily data ${dailyCount[j].name} for ${daerah[i].daerah}`
         );
         const data = await dailyCount[j].func(payload);
@@ -162,7 +180,7 @@ const initiateETL = async (req, res) => {
           createdByKodFasiliti: 'all',
           dataType: dailyCount[j].name,
           dataFormat: 'Daily',
-          dataDate: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -171,7 +189,7 @@ const initiateETL = async (req, res) => {
 
     // monthly count
     if (
-      moment().endOf('month').format('YYYY-MM-DD') ===
+      moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
       moment().format('YYYY-MM-DD')
     ) {
       for (let i = 0; i < daerah.length; i++) {
@@ -180,9 +198,15 @@ const initiateETL = async (req, res) => {
             negeri: daerah[i].negeri,
             daerah: daerah[i].daerah,
             klinik: 'all',
-            bulan: moment(new Date()).startOf('month').format('YYYY-MM-DD'),
+            bulan: moment()
+              .subtract(1, 'month')
+              .startOf('month')
+              .format('YYYY-MM-DD'),
           };
           console.log(
+            `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
+          );
+          logger.info(
             `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
           );
           const data = await monthlyCount[j].func(payload);
@@ -192,7 +216,10 @@ const initiateETL = async (req, res) => {
             createdByKodFasiliti: 'all',
             dataType: monthlyCount[j].name,
             dataFormat: 'Monthly',
-            dataDate: moment(new Date()).endOf('month').format('YYYY-MM-DD'),
+            dataDate: moment()
+              .subtract(1, 'month')
+              .endOf('month')
+              .format('YYYY-MM-DD'),
             data: data,
           };
           await Reservoir.create(dataObj);
@@ -206,9 +233,12 @@ const initiateETL = async (req, res) => {
       for (let j = 0; j < dailyCount.length; j++) {
         let payload = {
           klinik: klinik[i].kodFasiliti,
-          tarikhMula: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
         };
         console.log(
+          `generating daily data ${dailyCount[j].name} for ${klinik[i].kodFasiliti}`
+        );
+        logger.info(
           `generating daily data ${dailyCount[j].name} for ${klinik[i].kodFasiliti}`
         );
         const data = await dailyCount[j].func(payload);
@@ -218,7 +248,7 @@ const initiateETL = async (req, res) => {
           createdByKodFasiliti: klinik[i].kodFasiliti,
           dataType: dailyCount[j].name,
           dataFormat: 'Daily',
-          dataDate: moment().subtract(5, 'days').format('YYYY-MM-DD'),
+          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -227,16 +257,22 @@ const initiateETL = async (req, res) => {
 
     // monthly count
     if (
-      moment().endOf('month').format('YYYY-MM-DD') ===
+      moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
       moment().format('YYYY-MM-DD')
     ) {
       for (let i = 0; i < klinik.length; i++) {
         for (let j = 0; j < monthlyCount.length; j++) {
           let payload = {
             klinik: klinik[i].kodFasiliti,
-            bulan: moment(new Date()).startOf('month').format('YYYY-MM-DD'),
+            bulan: moment()
+              .subtract(1, 'month')
+              .startOf('month')
+              .format('YYYY-MM-DD'),
           };
           console.log(
+            `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
+          );
+          logger.info(
             `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
           );
           const data = await monthlyCount[j].func(payload);
@@ -246,19 +282,24 @@ const initiateETL = async (req, res) => {
             createdByKodFasiliti: klinik[i].kodFasiliti,
             dataType: monthlyCount[j].name,
             dataFormat: 'Monthly',
-            dataDate: moment(new Date()).endOf('month').format('YYYY-MM-DD'),
+            dataDate: moment()
+              .subtract(1, 'month')
+              .endOf('month')
+              .format('YYYY-MM-DD'),
             data: data,
           };
           await Reservoir.create(dataObj);
         }
       }
     }
-    res.send('ETL initiated. May the server is not on fire now.');
+    res
+      .status(200)
+      .json({ msg: 'ETL initiated. May the server is not on fire now' });
   } catch (error) {
     console.log(error);
     res
       .status(error.statusCode || 500)
-      .send(error.message || 'Internal Server Error');
+      .json({ msg: error.message } || { msg: 'Internal Server Error' });
   }
 };
 

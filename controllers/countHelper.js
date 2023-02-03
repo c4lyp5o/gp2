@@ -18,6 +18,7 @@ const countPG101A = async (payload) => {
   const project = {
     $project: {
       _id: placeModifier(payload),
+      createdByUsername: 1,
       tarikhKedatangan: '$tarikhKedatangan',
       noSiri: '$noSiri',
       noPendaftaranBaru: '$noPendaftaranBaru',
@@ -14302,7 +14303,11 @@ const getParams = (payload, reten) => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: {
         $eq: klinik,
@@ -14322,7 +14327,11 @@ const getParams = (payload, reten) => {
     const forKkia = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       kodFasilitiKkKd: { $eq: pilihanKkia },
       createdByKodFasiliti: { $eq: klinik },
@@ -14331,35 +14340,53 @@ const getParams = (payload, reten) => {
     const forProgram = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: pilihanProgram },
+      namaProgram: { $in: [pilihanProgram] },
     };
     const forKpbmpb = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: pilihanProgram },
+      namaProgram: { $in: [pilihanProgram] },
     };
-    if (pilihanKkia) {
+    if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
-    } else if (!tarikhAkhir) {
-      return noEndDate;
-    } else {
+    }
+    if (pilihanFasiliti === 'program' && pilihanProgram !== '') {
+      return forProgram;
+    }
+    if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
+      return forKpbmpb;
+    }
+    if (tarikhMula && tarikhAkhir) {
       return withEndDate;
     }
+    return noEndDate;
   };
 
   const byDaerah = () => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14374,18 +14401,18 @@ const getParams = (payload, reten) => {
         $gte: tarikhMula,
         $lte: tarikhAkhir,
       },
-      createdByNegeri: {
-        $eq: negeri,
-      },
-      createdByDaerah: {
-        $eq: daerah,
-      },
+      createdByNegeri: { $eq: negeri },
+      createdByDaerah: { $eq: daerah },
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
@@ -14394,7 +14421,11 @@ const getParams = (payload, reten) => {
     const forProgram = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
@@ -14404,27 +14435,41 @@ const getParams = (payload, reten) => {
     const forKpbmpb = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
       namaProgram: { $in: pilihanProgram },
     };
-    if (pilihanKkia) {
+    if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
-    } else if (!tarikhAkhir) {
-      return noEndDate;
-    } else {
+    }
+    if (pilihanFasiliti === 'program' && pilihanProgram !== '') {
+      return forProgram;
+    }
+    if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
+      return forKpbmpb;
+    }
+    if (tarikhMula && tarikhAkhir) {
       return withEndDate;
     }
+    return noEndDate;
   };
 
   const byNegeri = () => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14444,7 +14489,11 @@ const getParams = (payload, reten) => {
     const forKkia = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['kk-kd'] },
@@ -14452,7 +14501,11 @@ const getParams = (payload, reten) => {
     const forProgram = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
@@ -14461,19 +14514,29 @@ const getParams = (payload, reten) => {
     const forKpbmpb = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
       namaProgram: { $in: pilihanProgram },
     };
-    if (pilihanKkia) {
+    if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
-    } else if (!tarikhAkhir) {
-      return noEndDate;
-    } else {
+    }
+    if (pilihanFasiliti === 'program' && pilihanProgram !== '') {
+      return forProgram;
+    }
+    if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
+      return forKpbmpb;
+    }
+    if (tarikhMula && tarikhAkhir) {
       return withEndDate;
     }
+    return noEndDate;
   };
   if (payload.daerah !== 'all' && payload.klinik !== 'all') {
     return byKp(payload);
@@ -14501,6 +14564,11 @@ const getParams2 = (payload, reten) => {
     let param = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: {
         $eq: klinik,
@@ -14514,6 +14582,11 @@ const getParams2 = (payload, reten) => {
     let param = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14530,6 +14603,11 @@ const getParams2 = (payload, reten) => {
     let param = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14557,8 +14635,14 @@ const getParams206 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        tarikhKedatangan: {
+          $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+          $lte: moment(bulan)
+            .add(1, 'month')
+            .startOf('month')
+            .add(6, 'days')
+            .format('YYYY-MM-DD'),
+        },
       },
       ibuMengandung: false,
     };
@@ -14571,8 +14655,14 @@ const getParams206 = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        tarikhKedatangan: {
+          $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+          $lte: moment(bulan)
+            .add(1, 'month')
+            .startOf('month')
+            .add(6, 'days')
+            .format('YYYY-MM-DD'),
+        },
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14587,7 +14677,11 @@ const getParams206 = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14601,7 +14695,11 @@ const getParams206 = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14631,7 +14729,11 @@ const getParams206sekolah = (payload) => {
       createdByMdcMdtb: id,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -14646,7 +14748,11 @@ const getParams206sekolah = (payload) => {
       // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -14661,7 +14767,11 @@ const getParams206sekolah = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -14675,7 +14785,11 @@ const getParams206sekolah = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -14705,7 +14819,11 @@ const getParams207 = (payload) => {
       createdByMdcMdtb: id,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -14718,7 +14836,11 @@ const getParams207 = (payload) => {
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14733,7 +14855,11 @@ const getParams207 = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14747,7 +14873,11 @@ const getParams207 = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14777,7 +14907,11 @@ const getParams207sekolah = (payload) => {
       createdByMdcMdtb: id,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -14790,7 +14924,11 @@ const getParams207sekolah = (payload) => {
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -14805,7 +14943,11 @@ const getParams207sekolah = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -14819,7 +14961,11 @@ const getParams207sekolah = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       ibuMengandung: false,
       orangKurangUpaya: false,
@@ -14891,7 +15037,11 @@ const getParamsGender = (payload) => {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -14904,7 +15054,11 @@ const getParamsGender = (payload) => {
       createdByNegeri: negeri,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -14916,7 +15070,11 @@ const getParamsGender = (payload) => {
       createdByNegeri: negeri,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -15035,7 +15193,11 @@ const getParamsBPE = (payload) => {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -15046,7 +15208,11 @@ const getParamsBPE = (payload) => {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -15060,7 +15226,11 @@ const getParamsBPE = (payload) => {
       createdByDaerah: daerah,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -15073,7 +15243,11 @@ const getParamsBPE = (payload) => {
       createdByNegeri: negeri,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -15103,7 +15277,11 @@ const getParamsPGS203 = (payload) => {
       createdByMdcMdtb: id,
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
     };
     return param;
@@ -15116,7 +15294,11 @@ const getParamsPGS203 = (payload) => {
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -15131,7 +15313,11 @@ const getParamsPGS203 = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
@@ -15145,7 +15331,11 @@ const getParamsPGS203 = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        // $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+        $lte: moment(bulan)
+          .add(1, 'month')
+          .startOf('month')
+          .add(6, 'days')
+          .format('YYYY-MM-DD'),
       },
       // ibuMengandung: false,
       // orangKurangUpaya: false,
