@@ -147,7 +147,6 @@ const Helper = require('../controllers/countHelper');
 
 // gateway
 const downloader = async (req, res, callback) => {
-  console.log('this is in downloader');
   // check query
   let {
     jenisReten,
@@ -601,7 +600,7 @@ const makePG101A = async (payload) => {
 const makePG101C = async (payload) => {
   console.log('PG101C');
   try {
-    let { klinik, daerah, negeri, username } = payload;
+    let { klinik, daerah, negeri, bulan, username } = payload;
     //
     const data = await Helper.countPG101C(payload);
     //
@@ -626,8 +625,8 @@ const makePG101C = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG101C');
 
-    const monthName = moment(tarikhMula).format('MMMM');
-    const yearNow = moment(tarikhMula).format('YYYY');
+    const monthName = moment(bulan).format('MMMM');
+    const yearNow = moment(bulan).format('YYYY');
 
     worksheet.getCell('I5').value = monthName;
     worksheet.getCell('M5').value = yearNow;
@@ -829,7 +828,7 @@ const makePG101C = async (payload) => {
 const makePG211A = async (payload) => {
   console.log('PG211A');
   try {
-    const { klinik, daerah, negeri, bulan } = payload;
+    const { klinik, daerah, negeri, bulan, username } = payload;
     //
     const data = await Helper.countPG211A(payload);
     //
@@ -940,7 +939,7 @@ const makePG211A = async (payload) => {
 const makePG211C = async (payload) => {
   console.log('PG211C');
   try {
-    const { klinik, daerah, negeri, bulan } = payload;
+    const { klinik, daerah, negeri, bulan, username } = payload;
     //
     const data = await Helper.countPG211C(payload);
     //
@@ -962,7 +961,7 @@ const makePG211C = async (payload) => {
     );
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PG211');
+    let worksheet = workbook.getWorksheet('PG211C');
 
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
@@ -1051,7 +1050,7 @@ const makePG211C = async (payload) => {
 const makePG214 = async (payload) => {
   console.log('PG214');
   try {
-    const { klinik, daerah, negeri, bulan } = payload;
+    const { klinik, daerah, negeri, bulan, username } = payload;
     //
     const data = await Helper.countPG214(payload);
     //
@@ -1073,7 +1072,7 @@ const makePG214 = async (payload) => {
     );
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PG214');
+    let worksheet = workbook.getWorksheet('BULAN');
 
     worksheet.getCell('J5').value = `BAGI BULAN ${moment(bulan)
       .format('MMMM')
@@ -1134,7 +1133,7 @@ const makePG214 = async (payload) => {
 const makePG206 = async (payload) => {
   console.log('PG206');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
     //
     const data = await Helper.countPG206(payload);
     //
@@ -1408,7 +1407,7 @@ const makePG206 = async (payload) => {
 const makePG207 = async (payload) => {
   console.log('PG207');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
     //
     const data = await Helper.countPG207(payload);
     //
@@ -2470,7 +2469,7 @@ const makePgPro01 = async (payload) => {
 const makeGender = async (payload) => {
   console.log('makeGender');
   try {
-    const { pegawai, klinik, daerah, negeri, bulan } = payload;
+    const { pegawai, klinik, daerah, negeri, bulan, username } = payload;
     //
     const data = await Helper.countGender(payload);
     //
@@ -2538,6 +2537,7 @@ const makeGender = async (payload) => {
 
     // info
     let rowTambahan = 1;
+    let rowNew;
     rowNew = worksheet.getRow(16);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -2648,7 +2648,7 @@ const makeGender = async (payload) => {
 const makeMasa = async (payload) => {
   console.log('makeMasa');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
     //
     const data = await Helper.countMasa(payload);
     //
@@ -2716,6 +2716,7 @@ const makeMasa = async (payload) => {
 
     // info
     let rowTambahan = 1;
+    let rowNew;
     rowNew = worksheet.getRow(34);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -2821,7 +2822,7 @@ const makeMasa = async (payload) => {
 const makeBp = async (payload) => {
   console.log('Reten BP');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
     //
     const data = await Helper.countBp(payload);
     //
@@ -3018,6 +3019,7 @@ const makeBp = async (payload) => {
 
     // info
     let rowTambahan = 1;
+    let rowNew;
     rowNew = worksheet.getRow(43);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -3125,7 +3127,7 @@ const makeBp = async (payload) => {
 const makeBPE = async (payload) => {
   console.log('Reten BPE');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
     //
     const data = await Helper.countBPE(payload);
     //
