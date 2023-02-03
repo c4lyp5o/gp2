@@ -364,6 +364,7 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  // read token data
   const readGenerateTokenData = async () => {
     try {
       const response = await axios.get(
@@ -379,8 +380,23 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
+  const readGenerateTokenDataForKp = async () => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=tokenbal`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
 
-  // specifics for each kp
+  // specifics for each kp for superadmin
   const readSpesifikKkiaData = async (kp) => {
     console.log(kp);
     try {
@@ -418,6 +434,56 @@ function AdminAppProvider({ children }) {
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getdata?FType=kpbmpbspesifik&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+
+  // specifics for each kp for kpuser
+  const readSpesifikKkiaDataForKp = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=kkiakdspesifik&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+  const readSpesifikProgramDataForKp = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=programspesifik&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+  const readSpesifikKPBMPBDataForKp = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=kpbmpbspesifik&kp=${kp}`,
         {
           headers: {
             Authorization: adminToken,
@@ -747,9 +813,13 @@ function AdminAppProvider({ children }) {
         readFasilitiData,
         readKodProgramData,
         readGenerateTokenData,
+        readGenerateTokenDataForKp,
         readSpesifikKkiaData,
         readSpesifikProgramData,
         readSpesifikKPBMPBData,
+        readSpesifikKkiaDataForKp,
+        readSpesifikProgramDataForKp,
+        readSpesifikKPBMPBDataForKp,
         // stats data
         getStatsData,
         // misc

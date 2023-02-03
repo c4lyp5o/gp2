@@ -1773,6 +1773,8 @@ const countPG214 = async (payload) => {
     $group: {
       _id: placeModifier(payload),
       count: { $sum: 1 },
+      kedatangan: { $first: '$kedatangan' },
+      umur: { $max: '$umur' },
       //
       jumlahMelayu: {
         $sum: {
@@ -2454,6 +2456,7 @@ const countPG206 = async (payload) => {
   const group = {
     $group: {
       _id: placeModifier(payload),
+      retenSalah: { $sum: '$retenSalah' },
       kedatanganTahunSemasaUlangan: {
         $sum: {
           $cond: [
@@ -2601,6 +2604,7 @@ const countPG206 = async (payload) => {
       cabutanGk: '$cabutanGk',
       penskaleran: '$penskaleran',
       kesSelesai: '$kesSelesai',
+      retenSalah: '$retenSalah',
     },
   };
 
@@ -12734,13 +12738,13 @@ const countPGPro01 = async (payload) => {
 
   // run aggregate
   try {
-    let data = [];
+    let bigData = [];
     for (let i = 0; i < match_stage.length; i++) {
       const pipeline = [match_stage[i], group_stage];
-      data = await Promosi.aggregate(pipeline);
-      console.log(data);
+      const data = await Promosi.aggregate(pipeline);
+      bigData.push(data[0]);
     }
-    return data;
+    return bigData;
   } catch (err) {
     console.log(err);
   }
