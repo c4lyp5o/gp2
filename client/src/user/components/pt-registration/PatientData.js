@@ -489,7 +489,7 @@ export default function PatientData({
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
                               {p.nama}
                             </td>
-                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
                               {p.ic}
                             </td>
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>

@@ -457,9 +457,9 @@ function UserUmum({ sekolahIdc }) {
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
-                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 normal-case`}
                           >
-                            {singlePersonUmum.ic.toUpperCase()}
+                            {singlePersonUmum.ic}
                           </td>
                           <td
                             className={`${
@@ -765,7 +765,7 @@ function UserUmum({ sekolahIdc }) {
                     </div>
                     <div className='text-xs lg:text-sm flex flex-row pl-5'>
                       <h2 className='font-semibold'>IC/Passport :</h2>
-                      <p className='ml-1'>{singlePersonUmum.ic}</p>
+                      <p className='ml-1 normal-case'>{singlePersonUmum.ic}</p>
                     </div>
                     {operasiHapus ? (
                       <button
