@@ -290,6 +290,9 @@ export default function DaftarPesakit({ createdByKp }) {
                   )}
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                  MAKLUMAT TAMBAHAN
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                   BAYARAN & NO. RESIT
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -359,7 +362,7 @@ export default function DaftarPesakit({ createdByKp }) {
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
                           {p.nama}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
                           {p.ic}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
@@ -367,6 +370,9 @@ export default function DaftarPesakit({ createdByKp }) {
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {Dictionary[p.jenisFasiliti]}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
+                          {p.nomborTelefon} {p.nomborTelefon2} {p.emel}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 whitespace-nowrap'>
                           {p.noBayaran || p.noResit ? (
