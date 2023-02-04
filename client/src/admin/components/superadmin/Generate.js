@@ -1144,25 +1144,30 @@ const Generate = (props) => {
       kod: 'PG101A Pind. 1/2022',
       kodRingkas: 'PG101A',
       deskripsi:
-        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara-Klinik Pergigian Primer & program lawatan pergigian di KKIA/KD',
+        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2:
+        '- Klinik Pergigian Primer & program lawatan pergigian di KKIA/KD',
     },
     {
       kod: 'PG101C Pind. 1/2022',
       kodRingkas: 'PG101C',
       deskripsi:
-        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara-Program Outreach dan Klinik Pergigian Sekolah (Statik)',
+        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2: '- Program Outreach dan Klinik Pergigian Sekolah (Statik)',
     },
     {
       kod: 'PG211A Pind. 1/2022',
       kodRingkas: 'PG211A',
       deskripsi:
-        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara-Perkhidmatan Pergigian Klinik Pergigian Primer',
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2: '- Perkhidmatan Pergigian Klinik Pergigian Primer',
     },
     {
       kod: 'PG211C Pind. 1/2022',
       kodRingkas: 'PG211C',
       deskripsi:
-        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara-Perkhidmatan Pergigian Outreach',
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2: '- Perkhidmatan Pergigian Outreach',
     },
     {
       kod: 'PG206 Pind. 1/2022',
@@ -1187,6 +1192,12 @@ const Generate = (props) => {
       kodRingkas: 'PGPR201',
       deskripsi:
         'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
+    },
+    {
+      kod: 'PGPRO 01 Pind. 2/2022',
+      kodRingkas: 'PGPRO01',
+      deskripsi:
+        'Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
     },
     {
       kod: 'PG201 Pind. 2/2022',
@@ -1394,7 +1405,7 @@ const Generate = (props) => {
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>
                 <tr>
-                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-3 py-1 outline outline-1 outline-offset-1'>
                     Bil.
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
@@ -1403,13 +1414,13 @@ const Generate = (props) => {
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Kod Reten
                   </th>
-                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
-                    Jana Mengikut Tarikh
+                  <th className='px-1 py-1 outline outline-1 outline-offset-1 w-56'>
+                    <div className='border-b'>Jana Mengikut Tarikh</div>
                     <div className='grid grid-cols-2 items-center'>
                       <p className='flex flex-col items-center gap-1 text-center'>
                         Baki Token
                       </p>
-                      <p className='flex flex-col items-center gap-1 text-center'>
+                      <p className='flex flex-col items-center gap-1 text-center border-l'>
                         Jana
                       </p>
                     </div>
@@ -1423,18 +1434,22 @@ const Generate = (props) => {
                 {semuaJenisReten.map((jenis, index) => (
                   <>
                     <tr>
-                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
+                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {index + 1}
                       </td>
-                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
-                        {jenis.deskripsi}
+                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-start normal-case'>
+                        <div className='ml-3 mr-1'>
+                          {jenis.deskripsi}
+                          <br />
+                          {jenis.deskripsi2}
+                        </div>
                       </td>
-                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
+                      <td className='px-3 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {jenis.kod}
                       </td>
-                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
-                        <div className='grid grid-cols-2'>
-                          <div className='flex flex-col items-center gap-1 text-center'>
+                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        <div className='grid grid-cols-2 items-center'>
+                          <div className='flex flex-col py-3 items-center gap-1 text-center'>
                             {statusToken.map
                               ? statusToken.map((token) => {
                                   if (token.jenisReten === jenis.kodRingkas) {
@@ -1446,12 +1461,13 @@ const Generate = (props) => {
                                 })
                               : null}
                           </div>
-                          <div className='flex flex-col items-center gap-1 text-center'>
+                          <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
                             <button
                               type='button'
-                              className='px-2 py-1 bg-admin1 text-adminWhite rounded-md'
+                              className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
                               onClick={() => {
                                 setJenisReten(jenis.kodRingkas);
+                                setOpenModalGenerateBulanan(false);
                                 setOpenModalGenerateAdHoc(true);
                               }}
                             >
@@ -1460,12 +1476,13 @@ const Generate = (props) => {
                           </div>
                         </div>
                       </td>
-                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
+                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button
                           type='button'
                           className='px-2 py-1 bg-admin1 text-adminWhite rounded-md'
                           onClick={() => {
                             setJenisReten(jenis.kodRingkas);
+                            setOpenModalGenerateAdHoc(false);
                             setOpenModalGenerateBulanan(true);
                           }}
                         >
