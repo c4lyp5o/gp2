@@ -6,6 +6,7 @@ const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
 const MediaSosial = require('../models/MediaSosial');
+const Fasiliti = require('../models/Fasiliti');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
@@ -3782,34 +3783,6 @@ const countPG207 = async (payload) => {
         },
       },
       jumlahGigiPrrJenis1: {
-        //prrJ1MuridB
-        // $cond: [
-        //   {
-        //     $and: [
-        //       {
-        //         $eq: ['$kedatangan', 'baru-kedatangan'],
-        //       },
-        //       {
-        //         $or: [
-        //           {
-        //             $gt: [
-        //               '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
-        //               0,
-        //             ],
-        //           },
-        //           {
-        //             $gt: [
-        //               '$semulaJumlahGigiKekalDiberiPrrJenis1RawatanUmum',
-        //               0,
-        //             ],
-        //           },
-        //         ],
-        //       },
-        //     ],
-        //   },
-        //   1,
-        //   0,
-        // ],
         $sum: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
       },
       jumlahPesakitDiBuatFs: {
@@ -8643,7 +8616,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
   }
 };
 //Reten Sekolah (effective starting on March 2023)
-const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
+const countPG201PindSatu2022 = async (payload) => {
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
@@ -9692,8 +9665,8 @@ const countPG201PindSatu2022 = async (klinik, bulan, sekolah) => {
   }
 };
 //PGS203 yang focus pada taska and tadika - dengan harapan nanty campur dengan PGS203 Sek
+//utk taska and tadika - data umum sahaja ; belum masuk sekolah lagi
 const countPGS203 = async (payload) => {
-  //utk taska and tadika - data umum sahaja ; belum masuk sekolah lagi
   let match_stage = [];
   //
   const pra_tad_kerajaan = {
@@ -9702,6 +9675,7 @@ const countPGS203 = async (payload) => {
       umur: { $lt: 7 },
       jenisFasiliti: { $eq: 'taska-tadika' },
       deleted: false,
+      // govKe: 'Kerajaan',
     },
   };
   const pra_tad_swasta = {
@@ -9709,6 +9683,7 @@ const countPGS203 = async (payload) => {
       ...getParamsPGS203(payload),
       umur: { $lt: 7 },
       jenisFasiliti: { $eq: 'taska-tadika' },
+      // govKe: 'Swasta',
       deleted: false,
     },
   };
@@ -9755,6 +9730,7 @@ const countPGS203 = async (payload) => {
       jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
       jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
       //status gigi kekal
+      jumlahE: { $sum: '$eAdaGigiKekalPemeriksaanUmum' },
       jumlahD: { $sum: '$dAdaGigiKekalPemeriksaanUmum' },
       jumlahM: { $sum: '$mAdaGigiKekalPemeriksaanUmum' },
       jumlahF: { $sum: '$fAdaGigiKekalPemeriksaanUmum' },
@@ -9845,7 +9821,7 @@ const countPGS203 = async (payload) => {
       },
       eLebihAtauSamaDenganSatu: {
         $sum: {
-          $cond: [{ $gte: ['$eAdaGigiKekalPemeriksaanUmum', 1] }, 1, 0],
+          $cond: [{ $gt: ['$eAdaGigiKekalPemeriksaanUmum', 0] }, 1, 0],
         },
       },
       bebasKariesTetapiElebihAtauSamaDenganSatu: {
@@ -9926,6 +9902,32 @@ const countPGS203 = async (payload) => {
           $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] }, 1, 0],
         },
       },
+      jumlahTPR: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                {
+                  $or: [
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0],
+                    },
+                    {
+                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2],
+                    },
+                  ],
+                },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
       //rawatan pencegahan perlu dibuat
       perluSapuanFluorida: {
         $sum: {
@@ -9968,12 +9970,15 @@ const countPGS203 = async (payload) => {
       },
       perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
       //jenis rawatan diberi
-      sapuanFluorida: {
-        //fvMuridB
+      telahSapuanFluorida: {
         $sum: {
           $cond: [
             {
+              // $eq: [
+              //   '$pesakitDibuatFluorideVarnish',
+              //   'pesakit-dibuat-fluoride-varnish',
               $eq: ['$pesakitDibuatFluorideVarnish', true],
+              // ],
             },
             1,
             0,
@@ -10083,10 +10088,13 @@ const countPGS203 = async (payload) => {
       jumlahd: '$jumlahd',
       jumlahf: '$jumlahf',
       jumlahx: '$jumlahx',
+
+      jumlahE: '$jumlahE',
       jumlahD: '$jumlahD',
       jumlahM: '$jumlahM',
       jumlahF: '$jumlahF',
       jumlahX: '$jumlahX',
+
       dfxSamaKosong: '$dfxSamaKosong',
       jumlahMBK: '$jumlahMBK',
       statusBebasKaries: '$statusBebasKaries',
@@ -10105,11 +10113,13 @@ const countPGS203 = async (payload) => {
       skorBPE3: '$skorBPE3',
       skorBPE4: '$skorBPE4',
 
+      jumlahTPR: '$jumlahTPR',
       perluSapuanFluorida: '$perluSapuanFluorida',
       perluJumlahPesakitPrrJenis1: '$perluJumlahPesakitPrrJenis1',
       perluJumlahGigiPrrJenis1: '$perluJumlahGigiPrrJenis1',
       perluJumlahPesakitFS: '$perluJumlahPesakitFS',
       perluJumlahGigiFS: '$perluJumlahGigiFS',
+
       jumlahPesakitPrrJenis1: '$jumlahPesakitPrrJenis1',
       jumlahGigiPrrJenis1: '$jumlahGigiPrrJenis1',
       jumlahPesakitDiBuatFs: '$jumlahPesakitDiBuatFs',
@@ -10119,12 +10129,13 @@ const countPGS203 = async (payload) => {
       tampalanAntGdSemula: '$tampalanAntGdSemula',
       tampalanAntGkBaru: '$tampalanAntGkBaru',
       tampalanAntGkSemula: '$tampalanAntGkSemula',
+
       tampalanPostGdBaru: '$tampalanPostGdBaru',
       tampalanPostGdSemula: '$tampalanPostGdSemula',
       tampalanPostGkBaru: '$tampalanPostGkBaru',
       tampalanPostGkSemula: '$tampalanPostGkSemula',
-      tampalanPostAmgGdBaru: '$tampalanPostAmgGdBaru',
 
+      tampalanPostAmgGdBaru: '$tampalanPostAmgGdBaru',
       tampalanPostAmgGdSemula: '$tampalanPostAmgGdSemula',
       tampalanPostAmgGkBaru: '$tampalanPostAmgGkBaru',
       tampalanPostAmgGkSemula: '$tampalanPostAmgGkSemula',
@@ -10140,8 +10151,8 @@ const countPGS203 = async (payload) => {
 
   for (let i = 0; i < match_stage.length; i++) {
     const pipeline = [match_stage[i], group_stage];
-    const dataBPE = await Umum.aggregate(pipeline);
-    bigData.push(dataBPE);
+    const dataPGS203 = await Umum.aggregate(pipeline);
+    bigData.push(dataPGS203);
   }
   return bigData;
 };
