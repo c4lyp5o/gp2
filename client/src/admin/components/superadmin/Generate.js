@@ -1206,8 +1206,8 @@ const Generate = (props) => {
         'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
     {
-      kod: 'PGS203 Pind. 1/2022',
-      kodRingkas: 'PG203',
+      kod: 'PGS203 Pind. 2/2022',
+      kodRingkas: 'PGS203P2',
       deskripsi:
         'Laporan Bulanan Kesihatan Pergigian Dan Status Rawatan Murid Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
