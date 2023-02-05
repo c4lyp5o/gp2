@@ -240,8 +240,11 @@ const downloader = async (req, res, callback) => {
     case 'PG201':
       excelFile = await makePG201(payload);
       break;
-    case 'PGS203':
-      excelFile = await makePGS203(payload);
+    case 'PGS203P1':
+      excelFile = await makePGS203P1(payload);
+      break;
+    case 'PGS203P2':
+      excelFile = await makePGS203P2(payload);
       break;
     case 'PGPR201':
       excelFile = await makePGPR201(payload);
@@ -1058,10 +1061,10 @@ const makePG214 = async (payload) => {
       return 'No data found';
     }
     //
-    if (klinik !== 'all') {
-      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
-      klinik = currentKlinik.kp;
-    }
+    // if (klinik !== 'all') {
+    //   const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+    //   klinik = currentKlinik.kp;
+    // }
     //
     let filename = path.join(
       __dirname,
@@ -2004,18 +2007,12 @@ const makePG201 = async (payload) => {
     res.status(500).json({ message: err.message });
   }
 };
-const makePGS203 = async (payload) => {
-  console.log('PGS203');
+const makePGS203P2 = async (payload) => {
+  console.log('PGS203P2');
   try {
-    // const { kp, sekolah } = payload;
-    let sekolah = 'Sekolah';
-    let klinik = 'Klinik Pergigian Kaki Bukit';
-    let bulan = '2022-12-01';
-    let bulan2 = '2022-11-01';
-    let daerah = 'ARAU';
-    let negeri = 'PERLIS';
+    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
     //
-    const data = await Helper.countPGS203(klinik, bulan, sekolah);
+    const data = await Helper.countPGS203(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2026,177 +2023,152 @@ const makePGS203 = async (payload) => {
       '..',
       'public',
       'exports',
-      'PGS203.xlsx'
+      'PGS203P2.xlsx'
     );
+    //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PGS203');
-
+    //get worksheet
+    let worksheet = workbook.getWorksheet('PGS203P2');
+    //Find Month and Year at the moment
     const monthName = moment(new Date()).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
-
+    //write bulan and sesi at the moment
     let details = worksheet.getRow(5);
     details.getCell(
       2
-    ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
-
+    ).value = `BAGI BULAN      ${monthName.toUpperCase()}         SESI      ${yearNow}`;
+    // write facility
     let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = 'PRIMER';
-
+    intro1.getCell(2).value = `${klinik.toUpperCase()}`;
+    // write daerah
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
-
+    intro2.getCell(2).value = `${daerah.toUpperCase()}`;
+    // write negeri
     let intro3 = worksheet.getRow(8);
-    intro3.getCell(2).value = `${daerah.toUpperCase()}`;
+    intro3.getCell(2).value = `${negeri.toUpperCase()}`;
+    // end intro
 
-    // let intro4 = worksheet.getRow(9);
-    // intro4.getCell(2).value = `${negeri.toUpperCase()}`;
-    //
-    // let rowNamaKlinik = worksheet.getRow(7);
-    // // let klinikFixed = results.dataPemeriksan[0].createdByKp;
-    // // klinikFixed = klinikFixed
-    // //   .toLowerCase()
-    // //   .split(' ')
-    // //   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    // //   .join(' ');
-    // rowNamaKlinik.getCell(9).value = 'Klinik Gigi';
-    // rowNamaKlinik.commit();
-    // // console.log('setting klinik name: ' + klinikFixed);
-    // //
-    // let rowNamaSekolah = worksheet.getRow(8);
-    // let sekolahFixed = data.dataPemeriksaan[0]._id;
-    // rowNamaSekolah.getCell(9).value = sekolahFixed;
-    // sekolahFixed = sekolahFixed
-    //   .toLowerCase()
-    //   .split(' ')
-    //   .map((s) => s.charAt(0).toUpperCase() + s.substring(1))
-    //   .join(' ');
-    // rowNamaSekolah.getCell(9).value = sekolahFixed;
-    // rowNamaSekolah.commit();
-    // console.log('setting sekolah name: ' + sekolahFixed);
-    // //
-    // let rowNamaJenis = worksheet.getRow(9);
-    // rowNamaJenis.getCell(9).value = 'PBSR';
-    // rowNamaJenis.commit();
-    //
-    for (let i = 0; i < data.dataPemeriksaan.length; i++) {
-      let rowNew = worksheet.getRow(20 + i);
-      if (data.dataPemeriksaan[i][0]) {
-        // let rowNew = worksheet.getRow(20);
-        rowNew.getCell(3).value =
-          data.dataPemeriksaan[0].engganKedatanganPendaftaran; //Kedatangan Baru Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(4).value =
-          data.dataPemeriksaan[0].jumlahKedatanganUlangan; //Kedatangn Ulangan Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(5).value = data.dataPemeriksaan[0].jumlahd; //d Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(6).value = data.dataPemeriksaan[0].jumlahf; //f Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(7).value = data.dataPemeriksaan[0].jumlahx; //X Status dfx Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(10).value = data.dataPemeriksaan[0].jumlahD; //d Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(11).value = data.dataPemeriksaan[0].jumlahM; //m Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(12).value = data.dataPemeriksaan[0].jumlahF; //f Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(13).value = data.dataPemeriksaan[0].jumlahX; //x Status DMFX Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(16).value = data.dataPemeriksaan[0].jumlahMBK; //Mulut Bebas Karies (MBK) Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(17).value = data.dataPemeriksaan[0].dfxEqualToZero; //dfx = data.0 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(18).value = data.dataPemeriksaan[0].statusBebasKaries; //Status Gigi Kekal Bebas Karies (BK) DMFX = data.0 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(19).value =
-          data.dataPemeriksaan[0].totalStatusGigiKekalSamaKosong; //X + M = data.0 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(20).value =
-          data.dataPemeriksaan[0].gigiKekalDMFXsamaAtauKurangDari1; //DMFX <= 1 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(21).value =
-          data.dataPemeriksaan[0].gigiKekalDMFXsamaAtauKurangDari2; //DMFX <=2 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(22).value = data.dataPemeriksaan[0].eMoreThanZero; //E ≥ 1 (ada karies awal) Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(23).value =
-          data.dataPemeriksaan[0].statusBebasKariesTapiElebihDariSatu; //Status Gigi Kekal Bebas Karies (BK) tetapi E ≥ 1 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(24).value =
-          data.dataPemeriksaan[0].kecederaanGigiAnterior; //Kecederaan Gigi Anterior Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(25).value = data.dataPemeriksaan[0].tpr; //TPR Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(26).value = data.dataPemeriksaan[0].skorGIS0; //Skor GIS 0 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(27).value = data.dataPemeriksaan[0].skorGIS1; //Skor GIS 1 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(28).value = data.dataPemeriksaan[0].skorGIS2; //Skor GIS 2 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(29).value = data.dataPemeriksaan[0].skorGIS3; //Skor GIS 3 Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        // kena campur dgn semula
-        rowNew.getCell(30).value = data.dataPemeriksaan[0].perluFvMuridB; //Perlu FV Murid Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        // kena campur dgn semula
-        rowNew.getCell(31).value = data.dataPemeriksaan[0].perluPRR1MuridB; //Perlu PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        // kena campur dgn semula
-        rowNew.getCell(32).value = data.dataPemeriksaan[0].perluFSMuridB; //Perlu FS Murid B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(33).value = data.perluFSMuridS; //Perlu FS Murid S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(34).value = data.dataPemeriksaan[0].perluFSGigiB; //Perlu FS Gigi B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(35).value = data.dataPemeriksaan[0].perluFSGigiS; //Perlu FS Gigi S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(36).value = data.dataPemeriksaan[0].perluTampalanAntGdB; //Perlu Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(37).value = data.dataPemeriksaan[0].perluTampalanAntGdS; //Perlu Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(38).value = data.dataPemeriksaan[0].perluTampalanAntGkB; //Perlu Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(39).value = data.dataPemeriksaan[0].perluTampalanAntGkS; //Perlu Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(40).value = data.dataPemeriksaan[0].perluTampalanPosGdB; //Perlu Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(41).value = data.dataPemeriksaan[0].perluTampalanPosGdS; //Perlu Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(42).value = data.dataPemeriksaan[0].perluTampalanPosGkB; //Perlu Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(43).value = data.dataPemeriksaan[0].perluTampalanPosGkS; //Perlu Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(44).value = data.dataPemeriksaan[0].perluTampalanAmgGdB; //Perlu Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(45).value = data.dataPemeriksaan[0].perluTampalanAmgGdS; //Perlu Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(46).value = data.dataPemeriksaan[0].perluTampalanAmgGkB; //Perlu Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(47).value = data.dataPemeriksaan[0].perluTampalanAmgGkS; //Perlu Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        // campur Baru semua
-        rowNew.getCell(50).value = data.telahFvMurid; //Telah FV Murid Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(51).value = data.telahPRR1Murid; //Telah PRR1 Murid Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        // campur baru semula 2 atas ni
-        rowNew.getCell(52).value = data.dataRawatan[0].BARU_MuridBuatFs; //Telah FS Murid B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(53).value = data.dataRawatan[0].SEMULA_MuridBuatFs; //Telah FS Murid S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(54).value = data.dataRawatan[0].BARU_GgKekalBuatFs; //Telah FS Gigi B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(55).value = data.dataRawatan[0].SEMULA_GgKekalBuatFs; //Telah FS Gigi S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(56).value =
-          data.dataRawatan[0].BARU_GgDesidusAnteriorBuatTampalanSewarna; //Telah Tampalan Anterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(57).value =
-          data.dataRawatan[0].SEMULA_GgDesidusAnteriorBuatTampalanSewarna; //Telah Tampalan Anterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(58).value =
-          data.dataRawatan[0].BARU_GgKekalAnteriorBuatTampalanSewarna; //Telah Tampalan Anterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(59).value =
-          data.dataRawatan[0].SEMULA_GgKekalAnteriorBuatTampalanSewarna; //Telah Tampalan Anterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(60).value =
-          data.dataRawatan[0].BARU_GgDesidusPosteriorBuatTampalanSewarna; //Telah Tampalan Posterior Sewarna GD B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(61).value =
-          data.dataRawatan[0].SEMULA_GgDesidusPosteriorBuatTampalanSewarna; //Telah Tampalan Posterior Sewarna GD S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(62).value =
-          data.dataRawatan[0].BARU_GgKekalPosteriorBuatTampalanSewarna; //Telah Tampalan Posterior Sewarna GK B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(63).value =
-          data.dataRawatan[0].SEMULA_GgKekalPosteriorBuatTampalanSewarna; //Telah Tampalan Posterior Sewarna GK S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(64).value =
-          data.dataRawatan[0].BARU_GgDesidusPosteriorBuatTampalanAmalgam; //Telah Tampalan Posterior Amalgam GD B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(65).value =
-          data.dataRawatan[0].SEMULA_GgDesidusPosteriorBuatTampalanAmalgam; //Telah Tampalan Posterior Amalgam GD S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(66).value =
-          data.dataRawatan[0].BARU_GgKekalPosteriorBuatTampalanAmalgam; //Telah Tampalan Posterior Amalgam GK B Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(67).value =
-          data.dataRawatan[0].SEMULA_GgKekalPosteriorBuatTampalanAmalgam; //Telah Tampalan Posterior Amalgam GK S Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(70).value = data.dataRawatan[0].cabutDesidus; //Cabutan GD Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(71).value = data.dataRawatan[0].cabutKekal; //Cabutan GK Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        rowNew.getCell(73).value = data.dataRawatan[0].penskaleran; //Penskaleran Klinik atau Pusat Pergigian Sekolah (Tahun 1)
-        // ni case completed
-        rowNew.getCell(74).value = data.dataRawatan[0].caseCompletedICDAS; //Kes Selesai Klinik atau Pusat Pergigian Sekolah (Tahun 1)a
-        // ni case completed
-        console.log('setting row4');
-        let rowIdnt = worksheet.getRow(47);
-        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
-        console.log('done setting data');
+    // write data
+    let rowNumber = 16;
+
+    for (let i = 0; i < data[0].length; i++) {
+      // let rowNew = worksheet.getRow(16 + i);
+      console.log(`array ${i}`, data[0]);
+      if (data[i][0]) {
+        worksheet.getRow(rowNumber).getCell(4).value =
+          data[i][0].kedatanganTahunSemasaBaru; //column D (4)
+        worksheet.getRow(rowNumber).getCell(5).value =
+          data[i][0].kedatanganTahunSemasaUlangan; //column E (5)
+
+        worksheet.getRow(rowNumber).getCell(6).value = data[i][0].jumlahd; //Column F (6)
+        worksheet.getRow(rowNumber).getCell(7).value = data[i][0].jumlahf; //Column G (7)
+        worksheet.getRow(rowNumber).getCell(8).value = data[i][0].jumlahx; //Column F (8)
+
+        worksheet.getRow(rowNumber).getCell(11).value = data[i][0].jumlahE; //Column K (11)
+        worksheet.getRow(rowNumber).getCell(12).value = data[i][0].jumlahD; //Column L (12)
+        worksheet.getRow(rowNumber).getCell(13).value = data[i][0].jumlahM; //Column M (13)
+        worksheet.getRow(rowNumber).getCell(14).value = data[i][0].jumlahF; //Column N (14)
+        worksheet.getRow(rowNumber).getCell(15).value = data[i][0].jumlahX; //Column O (15)
+
+        worksheet.getRow(rowNumber).getCell(18).value =
+          data[i][0].dfxSamaKosong; //Column R (18)
+        worksheet.getRow(rowNumber).getCell(19).value = data[i][0].jumlahMBK; //Column S (19)
+
+        worksheet.getRow(rowNumber).getCell(20).value =
+          data[i][0].statusBebasKaries; //Column T (20)
+        worksheet.getRow(rowNumber).getCell(21).value =
+          data[i][0].xTambahMsamaKosong; //Column U (21)
+
+        worksheet.getRow(rowNumber).getCell(22).value =
+          data[i][0].eLebihAtauSamaDenganSatu; //Column V (22)
+        worksheet.getRow(rowNumber).getCell(23).value =
+          data[i][0].bebasKariesTetapiElebihAtauSamaDenganSatu; //Column W (23)
+
+        worksheet.getRow(rowNumber).getCell(24).value = data[i][0].skorGIS0; //Column X (24)
+        worksheet.getRow(rowNumber).getCell(25).value = data[i][0].skorGIS1; //Column Y (25)
+        worksheet.getRow(rowNumber).getCell(26).value = data[i][0].skorGIS2; //Column Z (26)
+        worksheet.getRow(rowNumber).getCell(27).value = data[i][0].skorGIS3; //Column AA (27)
+
+        worksheet.getRow(rowNumber).getCell(28).value = data[i][0].skorBPE0; //Column AB (28)
+        worksheet.getRow(rowNumber).getCell(29).value = data[i][0].skorBPE1; //Column AC (29)
+        worksheet.getRow(rowNumber).getCell(30).value = data[i][0].skorBPE2; //Column AD (30)
+        worksheet.getRow(rowNumber).getCell(31).value = data[i][0].skorBPE3; //Column AE (31)
+        worksheet.getRow(rowNumber).getCell(32).value = data[i][0].skorBPE4; //Column AF (32)
+        worksheet.getRow(rowNumber).getCell(33).value = data[i][0].jumlahTPR; //Column AG (33)
+
+        worksheet.getRow(rowNumber).getCell(34).value =
+          data[i][0].perluSapuanFluorida; //Column AH (34)
+        worksheet.getRow(rowNumber).getCell(35).value =
+          data[i][0].perluJumlahPesakitPrrJenis1; //Column AI (35)
+        worksheet.getRow(rowNumber).getCell(36).value =
+          data[i][0].perluJumlahGigiPrrJenis1; //Column AJ (36)
+        worksheet.getRow(rowNumber).getCell(37).value =
+          data[i][0].perluJumlahPesakitFS; //Column AK (37)
+        worksheet.getRow(rowNumber).getCell(38).value =
+          data[i][0].perluJumlahGigiFS; //Column AL (38)
+
+        worksheet.getRow(rowNumber).getCell(39).value =
+          data[i][0].telahSapuanFluorida; //Column AM (39)
+        worksheet.getRow(rowNumber).getCell(40).value =
+          data[i][0].jumlahPesakitPrrJenis1; //Column AN (40)
+        worksheet.getRow(rowNumber).getCell(41).value =
+          data[i][0].jumlahGigiPrrJenis1; //Column AO (41)
+        worksheet.getRow(rowNumber).getCell(42).value =
+          data[i][0].jumlahPesakitDiBuatFs; //Column AP (42)
+        worksheet.getRow(rowNumber).getCell(43).value =
+          data[i][0].jumlahGigiDibuatFs; //Column AQ (43)
+
+        worksheet.getRow(rowNumber).getCell(44).value =
+          data[i][0].tampalanAntGdBaru; //Column AR (44)
+        worksheet.getRow(rowNumber).getCell(45).value =
+          data[i][0].tampalanAntGdSemula; //Column AS (45)
+        worksheet.getRow(rowNumber).getCell(46).value =
+          data[i][0].tampalanAntGkBaru; //Column AT (46)
+        worksheet.getRow(rowNumber).getCell(47).value =
+          data[i][0].tampalanAntGkSemula; //Column AU (47)
+
+        worksheet.getRow(rowNumber).getCell(48).value =
+          data[i][0].tampalanPostGdBaru; //Column AV (48)
+        worksheet.getRow(rowNumber).getCell(49).value =
+          data[i][0].tampalanPostGdSemula; //Column AW (49)
+        worksheet.getRow(rowNumber).getCell(50).value =
+          data[i][0].tampalanPostGkBaru; //Column AX (50)
+        worksheet.getRow(rowNumber).getCell(51).value =
+          data[i][0].tampalanPostGkSemula; //Column AY (51)
+
+        worksheet.getRow(rowNumber).getCell(52).value =
+          data[i][0].tampalanPostAmgGdBaru; //Column AZ (52)
+        worksheet.getRow(rowNumber).getCell(53).value =
+          data[i][0].tampalanPostAmgGdSemula; //Column BA (53)
+        worksheet.getRow(rowNumber).getCell(54).value =
+          data[i][0].tampalanPostAmgGkBaru; //Column BB (54)
+        worksheet.getRow(rowNumber).getCell(55).value =
+          data[i][0].tampalanPostAmgGkSemula; //Column BC (55)
+
+        worksheet.getRow(rowNumber).getCell(58).value = data[i][0].cabutanGd; //Column BF (58)
+        worksheet.getRow(rowNumber).getCell(59).value = data[i][0].cabutanGk; //Column BG (59)
+        worksheet.getRow(rowNumber).getCell(61).value = data[i][0].penskaleran; //Column BI (61)
+        worksheet.getRow(rowNumber).getCell(62).value = data[i][0].kesSelesai; //Column BJ (62)
       }
+      rowNumber++;
+      console.log(`row number now is ${rowNumber}`);
     }
+    // worksheet.getCell('AI8').value = `${username} (${moment(new Date()).format(
+    //   'DD-MM-YYYY'
+    // )} - ${moment(new Date()).format('HH:mm:ss')})`;
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + klinik + '-PGS203.xlsx'
-    );
+    worksheet.name = 'PGS203P2';
+
+    const newfile = makeFile(payload, 'PGS203P2');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);
     console.log('writing file');
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
     }, 1000);
-    // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
     return file;
   } catch (err) {
     console.log(err);
