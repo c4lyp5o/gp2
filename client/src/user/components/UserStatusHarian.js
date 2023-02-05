@@ -238,9 +238,9 @@ export default function UserStatusHarian() {
                         <td
                           className={`${
                             pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 normal-case`}
                         >
-                          {singlePersonUmum.ic.toUpperCase()}
+                          {singlePersonUmum.ic}
                         </td>
                         <td
                           className={`${
