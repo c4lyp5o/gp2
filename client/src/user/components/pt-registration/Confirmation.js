@@ -26,7 +26,9 @@ const ConfirmModal = ({
     try {
       setCheckingDuplicate(true);
       const res = await axios.get(
-        `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&ic=${data.ic}`,
+        `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+          'YYYY-MM-DD'
+        )}&ic=${data.ic}`,
         { headers: { Authorization: `Bearer ${kaunterToken}` } }
       );
       if (res.data.kaunterResultQuery.length > 0) {
