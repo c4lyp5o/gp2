@@ -6,6 +6,7 @@ const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
 const logger = require('../logs/logger');
@@ -162,6 +163,7 @@ const downloader = async (req, res, callback) => {
     tarikhAkhir,
     bulan,
     id,
+    fromEtl,
   } = req.query;
   // check if there is any query
   if (!jenisReten) {
@@ -212,6 +214,7 @@ const downloader = async (req, res, callback) => {
     tarikhMula,
     tarikhAkhir,
     bulan,
+    fromEtl,
   };
   logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
   let excelFile;
@@ -831,9 +834,18 @@ const makePG101C = async (payload) => {
 const makePG211A = async (payload) => {
   console.log('PG211A');
   try {
-    const { klinik, daerah, negeri, bulan, username } = payload;
+    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG211A(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPG211A(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -942,9 +954,18 @@ const makePG211A = async (payload) => {
 const makePG211C = async (payload) => {
   console.log('PG211C');
   try {
-    const { klinik, daerah, negeri, bulan, username } = payload;
+    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG211C(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPG211C(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1053,9 +1074,18 @@ const makePG211C = async (payload) => {
 const makePG214 = async (payload) => {
   console.log('PG214');
   try {
-    const { klinik, daerah, negeri, bulan, username } = payload;
+    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG214(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPG214(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1136,9 +1166,18 @@ const makePG214 = async (payload) => {
 const makePG206 = async (payload) => {
   console.log('PG206');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG206(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPG206(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1410,9 +1449,18 @@ const makePG206 = async (payload) => {
 const makePG207 = async (payload) => {
   console.log('PG207');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG207(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPG207(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1442,8 +1490,8 @@ const makePG207 = async (payload) => {
     worksheet.getCell('AU5').value = yearNow;
 
     worksheet.getCell('B7').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B8').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B9').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('B8').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('B9').value = `${negeri.toUpperCase()}`;
 
     // if (pegawai) {
     //   let intro4 = worksheet.getRow(10);
@@ -2010,9 +2058,18 @@ const makePG201 = async (payload) => {
 const makePGS203P2 = async (payload) => {
   console.log('PGS203P2');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countPGS203(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPGS203(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2178,10 +2235,19 @@ const makePGPR201 = async (payload) => {
   //Formula and excel baru lagi..(dapat dari Dr. Adib 22-01-2023)
   console.log('PGPR201Baru');
   try {
-    const { klinik, daerah, negeri, bulan } = payload;
+    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
     console.log('Cuba Uji Test');
-    const data = await Helper.countPGPR201Baru(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPGPR201Baru(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2320,9 +2386,18 @@ const makePGPR201 = async (payload) => {
 const makePgPro01 = async (payload) => {
   console.log('makePgPro01');
   try {
-    const { pegawai, klinik, daerah, negeri, bulan } = payload;
+    const { pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
     //
-    const data = await Helper.countPGPro01(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPGPro01(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2441,9 +2516,19 @@ const makePgPro01 = async (payload) => {
 const makeGender = async (payload) => {
   console.log('makeGender');
   try {
-    const { pegawai, klinik, daerah, negeri, bulan, username } = payload;
+    const { pegawai, klinik, daerah, negeri, bulan, username, fromEtl } =
+      payload;
     //
-    const data = await Helper.countGender(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countGender(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2620,9 +2705,18 @@ const makeGender = async (payload) => {
 const makeMasa = async (payload) => {
   console.log('makeMasa');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countMasa(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countMasa(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2794,9 +2888,18 @@ const makeMasa = async (payload) => {
 const makeBp = async (payload) => {
   console.log('Reten BP');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countBp(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countBp(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -3099,9 +3202,18 @@ const makeBp = async (payload) => {
 const makeBPE = async (payload) => {
   console.log('Reten BPE');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countBPE(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countBPE(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -3208,12 +3320,15 @@ exports.debug = async (req, res) => {
     klinik: 'R01-002-02',
     bulan: '2023-01-01',
   };
-  const data = await makePgPro01(payload);
+  // const data = await makePgPro01(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
-  res.setHeader('Content-Type', 'application/vnd.ms-excel');
-  res.status(200).send(data);
+  // res.setHeader('Content-Type', 'application/vnd.ms-excel');
+  // res.status(200).send(data);
+  res.status(200).json({
+    date: moment().toISOString(),
+  });
 };
 
 // helper
@@ -3243,4 +3358,21 @@ const fileName = (params, reten) => {
     // `test-${params}-${reten}.xlsx`
     `${params}.xlsx`
   );
+};
+
+const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
+  let query = {};
+  if (klinik !== 'all') {
+    query.createdByKodFasiliti = klinik;
+  }
+  if (daerah !== 'all') {
+    query.createdByDaerah = daerah;
+  }
+  if (negeri !== 'all') {
+    query.createdByNegeri = negeri;
+  }
+  query.dataType = jenisReten;
+  query.dataFormat = 'Monthly';
+  query.dataDate = moment(bulan).endOf('month').format('YYYY-MM-DD');
+  return query;
 };
