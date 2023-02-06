@@ -1274,7 +1274,7 @@ const makePG206 = async (payload) => {
     // j = 0;
     for (let i = 0; i < data[1].length; i++) {
       // j += 2;
-      let row = worksheet.getRow(16 + i);
+      let row = worksheet.getRow(17 + i);
       if (data[1][i].queryRawatan[0]) {
         // rawatan
         row.getCell(3).value =
@@ -1330,7 +1330,7 @@ const makePG206 = async (payload) => {
     // j = 0;
     for (let i = 0; i < data[2].length; i++) {
       // j += 2;
-      let row = worksheet.getRow(16 + i);
+      let row = worksheet.getRow(17 + i);
       if (data[2][i].querySekolah[0]) {
         // pemeriksaan
         row.getCell(2).value +=
@@ -1510,7 +1510,7 @@ const makePG207 = async (payload) => {
     // let j = 0;
     for (let i = 0; i < data[0].length; i++) {
       // j += 2;
-      let row = worksheet.getRow(16 + i);
+      let row = worksheet.getRow(17 + i);
       if (data[0][i].queryPemeriksaan[0]) {
         // pemeriksaan
         row.getCell(2).value =
@@ -1570,7 +1570,7 @@ const makePG207 = async (payload) => {
     // j = 0;
     for (let i = 0; i < data[1].length; i++) {
       // j += 2;
-      let row = worksheet.getRow(16 + i);
+      let row = worksheet.getRow(17 + i);
       if (data[1][i].queryRawatan[0]) {
         // rawatan
         row.getCell(3).value =
@@ -1660,7 +1660,7 @@ const makePG207 = async (payload) => {
     // j = 0;
     for (let i = 0; i < data[2].length; i++) {
       // j += 2;
-      let row = worksheet.getRow(16 + i);
+      let row = worksheet.getRow(17 + i);
       if (data[2][i].querySekolah[0]) {
         // pemeriksaan
         row.getCell(2).value +=
