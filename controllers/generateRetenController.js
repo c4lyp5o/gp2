@@ -844,7 +844,7 @@ const makePG211A = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -968,7 +968,7 @@ const makePG211C = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -1092,7 +1092,7 @@ const makePG214 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -1188,7 +1188,7 @@ const makePG206 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -1475,7 +1475,7 @@ const makePG207 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -2088,7 +2088,7 @@ const makePGS203P2 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
         break;
       default:
         data = await Helper.countPGS203(payload);
@@ -2266,7 +2266,7 @@ const makePGPR201 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
         break;
       default:
         data = await Helper.countPGPR201Baru(payload);
@@ -2421,7 +2421,7 @@ const makePgPro01 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -2559,7 +2559,7 @@ const makePgPro01Combined = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -2691,7 +2691,7 @@ const makeGender = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -2888,7 +2888,7 @@ const makeMasa = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -3075,7 +3075,7 @@ const makeBp = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
@@ -3393,7 +3393,7 @@ const makeBPE = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        const ETL = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
         if (ETL.length === 0) {
           return 'No data found';
         }
