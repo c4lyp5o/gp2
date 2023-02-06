@@ -19,7 +19,13 @@ const monthlyCount = [
   { name: 'PG214', func: Helper.countPG214 },
   { name: 'PG206', func: Helper.countPG206 },
   { name: 'PG207', func: Helper.countPG207 },
-  { name: 'PGPR201', func: Helper.countPGPR201 },
+  { name: 'PGPR201', func: Helper.countPGPR201Baru },
+  { name: 'PGPro01', func: Helper.countPGPro01 },
+  { name: 'PGPro01Combined', func: Helper.countPGPro01Combined },
+  { name: 'GENDER', func: Helper.countGender },
+  { name: 'MASA', func: Helper.countMasa },
+  { name: 'BP', func: Helper.countBp },
+  { name: 'BPE', func: Helper.countBPE },
 ];
 
 const initialDataNegeri = async () => {
@@ -88,210 +94,130 @@ const initiateETL = async (req, res) => {
     const klinik = await initialDataKlinik(daerah);
 
     // negeri data
-    // daily count
+    // monthly count
+    // if (
+    //   moment().startOf('month').add(7, 'days').format('YYYY-MM-DD') ===
+    //   moment().format('YYYY-MM-DD')
+    // ) {
     for (let i = 0; i < negeri.length; i++) {
-      for (let j = 0; j < dailyCount.length; j++) {
+      for (let j = 0; j < monthlyCount.length; j++) {
         let payload = {
           negeri: negeri[i],
           daerah: 'all',
           klinik: 'all',
-          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          bulan: moment()
+            .subtract(1, 'month')
+            .startOf('month')
+            .format('YYYY-MM-DD'),
         };
         console.log(
-          `generating daily data ${dailyCount[j].name} for ${negeri[i]}`
+          `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
         );
         logger.info(
-          `generating daily data ${dailyCount[j].name} for ${negeri[i]}`
+          `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
         );
-        const data = await dailyCount[j].func(payload);
+        const data = await monthlyCount[j].func(payload);
         const dataObj = {
           createdByNegeri: negeri[i],
           createdByDaerah: 'all',
           createdByKodFasiliti: 'all',
-          dataType: dailyCount[j].name,
-          dataFormat: 'Daily',
-          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          dataType: monthlyCount[j].name,
+          dataFormat: 'Monthly',
+          dataDate: moment()
+            .subtract(1, 'month')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          createdAt: moment().format(),
           data: data,
         };
         await Reservoir.create(dataObj);
       }
     }
-
-    // monthly count
-    if (
-      moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
-      moment().format('YYYY-MM-DD')
-    ) {
-      for (let i = 0; i < negeri.length; i++) {
-        for (let j = 0; j < monthlyCount.length; j++) {
-          let payload = {
-            negeri: negeri[i],
-            daerah: 'all',
-            klinik: 'all',
-            bulan: moment()
-              .subtract(1, 'month')
-              .startOf('month')
-              .format('YYYY-MM-DD'),
-          };
-          console.log(
-            `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
-          );
-          logger.info(
-            `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
-          );
-          const data = await monthlyCount[j].func(payload);
-          const dataObj = {
-            createdByNegeri: negeri[i],
-            createdByDaerah: 'all',
-            createdByKodFasiliti: 'all',
-            dataType: monthlyCount[j].name,
-            dataFormat: 'Monthly',
-            dataDate: moment()
-              .subtract(1, 'month')
-              .endOf('month')
-              .format('YYYY-MM-DD'),
-            data: data,
-          };
-          await Reservoir.create(dataObj);
-        }
-      }
-    }
+    // }
 
     // daerah data
-    // daily count
+    // monthly count
+    // if (
+    //   moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
+    //   moment().format('YYYY-MM-DD')
+    // ) {
     for (let i = 0; i < daerah.length; i++) {
-      for (let j = 0; j < dailyCount.length; j++) {
+      for (let j = 0; j < monthlyCount.length; j++) {
         let payload = {
           negeri: daerah[i].negeri,
           daerah: daerah[i].daerah,
           klinik: 'all',
-          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          bulan: moment()
+            .subtract(1, 'month')
+            .startOf('month')
+            .format('YYYY-MM-DD'),
         };
         console.log(
-          `generating daily data ${dailyCount[j].name} for ${daerah[i].daerah}`
+          `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
         );
         logger.info(
-          `generating daily data ${dailyCount[j].name} for ${daerah[i].daerah}`
+          `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
         );
-        const data = await dailyCount[j].func(payload);
+        const data = await monthlyCount[j].func(payload);
         const dataObj = {
           createdByNegeri: daerah[i].negeri,
           createdByDaerah: daerah[i].daerah,
           createdByKodFasiliti: 'all',
-          dataType: dailyCount[j].name,
-          dataFormat: 'Daily',
-          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          dataType: monthlyCount[j].name,
+          dataFormat: 'Monthly',
+          dataDate: moment()
+            .subtract(1, 'month')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          createdAt: moment().format(),
           data: data,
         };
         await Reservoir.create(dataObj);
       }
     }
+    // }
 
+    // negeri data
     // monthly count
-    if (
-      moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
-      moment().format('YYYY-MM-DD')
-    ) {
-      for (let i = 0; i < daerah.length; i++) {
-        for (let j = 0; j < monthlyCount.length; j++) {
-          let payload = {
-            negeri: daerah[i].negeri,
-            daerah: daerah[i].daerah,
-            klinik: 'all',
-            bulan: moment()
-              .subtract(1, 'month')
-              .startOf('month')
-              .format('YYYY-MM-DD'),
-          };
-          console.log(
-            `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
-          );
-          logger.info(
-            `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
-          );
-          const data = await monthlyCount[j].func(payload);
-          const dataObj = {
-            createdByNegeri: daerah[i].negeri,
-            createdByDaerah: daerah[i].daerah,
-            createdByKodFasiliti: 'all',
-            dataType: monthlyCount[j].name,
-            dataFormat: 'Monthly',
-            dataDate: moment()
-              .subtract(1, 'month')
-              .endOf('month')
-              .format('YYYY-MM-DD'),
-            data: data,
-          };
-          await Reservoir.create(dataObj);
-        }
-      }
-    }
-
-    // klinik data
-    // daily count
+    // if (
+    //   moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
+    //   moment().format('YYYY-MM-DD')
+    // ) {
     for (let i = 0; i < klinik.length; i++) {
-      for (let j = 0; j < dailyCount.length; j++) {
+      for (let j = 0; j < monthlyCount.length; j++) {
         let payload = {
+          negeri: 'ETL',
+          daerah: 'ETL',
           klinik: klinik[i].kodFasiliti,
-          tarikhMula: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          bulan: moment()
+            .subtract(1, 'month')
+            .startOf('month')
+            .format('YYYY-MM-DD'),
         };
         console.log(
-          `generating daily data ${dailyCount[j].name} for ${klinik[i].kodFasiliti}`
+          `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
         );
         logger.info(
-          `generating daily data ${dailyCount[j].name} for ${klinik[i].kodFasiliti}`
+          `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
         );
-        const data = await dailyCount[j].func(payload);
+        const data = await monthlyCount[j].func(payload);
         const dataObj = {
           createdByNegeri: klinik[i].negeri,
           createdByDaerah: klinik[i].daerah,
           createdByKodFasiliti: klinik[i].kodFasiliti,
-          dataType: dailyCount[j].name,
-          dataFormat: 'Daily',
-          dataDate: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+          dataType: monthlyCount[j].name,
+          dataFormat: 'Monthly',
+          dataDate: moment()
+            .subtract(1, 'month')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          createdAt: moment().format(),
           data: data,
         };
         await Reservoir.create(dataObj);
       }
     }
-
-    // monthly count
-    if (
-      moment().startOf('month').add(6, 'days').format('YYYY-MM-DD') ===
-      moment().format('YYYY-MM-DD')
-    ) {
-      for (let i = 0; i < klinik.length; i++) {
-        for (let j = 0; j < monthlyCount.length; j++) {
-          let payload = {
-            klinik: klinik[i].kodFasiliti,
-            bulan: moment()
-              .subtract(1, 'month')
-              .startOf('month')
-              .format('YYYY-MM-DD'),
-          };
-          console.log(
-            `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
-          );
-          logger.info(
-            `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
-          );
-          const data = await monthlyCount[j].func(payload);
-          const dataObj = {
-            createdByNegeri: klinik[i].negeri,
-            createdByDaerah: klinik[i].daerah,
-            createdByKodFasiliti: klinik[i].kodFasiliti,
-            dataType: monthlyCount[j].name,
-            dataFormat: 'Monthly',
-            dataDate: moment()
-              .subtract(1, 'month')
-              .endOf('month')
-              .format('YYYY-MM-DD'),
-            data: data,
-          };
-          await Reservoir.create(dataObj);
-        }
-      }
-    }
+    // }
     res
       .status(200)
       .json({ msg: 'ETL initiated. May the server is not on fire now' });
