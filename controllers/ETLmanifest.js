@@ -127,7 +127,7 @@ const initiateETL = async (req, res) => {
             .subtract(1, 'month')
             .endOf('month')
             .format('YYYY-MM-DD'),
-          createdAt: moment().toISOString(),
+          createdAt: moment().format(),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -169,7 +169,7 @@ const initiateETL = async (req, res) => {
             .subtract(1, 'month')
             .endOf('month')
             .format('YYYY-MM-DD'),
-          createdAt: moment().toISOString(),
+          createdAt: moment().format(),
           data: data,
         };
         await Reservoir.create(dataObj);
@@ -211,7 +211,7 @@ const initiateETL = async (req, res) => {
             .subtract(1, 'month')
             .endOf('month')
             .format('YYYY-MM-DD'),
-          createdAt: moment().toISOString(),
+          createdAt: moment().format(),
           data: data,
         };
         await Reservoir.create(dataObj);

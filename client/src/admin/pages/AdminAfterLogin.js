@@ -58,7 +58,7 @@ export default function AdminAfterLogin() {
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
 
-  const init = useRef(false);
+  // const init = useRef(false);
 
   const LOGOUT_TIME = parseInt(process.env.REACT_APP_LOGOUT_TIME);
   const HALF_LOGOUT_TIME = LOGOUT_TIME / 2;
@@ -119,13 +119,10 @@ export default function AdminAfterLogin() {
         isLoggedIn: true,
       });
     };
-    if (init.current === false) {
-      getUser().catch((err) => {
-        console.log(err);
-        logOutUser();
-      });
-      init.current = true;
-    }
+    getUser().catch((err) => {
+      console.log(err);
+      logOutUser();
+    });
     logOutNotiSystem();
   }, [adminToken, getCurrentUser]);
 
