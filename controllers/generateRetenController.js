@@ -1225,7 +1225,7 @@ const makePG206 = async (payload) => {
     // let j = 0;
     for (let i = 0; i < data[0].length; i++) {
       // j += 2;
-      let row = worksheet.getRow(16 + i);
+      let row = worksheet.getRow(17 + i);
       if (data[0][i].queryPemeriksaan[0]) {
         // pemeriksaan
         row.getCell(2).value =
