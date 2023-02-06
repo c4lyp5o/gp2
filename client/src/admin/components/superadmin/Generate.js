@@ -1201,12 +1201,18 @@ const Generate = (props) => {
       deskripsi:
         'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
     },
-    // {
-    //   kod: 'PGPRO 01 Pind. 2/2022',
-    //   kodRingkas: 'PGPRO01',
-    //   deskripsi:
-    //     'Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
-    // },
+    {
+      kod: 'PGPRO 01 Pind. 2/2022 FFR',
+      kodRingkas: 'PGPRO01',
+      deskripsi:
+        'Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
+    },
+    {
+      kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
+      kodRingkas: 'PGPRO01Combined',
+      deskripsi:
+        'Kompilasi Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Kombinasi',
+    },
     {
       kod: 'PG201 Pind. 2/2022',
       kodRingkas: 'PG201',

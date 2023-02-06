@@ -12982,6 +12982,362 @@ const countPGPro02 = async (payload) => {
   console.log(bigData);
   return bigData;
 };
+const countPGPro01Combined = async (payload) => {
+  let match_stage = [];
+  //
+  const kodePRO1k = {
+    $match: {
+      kodProgram: {
+        $in: [
+          'PRO1001',
+          'PRO1002',
+          'PRO1003',
+          'PRO1004',
+          'PRO1005',
+          'PRO1006',
+          'PRO1007',
+          'PRO1008',
+          'PRO1009',
+          'PRO1010',
+          'PRO1011',
+          'PRO1012',
+          'PRO1013',
+          'PRO1014',
+          'PRO1015',
+          'PRO1016',
+          'PRO1017',
+          'PRO1018',
+          'PRO1019',
+          'PRO1020',
+          'PRO1021',
+        ],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO2k = {
+    $match: {
+      kodProgram: { $in: ['PRO2001', 'PRO2002', 'PRO2003'] },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO3k = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO3001', 'PRO3002', 'PRO3003', 'PRO3004', 'PRO3005'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO4k = {
+    $match: {
+      kodProgram: { $in: ['PRO4001'] },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k1 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5001'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k2 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5002'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k3 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5003'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k4 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5004'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k5 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5005'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k1 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6001'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k2 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6002'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k3 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6003'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k4 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6004'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k5 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6005'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k6 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6006'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k7 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6007'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO7k = {
+    $match: {
+      kodProgram: { $in: ['PRO7001', 'PRO7002', 'PRO7003'] },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO8k = {
+    $match: {
+      kodProgram: {
+        $in: [
+          'PRO8001',
+          'PRO8002',
+          'PRO8003',
+          'PRO8004',
+          'PRO8005',
+          'PRO8006',
+          'PRO8007',
+          'PRO8008',
+          'PRO8009',
+        ],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+
+  match_stage.push(kodePRO1k);
+  match_stage.push(kodePRO2k);
+  match_stage.push(kodePRO3k);
+  match_stage.push(kodePRO4k);
+  match_stage.push(kodePRO5k1);
+  match_stage.push(kodePRO5k2);
+  match_stage.push(kodePRO5k3);
+  match_stage.push(kodePRO5k4);
+  match_stage.push(kodePRO5k5);
+  match_stage.push(kodePRO6k1);
+  match_stage.push(kodePRO6k2);
+  match_stage.push(kodePRO6k3);
+  match_stage.push(kodePRO6k4);
+  match_stage.push(kodePRO6k5);
+  match_stage.push(kodePRO6k6);
+  match_stage.push(kodePRO6k7);
+  match_stage.push(kodePRO7k);
+  match_stage.push(kodePRO8k);
+
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      jumlahAktivitiCeramahBaru: {
+        $sum: '$bilanganAktivitiBaruCeramahBahagianA',
+      },
+      jumlahPesertaCeramahBaru: {
+        $sum: '$bilanganPesertaBaruCeramahBahagianA',
+      },
+      jumlahAktivitiCeramahUlangan: {
+        $sum: '$bilanganAktivitiUlangCeramahBahagianA',
+      },
+      jumlahPesertaCeramahUlangan: {
+        $sum: '$bilanganPesertaUlangCeramahBahagianA',
+      },
+      jumlahAktivitiBaruLMG: {
+        $sum: '$bilanganAktivitiBaruLatihanMemberusGigiBahagianA',
+      },
+      jumlahPesertaBaruLMG: {
+        $sum: '$bilanganPesertaBaruLatihanMemberusGigiBahagianA',
+      },
+      jumlahAktivitiUlanganLMG: {
+        $sum: '$bilanganAktivitiUlangLatihanMemberusGigiBahagianA',
+      },
+      jumlahPesertaUlanganLMG: {
+        $sum: '$bilanganPesertaUlangLatihanMemberusGigiBahagianA',
+      },
+      jumlahAktivitiPerananKempen: {
+        $sum: '$bilanganAktivitiMainPerananBahagianB',
+      },
+      jumlahPesertaPerananKempen: {
+        $sum: '$bilanganPesertaMainPerananBahagianB',
+      },
+      jumlahAktivitiBoneka: {
+        $sum: '$bilanganAktivitiPertunjukanBonekaBahagianB',
+      },
+      jumlahPesertaBoneka: {
+        $sum: '$bilanganPesertaPertunjukanBonekaBahagianB',
+      },
+      jumlahAktivitiPeranan: {
+        $sum: '$bilanganAktivitiMainPerananBahagianB',
+      },
+      jumlahPesertaPeranan: {
+        $sum: '$bilanganPesertaMainPerananBahagianB',
+      },
+      jumlahAktivitiBercerita: {
+        $sum: '$bilanganAktivitiBerceritaBahagianB',
+      },
+      jumlahPesertaBercerita: {
+        $sum: '$bilanganPesertaBerceritaBahagianB',
+      },
+      jumlahAktivitiPertandingan: {
+        $sum: '$bilanganAktivitiPertandinganBahagianB',
+      },
+      jumlahPesertaPertandingan: {
+        $sum: 'bilanganPesertaPertandinganBahagianB',
+      },
+      jumlahAktivitiInteraktif: {
+        $sum: '$bilanganAktivitiPermainanInteraktifBahagianB',
+      },
+      jumlahPesertaInteraktif: {
+        $sum: '$bilanganPesertaPermainanInteraktifBahagianB',
+      },
+      jumlahAktivitiKursusSeminarBengkel: {
+        $sum: '$bilanganAktivitiKursusSeminarBengkelBahagianB',
+      },
+      jumlahPesertaKursusSeminarBengkel: {
+        $sum: '$bilanganPesertaKursusSeminarBengkelBahagianB',
+      },
+      jumlahAktivitiMultimedia: {
+        $sum: '$bilanganAktivitiPertunjukanMultimediaBahagianB',
+      },
+      jumlahPesertaMultimedia: {
+        $sum: '$bilanganPesertaPertunjukanMultimediaBahagianB',
+      },
+      jumlahAktivitiDentalBuskers: {
+        $sum: '$bilanganAktivitiDentalBuskerBahagianB',
+      },
+      jumlahPesertaDentalBuskers: {
+        $sum: '$bilanganPesertaDentalBuskerBahagianB',
+      },
+      jumlahAktivitiFlashMob: {
+        $sum: '$bilanganAktivitiFlashmobBahagianB',
+      },
+      jumlahPesertaFlashMob: {
+        $sum: '$bilanganPesertaFlashmobBahagianB',
+      },
+      jumlahAktivitiLawatanRumah: {
+        $sum: '$bilanganAktivitiLawatanKeRumahBahagianB',
+      },
+      jumlahPesertaLawatanRumah: {
+        $sum: '$bilanganPesertaLawatanKeRumahBahagianB',
+      },
+      jumlahAktivitiPlaqueOHE: {
+        $sum: '$bilanganAktivitiPlakGigiBahagianB',
+      },
+      jumlahPesertaPlaqueOHE: {
+        $sum: '$bilanganPesertaPlakGigiBahagianB',
+      },
+      jumlahAktivitiOHI: {
+        $sum: '$bilanganAktivitiPenjagaanKesihatanMulutBahagianB',
+      },
+      jumlahPesertaOHI: {
+        $sum: '$bilanganPesertaPenjagaanKesihatanMulutBahagianB',
+      },
+      jumlahAktivitiDietAdvice: {
+        $sum: '$bilanganAktivitiDietPemakananBahagianB',
+      },
+      jumlahPesertaDietAdvice: {
+        $sum: '$bilanganPesertaDietPemakananBahagianB',
+      },
+      jumlahAktivitiKanserMulutOHE: {
+        $sum: '$bilanganAktivitiKanserMulutBahagianB',
+      },
+      jumlahPesertaKanserMulutOHE: {
+        $sum: '$bilanganPesertaKanserMulutBahagianB',
+      },
+      jumlahAKtivitiHentiRokok: {
+        $sum: '$bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiRokok: {
+        $sum: '$bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiHentiSirih: {
+        $sum: '$bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiSirih: {
+        $sum: '$bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiHentiAlkohol: {
+        $sum: '$bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiAlkohol: {
+        $sum: '$bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiHentiTabiatLain: {
+        $sum: '$bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiTabiatLain: {
+        $sum: '$bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiTelevisyen: {
+        $sum: '$bilanganAktivitiTelevisyen',
+      },
+      jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
+      jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
+      jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
+      jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
+    },
+  };
+
+  try {
+    let bigData = [];
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline = [match_stage[i], group_stage];
+      const data = await Promosi.aggregate(pipeline);
+      bigData.push(data[0]);
+    }
+    return bigData;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const countGender = async (payload) => {
   //
   let match_stage_lelaki = [];
@@ -15408,6 +15764,7 @@ module.exports = {
   countAdHocQuery,
   countPGPro01,
   countPGPro02,
+  countPGPro01Combined,
   countGender,
   countMasa,
   countBp,
