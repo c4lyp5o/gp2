@@ -169,10 +169,9 @@ export default function PatientData({
       11: 'November',
       12: 'Disember',
     };
-    const dateObj = new Date(date);
-    const month = months[dateObj.getMonth() + 1];
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const year = dateObj.getFullYear();
+    const day = moment(date).date();
+    const month = months[moment(date).month()];
+    const year = moment(date).year();
     const output = day + ' ' + month + ' ' + year;
     return output;
   };
@@ -273,9 +272,7 @@ export default function PatientData({
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `PG101A_${kp}_${moment(new Date()).format(
-      'DDMMYYYY'
-    )}.xlsx`;
+    link.download = `PG101A_${kp}_${moment(dateToday).format('DDMMYYYY')}.xlsx`;
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -290,14 +287,18 @@ export default function PatientData({
       setIsLoading(true);
       if (jenisFasiliti !== 'projek-komuniti-lain') {
         const { data } = await axios.get(
-          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
+          `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+            'YYYY-MM-DD'
+          )}&jenisFasiliti=${jenisFasiliti}`,
           { headers: { Authorization: `Bearer ${kaunterToken}` } }
         );
         setData(data);
       }
       if (jenisFasiliti === 'projek-komuniti-lain') {
         const { data } = await axios.get(
-          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&namaProgram=${namaProgram}`,
+          `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+            'YYYY-MM-DD'
+          )}&namaProgram=${namaProgram}`,
           { headers: { Authorization: `Bearer ${kaunterToken}` } }
         );
         setData(data);

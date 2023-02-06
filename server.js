@@ -67,7 +67,7 @@ app.use(
   })
 );
 
-// getting date from the server because it shouldn't rely on the client to have correct date
+// getting date & time from the server because it shouldn't rely on the client to have correct date & time
 app.use('/api/v1/getdate', getdate);
 
 // the dpims scrap
