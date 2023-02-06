@@ -6,7 +6,6 @@ const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
 const MediaSosial = require('../models/MediaSosial');
-const Fasiliti = require('../models/Fasiliti');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
@@ -9669,489 +9668,536 @@ const countPG201PindSatu2022 = async (payload) => {
 const countPGS203 = async (payload) => {
   let match_stage = [];
   //
-  const pra_tad_kerajaan = {
-    $match: {
-      ...getParamsPGS203(payload),
-      umur: { $lt: 7 },
-      jenisFasiliti: { $eq: 'taska-tadika' },
-      deleted: false,
-      // govKe: 'Kerajaan',
+  const pra_tad_kerajaan = [
+    {
+      $match: {
+        ...getParamsPGS203(payload),
+        umur: { $lt: 7 },
+        jenisFasiliti: { $eq: 'taska-tadika' },
+        deleted: false,
+      },
     },
-  };
-  const pra_tad_swasta = {
-    $match: {
-      ...getParamsPGS203(payload),
-      umur: { $lt: 7 },
-      jenisFasiliti: { $eq: 'taska-tadika' },
-      // govKe: 'Swasta',
-      deleted: false,
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodFasilitiTaskaTadika',
+        as: 'fasiliti_docs',
+      },
     },
-  };
-  const pra_tad_OKU = {
-    $match: {
-      ...getParamsPGS203(payload),
-      umur: { $lt: 7 },
-      jenisFasiliti: { $eq: 'taska-tadika' },
-      orangKurangUpaya: true,
-      deleted: false,
+    {
+      $match: {
+        'fasiliti_docs.govKe': 'kerajaan',
+      },
     },
-  };
-  const pra_tad_OA_penan = {
-    $match: {
-      ...getParamsPGS203(payload),
-      umur: { $lt: 7 },
-      jenisFasiliti: { $eq: 'taska-tadika' },
-      kumpulanEtnik: 'penan',
-      deleted: false,
+  ];
+  const pra_tad_swasta = [
+    {
+      $match: {
+        ...getParamsPGS203(payload),
+        umur: { $lt: 7 },
+        jenisFasiliti: { $eq: 'taska-tadika' },
+        // govKe: 'Swasta',
+        deleted: false,
+      },
     },
-  };
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodFasilitiTaskaTadika',
+        as: 'fasiliti_docs',
+      },
+    },
+    {
+      $match: {
+        'fasiliti_docs.govKe': 'swasta',
+      },
+    },
+  ];
+  const pra_tad_OKU = [
+    {
+      $match: {
+        ...getParamsPGS203(payload),
+        umur: { $lt: 7 },
+        jenisFasiliti: { $eq: 'taska-tadika' },
+        orangKurangUpaya: true,
+        deleted: false,
+      },
+    },
+  ];
+  const pra_tad_OA_penan = [
+    {
+      $match: {
+        ...getParamsPGS203(payload),
+        umur: { $lt: 7 },
+        jenisFasiliti: { $eq: 'taska-tadika' },
+        kumpulanEtnik: 'penan',
+        deleted: false,
+      },
+    },
+  ];
 
   match_stage.push(pra_tad_kerajaan);
   match_stage.push(pra_tad_swasta);
   match_stage.push(pra_tad_OKU);
   match_stage.push(pra_tad_OA_penan);
   //
-  const group_stage = {
-    $group: {
-      _id: placeModifier(payload),
-      total: { $sum: 1 },
+  const group_stage = [
+    {
+      $group: {
+        _id: placeModifier(payload),
+        total: { $sum: 1 },
 
-      //enrolment - dpt dari fasiliti?
+        //enrolment - dpt dari fasiliti?
 
-      //kedatangan
-      kedatanganTahunSemasaBaru: {
-        $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
-      },
-      kedatanganTahunSemasaUlangan: {
-        $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
-      },
-      //status gigi desidus
-      jumlahd: { $sum: '$dAdaGigiDesidusPemeriksaanUmum' },
-      jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
-      jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
-      //status gigi kekal
-      jumlahE: { $sum: '$eAdaGigiKekalPemeriksaanUmum' },
-      jumlahD: { $sum: '$dAdaGigiKekalPemeriksaanUmum' },
-      jumlahM: { $sum: '$mAdaGigiKekalPemeriksaanUmum' },
-      jumlahF: { $sum: '$fAdaGigiKekalPemeriksaanUmum' },
-      jumlahX: { $sum: '$xAdaGigiKekalPemeriksaanUmum' },
-      //status kesihatan mulut murid
-      dfxSamaKosong: {
-        //dfx=0
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-              ],
-            },
-            1,
-            0,
-          ],
+        //kedatangan
+        kedatanganTahunSemasaBaru: {
+          $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
         },
-      },
-      jumlahMBK: {
-        //MBK criterias; No 1 (dmfx = 0 + sm =0 ; ) +/- No 2 (DFMX = 0); Cuma boleh gigi susu and mixed dentition
-        $sum: {
-          $cond: [
-            {
-              $or: [
-                {
-                  $and: [
-                    { $gte: ['$umur', 6] },
-                    { $lte: ['$umur', 18] },
-                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                  ],
-                },
-                {
-                  $and: [
-                    { $lte: ['$umur', 6] },
-                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                  ],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
+        kedatanganTahunSemasaUlangan: {
+          $sum: {
+            $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0],
+          },
         },
-      },
-      statusBebasKaries: {
-        //DMFX=0
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-              ],
-            },
-            1,
-            0,
-          ],
+        //status gigi desidus
+        jumlahd: { $sum: '$dAdaGigiDesidusPemeriksaanUmum' },
+        jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
+        jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
+        //status gigi kekal
+        jumlahE: { $sum: '$eAdaGigiKekalPemeriksaanUmum' },
+        jumlahD: { $sum: '$dAdaGigiKekalPemeriksaanUmum' },
+        jumlahM: { $sum: '$mAdaGigiKekalPemeriksaanUmum' },
+        jumlahF: { $sum: '$fAdaGigiKekalPemeriksaanUmum' },
+        jumlahX: { $sum: '$xAdaGigiKekalPemeriksaanUmum' },
+        //status kesihatan mulut murid
+        dfxSamaKosong: {
+          //dfx=0
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      xTambahMsamaKosong: {
-        // X+M = 0
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-              ],
-            },
-            1,
-            0,
-          ],
+        jumlahMBK: {
+          //MBK criterias; No 1 (dmfx = 0 + sm =0 ; ) +/- No 2 (DFMX = 0); Cuma boleh gigi susu and mixed dentition
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $and: [
+                      { $gte: ['$umur', 6] },
+                      { $lte: ['$umur', 18] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $lte: ['$umur', 6] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      eLebihAtauSamaDenganSatu: {
-        $sum: {
-          $cond: [{ $gt: ['$eAdaGigiKekalPemeriksaanUmum', 0] }, 1, 0],
+        statusBebasKaries: {
+          //DMFX=0
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      bebasKariesTetapiElebihAtauSamaDenganSatu: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                { $gte: ['$eAdaGigiKekalPemeriksaanUmum', 1] },
-              ],
-            },
-            1,
-            0,
-          ],
+        xTambahMsamaKosong: {
+          // X+M = 0
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      skorGIS0: {
-        $sum: {
-          $cond: [
-            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
-            1,
-            0,
-          ],
+        eLebihAtauSamaDenganSatu: {
+          $sum: {
+            $cond: [{ $gt: ['$eAdaGigiKekalPemeriksaanUmum', 0] }, 1, 0],
+          },
         },
-      },
-      skorGIS1: {
-        $sum: {
-          $cond: [
-            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'] },
-            1,
-            0,
-          ],
+        bebasKariesTetapiElebihAtauSamaDenganSatu: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $gte: ['$eAdaGigiKekalPemeriksaanUmum', 1] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      skorGIS2: {
-        $sum: {
-          $cond: [
-            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'] },
-            1,
-            0,
-          ],
+        skorGIS0: {
+          $sum: {
+            $cond: [
+              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      skorGIS3: {
-        $sum: {
-          $cond: [
-            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '3'] },
-            1,
-            0,
-          ],
+        skorGIS1: {
+          $sum: {
+            $cond: [
+              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'] },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      skorBPE0: {
-        $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
+        skorGIS2: {
+          $sum: {
+            $cond: [
+              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'] },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      skorBPE1: {
-        $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] }, 1, 0],
+        skorGIS3: {
+          $sum: {
+            $cond: [
+              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '3'] },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      skorBPE2: {
-        $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] }, 1, 0],
+        skorBPE0: {
+          $sum: {
+            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
+          },
         },
-      },
-      skorBPE3: {
-        $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] }, 1, 0],
+        skorBPE1: {
+          $sum: {
+            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] }, 1, 0],
+          },
         },
-      },
-      skorBPE4: {
-        $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] }, 1, 0],
+        skorBPE2: {
+          $sum: {
+            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] }, 1, 0],
+          },
         },
-      },
-      jumlahTPR: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                {
-                  $or: [
-                    {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0],
-                    },
-                    {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2],
-                    },
-                  ],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
+        skorBPE3: {
+          $sum: {
+            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] }, 1, 0],
+          },
         },
-      },
-      //rawatan pencegahan perlu dibuat
-      perluSapuanFluorida: {
-        $sum: {
-          $cond: [
-            {
-              $eq: [
-                '$fvPerluSapuanPemeriksaanUmum',
-                'ya-fv-perlu-sapuan-pemeriksaan-umum',
-              ],
-            },
-            1,
-            0,
-          ],
+        skorBPE4: {
+          $sum: {
+            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] }, 1, 0],
+          },
         },
-      },
-      perluJumlahPesakitPrrJenis1: {
-        $sum: {
-          $cond: [
-            {
-              $gte: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
-            },
-            1,
-            0,
-          ],
+        jumlahTPR: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  {
+                    $or: [
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0],
+                      },
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2],
+                      },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      perluJumlahGigiPrrJenis1: {
-        $sum: '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
-      },
-      perluJumlahPesakitFS: {
-        $sum: {
-          $cond: [
-            {
-              $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
-            },
-            1,
-            0,
-          ],
+        //rawatan pencegahan perlu dibuat
+        perluSapuanFluorida: {
+          $sum: {
+            $cond: [
+              {
+                $eq: [
+                  '$fvPerluSapuanPemeriksaanUmum',
+                  'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
-      //jenis rawatan diberi
-      telahSapuanFluorida: {
-        $sum: {
-          $cond: [
-            {
-              // $eq: [
-              //   '$pesakitDibuatFluorideVarnish',
-              //   'pesakit-dibuat-fluoride-varnish',
-              $eq: ['$pesakitDibuatFluorideVarnish', true],
-              // ],
-            },
-            1,
-            0,
-          ],
+        perluJumlahPesakitPrrJenis1: {
+          $sum: {
+            $cond: [
+              {
+                $gte: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      jumlahPesakitPrrJenis1: {
-        //prrJ1MuridB
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $gte: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 1],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
+        perluJumlahGigiPrrJenis1: {
+          $sum: '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
         },
-      },
-      jumlahGigiPrrJenis1: {
-        $sum: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
-      },
-      jumlahPesakitDiBuatFs: {
-        //Pesaakit Dibaut FS
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
+        perluJumlahPesakitFS: {
+          $sum: {
+            $cond: [
+              {
+                $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      jumlahGigiDibuatFs: { $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
-      tampalanAntGdBaru: {
-        $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanAntGdSemula: {
-        $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanAntGkBaru: {
-        $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanAntGkSemula: {
-        $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostGdBaru: {
-        $sum: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostGdSemula: {
-        $sum: '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostGkBaru: {
-        $sum: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostGkSemula: {
-        $sum: '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostAmgGdBaru: {
-        $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostAmgGdSemula: {
-        $sum: '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostAmgGkBaru: {
-        $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-      },
-      tampalanPostAmgGkSemula: {
-        $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-      },
-      cabutanGd: { $sum: '$cabutDesidusRawatanUmum' },
-      cabutanGk: { $sum: '$cabutKekalRawatanUmum' },
-      penskaleran: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$penskaleranRawatanUmum', true],
-            },
-            1,
-            0,
-          ],
+        perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
+        //jenis rawatan diberi
+        telahSapuanFluorida: {
+          $sum: {
+            $cond: [
+              {
+                // $eq: [
+                //   '$pesakitDibuatFluorideVarnish',
+                //   'pesakit-dibuat-fluoride-varnish',
+                $eq: ['$pesakitDibuatFluorideVarnish', true],
+                // ],
+              },
+              1,
+              0,
+            ],
+          },
         },
-      },
-      kesSelesai: {
-        $sum: {
-          $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
+        jumlahPesakitPrrJenis1: {
+          //prrJ1MuridB
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $gte: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 1],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahGigiPrrJenis1: {
+          $sum: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+        },
+        jumlahPesakitDiBuatFs: {
+          //Pesaakit Dibaut FS
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahGigiDibuatFs: { $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+        tampalanAntGdBaru: {
+          $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanAntGdSemula: {
+          $sum: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanAntGkBaru: {
+          $sum: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanAntGkSemula: {
+          $sum: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostGdBaru: {
+          $sum: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostGdSemula: {
+          $sum: '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostGkBaru: {
+          $sum: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostGkSemula: {
+          $sum: '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostAmgGdBaru: {
+          $sum: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostAmgGdSemula: {
+          $sum: '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostAmgGkBaru: {
+          $sum: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+        tampalanPostAmgGkSemula: {
+          $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+        },
+        cabutanGd: { $sum: '$cabutDesidusRawatanUmum' },
+        cabutanGk: { $sum: '$cabutKekalRawatanUmum' },
+        penskaleran: {
+          $sum: {
+            $cond: [
+              {
+                $eq: ['$penskaleranRawatanUmum', true],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kesSelesai: {
+          $sum: {
+            $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
+          },
         },
       },
     },
-  };
+  ];
 
-  const project_pemeriksaan = {
-    $project: {
-      _id: 1,
-      // pemeriksaan
-      kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
-      kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
+  const project_stage = [
+    {
+      $project: {
+        _id: 1,
+        // pemeriksaan
+        kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
+        kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
 
-      jumlahd: '$jumlahd',
-      jumlahf: '$jumlahf',
-      jumlahx: '$jumlahx',
+        jumlahd: '$jumlahd',
+        jumlahf: '$jumlahf',
+        jumlahx: '$jumlahx',
 
-      jumlahE: '$jumlahE',
-      jumlahD: '$jumlahD',
-      jumlahM: '$jumlahM',
-      jumlahF: '$jumlahF',
-      jumlahX: '$jumlahX',
+        jumlahE: '$jumlahE',
+        jumlahD: '$jumlahD',
+        jumlahM: '$jumlahM',
+        jumlahF: '$jumlahF',
+        jumlahX: '$jumlahX',
 
-      dfxSamaKosong: '$dfxSamaKosong',
-      jumlahMBK: '$jumlahMBK',
-      statusBebasKaries: '$statusBebasKaries',
-      xTambahMsamaKosong: '$xTambahMsamaKosong',
+        dfxSamaKosong: '$dfxSamaKosong',
+        jumlahMBK: '$jumlahMBK',
+        statusBebasKaries: '$statusBebasKaries',
+        xTambahMsamaKosong: '$xTambahMsamaKosong',
 
-      eLebihAtauSamaDenganSatu: '$eLebihAtauSamaDenganSatu',
-      bebasKariesTetapiElebihAtauSamaDenganSatu:
-        '$bebasKariesTetapiElebihAtauSamaDenganSatu',
-      skorGIS0: '$skorGIS0',
-      skorGIS1: '$skorGIS1',
-      skorGIS2: '$skorGIS2',
-      skorGIS3: '$skorGIS3',
-      skorBPE0: '$skorBPE0',
-      skorBPE1: '$skorBPE1',
-      skorBPE2: '$skorBPE2',
-      skorBPE3: '$skorBPE3',
-      skorBPE4: '$skorBPE4',
+        eLebihAtauSamaDenganSatu: '$eLebihAtauSamaDenganSatu',
+        bebasKariesTetapiElebihAtauSamaDenganSatu:
+          '$bebasKariesTetapiElebihAtauSamaDenganSatu',
+        skorGIS0: '$skorGIS0',
+        skorGIS1: '$skorGIS1',
+        skorGIS2: '$skorGIS2',
+        skorGIS3: '$skorGIS3',
+        skorBPE0: '$skorBPE0',
+        skorBPE1: '$skorBPE1',
+        skorBPE2: '$skorBPE2',
+        skorBPE3: '$skorBPE3',
+        skorBPE4: '$skorBPE4',
 
-      jumlahTPR: '$jumlahTPR',
-      perluSapuanFluorida: '$perluSapuanFluorida',
-      perluJumlahPesakitPrrJenis1: '$perluJumlahPesakitPrrJenis1',
-      perluJumlahGigiPrrJenis1: '$perluJumlahGigiPrrJenis1',
-      perluJumlahPesakitFS: '$perluJumlahPesakitFS',
-      perluJumlahGigiFS: '$perluJumlahGigiFS',
+        jumlahTPR: '$jumlahTPR',
+        perluSapuanFluorida: '$perluSapuanFluorida',
+        perluJumlahPesakitPrrJenis1: '$perluJumlahPesakitPrrJenis1',
+        perluJumlahGigiPrrJenis1: '$perluJumlahGigiPrrJenis1',
+        perluJumlahPesakitFS: '$perluJumlahPesakitFS',
+        perluJumlahGigiFS: '$perluJumlahGigiFS',
 
-      jumlahPesakitPrrJenis1: '$jumlahPesakitPrrJenis1',
-      jumlahGigiPrrJenis1: '$jumlahGigiPrrJenis1',
-      jumlahPesakitDiBuatFs: '$jumlahPesakitDiBuatFs',
-      jumlahGigiDibuatFs: '$jumlahGigiDibuatFs',
+        jumlahPesakitPrrJenis1: '$jumlahPesakitPrrJenis1',
+        jumlahGigiPrrJenis1: '$jumlahGigiPrrJenis1',
+        jumlahPesakitDiBuatFs: '$jumlahPesakitDiBuatFs',
+        jumlahGigiDibuatFs: '$jumlahGigiDibuatFs',
 
-      tampalanAntGdBaru: '$tampalanAntGdBaru',
-      tampalanAntGdSemula: '$tampalanAntGdSemula',
-      tampalanAntGkBaru: '$tampalanAntGkBaru',
-      tampalanAntGkSemula: '$tampalanAntGkSemula',
+        tampalanAntGdBaru: '$tampalanAntGdBaru',
+        tampalanAntGdSemula: '$tampalanAntGdSemula',
+        tampalanAntGkBaru: '$tampalanAntGkBaru',
+        tampalanAntGkSemula: '$tampalanAntGkSemula',
 
-      tampalanPostGdBaru: '$tampalanPostGdBaru',
-      tampalanPostGdSemula: '$tampalanPostGdSemula',
-      tampalanPostGkBaru: '$tampalanPostGkBaru',
-      tampalanPostGkSemula: '$tampalanPostGkSemula',
+        tampalanPostGdBaru: '$tampalanPostGdBaru',
+        tampalanPostGdSemula: '$tampalanPostGdSemula',
+        tampalanPostGkBaru: '$tampalanPostGkBaru',
+        tampalanPostGkSemula: '$tampalanPostGkSemula',
 
-      tampalanPostAmgGdBaru: '$tampalanPostAmgGdBaru',
-      tampalanPostAmgGdSemula: '$tampalanPostAmgGdSemula',
-      tampalanPostAmgGkBaru: '$tampalanPostAmgGkBaru',
-      tampalanPostAmgGkSemula: '$tampalanPostAmgGkSemula',
+        tampalanPostAmgGdBaru: '$tampalanPostAmgGdBaru',
+        tampalanPostAmgGdSemula: '$tampalanPostAmgGdSemula',
+        tampalanPostAmgGkBaru: '$tampalanPostAmgGkBaru',
+        tampalanPostAmgGkSemula: '$tampalanPostAmgGkSemula',
 
-      cabutanGd: '$cabutanGd',
-      cabutanGk: '$cabutanGk',
-      penskaleran: '$penskaleran',
-      kesSelesai: '$kesSelesai',
+        cabutanGd: '$cabutanGd',
+        cabutanGk: '$cabutanGk',
+        penskaleran: '$penskaleran',
+        kesSelesai: '$kesSelesai',
+      },
     },
-  };
+  ];
   // bismillah
   let bigData = [];
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const pipeline = [match_stage[i], group_stage];
-    const dataPGS203 = await Umum.aggregate(pipeline);
+  // for (let i = 0; i < match_stage.length; i++) {
+  //   const pipeline = [match_stage[i], group_stage];
+  //   const dataPGS203 = await Umum.aggregate(pipeline);
+  //   bigData.push(dataPGS203);
+  // }
+  for (const stage of match_stage) {
+    const dataPGS203 = await Umum.aggregate([
+      ...stage,
+      ...group_stage,
+      ...project_stage,
+    ]);
     bigData.push(dataPGS203);
   }
   return bigData;
@@ -12982,6 +13028,362 @@ const countPGPro02 = async (payload) => {
   console.log(bigData);
   return bigData;
 };
+const countPGPro01Combined = async (payload) => {
+  let match_stage = [];
+  //
+  const kodePRO1k = {
+    $match: {
+      kodProgram: {
+        $in: [
+          'PRO1001',
+          'PRO1002',
+          'PRO1003',
+          'PRO1004',
+          'PRO1005',
+          'PRO1006',
+          'PRO1007',
+          'PRO1008',
+          'PRO1009',
+          'PRO1010',
+          'PRO1011',
+          'PRO1012',
+          'PRO1013',
+          'PRO1014',
+          'PRO1015',
+          'PRO1016',
+          'PRO1017',
+          'PRO1018',
+          'PRO1019',
+          'PRO1020',
+          'PRO1021',
+        ],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO2k = {
+    $match: {
+      kodProgram: { $in: ['PRO2001', 'PRO2002', 'PRO2003'] },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO3k = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO3001', 'PRO3002', 'PRO3003', 'PRO3004', 'PRO3005'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO4k = {
+    $match: {
+      kodProgram: { $in: ['PRO4001'] },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k1 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5001'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k2 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5002'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k3 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5003'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k4 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5004'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO5k5 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO5005'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k1 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6001'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k2 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6002'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k3 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6003'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k4 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6004'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k5 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6005'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k6 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6006'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO6k7 = {
+    $match: {
+      kodProgram: {
+        $in: ['PRO6007'],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO7k = {
+    $match: {
+      kodProgram: { $in: ['PRO7001', 'PRO7002', 'PRO7003'] },
+      ...getParamsPgPro(payload),
+    },
+  };
+  const kodePRO8k = {
+    $match: {
+      kodProgram: {
+        $in: [
+          'PRO8001',
+          'PRO8002',
+          'PRO8003',
+          'PRO8004',
+          'PRO8005',
+          'PRO8006',
+          'PRO8007',
+          'PRO8008',
+          'PRO8009',
+        ],
+      },
+      ...getParamsPgPro(payload),
+    },
+  };
+
+  match_stage.push(kodePRO1k);
+  match_stage.push(kodePRO2k);
+  match_stage.push(kodePRO3k);
+  match_stage.push(kodePRO4k);
+  match_stage.push(kodePRO5k1);
+  match_stage.push(kodePRO5k2);
+  match_stage.push(kodePRO5k3);
+  match_stage.push(kodePRO5k4);
+  match_stage.push(kodePRO5k5);
+  match_stage.push(kodePRO6k1);
+  match_stage.push(kodePRO6k2);
+  match_stage.push(kodePRO6k3);
+  match_stage.push(kodePRO6k4);
+  match_stage.push(kodePRO6k5);
+  match_stage.push(kodePRO6k6);
+  match_stage.push(kodePRO6k7);
+  match_stage.push(kodePRO7k);
+  match_stage.push(kodePRO8k);
+
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      jumlahAktivitiCeramahBaru: {
+        $sum: '$bilanganAktivitiBaruCeramahBahagianA',
+      },
+      jumlahPesertaCeramahBaru: {
+        $sum: '$bilanganPesertaBaruCeramahBahagianA',
+      },
+      jumlahAktivitiCeramahUlangan: {
+        $sum: '$bilanganAktivitiUlangCeramahBahagianA',
+      },
+      jumlahPesertaCeramahUlangan: {
+        $sum: '$bilanganPesertaUlangCeramahBahagianA',
+      },
+      jumlahAktivitiBaruLMG: {
+        $sum: '$bilanganAktivitiBaruLatihanMemberusGigiBahagianA',
+      },
+      jumlahPesertaBaruLMG: {
+        $sum: '$bilanganPesertaBaruLatihanMemberusGigiBahagianA',
+      },
+      jumlahAktivitiUlanganLMG: {
+        $sum: '$bilanganAktivitiUlangLatihanMemberusGigiBahagianA',
+      },
+      jumlahPesertaUlanganLMG: {
+        $sum: '$bilanganPesertaUlangLatihanMemberusGigiBahagianA',
+      },
+      jumlahAktivitiPerananKempen: {
+        $sum: '$bilanganAktivitiMainPerananBahagianB',
+      },
+      jumlahPesertaPerananKempen: {
+        $sum: '$bilanganPesertaMainPerananBahagianB',
+      },
+      jumlahAktivitiBoneka: {
+        $sum: '$bilanganAktivitiPertunjukanBonekaBahagianB',
+      },
+      jumlahPesertaBoneka: {
+        $sum: '$bilanganPesertaPertunjukanBonekaBahagianB',
+      },
+      jumlahAktivitiPeranan: {
+        $sum: '$bilanganAktivitiMainPerananBahagianB',
+      },
+      jumlahPesertaPeranan: {
+        $sum: '$bilanganPesertaMainPerananBahagianB',
+      },
+      jumlahAktivitiBercerita: {
+        $sum: '$bilanganAktivitiBerceritaBahagianB',
+      },
+      jumlahPesertaBercerita: {
+        $sum: '$bilanganPesertaBerceritaBahagianB',
+      },
+      jumlahAktivitiPertandingan: {
+        $sum: '$bilanganAktivitiPertandinganBahagianB',
+      },
+      jumlahPesertaPertandingan: {
+        $sum: 'bilanganPesertaPertandinganBahagianB',
+      },
+      jumlahAktivitiInteraktif: {
+        $sum: '$bilanganAktivitiPermainanInteraktifBahagianB',
+      },
+      jumlahPesertaInteraktif: {
+        $sum: '$bilanganPesertaPermainanInteraktifBahagianB',
+      },
+      jumlahAktivitiKursusSeminarBengkel: {
+        $sum: '$bilanganAktivitiKursusSeminarBengkelBahagianB',
+      },
+      jumlahPesertaKursusSeminarBengkel: {
+        $sum: '$bilanganPesertaKursusSeminarBengkelBahagianB',
+      },
+      jumlahAktivitiMultimedia: {
+        $sum: '$bilanganAktivitiPertunjukanMultimediaBahagianB',
+      },
+      jumlahPesertaMultimedia: {
+        $sum: '$bilanganPesertaPertunjukanMultimediaBahagianB',
+      },
+      jumlahAktivitiDentalBuskers: {
+        $sum: '$bilanganAktivitiDentalBuskerBahagianB',
+      },
+      jumlahPesertaDentalBuskers: {
+        $sum: '$bilanganPesertaDentalBuskerBahagianB',
+      },
+      jumlahAktivitiFlashMob: {
+        $sum: '$bilanganAktivitiFlashmobBahagianB',
+      },
+      jumlahPesertaFlashMob: {
+        $sum: '$bilanganPesertaFlashmobBahagianB',
+      },
+      jumlahAktivitiLawatanRumah: {
+        $sum: '$bilanganAktivitiLawatanKeRumahBahagianB',
+      },
+      jumlahPesertaLawatanRumah: {
+        $sum: '$bilanganPesertaLawatanKeRumahBahagianB',
+      },
+      jumlahAktivitiPlaqueOHE: {
+        $sum: '$bilanganAktivitiPlakGigiBahagianB',
+      },
+      jumlahPesertaPlaqueOHE: {
+        $sum: '$bilanganPesertaPlakGigiBahagianB',
+      },
+      jumlahAktivitiOHI: {
+        $sum: '$bilanganAktivitiPenjagaanKesihatanMulutBahagianB',
+      },
+      jumlahPesertaOHI: {
+        $sum: '$bilanganPesertaPenjagaanKesihatanMulutBahagianB',
+      },
+      jumlahAktivitiDietAdvice: {
+        $sum: '$bilanganAktivitiDietPemakananBahagianB',
+      },
+      jumlahPesertaDietAdvice: {
+        $sum: '$bilanganPesertaDietPemakananBahagianB',
+      },
+      jumlahAktivitiKanserMulutOHE: {
+        $sum: '$bilanganAktivitiKanserMulutBahagianB',
+      },
+      jumlahPesertaKanserMulutOHE: {
+        $sum: '$bilanganPesertaKanserMulutBahagianB',
+      },
+      jumlahAKtivitiHentiRokok: {
+        $sum: '$bilanganAktivitiMerokokIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiRokok: {
+        $sum: '$bilanganPesertaMerokokIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiHentiSirih: {
+        $sum: '$bilanganAktivitiMengunyahSirihIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiSirih: {
+        $sum: '$bilanganPesertaMengunyahSirihIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiHentiAlkohol: {
+        $sum: '$bilanganAktivitiAlkoholIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiAlkohol: {
+        $sum: '$bilanganPesertaAlkoholIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiHentiTabiatLain: {
+        $sum: '$bilanganAktivitiLainLainIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahPesertaHentiTabiatLain: {
+        $sum: '$bilanganPesertaLainLainIntervensiTabiatBerisikoTinggi',
+      },
+      jumlahAktivitiTelevisyen: {
+        $sum: '$bilanganAktivitiTelevisyen',
+      },
+      jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
+      jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
+      jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
+      jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
+    },
+  };
+
+  try {
+    let bigData = [];
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline = [match_stage[i], group_stage];
+      const data = await Promosi.aggregate(pipeline);
+      bigData.push(data[0]);
+    }
+    return bigData;
+  } catch (error) {
+    console.log(error);
+  }
+};
 const countGender = async (payload) => {
   //
   let match_stage_lelaki = [];
@@ -14340,40 +14742,19 @@ const getParams = (payload, reten) => {
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       kodFasilitiKkKd: { $eq: pilihanKkia },
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: { $in: ['kk-kd'] },
     };
     const forProgram = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
       namaProgram: { $in: [pilihanProgram] },
     };
     const forKpbmpb = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
       namaProgram: { $in: [pilihanProgram] },
@@ -14421,41 +14802,20 @@ const getParams = (payload, reten) => {
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['kk-kd'] },
     };
     const forProgram = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
       namaProgram: { $in: pilihanProgram },
     };
     const forKpbmpb = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
@@ -14502,39 +14862,18 @@ const getParams = (payload, reten) => {
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['kk-kd'] },
     };
     const forProgram = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
       namaProgram: { $in: pilihanProgram },
     };
     const forKpbmpb = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $in: ['projek-komuniti-lain'] },
       namaProgram: { $in: pilihanProgram },
@@ -14577,14 +14916,7 @@ const getParams2 = (payload, reten) => {
 
   const byKp = () => {
     let param = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: {
         $eq: klinik,
       },
@@ -14595,14 +14927,7 @@ const getParams2 = (payload, reten) => {
 
   const byDaerah = () => {
     let param = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByNegeri: {
         $eq: negeri,
       },
@@ -14616,14 +14941,7 @@ const getParams2 = (payload, reten) => {
 
   const byNegeri = () => {
     let param = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       createdByNegeri: {
         $eq: negeri,
       },
@@ -14643,22 +14961,13 @@ const getParams2 = (payload, reten) => {
   }
 };
 const getParams206 = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pegawai, id } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
-      tarikhKedatangan: {
-        tarikhKedatangan: {
-          $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-          $lte: moment(bulan)
-            .add(1, 'month')
-            .startOf('month')
-            .add(6, 'days')
-            .format('YYYY-MM-DD'),
-        },
-      },
+      tarikhKedatangan: dateModifier(payload),
       ibuMengandung: false,
     };
     return param;
@@ -14669,16 +14978,7 @@ const getParams206 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       // createdByUsername: { $regex: /^(?!dr.).*$/ },
-      tarikhKedatangan: {
-        tarikhKedatangan: {
-          $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-          $lte: moment(bulan)
-            .add(1, 'month')
-            .startOf('month')
-            .add(6, 'days')
-            .format('YYYY-MM-DD'),
-        },
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14690,14 +14990,7 @@ const getParams206 = (payload) => {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14708,14 +15001,7 @@ const getParams206 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14736,20 +15022,13 @@ const getParams206 = (payload) => {
   }
 };
 const getParams206sekolah = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pegawai, id } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       ibuMengandung: false,
       orangKurangUpaya: false,
     };
@@ -14761,14 +15040,7 @@ const getParams206sekolah = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       // createdByUsername: { $regex: /^(?!dr.).*$/ },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       ibuMengandung: false,
       orangKurangUpaya: false,
     };
@@ -14780,14 +15052,7 @@ const getParams206sekolah = (payload) => {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       ibuMengandung: false,
       orangKurangUpaya: false,
     };
@@ -14798,14 +15063,7 @@ const getParams206sekolah = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       ibuMengandung: false,
       orangKurangUpaya: false,
     };
@@ -14826,20 +15084,13 @@ const getParams206sekolah = (payload) => {
   }
 };
 const getParams207 = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pegawai, id } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
@@ -14849,14 +15100,7 @@ const getParams207 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14868,14 +15112,7 @@ const getParams207 = (payload) => {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14886,14 +15123,7 @@ const getParams207 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14914,20 +15144,13 @@ const getParams207 = (payload) => {
   }
 };
 const getParams207sekolah = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pegawai, id } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
@@ -14937,14 +15160,7 @@ const getParams207sekolah = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14956,14 +15172,7 @@ const getParams207sekolah = (payload) => {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       ibuMengandung: false,
       orangKurangUpaya: false,
     };
@@ -14974,14 +15183,7 @@ const getParams207sekolah = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       ibuMengandung: false,
       orangKurangUpaya: false,
     };
@@ -15044,20 +15246,13 @@ const getParamsPgPro02 = (payload) => {
   }
 };
 const getParamsGender = (payload) => {
-  const { klinik, daerah, negeri, bulan } = payload;
+  const { klinik, daerah, negeri } = payload;
 
   const byKp = () => {
     let param = {
       deleted: false,
       createdByKodFasiliti: klinik,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
@@ -15067,14 +15262,7 @@ const getParamsGender = (payload) => {
       deleted: false,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
@@ -15083,14 +15271,7 @@ const getParamsGender = (payload) => {
     let param = {
       deleted: false,
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
@@ -15104,7 +15285,7 @@ const getParamsGender = (payload) => {
   }
 };
 const getParamsPiagamMasa = (payload, jenis) => {
-  const { klinik, daerah, negeri, bulan } = payload;
+  const { klinik, daerah, negeri } = payload;
   //
   const opAtauTemujanji = (jenis) => {
     if (jenis === 'op') {
@@ -15123,6 +15304,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       createdByKodFasiliti: klinik,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       ...opAtauTemujanji(jenis),
     };
     return param;
@@ -15132,6 +15314,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
     let param = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       ...opAtauTemujanji(jenis),
     };
     return param;
@@ -15140,6 +15323,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
+      waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       ...opAtauTemujanji(jenis),
     };
     return param;
@@ -15200,20 +15384,13 @@ const getParamsBp = (payload, kaum, jantina) => {
   }
 };
 const getParamsBPE = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pegawai, id } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByMdcMdtb: id,
       createdByKodFasiliti: klinik,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
@@ -15221,14 +15398,7 @@ const getParamsBPE = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15239,14 +15409,7 @@ const getParamsBPE = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15256,14 +15419,7 @@ const getParamsBPE = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15284,20 +15440,13 @@ const getParamsBPE = (payload) => {
   }
 };
 const getParamsPGS203 = (payload) => {
-  const { negeri, daerah, klinik, bulan, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pegawai, id } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
@@ -15307,14 +15456,7 @@ const getParamsPGS203 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15326,14 +15468,7 @@ const getParamsPGS203 = (payload) => {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15344,14 +15479,7 @@ const getParamsPGS203 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
-      },
+      tarikhKedatangan: dateModifier(payload),
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15388,6 +15516,28 @@ const placeModifier = (payload) => {
   }
 };
 
+// date
+const dateModifier = (payload) => {
+  const { tarikhMula, tarikhAkhir, bulan } = payload;
+
+  if (tarikhMula && tarikhAkhir) {
+    return {
+      $gte: moment(tarikhMula).format('YYYY-MM-DD'),
+      $lte: moment(tarikhAkhir).format('YYYY-MM-DD'),
+    };
+  }
+  if (bulan) {
+    return {
+      $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
+      $lte: moment(bulan)
+        .add(1, 'month')
+        .startOf('month')
+        .add(6, 'days')
+        .format('YYYY-MM-DD'),
+    };
+  }
+};
+
 module.exports = {
   countPG101A,
   countPG101C,
@@ -15408,6 +15558,7 @@ module.exports = {
   countAdHocQuery,
   countPGPro01,
   countPGPro02,
+  countPGPro01Combined,
   countGender,
   countMasa,
   countBp,
