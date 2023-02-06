@@ -653,7 +653,9 @@ const ModalGenerateBulanan = (props) => {
           toast.error('Anda tidak dibenarkan untuk menjana reten');
           break;
         case 404:
-          toast.error('Tiada data untuk tarikh yang dipilih');
+          toast.error(
+            'Maklumat bagi bulan yang anda pilih belum ada. Sila gunakan penjanaan mengikut tarikh'
+          );
           break;
         default:
           toast.error('Internal Server Error');
