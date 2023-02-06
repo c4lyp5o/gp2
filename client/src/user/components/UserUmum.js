@@ -833,7 +833,10 @@ function UserUmum({ sekolahIdc }) {
                 atasRef.current?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              <BsFillArrowUpCircleFill className='text-user3 text-2xl animate-bounce' />
+              <span className='bg-user3 text-userWhite text-sm p-1 flex flex-row items-center rounded-md'>
+                Kembali Ke Atas
+                <BsFillArrowUpCircleFill className='animate-bounce ml-1' />
+              </span>
             </button>
           )}
         </div>
