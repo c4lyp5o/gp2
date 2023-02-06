@@ -667,7 +667,24 @@ function AdminAppProvider({ children }) {
     fds: 'Flying Dental Service (Sabah)',
     rtc: 'RTC (Kelantan)',
     incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
-    // -----------------------------------------------------------------------
+    // negeri
+    negerijohor: 'Johor',
+    negerikedah: 'Kedah',
+    negerikelantan: 'Kelantan',
+    negerimelaka: 'Melaka',
+    negerinegerisembilan: 'Negeri Sembilan',
+    negeripahang: 'Pahang',
+    negeripulaupinang: 'Pulau Pinang',
+    negeriperak: 'Perak',
+    negeriperlis: 'Perlis',
+    negeriselangor: 'Selangor',
+    negeriterengganu: 'Terengganu',
+    negerisabah: 'Sabah',
+    negerisarawak: 'Sarawak',
+    negeriwpkualalumpur: 'WP Kuala Lumpur',
+    negeriwpputrajaya: 'WP Putrajaya',
+    negeriwplabuan: 'WP Labuan',
+    negeriilk: 'ILK',
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {

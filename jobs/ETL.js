@@ -2,8 +2,8 @@ const cron = require('cron');
 const ETL = require('../controllers/ETLmanifest');
 
 module.exports = function () {
-  const ETL = new cron.CronJob(
-    '0 1 * * *',
+  const runETL = new cron.CronJob(
+    '0 1 7 * *',
     function () {
       console.log('From ETL cronjob, im running now. Wish me luck.');
       ETL.initiateETL().then(() => {
@@ -14,5 +14,5 @@ module.exports = function () {
     true,
     'Asia/Kuala_Lumpur'
   );
-  ETL.start();
+  runETL.start();
 };

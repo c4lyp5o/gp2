@@ -8,8 +8,14 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, masterDatePicker, readDaerah, readKlinik } =
-    useGlobalAdminAppContext();
+  const {
+    toast,
+    adminToken,
+    masterDatePicker,
+    readDaerah,
+    readKlinik,
+    Dictionary,
+  } = useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -101,7 +107,7 @@ const ModalGenerateAdHoc = (props) => {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
           props.loginInfo.accountType === 'hqSuperadmin'
-            ? ''
+            ? Dictionary[props.pilihanNegeri]
             : props.loginInfo.negeri
         }&daerah=${
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
@@ -111,7 +117,7 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanKkia
         }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
           props.pilihanKpbmpb
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=true`,
+        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
         {
           headers: {
             Authorization: adminToken,
@@ -566,7 +572,7 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, readDaerah, readKlinik } =
+  const { toast, adminToken, readDaerah, readKlinik, Dictionary } =
     useGlobalAdminAppContext();
 
   const [bulan, setBulan] = useState('');
@@ -616,7 +622,7 @@ const ModalGenerateBulanan = (props) => {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
           props.loginInfo.accountType === 'hqSuperadmin'
-            ? ''
+            ? Dictionary[props.pilihanNegeri]
             : props.loginInfo.negeri
         }&daerah=${
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
@@ -647,7 +653,9 @@ const ModalGenerateBulanan = (props) => {
           toast.error('Anda tidak dibenarkan untuk menjana reten');
           break;
         case 404:
-          toast.error('Tiada data untuk tarikh yang dipilih');
+          toast.error(
+            'Maklumat bagi bulan yang anda pilih belum ada. Sila gunakan penjanaan mengikut tarikh'
+          );
           break;
         default:
           toast.error('Internal Server Error');
@@ -1194,10 +1202,16 @@ const Generate = (props) => {
         'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
     },
     {
-      kod: 'PGPRO 01 Pind. 2/2022',
+      kod: 'PGPRO 01 Pind. 2/2022 FFR',
       kodRingkas: 'PGPRO01',
       deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
+        'Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
+    },
+    {
+      kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
+      kodRingkas: 'PGPRO01Combined',
+      deskripsi:
+        'Kompilasi Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Kombinasi',
     },
     {
       kod: 'PG201 Pind. 2/2022',
