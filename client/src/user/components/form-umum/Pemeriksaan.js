@@ -3,12 +3,11 @@ import { FaInfoCircle, FaCaretDown, FaClock } from 'react-icons/fa';
 import moment from 'moment';
 import Datetime from 'react-datetime';
 
-import 'react-datetime/css/react-datetime.css';
-
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function Pemeriksaan(props) {
-  const { dictionaryJenisFasiliti, formatTime } = useGlobalUserAppContext();
+  const { dateToday, formatTime, dictionaryJenisFasiliti } =
+    useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
   let isDisabled = false;
@@ -20,13 +19,7 @@ export default function Pemeriksaan(props) {
     isDisabled = true;
   }
 
-  //change format time from 24 hours to 12 hours
-  const changeFormatTime = (time) => {
-    const timeFormat = moment(time, 'HH:mm').format('hh:mm A');
-    return timeFormat;
-  };
-
-  //duration time
+  // calculate duration waktu menunggu
   const durationTime = (time1, time2) => {
     const duration = moment(time2, 'HH:mm').diff(
       moment(time1, 'HH:mm'),
@@ -143,73 +136,80 @@ export default function Pemeriksaan(props) {
             </article>
             {props.statusKehadiran === false ? (
               <article className='flex flex-wrap border border-userBlack mb-2 pl-3 p-2 rounded-md'>
-                <div className='flex flex-wrap lg:flex-row items-center my-2'>
-                  <div className='flex flex-row'>
-                    <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                      waktu dipanggil :
-                    </p>
-                    <span className='font-semibold text-user6'>*</span>
-                    <div className='relative w-32 mx-3'>
-                      {!isDisabled ? (
-                        <Datetime
-                          required
-                          value={
-                            props.waktuDipanggilDT
-                              ? props.waktuDipanggilDT
-                              : changeFormatTime(
-                                  props.singlePersonUmum.waktuSampai
-                                )
-                          }
-                          input={true}
-                          onChange={(e) => {
-                            const time = moment(e).format('HH:mm');
-                            props.setWaktuDipanggil(time);
-                            props.setWaktuDipanggilDT(e);
-                          }}
-                          inputProps={{
-                            className:
-                              'appearance-none w-32 h-min leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md',
-                          }}
-                          dateFormat={false}
-                          initialViewMode='time'
-                          timeFormat='hh:mm A'
-                          name='waktu-dipanggil'
-                        />
-                      ) : (
-                        <input
-                          disabled={isDisabled}
-                          type='text'
-                          name='waktu-dipanggil'
-                          value={formatTime(props.waktuDipanggil)}
-                          className='appearance-none w-32 h-min leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                        />
-                      )}
-                      <span>
-                        <FaClock className='absolute top-2.5 right-1 text-user3' />
-                      </span>
+                {props.singlePersonUmum.jenisFasiliti === 'kp' ? (
+                  <div className='flex flex-wrap lg:flex-row items-center my-2'>
+                    <div className='flex flex-row'>
+                      <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                        waktu dipanggil :
+                      </p>
+                      <span className='font-semibold text-user6'>*</span>
+                      <div className='relative w-32 mx-3'>
+                        {!isDisabled ? (
+                          <Datetime
+                            initialViewMode='time'
+                            dateFormat={false}
+                            timeFormat='hh:mm A'
+                            input={true}
+                            value={props.waktuDipanggilDT}
+                            initialValue={
+                              props.waktuDipanggil
+                                ? props.waktuDipanggil
+                                : props.setWaktuDipanggil(
+                                    moment(dateToday).format('HH:mm')
+                                  )
+                            }
+                            onChange={(dt) => {
+                              const timeString = moment(dt).format('HH:mm');
+                              props.setWaktuDipanggil(timeString);
+                              props.setWaktuDipanggilDT(dt);
+                            }}
+                            inputProps={{
+                              required: true,
+                              readOnly: true,
+                              className:
+                                'appearance-none w-32 h-min leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md',
+                            }}
+                          />
+                        ) : (
+                          <input
+                            disabled={isDisabled}
+                            type='text'
+                            name='waktu-dipanggil'
+                            value={formatTime(props.waktuDipanggil)}
+                            className='appearance-none w-32 h-min leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                          />
+                        )}
+                        <span>
+                          <FaClock className='absolute top-2.5 right-2 text-user3' />
+                        </span>
+                      </div>
                     </div>
-                  </div>
-                  <div className='text-sm text-left mx-2 ml-auto lg:ml-0'>
-                    <p className='font-semibold text-user9'>
-                      Waktu Sampai :{' '}
-                      {changeFormatTime(props.singlePersonUmum.waktuSampai)}
-                    </p>
-                    <p className='font-semibold text-user9 text-xs'>
-                      durasi :
-                      {durationTime(
-                        props.singlePersonUmum.waktuSampai,
-                        props.waktuDipanggil
-                      ) > 0
-                        ? `${
-                            durationTime(
+                    <div className='text-sm text-left mx-2 ml-auto lg:ml-0'>
+                      <p className='font-semibold text-user9 normal-case'>
+                        Waktu sampai :{' '}
+                        {formatTime(props.singlePersonUmum.waktuSampai)}
+                      </p>
+                      <p className='font-semibold text-user9 text-xs normal-case'>
+                        Durasi waktu menunggu :{' '}
+                        {durationTime(
+                          props.singlePersonUmum.waktuSampai,
+                          props.waktuDipanggil
+                        ) > 0 ? (
+                          <span className='text-user7'>
+                            {durationTime(
                               props.singlePersonUmum.waktuSampai,
                               props.waktuDipanggil
-                            ) + ' minit'
-                          }`
-                        : 'Pastikan waktu dipanggil melebihi waktu sampai'}
-                    </p>
+                            ) + ' minit'}
+                          </span>
+                        ) : (
+                          <span className='normal-case'>
+                            Pastikan waktu DIPANGGIL MELEBIHI waktu SAMPAI
+                          </span>
+                        )}
+                      </p>
+                    </div>
                   </div>
-                </div>
+                ) : null}
                 {props.allUsedKPBMPB.length > 0 && (
                   <div className='flex flex-row items-center'>
                     <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
