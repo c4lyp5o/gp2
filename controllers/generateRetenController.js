@@ -845,6 +845,9 @@ const makePG211A = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -966,6 +969,9 @@ const makePG211C = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -1087,6 +1093,9 @@ const makePG214 = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -1180,6 +1189,9 @@ const makePG206 = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -1464,6 +1476,9 @@ const makePG207 = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -2407,6 +2422,9 @@ const makePgPro01 = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -2542,6 +2560,9 @@ const makePgPro01Combined = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -2671,6 +2692,9 @@ const makeGender = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -2865,6 +2889,9 @@ const makeMasa = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -3049,6 +3076,9 @@ const makeBp = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
@@ -3364,6 +3394,9 @@ const makeBPE = async (payload) => {
       case 'true':
         const query = createQuery(payload);
         const ETL = await Reservoir.find(query);
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
         data = ETL[0].data;
         break;
       default:
