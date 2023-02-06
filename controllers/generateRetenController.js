@@ -838,7 +838,7 @@ const makePG101C = async (payload) => {
 const makePG211A = async (payload) => {
   console.log('PG211A');
   try {
-    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
     let data = [];
     switch (fromEtl) {
@@ -959,7 +959,7 @@ const makePG211A = async (payload) => {
 const makePG211C = async (payload) => {
   console.log('PG211C');
   try {
-    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -1080,7 +1080,7 @@ const makePG211C = async (payload) => {
 const makePG214 = async (payload) => {
   console.log('PG214');
   try {
-    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -1098,10 +1098,10 @@ const makePG214 = async (payload) => {
       return 'No data found';
     }
     //
-    // if (klinik !== 'all') {
-    //   const currentKlinik = await User.findOne({ kodFasiliti: klinik });
-    //   klinik = currentKlinik.kp;
-    // }
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
     //
     let filename = path.join(
       __dirname,
@@ -1833,7 +1833,7 @@ const makePG207 = async (payload) => {
 const makePG201 = async (payload) => {
   console.log('PG201');
   try {
-    const { kp, daerah, negeri, bulan, sekolah } = payload;
+    let { kp, daerah, negeri, bulan, sekolah } = payload;
     //
     const data = await Helper.countPG201(kp, sekolah);
     //
@@ -2244,7 +2244,7 @@ const makePGPR201 = async (payload) => {
   //Formula and excel baru lagi..(dapat dari Dr. Adib 22-01-2023)
   console.log('PGPR201Baru');
   try {
-    const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
     console.log('Cuba Uji Test');
     let data;
@@ -2256,6 +2256,11 @@ const makePGPR201 = async (payload) => {
       default:
         data = await Helper.countPGPR201Baru(payload);
         break;
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
     }
     //
     if (data.length === 0) {
@@ -2675,6 +2680,11 @@ const makeGender = async (payload) => {
     //
     if (data.length === 0) {
       return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
     }
     //
     let filename = path.join(
@@ -3459,22 +3469,20 @@ const makeBPE = async (payload) => {
 // debug
 exports.debug = async (req, res) => {
   let payload = {
-    negeri: 'Johor',
+    negeri: 'WP Kuala Lumpur',
     // daerah: 'Arau',
-    daerah: 'all',
+    daerah: 'Zon Lembah Pantai',
     // klinik: 'Klinik Pergigian Kaki Bukit',
-    klinik: 'R01-002-02',
+    klinik: 'W03-001-01',
     bulan: '2023-01-01',
   };
-  // const data = await makePgPro01(payload);
+  const data = await makePG206(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
   // res.setHeader('Content-Type', 'application/vnd.ms-excel');
   // res.status(200).send(data);
-  res.status(200).json({
-    date: moment().toISOString(),
-  });
+  res.status(200).json(data);
 };
 
 // helper
