@@ -1,6 +1,7 @@
 import { useState, useEffect, useId } from 'react';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
+import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -39,7 +40,9 @@ function Kaunter({
           setIsLoading(true);
           setShowPilihanProgram(false);
           const { data } = await axios.get(
-            `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
+            `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+              'YYYY-MM-DD'
+            )}&jenisFasiliti=${jenisFasiliti}`,
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           );
           setData(data);
@@ -83,7 +86,9 @@ function Kaunter({
         try {
           setIsLoading(true);
           const { data } = await axios.get(
-            `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&namaProgram=${namaProgram}`,
+            `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+              'YYYY-MM-DD'
+            )}&namaProgram=${namaProgram}`,
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           );
           setData(data);
