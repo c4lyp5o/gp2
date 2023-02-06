@@ -7,6 +7,9 @@ const path = require('path');
 // const axios = require('axios');
 const logger = require('./logs/logger');
 
+// cron job
+const startETL = require('./jobs/ETL');
+
 // security package
 const helmet = require('helmet');
 const mongoSanitize = require('express-mongo-sanitize');
@@ -64,7 +67,7 @@ app.use(
   })
 );
 
-// getting date from the server because it shouldn't rely on the client to have correct date
+// getting date & time from the server because it shouldn't rely on the client to have correct date & time
 app.use('/api/v1/getdate', getdate);
 
 // the dpims scrap
@@ -142,16 +145,20 @@ app.use(notFound);
 const port = process.env.PORT || 5000;
 
 const start = async () => {
+  console.log('Starting server...');
   logger.info('Starting server...');
   try {
     await connectDB(process.env.MONGO_URI);
-    logger.info('Connected to database');
     console.log('Connected to Giret Database!');
+    logger.info('Connected to Giret Database!');
     app.listen(
       port,
       console.log(`Server is listening at port: ${port}. Lessgo!`),
       logger.info(`Server is listening at port: ${port}. Lessgo!`)
     );
+    // display application version number everytime server start
+    console.log('v' + process.env.npm_package_version);
+    logger.info('v' + process.env.npm_package_version);
   } catch (error) {
     logger.error(error.message);
     console.log('Could not Connect to Giret Database!');
@@ -160,3 +167,8 @@ const start = async () => {
 };
 
 start();
+// .then(() => {
+//   startETL();
+//   console.log('Server has started, starting ETL... Warp drives engaged!');
+//   logger.info('Server has started, starting ETL... Warp drives engaged!');
+// });

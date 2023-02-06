@@ -18,9 +18,6 @@ import {
 import moment from 'moment';
 import Datetime from 'react-datetime';
 
-import 'react-datetime/css/react-datetime.css';
-import 'react-datepicker/dist/react-datepicker.css';
-
 import Confirmation from './Confirmation';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -45,6 +42,7 @@ export default function FillableForm({
     Dictionary,
     dateToday,
     masterDatePicker,
+    masterDatetime,
     formatTime,
     toast,
   } = useGlobalUserAppContext();
@@ -61,7 +59,9 @@ export default function FillableForm({
   const [kedatangan, setKedatangan] = useState('');
   const [noPendaftaranBaru, setNoPendaftaranBaru] = useState('');
   const [noPendaftaranUlangan, setNoPendaftaranUlangan] = useState('');
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(dateToday);
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(
+    moment(dateToday).format('YYYY-MM-DD')
+  );
   const [waktuSampai, setWaktuSampai] = useState('');
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
@@ -155,7 +155,7 @@ export default function FillableForm({
 
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
-    new Date(dateToday)
+    moment(dateToday, moment.ISO_8601).toDate()
   );
   const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
   const [tarikhRujukanKeppDP, setTarikhRujukanKeppDP] = useState(null);
@@ -164,7 +164,9 @@ export default function FillableForm({
   const [tarikhMulaRawatanKeppDP, setTarikhMulaRawatanKeppDP] = useState(null);
 
   // datetime issues
-  const [waktuSampaiDT, setWaktuSampaiDT] = useState(new Date());
+  const [waktuSampaiDT, setWaktuSampaiDT] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
 
   // myidentity
   const [myIdVerified, setMyIdVerified] = useState(false);
@@ -189,6 +191,26 @@ export default function FillableForm({
         'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
+
+  // wip ----------
+  const WaktuSampai = () => {
+    return masterDatetime({
+      value: waktuSampaiDT,
+      initialValue: setWaktuSampai(moment(dateToday).format('HH:mm')),
+      onChange: (dt) => {
+        const timeString = moment(dt).format('HH:mm');
+        setWaktuSampai(timeString);
+        setWaktuSampaiDT(dt);
+      },
+      inputProps: {
+        required: true,
+        readOnly: true,
+        className:
+          'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+      },
+    });
+  };
+  // --------------
 
   const TarikhLahir = () => {
     return masterDatePicker({
@@ -222,7 +244,7 @@ export default function FillableForm({
 
   // kira tahun
   const howOldAreYouMyFriendtahun = (date) => {
-    const today = new Date(dateToday);
+    const today = moment(dateToday, moment.ISO_8601).toDate();
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const years = Math.floor(diff / 31556736000);
@@ -232,7 +254,7 @@ export default function FillableForm({
 
   // kira bulan
   const howOldAreYouMyFriendbulan = (date) => {
-    const today = new Date(dateToday);
+    const today = moment(dateToday, moment.ISO_8601).toDate();
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -243,7 +265,7 @@ export default function FillableForm({
 
   //kira days
   const howOldAreYouMyFrienddays = (date) => {
-    const today = new Date(dateToday);
+    const today = moment(dateToday, moment.ISO_8601).toDate();
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
@@ -303,7 +325,7 @@ export default function FillableForm({
     const year = ic.substring(0, 2);
     const month = ic.substring(2, 4);
     const day = ic.substring(4, 6);
-    const today = new Date(dateToday);
+    const today = moment(dateToday, moment.ISO_8601).toDate();
     const dob = new Date(`19${year}-${month}-${day}`);
     const dob2 = new Date(`20${year}-${month}-${day}`);
     const diff = today.getTime() - dob.getTime();
@@ -433,9 +455,9 @@ export default function FillableForm({
       const {
         nama,
         tarikhLahir,
-        umur,
-        umurBulan,
-        umurHari,
+        // umur,
+        // umurBulan,
+        // umurHari,
         jantina,
         kumpulanEtnik,
         alamat,
@@ -453,9 +475,13 @@ export default function FillableForm({
       setIc(ic);
       setNama(nama);
       setTarikhLahir(tarikhLahir);
-      setUmur(umur);
-      setUmurBulan(umurBulan);
-      setUmurHari(umurHari);
+      // recalculate umur kalau autofill triggered
+      const newUmur = parseInt(howOldAreYouMyFriendtahun(tarikhLahir));
+      const newBulan = parseInt(howOldAreYouMyFriendbulan(tarikhLahir));
+      const newHari = parseInt(howOldAreYouMyFrienddays(tarikhLahir));
+      setUmur(newUmur);
+      setUmurBulan(newBulan);
+      setUmurHari(newHari);
       setJantina(jantina);
       setKumpulanEtnik(kumpulanEtnik);
       setAlamat(alamat);
@@ -476,9 +502,9 @@ export default function FillableForm({
         ic: ic,
         nama: nama,
         tarikhLahir: tarikhLahir,
-        umur: umur,
-        umurBulan: umurBulan,
-        umurHari: umurHari,
+        umur: newUmur,
+        umurBulan: newBulan,
+        umurHari: newHari,
         jantina: jantina,
         kumpulanEtnik: kumpulanEtnik,
         alamat: alamat,
@@ -493,7 +519,9 @@ export default function FillableForm({
         orangKurangUpaya: orangKurangUpaya,
         statusPesara: statusPesara,
       });
-      toast.success('Menggunakan data sedia ada');
+      toast.success(
+        'Menggunakan maklumat pesakit sedia ada, sila semak semula untuk memastikan maklumat adalah tepat'
+      );
       return true;
     } catch (error) {
       toast.warning('Pesakit tidak pernah didaftarkan sebelum ini');
@@ -732,7 +760,7 @@ export default function FillableForm({
 
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
-    setTarikhKedatangan(dateToday);
+    setTarikhKedatangan(moment(dateToday).format('YYYY-MM-DD'));
     setWaktuSampai('');
     setTemujanji(false);
     setKedatangan('');
@@ -812,13 +840,13 @@ export default function FillableForm({
     // kampung angkat
     setKgAngkat('');
     // datepicker issues
-    setTarikhKedatanganDP(new Date(dateToday));
+    setTarikhKedatanganDP(moment(dateToday, moment.ISO_8601).toDate());
     setTarikhLahirDP(null);
     setTarikhRujukanKeppDP(null);
     setTarikhRundinganPertamaDP(null);
     setTarikhMulaRawatanKeppDP(null);
     // datetime issues
-    setWaktuSampaiDT(new Date());
+    setWaktuSampaiDT(moment(dateToday, moment.ISO_8601).toDate());
     if (showForm === false) {
       // reset editId when change jenisFasiliti & showForm === false
       setEditId('');
@@ -1293,34 +1321,33 @@ export default function FillableForm({
                       <div className='relative w-full md:w-56'>
                         {!editId ? (
                           <Datetime
-                            required
-                            value={waktuSampaiDT}
-                            input={true}
-                            onChange={(e) => {
-                              const time = moment(e).format('HH:mm');
-                              setWaktuSampai(time);
-                              setWaktuSampaiDT(e);
-                            }}
+                            initialViewMode='time'
                             dateFormat={false}
+                            timeFormat='hh:mm A'
+                            input={true}
+                            value={waktuSampaiDT}
                             initialValue={
                               waktuSampai
                                 ? waktuSampai
                                 : setWaktuSampai(
-                                    new Date().toLocaleTimeString('en-US', {
-                                      hour: '2-digit',
-                                      minute: '2-digit',
-                                      hour12: false,
-                                    })
+                                    moment(dateToday).format('HH:mm')
                                   )
                             }
-                            initialViewMode='time'
-                            timeFormat='hh:mm A'
-                            name='waktuSampai'
-                            className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                            onChange={(dt) => {
+                              const timeString = moment(dt).format('HH:mm');
+                              setWaktuSampai(timeString);
+                              setWaktuSampaiDT(dt);
+                            }}
+                            inputProps={{
+                              required: true,
+                              readOnly: true,
+                              className:
+                                'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+                            }}
                           />
                         ) : (
                           <input
-                            disabled={editId ? true : false}
+                            disabled={true}
                             type='text'
                             name='waktuSampai'
                             value={formatTime(waktuSampai)}

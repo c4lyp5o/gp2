@@ -40,6 +40,7 @@ import Settings from '../components/superadmin/Settings';
 
 // generate
 import Generate from '../components/superadmin/Generate';
+import GenerateKp from '../components/admin-kp/Generate';
 
 //ad hoc query
 import AdHocQuery from '../components/superadmin/AdHocQuery';
@@ -57,45 +58,47 @@ export default function AdminAfterLogin() {
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
 
+  // const init = useRef(false);
+
+  const LOGOUT_TIME = parseInt(process.env.REACT_APP_LOGOUT_TIME);
+  const HALF_LOGOUT_TIME = LOGOUT_TIME / 2;
+  const WARNING_DURATION = 1000 * 60 * HALF_LOGOUT_TIME;
+  const LOGOUT_DURATION = 1000 * 60 * LOGOUT_TIME;
+
   const logOutNotiSystem = () => {
-    const notifyLogOut = () =>
-      (kickerNotiId.current = toast.warning(
-        `Log keluar dalam masa ${
-          process.env.REACT_APP_LOGOUT_TIME / 2
-        } minit lagi. KLIK NOTIFIKASI INI SEKIRANYA INGIN KEKAL DI DALAM SISTEM`,
+    const notifyLogOut = () => {
+      kickerNotiId.current = toast.warning(
+        `Log keluar dalam masa ${HALF_LOGOUT_TIME} minit lagi. KLIK NOTIFIKASI INI SEKIRANYA INGIN KEKAL DI DALAM SISTEM`,
         {
-          autoClose: 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2),
+          autoClose: WARNING_DURATION,
           pauseOnHover: false,
           onClick: () => {
             window.location.reload();
           },
         }
-      ));
+      );
+    };
 
-    const dismissLogOut = () => toast.dismiss(kickerNotiId.current);
+    const dismissLogOut = () => {
+      toast.dismiss(kickerNotiId.current);
+    };
 
-    if (kicker && kickerNoti) {
+    const clearTimers = () => {
       clearTimeout(kickerNoti);
       clearTimeout(kicker);
-      dismissLogOut();
-    }
+    };
 
-    const kickerNotiNumber = setTimeout(() => {
-      notifyLogOut();
-    }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
+    clearTimers();
+    dismissLogOut();
 
-    const kickerNumber = setTimeout(() => {
-      logOutUser();
-    }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
+    const kickerNotiNumber = setTimeout(notifyLogOut, WARNING_DURATION);
+    const kickerNumber = setTimeout(logOutUser, LOGOUT_DURATION);
 
     setKickerNoti(kickerNotiNumber);
     setKicker(kickerNumber);
 
-    const logOutTime = parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
     const nowMinutes = new Date().getTime();
-
-    // waktu skrg + env minutes
-    const real = nowMinutes + logOutTime;
+    const real = nowMinutes + LOGOUT_DURATION;
     setTimer(real);
   };
 
@@ -115,12 +118,12 @@ export default function AdminAfterLogin() {
         ...res.data,
         isLoggedIn: true,
       });
-      logOutNotiSystem();
     };
     getUser().catch((err) => {
       console.log(err);
       logOutUser();
     });
+    logOutNotiSystem();
   }, [adminToken, getCurrentUser]);
 
   if (!loginInfo) {
@@ -155,8 +158,7 @@ export default function AdminAfterLogin() {
               <Route path='kpb' element={<Data FType='kpb' />} />
               <Route path='mpb' element={<Data FType='mpb' />} />
               <Route path='tetapan' element={<Settings />} />
-              <Route path='generate' element={<Generate {...props} />} />
-              {/* <Route path='ins' element={<Data FType='ins' />} /> */}
+              {/* <Route path='generate' element={<Generate {...props} />} /> */}
               {/* AdHoc Query thanks myhdw! */}
               <Route
                 path='aq'
@@ -178,7 +180,7 @@ export default function AdminAfterLogin() {
               <Route path='kp/program' element={<DataKp FType='program' />} />
               <Route path='kp/kpb' element={<DataKp FType='kpb' />} />
               <Route path='kp/mpb' element={<DataKp FType='mpb' />} />
-              {/* <Route path='kp/ins' element={<DataKp FType='ins' />} /> */}
+              {/* <Route path='kp/generate' element={<GenerateKp {...props} />} /> */}
             </>
           ) : null}
           <Route path='*' element={<AdminLoggedInNotFound />} />

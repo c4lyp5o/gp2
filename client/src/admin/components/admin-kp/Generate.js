@@ -8,14 +8,8 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const {
-    toast,
-    adminToken,
-    masterDatePicker,
-    readDaerah,
-    readKlinik,
-    Dictionary,
-  } = useGlobalAdminAppContext();
+  const { toast, adminToken, masterDatePicker, readDaerah, readKlinik } =
+    useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -64,29 +58,10 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
-    if (props.pilihanDaerah !== 'all' && props.pilihanKlinik !== 'all') {
-      console.log('1');
-      file = `${props.jenisReten}_${props.namaKlinik}_${moment(
-        new Date()
-      ).format('DDMMYYYY')}.xlsx`;
-    }
-    if (props.pilihanDaerah !== 'all' && props.pilihanKlinik === 'all') {
-      console.log('2');
-      file = `${props.jenisReten}_${props.pilihanDaerah.toUpperCase()}_${moment(
-        new Date()
-      ).format('DDMMYYYY')}.xlsx`;
-    }
-    if (props.pilihanDaerah === 'all') {
-      console.log('3');
-      file = `${
-        props.jenisReten
-      }_${props.loginInfo.negeri.toUpperCase()}_${moment(new Date()).format(
-        'DDMMYYYY'
-      )}.xlsx`;
-    }
-    // if (!endDate) {
-    //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
-    // }
+    console.log('1');
+    file = `${props.jenisReten}_${props.namaKlinik}_${moment(new Date()).format(
+      'DDMMYYYY'
+    )}.xlsx`;
     return file;
   };
 
@@ -107,7 +82,7 @@ const ModalGenerateAdHoc = (props) => {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
           props.loginInfo.accountType === 'hqSuperadmin'
-            ? Dictionary[props.pilihanNegeri]
+            ? ''
             : props.loginInfo.negeri
         }&daerah=${
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
@@ -117,7 +92,7 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanKkia
         }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
           props.pilihanKpbmpb
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
+        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
@@ -572,36 +547,16 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, readDaerah, readKlinik, Dictionary } =
-    useGlobalAdminAppContext();
+  const { toast, adminToken } = useGlobalAdminAppContext();
 
   const [bulan, setBulan] = useState('');
 
   const fileName = () => {
     let file = '';
-    if (props.pilihanDaerah !== 'all' && props.pilihanKlinik !== 'all') {
-      console.log('1');
-      file = `${props.jenisReten}_${props.namaKlinik}_${moment(
-        new Date()
-      ).format('DDMMYYYY')}.xlsx`;
-    }
-    if (props.pilihanDaerah !== 'all' && props.pilihanKlinik === 'all') {
-      console.log('2');
-      file = `${props.jenisReten}_${props.pilihanDaerah.toUpperCase()}_${moment(
-        new Date()
-      ).format('DDMMYYYY')}.xlsx`;
-    }
-    if (props.pilihanDaerah === 'all') {
-      console.log('3');
-      file = `${
-        props.jenisReten
-      }_${props.loginInfo.negeri.toUpperCase()}_${moment(new Date()).format(
-        'DDMMYYYY'
-      )}.xlsx`;
-    }
-    // if (!endDate) {
-    //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
-    // }
+    console.log('1');
+    file = `${props.jenisReten}_${props.namaKlinik}_${moment(new Date()).format(
+      'DDMMYYYY'
+    )}.xlsx`;
     return file;
   };
 
@@ -622,7 +577,7 @@ const ModalGenerateBulanan = (props) => {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
           props.loginInfo.accountType === 'hqSuperadmin'
-            ? Dictionary[props.pilihanNegeri]
+            ? ''
             : props.loginInfo.negeri
         }&daerah=${
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
@@ -653,9 +608,7 @@ const ModalGenerateBulanan = (props) => {
           toast.error('Anda tidak dibenarkan untuk menjana reten');
           break;
         case 404:
-          toast.error(
-            'Maklumat bagi bulan yang anda pilih belum ada. Sila gunakan penjanaan mengikut tarikh'
-          );
+          toast.error('Tiada data untuk tarikh yang dipilih');
           break;
         default:
           toast.error('Internal Server Error');
@@ -755,139 +708,8 @@ const ModalGenerateBulanan = (props) => {
                 </div>
                 <div className='mb-3'>
                   <div className='grid gap-1'>
-                    {props.loginInfo.accountType === 'hqSuperadmin' ? (
-                      <div className='px-3 py-1'>
-                        <label
-                          htmlFor='negeri'
-                          className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                        >
-                          Negeri:
-                        </label>
-                        <select
-                          required
-                          name='negeri'
-                          id='negeri'
-                          onChange={(e) => {
-                            props.setPilihanNegeri(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readDaerah(e.target.value).then((res) => {
-                              props.setDaerah(res.data);
-                            });
-                          }}
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        >
-                          <option value=''>Sila pilih..</option>
-                          <option value='all'>Semua Negeri</option>
-                          {props.negeri.map((n, index) => {
-                            return (
-                              <option
-                                value={n.username}
-                                key={index}
-                                className='capitalize'
-                              >
-                                {n.negeri}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : null}
-                    {props.loginInfo.accountType === 'negeriSuperadmin' ||
-                    props.daerah.length > 0 ? (
-                      <div className='px-3 py-1'>
-                        <label
-                          htmlFor='daerah'
-                          className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                        >
-                          Daerah:
-                        </label>
-                        <select
-                          required
-                          name='daerah'
-                          id='daerah'
-                          onChange={(e) => {
-                            props.setPilihanDaerah(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readKlinik(e.target.value).then((res) => {
-                              props.setKlinik(res.data);
-                            });
-                          }}
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
-                        >
-                          <option value=''>Sila pilih..</option>
-                          <option value='all'>
-                            Semua daerah (Jana Negeri)
-                          </option>
-                          {props.daerah.map((d, index) => {
-                            return (
-                              <option
-                                value={d.daerah}
-                                key={index}
-                                className='capitalize'
-                              >
-                                {d.daerah}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : null}
-                    {props.loginInfo.accountType === 'daerahSuperadmin' ||
-                    (props.pilihanDaerah !== '' &&
-                      props.pilihanDaerah !== 'all') ? (
-                      <div className='px-3 py-1'>
-                        <label
-                          htmlFor='klinik'
-                          className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                        >
-                          Klinik:
-                        </label>
-                        <select
-                          required
-                          name='klinik'
-                          id='klinik'
-                          onChange={(e) => {
-                            props.setPilihanKlinik(e.target.value);
-                            props.setNamaKlinik(
-                              e.target.options[
-                                e.target.selectedIndex
-                              ].getAttribute('data-key')
-                            );
-                          }}
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        >
-                          <option value=''>Sila pilih..</option>
-                          <option value='all'>
-                            Semua klinik (Jana Daerah)
-                          </option>
-                          {props.klinik.map((k, index) => {
-                            return (
-                              <option
-                                key={index}
-                                data-key={k.kp}
-                                value={k.kodFasiliti}
-                                className='capitalize'
-                              >
-                                {k.kp}
-                              </option>
-                            );
-                          })}
-                        </select>
-                      </div>
-                    ) : null}
                     <div>
-                      {props.pilihanKlinik !== '' &&
-                      props.pilihanKlinik !== 'all' &&
-                      props.pilihanDaerah !== 'all' &&
-                      props.jenisReten === 'PG101A' ? (
+                      {props.jenisReten === 'PG101A' ? (
                         <div className='px-3 py-1'>
                           <label
                             htmlFor='klinik'
@@ -910,7 +732,8 @@ const ModalGenerateBulanan = (props) => {
                           </select>
                         </div>
                       ) : null}
-                      {props.pilihanFasiliti === 'kkiakd' ? (
+                      {props.jenisReten === 'PG101A' &&
+                      props.pilihanFasiliti === 'kkiakd' ? (
                         <div className='px-3 py-1'>
                           <label
                             htmlFor='klinik'
@@ -945,10 +768,7 @@ const ModalGenerateBulanan = (props) => {
                       ) : null}
                     </div>
                     <div>
-                      {props.pilihanKlinik !== '' &&
-                      props.pilihanKlinik !== 'all' &&
-                      props.pilihanDaerah !== 'all' &&
-                      props.jenisReten === 'PG101C' ? (
+                      {props.jenisReten === 'PG101C' ? (
                         <div className='px-3 py-1'>
                           <label
                             htmlFor='factype'
@@ -1101,13 +921,10 @@ const ModalGenerateBulanan = (props) => {
 
 const Generate = (props) => {
   const {
-    readNegeri,
-    readDaerah,
-    readKlinik,
-    readSpesifikKkiaData,
-    readSpesifikProgramData,
-    readSpesifikKPBMPBData,
-    readGenerateTokenData,
+    readSpesifikKkiaDataForKp,
+    readSpesifikProgramDataForKp,
+    readSpesifikKPBMPBDataForKp,
+    readGenerateTokenDataForKp,
   } = useGlobalAdminAppContext();
 
   const init = useRef(false);
@@ -1133,9 +950,6 @@ const Generate = (props) => {
   const [statusToken, setStatusToken] = useState([]);
 
   // masalah negara
-  const [negeri, setNegeri] = useState([]);
-  const [daerah, setDaerah] = useState([]);
-  const [klinik, setKlinik] = useState([]);
   const [namaKlinik, setNamaKlinik] = useState('');
   const [pilihanNegeri, setPilihanNegeri] = useState('');
   const [pilihanDaerah, setPilihanDaerah] = useState('');
@@ -1152,30 +966,25 @@ const Generate = (props) => {
       kod: 'PG101A Pind. 1/2022',
       kodRingkas: 'PG101A',
       deskripsi:
-        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2:
-        '- Klinik Pergigian Primer & program lawatan pergigian di KKIA/KD',
+        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara-Klinik Pergigian Primer & program lawatan pergigian di KKIA/KD',
     },
     {
       kod: 'PG101C Pind. 1/2022',
       kodRingkas: 'PG101C',
       deskripsi:
-        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2: '- Program Outreach dan Klinik Pergigian Sekolah (Statik)',
+        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara-Program Outreach dan Klinik Pergigian Sekolah (Statik)',
     },
     {
       kod: 'PG211A Pind. 1/2022',
       kodRingkas: 'PG211A',
       deskripsi:
-        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2: '- Perkhidmatan Pergigian Klinik Pergigian Primer',
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara-Perkhidmatan Pergigian Klinik Pergigian Primer',
     },
     {
       kod: 'PG211C Pind. 1/2022',
       kodRingkas: 'PG211C',
       deskripsi:
-        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2: '- Perkhidmatan Pergigian Outreach',
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara-Perkhidmatan Pergigian Outreach',
     },
     {
       kod: 'PG206 Pind. 1/2022',
@@ -1202,26 +1011,14 @@ const Generate = (props) => {
         'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
     },
     {
-      kod: 'PGPRO 01 Pind. 2/2022 FFR',
-      kodRingkas: 'PGPRO01',
-      deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
-    },
-    {
-      kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
-      kodRingkas: 'PGPRO01Combined',
-      deskripsi:
-        'Kompilasi Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Kombinasi',
-    },
-    {
       kod: 'PG201 Pind. 2/2022',
       kodRingkas: 'PG201',
       deskripsi:
         'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
     {
-      kod: 'PGS203 Pind. 2/2022',
-      kodRingkas: 'PGS203P2',
+      kod: 'PGS203 Pind. 1/2022',
+      kodRingkas: 'PG203',
       deskripsi:
         'Laporan Bulanan Kesihatan Pergigian Dan Status Rawatan Murid Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
@@ -1252,7 +1049,7 @@ const Generate = (props) => {
     if (e === 'klinik') {
       return;
     } else {
-      await readSpesifikKkiaData(pilihanKlinik)
+      await readSpesifikKkiaDataForKp(pilihanKlinik)
         .then((res) => {
           setKkiaData(res.data);
         })
@@ -1265,7 +1062,7 @@ const Generate = (props) => {
   const handleGetProgramEnKPBMPB = async (e) => {
     setPilihanFasiliti(e);
     if (e === 'program') {
-      await readSpesifikProgramData(pilihanKlinik)
+      await readSpesifikProgramDataForKp(pilihanKlinik)
         .then((res) => {
           setProgramData(res.data);
         })
@@ -1273,7 +1070,7 @@ const Generate = (props) => {
           console.log(err);
         });
     } else if (e === 'kpbmpb') {
-      await readSpesifikKPBMPBData(pilihanKlinik)
+      await readSpesifikKPBMPBDataForKp(pilihanKlinik)
         .then((res) => {
           setKpbmpbData(res.data);
         })
@@ -1325,26 +1122,12 @@ const Generate = (props) => {
 
   useEffect(() => {
     if (init.current === false) {
-      if (loginInfo.accountType === 'hqSuperadmin') {
-        setCurrentUser('PKP KKM');
-        readNegeri().then((res) => {
-          setNegeri(res.data);
-        });
-      }
-      if (loginInfo.accountType === 'negeriSuperadmin') {
-        setCurrentUser(`Negeri ${loginInfo.negeri}`);
-        readDaerah(loginInfo.nama).then((res) => {
-          setDaerah(res.data);
-        });
-      }
-      if (loginInfo.accountType === 'daerahSuperadmin') {
-        setPilihanDaerah(loginInfo.daerah);
-        setCurrentUser(`Daerah ${loginInfo.daerah}`);
-        readKlinik(loginInfo.daerah).then((res) => {
-          setKlinik(res.data);
-        });
-      }
-      readGenerateTokenData()
+      console.log(loginInfo);
+      setPilihanNegeri(loginInfo.negeri);
+      setPilihanDaerah(loginInfo.daerah);
+      setPilihanKlinik(loginInfo.klinik);
+      setNamaKlinik(loginInfo.kp);
+      readGenerateTokenDataForKp()
         .then((res) => {
           console.log(res.data);
           setStatusToken(res.data);
@@ -1362,16 +1145,10 @@ const Generate = (props) => {
     openModalGenerateBulanan,
     setOpenModalGenerateBulanan,
     jenisReten,
-    negeri,
-    setNegeri,
     pilihanNegeri,
     setPilihanNegeri,
-    daerah,
-    setDaerah,
     pilihanDaerah,
     setPilihanDaerah,
-    klinik,
-    setKlinik,
     pilihanProgram,
     setPilihanProgram,
     pilihanKpbMpb,
@@ -1419,7 +1196,7 @@ const Generate = (props) => {
             <table className='table-auto'>
               <thead className='text-adminWhite bg-admin3'>
                 <tr>
-                  <th className='px-3 py-1 outline outline-1 outline-offset-1'>
+                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Bil.
                   </th>
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
@@ -1428,13 +1205,13 @@ const Generate = (props) => {
                   <th className='px-1 py-1 outline outline-1 outline-offset-1'>
                     Kod Reten
                   </th>
-                  <th className='px-1 py-1 outline outline-1 outline-offset-1 w-56'>
-                    <div className='border-b'>Jana Mengikut Tarikh</div>
+                  <th className='px-1 py-1 outline outline-1 outline-offset-1'>
+                    Jana Mengikut Tarikh
                     <div className='grid grid-cols-2 items-center'>
                       <p className='flex flex-col items-center gap-1 text-center'>
                         Baki Token
                       </p>
-                      <p className='flex flex-col items-center gap-1 text-center border-l'>
+                      <p className='flex flex-col items-center gap-1 text-center'>
                         Jana
                       </p>
                     </div>
@@ -1448,22 +1225,18 @@ const Generate = (props) => {
                 {semuaJenisReten.map((jenis, index) => (
                   <>
                     <tr>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
                         {index + 1}
                       </td>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-start normal-case'>
-                        <div className='ml-3 mr-1'>
-                          {jenis.deskripsi}
-                          <br />
-                          {jenis.deskripsi2}
-                        </div>
+                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
+                        {jenis.deskripsi}
                       </td>
-                      <td className='px-3 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
                         {jenis.kod}
                       </td>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        <div className='grid grid-cols-2 items-center'>
-                          <div className='flex flex-col py-3 items-center gap-1 text-center'>
+                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
+                        <div className='grid grid-cols-2'>
+                          <div className='flex flex-col items-center gap-1 text-center'>
                             {statusToken.map
                               ? statusToken.map((token) => {
                                   if (token.jenisReten === jenis.kodRingkas) {
@@ -1475,13 +1248,12 @@ const Generate = (props) => {
                                 })
                               : null}
                           </div>
-                          <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
+                          <div className='flex flex-col items-center gap-1 text-center'>
                             <button
                               type='button'
-                              className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
+                              className='px-2 py-1 bg-admin1 text-adminWhite rounded-md'
                               onClick={() => {
                                 setJenisReten(jenis.kodRingkas);
-                                setOpenModalGenerateBulanan(false);
                                 setOpenModalGenerateAdHoc(true);
                               }}
                             >
@@ -1490,13 +1262,12 @@ const Generate = (props) => {
                           </div>
                         </div>
                       </td>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <td className='px-1 py-1 outline outline-1 outline-offset-1'>
                         <button
                           type='button'
                           className='px-2 py-1 bg-admin1 text-adminWhite rounded-md'
                           onClick={() => {
                             setJenisReten(jenis.kodRingkas);
-                            setOpenModalGenerateAdHoc(false);
                             setOpenModalGenerateBulanan(true);
                           }}
                         >

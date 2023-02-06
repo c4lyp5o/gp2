@@ -21,6 +21,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
     username,
     userinfo,
     useParams,
+    dateToday,
     toast,
     Dictionary,
   } = useGlobalUserAppContext();
@@ -1393,6 +1394,13 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.statusSelepas6BulanUmum = statusSelepas6BulanUmum;
   masterForm.setStatusSelepas6BulanUmum = setStatusSelepas6BulanUmum;
 
+  //dateTime issues
+  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
+  masterForm.waktuDipanggilDT = waktuDipanggilDT;
+  masterForm.setWaktuDipanggilDT = setWaktuDipanggilDT;
+
   // calculate total dmfx + sm desidus
   useEffect(() => {
     setSumDMFXDesidusUmum(
@@ -2482,7 +2490,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                                 <h2 className='font-semibold whitespace-nowrap'>
                                   IC/PASSPORT :
                                 </h2>
-                                <p className='ml-1 text-sm font-light'>
+                                <p className='ml-1 text-sm font-light normal-case'>
                                   {singlePersonUmum.ic}
                                 </p>
                               </div>
@@ -2578,7 +2586,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
                     <div className=''>
                       <div className='text-s flex flex-row pl-5'>
                         <h2 className='font-semibold text-xs'>IC/Passport :</h2>
-                        <p className='ml-1 text-xs'>{singlePersonUmum.ic}</p>
+                        <p className='ml-1 text-xs normal-case'>
+                          {singlePersonUmum.ic}
+                        </p>
                       </div>
                     </div>
                     <div className=''>

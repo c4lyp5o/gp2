@@ -26,7 +26,9 @@ const ConfirmModal = ({
     try {
       setCheckingDuplicate(true);
       const res = await axios.get(
-        `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&ic=${data.ic}`,
+        `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+          'YYYY-MM-DD'
+        )}&ic=${data.ic}`,
         { headers: { Authorization: `Bearer ${kaunterToken}` } }
       );
       if (res.data.kaunterResultQuery.length > 0) {
@@ -120,7 +122,7 @@ const ConfirmModal = ({
                 <p className='text-base lg:text-2xl p-1 flex justify-end text-right text-user6 font-bold'>
                   Pengenalan Diri:
                 </p>
-                <p className='text-base lg:text-2xl p-1 flex justify-start text-left text-user6 font-bold bg-user1 bg-opacity-5'>
+                <p className='text-base lg:text-2xl p-1 flex justify-start text-left text-user6 font-bold bg-user1 bg-opacity-5 normal-case'>
                   {data.ic}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right bg-user1 bg-opacity-5 '>
@@ -379,7 +381,7 @@ const ConfirmModal = ({
                 <p className='text-sm p-1 flex justify-end text-right mt-2'>
                   Pengenalan Diri:
                 </p>
-                <p className='text-3xl p-1 flex justify-start text-left text-kaunter1 font-bold bg-opacity-5'>
+                <p className='text-3xl p-1 flex justify-start text-left text-kaunter1 font-bold bg-opacity-5 normal-case'>
                   {data.ic}
                 </p>
                 <p className='text-sm p-1 flex justify-end text-right mt-2'>

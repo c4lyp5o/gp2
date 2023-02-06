@@ -22,33 +22,27 @@ export default function UserStatusHarian() {
     setRefreshTimer,
   } = useGlobalUserAppContext();
 
-  const [pickedDate, setPickedDate] = useState(new Date(dateToday));
-  const [convertedDate, setConvertedDate] = useState('');
+  const [pickedDate, setPickedDate] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
   const [mark, setMark] = useState([]);
   const [markSelesai, setMarkSelesai] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [nama, setNama] = useState('');
-  const [tarikhKedatangan, setTarikhKedatangan] = useState(new Date(dateToday));
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
   const [queryResult, setQueryResult] = useState([]);
   const [pilih, setPilih] = useState('');
 
   const [reloadState, setReloadState] = useState(false);
 
-  // convert to standard date format to query to db
-  useEffect(() => {
-    const dd = String(pickedDate.getDate()).padStart(2, '0');
-    const mm = String(pickedDate.getMonth() + 1).padStart(2, '0');
-    const yyyy = pickedDate.getFullYear();
-    const stringDate = yyyy + '-' + mm + '-' + dd;
-    setConvertedDate(stringDate);
-  }, [pickedDate]);
-
+  // query umum for the table
   useEffect(() => {
     const query = async () => {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/umum?nama=${nama}&tarikhKedatangan=${moment(
+          `/api/v1/query/umum?tarikhKedatangan=${moment(
             tarikhKedatangan
           ).format('YYYY-MM-DD')}`,
           {
@@ -71,7 +65,7 @@ export default function UserStatusHarian() {
       }
     };
     query();
-  }, [nama, tarikhKedatangan, reloadState]);
+  }, [tarikhKedatangan, reloadState]);
 
   //get allpersonumum filtered by date
   useEffect(() => {
@@ -238,9 +232,9 @@ export default function UserStatusHarian() {
                         <td
                           className={`${
                             pilih === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 normal-case`}
                         >
-                          {singlePersonUmum.ic.toUpperCase()}
+                          {singlePersonUmum.ic}
                         </td>
                         <td
                           className={`${

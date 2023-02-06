@@ -1,10 +1,9 @@
 import { useEffect, useState } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
-import moment from 'moment';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
 import { FaSort, FaSortUp } from 'react-icons/fa';
-import DatePicker from 'react-datepicker';
+import moment from 'moment';
 
 import KemaskiniResit from './pt-registration/KemaskiniResit';
 import PrintPatientDetails from './pt-registration/PrintPatientDetails';
@@ -22,18 +21,23 @@ export default function DaftarPesakit({ createdByKp }) {
     formatTime,
     noPendaftaranSplitter,
     statusPesakit,
+    masterDatePicker,
     Dictionary,
     toast,
   } = useGlobalUserAppContext();
 
   const [allPersonKaunter, setAllPersonKaunter] = useState(null);
   const [philter, setPhilter] = useState('');
-  const [showAll, setShowAll] = useState(false);
-  const [date, setDate] = useState(new Date(dateToday));
-  const [generating, setGenerating] = useState(false);
-  const [pilihanTarikh, setPilihanTarikh] = useState(
-    moment(new Date(dateToday)).format('YYYY-MM-DD')
+  const [tarikhKedatangan, setTarikhKedatangan] = useState(
+    moment(dateToday).format('YYYY-MM-DD')
   );
+  const [generating, setGenerating] = useState(false);
+
+  // datepicker issue
+  const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
+
   const [sort, setSort] = useState({
     masaDaftar: false,
     nama: false,
@@ -47,7 +51,7 @@ export default function DaftarPesakit({ createdByKp }) {
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `PG101A-${createdByKp}-${moment(new Date(dateToday)).format(
+    link.download = `PG101A-${createdByKp}-${moment(dateToday).format(
       'DD-MM-YYYY'
     )}.xlsx`;
     link.href = URL.createObjectURL(new Blob([blob]));
@@ -86,23 +90,17 @@ export default function DaftarPesakit({ createdByKp }) {
     }, 5000);
   };
 
-  const CustomDatePicker = () => {
-    return (
-      <DatePicker
-        dateFormat='dd/MM/yyyy'
-        selected={date}
-        onChange={(date) => {
-          const tempDate = moment(date).format('YYYY-MM-DD');
-          setDate(date);
-          setPilihanTarikh(tempDate);
-        }}
-        peekNextMonth
-        showMonthDropdown
-        showYearDropdown
-        dropdownMode='select'
-        className='appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2'
-      />
-    );
+  const TarikhKedatangan = () => {
+    return masterDatePicker({
+      selected: tarikhKedatanganDP,
+      onChange: (tarikhKedatangan) => {
+        const tempDate = moment(tarikhKedatangan).format('YYYY-MM-DD');
+        setTarikhKedatangan(tempDate);
+        setTarikhKedatanganDP(tarikhKedatangan);
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-kaunter2 focus:ring-2 focus:ring-kaunter1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-2',
+    });
   };
 
   useEffect(() => {
@@ -111,7 +109,7 @@ export default function DaftarPesakit({ createdByKp }) {
         try {
           setAllPersonKaunter(null);
           const { data } = await axios.get(
-            `/api/v1/query/kaunter?tarikhKedatangan=${pilihanTarikh}`,
+            `/api/v1/query/kaunter?tarikhKedatangan=${tarikhKedatangan}`,
             {
               headers: { Authorization: `Bearer ${kaunterToken}` },
             }
@@ -123,7 +121,7 @@ export default function DaftarPesakit({ createdByKp }) {
       };
       fetchAllPersonKaunter();
     }
-  }, [pilihanTarikh, showKemaskiniResit]);
+  }, [tarikhKedatangan, showKemaskiniResit]);
 
   //carian ic semua
   const keys = ['nama', 'ic'];
@@ -159,7 +157,7 @@ export default function DaftarPesakit({ createdByKp }) {
               >
                 Tarikh Kedatangan :{' '}
               </label>
-              <CustomDatePicker />
+              <TarikhKedatangan />
             </div>
           </div>
           {/* <div className='m-3 hidden lg:flex flex-row items-center justify-center'>
@@ -290,6 +288,9 @@ export default function DaftarPesakit({ createdByKp }) {
                   )}
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                  MAKLUMAT TAMBAHAN
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                   BAYARAN & NO. RESIT
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -300,8 +301,8 @@ export default function DaftarPesakit({ createdByKp }) {
             {allPersonKaunter &&
               allPersonKaunter.kaunterResultQuery
                 .filter((item) => {
-                  if (pilihanTarikh === '') return item;
-                  if (item.tarikhKedatangan === pilihanTarikh) return item;
+                  if (tarikhKedatangan === '') return item;
+                  if (item.tarikhKedatangan === tarikhKedatangan) return item;
                 })
                 .filter((pt) =>
                   keys.some((key) => pt[key].toLowerCase().includes(philter))
@@ -359,7 +360,7 @@ export default function DaftarPesakit({ createdByKp }) {
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
                           {p.nama}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
                           {p.ic}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
@@ -367,6 +368,9 @@ export default function DaftarPesakit({ createdByKp }) {
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
                           {Dictionary[p.jenisFasiliti]}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
+                          {p.nomborTelefon} {p.nomborTelefon2} {p.emel}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 whitespace-nowrap'>
                           {p.noBayaran || p.noResit ? (
@@ -400,9 +404,12 @@ export default function DaftarPesakit({ createdByKp }) {
                           )}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                          {p.tarikhKedatangan === dateToday ||
-                          p.tarikhKedatangan === dateYesterday ||
-                          p.tarikhKedatangan === datePastTwoDays ? (
+                          {p.tarikhKedatangan ===
+                            moment(dateToday).format('YYYY-MM-DD') ||
+                          p.tarikhKedatangan ===
+                            moment(dateYesterday).format('YYYY-MM-DD') ||
+                          p.tarikhKedatangan ===
+                            moment(datePastTwoDays).format('YYYY-MM-DD') ? (
                             <button
                               className='w-36 py-2.5 my-1 mx-1 bg-kaunter2 hover:bg-kaunter1 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                               onClick={() => {
