@@ -1393,6 +1393,11 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.statusSelepas6BulanUmum = statusSelepas6BulanUmum;
   masterForm.setStatusSelepas6BulanUmum = setStatusSelepas6BulanUmum;
 
+  //dateTime issues
+  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(null);
+  masterForm.waktuDipanggilDT = waktuDipanggilDT;
+  masterForm.setWaktuDipanggilDT = setWaktuDipanggilDT;
+
   // calculate total dmfx + sm desidus
   useEffect(() => {
     setSumDMFXDesidusUmum(
