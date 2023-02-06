@@ -200,6 +200,7 @@ const downloader = async (req, res, callback) => {
     username = `Kaunter ${kp}`;
   }
   const payload = {
+    jenisReten,
     username,
     id,
     accountType,
@@ -839,11 +840,12 @@ const makePG211A = async (payload) => {
   try {
     const { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    let data;
+    let data = [];
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPG211A(payload);
@@ -963,7 +965,8 @@ const makePG211C = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPG211C(payload);
@@ -1083,7 +1086,8 @@ const makePG214 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPG214(payload);
@@ -1175,7 +1179,8 @@ const makePG206 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPG206(payload);
@@ -1458,7 +1463,8 @@ const makePG207 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPG207(payload);
@@ -2395,7 +2401,8 @@ const makePgPro01 = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPGPro01(payload);
@@ -2529,7 +2536,8 @@ const makePgPro01Combined = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPGPro01Combined(payload);
@@ -2657,7 +2665,8 @@ const makeGender = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countGender(payload);
@@ -2845,7 +2854,8 @@ const makeMasa = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countMasa(payload);
@@ -3028,7 +3038,8 @@ const makeBp = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countBp(payload);
@@ -3342,7 +3353,8 @@ const makeBPE = async (payload) => {
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countBPE(payload);
@@ -3495,6 +3507,7 @@ const fileName = (params, reten) => {
 };
 
 const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
+  console.log(jenisReten, klinik, daerah, negeri, bulan);
   let query = {};
   if (klinik !== 'all') {
     query.createdByKodFasiliti = klinik;

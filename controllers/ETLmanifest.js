@@ -19,7 +19,13 @@ const monthlyCount = [
   { name: 'PG214', func: Helper.countPG214 },
   { name: 'PG206', func: Helper.countPG206 },
   { name: 'PG207', func: Helper.countPG207 },
-  { name: 'PGPR201', func: Helper.countPGPR201 },
+  { name: 'PGPR201', func: Helper.countPGPR201Baru },
+  { name: 'PGPro01', func: Helper.countPGPro01 },
+  { name: 'PGPro01Combined', func: Helper.countPGPro01Combined },
+  { name: 'GENDER', func: Helper.countGender },
+  { name: 'MASA', func: Helper.countMasa },
+  { name: 'BP', func: Helper.countBp },
+  { name: 'BPE', func: Helper.countBPE },
 ];
 
 const initialDataNegeri = async () => {
