@@ -21,6 +21,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
     username,
     userinfo,
     useParams,
+    dateToday,
     toast,
     Dictionary,
   } = useGlobalUserAppContext();
@@ -1394,7 +1395,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.setStatusSelepas6BulanUmum = setStatusSelepas6BulanUmum;
 
   //dateTime issues
-  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(null);
+  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
   masterForm.waktuDipanggilDT = waktuDipanggilDT;
   masterForm.setWaktuDipanggilDT = setWaktuDipanggilDT;
 

@@ -59,8 +59,9 @@ function UserUmum({ sekolahIdc }) {
 
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
-    new Date(dateToday)
+    moment(dateToday, moment.ISO_8601).toDate()
   );
+
   const TarikhKedatangan = () => {
     return masterDatePicker({
       selected: tarikhKedatanganDP,
