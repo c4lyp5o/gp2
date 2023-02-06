@@ -1,10 +1,14 @@
 import { useEffect, useState } from 'react';
-import { FaInfoCircle, FaCaretDown } from 'react-icons/fa';
+import { FaInfoCircle, FaCaretDown, FaClock } from 'react-icons/fa';
+import moment from 'moment';
+import Datetime from 'react-datetime';
+
+import 'react-datetime/css/react-datetime.css';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function Pemeriksaan(props) {
-  const { dictionaryJenisFasiliti } = useGlobalUserAppContext();
+  const { dictionaryJenisFasiliti, formatTime } = useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
   let isDisabled = false;
@@ -15,6 +19,21 @@ export default function Pemeriksaan(props) {
   ) {
     isDisabled = true;
   }
+
+  //change format time from 24 hours to 12 hours
+  const changeFormatTime = (time) => {
+    const timeFormat = moment(time, 'HH:mm').format('hh:mm A');
+    return timeFormat;
+  };
+
+  //duration time
+  const durationTime = (time1, time2) => {
+    const duration = moment(time2, 'HH:mm').diff(
+      moment(time1, 'HH:mm'),
+      'minutes'
+    );
+    return duration;
+  };
 
   useEffect(() => {
     if (
@@ -124,23 +143,72 @@ export default function Pemeriksaan(props) {
             </article>
             {props.statusKehadiran === false ? (
               <article className='flex flex-wrap border border-userBlack mb-2 pl-3 p-2 rounded-md'>
-                <div className='flex flex-row items-center my-2'>
-                  <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                    waktu dipanggil :
-                  </p>
-                  <span className='font-semibold text-user6'>*</span>
-                  <input
-                    required
-                    disabled={isDisabled}
-                    type='time'
-                    name='waktu-dipanggil'
-                    id='waktu-dipanggil'
-                    value={props.waktuDipanggil}
-                    onChange={(e) => {
-                      props.setWaktuDipanggil(e.target.value);
-                    }}
-                    className='appearance-none w-32 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                  />
+                <div className='flex flex-wrap lg:flex-row items-center my-2'>
+                  <div className='flex flex-row'>
+                    <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                      waktu dipanggil :
+                    </p>
+                    <span className='font-semibold text-user6'>*</span>
+                    <div className='relative w-32 mx-3'>
+                      {!isDisabled ? (
+                        <Datetime
+                          required
+                          value={
+                            props.waktuDipanggilDT
+                              ? props.waktuDipanggilDT
+                              : changeFormatTime(
+                                  props.singlePersonUmum.waktuSampai
+                                )
+                          }
+                          input={true}
+                          onChange={(e) => {
+                            const time = moment(e).format('HH:mm');
+                            props.setWaktuDipanggil(time);
+                            props.setWaktuDipanggilDT(e);
+                          }}
+                          inputProps={{
+                            className:
+                              'appearance-none w-32 h-min leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md',
+                          }}
+                          dateFormat={false}
+                          initialViewMode='time'
+                          timeFormat='hh:mm A'
+                          name='waktu-dipanggil'
+                        />
+                      ) : (
+                        <input
+                          disabled={isDisabled}
+                          type='text'
+                          name='waktu-dipanggil'
+                          value={formatTime(props.waktuDipanggil)}
+                          className='appearance-none w-32 h-min leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                        />
+                      )}
+                      <span>
+                        <FaClock className='absolute top-2.5 right-1 text-user3' />
+                      </span>
+                    </div>
+                  </div>
+                  <div className='text-sm text-left mx-2 ml-auto lg:ml-0'>
+                    <p className='font-semibold text-user9'>
+                      Waktu Sampai :{' '}
+                      {changeFormatTime(props.singlePersonUmum.waktuSampai)}
+                    </p>
+                    <p className='font-semibold text-user9 text-xs'>
+                      durasi :
+                      {durationTime(
+                        props.singlePersonUmum.waktuSampai,
+                        props.waktuDipanggil
+                      ) > 0
+                        ? `${
+                            durationTime(
+                              props.singlePersonUmum.waktuSampai,
+                              props.waktuDipanggil
+                            ) + ' minit'
+                          }`
+                        : 'Pastikan waktu dipanggil melebihi waktu sampai'}
+                    </p>
+                  </div>
                 </div>
                 {props.allUsedKPBMPB.length > 0 && (
                   <div className='flex flex-row items-center'>
@@ -349,7 +417,7 @@ export default function Pemeriksaan(props) {
             className={` grid mt-3 mb-3 w-full ${
               props.singlePersonUmum.kedatangan === 'baru-kedatangan'
                 ? 'col-span-2 grid-cols-1 lg:grid-cols-2 gap-2'
-                : 'col-span-1 grid-cols-1'
+                : 'col-span-2 grid-cols-1'
             }`}
           >
             {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
