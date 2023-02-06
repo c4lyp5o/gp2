@@ -166,8 +166,9 @@ const start = async () => {
   }
 };
 
-start().then(() => {
-  console.log('Server has started, starting ETL... Warp drives engaged!');
-  logger.info('Server has started, starting ETL... Warp drives engaged!');
-  startETL();
-});
+start();
+// .then(() => {
+//   startETL();
+//   console.log('Server has started, starting ETL... Warp drives engaged!');
+//   logger.info('Server has started, starting ETL... Warp drives engaged!');
+// });
