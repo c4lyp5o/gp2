@@ -6,7 +6,6 @@ const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
 const MediaSosial = require('../models/MediaSosial');
-const Fasiliti = require('../models/Fasiliti');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
