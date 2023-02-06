@@ -6,6 +6,7 @@ const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
 const logger = require('../logs/logger');
@@ -162,6 +163,7 @@ const downloader = async (req, res, callback) => {
     tarikhAkhir,
     bulan,
     id,
+    fromEtl,
   } = req.query;
   // check if there is any query
   if (!jenisReten) {
@@ -198,6 +200,7 @@ const downloader = async (req, res, callback) => {
     username = `Kaunter ${kp}`;
   }
   const payload = {
+    jenisReten,
     username,
     id,
     accountType,
@@ -212,6 +215,7 @@ const downloader = async (req, res, callback) => {
     tarikhMula,
     tarikhAkhir,
     bulan,
+    fromEtl,
   };
   logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
   let excelFile;
@@ -251,6 +255,9 @@ const downloader = async (req, res, callback) => {
       break;
     case 'PGPRO01':
       excelFile = await makePgPro01(payload);
+      break;
+    case 'PGPRO01Combined':
+      excelFile = await makePgPro01Combined(payload);
       break;
     case 'GENDER':
       excelFile = await makeGender(payload);
@@ -831,9 +838,19 @@ const makePG101C = async (payload) => {
 const makePG211A = async (payload) => {
   console.log('PG211A');
   try {
-    const { klinik, daerah, negeri, bulan, username } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG211A(payload);
+    let data = [];
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPG211A(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -942,9 +959,19 @@ const makePG211A = async (payload) => {
 const makePG211C = async (payload) => {
   console.log('PG211C');
   try {
-    const { klinik, daerah, negeri, bulan, username } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG211C(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPG211C(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1053,18 +1080,28 @@ const makePG211C = async (payload) => {
 const makePG214 = async (payload) => {
   console.log('PG214');
   try {
-    const { klinik, daerah, negeri, bulan, username } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG214(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPG214(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
     }
     //
-    // if (klinik !== 'all') {
-    //   const currentKlinik = await User.findOne({ kodFasiliti: klinik });
-    //   klinik = currentKlinik.kp;
-    // }
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
     //
     let filename = path.join(
       __dirname,
@@ -1136,9 +1173,19 @@ const makePG214 = async (payload) => {
 const makePG206 = async (payload) => {
   console.log('PG206');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG206(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPG206(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1178,7 +1225,7 @@ const makePG206 = async (payload) => {
     // let j = 0;
     for (let i = 0; i < data[0].length; i++) {
       // j += 2;
-      let row = worksheet.getRow(16 + i);
+      let row = worksheet.getRow(17 + i);
       if (data[0][i].queryPemeriksaan[0]) {
         // pemeriksaan
         row.getCell(2).value =
@@ -1410,9 +1457,19 @@ const makePG206 = async (payload) => {
 const makePG207 = async (payload) => {
   console.log('PG207');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countPG207(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPG207(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -1442,8 +1499,8 @@ const makePG207 = async (payload) => {
     worksheet.getCell('AU5').value = yearNow;
 
     worksheet.getCell('B7').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B8').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B9').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('B8').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('B9').value = `${negeri.toUpperCase()}`;
 
     // if (pegawai) {
     //   let intro4 = worksheet.getRow(10);
@@ -1776,7 +1833,7 @@ const makePG207 = async (payload) => {
 const makePG201 = async (payload) => {
   console.log('PG201');
   try {
-    const { kp, daerah, negeri, bulan, sekolah } = payload;
+    let { kp, daerah, negeri, bulan, sekolah } = payload;
     //
     const data = await Helper.countPG201(kp, sekolah);
     //
@@ -2010,9 +2067,18 @@ const makePG201 = async (payload) => {
 const makePGS203P2 = async (payload) => {
   console.log('PGS203P2');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countPGS203(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPGS203(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2178,10 +2244,24 @@ const makePGPR201 = async (payload) => {
   //Formula and excel baru lagi..(dapat dari Dr. Adib 22-01-2023)
   console.log('PGPR201Baru');
   try {
-    const { klinik, daerah, negeri, bulan } = payload;
+    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
     console.log('Cuba Uji Test');
-    const data = await Helper.countPGPR201Baru(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query);
+        break;
+      default:
+        data = await Helper.countPGPR201Baru(payload);
+        break;
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2320,12 +2400,27 @@ const makePGPR201 = async (payload) => {
 const makePgPro01 = async (payload) => {
   console.log('makePgPro01');
   try {
-    const { pegawai, klinik, daerah, negeri, bulan } = payload;
+    let { pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
     //
-    const data = await Helper.countPGPro01(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPGPro01(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
     }
     //
     let filename = path.join(
@@ -2333,93 +2428,92 @@ const makePgPro01 = async (payload) => {
       '..',
       'public',
       'exports',
-      'PGPRO01_KP_FULL.xlsx'
+      'PGPRO01_2023_Kod_Program.xlsx'
     );
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('KLINIK_PGPRO01 BARU_FFR_Penuh');
+    let worksheet = workbook.getWorksheet('INDIVIDU_PGPRO01 BARU_FFR_Kod P');
 
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
-    // let details = worksheet.getRow(6);
-    // details.getCell(
-    //   2
-    // ).value = `BAGI BULAN ${monthName.toUpperCase()} TAHUN ${yearNow}`;
+    worksheet.getCell('N6').value = monthName.toUpperCase();
+    worksheet.getCell('S6').value = yearNow;
 
-    // let intro1 = worksheet.getRow(7);
-    // intro1.getCell(2).value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('AQ6').value = monthName.toUpperCase();
+    worksheet.getCell('AV6').value = yearNow;
 
-    // let intro2 = worksheet.getRow(8);
-    // intro2.getCell(2).value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('D8').value = negeri.toUpperCase();
+    worksheet.getCell('D9').value = daerah.toUpperCase();
+    worksheet.getCell('D10').value = klinik.toUpperCase();
+    worksheet.getCell('D11').value = pegawai ? pegawai.toUpperCase() : '';
 
-    // let intro3 = worksheet.getRow(9);
-    // intro3.getCell(2).value = `${negeri.toUpperCase()}`;
-
-    // if (pegawai) {
-    //   let intro4 = worksheet.getRow(10);
-    //   intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
-    // }
-    //
+    let j = 0;
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(16 + i);
-      if (data[i]) {
-        rowNew.getCell(5).value = data[i].jumlahAktivitiCeramahBaru; //C15
-        rowNew.getCell(6).value = data[i].jumlahPesertaCeramahBaru; //D15
-        rowNew.getCell(7).value = data[i].jumlahAktivitiCeramahUlangan; //E15
-        rowNew.getCell(8).value = data[i].jumlahPesertaCeramahUlangan; //F15
-        rowNew.getCell(9).value = data[i].jumlahAktivitiBaruLMG; //G15
-        rowNew.getCell(10).value = data[i].jumlahPesertaBaruLMG; //H15
-        rowNew.getCell(11).value = data[i].jumlahAktivitiUlanganLMG; //I15
-        rowNew.getCell(12).value = data[i].jumlahPesertaUlanganLMG; //J15
-        rowNew.getCell(13).value = data[i].jumlahAktivitiPerananKempen; //K15
-        rowNew.getCell(14).value = data[i].jumlahPesertaPerananKempen; //L15
-        rowNew.getCell(15).value = data[i].jumlahAktivitiBoneka; //M15
-        rowNew.getCell(16).value = data[i].jumlahPesertaBoneka; //N15
-        rowNew.getCell(17).value = data[i].jumlahAktivitiPeranan; //O15
-        rowNew.getCell(18).value = data[i].jumlahPesertaPeranan; //P15
-        rowNew.getCell(19).value = data[i].jumlahAktivitiBercerita; //Q15
-        rowNew.getCell(20).value = data[i].jumlahPesertaBercerita; //R15
-        rowNew.getCell(21).value = data[i].jumlahAktivitiPertandingan; //S15
-        rowNew.getCell(22).value = data[i].jumlahPesertaPertandingan; //T15
-        rowNew.getCell(23).value = data[i].jumlahAktivitiInteraktif; //U15
-        rowNew.getCell(24).value = data[i].jumlahPesertaInteraktif; //V15
-        rowNew.getCell(25).value = data[i].jumlahAktivitiKursusSeminarBengkel; //W15
-        rowNew.getCell(26).value = data[i].jumlahPesertaKursusSeminarBengkel; //X15
-        rowNew.getCell(27).value = data[i].jumlahAktivitiMultimedia; //Y15
-        rowNew.getCell(28).value = data[i].jumlahPesertaMultimedia; //Z15
-        rowNew.getCell(29).value = data[i].jumlahAktivitiDentalBuskers; //AA15
-        rowNew.getCell(30).value = data[i].jumlahPesertaDentalBuskers; //AB15
-        rowNew.getCell(31).value = data[i].jumlahAktivitiFlashMob; //AC15
-        rowNew.getCell(32).value = data[i].jumlahPesertaFlashMob; //AD15
-        rowNew.getCell(33).value = data[i].jumlahAktivitiLawatanRumah; //AE15
-        rowNew.getCell(34).value = data[i].jumlahPesertaLawatanRumah; //AF15
-        rowNew.getCell(35).value = data[i].jumlahAktivitiPlaqueOHE; //AG15
-        rowNew.getCell(36).value = data[i].jumlahPesertaPlaqueOHE; //AH15
-        rowNew.getCell(37).value = data[i].jumlahAktivitiOHI; //AI15
-        rowNew.getCell(38).value = data[i].jumlahPesertaOHI; //AJ15
-        rowNew.getCell(39).value = data[i].jumlahAktivitiDietAdvice; //AK15
-        rowNew.getCell(40).value = data[i].jumlahPesertaDietAdvice; //AL15
-        rowNew.getCell(41).value = data[i].jumlahAktivitiKanserMulutOHE; //AM15
-        rowNew.getCell(42).value = data[i].jumlahPesertaKanserMulutOHE; //AN15
-        rowNew.getCell(43).value = data[i].jumlahAKtivitiHentiRokok; //AO15
-        rowNew.getCell(44).value = data[i].jumlahPesertaHentiRokok; //AP15
-        rowNew.getCell(45).value = data[i].jumlahAktivitiHentiSirih; //AQ15
-        rowNew.getCell(46).value = data[i].jumlahPesertaHentiSirih; //AR15
-        rowNew.getCell(47).value = data[i].jumlahAktivitiHentiAlkohol; //AS15
-        rowNew.getCell(48).value = data[i].jumlahPesertaHentiAlkohol; //AT15
-        rowNew.getCell(49).value = data[i].jumlahAktivitiHentiTabiatLain; //AU15
-        rowNew.getCell(50).value = data[i].jumlahPesertaHentiTabiatLain; //AV15
-        rowNew.getCell(51).value = data[i].jumlahAktivitiTelevisyen; //AY15
-        rowNew.getCell(52).value = data[i].jumlahPesertaTelevisyen; //AZ15
-        rowNew.getCell(53).value = data[i].jumlahAktivitiRadio; //BA15
-        rowNew.getCell(54).value = data[i].jumlahPesertaRadio; //BB15
-        rowNew.getCell(55).value = data[i].jumlahAktivitiCetak; //BC15
+      let rowNew = worksheet.getRow(19 + i);
+      if (data[j]) {
+        rowNew.getCell(5).value = data[j].jumlahAktivitiCeramahBaru; //C15
+        rowNew.getCell(6).value = data[j].jumlahPesertaCeramahBaru; //D15
+        if (i > 35 && i < 43) {
+          rowNew.getCell(7).value = data[j].jumlahAktivitiCeramahUlangan; //E15
+          rowNew.getCell(8).value = data[j].jumlahPesertaCeramahUlangan; //F15
+        }
+        rowNew.getCell(9).value = data[j].jumlahAktivitiBaruLMG; //G15
+        rowNew.getCell(10).value = data[j].jumlahPesertaBaruLMG; //H15
+        if (i > 35 && i < 43) {
+          rowNew.getCell(11).value = data[j].jumlahAktivitiUlanganLMG; //I15
+          rowNew.getCell(12).value = data[j].jumlahPesertaUlanganLMG; //J15
+        }
+        rowNew.getCell(13).value = data[j].jumlahAktivitiPerananKempen; //K15
+        rowNew.getCell(14).value = data[j].jumlahPesertaPerananKempen; //L15
+        rowNew.getCell(15).value = data[j].jumlahAktivitiBoneka; //M15
+        rowNew.getCell(16).value = data[j].jumlahPesertaBoneka; //N15
+        rowNew.getCell(17).value = data[j].jumlahAktivitiPeranan; //O15
+        rowNew.getCell(18).value = data[j].jumlahPesertaPeranan; //P15
+        rowNew.getCell(19).value = data[j].jumlahAktivitiBercerita; //Q15
+        rowNew.getCell(20).value = data[j].jumlahPesertaBercerita; //R15
+        rowNew.getCell(21).value = data[j].jumlahAktivitiPertandingan; //S15
+        rowNew.getCell(22).value = data[j].jumlahPesertaPertandingan; //T15
+        rowNew.getCell(23).value = data[j].jumlahAktivitiInteraktif; //U15
+        rowNew.getCell(24).value = data[j].jumlahPesertaInteraktif; //V15
+        rowNew.getCell(25).value = data[j].jumlahAktivitiKursusSeminarBengkel; //W15
+        rowNew.getCell(26).value = data[j].jumlahPesertaKursusSeminarBengkel; //X15
+        rowNew.getCell(27).value = data[j].jumlahAktivitiMultimedia; //Y15
+        rowNew.getCell(28).value = data[j].jumlahPesertaMultimedia; //Z15
+        rowNew.getCell(29).value = data[j].jumlahAktivitiDentalBuskers; //AA15
+        rowNew.getCell(30).value = data[j].jumlahPesertaDentalBuskers; //AB15
+        rowNew.getCell(31).value = data[j].jumlahAktivitiFlashMob; //AC15
+        rowNew.getCell(32).value = data[j].jumlahPesertaFlashMob; //AD15
+        rowNew.getCell(33).value = data[j].jumlahAktivitiLawatanRumah; //AE15
+        rowNew.getCell(34).value = data[j].jumlahPesertaLawatanRumah; //AF15
+        rowNew.getCell(35).value = data[j].jumlahAktivitiPlaqueOHE; //AG15
+        rowNew.getCell(36).value = data[j].jumlahPesertaPlaqueOHE; //AH15
+        rowNew.getCell(37).value = data[j].jumlahAktivitiOHI; //AI15
+        rowNew.getCell(38).value = data[j].jumlahPesertaOHI; //AJ15
+        rowNew.getCell(39).value = data[j].jumlahAktivitiDietAdvice; //AK15
+        rowNew.getCell(40).value = data[j].jumlahPesertaDietAdvice; //AL15
+        rowNew.getCell(41).value = data[j].jumlahAktivitiKanserMulutOHE; //AM15
+        rowNew.getCell(42).value = data[j].jumlahPesertaKanserMulutOHE; //AN15
+        rowNew.getCell(43).value = data[j].jumlahAKtivitiHentiRokok; //AO15
+        rowNew.getCell(44).value = data[j].jumlahPesertaHentiRokok; //AP15
+        rowNew.getCell(45).value = data[j].jumlahAktivitiHentiSirih; //AQ15
+        rowNew.getCell(46).value = data[j].jumlahPesertaHentiSirih; //AR15
+        rowNew.getCell(47).value = data[j].jumlahAktivitiHentiAlkohol; //AS15
+        rowNew.getCell(48).value = data[j].jumlahPesertaHentiAlkohol; //AT15
+        rowNew.getCell(49).value = data[j].jumlahAktivitiHentiTabiatLain; //AU15
+        rowNew.getCell(50).value = data[j].jumlahPesertaHentiTabiatLain; //AV15
+        rowNew.getCell(51).value = data[j].jumlahAktivitiTelevisyen; //AY15
+        rowNew.getCell(52).value = data[j].jumlahPesertaTelevisyen; //AZ15
+        rowNew.getCell(53).value = data[j].jumlahAktivitiRadio; //BA15
+        rowNew.getCell(54).value = data[j].jumlahPesertaRadio; //BB15
+        rowNew.getCell(55).value = data[j].jumlahAktivitiCetak; //BC15
+      }
+      j++;
+      if (i === 21 || i === 22 || i === 27 || i === 34 || i === 37) {
+        j++;
       }
     }
-
-    console.log(data);
 
     const newfile = makeFile(payload, 'PGPRO01');
 
@@ -2429,7 +2523,136 @@ const makePgPro01 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 30000);
+    }, 3000);
+    // read file
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+    return file;
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ message: err.message });
+  }
+};
+const makePgPro01Combined = async (payload) => {
+  console.log('makePgPro01Combined');
+  try {
+    let { pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
+    //
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countPGPro01Combined(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PGPRO01_2023_FFR.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('INDIVIDU_PGPRO 01 BARU_FFR');
+
+    const monthName = moment(bulan).format('MMMM');
+    const yearNow = moment(new Date()).format('YYYY');
+
+    worksheet.getCell('L6').value = monthName.toUpperCase();
+    worksheet.getCell('Q6').value = yearNow;
+
+    worksheet.getCell('AO6').value = monthName.toUpperCase();
+    worksheet.getCell('AT6').value = yearNow;
+
+    worksheet.getCell('E8').value = negeri.toUpperCase();
+    worksheet.getCell('E9').value = daerah.toUpperCase();
+    worksheet.getCell('E10').value = klinik.toUpperCase();
+    worksheet.getCell('E11').value = pegawai ? pegawai.toUpperCase() : '';
+
+    for (let i = 0; i < data.length; i++) {
+      let rowNew = worksheet.getRow(19 + i);
+      if (data[i]) {
+        rowNew.getCell(3).value = data[i].jumlahAktivitiCeramahBaru; //C15
+        rowNew.getCell(4).value = data[i].jumlahPesertaCeramahBaru; //D15
+        if (i > 8 && i < 16) {
+          rowNew.getCell(5).value = data[i].jumlahAktivitiCeramahUlangan; //E15
+          rowNew.getCell(6).value = data[i].jumlahPesertaCeramahUlangan; //F15
+        }
+        rowNew.getCell(7).value = data[i].jumlahAktivitiBaruLMG; //G15
+        rowNew.getCell(8).value = data[i].jumlahPesertaBaruLMG; //H15
+        if (i > 8 && i < 16) {
+          rowNew.getCell(9).value = data[i].jumlahAktivitiUlanganLMG; //I15
+          rowNew.getCell(10).value = data[i].jumlahPesertaUlanganLMG; //J15
+        }
+        rowNew.getCell(11).value = data[i].jumlahAktivitiPerananKempen; //K15
+        rowNew.getCell(12).value = data[i].jumlahPesertaPerananKempen; //L15
+        rowNew.getCell(13).value = data[i].jumlahAktivitiBoneka; //M15
+        rowNew.getCell(14).value = data[i].jumlahPesertaBoneka; //N15
+        rowNew.getCell(15).value = data[i].jumlahAktivitiPeranan; //O15
+        rowNew.getCell(16).value = data[i].jumlahPesertaPeranan; //P15
+        rowNew.getCell(17).value = data[i].jumlahAktivitiBercerita; //Q15
+        rowNew.getCell(18).value = data[i].jumlahPesertaBercerita; //R15
+        rowNew.getCell(19).value = data[i].jumlahAktivitiPertandingan; //S15
+        rowNew.getCell(20).value = data[i].jumlahPesertaPertandingan; //T15
+        rowNew.getCell(21).value = data[i].jumlahAktivitiInteraktif; //U15
+        rowNew.getCell(22).value = data[i].jumlahPesertaInteraktif; //V15
+        rowNew.getCell(23).value = data[i].jumlahAktivitiKursusSeminarBengkel; //W15
+        rowNew.getCell(24).value = data[i].jumlahPesertaKursusSeminarBengkel; //X15
+        rowNew.getCell(25).value = data[i].jumlahAktivitiMultimedia; //Y15
+        rowNew.getCell(26).value = data[i].jumlahPesertaMultimedia; //Z15
+        rowNew.getCell(27).value = data[i].jumlahAktivitiDentalBuskers; //AA15
+        rowNew.getCell(28).value = data[i].jumlahPesertaDentalBuskers; //AB15
+        rowNew.getCell(29).value = data[i].jumlahAktivitiFlashMob; //AC15
+        rowNew.getCell(30).value = data[i].jumlahPesertaFlashMob; //AD15
+        rowNew.getCell(31).value = data[i].jumlahAktivitiLawatanRumah; //AE15
+        rowNew.getCell(32).value = data[i].jumlahPesertaLawatanRumah; //AF15
+        rowNew.getCell(33).value = data[i].jumlahAktivitiPlaqueOHE; //AG15
+        rowNew.getCell(34).value = data[i].jumlahPesertaPlaqueOHE; //AH15
+        rowNew.getCell(35).value = data[i].jumlahAktivitiOHI; //AI15
+        rowNew.getCell(36).value = data[i].jumlahPesertaOHI; //AJ15
+        rowNew.getCell(37).value = data[i].jumlahAktivitiDietAdvice; //AK15
+        rowNew.getCell(38).value = data[i].jumlahPesertaDietAdvice; //AL15
+        rowNew.getCell(39).value = data[i].jumlahAktivitiKanserMulutOHE; //AM15
+        rowNew.getCell(40).value = data[i].jumlahPesertaKanserMulutOHE; //AN15
+        rowNew.getCell(41).value = data[i].jumlahAKtivitiHentiRokok; //AO15
+        rowNew.getCell(42).value = data[i].jumlahPesertaHentiRokok; //AP15
+        rowNew.getCell(43).value = data[i].jumlahAktivitiHentiSirih; //AQ15
+        rowNew.getCell(44).value = data[i].jumlahPesertaHentiSirih; //AR15
+        rowNew.getCell(45).value = data[i].jumlahAktivitiHentiAlkohol; //AS15
+        rowNew.getCell(46).value = data[i].jumlahPesertaHentiAlkohol; //AT15
+        rowNew.getCell(47).value = data[i].jumlahAktivitiHentiTabiatLain; //AU15
+        rowNew.getCell(48).value = data[i].jumlahPesertaHentiTabiatLain; //AV15
+        rowNew.getCell(49).value = data[i].jumlahAktivitiTelevisyen; //AY15
+        rowNew.getCell(50).value = data[i].jumlahPesertaTelevisyen; //AZ15
+        rowNew.getCell(51).value = data[i].jumlahAktivitiRadio; //BA15
+        rowNew.getCell(52).value = data[i].jumlahPesertaRadio; //BB15
+        rowNew.getCell(53).value = data[i].jumlahAktivitiCetak; //BC15
+      }
+    }
+    const newfile = makeFile(payload, 'PGPRO01Combined');
+
+    // Write the file
+    await workbook.xlsx.writeFile(newfile);
+    console.log('writing file');
+    setTimeout(() => {
+      fs.unlinkSync(newfile); // delete this file after 30 seconds
+      console.log('deleting file');
+    }, 3000);
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
@@ -2441,12 +2664,27 @@ const makePgPro01 = async (payload) => {
 const makeGender = async (payload) => {
   console.log('makeGender');
   try {
-    const { pegawai, klinik, daerah, negeri, bulan, username } = payload;
+    let { pegawai, klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
-    const data = await Helper.countGender(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countGender(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
     }
     //
     let filename = path.join(
@@ -2620,9 +2858,19 @@ const makeGender = async (payload) => {
 const makeMasa = async (payload) => {
   console.log('makeMasa');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countMasa(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countMasa(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -2794,9 +3042,19 @@ const makeMasa = async (payload) => {
 const makeBp = async (payload) => {
   console.log('Reten BP');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countBp(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countBp(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -3099,9 +3357,19 @@ const makeBp = async (payload) => {
 const makeBPE = async (payload) => {
   console.log('Reten BPE');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username } = payload;
+    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
-    const data = await Helper.countBPE(payload);
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        const ETL = await Reservoir.find(query);
+        data = ETL[0].data;
+        break;
+      default:
+        data = await Helper.countBPE(payload);
+        break;
+    }
     //
     if (data.length === 0) {
       return 'No data found';
@@ -3201,19 +3469,20 @@ const makeBPE = async (payload) => {
 // debug
 exports.debug = async (req, res) => {
   let payload = {
-    negeri: 'Johor',
+    negeri: 'WP Kuala Lumpur',
     // daerah: 'Arau',
-    daerah: 'all',
+    daerah: 'Zon Lembah Pantai',
     // klinik: 'Klinik Pergigian Kaki Bukit',
-    klinik: 'R01-002-02',
+    klinik: 'W03-001-01',
     bulan: '2023-01-01',
   };
-  const data = await makePgPro01(payload);
+  const data = await makePG206(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
-  res.setHeader('Content-Type', 'application/vnd.ms-excel');
-  res.status(200).send(data);
+  // res.setHeader('Content-Type', 'application/vnd.ms-excel');
+  // res.status(200).send(data);
+  res.status(200).json(data);
 };
 
 // helper
@@ -3243,4 +3512,22 @@ const fileName = (params, reten) => {
     // `test-${params}-${reten}.xlsx`
     `${params}.xlsx`
   );
+};
+
+const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
+  console.log(jenisReten, klinik, daerah, negeri, bulan);
+  let query = {};
+  if (klinik !== 'all') {
+    query.createdByKodFasiliti = klinik;
+  }
+  if (daerah !== 'all') {
+    query.createdByDaerah = daerah;
+  }
+  if (negeri !== 'all') {
+    query.createdByNegeri = negeri;
+  }
+  query.dataType = jenisReten;
+  query.dataFormat = 'Monthly';
+  query.dataDate = moment(bulan).endOf('month').format('YYYY-MM-DD');
+  return query;
 };
