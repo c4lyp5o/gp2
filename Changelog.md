@@ -1,5 +1,36 @@
 # Changelog
 
+### Unreleased
+
+#### e-Reporting
+
+- Setiap reten yang dijana mempunyai _stamping_ dari sistem yang betul
+- Penjanaan reten dibuka di modul Pentadbir bagi Pentadbir Negeri & Pentadbir Daerah
+- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan bulanan yang hanya wujud pada 7hb bulan seterusnya)
+
+### 7/2/2023 (v2.0.11)
+
+#### Added
+
+- Menambah ruangan maklumat tambahan yang mengandungi no telefon & email pesakit di submodul Senarai Daftar Pesakit di modul Pendaftaran
+- Mengeluarkan kiraan perbezaan waktu sampai & waktu dipanggil di borang pesakit umum bagi pesakit fasiliti klinik pergigian
+
+#### Changed
+
+- Notifikasi amaran "Taska/Tadika Telah Wujud" ketika menambah taska/tadika yang mempunyai kod Taska/Tadika yang sama di modul Pentadbir bagi Pentadbir Daerah diubah kepada "Kod Taska/Tadika ini telah wujud"
+- Pengenalan diri pesakit dipaparkan dengan huruf besar atau huruf kecil yang asal di semua modul yang berkaitan
+- Waktu dipanggil wajib diisi hanya untuk pesakit fasiliti klinik pergigian sahaja
+
+#### Fixed
+
+- Umur dikira semula dengan betul sekiranya pendaftaran menggunakan maklumat pesakit sedia ada
+- Masa & tarikh di dalam sistem diperbetulkan dengan lebih kemas supaya penentuan tarikh, _timezone_ & masa adalah betul dan ditetapkan daripada sistem
+
+#### e-Reporting
+
+- PG101A yang dijana dari modul Pendaftaran diperbetulkan sususan dan _alignment_ setiap kolum
+- PG101A yang dijana dari modul Pendaftaran mempunyai _stamping_ dari sistem yang betul
+
 ### 31/1/2023 (v2.0.10)
 
 #### Added
