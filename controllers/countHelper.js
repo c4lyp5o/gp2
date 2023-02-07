@@ -2201,10 +2201,9 @@ const countPG206 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    { $gte: ['$umur', 6] },
+                    { $gt: ['$umur', 6] },
                     { $lte: ['$umur', 18] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
@@ -3705,13 +3704,11 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207(payload),
       ibuMengandung: true,
-      // orangKurangUpaya: false,
     },
   };
   const match_oku = {
     $match: {
       ...getParams207(payload),
-      // ibuMengandung: false,
       orangKurangUpaya: true,
     },
   };
