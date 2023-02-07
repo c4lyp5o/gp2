@@ -73,7 +73,7 @@ function UserFormPromosi({ individuOrKlinik }) {
       }
     };
     fetchAllProgramPromosi();
-  }, []);
+  }, [reliefUserToken, userToken]);
 
   useEffect(() => {
     const fetchSingleAktivitiPromosi = async () => {
@@ -96,7 +96,7 @@ function UserFormPromosi({ individuOrKlinik }) {
       }
     };
     fetchSingleAktivitiPromosi();
-  }, []);
+  }, [reliefUserToken, userToken]);
 
   const handleSubmit = async (e) => {
     await toast
