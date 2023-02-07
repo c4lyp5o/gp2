@@ -183,12 +183,12 @@ const queryAktivitiPromosi = async (req, res) => {
     queryObject.promosiKlinik = true;
   }
 
-  if (kodProgram) {
-    queryObject.kodProgram = kodProgram;
-  }
-  if (!kodProgram) {
-    return res.status(200).json({ aktivitiPromosiResultQuery: [] });
-  }
+  // if (kodProgram) {
+  //   queryObject.kodProgram = kodProgram;
+  // }
+  // if (!kodProgram) {
+  //   return res.status(200).json({ aktivitiPromosiResultQuery: [] });
+  // }
 
   const aktivitiPromosiResultQuery = await Promosi.find(queryObject);
 
