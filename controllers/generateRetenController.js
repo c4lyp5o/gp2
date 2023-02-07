@@ -6,6 +6,8 @@ const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Event = require('../models/Event');
+const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
@@ -28,10 +30,9 @@ exports.startQueue = async function (req, res) {
   //
   const { jenisReten, fromEtl } = req.query;
   //
-  console.log(accountType, jenisReten, fromEtl, process.env.BUILD_ENV);
   if (
     accountType !== 'kaunterUser' &&
-    fromEtl === false &&
+    fromEtl === 'false' &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
     console.log('not kaunter user n from etl');
@@ -101,7 +102,7 @@ exports.startQueue = async function (req, res) {
       if (
         process.env.BUILD_ENV === 'production' &&
         accountType !== 'kaunterUser' &&
-        fromEtl === false &&
+        fromEtl === 'false' &&
         (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
       ) {
         let userTokenData = await GenerateToken.findOne({
@@ -289,7 +290,16 @@ const downloader = async (req, res, callback) => {
 const makePG101A = async (payload) => {
   console.log('PG101A');
   try {
-    let { klinik, daerah, negeri, username } = payload;
+    let kkia, program, kpbmpb;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      pilihanKkia,
+      pilihanProgram,
+      pilihanKpbmpb,
+      username,
+    } = payload;
     //
     const data = await Helper.countPG101A(payload);
     //
@@ -300,6 +310,14 @@ const makePG101A = async (payload) => {
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({ kodFasiliti: klinik });
       klinik = currentKlinik.kp;
+    }
+    if (pilihanKkia) {
+      const currentKkia = await Fasiliti.findOne({ kodKkiaKd: pilihanKkia });
+      kkia = currentKkia.nama;
+    }
+    if (pilihanProgram) {
+      const currentProgram = await Event.findOne({ nama: pilihanProgram });
+      program = currentProgram.nama;
     }
     //
     let filename = path.join(
@@ -324,13 +342,17 @@ const makePG101A = async (payload) => {
     intro1.getCell(2).value = 'PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()} ${
+      kkia ? kkia.split(' | ')[1].toUpperCase() : ''
+    } ${program ? program.toUpperCase() : ''} ${
+      kpbmpb ? kpbmpb.toUpperCase() : ''
+    }`;
 
     let intro3 = worksheet.getRow(8);
-    intro3.getCell(2).value = `${daerah ? daerah.toUpperCase() : null}`;
+    intro3.getCell(2).value = `${daerah ? daerah.toUpperCase() : ''}`;
 
     let intro4 = worksheet.getRow(9);
-    intro4.getCell(2).value = `${negeri ? negeri.toUpperCase() : null}`;
+    intro4.getCell(2).value = `${negeri ? negeri.toUpperCase() : ''}`;
     //
     for (let i = 0; i < data.length; i++) {
       worksheet.getRow(16 + i).height = 33;
