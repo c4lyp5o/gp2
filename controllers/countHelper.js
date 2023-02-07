@@ -74,7 +74,7 @@ const countPG101C = async (payload) => {
 
   const project = {
     $project: {
-      _id: 0,
+      _id: placeModifier(payload),
       tarikhKedatangan: '$tarikhKedatangan',
       noSiri: '$noSiri',
       noPendaftaranBaru: '$noPendaftaranBaru',
@@ -2201,10 +2201,9 @@ const countPG206 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    { $gte: ['$umur', 6] },
+                    { $gt: ['$umur', 6] },
                     { $lte: ['$umur', 18] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
@@ -3401,10 +3400,9 @@ const countPG207 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    { $gte: ['$umur', 6] },
+                    { $gt: ['$umur', 6] },
                     { $lte: ['$umur', 18] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
@@ -3705,13 +3703,11 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207(payload),
       ibuMengandung: true,
-      // orangKurangUpaya: false,
     },
   };
   const match_oku = {
     $match: {
       ...getParams207(payload),
-      // ibuMengandung: false,
       orangKurangUpaya: true,
     },
   };
@@ -13427,6 +13423,7 @@ const countGender = async (payload) => {
 
   const pesakitLelakiOutreach1859 = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
@@ -13436,6 +13433,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanOutreach1859 = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
@@ -13501,6 +13499,7 @@ const countGender = async (payload) => {
 
   const pesakitLelakiOutreach60above = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'lelaki',
       umur: { $gte: 60 },
@@ -13510,6 +13509,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanOutreach60above = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'perempuan',
       umur: { $gte: 60 },
@@ -13623,7 +13623,7 @@ const countGender = async (payload) => {
 
   for (let i = 0; i < match_stage_lelaki.length; i++) {
     const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
-    dataLelaki.push(result);
+    dataLelaki.push(result[0]);
   }
 
   for (let i = 0; i < match_stage_perempuan.length; i++) {
@@ -13631,7 +13631,7 @@ const countGender = async (payload) => {
       match_stage_perempuan[i],
       group_stage,
     ]);
-    dataPerempuan.push(result);
+    dataPerempuan.push(result[0]);
   }
 
   bigData.push({ dataLelaki });
@@ -14708,11 +14708,11 @@ const getParams = (payload, reten) => {
   } = payload;
 
   const AorC = (reten) => {
-    if (reten === 'A') {
-      return { $eq: 'kp' };
+    if (reten === 'A' || reten === undefined) {
+      return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
-      return { $ne: 'kp' };
+      return { $nin: ['kp', 'kk-kd'] };
     }
   };
 
@@ -14720,11 +14720,7 @@ const getParams = (payload, reten) => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: {
         $eq: klinik,
@@ -14778,11 +14774,7 @@ const getParams = (payload, reten) => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14840,11 +14832,7 @@ const getParams = (payload, reten) => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14903,14 +14891,14 @@ const getParams = (payload, reten) => {
   }
 };
 const getParams2 = (payload, reten) => {
-  const { negeri, daerah, klinik, bulan } = payload;
+  const { negeri, daerah, klinik } = payload;
 
   const AorC = (reten) => {
     if (reten === 'A' || reten === undefined) {
       return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
-      return { $ne: 'kp' };
+      return { $nin: ['kp', 'kk-kd'] };
     }
   };
 
@@ -15289,13 +15277,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
   //
   const opAtauTemujanji = (jenis) => {
     if (jenis === 'op') {
-      return {
-        temujanji: false,
-      };
-    } else {
-      return {
-        temujanji: true,
-      };
+      return false;
+    }
+    if (jenis === 'temujanji') {
+      return true;
     }
   };
 
@@ -15304,8 +15289,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
       createdByKodFasiliti: klinik,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      ...opAtauTemujanji(jenis),
+      waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      temujanji: opAtauTemujanji(jenis),
     };
     return param;
   };
@@ -15314,8 +15301,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
     let param = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      ...opAtauTemujanji(jenis),
+      waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      temujanji: opAtauTemujanji(jenis),
     };
     return param;
   };
@@ -15323,8 +15312,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      ...opAtauTemujanji(jenis),
+      waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      temujanji: opAtauTemujanji(jenis),
     };
     return param;
   };
@@ -15529,11 +15520,7 @@ const dateModifier = (payload) => {
   if (bulan) {
     return {
       $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-      $lte: moment(bulan)
-        .add(1, 'month')
-        .startOf('month')
-        .add(6, 'days')
-        .format('YYYY-MM-DD'),
+      $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
     };
   }
 };
