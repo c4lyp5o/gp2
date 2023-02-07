@@ -14903,7 +14903,7 @@ const getParams = (payload, reten) => {
   }
 };
 const getParams2 = (payload, reten) => {
-  const { negeri, daerah, klinik, bulan } = payload;
+  const { negeri, daerah, klinik } = payload;
 
   const AorC = (reten) => {
     if (reten === 'A' || reten === undefined) {
