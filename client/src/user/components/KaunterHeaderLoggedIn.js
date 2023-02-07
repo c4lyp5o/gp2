@@ -1,11 +1,18 @@
 import { FaUserCircle, FaFingerprint } from 'react-icons/fa';
 import { useEffect, useState, useRef } from 'react';
 
+import { useGlobalUserAppContext } from '../context/userAppContext';
+
 import { ConfirmModalForLogOut } from '../../admin/components/Confirmation';
 import CountdownTimer from '../../admin/context/countdownTimer';
 
 function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
+  const { kaunterToken, setKaunterToken, refetchDateTime, setRefetchDateTime } =
+    useGlobalUserAppContext();
+
   const [showProfile, setShowProfile] = useState(false);
+
+  const [refetchState, setRefetchState] = useState(false);
 
   // dropdown profil
   let profilRef = useRef();
@@ -21,6 +28,25 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
       document.removeEventListener('mousedown', tutupProfil);
     };
   });
+
+  // refetch identity & datetime
+  useEffect(() => {
+    const refetchIdentityDatetime = () => {
+      setKaunterToken(localStorage.getItem('kaunterToken'));
+      setRefetchDateTime(!refetchDateTime);
+      console.log('refetch kaunter success');
+    };
+    refetchIdentityDatetime();
+  }, [refetchState]);
+
+  // refetch identity & refetch datetime on tab focus
+  useEffect(() => {
+    window.addEventListener('focus', setRefetchState);
+    setRefetchState(!refetchState);
+    return () => {
+      window.removeEventListener('focus', setRefetchState);
+    };
+  }, []);
 
   return (
     <ConfirmModalForLogOut callbackFunction={logout}>

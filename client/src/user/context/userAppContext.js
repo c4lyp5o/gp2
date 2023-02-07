@@ -471,6 +471,7 @@ function UserAppProvider({ children }) {
         fasilitiRelief,
         setFasilitiRelief,
         kaunterToken,
+        setKaunterToken,
         loginErrorMessage,
         isLoginError,
         displayLoginForm,

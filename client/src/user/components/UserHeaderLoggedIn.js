@@ -1,6 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
 import { FaUserCircle, FaUnlockAlt, FaUserFriends } from 'react-icons/fa';
-import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
@@ -70,7 +69,7 @@ function UserHeaderLoggedIn() {
   //   fetchIdentity();
   // }, []);
 
-  // refetch indentity & datetime
+  // refetch identity & datetime
   useEffect(() => {
     const refetchIdentityDatetime = () => {
       setUserToken(localStorage.getItem('userToken'));
@@ -79,7 +78,7 @@ function UserHeaderLoggedIn() {
       setReliefUserToken(localStorage.getItem('reliefUserToken'));
       setFasilitiRelief(localStorage.getItem('fasilitiRelief'));
       setRefetchDateTime(!refetchDateTime);
-      console.log('refetch success');
+      console.log('refetch pengguna success');
     };
     refetchIdentityDatetime();
   }, [refetchState]);
