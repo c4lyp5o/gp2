@@ -3400,10 +3400,9 @@ const countPG207 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    { $gte: ['$umur', 6] },
+                    { $gt: ['$umur', 6] },
                     { $lte: ['$umur', 18] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
