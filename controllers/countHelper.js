@@ -13387,7 +13387,7 @@ const countGender = async (payload) => {
   //
   const pesakitLelakiPrimer1859 = {
     $match: {
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13396,7 +13396,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanPrimer1859 = {
     $match: {
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13463,7 +13463,7 @@ const countGender = async (payload) => {
 
   const pesakitLelakiPrimer60above = {
     $match: {
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'lelaki',
       umur: { $gte: 60 },
       ...getParamsGender(payload),
@@ -13472,7 +13472,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanPrimer60above = {
     $match: {
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'perempuan',
       umur: { $gte: 60 },
       ...getParamsGender(payload),
@@ -15289,7 +15289,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       createdByKodFasiliti: klinik,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $in: ['kp'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       temujanji: opAtauTemujanji(jenis),
@@ -15301,7 +15301,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
     let param = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $in: ['kp'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       temujanji: opAtauTemujanji(jenis),
@@ -15312,7 +15312,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $in: ['kp'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       temujanji: opAtauTemujanji(jenis),
