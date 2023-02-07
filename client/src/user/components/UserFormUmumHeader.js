@@ -1982,7 +1982,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
       }
     };
     fetchSinglePersonUmum();
-  }, [showKemaskini]);
+  }, [showKemaskini, reliefUserToken, userToken]);
 
   // pull kpbmpb data for whole negeri that is used for this kp
   useEffect(() => {
@@ -2029,7 +2029,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
       }
     };
     getAllKPBMPBForNegeri();
-  }, []);
+  }, [reliefUserToken, userToken]);
 
   const kemaskini = () => {
     setShowKemasKini(true);

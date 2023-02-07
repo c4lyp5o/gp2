@@ -65,7 +65,7 @@ export default function UserStatusHarian() {
       }
     };
     query();
-  }, [tarikhKedatangan, reloadState]);
+  }, [tarikhKedatangan, reloadState, reliefUserToken, userToken]);
 
   //get allpersonumum filtered by date
   useEffect(() => {
@@ -116,7 +116,7 @@ export default function UserStatusHarian() {
       }
     };
     fetchAllPersonUmum();
-  }, [reloadState]);
+  }, [reloadState, reliefUserToken, userToken]);
 
   // on tab focus reload data
   useEffect(() => {
