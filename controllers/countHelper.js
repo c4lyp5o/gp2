@@ -74,7 +74,7 @@ const countPG101C = async (payload) => {
 
   const project = {
     $project: {
-      _id: 0,
+      _id: placeModifier(payload),
       tarikhKedatangan: '$tarikhKedatangan',
       noSiri: '$noSiri',
       noPendaftaranBaru: '$noPendaftaranBaru',
@@ -14708,11 +14708,11 @@ const getParams = (payload, reten) => {
   } = payload;
 
   const AorC = (reten) => {
-    if (reten === 'A') {
-      return { $eq: 'kp' };
+    if (reten === 'A' || reten === undefined) {
+      return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
-      return { $ne: 'kp' };
+      return { $nin: ['kp', 'kk-kd'] };
     }
   };
 
@@ -14720,11 +14720,7 @@ const getParams = (payload, reten) => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByKodFasiliti: {
         $eq: klinik,
@@ -14778,11 +14774,7 @@ const getParams = (payload, reten) => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14840,11 +14832,7 @@ const getParams = (payload, reten) => {
     const noEndDate = {
       tarikhKedatangan: {
         $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan)
-          .add(1, 'month')
-          .startOf('month')
-          .add(6, 'days')
-          .format('YYYY-MM-DD'),
+        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       },
       createdByNegeri: {
         $eq: negeri,
@@ -14910,7 +14898,7 @@ const getParams2 = (payload, reten) => {
       return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
-      return { $ne: 'kp' };
+      return { $nin: ['kp', 'kk-kd'] };
     }
   };
 
@@ -15529,11 +15517,7 @@ const dateModifier = (payload) => {
   if (bulan) {
     return {
       $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-      $lte: moment(bulan)
-        .add(1, 'month')
-        .startOf('month')
-        .add(6, 'days')
-        .format('YYYY-MM-DD'),
+      $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
     };
   }
 };
