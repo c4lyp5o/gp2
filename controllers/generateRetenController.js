@@ -6,6 +6,8 @@ const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Event = require('../models/Event');
+const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
@@ -28,10 +30,9 @@ exports.startQueue = async function (req, res) {
   //
   const { jenisReten, fromEtl } = req.query;
   //
-  console.log(accountType, jenisReten, fromEtl, process.env.BUILD_ENV);
   if (
     accountType !== 'kaunterUser' &&
-    fromEtl === false &&
+    fromEtl === 'false' &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
     console.log('not kaunter user n from etl');
@@ -101,7 +102,7 @@ exports.startQueue = async function (req, res) {
       if (
         process.env.BUILD_ENV === 'production' &&
         accountType !== 'kaunterUser' &&
-        fromEtl === false &&
+        fromEtl === 'false' &&
         (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
       ) {
         let userTokenData = await GenerateToken.findOne({
@@ -289,7 +290,16 @@ const downloader = async (req, res, callback) => {
 const makePG101A = async (payload) => {
   console.log('PG101A');
   try {
-    let { klinik, daerah, negeri, username } = payload;
+    let kkia, program, kpbmpb;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      pilihanKkia,
+      pilihanProgram,
+      pilihanKpbmpb,
+      username,
+    } = payload;
     //
     const data = await Helper.countPG101A(payload);
     //
@@ -300,6 +310,14 @@ const makePG101A = async (payload) => {
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({ kodFasiliti: klinik });
       klinik = currentKlinik.kp;
+    }
+    if (pilihanKkia) {
+      const currentKkia = await Fasiliti.findOne({ kodKkiaKd: pilihanKkia });
+      kkia = currentKkia.nama;
+    }
+    if (pilihanProgram) {
+      const currentProgram = await Event.findOne({ nama: pilihanProgram });
+      program = currentProgram.nama;
     }
     //
     let filename = path.join(
@@ -324,13 +342,17 @@ const makePG101A = async (payload) => {
     intro1.getCell(2).value = 'PRIMER';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()} ${
+      kkia ? kkia.split(' | ')[1].toUpperCase() : ''
+    } ${program ? program.toUpperCase() : ''} ${
+      kpbmpb ? kpbmpb.toUpperCase() : ''
+    }`;
 
     let intro3 = worksheet.getRow(8);
-    intro3.getCell(2).value = `${daerah ? daerah.toUpperCase() : null}`;
+    intro3.getCell(2).value = `${daerah ? daerah.toUpperCase() : ''}`;
 
     let intro4 = worksheet.getRow(9);
-    intro4.getCell(2).value = `${negeri ? negeri.toUpperCase() : null}`;
+    intro4.getCell(2).value = `${negeri ? negeri.toUpperCase() : ''}`;
     //
     for (let i = 0; i < data.length; i++) {
       worksheet.getRow(16 + i).height = 33;
@@ -2737,41 +2759,112 @@ const makeGender = async (payload) => {
     let intro2 = worksheet.getCell('B4');
     intro2.value = yearNow;
 
-    let rowNumber;
-    let cellNumber;
+    // data lelaki
 
-    rowNumber = 9;
-    cellNumber = 3;
-
-    for (let i = 0; i < data[0].dataLelaki.length; i++) {
-      if (data[0].dataLelaki[i][0]) {
-        console.log(`writing ${rowNumber} & ${cellNumber} lelaki`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataLelaki[i][0].pesakitLelakiBaru;
-        rowNumber++;
-        console.log(`writing ${rowNumber} & ${cellNumber} lelaki`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataLelaki[i][0].pesakitLelakiUlangan;
-        rowNumber--;
-      }
-      cellNumber += 5;
+    if (data[0].dataLelaki[0]) {
+      worksheet.getCell('C9').value = data[0].dataLelaki[0].pesakitLelakiBaru;
+      worksheet.getCell('C10').value =
+        data[0].dataLelaki[0].pesakitLelakiUlangan;
     }
 
-    rowNumber = 9;
-    cellNumber = 4;
+    if (data[0].dataLelaki[1]) {
+      worksheet.getCell('H9').value = data[0].dataLelaki[1].pesakitLelakiBaru;
+      worksheet.getCell('H10').value =
+        data[0].dataLelaki[1].pesakitLelakiUlangan;
+    }
 
-    for (let i = 0; i < data[1].dataPerempuan.length; i++) {
-      if (data[1].dataPerempuan[i][0]) {
-        console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[1].dataPerempuan[i][0].pesakitPerempuanBaru;
-        rowNumber++;
-        console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[1].dataPerempuan[i][0].pesakitPerempuanUlangan;
-        rowNumber--;
-      }
-      cellNumber += 5;
+    if (data[0].dataLelaki[2]) {
+      worksheet.getCell('M9').value = data[0].dataLelaki[2].pesakitLelakiBaru;
+      worksheet.getCell('M10').value =
+        data[0].dataLelaki[2].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[3]) {
+      worksheet.getCell('R9').value = data[0].dataLelaki[3].pesakitLelakiBaru;
+      worksheet.getCell('R10').value =
+        data[0].dataLelaki[3].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[4]) {
+      worksheet.getCell('C12').value = data[0].dataLelaki[4].pesakitLelakiBaru;
+      worksheet.getCell('C13').value =
+        data[0].dataLelaki[4].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[5]) {
+      worksheet.getCell('H12').value = data[0].dataLelaki[5].pesakitLelakiBaru;
+      worksheet.getCell('H13').value =
+        data[0].dataLelaki[5].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[6]) {
+      worksheet.getCell('M12').value = data[0].dataLelaki[6].pesakitLelakiBaru;
+      worksheet.getCell('M13').value =
+        data[0].dataLelaki[6].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[7]) {
+      worksheet.getCell('R12').value = data[0].dataLelaki[7].pesakitLelakiBaru;
+      worksheet.getCell('R13').value =
+        data[0].dataLelaki[7].pesakitLelakiUlangan;
+    }
+
+    // data perempuan
+
+    if (data[1].dataPerempuan[0]) {
+      worksheet.getCell('D9').value =
+        data[1].dataPerempuan[0].pesakitPerempuanBaru;
+      worksheet.getCell('D10').value =
+        data[1].dataPerempuan[0].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[1]) {
+      worksheet.getCell('I9').value =
+        data[1].dataPerempuan[1].pesakitPerempuanBaru;
+      worksheet.getCell('I10').value =
+        data[1].dataPerempuan[1].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[2]) {
+      worksheet.getCell('N9').value =
+        data[1].dataPerempuan[2].pesakitPerempuanBaru;
+      worksheet.getCell('N10').value =
+        data[1].dataPerempuan[2].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[3]) {
+      worksheet.getCell('S9').value =
+        data[1].dataPerempuan[3].pesakitPerempuanBaru;
+      worksheet.getCell('S10').value =
+        data[1].dataPerempuan[3].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[4]) {
+      worksheet.getCell('D12').value =
+        data[1].dataPerempuan[4].pesakitPerempuanBaru;
+      worksheet.getCell('D13').value =
+        data[1].dataPerempuan[4].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[5]) {
+      worksheet.getCell('I12').value =
+        data[1].dataPerempuan[5].pesakitPerempuanBaru;
+      worksheet.getCell('I13').value =
+        data[1].dataPerempuan[5].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[6]) {
+      worksheet.getCell('N12').value =
+        data[1].dataPerempuan[6].pesakitPerempuanBaru;
+      worksheet.getCell('N13').value =
+        data[1].dataPerempuan[6].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[7]) {
+      worksheet.getCell('S12').value =
+        data[1].dataPerempuan[7].pesakitPerempuanBaru;
+      worksheet.getCell('S13').value =
+        data[1].dataPerempuan[7].pesakitPerempuanUlangan;
     }
 
     // info
