@@ -28,9 +28,10 @@ exports.startQueue = async function (req, res) {
   //
   const { jenisReten, fromEtl } = req.query;
   //
+  console.log(accountType, jenisReten, fromEtl, process.env.BUILD_ENV);
   if (
     accountType !== 'kaunterUser' &&
-    !fromEtl &&
+    fromEtl === false &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
     console.log('not kaunter user n from etl');
@@ -100,9 +101,13 @@ exports.startQueue = async function (req, res) {
       if (
         process.env.BUILD_ENV === 'production' &&
         accountType !== 'kaunterUser' &&
-        !fromEtl &&
+        fromEtl === false &&
         (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
       ) {
+        let userTokenData = await GenerateToken.findOne({
+          belongsTo: username,
+          jenisReten,
+        });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
         console.log('dah kurangkan token');
