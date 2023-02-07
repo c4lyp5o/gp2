@@ -666,12 +666,6 @@ const ModalGenerateBulanan = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    // if (
-    //   props.pilihanFasiliti === 'program' ||
-    //   props.pilihanFasiliti === 'kpbmpb'
-    // ) {
-    //   return toast.error('Sabar bos. Sikit lg nk ejas..');
-    // }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -924,7 +918,6 @@ const ModalGenerateBulanan = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
-                              console.log(e.target.value);
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -986,7 +979,6 @@ const ModalGenerateBulanan = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
@@ -1020,7 +1012,6 @@ const ModalGenerateBulanan = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
