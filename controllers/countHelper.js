@@ -15273,13 +15273,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
   //
   const opAtauTemujanji = (jenis) => {
     if (jenis === 'op') {
-      return {
-        temujanji: false,
-      };
-    } else {
-      return {
-        temujanji: true,
-      };
+      return false;
+    }
+    if (jenis === 'temujanji') {
+      return true;
     }
   };
 
@@ -15288,8 +15285,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
       createdByKodFasiliti: klinik,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      ...opAtauTemujanji(jenis),
+      waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      temujanji: opAtauTemujanji(jenis),
     };
     return param;
   };
@@ -15298,8 +15297,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
     let param = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      ...opAtauTemujanji(jenis),
+      waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      temujanji: opAtauTemujanji(jenis),
     };
     return param;
   };
@@ -15307,8 +15308,10 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      ...opAtauTemujanji(jenis),
+      waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      temujanji: opAtauTemujanji(jenis),
     };
     return param;
   };
