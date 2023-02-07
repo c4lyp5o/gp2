@@ -1406,9 +1406,7 @@ export default function FillableForm({
                         {/* <option value='tentera'>Tentera</option>
                         <option value='polis'>Polis</option> */}
                         <option value='sijil-lahir'>Sijil lahir</option>
-                        <option value='birth-of'>
-                          <i>Baby Of</i>
-                        </option>
+                        <option value='birth-of'>Baby Of</option>
                         <option value='tiada-pengenalan'>
                           Tiada Pengenalan Yang Sah
                         </option>

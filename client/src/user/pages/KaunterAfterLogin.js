@@ -15,11 +15,13 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function KaunterAfterLogin() {
   const {
-    ToastContainer,
-    toast,
     kaunterToken,
     navigate,
     catchAxiosErrorAndLogout,
+    refetchDateTime,
+    setRefetchDateTime,
+    ToastContainer,
+    toast,
   } = useGlobalUserAppContext();
 
   const [createdByKp, setCreatedByKp] = useState('');
@@ -101,6 +103,8 @@ function KaunterAfterLogin() {
 
   useEffect(() => {
     logOutNotiSystem();
+    setRefetchDateTime(!refetchDateTime);
+    console.log('kaunter kicker started & refetch datetime');
   }, [refreshTimer]);
 
   return (

@@ -84,7 +84,7 @@ export default function UserCarian() {
       }
     };
     fetchIdentity();
-  }, []);
+  }, [reliefUserToken, userToken]);
 
   useEffect(() => {
     if (modalRetenSalah === false) {
@@ -121,7 +121,14 @@ export default function UserCarian() {
       setPilihanStatusReten('');
       query();
     }
-  }, [tarikhKedatangan, jenisFasiliti, jenisProgram, modalRetenSalah]);
+  }, [
+    tarikhKedatangan,
+    jenisFasiliti,
+    jenisProgram,
+    modalRetenSalah,
+    reliefUserToken,
+    userToken,
+  ]);
 
   // clear program if change jenisFasiliti
   useEffect(() => {
