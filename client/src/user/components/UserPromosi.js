@@ -50,7 +50,7 @@ function UserPromosi({ individuOrKlinik }) {
       }
     };
     fetchAllProgramPromosi();
-  }, []);
+  }, [reliefUserToken, userToken]);
 
   const clearKodProgram = () => {
     setKodProgram('');
@@ -82,7 +82,14 @@ function UserPromosi({ individuOrKlinik }) {
       }
     };
     query();
-  }, [individuOrKlinik, kodProgram, showTambahAcara, reloadState]);
+  }, [
+    individuOrKlinik,
+    kodProgram,
+    showTambahAcara,
+    reloadState,
+    reliefUserToken,
+    userToken,
+  ]);
 
   useEffect(() => {
     const resultFilter = allAktivitiPromosi.filter((a) => {
