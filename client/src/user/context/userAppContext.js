@@ -299,6 +299,7 @@ function UserAppProvider({ children }) {
   const [dateToday, setDateToday] = useState('');
   const [dateYesterday, setDateYesterday] = useState('');
   const [datePastTwoDays, setDatePastTwoDays] = useState('');
+  const [refetchDateTime, setRefetchDateTime] = useState(false);
 
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
@@ -338,7 +339,7 @@ function UserAppProvider({ children }) {
       setDatePastTwoDays(data.datePastTwoDays);
     };
     fetchDate();
-  }, []);
+  }, [refetchDateTime]);
 
   // pengguna logout timer
   useEffect(() => {
@@ -451,6 +452,7 @@ function UserAppProvider({ children }) {
     setUserToken(null);
     setUsername(null);
     setUserinfo(null);
+    setReliefUserToken(null);
     setFasilitiRelief(null);
     setKaunterToken(null);
   };
@@ -459,6 +461,7 @@ function UserAppProvider({ children }) {
     <UserAppContext.Provider
       value={{
         userToken,
+        setUserToken,
         username,
         setUsername,
         userinfo,
@@ -484,6 +487,8 @@ function UserAppProvider({ children }) {
         dateToday,
         dateYesterday,
         datePastTwoDays,
+        refetchDateTime,
+        setRefetchDateTime,
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,

@@ -13,8 +13,12 @@ import CountdownTimer from '../../admin/context/countdownTimer';
 function UserHeaderLoggedIn() {
   const {
     userToken,
+    setUserToken,
     username,
     setUsername,
+    userinfo,
+    setUserinfo,
+    reliefUserToken,
     setReliefUserToken,
     fasilitiRelief,
     setFasilitiRelief,
@@ -23,14 +27,18 @@ function UserHeaderLoggedIn() {
     setDisplayPilihFasiliti,
     navigate,
     catchAxiosErrorAndLogout,
+    refetchDateTime,
+    setRefetchDateTime,
     timer,
     kicker,
     kickerNoti,
   } = useGlobalUserAppContext();
 
-  const [namaKlinik, setNamaKlinik] = useState('');
+  // const [namaKlinik, setNamaKlinik] = useState('');
 
   const [showProfile, setShowProfile] = useState(false);
+
+  const [refetchState, setRefetchState] = useState(false);
 
   // dropdown profil
   let profilRef = useRef();
@@ -47,19 +55,42 @@ function UserHeaderLoggedIn() {
     };
   });
 
+  // useEffect(() => {
+  //   const fetchIdentity = async () => {
+  //     try {
+  //       const { data } = await axios.get('/api/v1/identity', {
+  //         headers: { Authorization: `Bearer ${userToken}` },
+  //       });
+  //       setNamaKlinik(data.kp);
+  //     } catch (error) {
+  //       catchAxiosErrorAndLogout();
+  //       navigate('/pengguna');
+  //     }
+  //   };
+  //   fetchIdentity();
+  // }, []);
+
+  // refetch indentity & datetime
   useEffect(() => {
-    const fetchIdentity = async () => {
-      try {
-        const { data } = await axios.get('/api/v1/identity', {
-          headers: { Authorization: `Bearer ${userToken}` },
-        });
-        setNamaKlinik(data.kp);
-      } catch (error) {
-        catchAxiosErrorAndLogout();
-        navigate('/pengguna');
-      }
+    const refetchIdentityDatetime = () => {
+      setUserToken(localStorage.getItem('userToken'));
+      setUsername(localStorage.getItem('username'));
+      setUserinfo(JSON.parse(localStorage.getItem('userinfo')));
+      setReliefUserToken(localStorage.getItem('reliefUserToken'));
+      setFasilitiRelief(localStorage.getItem('fasilitiRelief'));
+      setRefetchDateTime(!refetchDateTime);
+      console.log('refetch success');
     };
-    fetchIdentity();
+    refetchIdentityDatetime();
+  }, [refetchState]);
+
+  // refetch identity & refetch datetime on tab focus
+  useEffect(() => {
+    window.addEventListener('focus', setRefetchState);
+    setRefetchState(!refetchState);
+    return () => {
+      window.removeEventListener('focus', setRefetchState);
+    };
   }, []);
 
   const tukarPengguna = () => {
@@ -71,6 +102,7 @@ function UserHeaderLoggedIn() {
     localStorage.removeItem('reliefUserToken');
     localStorage.removeItem('fasilitiRelief');
     setUsername(null);
+    setUserinfo(null);
     setReliefUserToken(null);
     setFasilitiRelief(null);
     navigate('/pengguna');
@@ -94,7 +126,7 @@ function UserHeaderLoggedIn() {
                   <p className='w-60 text-xs'>
                     <b>{username}</b>
                   </p>
-                  <p className='w-60 text-xs'>{namaKlinik}</p>
+                  <p className='w-60 text-xs'>{userinfo.kpSkrg}</p>
                   {fasilitiRelief && (
                     <p className='w-60 text-xs pt-1'>
                       <b>anda relief : </b>
@@ -138,7 +170,7 @@ function UserHeaderLoggedIn() {
                       <p className='w-48 text-sm flex flex-col'>
                         <b>{username}</b>
                       </p>
-                      <p className='w-48 text-sm'>{namaKlinik}</p>
+                      <p className='w-48 text-sm'>{userinfo.kpSkrg}</p>
                       {fasilitiRelief && (
                         <p className='w-48 text-sm pt-1'>
                           <b>anda relief : </b>
