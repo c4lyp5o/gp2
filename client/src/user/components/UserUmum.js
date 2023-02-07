@@ -105,7 +105,14 @@ function UserUmum({ sekolahIdc }) {
       }
     };
     query();
-  }, [tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
+  }, [
+    tarikhKedatangan,
+    jenisFasiliti,
+    jenisProgram,
+    reloadState,
+    reliefUserToken,
+    userToken,
+  ]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
