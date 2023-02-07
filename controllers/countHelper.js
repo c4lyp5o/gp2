@@ -13423,6 +13423,7 @@ const countGender = async (payload) => {
 
   const pesakitLelakiOutreach1859 = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
@@ -13432,6 +13433,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanOutreach1859 = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
@@ -13497,6 +13499,7 @@ const countGender = async (payload) => {
 
   const pesakitLelakiOutreach60above = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'lelaki',
       umur: { $gte: 60 },
@@ -13506,6 +13509,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanOutreach60above = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       jantina: 'perempuan',
       umur: { $gte: 60 },
@@ -13619,7 +13623,7 @@ const countGender = async (payload) => {
 
   for (let i = 0; i < match_stage_lelaki.length; i++) {
     const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
-    dataLelaki.push(result);
+    dataLelaki.push(result[0]);
   }
 
   for (let i = 0; i < match_stage_perempuan.length; i++) {
@@ -13627,7 +13631,7 @@ const countGender = async (payload) => {
       match_stage_perempuan[i],
       group_stage,
     ]);
-    dataPerempuan.push(result);
+    dataPerempuan.push(result[0]);
   }
 
   bigData.push({ dataLelaki });

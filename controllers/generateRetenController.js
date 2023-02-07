@@ -2759,41 +2759,112 @@ const makeGender = async (payload) => {
     let intro2 = worksheet.getCell('B4');
     intro2.value = yearNow;
 
-    let rowNumber;
-    let cellNumber;
+    // data lelaki
 
-    rowNumber = 9;
-    cellNumber = 3;
-
-    for (let i = 0; i < data[0].dataLelaki.length; i++) {
-      if (data[0].dataLelaki[i][0]) {
-        console.log(`writing ${rowNumber} & ${cellNumber} lelaki`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataLelaki[i][0].pesakitLelakiBaru;
-        rowNumber++;
-        console.log(`writing ${rowNumber} & ${cellNumber} lelaki`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].dataLelaki[i][0].pesakitLelakiUlangan;
-        rowNumber--;
-      }
-      cellNumber += 5;
+    if (data[0].dataLelaki[0]) {
+      worksheet.getCell('C9').value = data[0].dataLelaki[0].pesakitLelakiBaru;
+      worksheet.getCell('C10').value =
+        data[0].dataLelaki[0].pesakitLelakiUlangan;
     }
 
-    rowNumber = 9;
-    cellNumber = 4;
+    if (data[0].dataLelaki[1]) {
+      worksheet.getCell('H9').value = data[0].dataLelaki[1].pesakitLelakiBaru;
+      worksheet.getCell('H10').value =
+        data[0].dataLelaki[1].pesakitLelakiUlangan;
+    }
 
-    for (let i = 0; i < data[1].dataPerempuan.length; i++) {
-      if (data[1].dataPerempuan[i][0]) {
-        console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[1].dataPerempuan[i][0].pesakitPerempuanBaru;
-        rowNumber++;
-        console.log(`writing ${rowNumber} & ${cellNumber} perempuan`);
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[1].dataPerempuan[i][0].pesakitPerempuanUlangan;
-        rowNumber--;
-      }
-      cellNumber += 5;
+    if (data[0].dataLelaki[2]) {
+      worksheet.getCell('M9').value = data[0].dataLelaki[2].pesakitLelakiBaru;
+      worksheet.getCell('M10').value =
+        data[0].dataLelaki[2].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[3]) {
+      worksheet.getCell('R9').value = data[0].dataLelaki[3].pesakitLelakiBaru;
+      worksheet.getCell('R10').value =
+        data[0].dataLelaki[3].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[4]) {
+      worksheet.getCell('C12').value = data[0].dataLelaki[4].pesakitLelakiBaru;
+      worksheet.getCell('C13').value =
+        data[0].dataLelaki[4].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[5]) {
+      worksheet.getCell('H12').value = data[0].dataLelaki[5].pesakitLelakiBaru;
+      worksheet.getCell('H13').value =
+        data[0].dataLelaki[5].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[6]) {
+      worksheet.getCell('M12').value = data[0].dataLelaki[6].pesakitLelakiBaru;
+      worksheet.getCell('M13').value =
+        data[0].dataLelaki[6].pesakitLelakiUlangan;
+    }
+
+    if (data[0].dataLelaki[7]) {
+      worksheet.getCell('R12').value = data[0].dataLelaki[7].pesakitLelakiBaru;
+      worksheet.getCell('R13').value =
+        data[0].dataLelaki[7].pesakitLelakiUlangan;
+    }
+
+    // data perempuan
+
+    if (data[1].dataPerempuan[0]) {
+      worksheet.getCell('D9').value =
+        data[1].dataPerempuan[0].pesakitPerempuanBaru;
+      worksheet.getCell('D10').value =
+        data[1].dataPerempuan[0].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[1]) {
+      worksheet.getCell('I9').value =
+        data[1].dataPerempuan[1].pesakitPerempuanBaru;
+      worksheet.getCell('I10').value =
+        data[1].dataPerempuan[1].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[2]) {
+      worksheet.getCell('N9').value =
+        data[1].dataPerempuan[2].pesakitPerempuanBaru;
+      worksheet.getCell('N10').value =
+        data[1].dataPerempuan[2].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[3]) {
+      worksheet.getCell('S9').value =
+        data[1].dataPerempuan[3].pesakitPerempuanBaru;
+      worksheet.getCell('S10').value =
+        data[1].dataPerempuan[3].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[4]) {
+      worksheet.getCell('D12').value =
+        data[1].dataPerempuan[4].pesakitPerempuanBaru;
+      worksheet.getCell('D13').value =
+        data[1].dataPerempuan[4].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[5]) {
+      worksheet.getCell('I12').value =
+        data[1].dataPerempuan[5].pesakitPerempuanBaru;
+      worksheet.getCell('I13').value =
+        data[1].dataPerempuan[5].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[6]) {
+      worksheet.getCell('N12').value =
+        data[1].dataPerempuan[6].pesakitPerempuanBaru;
+      worksheet.getCell('N13').value =
+        data[1].dataPerempuan[6].pesakitPerempuanUlangan;
+    }
+
+    if (data[1].dataPerempuan[7]) {
+      worksheet.getCell('S12').value =
+        data[1].dataPerempuan[7].pesakitPerempuanBaru;
+      worksheet.getCell('S13').value =
+        data[1].dataPerempuan[7].pesakitPerempuanUlangan;
     }
 
     // info
