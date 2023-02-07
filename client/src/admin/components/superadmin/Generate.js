@@ -579,7 +579,28 @@ const ModalGenerateBulanan = (props) => {
 
   const fileName = () => {
     let file = '';
-    if (props.pilihanDaerah !== 'all' && props.pilihanKlinik !== 'all') {
+    if (props.pilihanKkia !== '') {
+      console.log('kkia');
+      file = `${props.jenisReten}_${
+        props.namaKlinik
+      }_${props.namaKkia.toUpperCase()}_${moment(new Date()).format(
+        'DDMMYYYY'
+      )}.xlsx`;
+    }
+    if (props.pilihanProgram !== '') {
+      console.log('kd');
+      file = `${props.jenisReten}_${
+        props.namaKlinik
+      }_${props.pilihanProgram.toUpperCase()}_${moment(new Date()).format(
+        'DDMMYYYY'
+      )}.xlsx`;
+    }
+    if (
+      props.pilihanDaerah !== 'all' &&
+      props.pilihanKlinik !== 'all' &&
+      props.pilihanKkia === '' &&
+      props.pilihanProgram === ''
+    ) {
       console.log('1');
       file = `${props.jenisReten}_${props.namaKlinik}_${moment(
         new Date()
@@ -918,6 +939,11 @@ const ModalGenerateBulanan = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
+                              props.setNamaKkia(
+                                e.target.options[
+                                  e.target.selectedIndex
+                                ].getAttribute('data-key')
+                              );
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -926,6 +952,7 @@ const ModalGenerateBulanan = (props) => {
                               return (
                                 <option
                                   key={index}
+                                  data-key={k.nama}
                                   value={k.kodKkiaKd}
                                   className='capitalize'
                                 >
@@ -1128,6 +1155,7 @@ const Generate = (props) => {
   const [daerah, setDaerah] = useState([]);
   const [klinik, setKlinik] = useState([]);
   const [namaKlinik, setNamaKlinik] = useState('');
+  const [namaKkia, setNamaKkia] = useState('');
   const [pilihanNegeri, setPilihanNegeri] = useState('');
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [pilihanKlinik, setPilihanKlinik] = useState('');
@@ -1276,20 +1304,16 @@ const Generate = (props) => {
 
   // reset stuff
   useEffect(() => {
-    if (pilihanFasiliti === '') {
-      setPilihanKkia('');
-      setPilihanProgram('');
-      setPilihanKpbMpb('');
-    }
+    setPilihanKkia('');
+    setPilihanProgram('');
+    setPilihanKpbMpb('');
   }, [pilihanFasiliti]);
 
   useEffect(() => {
-    if (pilihanKlinik === '') {
-      setPilihanFasiliti('');
-      setPilihanKkia('');
-      setPilihanProgram('');
-      setPilihanKpbMpb('');
-    }
+    setPilihanFasiliti('');
+    setPilihanKkia('');
+    setPilihanProgram('');
+    setPilihanKpbMpb('');
   }, [pilihanKlinik]);
 
   useEffect(() => {
@@ -1301,6 +1325,9 @@ const Generate = (props) => {
   }, [pilihanDaerah]);
 
   useEffect(() => {
+    if (loginInfo.accountType === 'hqSuperadmin') {
+      setPilihanNegeri('');
+    }
     if (
       loginInfo.accountType === 'negeriSuperadmin' ||
       loginInfo.accountType === 'hqSuperadmin'
@@ -1371,6 +1398,8 @@ const Generate = (props) => {
     setPilihanFasiliti,
     pilihanKkia,
     setPilihanKkia,
+    namaKkia,
+    setNamaKkia,
     namaKlinik,
     setNamaKlinik,
     pilihanKlinik,
