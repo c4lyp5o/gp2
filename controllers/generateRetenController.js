@@ -290,16 +290,9 @@ const downloader = async (req, res, callback) => {
 const makePG101A = async (payload) => {
   console.log('PG101A');
   try {
-    let kkia, program, kpbmpb;
-    let {
-      klinik,
-      daerah,
-      negeri,
-      pilihanKkia,
-      pilihanProgram,
-      pilihanKpbmpb,
-      username,
-    } = payload;
+    let kkia;
+    let { klinik, daerah, negeri, pilihanKkia, username, tarikhMula, bulan } =
+      payload;
     //
     const data = await Helper.countPG101A(payload);
     //
@@ -331,9 +324,13 @@ const makePG101A = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG101A');
-
-    const monthName = moment(new Date()).format('MMMM');
-    const yearNow = moment(new Date()).format('YYYY');
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
+    const monthName = moment(bulan).format('MMMM');
+    const yearNow = moment(bulan).format('YYYY');
 
     worksheet.getCell('I5').value = monthName;
     worksheet.getCell('M5').value = yearNow;
@@ -343,9 +340,7 @@ const makePG101A = async (payload) => {
 
     let intro2 = worksheet.getRow(7);
     intro2.getCell(2).value = `${klinik.toUpperCase()} ${
-      kkia ? kkia.split(' | ')[1].toUpperCase() : ''
-    } ${program ? program.toUpperCase() : ''} ${
-      kpbmpb ? kpbmpb.toUpperCase() : ''
+      kkia ? ` / ${kkia.split(' | ')[1].toUpperCase()}` : ''
     }`;
 
     let intro3 = worksheet.getRow(8);
@@ -455,8 +450,10 @@ const makePG101A = async (payload) => {
           console.log('');
       }
       rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      let catatan = `Operator: ${
-        data[i].createdByUsername !== 'kaunter' ? data[i].createdByUsername : ''
+      let catatan = `${
+        data[i].createdByUsername !== 'kaunter'
+          ? `Operator: ${data[i].createdByUsername} `
+          : ''
       }${data[i].noBayaran ? data[i].noBayaran : ''} ${
         data[i].noResit ? data[i].noResit : ''
       } ${data[i].noBayaran2 ? data[i].noBayaran2 : ''} ${
