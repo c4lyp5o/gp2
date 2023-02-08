@@ -350,9 +350,9 @@ function UserSekolah() {
                               className={`${
                                 !singlePersonSekolah.pemeriksaanSekolah ||
                                 singlePersonSekolah.statusRawatan === 'selesai'
-                                  ? 'pointer-events-none bg-user4'
-                                  : 'bg-user3 hover:bg-user2'
-                              } text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
+                                  ? 'pointer-events-none bg-user4 shadow-none'
+                                  : 'bg-user3 hover:bg-user2 shadow-md'
+                              } text-userWhite rounded-sm  p-1 m-1 transition-all`}
                             >
                               {singlePersonSekolah.statusRawatan === 'selesai'
                                 ? 'selesai rawatan'
