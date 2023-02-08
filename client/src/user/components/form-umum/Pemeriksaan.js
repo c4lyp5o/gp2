@@ -150,13 +150,13 @@ export default function Pemeriksaan(props) {
                             dateFormat={false}
                             timeFormat='hh:mm A'
                             input={true}
-                            value={props.waktuDipanggilDT}
-                            initialValue={
-                              props.waktuDipanggil
-                                ? props.waktuDipanggil
-                                : props.setWaktuDipanggil(
-                                    moment(dateToday).format('HH:mm')
-                                  )
+                            value={
+                              props.waktuDipanggilDT
+                                ? props.waktuDipanggilDT
+                                : moment(
+                                    props.singlePersonUmum.waktuSampai,
+                                    'HH:mm'
+                                  ).format('hh:mm A')
                             }
                             onChange={(dt) => {
                               const timeString = moment(dt).format('HH:mm');

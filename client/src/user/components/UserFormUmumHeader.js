@@ -1395,9 +1395,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.setStatusSelepas6BulanUmum = setStatusSelepas6BulanUmum;
 
   //dateTime issues
-  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(
-    moment(dateToday, moment.ISO_8601).toDate()
-  );
+  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(null);
   masterForm.waktuDipanggilDT = waktuDipanggilDT;
   masterForm.setWaktuDipanggilDT = setWaktuDipanggilDT;
 
@@ -2050,6 +2048,23 @@ function UserFormUmumHeader({ sekolahIdc }) {
       statusReten = 'belum diisi';
     }
 
+    // check waktu dipanggil
+    if (
+      (singlePersonUmum.jenisFasiliti === 'kp' &&
+        statusKehadiran === false &&
+        waktuDipanggil === '') ||
+      (singlePersonUmum.jenisFasiliti === 'kp' &&
+        statusKehadiran === false &&
+        moment(waktuDipanggil, 'HH:mm').diff(
+          moment(singlePersonUmum.waktuSampai, 'HH:mm'),
+          'minutes'
+        ) <= 0)
+    ) {
+      toast.error('Sila semak semula waktu dipanggil');
+      return;
+    }
+
+    // check BP
     if (
       (singlePersonUmum.kedatangan === 'baru-kedatangan' &&
         singlePersonUmum.jenisFasiliti === 'kp' &&
