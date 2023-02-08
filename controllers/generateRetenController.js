@@ -308,11 +308,6 @@ const makePG101A = async (payload) => {
       const currentKkia = await Fasiliti.findOne({ kodKkiaKd: pilihanKkia });
       kkia = currentKkia.nama;
     }
-    if (pilihanProgram) {
-      const currentProgram = await Event.findOne({ nama: pilihanProgram });
-      program = currentProgram.nama;
-    }
-    //
     let filename = path.join(
       __dirname,
       '..',
@@ -1268,8 +1263,8 @@ const makePG206 = async (payload) => {
     worksheet.getCell('Z5').value = yearNow;
 
     worksheet.getCell('B6').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B7').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B8').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('B7').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('B8').value = `${negeri.toUpperCase()}`;
 
     if (pegawai) {
       worksheet.getCell('B9').value = `${pegawai.toUpperCase()}`;
