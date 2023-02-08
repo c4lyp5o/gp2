@@ -64,7 +64,26 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
-    if (props.pilihanDaerah !== 'all' && props.pilihanKlinik !== 'all') {
+    if (props.pilihanKkia !== '') {
+      console.log('kkia');
+      file = `${props.jenisReten}_${props.namaKlinik}_${props.namaKkia
+        .split(' | ')[1]
+        .toUpperCase()}_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
+    }
+    if (props.pilihanProgram !== '') {
+      console.log('kd');
+      file = `${props.jenisReten}_${
+        props.namaKlinik
+      }_${props.pilihanProgram.toUpperCase()}_${moment(new Date()).format(
+        'DDMMYYYY'
+      )}.xlsx`;
+    }
+    if (
+      props.pilihanDaerah !== 'all' &&
+      props.pilihanKlinik !== 'all' &&
+      props.pilihanKkia === '' &&
+      props.pilihanProgram === ''
+    ) {
       console.log('1');
       file = `${props.jenisReten}_${props.namaKlinik}_${moment(
         new Date()
@@ -84,9 +103,6 @@ const ModalGenerateAdHoc = (props) => {
         'DDMMYYYY'
       )}.xlsx`;
     }
-    // if (!endDate) {
-    //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
-    // }
     return file;
   };
 
@@ -148,12 +164,6 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    // if (
-    //   props.pilihanFasiliti === 'program' ||
-    //   props.pilihanFasiliti === 'kpbmpb'
-    // ) {
-    //   return toast.error('Sabar bos. Sikit lg nk ejas..');
-    // }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -581,11 +591,9 @@ const ModalGenerateBulanan = (props) => {
     let file = '';
     if (props.pilihanKkia !== '') {
       console.log('kkia');
-      file = `${props.jenisReten}_${
-        props.namaKlinik
-      }_${props.namaKkia.toUpperCase()}_${moment(new Date()).format(
-        'DDMMYYYY'
-      )}.xlsx`;
+      file = `${props.jenisReten}_${props.namaKlinik}_${props.namaKkia
+        .split(' | ')[1]
+        .toUpperCase()}_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanProgram !== '') {
       console.log('kd');
@@ -620,9 +628,6 @@ const ModalGenerateBulanan = (props) => {
         'DDMMYYYY'
       )}.xlsx`;
     }
-    // if (!endDate) {
-    //   file = `${jenisReten}-${kp}-${startDate}.${formatFile}`;
-    // }
     return file;
   };
 
