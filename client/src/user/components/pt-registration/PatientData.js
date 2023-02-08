@@ -156,18 +156,18 @@ export default function PatientData({
 
   const formatMelayu = (date) => {
     const months = {
-      1: 'Januari',
-      2: 'Februari',
-      3: 'Mac',
-      4: 'April',
-      5: 'Mei',
-      6: 'Jun',
-      7: 'Julai',
-      8: 'Ogos',
-      9: 'September',
-      10: 'Oktober',
-      11: 'November',
-      12: 'Disember',
+      0: 'Januari',
+      1: 'Februari',
+      2: 'Mac',
+      3: 'April',
+      4: 'Mei',
+      5: 'Jun',
+      6: 'Julai',
+      7: 'Ogos',
+      8: 'September',
+      9: 'Oktober',
+      10: 'November',
+      11: 'Disember',
     };
     const day = moment(date).date();
     const month = months[moment(date).month()];
