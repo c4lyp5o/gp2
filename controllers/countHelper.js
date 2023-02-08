@@ -128,7 +128,7 @@ const countPG211A = async (payload) => {
         $lt: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_1_4 = {
@@ -138,7 +138,7 @@ const countPG211A = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_5_6 = {
@@ -148,7 +148,7 @@ const countPG211A = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_7_9 = {
@@ -158,7 +158,7 @@ const countPG211A = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_10_12 = {
@@ -168,7 +168,7 @@ const countPG211A = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_13_14 = {
@@ -178,7 +178,7 @@ const countPG211A = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_15_17 = {
@@ -188,7 +188,7 @@ const countPG211A = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_18_19 = {
@@ -198,7 +198,7 @@ const countPG211A = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_20_29 = {
@@ -208,7 +208,7 @@ const countPG211A = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_30_39 = {
@@ -218,7 +218,7 @@ const countPG211A = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_40_49 = {
@@ -228,7 +228,7 @@ const countPG211A = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_50_59 = {
@@ -238,7 +238,7 @@ const countPG211A = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_60 = {
@@ -247,7 +247,7 @@ const countPG211A = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_61_64 = {
@@ -257,7 +257,7 @@ const countPG211A = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_65 = {
@@ -266,7 +266,7 @@ const countPG211A = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_66_69 = {
@@ -276,7 +276,7 @@ const countPG211A = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_70_74 = {
@@ -286,7 +286,7 @@ const countPG211A = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const bage_lebih_75 = {
@@ -295,7 +295,7 @@ const countPG211A = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
 
@@ -308,7 +308,7 @@ const countPG211A = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_1_4 = {
@@ -318,7 +318,7 @@ const countPG211A = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_5_6 = {
@@ -328,7 +328,7 @@ const countPG211A = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_7_9 = {
@@ -338,7 +338,7 @@ const countPG211A = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_10_12 = {
@@ -348,7 +348,7 @@ const countPG211A = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_13_14 = {
@@ -358,7 +358,7 @@ const countPG211A = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_15_17 = {
@@ -368,7 +368,7 @@ const countPG211A = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_18_19 = {
@@ -378,7 +378,7 @@ const countPG211A = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_20_29 = {
@@ -388,7 +388,7 @@ const countPG211A = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_30_39 = {
@@ -398,7 +398,7 @@ const countPG211A = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_40_49 = {
@@ -408,7 +408,7 @@ const countPG211A = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_50_59 = {
@@ -418,7 +418,7 @@ const countPG211A = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_60 = {
@@ -427,7 +427,7 @@ const countPG211A = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_61_64 = {
@@ -437,7 +437,7 @@ const countPG211A = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_65 = {
@@ -446,7 +446,7 @@ const countPG211A = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_66_69 = {
@@ -456,7 +456,7 @@ const countPG211A = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_70_74 = {
@@ -466,7 +466,7 @@ const countPG211A = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
   const uage_lebih_75 = {
@@ -475,7 +475,7 @@ const countPG211A = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'A'),
+      ...getParams211(payload, 'A'),
     },
   };
 
@@ -921,7 +921,7 @@ const countPG211C = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_1_4 = {
@@ -931,7 +931,7 @@ const countPG211C = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_5_6 = {
@@ -941,7 +941,7 @@ const countPG211C = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_7_9 = {
@@ -951,7 +951,7 @@ const countPG211C = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_10_12 = {
@@ -961,7 +961,7 @@ const countPG211C = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_13_14 = {
@@ -971,7 +971,7 @@ const countPG211C = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_15_17 = {
@@ -981,7 +981,7 @@ const countPG211C = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_18_19 = {
@@ -991,7 +991,7 @@ const countPG211C = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_20_29 = {
@@ -1001,7 +1001,7 @@ const countPG211C = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_30_39 = {
@@ -1011,7 +1011,7 @@ const countPG211C = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_40_49 = {
@@ -1021,7 +1021,7 @@ const countPG211C = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_50_59 = {
@@ -1031,7 +1031,7 @@ const countPG211C = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_60 = {
@@ -1040,7 +1040,7 @@ const countPG211C = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_61_64 = {
@@ -1050,7 +1050,7 @@ const countPG211C = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_65 = {
@@ -1059,7 +1059,7 @@ const countPG211C = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_66_69 = {
@@ -1069,7 +1069,7 @@ const countPG211C = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_70_74 = {
@@ -1079,7 +1079,7 @@ const countPG211C = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const bage_lebih_75 = {
@@ -1088,7 +1088,7 @@ const countPG211C = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
 
@@ -1101,7 +1101,7 @@ const countPG211C = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_1_4 = {
@@ -1111,7 +1111,7 @@ const countPG211C = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_5_6 = {
@@ -1121,7 +1121,7 @@ const countPG211C = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_7_9 = {
@@ -1131,7 +1131,7 @@ const countPG211C = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_10_12 = {
@@ -1141,7 +1141,7 @@ const countPG211C = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_13_14 = {
@@ -1151,7 +1151,7 @@ const countPG211C = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_15_17 = {
@@ -1161,7 +1161,7 @@ const countPG211C = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_18_19 = {
@@ -1171,7 +1171,7 @@ const countPG211C = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_20_29 = {
@@ -1181,7 +1181,7 @@ const countPG211C = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_30_39 = {
@@ -1191,7 +1191,7 @@ const countPG211C = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_40_49 = {
@@ -1201,7 +1201,7 @@ const countPG211C = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_50_59 = {
@@ -1211,7 +1211,7 @@ const countPG211C = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_60 = {
@@ -1220,7 +1220,7 @@ const countPG211C = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_61_64 = {
@@ -1230,7 +1230,7 @@ const countPG211C = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_65 = {
@@ -1239,7 +1239,7 @@ const countPG211C = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_66_69 = {
@@ -1249,7 +1249,7 @@ const countPG211C = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_70_74 = {
@@ -1259,7 +1259,7 @@ const countPG211C = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
   const uage_lebih_75 = {
@@ -1268,7 +1268,7 @@ const countPG211C = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams2(payload, 'C'),
+      ...getParams211(payload, 'C'),
     },
   };
 
@@ -1711,7 +1711,7 @@ const countPG214 = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_61_64 = {
@@ -1721,7 +1721,7 @@ const countPG214 = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_65 = {
@@ -1730,7 +1730,7 @@ const countPG214 = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_66_69 = {
@@ -1740,7 +1740,7 @@ const countPG214 = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_70_74 = {
@@ -1750,7 +1750,7 @@ const countPG214 = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_lebih_75 = {
@@ -1759,7 +1759,7 @@ const countPG214 = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
 
@@ -4953,7 +4953,7 @@ const countPGPR201Lama = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_1_4 = {
@@ -4963,7 +4963,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_5_6 = {
@@ -4973,7 +4973,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_7_9 = {
@@ -4983,7 +4983,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_10_12 = {
@@ -4993,7 +4993,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_13_14 = {
@@ -5003,7 +5003,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_15_17 = {
@@ -5013,7 +5013,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_18_19 = {
@@ -5023,7 +5023,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_20_29 = {
@@ -5033,7 +5033,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_30_49 = {
@@ -5043,7 +5043,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_50_59 = {
@@ -5053,7 +5053,7 @@ const countPGPR201Lama = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_60yearsandup = {
@@ -5062,21 +5062,21 @@ const countPGPR201Lama = async (payload) => {
         $gte: 60,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const ibumengandung = {
     $match: {
       kedatangan: { $eq: 'baru-kedatangan' },
       ibuMengandung: true,
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const oku = {
     $match: {
       kedatangan: { $eq: 'baru-kedatangan' },
       oku: true,
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
 
@@ -5250,7 +5250,7 @@ const countPGPR201Baru = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_1_4 = {
@@ -5260,7 +5260,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_5_6 = {
@@ -5270,7 +5270,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_7_9 = {
@@ -5280,7 +5280,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_10_12 = {
@@ -5290,7 +5290,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_13_14 = {
@@ -5300,7 +5300,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_15_17 = {
@@ -5310,7 +5310,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_18_19 = {
@@ -5320,7 +5320,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_20_29 = {
@@ -5330,7 +5330,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_30_49 = {
@@ -5340,7 +5340,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_50_59 = {
@@ -5350,7 +5350,7 @@ const countPGPR201Baru = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const age_60yearsandup = {
@@ -5359,21 +5359,21 @@ const countPGPR201Baru = async (payload) => {
         $gte: 60,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const ibumengandung = {
     $match: {
       kedatangan: { $eq: 'baru-kedatangan' },
       ibuMengandung: true,
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
   const oku = {
     $match: {
       kedatangan: { $eq: 'baru-kedatangan' },
       oku: true,
-      ...getParams2(payload),
+      ...getParams211(payload),
     },
   };
 
@@ -14833,7 +14833,7 @@ const getParams101 = (payload, reten) => {
     return byNegeri(payload);
   }
 };
-const getParams2 = (payload, reten) => {
+const getParams211 = (payload, reten) => {
   const { negeri, daerah, klinik } = payload;
 
   const AorC = (reten) => {
@@ -14848,10 +14848,9 @@ const getParams2 = (payload, reten) => {
   const byKp = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: {
-        $eq: klinik,
-      },
+      createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
     return param;
   };
@@ -14859,13 +14858,10 @@ const getParams2 = (payload, reten) => {
   const byDaerah = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: {
-        $eq: negeri,
-      },
-      createdByDaerah: {
-        $eq: daerah,
-      },
+      createdByNegeri: { $eq: negeri },
+      createdByDaerah: { $eq: daerah },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
     return param;
   };
@@ -14873,21 +14869,20 @@ const getParams2 = (payload, reten) => {
   const byNegeri = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: {
-        $eq: negeri,
-      },
+      createdByNegeri: { $eq: negeri },
       jenisFasiliti: AorC(reten),
+      deleted: false,
     };
     return param;
   };
 
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
@@ -14899,7 +14894,8 @@ const getParams206 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
       tarikhKedatangan: dateModifier(payload),
-      ibuMengandung: false,
+      deleted: false,
+      // ibuMengandung: false,
     };
     return param;
   };
@@ -14910,6 +14906,7 @@ const getParams206 = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14922,6 +14919,7 @@ const getParams206 = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -14933,22 +14931,23 @@ const getParams206 = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
     return param;
   };
 
-  if (payload.pegawai) {
+  if (pegawai) {
     return byPegawai(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
@@ -14960,8 +14959,9 @@ const getParams206sekolah = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
       tarikhKedatangan: dateModifier(payload),
-      ibuMengandung: false,
-      orangKurangUpaya: false,
+      deleted: false,
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -14972,8 +14972,9 @@ const getParams206sekolah = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: dateModifier(payload),
-      ibuMengandung: false,
-      orangKurangUpaya: false,
+      deleted: false,
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -14984,8 +14985,9 @@ const getParams206sekolah = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      ibuMengandung: false,
-      orangKurangUpaya: false,
+      deleted: false,
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -14995,22 +14997,23 @@ const getParams206sekolah = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      ibuMengandung: false,
-      orangKurangUpaya: false,
+      deleted: false,
+      // ibuMengandung: false,
+      // orangKurangUpaya: false,
     };
     return param;
   };
 
-  if (payload.pegawai) {
+  if (pegawai) {
     return byPegawai(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
@@ -15022,6 +15025,7 @@ const getParams207 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
     };
     return param;
   };
@@ -15032,6 +15036,7 @@ const getParams207 = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15044,6 +15049,7 @@ const getParams207 = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15055,22 +15061,23 @@ const getParams207 = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
     return param;
   };
 
-  if (payload.pegawai) {
+  if (pegawai) {
     return byPegawai(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
@@ -15161,48 +15168,36 @@ const getParamsPgPro = (payload) => {
     return byKp();
   }
 };
-const getParamsPgPro02 = (payload) => {
-  const { klinik, daerah, negeri } = payload;
-  //
-  if (klinik) {
-    return klinik;
-  }
-
-  if (daerah) {
-    return daerah;
-  }
-
-  if (negeri) {
-    return negeri;
-  }
-};
 const getParamsGender = (payload) => {
   const { klinik, daerah, negeri } = payload;
 
   const byKp = () => {
     let param = {
-      deleted: false,
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
     };
     return param;
   };
 
   const byDaerah = () => {
     let param = {
-      deleted: false,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
     };
     return param;
   };
 
   const byNegeri = () => {
     let param = {
-      deleted: false,
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
     };
     return param;
   };
@@ -15230,12 +15225,11 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByDaerah: daerah,
-      createdByNegeri: negeri,
-      jenisFasiliti: { $in: ['kp'] },
+      jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       temujanji: opAtauTemujanji(jenis),
+      deleted: false,
     };
     return param;
   };
@@ -15244,10 +15238,11 @@ const getParamsPiagamMasa = (payload, jenis) => {
     let param = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
-      jenisFasiliti: { $in: ['kp'] },
+      jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       temujanji: opAtauTemujanji(jenis),
+      deleted: false,
     };
     return param;
   };
@@ -15255,10 +15250,11 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      jenisFasiliti: { $in: ['kp'] },
+      jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       temujanji: opAtauTemujanji(jenis),
+      deleted: false,
     };
     return param;
   };
@@ -15279,10 +15275,9 @@ const getParamsBp = (payload, kaum, jantina) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
       kumpulanEtnik: kaum,
       jantina: theSex,
+      jenisFasiliti: { $eq: 'kp' },
       deleted: false,
     };
     return param;
@@ -15294,6 +15289,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       createdByDaerah: daerah,
       kumpulanEtnik: kaum,
       jantina: theSex,
+      jenisFasiliti: { $eq: 'kp' },
       deleted: false,
     };
     return param;
@@ -15304,6 +15300,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       createdByNegeri: negeri,
       kumpulanEtnik: kaum,
       jantina: theSex,
+      jenisFasiliti: { $eq: 'kp' },
       deleted: false,
     };
     return param;
@@ -15325,6 +15322,8 @@ const getParamsBPE = (payload) => {
       createdByMdcMdtb: id,
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
     };
     return param;
   };
@@ -15333,6 +15332,8 @@ const getParamsBPE = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15344,6 +15345,8 @@ const getParamsBPE = (payload) => {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15354,6 +15357,8 @@ const getParamsBPE = (payload) => {
     let param = {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15381,6 +15386,7 @@ const getParamsPGS203 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: id,
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
     };
     return param;
   };
@@ -15391,8 +15397,7 @@ const getParamsPGS203 = (payload) => {
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
+      deleted: false,
     };
     return param;
   };
@@ -15403,6 +15408,7 @@ const getParamsPGS203 = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
@@ -15414,6 +15420,7 @@ const getParamsPGS203 = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
+      deleted: false,
       // ibuMengandung: false,
       // orangKurangUpaya: false,
     };
