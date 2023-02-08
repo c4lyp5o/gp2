@@ -13,7 +13,7 @@ const countPG101A = async (payload) => {
   let project_stage = [];
   let sort_stage = [];
 
-  let match = { $match: getParams(payload, 'A') };
+  let match = { $match: getParams101(payload, 'A') };
 
   const project = {
     $project: {
@@ -70,7 +70,7 @@ const countPG101C = async (payload) => {
   let project_stage = [];
   let sort_stage = [];
 
-  let match = { $match: getParams(payload, 'C') };
+  let match = { $match: getParams101(payload, 'C') };
 
   const project = {
     $project: {
@@ -14694,7 +14694,7 @@ const countBPE = async (payload) => {
 };
 
 // helper function
-const getParams = (payload, reten) => {
+const getParams101 = (payload, reten) => {
   const {
     negeri,
     daerah,
@@ -14703,58 +14703,40 @@ const getParams = (payload, reten) => {
     pilihanKkia,
     pilihanProgram,
     pilihanKpbmpb,
-    tarikhMula,
-    tarikhAkhir,
-    bulan,
   } = payload;
 
   const AorC = (reten) => {
     if (reten === 'A' || reten === undefined) {
-      return { $in: ['kp', 'kk-kd'] };
+      return { $eq: 'kp' };
     }
     if (reten === 'C') {
-      return { $nin: ['kp', 'kk-kd'] };
+      return { $nin: ['kp', 'kk-kd', 'taska-tadika'] };
     }
   };
 
   const byKp = () => {
-    const noEndDate = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      createdByKodFasiliti: {
-        $eq: klinik,
-      },
-      jenisFasiliti: AorC(reten),
-    };
-    const withEndDate = {
-      tarikhKedatangan: {
-        $gte: tarikhMula,
-        $lte: tarikhAkhir,
-      },
-      createdByKodFasiliti: {
-        $eq: klinik,
-      },
+    const forKp = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       kodFasilitiKkKd: { $eq: pilihanKkia },
       createdByKodFasiliti: { $eq: klinik },
-      jenisFasiliti: { $in: ['kk-kd'] },
+      jenisFasiliti: { $eq: 'kk-kd' },
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
-      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: [pilihanProgram] },
+      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      namaProgram: { $eq: pilihanProgram },
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
-      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: [pilihanProgram] },
+      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      penggunaanKPBMPB: { $eq: pilihanKpbmpb },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -14765,54 +14747,35 @@ const getParams = (payload, reten) => {
     if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
       return forKpbmpb;
     }
-    if (tarikhMula && tarikhAkhir) {
-      return withEndDate;
-    }
-    return noEndDate;
+    return forKp;
   };
 
   const byDaerah = () => {
-    const noEndDate = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      createdByNegeri: {
-        $eq: negeri,
-      },
-      createdByDaerah: {
-        $eq: daerah,
-      },
-      jenisFasiliti: AorC(reten),
-    };
-    const withEndDate = {
-      tarikhKedatangan: {
-        $gte: tarikhMula,
-        $lte: tarikhAkhir,
-      },
-      createdByNegeri: { $eq: negeri },
+    const forKp = {
+      tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
+      createdByNegeri: { $eq: negeri },
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $in: ['kk-kd'] },
+      jenisFasiliti: { $eq: 'kk-kd' },
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: pilihanProgram },
+      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      namaProgram: { $eq: pilihanProgram },
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: pilihanProgram },
+      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      penggunaanKPBMPB: { $eq: pilihanKpbmpb },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -14823,49 +14786,31 @@ const getParams = (payload, reten) => {
     if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
       return forKpbmpb;
     }
-    if (tarikhMula && tarikhAkhir) {
-      return withEndDate;
-    }
-    return noEndDate;
+    return forKp;
   };
 
   const byNegeri = () => {
-    const noEndDate = {
-      tarikhKedatangan: {
-        $gte: moment(bulan).startOf('month').format('YYYY-MM-DD'),
-        $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
-      },
-      createdByNegeri: {
-        $eq: negeri,
-      },
-      jenisFasiliti: AorC(reten),
-    };
-    const withEndDate = {
-      tarikhKedatangan: {
-        $gte: tarikhMula,
-        $lte: tarikhAkhir,
-      },
-      createdByNegeri: {
-        $eq: negeri,
-      },
+    const forKp = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByNegeri: { $eq: negeri },
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $in: ['kk-kd'] },
+      jenisFasiliti: { $eq: 'kk-kd' },
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: pilihanProgram },
+      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      namaProgram: { $eq: pilihanProgram },
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $in: ['projek-komuniti-lain'] },
-      namaProgram: { $in: pilihanProgram },
+      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      penggunaanKPBMPB: { $eq: pilihanProgram },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -14876,18 +14821,15 @@ const getParams = (payload, reten) => {
     if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
       return forKpbmpb;
     }
-    if (tarikhMula && tarikhAkhir) {
-      return withEndDate;
-    }
-    return noEndDate;
+    return forKp;
   };
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
