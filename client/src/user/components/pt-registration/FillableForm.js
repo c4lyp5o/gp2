@@ -14,6 +14,7 @@ import {
   FaPlusCircle,
   FaMinusCircle,
   FaClock,
+  FaInfoCircle,
 } from 'react-icons/fa';
 import moment from 'moment';
 import Datetime from 'react-datetime';
@@ -2283,6 +2284,13 @@ export default function FillableForm({
                             bayaran tambahan :
                           </p>
                         )}
+                        <p className='pt-7 md:pt-7 text-xs md:text-sm font-light md:font-normal'>
+                          Lain-lain
+                          <FaInfoCircle
+                            className='inline text-xs md:text-sm text-kaunter1 ml-1'
+                            title='Dipaparkan di STATUS HARIAN PENGGUNA'
+                          />
+                        </p>
                       </div>
                     )}
                   </div>
@@ -2541,7 +2549,7 @@ export default function FillableForm({
                     )}
                     <div
                       className='relative w-full mt-2'
-                      title='No. Slip Cuti Sakit/Lain-lain Catatan Penting'
+                      title='No. Slip Cuti Sakit / Lain-lain Catatan Penting'
                     >
                       <input
                         type='text'

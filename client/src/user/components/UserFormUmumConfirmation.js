@@ -132,9 +132,7 @@ const ConfirmModal = ({ children, data }) => {
                                   <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
                                 )}
                               </p>
-                              DMFX:{' '}
-                              {data.sumDMFXKekalUmum -
-                                data.eAdaGigiKekalPemeriksaanUmum}
+                              DMFX: {data.sumDMFXKekalUmum}
                               {data.eAdaGigiKekalPemeriksaanUmum ? (
                                 <p className='lowercase'>
                                   e: {data.eAdaGigiKekalPemeriksaanUmum}
