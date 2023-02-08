@@ -634,7 +634,16 @@ const makePG101A = async (payload) => {
 const makePG101C = async (payload) => {
   console.log('PG101C');
   try {
-    let { klinik, daerah, negeri, bulan, username } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      pilihanProgram,
+      pilihanKpbmpb,
+      username,
+      tarikhMula,
+      bulan,
+    } = payload;
     //
     const data = await Helper.countPG101C(payload);
     //
@@ -658,7 +667,11 @@ const makePG101C = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG101C');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(bulan).format('YYYY');
 
@@ -669,7 +682,9 @@ const makePG101C = async (payload) => {
     intro1.getCell(2).value = 'OUTREACH';
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()} ${
+      pilihanProgram ? ` / ${pilihanProgram.toUpperCase()}` : ''
+    } ${pilihanKpbmpb ? ` / ${pilihanKpbmpb.toUpperCase()}` : ''}`;
 
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `${daerah.toUpperCase()}`;
@@ -778,8 +793,10 @@ const makePG101C = async (payload) => {
           console.log('');
       }
       rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      let catatan = `Operator: ${
-        data[i].createdByUsername !== 'kaunter' ? data[i].createdByUsername : ''
+      let catatan = `${
+        data[i].createdByUsername !== 'kaunter'
+          ? `Operator: ${data[i].createdByUsername} `
+          : ''
       }${data[i].noBayaran ? data[i].noBayaran : ''} ${
         data[i].noResit ? data[i].noResit : ''
       } ${data[i].noBayaran2 ? data[i].noBayaran2 : ''} ${
