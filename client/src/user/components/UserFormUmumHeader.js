@@ -37,8 +37,8 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   const theCheckTPRShow = () => {
-    if (sekolahIdc === 'umum-sekolah') {
-      console.log('idc');
+    console.log('sekolah');
+    if (singlePersonUmum.jenisProgram === 'incremental') {
       if (skorGisMulutOralHygienePemeriksaanUmum === '') {
         return toast.info('Sila isi skor GIS');
       }
@@ -86,7 +86,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
       }
       setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
     }
-    if (sekolahIdc !== 'umum-sekolah') {
+    if (singlePersonUmum.jenisProgram !== 'incremental') {
       console.log('bukan sekolah');
       if (
         parseInt(singlePersonUmum.umur) > 14 &&
@@ -2570,7 +2570,8 @@ function UserFormUmumHeader({ sekolahIdc }) {
                                   ).format('DD/MM/YYYY')}
                                 </p>
                               </div>
-                              {sekolahIdc === 'umum-sekolah' && (
+                              {singlePersonUmum.jenisProgram ===
+                                'incremental' && (
                                 <div className='text-sm flex flex-row whitespace-nowrap'>
                                   <h2 className='font-semibold'>
                                     NAMA SEKOLAH :
