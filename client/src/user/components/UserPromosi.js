@@ -77,6 +77,7 @@ function UserPromosi({ individuOrKlinik }) {
   }, [reliefUserToken, userToken]);
 
   const clearKodProgram = () => {
+    setJenisProgramResult('');
     setKodProgram('');
   };
 

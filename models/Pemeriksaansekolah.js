@@ -100,11 +100,6 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
-  mAdaGigiDesidus: {
-    type: Number,
-    min: 0,
-    default: 0,
-  },
   fAdaGigiDesidus: {
     type: Number,
     min: 0,
@@ -115,11 +110,6 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
-  // smAdaGigiDesidus: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
   adaKekal: {
     type: Boolean,
     default: false,

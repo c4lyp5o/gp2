@@ -1420,15 +1420,13 @@ function UserFormUmumHeader({ sekolahIdc }) {
       parseInt(dAdaGigiKekalPemeriksaanUmum) +
         parseInt(mAdaGigiKekalPemeriksaanUmum) +
         parseInt(fAdaGigiKekalPemeriksaanUmum) +
-        parseInt(xAdaGigiKekalPemeriksaanUmum) +
-        parseInt(eAdaGigiKekalPemeriksaanUmum)
+        parseInt(xAdaGigiKekalPemeriksaanUmum)
     );
   }, [
     dAdaGigiKekalPemeriksaanUmum,
     mAdaGigiKekalPemeriksaanUmum,
     fAdaGigiKekalPemeriksaanUmum,
     xAdaGigiKekalPemeriksaanUmum,
-    eAdaGigiKekalPemeriksaanUmum,
   ]);
 
   useEffect(() => {
@@ -2067,6 +2065,19 @@ function UserFormUmumHeader({ sekolahIdc }) {
         diastolicTekananDarah === '0')
     ) {
       toast.error('Sila isi tekanan darah');
+      return;
+    }
+
+    if (sumDMFXDesidusUmum > 20) {
+      toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumDMFXKekalUmum > 32) {
+      toast.error('Jumlah DMFX Kekal tidak boleh lebih dari 32', {
+        autoClose: 3000,
+      });
       return;
     }
 
