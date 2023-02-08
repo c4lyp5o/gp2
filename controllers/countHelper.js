@@ -9678,13 +9678,26 @@ const countPGS203 = async (payload) => {
       $lookup: {
         from: 'fasilitis',
         localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodFasilitiTaskaTadika',
-        as: 'fasiliti_docs',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        govKe: '$fasiliti_data.govKe',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
       },
     },
     {
       $match: {
-        'fasiliti_docs.govKe': 'kerajaan',
+        govKe: 'Kerajaan',
       },
     },
   ];
@@ -9694,7 +9707,6 @@ const countPGS203 = async (payload) => {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
         jenisFasiliti: { $eq: 'taska-tadika' },
-        // govKe: 'Swasta',
         deleted: false,
       },
     },
@@ -9702,13 +9714,26 @@ const countPGS203 = async (payload) => {
       $lookup: {
         from: 'fasilitis',
         localField: 'kodFasilitiTaskaTadika',
-        foreignField: 'kodFasilitiTaskaTadika',
-        as: 'fasiliti_docs',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        govKe: '$fasiliti_data.govKe',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
       },
     },
     {
       $match: {
-        'fasiliti_docs.govKe': 'swasta',
+        govKe: 'Swasta',
       },
     },
   ];
@@ -10190,11 +10215,7 @@ const countPGS203 = async (payload) => {
   //   bigData.push(dataPGS203);
   // }
   for (const stage of match_stage) {
-    const dataPGS203 = await Umum.aggregate([
-      ...stage,
-      ...group_stage,
-      ...project_stage,
-    ]);
+    const dataPGS203 = await Umum.aggregate([...stage, ...group_stage]);
     bigData.push(dataPGS203);
   }
   return bigData;
@@ -15427,16 +15448,16 @@ const getParamsPGS203 = (payload) => {
     return param;
   };
 
-  if (payload.pegawai) {
+  if (pegawai) {
     return byPegawai(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
