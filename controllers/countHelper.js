@@ -2250,33 +2250,34 @@ const countPG206 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
-                {
-                  $or: [
-                    {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
-                    },
-                    {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
-                    },
-                  ],
-                },
-                {
-                  $or: [
-                    {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
-                    },
-                    {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
-                    },
-                  ],
-                },
-              ],
+              $eq: ['$tidakPerluRawatanPemeriksaanUmum', true],
+              // $and: [
+              //   { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+              //   { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+              //   { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+              //   { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+              //   { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+              //   {
+              //     $or: [
+              //       {
+              //         $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+              //       },
+              //       {
+              //         $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+              //       },
+              //     ],
+              //   },
+              //   {
+              //     $or: [
+              //       {
+              //         $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+              //       },
+              //       {
+              //         $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+              //       },
+              //     ],
+              //   },
+              // ],
             },
             1,
             0,
