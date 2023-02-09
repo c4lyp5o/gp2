@@ -2789,109 +2789,85 @@ const makeGender = async (payload) => {
     // data lelaki
 
     if (data[0].dataLelaki[0]) {
-      worksheet.getCell('C9').value = data[0].dataLelaki[0].pesakitLelakiBaru;
-      worksheet.getCell('C10').value =
-        data[0].dataLelaki[0].pesakitLelakiUlangan;
+      worksheet.getCell('C9').value = data[0].dataLelaki[0].pesakitBaru;
+      worksheet.getCell('C10').value = data[0].dataLelaki[0].pesakitUlangan;
     }
 
     if (data[0].dataLelaki[1]) {
-      worksheet.getCell('H9').value = data[0].dataLelaki[1].pesakitLelakiBaru;
-      worksheet.getCell('H10').value =
-        data[0].dataLelaki[1].pesakitLelakiUlangan;
+      worksheet.getCell('H9').value = data[0].dataLelaki[1].pesakitBaru;
+      worksheet.getCell('H10').value = data[0].dataLelaki[1].pesakitUlangan;
     }
 
     if (data[0].dataLelaki[2]) {
-      worksheet.getCell('M9').value = data[0].dataLelaki[2].pesakitLelakiBaru;
-      worksheet.getCell('M10').value =
-        data[0].dataLelaki[2].pesakitLelakiUlangan;
+      worksheet.getCell('M9').value = data[0].dataLelaki[2].pesakitBaru;
+      worksheet.getCell('M10').value = data[0].dataLelaki[2].pesakitUlangan;
     }
 
     if (data[0].dataLelaki[3]) {
-      worksheet.getCell('R9').value = data[0].dataLelaki[3].pesakitLelakiBaru;
-      worksheet.getCell('R10').value =
-        data[0].dataLelaki[3].pesakitLelakiUlangan;
+      worksheet.getCell('R9').value = data[0].dataLelaki[3].pesakitBaru;
+      worksheet.getCell('R10').value = data[0].dataLelaki[3].pesakitUlangan;
     }
 
     if (data[0].dataLelaki[4]) {
-      worksheet.getCell('C12').value = data[0].dataLelaki[4].pesakitLelakiBaru;
-      worksheet.getCell('C13').value =
-        data[0].dataLelaki[4].pesakitLelakiUlangan;
+      worksheet.getCell('C12').value = data[0].dataLelaki[4].pesakitBaru;
+      worksheet.getCell('C13').value = data[0].dataLelaki[4].pesakitUlangan;
     }
 
     if (data[0].dataLelaki[5]) {
-      worksheet.getCell('H12').value = data[0].dataLelaki[5].pesakitLelakiBaru;
-      worksheet.getCell('H13').value =
-        data[0].dataLelaki[5].pesakitLelakiUlangan;
+      worksheet.getCell('H12').value = data[0].dataLelaki[5].pesakitBaru;
+      worksheet.getCell('H13').value = data[0].dataLelaki[5].pesakitUlangan;
     }
 
     if (data[0].dataLelaki[6]) {
-      worksheet.getCell('M12').value = data[0].dataLelaki[6].pesakitLelakiBaru;
-      worksheet.getCell('M13').value =
-        data[0].dataLelaki[6].pesakitLelakiUlangan;
+      worksheet.getCell('M12').value = data[0].dataLelaki[6].pesakitBaru;
+      worksheet.getCell('M13').value = data[0].dataLelaki[6].pesakitUlangan;
     }
 
     if (data[0].dataLelaki[7]) {
-      worksheet.getCell('R12').value = data[0].dataLelaki[7].pesakitLelakiBaru;
-      worksheet.getCell('R13').value =
-        data[0].dataLelaki[7].pesakitLelakiUlangan;
+      worksheet.getCell('R12').value = data[0].dataLelaki[7].pesakitBaru;
+      worksheet.getCell('R13').value = data[0].dataLelaki[7].pesakitUlangan;
     }
 
     // data perempuan
 
     if (data[1].dataPerempuan[0]) {
-      worksheet.getCell('D9').value =
-        data[1].dataPerempuan[0].pesakitPerempuanBaru;
-      worksheet.getCell('D10').value =
-        data[1].dataPerempuan[0].pesakitPerempuanUlangan;
+      worksheet.getCell('D9').value = data[1].dataPerempuan[0].pesakitBaru;
+      worksheet.getCell('D10').value = data[1].dataPerempuan[0].pesakitUlangan;
     }
 
     if (data[1].dataPerempuan[1]) {
-      worksheet.getCell('I9').value =
-        data[1].dataPerempuan[1].pesakitPerempuanBaru;
-      worksheet.getCell('I10').value =
-        data[1].dataPerempuan[1].pesakitPerempuanUlangan;
+      worksheet.getCell('I9').value = data[1].dataPerempuan[1].pesakitBaru;
+      worksheet.getCell('I10').value = data[1].dataPerempuan[1].pesakitUlangan;
     }
 
     if (data[1].dataPerempuan[2]) {
-      worksheet.getCell('N9').value =
-        data[1].dataPerempuan[2].pesakitPerempuanBaru;
-      worksheet.getCell('N10').value =
-        data[1].dataPerempuan[2].pesakitPerempuanUlangan;
+      worksheet.getCell('N9').value = data[1].dataPerempuan[2].pesakitBaru;
+      worksheet.getCell('N10').value = data[1].dataPerempuan[2].pesakitUlangan;
     }
 
     if (data[1].dataPerempuan[3]) {
-      worksheet.getCell('S9').value =
-        data[1].dataPerempuan[3].pesakitPerempuanBaru;
-      worksheet.getCell('S10').value =
-        data[1].dataPerempuan[3].pesakitPerempuanUlangan;
+      worksheet.getCell('S9').value = data[1].dataPerempuan[3].pesakitBaru;
+      worksheet.getCell('S10').value = data[1].dataPerempuan[3].pesakitUlangan;
     }
 
     if (data[1].dataPerempuan[4]) {
-      worksheet.getCell('D12').value =
-        data[1].dataPerempuan[4].pesakitPerempuanBaru;
-      worksheet.getCell('D13').value =
-        data[1].dataPerempuan[4].pesakitPerempuanUlangan;
+      worksheet.getCell('D12').value = data[1].dataPerempuan[4].pesakitBaru;
+      worksheet.getCell('D13').value = data[1].dataPerempuan[4].pesakitUlangan;
     }
 
     if (data[1].dataPerempuan[5]) {
-      worksheet.getCell('I12').value =
-        data[1].dataPerempuan[5].pesakitPerempuanBaru;
-      worksheet.getCell('I13').value =
-        data[1].dataPerempuan[5].pesakitPerempuanUlangan;
+      worksheet.getCell('I12').value = data[1].dataPerempuan[5].pesakitBaru;
+      worksheet.getCell('I13').value = data[1].dataPerempuan[5].pesakitUlangan;
     }
 
     if (data[1].dataPerempuan[6]) {
-      worksheet.getCell('N12').value =
-        data[1].dataPerempuan[6].pesakitPerempuanBaru;
-      worksheet.getCell('N13').value =
-        data[1].dataPerempuan[6].pesakitPerempuanUlangan;
+      worksheet.getCell('N12').value = data[1].dataPerempuan[6].pesakitBaru;
+      worksheet.getCell('N13').value = data[1].dataPerempuan[6].pesakitUlangan;
     }
 
     if (data[1].dataPerempuan[7]) {
-      worksheet.getCell('S12').value =
-        data[1].dataPerempuan[7].pesakitPerempuanBaru;
-      worksheet.getCell('S13').value =
-        data[1].dataPerempuan[7].pesakitPerempuanUlangan;
+      worksheet.getCell('S12').value = data[1].dataPerempuan[7].pesakitBaru;
+      worksheet.getCell('S13').value = data[1].dataPerempuan[7].pesakitUlangan;
     }
 
     // info
