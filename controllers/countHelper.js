@@ -14298,7 +14298,7 @@ const countBPE = async (payload) => {
   const bKurang18 = {
     $match: {
       ...getParamsBPE(payload),
-      umur: { $lt: 18 },
+      umur: { $gt: 14, $lt: 18 },
       kedatangan: { $eq: 'baru-kedatangan' },
       deleted: false,
     },
