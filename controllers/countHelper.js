@@ -538,7 +538,20 @@ const countPG211A = async (payload) => {
   let group_stage = {
     $group: {
       _id: placeModifier(payload),
-      count: { $sum: 1 },
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       jumlahLelaki: {
         $sum: {
           $cond: [
@@ -1331,7 +1344,20 @@ const countPG211C = async (payload) => {
   let group_stage = {
     $group: {
       _id: placeModifier(payload),
-      count: { $sum: 1 },
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       jumlahLelaki: {
         $sum: {
           $cond: [
@@ -1775,7 +1801,20 @@ const countPG214 = async (payload) => {
   let group_stage = {
     $group: {
       _id: placeModifier(payload),
-      count: { $sum: 1 },
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       kedatangan: { $first: '$kedatangan' },
       umur: { $max: '$umur' },
       //
@@ -2163,6 +2202,20 @@ const countPG206 = async (payload) => {
   const group_pemeriksaan = {
     $group: {
       _id: placeModifier(payload),
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       // pemeriksaan
       kedatanganTahunSemasaBaru: {
         $sum: {
@@ -2365,6 +2418,9 @@ const countPG206 = async (payload) => {
   const project_pemeriksaan = {
     $project: {
       _id: 1,
+      // stats
+      jumlahReten: 1,
+      statusReten: 1,
       // pemeriksaan
       kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
       jumlahd: '$jumlahd',
@@ -3350,6 +3406,20 @@ const countPG207 = async (payload) => {
   const group_pemeriksaan = {
     $group: {
       _id: placeModifier(payload),
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       // pemeriksaan
       kedatanganTahunSemasaBaru: {
         $sum: {
@@ -3597,6 +3667,9 @@ const countPG207 = async (payload) => {
   const project_pemeriksaan = {
     $project: {
       _id: 1,
+      // stats
+      jumlahReten: 1,
+      statusReten: 1,
       // pemeriksaan
       kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
       sapuanFluorida: '$sapuanFluorida',
@@ -5385,6 +5458,20 @@ const countPGPR201Baru = async (payload) => {
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       count: { $sum: 1 },
       jumlahAGumur1517: {
         $sum: '$umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum',
@@ -13572,6 +13659,20 @@ const countGender = async (payload) => {
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       pesakitBaru: {
         $sum: {
           $cond: [
@@ -13894,7 +13995,20 @@ const countMasa = async (payload) => {
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
-      total: { $sum: 1 },
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       jumlahOpYangDipanggilSebelum30Minit: {
         $sum: {
           $cond: [
@@ -14126,7 +14240,20 @@ const countBp = async (payload) => {
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
-      total: { $sum: 1 },
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       adaSejarahDarahTinggi: {
         $sum: {
           $cond: [
@@ -14327,8 +14454,20 @@ const countBPE = async (payload) => {
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
-      total: { $sum: 1 },
-
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
       //kedatangan
       kedatanganTahunSemasaBaru: {
         $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
