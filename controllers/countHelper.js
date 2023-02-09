@@ -14861,6 +14861,7 @@ const getParams211 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: AorC(reten),
+      jenisProgram: { $ne: 'incremental' },
       deleted: false,
     };
     return param;
@@ -14871,6 +14872,7 @@ const getParams211 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       createdByDaerah: { $eq: daerah },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       deleted: false,
     };
@@ -14881,6 +14883,7 @@ const getParams211 = (payload, reten) => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       deleted: false,
     };
