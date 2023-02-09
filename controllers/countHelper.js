@@ -15208,7 +15208,6 @@ const countPG201P2 = async (payload) => {
                       { $gte: ['$umur', 6] },
                       { $lte: ['$umur', 18] },
                       { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                      { $eq: ['$mAdaGigiDesidusPemeriksaanUmum', 0] },
                       { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                       { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                       { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
@@ -15388,19 +15387,23 @@ const countPG201P2 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $eq: [
-                  '$tidakPerluRawatanPemeriksaanUmum',
-                  'tidak-perlu-rawatan-pemeriksaan-umum',
+                $and: [
+                  {
+                    $eq: [
+                      '$tidakPerluRawatanPemeriksaanUmum',
+                      'tidak-perlu-rawatan-pemeriksaan-umum',
+                    ],
+                  },
+                  {
+                    $eq: [
+                      '$fvPerluSapuanPemeriksaanUmum',
+                      'tidak-fv-perlu-sapuan-pemeriksaan-umum',
+                    ],
+                  },
+                  { $eq: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 0] },
+                  { $eq: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 0] },
                 ],
               },
-              {
-                $eq: [
-                  '$fvPerluSapuanPemeriksaanUmum',
-                  'tidak-fv-perlu-sapuan-pemeriksaan-umum',
-                ],
-              },
-              { $eq: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 0] },
-              { $eq: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 0] },
               1,
               0,
             ],
@@ -15577,11 +15580,7 @@ const countPG201P2 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $and: [
-                  {
-                    $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
-                  },
-                ],
+                $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
               },
               1,
               0,
