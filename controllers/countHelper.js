@@ -14852,7 +14852,7 @@ const getParams211 = (payload, reten) => {
       return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
-      return { $nin: ['kp', 'kk-kd'] };
+      return { $nin: ['kp', 'kk-kd', 'taska-tadika'] };
     }
   };
 
