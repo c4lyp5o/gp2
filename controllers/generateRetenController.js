@@ -3999,11 +3999,11 @@ const makePG201P2 = async (payload) => {
     let intro1 = worksheet.getRow(7);
     intro1.getCell(4).value = `${klinik.toUpperCase()}`;
     //Write Sekolah/Tadika:
-    let intro2 = worksheet.getRow(8);
-    intro2.getCell(4).value = `${namaFasilitiTaskaTadika.toUpperCase()}`;
+    // let intro2 = worksheet.getRow(8);
+    // intro2.getCell(4).value = `${namaFasilitiTaskaTadika.toUpperCase()}`;
     // write pegawai:
-    let intro7 = worksheet.getRow(9);
-    intro7.getCell(2).value = `${pegawai.toUpperCase()}`;
+    // let intro7 = worksheet.getRow(9);
+    // intro7.getCell(2).value = `${pegawai.toUpperCase()}`;
     // write negeri
     // let intro3 = worksheet.getRow(8);
     // intro3.getCell(2).value = `${negeri.toUpperCase()}`;
