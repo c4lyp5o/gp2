@@ -50,17 +50,17 @@ const ShowCounter = ({ minutes, seconds, place }) => {
 const CountdownTimer = ({
   deadline,
   place,
-  from,
-  refetchDateTime,
-  setRefetchDateTime,
+  // from,
+  // refetchDateTime,
+  // setRefetchDateTime,
 }) => {
   const [days, hours, minutes, seconds] = useCountdown(deadline);
 
-  useEffect(() => {
-    if (from === 'kaunter' || from === 'pengguna') {
-      setRefetchDateTime(!refetchDateTime);
-    }
-  }, [seconds]);
+  // useEffect(() => {
+  //   if (from === 'kaunter' || from === 'pengguna') {
+  //     setRefetchDateTime(!refetchDateTime);
+  //   }
+  // }, [seconds]);
 
   if (days + hours + minutes + seconds <= 0) {
     return <ExpiredNotice />;
