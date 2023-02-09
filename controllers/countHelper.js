@@ -14024,9 +14024,7 @@ const countBp = async (payload) => {
   const umur60keataslelaki = (payload, kaum, jantina) => {
     return {
       $match: {
-        umur: {
-          $gte: 60,
-        },
+        umur: { $gte: 60 },
         ...getParamsBp(payload, kaum, jantina),
       },
     };
@@ -14083,9 +14081,7 @@ const countBp = async (payload) => {
   const umur60keatasperempuan = (payload, kaum, jantina) => {
     return {
       $match: {
-        umur: {
-          $gte: 60,
-        },
+        umur: { $gte: 60 },
         ...getParamsBp(payload, kaum, jantina),
       },
     };
@@ -14162,29 +14158,6 @@ const countBp = async (payload) => {
     $group: {
       _id: placeModifier(payload),
       total: { $sum: 1 },
-      // jumlahLelaki: {
-      //   $sum: {
-      //     $cond: [
-      //       {
-      //         $eq: ['$jantina', 'lelaki'],
-      //       },
-      //       1,
-      //       0,
-      //     ],
-      //   },
-      // },
-      // //
-      // jumlahPerempuan: {
-      //   $sum: {
-      //     $cond: [
-      //       {
-      //         $eq: ['$jantina', 'perempuan'],
-      //       },
-      //       1,
-      //       0,
-      //     ],
-      //   },
-      // },
       adaSejarahDarahTinggi: {
         $sum: {
           $cond: [
@@ -14197,18 +14170,6 @@ const countBp = async (payload) => {
           ],
         },
       },
-      // adaSejarahDarahTinggiPerempuan: {
-      //   $sum: {
-      //     $cond: [
-      //       {
-      //         $eq: ['$sejarahDarahTinggi', true],
-      //         $eq: ['$jantina', 'perempuan'],
-      //       },
-      //       1,
-      //       0,
-      //     ],
-      //   },
-      // },
       tiadaSejarahDarahTinggi: {
         $sum: {
           $cond: [
@@ -14221,18 +14182,6 @@ const countBp = async (payload) => {
           ],
         },
       },
-      // tiadaSejarahDarahTinggiPerempuan: {
-      //   $sum: {
-      //     $cond: [
-      //       {
-      //         $eq: ['$sejarahDarahTinggi', false],
-      //         $eq: ['$jantina', 'perempuan'],
-      //       },
-      //       1,
-      //       0,
-      //     ],
-      //   },
-      // },
       jumlahDirujukKeKk: {
         $sum: {
           $cond: [
@@ -14284,12 +14233,7 @@ const countBp = async (payload) => {
   bigData.push({ dayak });
   bigData.push({ lain2 });
 
-  // console.log(bigData[0].melayu[5][0].jumlahLelaki);
-  // console.log(bigData.length);
-  // console.log(bigData[0].melayu.length);
-
   return bigData;
-  // return 'No data found';
 };
 const countBPE = async (payload) => {
   //
