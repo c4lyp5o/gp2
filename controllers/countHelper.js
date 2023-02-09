@@ -15544,8 +15544,6 @@ const getParamsBPE = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -15557,8 +15555,6 @@ const getParamsBPE = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -15569,22 +15565,20 @@ const getParamsBPE = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
 
-  if (payload.pegawai) {
+  if (pegawai) {
     return byPegawai(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
