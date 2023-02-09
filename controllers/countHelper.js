@@ -14841,11 +14841,37 @@ const countPG307 = async (payload, reten) => {
           1,
         ],
       },
-      Elebihsama1: 1,
-      BKtapiElebih1: 1,
+      Elebihsama1: {
+        $cond: [
+          {
+            $lte: ['$eAdaGigiKekalPemeriksaanUmum', 1],
+          },
+          1,
+        ],
+      },
+      BKtapiElebih1: {
+        $cond: [
+          {
+            $and: [
+              {
+                $and: [
+                  { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                ],
+              },
+              {
+                $gt: ['$eAdaGigiKekalPemeriksaanUmum', 1],
+              },
+            ],
+          },
+          1,
+        ],
+      },
       skorGisMulutOralHygienePemeriksaanUmum: 1,
       skorBpeOralHygienePemeriksaanUmum: 1,
-      tidakPerluRawatanPemeriksaanUmumMMI: 1,
+      tidakPerluRawatanPemeriksaanUmumMMI: 1, // kena kautim
       tidakPerluRawatanPemeriksaanUmum: 1,
       kecederaanTulangMukaUmum: 1,
       kecederaanGigiUmum: 1,
@@ -14857,7 +14883,7 @@ const countPG307 = async (payload, reten) => {
       baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: 1,
       fissureSealantPemeriksaanUmum: 1,
       baruJumlahGigiKekalPerluFSRawatanUmum: 1,
-      // perlu tampal
+      // perlu tampal (tiada data lg)
       // rawatan
       pesakitDibuatFluorideVarnish: 1,
       baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum: 1,
@@ -14875,10 +14901,10 @@ const countPG307 = async (payload, reten) => {
       gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 1,
       gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum: 1,
       jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum: 1,
-      // cabut gigi desidus
-      // cabut gigi kekal
+      // cabut gigi desidus - tiada data
+      // cabut gigi kekal - tiada data
       penskaleranRawatanUmum: 1,
-      // kes selesai mmi
+      // kes selesai mmi - tiada data
       kesSelesaiRawatanUmum: 1,
     },
   };
