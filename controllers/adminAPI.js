@@ -32,6 +32,7 @@ const Dictionary = {
   kkiakdallnegeri: 'kkiakd-all-negeri',
   pp: 'pegawai',
   ppall: 'pegawai-all',
+  pegawaispesifik: 'pegawai-spesifik',
   jp: 'juruterapi pergigian',
   jpall: 'jp-all',
   taska: 'taska',
@@ -482,6 +483,11 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         activationStatus: true,
       }).lean();
+      break;
+    case 'pegawai-spesifik':
+      data = await Operator.find({ kodFasiliti: kp })
+        .select('nama mdcNumber mdtbNumber statusPegawai')
+        .lean();
       break;
     case 'jp-all':
       data = await Operator.find({
