@@ -1359,7 +1359,7 @@ const Generate = (props) => {
     },
     {
       kod: 'PG201 Pind. 2/2022',
-      kodRingkas: 'PG201',
+      kodRingkas: 'PG201P2',
       deskripsi:
         'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
