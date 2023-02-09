@@ -793,7 +793,16 @@ const makePG101C = async (payload) => {
 const makePG211A = async (payload) => {
   console.log('PG211A');
   try {
-    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data = [];
     switch (fromEtl) {
@@ -902,7 +911,7 @@ const makePG211A = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell('AG8').value = `Dijana oleh: ${username} (${moment(
@@ -948,7 +957,16 @@ const makePG211A = async (payload) => {
 const makePG211C = async (payload) => {
   console.log('PG211C');
   try {
-    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -1057,7 +1075,7 @@ const makePG211C = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell('AG8').value = `Dijana oleh: ${username} (${moment(
@@ -1103,7 +1121,16 @@ const makePG211C = async (payload) => {
 const makePG214 = async (payload) => {
   console.log('PG214');
   try {
-    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -1200,7 +1227,7 @@ const makePG214 = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell(
@@ -1251,7 +1278,17 @@ const makePG214 = async (payload) => {
 const makePG206 = async (payload) => {
   console.log('PG206');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -1306,10 +1343,9 @@ const makePG206 = async (payload) => {
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
     //
-    // let j = 0;
+    let j = 0;
     for (let i = 0; i < data[0].length; i++) {
-      // j += 2;
-      let row = worksheet.getRow(17 + i);
+      let row = worksheet.getRow(17 + j);
       if (data[0][i].queryPemeriksaan[0]) {
         jumlahReten += data[0][i].queryPemeriksaan[0].jumlahReten;
         jumlahRetenSalah += data[0][i].queryPemeriksaan[0].statusReten;
@@ -1352,15 +1388,15 @@ const makePG206 = async (payload) => {
         }
         row.getCell(23).value = data[0][i].queryPemeriksaan[0].perluPenskaleran;
       }
+      j++;
       if (i === 6) {
-        i += 2;
+        j++;
       }
     }
 
-    // j = 0;
+    j = 0;
     for (let i = 0; i < data[1].length; i++) {
-      // j += 2;
-      let row = worksheet.getRow(17 + i);
+      let row = worksheet.getRow(17 + j);
       if (data[1][i].queryRawatan[0]) {
         // rawatan
         row.getCell(3).value =
@@ -1408,15 +1444,15 @@ const makePG206 = async (payload) => {
         }
         row.getCell(47).value = data[1][i].queryRawatan[0].kesSelesai;
       }
+      j++;
       if (i === 6) {
-        i += 2;
+        j++;
       }
     }
 
-    // j = 0;
+    j = 0;
     for (let i = 0; i < data[2].length; i++) {
-      // j += 2;
-      let row = worksheet.getRow(17 + i);
+      let row = worksheet.getRow(17 + j);
       if (data[2][i].querySekolah[0]) {
         // pemeriksaan
         row.getCell(2).value +=
@@ -1502,8 +1538,9 @@ const makePG206 = async (payload) => {
         }
         row.getCell(47).value += data[2][i].querySekolah[0].kesSelesai;
       }
+      j++;
       if (i === 6) {
-        i += 2;
+        j++;
       }
     }
 
@@ -1520,7 +1557,7 @@ const makePG206 = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell(
@@ -1574,7 +1611,17 @@ const makePG206 = async (payload) => {
 const makePG207 = async (payload) => {
   console.log('PG207');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -1629,11 +1676,11 @@ const makePG207 = async (payload) => {
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
-    //
-    // let j = 0;
+
+    let j = 0;
+
     for (let i = 0; i < data[0].length; i++) {
-      // j += 2;
-      let row = worksheet.getRow(17 + i);
+      let row = worksheet.getRow(17 + j);
       if (data[0][i].queryPemeriksaan[0]) {
         jumlahReten += data[0][i].queryPemeriksaan[0].jumlahReten;
         jumlahRetenSalah += data[0][i].queryPemeriksaan[0].statusReten;
@@ -1687,15 +1734,15 @@ const makePG207 = async (payload) => {
             data[0][i].queryPemeriksaan[0].jumlahPerluDenturSepara;
         }
       }
+      j++;
       if (i === 11) {
-        i += 2;
+        j++;
       }
     }
 
-    // j = 0;
+    j = 0;
     for (let i = 0; i < data[1].length; i++) {
-      // j += 2;
-      let row = worksheet.getRow(17 + i);
+      let row = worksheet.getRow(17 + j);
       if (data[1][i].queryRawatan[0]) {
         // rawatan
         row.getCell(3).value =
@@ -1777,14 +1824,14 @@ const makePG207 = async (payload) => {
         row.getCell(80).value = data[1][i].queryRawatan[0].xrayDiambil;
         row.getCell(81).value = data[1][i].queryRawatan[0].pesakitDisaringOC;
       }
+      j++;
       if (i === 11) {
-        i += 2;
+        j++;
       }
     }
 
-    // j = 0;
+    j = 0;
     for (let i = 0; i < data[2].length; i++) {
-      // j += 2;
       let row = worksheet.getRow(17 + i);
       if (data[2][i].querySekolah[0]) {
         // pemeriksaan
@@ -1917,8 +1964,9 @@ const makePG207 = async (payload) => {
         row.getCell(80).value += data[2][i].querySekolah[0].xrayDiambil;
         row.getCell(81).value += data[2][i].querySekolah[0].pesakitDisaringOC;
       }
+      j++;
       if (i === 11) {
-        i += 2;
+        j++;
       }
     }
 
@@ -1935,7 +1983,7 @@ const makePG207 = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell(
@@ -2224,7 +2272,16 @@ const makePGPR201 = async (payload) => {
   //Formula and excel baru lagi..(dapat dari Dr. Adib 22-01-2023)
   console.log('PGPR201Baru');
   try {
-    let { klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      username,
+      fromEtl,
+    } = payload;
     //
     console.log('Cuba Uji Test');
     let data;
@@ -2265,14 +2322,14 @@ const makePGPR201 = async (payload) => {
     details.getCell(5).value = `${monthName.toUpperCase()}`;
     details.getCell(7).value = `${yearNow}`;
 
-    let intro1 = worksheet.getRow(7);
-    intro1.getCell(3).value = `${negeri.toUpperCase()}`;
+    let intro3 = worksheet.getRow(7);
+    intro3.getCell(3).value = `${klinik.toUpperCase()}`;
 
     let intro2 = worksheet.getRow(8);
     intro2.getCell(3).value = `${daerah.toUpperCase()}`;
 
-    let intro3 = worksheet.getRow(9);
-    intro3.getCell(3).value = `${klinik.toUpperCase()}`;
+    let intro1 = worksheet.getRow(9);
+    intro1.getCell(3).value = `${negeri.toUpperCase()}`;
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -2367,7 +2424,7 @@ const makePGPR201 = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell(
@@ -2426,7 +2483,17 @@ const makePGPR201 = async (payload) => {
 const makePgPro01 = async (payload) => {
   console.log('makePgPro01');
   try {
-    let { username, pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
+    let {
+      username,
+      pegawai,
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -2480,66 +2547,74 @@ const makePgPro01 = async (payload) => {
 
     let j = 0;
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(19 + i);
-      if (data[j]) {
-        rowNew.getCell(5).value = data[j].jumlahAktivitiCeramahBaru; //C15
-        rowNew.getCell(6).value = data[j].jumlahPesertaCeramahBaru; //D15
+      let rowNew = worksheet.getRow(19 + j);
+      if (data[i]) {
+        rowNew.getCell(5).value = data[i].jumlahAktivitiCeramahBaru; //C15
+        rowNew.getCell(6).value = data[i].jumlahPesertaCeramahBaru; //D15
         if (i > 35 && i < 43) {
-          rowNew.getCell(7).value = data[j].jumlahAktivitiCeramahUlangan; //E15
-          rowNew.getCell(8).value = data[j].jumlahPesertaCeramahUlangan; //F15
+          rowNew.getCell(7).value = data[i].jumlahAktivitiCeramahUlangan; //E15
+          rowNew.getCell(8).value = data[i].jumlahPesertaCeramahUlangan; //F15
         }
-        rowNew.getCell(9).value = data[j].jumlahAktivitiBaruLMG; //G15
-        rowNew.getCell(10).value = data[j].jumlahPesertaBaruLMG; //H15
+        rowNew.getCell(9).value = data[i].jumlahAktivitiBaruLMG; //G15
+        rowNew.getCell(10).value = data[i].jumlahPesertaBaruLMG; //H15
         if (i > 35 && i < 43) {
-          rowNew.getCell(11).value = data[j].jumlahAktivitiUlanganLMG; //I15
-          rowNew.getCell(12).value = data[j].jumlahPesertaUlanganLMG; //J15
+          rowNew.getCell(11).value = data[i].jumlahAktivitiUlanganLMG; //I15
+          rowNew.getCell(12).value = data[i].jumlahPesertaUlanganLMG; //J15
         }
-        rowNew.getCell(13).value = data[j].jumlahAktivitiPerananKempen; //K15
-        rowNew.getCell(14).value = data[j].jumlahPesertaPerananKempen; //L15
-        rowNew.getCell(15).value = data[j].jumlahAktivitiBoneka; //M15
-        rowNew.getCell(16).value = data[j].jumlahPesertaBoneka; //N15
-        rowNew.getCell(17).value = data[j].jumlahAktivitiPeranan; //O15
-        rowNew.getCell(18).value = data[j].jumlahPesertaPeranan; //P15
-        rowNew.getCell(19).value = data[j].jumlahAktivitiBercerita; //Q15
-        rowNew.getCell(20).value = data[j].jumlahPesertaBercerita; //R15
-        rowNew.getCell(21).value = data[j].jumlahAktivitiPertandingan; //S15
-        rowNew.getCell(22).value = data[j].jumlahPesertaPertandingan; //T15
-        rowNew.getCell(23).value = data[j].jumlahAktivitiInteraktif; //U15
-        rowNew.getCell(24).value = data[j].jumlahPesertaInteraktif; //V15
-        rowNew.getCell(25).value = data[j].jumlahAktivitiKursusSeminarBengkel; //W15
-        rowNew.getCell(26).value = data[j].jumlahPesertaKursusSeminarBengkel; //X15
-        rowNew.getCell(27).value = data[j].jumlahAktivitiMultimedia; //Y15
-        rowNew.getCell(28).value = data[j].jumlahPesertaMultimedia; //Z15
-        rowNew.getCell(29).value = data[j].jumlahAktivitiDentalBuskers; //AA15
-        rowNew.getCell(30).value = data[j].jumlahPesertaDentalBuskers; //AB15
-        rowNew.getCell(31).value = data[j].jumlahAktivitiFlashMob; //AC15
-        rowNew.getCell(32).value = data[j].jumlahPesertaFlashMob; //AD15
-        rowNew.getCell(33).value = data[j].jumlahAktivitiLawatanRumah; //AE15
-        rowNew.getCell(34).value = data[j].jumlahPesertaLawatanRumah; //AF15
-        rowNew.getCell(35).value = data[j].jumlahAktivitiPlaqueOHE; //AG15
-        rowNew.getCell(36).value = data[j].jumlahPesertaPlaqueOHE; //AH15
-        rowNew.getCell(37).value = data[j].jumlahAktivitiOHI; //AI15
-        rowNew.getCell(38).value = data[j].jumlahPesertaOHI; //AJ15
-        rowNew.getCell(39).value = data[j].jumlahAktivitiDietAdvice; //AK15
-        rowNew.getCell(40).value = data[j].jumlahPesertaDietAdvice; //AL15
-        rowNew.getCell(41).value = data[j].jumlahAktivitiKanserMulutOHE; //AM15
-        rowNew.getCell(42).value = data[j].jumlahPesertaKanserMulutOHE; //AN15
-        rowNew.getCell(43).value = data[j].jumlahAKtivitiHentiRokok; //AO15
-        rowNew.getCell(44).value = data[j].jumlahPesertaHentiRokok; //AP15
-        rowNew.getCell(45).value = data[j].jumlahAktivitiHentiSirih; //AQ15
-        rowNew.getCell(46).value = data[j].jumlahPesertaHentiSirih; //AR15
-        rowNew.getCell(47).value = data[j].jumlahAktivitiHentiAlkohol; //AS15
-        rowNew.getCell(48).value = data[j].jumlahPesertaHentiAlkohol; //AT15
-        rowNew.getCell(49).value = data[j].jumlahAktivitiHentiTabiatLain; //AU15
-        rowNew.getCell(50).value = data[j].jumlahPesertaHentiTabiatLain; //AV15
-        rowNew.getCell(51).value = data[j].jumlahAktivitiTelevisyen; //AY15
-        rowNew.getCell(52).value = data[j].jumlahPesertaTelevisyen; //AZ15
-        rowNew.getCell(53).value = data[j].jumlahAktivitiRadio; //BA15
-        rowNew.getCell(54).value = data[j].jumlahPesertaRadio; //BB15
-        rowNew.getCell(55).value = data[j].jumlahAktivitiCetak; //BC15
+        rowNew.getCell(13).value = data[i].jumlahAktivitiPerananKempen; //K15
+        rowNew.getCell(14).value = data[i].jumlahPesertaPerananKempen; //L15
+        rowNew.getCell(15).value = data[i].jumlahAktivitiBoneka; //M15
+        rowNew.getCell(16).value = data[i].jumlahPesertaBoneka; //N15
+        rowNew.getCell(17).value = data[i].jumlahAktivitiPeranan; //O15
+        rowNew.getCell(18).value = data[i].jumlahPesertaPeranan; //P15
+        rowNew.getCell(19).value = data[i].jumlahAktivitiBercerita; //Q15
+        rowNew.getCell(20).value = data[i].jumlahPesertaBercerita; //R15
+        rowNew.getCell(21).value = data[i].jumlahAktivitiPertandingan; //S15
+        rowNew.getCell(22).value = data[i].jumlahPesertaPertandingan; //T15
+        rowNew.getCell(23).value = data[i].jumlahAktivitiInteraktif; //U15
+        rowNew.getCell(24).value = data[i].jumlahPesertaInteraktif; //V15
+        rowNew.getCell(25).value = data[i].jumlahAktivitiKursusSeminarBengkel; //W15
+        rowNew.getCell(26).value = data[i].jumlahPesertaKursusSeminarBengkel; //X15
+        rowNew.getCell(27).value = data[i].jumlahAktivitiMultimedia; //Y15
+        rowNew.getCell(28).value = data[i].jumlahPesertaMultimedia; //Z15
+        rowNew.getCell(29).value = data[i].jumlahAktivitiDentalBuskers; //AA15
+        rowNew.getCell(30).value = data[i].jumlahPesertaDentalBuskers; //AB15
+        rowNew.getCell(31).value = data[i].jumlahAktivitiFlashMob; //AC15
+        rowNew.getCell(32).value = data[i].jumlahPesertaFlashMob; //AD15
+        rowNew.getCell(33).value = data[i].jumlahAktivitiLawatanRumah; //AE15
+        rowNew.getCell(34).value = data[i].jumlahPesertaLawatanRumah; //AF15
+        rowNew.getCell(35).value = data[i].jumlahAktivitiPlaqueOHE; //AG15
+        rowNew.getCell(36).value = data[i].jumlahPesertaPlaqueOHE; //AH15
+        rowNew.getCell(37).value = data[i].jumlahAktivitiOHI; //AI15
+        rowNew.getCell(38).value = data[i].jumlahPesertaOHI; //AJ15
+        rowNew.getCell(39).value = data[i].jumlahAktivitiDietAdvice; //AK15
+        rowNew.getCell(40).value = data[i].jumlahPesertaDietAdvice; //AL15
+        rowNew.getCell(41).value = data[i].jumlahAktivitiKanserMulutOHE; //AM15
+        rowNew.getCell(42).value = data[i].jumlahPesertaKanserMulutOHE; //AN15
+        rowNew.getCell(43).value = data[i].jumlahAKtivitiHentiRokok; //AO15
+        rowNew.getCell(44).value = data[i].jumlahPesertaHentiRokok; //AP15
+        rowNew.getCell(45).value = data[i].jumlahAktivitiHentiSirih; //AQ15
+        rowNew.getCell(46).value = data[i].jumlahPesertaHentiSirih; //AR15
+        rowNew.getCell(47).value = data[i].jumlahAktivitiHentiAlkohol; //AS15
+        rowNew.getCell(48).value = data[i].jumlahPesertaHentiAlkohol; //AT15
+        rowNew.getCell(49).value = data[i].jumlahAktivitiHentiTabiatLain; //AU15
+        rowNew.getCell(50).value = data[i].jumlahPesertaHentiTabiatLain; //AV15
+        rowNew.getCell(51).value = data[i].jumlahAktivitiTelevisyen; //AY15
+        rowNew.getCell(52).value = data[i].jumlahPesertaTelevisyen; //AZ15
+        rowNew.getCell(53).value = data[i].jumlahAktivitiRadio; //BA15
+        rowNew.getCell(54).value = data[i].jumlahPesertaRadio; //BB15
+        rowNew.getCell(55).value = data[i].jumlahAktivitiCetak; //BC15
       }
       j++;
-      if (i === 21 || i === 22 || i === 27 || i === 34 || i === 37) {
+      if (
+        i === 21 ||
+        i === 24 ||
+        i === 29 ||
+        i === 30 ||
+        i === 35 ||
+        i === 42 ||
+        i === 45
+      ) {
         j++;
       }
     }
@@ -2555,7 +2630,7 @@ const makePgPro01 = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell('BG11').value = `Dijana oleh: ${username} (${moment(
@@ -2586,7 +2661,7 @@ const makePgPro01 = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 3000);
+    }, 1000);
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
@@ -2598,7 +2673,17 @@ const makePgPro01 = async (payload) => {
 const makePgPro01Combined = async (payload) => {
   console.log('makePgPro01Combined');
   try {
-    let { username, pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
+    let {
+      username,
+      pegawai,
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -2722,7 +2807,7 @@ const makePgPro01Combined = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell('BE11').value = `Dijana oleh: ${username} (${moment(
@@ -2753,7 +2838,7 @@ const makePgPro01Combined = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 3000);
+    }, 1000);
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
@@ -2996,7 +3081,7 @@ const makeGender = async (payload) => {
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 30 seconds
       console.log('deleting file');
-    }, 100000);
+    }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     // return file
@@ -3052,20 +3137,34 @@ const makeMasa = async (payload) => {
     intro5.value = `${negeri.toUpperCase()}`;
     // end intro
 
+    let jumlahRetenSalah = 0;
+    let jumlahReten = 0;
+
     let cellNumber = 2;
 
     for (let j = 0; j < data[0].opData.length; j++) {
       if (data[0].opData[j][0]) {
+        jumlahRetenSalah += data[0].opData[j][0].statusReten;
+        jumlahReten += data[0].opData[j][0].jumlahReten;
         worksheet.getRow(j + 15).getCell(cellNumber).value =
-          data[0].opData[j][0].total;
-        console.log(`index number: ${j}, ${data[0].opData[j][0].total}`);
+          data[0].opData[j][0].jumlahPesakit;
+        console.log(
+          `index number: ${j}, ${data[0].opData[j][0].jumlahPesakit}`
+        );
         cellNumber = cellNumber + 3;
         worksheet.getRow(j + 15).getCell(cellNumber).value =
-          data[0].opData[j][0].jumlahOpYangDipanggilSebelum30Minit;
+          data[0].opData[j][0].jumlahPesakitYangDipanggilSebelum30Minit;
         console.log(
-          `index number: ${j}, ${data[0].opData[j][0].jumlahOpYangDipanggilSebelum30Minit}`
+          `index number: ${j}, ${data[0].opData[j][0].jumlahPesakitYangDipanggilSebelum30Minit}`
         );
+        cellNumber = cellNumber + 3;
+        worksheet.getRow(j + 15).getCell(cellNumber).value = (
+          (jumlahRetenSalah / jumlahReten) *
+          100
+        ).toFixed(2);
       }
+      jumlahReten = 0;
+      jumlahRetenSalah = 0;
       if (j === 5) {
         j += 2;
       }
@@ -3076,12 +3175,21 @@ const makeMasa = async (payload) => {
 
     for (let j = 0; j < data[1].temujanjiData.length; j++) {
       if (data[1].temujanjiData[j][0]) {
+        jumlahRetenSalah += data[0].temujanjiData[j][0].statusReten;
+        jumlahReten += data[0].temujanjiData[j][0].jumlahReten;
         worksheet.getRow(j + 15).getCell(cellNumber).value =
-          data[1].temujanjiData[j][0].total;
+          data[1].temujanjiData[j][0].jumlahPesakit;
         cellNumber = cellNumber + 3;
         worksheet.getRow(j + 15).getCell(cellNumber).value =
-          data[1].temujanjiData[j][0].jumlahOpYangDipanggilSebelum30Minit;
+          data[1].temujanjiData[j][0].jumlahPesakitYangDipanggilSebelum30Minit;
+        // cellNumber = cellNumber + 3;
+        // worksheet.getRow(j + 15).getCell(cellNumber).value = (
+        //   (jumlahRetenSalah / jumlahReten) *
+        //   100
+        // ).toFixed(2);
       }
+      jumlahReten = 0;
+      jumlahRetenSalah = 0;
       if (j === 5) {
         j += 2;
       }
@@ -3254,8 +3362,8 @@ const makeBp = async (payload) => {
       if (data[0].melayu[j][0]) {
         //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[0].melayu[j][0].total;
-        console.log('total', data[0].melayu[j][0].total);
+          data[0].melayu[j][0].jumlahReten;
+        console.log('jumlahReten', data[0].melayu[j][0].jumlahReten);
         console.log('writing', rowNumber, cellNumber);
         //
         cellNumber = cellNumber + 3;
@@ -3296,7 +3404,7 @@ const makeBp = async (payload) => {
     for (let j = 0; j < data[1].cina.length; j++) {
       if (data[1].cina[j][0]) {
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[1].cina[j][0].total;
+          data[1].cina[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[1].cina[j][0].adaSejarahDarahTinggi;
@@ -3324,7 +3432,7 @@ const makeBp = async (payload) => {
     for (let j = 0; j < data[2].india.length; j++) {
       if (data[2].india[j][0]) {
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[2].india[j][0].total;
+          data[2].india[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[2].india[j][0].adaSejarahDarahTinggi;
@@ -3352,7 +3460,7 @@ const makeBp = async (payload) => {
     for (let j = 0; j < data[3].dayak.length; j++) {
       if (data[3].dayak[j][0]) {
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[3].dayak[j][0].total;
+          data[3].dayak[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[3].dayak[j][0].adaSejarahDarahTinggi;
@@ -3380,7 +3488,7 @@ const makeBp = async (payload) => {
     for (let j = 0; j < data[4].lain2.length; j++) {
       if (data[4].lain2[j][0]) {
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[4].lain2[j][0].total;
+          data[4].lain2[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[4].lain2[j][0].adaSejarahDarahTinggi;
@@ -3463,7 +3571,7 @@ const makeBp = async (payload) => {
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
     rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
     rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
+    rowNew = worksheet.getRow(43 + rowTambahan);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
     );
@@ -3514,7 +3622,17 @@ const makeBp = async (payload) => {
 const makeBPE = async (payload) => {
   console.log('Reten BPE');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -3615,7 +3733,7 @@ const makeBPE = async (payload) => {
             .endOf('month')
             .format('DD-MM-YYYY')}`
         : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhTamat
+            tarikhAkhir
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell(
