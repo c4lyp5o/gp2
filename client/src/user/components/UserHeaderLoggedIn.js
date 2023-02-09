@@ -78,7 +78,7 @@ function UserHeaderLoggedIn() {
       setReliefUserToken(localStorage.getItem('reliefUserToken'));
       setFasilitiRelief(localStorage.getItem('fasilitiRelief'));
       setRefetchDateTime(!refetchDateTime);
-      console.log('refetch pengguna success');
+      console.log('refetch pengguna on focus');
     };
     refetchIdentityDatetime();
   }, [refetchState]);
@@ -198,7 +198,13 @@ function UserHeaderLoggedIn() {
               </div>
               <div className='absolute right-3 top-7 lg:top-14'>
                 <span>
-                  <CountdownTimer deadline={timer} place='header' />
+                  <CountdownTimer
+                    deadline={timer}
+                    place='header'
+                    from='pengguna'
+                    refetchDateTime={refetchDateTime}
+                    setRefetchDateTime={setRefetchDateTime}
+                  />
                 </span>
               </div>
             </div>
