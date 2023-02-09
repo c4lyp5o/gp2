@@ -445,20 +445,29 @@ const makePG101A = async (payload) => {
           console.log('');
       }
       rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      let catatan = `${
-        data[i].createdByUsername !== 'kaunter'
-          ? `Operator: ${data[i].createdByUsername} `
-          : ''
-      }${data[i].noBayaran ? data[i].noBayaran : ''} ${
-        data[i].noResit ? data[i].noResit : ''
-      } ${data[i].noBayaran2 ? data[i].noBayaran2 : ''} ${
-        data[i].noResit2 ? data[i].noResit2 : ''
-      } ${data[i].noBayaran3 ? data[i].noBayaran3 : ''} ${
-        data[i].noResit3 ? data[i].noResit3 : ''
-      } ${data[i].catatan}`;
-      rowNew.getCell(35).value = catatan; //catatan
       if (data[i].deleted) {
         rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
+      } else {
+        let catatan = `${
+          data[i].createdByUsername !== 'kaunter'
+            ? `Operator: ${data[i].createdByUsername} `
+            : ''
+        } ${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
+          data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
+        } ${
+          data[i].noBayaran && data[i].noResit
+            ? `No. Resit dan bayaran: ${data[i].noResit} - ${data[i].noBayaran}`
+            : ''
+        } ${
+          data[i].noBayaran2 && data[i].noResit2
+            ? `No. Resit dan bayaran: ${data[i].noResit2} - ${data[i].noBayaran2}`
+            : ''
+        } ${
+          data[i].noBayaran3 && data[i].noResit3
+            ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
+            : ''
+        } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
+        rowNew.getCell(35).value = catatan; //catatan
       }
       for (let z = 1; z < 36; z++) {
         rowNew.getCell(z).border = borderStyle;
@@ -788,20 +797,29 @@ const makePG101C = async (payload) => {
           console.log('');
       }
       rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      let catatan = `${
-        data[i].createdByUsername !== 'kaunter'
-          ? `Operator: ${data[i].createdByUsername} `
-          : ''
-      }${data[i].noBayaran ? data[i].noBayaran : ''} ${
-        data[i].noResit ? data[i].noResit : ''
-      } ${data[i].noBayaran2 ? data[i].noBayaran2 : ''} ${
-        data[i].noResit2 ? data[i].noResit2 : ''
-      } ${data[i].noBayaran3 ? data[i].noBayaran3 : ''} ${
-        data[i].noResit3 ? data[i].noResit3 : ''
-      } ${data[i].catatan}`;
-      rowNew.getCell(35).value = catatan; //catatan
       if (data[i].deleted) {
         rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
+      } else {
+        let catatan = `${
+          data[i].createdByUsername !== 'kaunter'
+            ? `Operator: ${data[i].createdByUsername} `
+            : ''
+        } ${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
+          data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
+        } ${
+          data[i].noBayaran && data[i].noResit
+            ? `No. Resit dan bayaran: ${data[i].noResit} - ${data[i].noBayaran}`
+            : ''
+        } ${
+          data[i].noBayaran2 && data[i].noResit2
+            ? `No. Resit dan bayaran: ${data[i].noResit2} - ${data[i].noBayaran2}`
+            : ''
+        } ${
+          data[i].noBayaran3 && data[i].noResit3
+            ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
+            : ''
+        } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
+        rowNew.getCell(35).value = catatan; //catatan
       }
       for (let z = 1; z < 36; z++) {
         rowNew.getCell(z).border = borderStyle;
