@@ -509,115 +509,13 @@ const makePG101A = async (payload) => {
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
     rowNew.getCell(1).value =
       '****Punca rujukan: Rujukan Dalaman, Klinik Pergigian Kerajaan, Klinik Kesihatan Kerajaan, Hospital/Institusi Kerajaan, Swasta atau Lain-lain. Hanya Punca Rujukan Baru sahaja direkod.';
-    // info
-    // rowTambahan = rowTambahan + 2;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // // rowNew.getCell(1).font = {
-    // //     color: { argb: 'FF0000' },
-    // //    };
-    // rowNew.getCell(1).value = process.env.npm_package_version;
-    // //
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).value = 'Memaparkan maklumat dari';
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // // worksheet.mergeCells(
-    // //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // // rowNew.getCell(1).font = {
-    // //     color: { argb: 'FF0000' },
-    // //    };
-    // rowNew.getCell(1).value = `${moment(new Date())
-    //   .startOf('month')
-    //   .format('DD-MM-YYYY')} - ${moment(new Date()).format('DD-MM-YYYY')}`;
-    // //
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).value = 'Tarikh dan masa penjanaan';
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // // rowNew.getCell(1).font = {
-    // //     color: { argb: 'FF0000' },
-    // //    };
-    // rowNew.getCell(1).value = `${moment(new Date()).format(
-    //   'DD-MM-YYYY'
-    // )} - ${moment(new Date()).format('HH:mm:ss')}`;
-    // //
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // // rowNew.getCell(1).font = {
-    // //     color: { argb: 'FF0000' },
-    // //    };
-    // rowNew.getCell(1).value = 'TIDAK BERKENAAN';
-    // //
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).value = 'Dijana oleh';
-    // rowTambahan++;
-    // console.log(rowTambahan);
-    // rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    // rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).font = {
-    //     color: { argb: 'FF0000' },
-    //    };
-    // rowNew.getCell(1).value = username;
-    //
+
     worksheet.getCell(
       'AI7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('AI8').value = `${username} (${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+    worksheet.getCell('AI8').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
 
     worksheet.name = 'PG101A';
 
@@ -865,9 +763,9 @@ const makePG101C = async (payload) => {
     worksheet.getCell(
       'AI7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('AI8').value = `${username} (${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+    worksheet.getCell('AI8').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
 
     worksheet.name = 'PG101C';
 
@@ -946,10 +844,15 @@ const makePG211A = async (payload) => {
 
     let intro4 = worksheet.getRow(9);
     intro4.getCell(2).value = `${negeri.toUpperCase()}`;
-    //
+
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+
     for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(13 + i);
       if (data[i][0]) {
+        jumlahReten += data[i][0].jumlahReten;
+        jumlahRetenSalah += data[i][0].statusReten;
         rowNew.getCell(4).value = data[i][0].jumlahLelaki; //D13	Kategori bawah 1 Tahun (baru)
         rowNew.getCell(5).value = data[i][0].jumlahPerempuan; //E13 Kategori bawah 1 Tahun (baru)
         rowNew.getCell(6).value = data[i][0].jumlahMelayu; //F13	Kategori bawah 1 Tahun (baru)
@@ -983,15 +886,41 @@ const makePG211A = async (payload) => {
       }
     }
 
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
     worksheet.getCell(
       'AG6'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('AG7').value = `Maklumat dari ${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )}`;
-    worksheet.getCell('AI8').value = `Dijana oleh: ${username} (${moment(
+    worksheet.getCell('AG7').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('AG8').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AG6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AG7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AG8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     worksheet.name = 'PG211A';
 
@@ -1070,10 +999,15 @@ const makePG211C = async (payload) => {
 
     let intro4 = worksheet.getRow(9);
     intro4.getCell(2).value = `${negeri.toUpperCase()}`;
-    //
+
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+
     for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(13 + i);
       if (data[i][0]) {
+        jumlahReten += data[i][0].jumlahReten;
+        jumlahRetenSalah += data[i][0].statusReten;
         rowNew.getCell(4).value = data[i][0].jumlahLelaki; //D13	Kategori bawah 1 Tahun (baru)
         rowNew.getCell(5).value = data[i][0].jumlahPerempuan; //E13 Kategori bawah 1 Tahun (baru)
         rowNew.getCell(6).value = data[i][0].jumlahMelayu; //F13	Kategori bawah 1 Tahun (baru)
@@ -1107,15 +1041,41 @@ const makePG211C = async (payload) => {
       }
     }
 
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
     worksheet.getCell(
       'AG6'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('AG7').value = `Maklumat dari ${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )}`;
-    worksheet.getCell('AI8').value = `Dijana oleh: ${username} (${moment(
+    worksheet.getCell('AG7').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('AG8').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AG6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AG7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AG8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     worksheet.name = 'PG211C';
 
@@ -1177,19 +1137,27 @@ const makePG214 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('BULAN');
 
-    worksheet.getCell('J5').value = `BAGI BULAN ${moment(bulan)
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+
+    worksheet.getCell('O5').value = `BAGI BULAN: ${moment(bulan)
       .format('MMMM')
       .toUpperCase()}`;
-    worksheet.getCell('O5').value = `TAHUN ${moment(new Date()).format(
-      'YYYY'
-    )}`;
+    worksheet.getCell('O5').value = `TAHUN: ${moment(bulan).format('YYYY')}`;
+
     worksheet.getCell('B6').value = `${klinik.toUpperCase()}`;
     worksheet.getCell('B7').value = `${daerah.toUpperCase()}`;
     worksheet.getCell('B8').value = `${negeri.toUpperCase()}`;
     //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
     for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(13 + i);
       if (data[i][0]) {
+        jumlahReten += data[i][0].jumlahReten;
+        jumlahRetenSalah += data[i][0].statusReten;
         rowNew.getCell(3).value = data[i][0].jumlahMelayu; //C13	Kategori Umur 60 Tahun
         rowNew.getCell(4).value = data[i][0].jumlahCina; //D13	Kategori Umur 60 Tahun
         rowNew.getCell(5).value = data[i][0].jumlahIndia; //E13	Kategori Umur 60 Tahun
@@ -1215,6 +1183,50 @@ const makePG214 = async (payload) => {
         rowNew.getCell(25).value = data[i][0].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
       }
     }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'Z5'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('Z6').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'Z7'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell('Z8').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('Z5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('Z6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('Z7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('Z8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     worksheet.name = 'PG214';
 
@@ -1287,12 +1299,17 @@ const makePG206 = async (payload) => {
     if (pegawai) {
       worksheet.getCell('B9').value = `${pegawai.toUpperCase()}`;
     }
+
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
     //
     // let j = 0;
     for (let i = 0; i < data[0].length; i++) {
       // j += 2;
       let row = worksheet.getRow(17 + i);
       if (data[0][i].queryPemeriksaan[0]) {
+        jumlahReten += data[0][i].queryPemeriksaan[0].jumlahReten;
+        jumlahRetenSalah += data[0][i].queryPemeriksaan[0].statusReten;
         // pemeriksaan
         row.getCell(2).value =
           data[0][i].queryPemeriksaan[0].kedatanganTahunSemasaBaru;
@@ -1487,18 +1504,49 @@ const makePG206 = async (payload) => {
       }
     }
 
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
     worksheet.getCell(
       'AU5'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('AU6').value = `Maklumat dari ${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )}`;
+    worksheet.getCell('AU6').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
     worksheet.getCell(
       'AU7'
-    ).value = `Peratus reten dilaporkan salah = dlm rest`;
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
     worksheet.getCell('AU8').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AU5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AU6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AU7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AU8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     worksheet.name = 'PG206';
 
@@ -1575,12 +1623,17 @@ const makePG207 = async (payload) => {
     //   let intro4 = worksheet.getRow(10);
     //   intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
     // }
+
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
     //
     // let j = 0;
     for (let i = 0; i < data[0].length; i++) {
       // j += 2;
       let row = worksheet.getRow(17 + i);
       if (data[0][i].queryPemeriksaan[0]) {
+        jumlahReten += data[0][i].queryPemeriksaan[0].jumlahReten;
+        jumlahRetenSalah += data[0][i].queryPemeriksaan[0].statusReten;
         // pemeriksaan
         row.getCell(2).value =
           data[0][i].queryPemeriksaan[0].kedatanganTahunSemasaBaru;
@@ -1866,18 +1919,49 @@ const makePG207 = async (payload) => {
       }
     }
 
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
     worksheet.getCell(
-      'AU5'
+      'CC5'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('CC6').value = `Maklumat dari ${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )}`;
+    worksheet.getCell('CC6').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
     worksheet.getCell(
       'CC7'
-    ).value = `Peratus reten dilaporkan salah = dlm rest`;
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
     worksheet.getCell('CC8').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('CC5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('CC6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('CC7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('CC8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     worksheet.name = 'PG207';
 
@@ -2189,7 +2273,7 @@ const makePGS203P2 = async (payload) => {
 
     for (let i = 0; i < data[0].length; i++) {
       // let rowNew = worksheet.getRow(16 + i);
-      console.log(`array ${i}`, data[0]);
+      // console.log(`array ${i}`, data[0]);
       if (data[i][0]) {
         worksheet.getRow(rowNumber).getCell(4).value =
           data[i][0].kedatanganTahunSemasaBaru; //column D (4)
@@ -2287,7 +2371,7 @@ const makePGS203P2 = async (payload) => {
         worksheet.getRow(rowNumber).getCell(62).value = data[i][0].kesSelesai; //Column BJ (62)
       }
       rowNumber++;
-      console.log(`row number now is ${rowNumber}`);
+      // console.log(`row number now is ${rowNumber}`);
     }
     // worksheet.getCell('AI8').value = `${username} (${moment(new Date()).format(
     //   'DD-MM-YYYY'
@@ -2345,29 +2429,34 @@ const makePGPR201 = async (payload) => {
     );
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PGPR201Baru');
+    let worksheet = workbook.getWorksheet('PGPR201');
 
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     let details = worksheet.getRow(6);
-    details.getCell(4).value = `${monthName.toUpperCase()}`;
+    details.getCell(5).value = `${monthName.toUpperCase()}`;
     details.getCell(7).value = `${yearNow}`;
 
-    let intro1 = worksheet.getRow(8);
+    let intro1 = worksheet.getRow(7);
     intro1.getCell(3).value = `${negeri.toUpperCase()}`;
 
-    let intro2 = worksheet.getRow(9);
+    let intro2 = worksheet.getRow(8);
     intro2.getCell(3).value = `${daerah.toUpperCase()}`;
 
-    let intro3 = worksheet.getRow(10);
+    let intro3 = worksheet.getRow(9);
     intro3.getCell(3).value = `${klinik.toUpperCase()}`;
+
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
 
     let j = 0;
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(17 + j);
+      let rowNew = worksheet.getRow(15 + j);
       j++;
       if (data[i][0]) {
+        jumlahReten += data[i][0].jumlahReten;
+        jumlahRetenSalah += data[i][0].statusReten;
         if (i === 6) {
           let jumlahBesarAG1517 = 0;
           for (let k = 0; k < data.length; k++) {
@@ -2438,8 +2527,49 @@ const makePGPR201 = async (payload) => {
       }
     }
 
-    let rowIdnt = worksheet.getRow(33);
-    rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'J6'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('J7').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'J8'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell('J9').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('J6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('J7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('J8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('J9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     let newfile = path.join(
       __dirname,
@@ -2469,7 +2599,7 @@ const makePGPR201 = async (payload) => {
 const makePgPro01 = async (payload) => {
   console.log('makePgPro01');
   try {
-    let { pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
+    let { username, pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -2587,6 +2717,40 @@ const makePgPro01 = async (payload) => {
       }
     }
 
+    worksheet.getCell(
+      'BG9'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('BG10').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('BG11').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('BG9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('BG10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('BG11').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
     const newfile = makeFile(payload, 'PGPRO01');
 
     // Write the file
@@ -2607,7 +2771,7 @@ const makePgPro01 = async (payload) => {
 const makePgPro01Combined = async (payload) => {
   console.log('makePgPro01Combined');
   try {
-    let { pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
+    let { username, pegawai, klinik, daerah, negeri, bulan, fromEtl } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -2719,6 +2883,41 @@ const makePgPro01Combined = async (payload) => {
         rowNew.getCell(53).value = data[i].jumlahAktivitiCetak; //BC15
       }
     }
+
+    worksheet.getCell(
+      'BE9'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('BE10').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('BE11').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('BE9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('BE10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('BE11').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
     const newfile = makeFile(payload, 'PGPRO01Combined');
 
     // Write the file
@@ -3530,9 +3729,14 @@ const makeBPE = async (payload) => {
     worksheet.getCell('C10').value = daerah.toUpperCase();
     worksheet.getCell('C11').value = klinik.toUpperCase();
 
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+
     for (let i = 0; i < data.length; i++) {
       let row = worksheet.getRow(19 + i);
       if (data[i][0]) {
+        jumlahReten += data[i][0].jumlahReten;
+        jumlahRetenSalah += data[i][0].statusReten;
         row.getCell(4).value =
           i % 2 == 0
             ? data[i][0].kedatanganTahunSemasaBaru
@@ -3571,18 +3775,49 @@ const makeBPE = async (payload) => {
       }
     }
 
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
     worksheet.getCell(
       'AI3'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('AI4').value = `Maklumat dari ${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )}`;
+    worksheet.getCell('AI4').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhTamat
+          ).format('DD-MM-YYYY')}`
+    }`;
     worksheet.getCell(
       'AI5'
-    ).value = `Peratus reten dilaporkan salah = dlm rest`;
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
     worksheet.getCell('AI6').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AI3').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AI4').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AI5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AI6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     const newfile = makeFile(payload, 'BPE Reten');
 
