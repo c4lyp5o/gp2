@@ -18,8 +18,6 @@ function KaunterAfterLogin() {
     kaunterToken,
     navigate,
     catchAxiosErrorAndLogout,
-    refetchDateTime,
-    setRefetchDateTime,
     ToastContainer,
     toast,
   } = useGlobalUserAppContext();
@@ -103,8 +101,7 @@ function KaunterAfterLogin() {
 
   useEffect(() => {
     logOutNotiSystem();
-    setRefetchDateTime(!refetchDateTime);
-    console.log('kaunter kicker started & refetch datetime');
+    console.log('kaunter kicker started');
   }, [refreshTimer]);
 
   return (
