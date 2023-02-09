@@ -2326,7 +2326,7 @@ const countPG206 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
             },
             1,
             0,
