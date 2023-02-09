@@ -445,6 +445,22 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
+  const readSpesifikIndividuData = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=pegawaispesifik&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
 
   // specifics for each kp for kpuser
   const readSpesifikKkiaDataForKp = async (kp) => {
@@ -484,6 +500,22 @@ function AdminAppProvider({ children }) {
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getkpdata?FType=kpbmpbspesifik&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
+  const readSpesifikIndividuDataForKp = async (kp) => {
+    console.log(kp);
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=pegawaispesifik&kp=${kp}`,
         {
           headers: {
             Authorization: adminToken,
@@ -831,12 +863,15 @@ function AdminAppProvider({ children }) {
         readKodProgramData,
         readGenerateTokenData,
         readGenerateTokenDataForKp,
+        // spesifik data
         readSpesifikKkiaData,
         readSpesifikProgramData,
         readSpesifikKPBMPBData,
+        readSpesifikIndividuData,
         readSpesifikKkiaDataForKp,
         readSpesifikProgramDataForKp,
         readSpesifikKPBMPBDataForKp,
+        readSpesifikIndividuDataForKp,
         // stats data
         getStatsData,
         // misc
