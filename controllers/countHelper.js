@@ -13399,7 +13399,7 @@ const countGender = async (payload) => {
   //
   const pesakitLelakiPrimer1859 = {
     $match: {
-      jenisFasiliti: { $in: ['kp'] },
+      jenisFasiliti: { $eq: 'kp' },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13417,7 +13417,7 @@ const countGender = async (payload) => {
 
   const pesakitLelakiPakar1859 = {
     $match: {
-      jenisFasiliti: { $in: ['kepakaran'] },
+      jenisFasiliti: { $eq: 'kepakaran' },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13436,7 +13436,7 @@ const countGender = async (payload) => {
   const pesakitLelakiOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13446,7 +13446,7 @@ const countGender = async (payload) => {
   const pesakitPerempuanOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13455,8 +13455,8 @@ const countGender = async (payload) => {
 
   const pesakitLelakiUtc1859 = {
     $match: {
-      createdByKp: { $regex: /utc/, $options: 'i' },
-      // jenisFasiliti: { $eq: 'utc' },
+      createdByKp: { $regex: /utc/i },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13465,8 +13465,8 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanUtc1859 = {
     $match: {
-      createdByKp: { $regex: /utc/, $options: 'i' },
-      // jenisFasiliti: { $eq: 'utc' },
+      createdByKp: { $regex: /utc/i },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -13512,7 +13512,7 @@ const countGender = async (payload) => {
   const pesakitLelakiOutreach60above = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
       jantina: 'lelaki',
       umur: { $gte: 60 },
       ...getParamsGender(payload),
@@ -13522,7 +13522,7 @@ const countGender = async (payload) => {
   const pesakitPerempuanOutreach60above = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
       jantina: 'perempuan',
       umur: { $gte: 60 },
       ...getParamsGender(payload),
@@ -13532,7 +13532,7 @@ const countGender = async (payload) => {
   const pesakitLelakiUtc60above = {
     $match: {
       createdByKp: { $regex: /utc/, $options: 'i' },
-      // jenisFasiliti: { $eq: 'utc' },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'lelaki',
       umur: { $gte: 60 },
       ...getParamsGender(payload),
@@ -13542,7 +13542,7 @@ const countGender = async (payload) => {
   const pesakitPerempuanUtc60above = {
     $match: {
       createdByKp: { $regex: /utc/, $options: 'i' },
-      // jenisFasiliti: { $eq: 'utc' },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'perempuan',
       umur: { $gte: 60 },
       ...getParamsGender(payload),
@@ -13550,75 +13550,44 @@ const countGender = async (payload) => {
   };
 
   match_stage_lelaki.push(pesakitLelakiPrimer1859);
-  match_stage_perempuan.push(pesakitPerempuanPrimer1859);
   match_stage_lelaki.push(pesakitLelakiPakar1859);
-  match_stage_perempuan.push(pesakitPerempuanPakar1859);
   match_stage_lelaki.push(pesakitLelakiOutreach1859);
-  match_stage_perempuan.push(pesakitPerempuanOutreach1859);
   match_stage_lelaki.push(pesakitLelakiUtc1859);
-  match_stage_perempuan.push(pesakitPerempuanUtc1859);
+
   match_stage_lelaki.push(pesakitLelakiPrimer60above);
-  match_stage_perempuan.push(pesakitPerempuanPrimer60above);
   match_stage_lelaki.push(pesakitLelakiPakar60above);
-  match_stage_perempuan.push(pesakitPerempuanPakar60above);
   match_stage_lelaki.push(pesakitLelakiOutreach60above);
-  match_stage_perempuan.push(pesakitPerempuanOutreach60above);
   match_stage_lelaki.push(pesakitLelakiUtc60above);
+
+  match_stage_perempuan.push(pesakitPerempuanPrimer1859);
+  match_stage_perempuan.push(pesakitPerempuanPakar1859);
+  match_stage_perempuan.push(pesakitPerempuanOutreach1859);
+  match_stage_perempuan.push(pesakitPerempuanUtc1859);
+
+  match_stage_perempuan.push(pesakitPerempuanPrimer60above);
+  match_stage_perempuan.push(pesakitPerempuanPakar60above);
+  match_stage_perempuan.push(pesakitPerempuanOutreach60above);
   match_stage_perempuan.push(pesakitPerempuanUtc60above);
   //
   const group_stage = {
     $group: {
       _id: placeModifier(payload),
-      pesakitLelakiBaru: {
+      pesakitBaru: {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $eq: ['$jantina', 'lelaki'] },
-                { $eq: ['$kedatangan', 'baru-kedatangan'] },
-              ],
+              $eq: ['$kedatangan', 'baru-kedatangan'],
             },
             1,
             0,
           ],
         },
       },
-      pesakitPerempuanBaru: {
+      pesakitUlangan: {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $eq: ['$jantina', 'perempuan'] },
-                { $eq: ['$kedatangan', 'baru-kedatangan'] },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      pesakitLelakiUlangan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                { $eq: ['$jantina', 'lelaki'] },
-                { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      pesakitPerempuanUlangan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                { $eq: ['$jantina', 'perempuan'] },
-                { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
-              ],
+              $eq: ['$kedatangan', 'ulangan-kedatangan'],
             },
             1,
             0,
@@ -15355,7 +15324,6 @@ const getParamsGender = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
       deleted: false,
     };
     return param;
@@ -15366,7 +15334,6 @@ const getParamsGender = (payload) => {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
       deleted: false,
     };
     return param;
@@ -15376,7 +15343,6 @@ const getParamsGender = (payload) => {
     let param = {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
       deleted: false,
     };
     return param;
