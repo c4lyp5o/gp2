@@ -29,12 +29,12 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
     };
   });
 
-  // refetch identity & datetime
+  // refetch identity & datetime on tab focus
   useEffect(() => {
     const refetchIdentityDatetime = () => {
       setKaunterToken(localStorage.getItem('kaunterToken'));
       setRefetchDateTime(!refetchDateTime);
-      console.log('refetch kaunter success');
+      console.log('refetch kaunter on focus');
     };
     refetchIdentityDatetime();
   }, [refetchState]);
@@ -98,7 +98,13 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
           </div>
           <div className='absolute -right-2 -top-3 lg:-top-1'>
             <span>
-              <CountdownTimer deadline={timer} place='header' />
+              <CountdownTimer
+                deadline={timer}
+                place='header'
+                from='kaunter'
+                refetchDateTime={refetchDateTime}
+                setRefetchDateTime={setRefetchDateTime}
+              />
             </span>
           </div>
         </div>
