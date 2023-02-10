@@ -20,6 +20,7 @@ const borderStyle = {
   right: { style: 'thin' },
 };
 
+// superadmins
 exports.startQueue = async function (req, res) {
   // get userdata
   const { authorization } = req.headers;
@@ -44,6 +45,17 @@ exports.startQueue = async function (req, res) {
     // create if there is no userTokenData
     if (!userTokenData) {
       switch (accountType) {
+        case 'hqSuperadmin':
+          const hqToken = new GenerateToken({
+            belongsTo: username,
+            accountType,
+            jenisReten,
+            jumlahToken: 9000,
+          });
+          await hqToken.save();
+          userTokenData = hqToken;
+          console.log('dah save token hq');
+          break;
         case 'negeriSuperadmin':
           const negeriToken = new GenerateToken({
             belongsTo: username,
@@ -121,35 +133,6 @@ exports.startQueue = async function (req, res) {
       res.status(200).send(result);
     })
   );
-};
-
-exports.refreshTokens = async function (req, res) {
-  // refresh negeri tokens
-  const negeriTokens = await GenerateToken.find({
-    accountType: 'negeriSuperadmin',
-  });
-
-  if (negeriTokens) {
-    negeriTokens.forEach(async (token) => {
-      token.jumlahToken = 15;
-      await token.save();
-    });
-    console.log('dah refresh token negeri');
-  }
-
-  // refresh token daerah
-  const daerahTokens = await GenerateToken.find({
-    accountType: 'daerahSuperadmin',
-  });
-  if (daerahTokens) {
-    daerahTokens.forEach(async (token) => {
-      token.jumlahToken = 15;
-      await token.save();
-    });
-    console.log('dah refresh token daerah');
-  }
-
-  res.status(200).json({ message: 'Tokens refreshed' });
 };
 
 // kp
@@ -560,49 +543,13 @@ const makePG101A = async (payload) => {
             ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
             : ''
         } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
-        rowNew.getCell(35).value = catatan; //catatan
+        rowNew.getCell(35).value = catatan;
       }
       for (let z = 1; z < 36; z++) {
         rowNew.getCell(z).border = borderStyle;
       }
     }
-
-    let rowTambahan = 1;
-    let rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '* Kedatangan Baru Ibu Mengandung hanya dikira sekali sahaja bagi setiap episod baru mengandung, pada ruangan ini.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '**Sila masukkan nombor kad OKU bagi pesakit yang berkenaan.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '***Sila nyatakan nombor kad pesara Kerajaan / ATM di Ruangan Catatan.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '****Punca rujukan: Rujukan Dalaman, Klinik Pergigian Kerajaan, Klinik Kesihatan Kerajaan, Hospital/Institusi Kerajaan, Swasta atau Lain-lain. Hanya Punca Rujukan Baru sahaja direkod.';
-
+    //
     worksheet.getCell(
       'AI7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
@@ -2129,7 +2076,17 @@ const makePG207 = async (payload) => {
 const makePG201 = async (payload) => {
   console.log('PG201');
   try {
-    let { kp, daerah, negeri, bulan, sekolah } = payload;
+    let {
+      kp,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      username,
+      fromEtl,
+      sekolah,
+    } = payload;
     //
     const data = await Helper.countPG201(kp, sekolah);
     //
@@ -2196,7 +2153,6 @@ const makePG201 = async (payload) => {
     // rowNamaJenis.commit();
     //
     for (let i = 0; i < data.dataPemeriksaan.length; i++) {
-      let rowNew = worksheet.getRow(13 + i);
       if (data.dataPemeriksaan[i][0]) {
         //PG201
         // Reten Sekolah (Darjah 1)
@@ -2328,21 +2284,10 @@ const makePG201 = async (payload) => {
           data.dataPemeriksaan[i].pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
         rowNew3.getCell(75).value =
           data.dataPemeriksaan[i].pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
-        rowNew3.commit();
-        console.log('setting row4');
-        let rowIdnt = worksheet.getRow(47);
-        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
-        console.log('done setting data');
       }
     }
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + kp + '-PG201.xlsx'
-    );
+    const newfile = makeFile(payload, 'PG201');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);
@@ -2361,7 +2306,6 @@ const makePG201 = async (payload) => {
   }
 };
 const makePGPR201 = async (payload) => {
-  //Formula and excel baru lagi..(dapat dari Dr. Adib 22-01-2023)
   console.log('PGPR201Baru');
   try {
     let {
@@ -3174,7 +3118,17 @@ const makeGender = async (payload) => {
 const makeMasa = async (payload) => {
   console.log('makeMasa');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -3276,92 +3230,45 @@ const makeMasa = async (payload) => {
       cellNumber = 3;
     }
 
-    // info
-    let rowTambahan = 1;
-    let rowNew;
-    rowNew = worksheet.getRow(34);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = process.env.npm_package_version;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Memaparkan maklumat dari';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date())
-      .startOf('month')
-      .format('DD-MM-YYYY')} - ${moment(new Date()).format('DD-MM-YYYY')}`;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Tarikh dan masa penjanaan';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )} - ${moment(new Date()).format('HH:mm:ss')}`;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).font = {
-    //     color: { argb: 'FF0000' },
-    //    };
-    rowNew.getCell(1).value = 'TIDAK BERKENAAN';
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Dijana oleh';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).font = {
-      color: { argb: 'FF0000' },
+    worksheet.getCell(
+      'H3'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('H4').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('H5').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+    worksheet.getCell('H6').value = ' ';
+
+    worksheet.getCell('H3').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
     };
-    rowNew.getCell(1).value = username;
+    worksheet.getCell('H4').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('H5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('H6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     const newfile = makeFile(payload, 'MASA');
 
@@ -4334,4 +4241,58 @@ const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
   query.dataFormat = 'Monthly';
   query.dataDate = moment(bulan).endOf('month').format('YYYY-MM-DD');
   return query;
+};
+
+// refresh token
+exports.refreshTokens = async function (req, res) {
+  // refresh hq tokens
+  const hqTokens = await GenerateToken.find({
+    accountType: 'hqSuperadmin',
+  });
+
+  if (hqTokens) {
+    hqTokens.forEach(async (token) => {
+      token.jumlahToken = 9000;
+      await token.save();
+    });
+    console.log('dah refresh token hq');
+  }
+
+  // refresh negeri tokens
+  const negeriTokens = await GenerateToken.find({
+    accountType: 'negeriSuperadmin',
+  });
+
+  if (negeriTokens) {
+    negeriTokens.forEach(async (token) => {
+      token.jumlahToken = 15;
+      await token.save();
+    });
+    console.log('dah refresh token negeri');
+  }
+
+  // refresh token daerah
+  const daerahTokens = await GenerateToken.find({
+    accountType: 'daerahSuperadmin',
+  });
+  if (daerahTokens) {
+    daerahTokens.forEach(async (token) => {
+      token.jumlahToken = 15;
+      await token.save();
+    });
+    console.log('dah refresh token daerah');
+  }
+
+  const kpTokens = await GenerateToken.find({
+    accountType: 'kpUser',
+  });
+  if (kpTokens) {
+    kpTokens.forEach(async (token) => {
+      token.jumlahToken = 15;
+      await token.save();
+    });
+    console.log('dah refresh token kp');
+  }
+
+  res.status(200).json({ message: 'Tokens refreshed' });
 };
