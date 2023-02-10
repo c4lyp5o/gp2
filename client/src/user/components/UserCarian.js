@@ -52,7 +52,7 @@ export default function UserCarian() {
 
   // for datepicker
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
-    new Date(dateToday)
+    moment(dateToday, moment.ISO_8601).toDate()
   );
 
   const TarikhKedatangan = () => {
@@ -84,7 +84,7 @@ export default function UserCarian() {
       }
     };
     fetchIdentity();
-  }, []);
+  }, [reliefUserToken, userToken]);
 
   useEffect(() => {
     if (modalRetenSalah === false) {
@@ -121,7 +121,14 @@ export default function UserCarian() {
       setPilihanStatusReten('');
       query();
     }
-  }, [tarikhKedatangan, jenisFasiliti, jenisProgram, modalRetenSalah]);
+  }, [
+    tarikhKedatangan,
+    jenisFasiliti,
+    jenisProgram,
+    modalRetenSalah,
+    reliefUserToken,
+    userToken,
+  ]);
 
   // clear program if change jenisFasiliti
   useEffect(() => {
@@ -405,9 +412,9 @@ export default function UserCarian() {
                         <td
                           className={`${
                             pilihanId === singlePersonUmum._id && 'bg-user3'
-                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                          } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 normal-case`}
                         >
-                          {singlePersonUmum.ic.toUpperCase()}
+                          {singlePersonUmum.ic}
                         </td>
                         <td
                           className={`${

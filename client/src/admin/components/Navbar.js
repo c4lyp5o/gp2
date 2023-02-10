@@ -260,7 +260,7 @@ export default function Navbar(props) {
                       </NavLink>
                     </div>
                   </div>
-                  {/* <NavLink
+                  <NavLink
                     className={({ isActive }) =>
                       isActive
                         ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
@@ -270,7 +270,7 @@ export default function Navbar(props) {
                     onClick={() => setShowLinks(!showLinks)}
                   >
                     PENJANAAN RETEN
-                  </NavLink> */}
+                  </NavLink>
                   {/* <NavLink
                   className={({ isActive }) =>
                     isActive
@@ -354,17 +354,6 @@ export default function Navbar(props) {
                       >
                         PROGRAM KOMUNITI
                       </NavLink>
-                      {/* <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                      }
-                      to='kp/ins'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      INSTITUSI
-                    </NavLink> */}
                       <NavLink
                         className={({ isActive }) =>
                           isActive
@@ -436,17 +425,17 @@ export default function Navbar(props) {
                       </NavLink>
                     </div>
                   </div>
-                  {/* <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='kp/institusi'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                INSTITUSI
-              </NavLink> */}
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                        : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                    }
+                    to='kp/generate'
+                    onClick={() => setShowLinks(!showLinks)}
+                  >
+                    PENJANAAN RETEN
+                  </NavLink>
                 </>
               )}
             {props.loginInfo.role === 'sosmedadmin' && (

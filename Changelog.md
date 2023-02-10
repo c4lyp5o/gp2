@@ -1,5 +1,67 @@
 # Changelog
 
+### Unreleased
+
+#### Fixed
+
+- Waktu sampai akan berubah mengikut waktu semasa ketika mendaftarkan pesakit di modul Pendaftaran
+- Cara carian promosi klinik & promosi individu dibuat dengan lebih efisien
+
+#### e-Reporting
+
+- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan bulanan)
+
+### 10/2/2023 (v2.0.12)
+
+#### Added
+
+- Catatan dipaparkan di submodul Status Harian bagi modul Pengguna
+
+#### Changed
+
+- Perubahan cara carian bagi submodul Promosi Klinik & Promosi Individu bagi modul Pengguna
+- Jumlah DMFX tidak lagi dikira bersama E di borang pesakit umum
+
+#### Fixed
+
+- Sistem akan mengesan secara automatik sekiranya nama pengguna di tab yang berlainan telah berubah
+- Sistem akan log keluar secara automatik sekiranya pengguna telah log keluar di tab yang berlainan
+- Waktu dipanggil tidak boleh kurang atau sama dengan waktu sampai semasa mengisi borang pesakit umum bagi pesakit fasiliti klinik pergigian
+- Submodul Program Pergigian Sekolah 2022/2023 diperbetulkan untuk setiap pesakit yang didaftarkan di bawah Program Pergigian Sekolah Sesi 2022/2023
+
+#### Removed
+
+- Kemaskini nama & tarikh lahir ditutup di modul Pentadbir kerana keperluan yang sangat rendah
+
+#### e-Reporting
+
+- Setiap reten yang dijana mempunyai _stamping_ dari sistem yang betul
+- Penjanaan reten dibuka di modul Pentadbir bagi Pentadbir Negeri, Pentadbir Daerah & Pentadbir Klinik
+- Diperbetulkan nama bulan bagi reten PG101A di modul Pendaftaran bagi submodul Klinik Pergigian
+
+### 7/2/2023 (v2.0.11)
+
+#### Added
+
+- Menambah ruangan maklumat tambahan yang mengandungi no telefon & email pesakit di submodul Senarai Daftar Pesakit di modul Pendaftaran
+- Mengeluarkan kiraan perbezaan waktu sampai & waktu dipanggil di borang pesakit umum bagi pesakit fasiliti klinik pergigian
+
+#### Changed
+
+- Notifikasi amaran "Taska/Tadika Telah Wujud" ketika menambah taska/tadika yang mempunyai kod Taska/Tadika yang sama di modul Pentadbir bagi Pentadbir Daerah diubah kepada "Kod Taska/Tadika ini telah wujud"
+- Pengenalan diri pesakit dipaparkan dengan huruf besar atau huruf kecil yang asal di semua modul yang berkaitan
+- Waktu dipanggil wajib diisi hanya untuk pesakit fasiliti klinik pergigian sahaja
+
+#### Fixed
+
+- Umur dikira semula dengan betul sekiranya pendaftaran menggunakan maklumat pesakit sedia ada
+- Masa & tarikh di dalam sistem diperbetulkan dengan lebih kemas supaya penentuan tarikh, _timezone_ & masa adalah betul dan ditetapkan daripada sistem
+
+#### e-Reporting
+
+- PG101A yang dijana dari modul Pendaftaran diperbetulkan sususan dan _alignment_ setiap kolum
+- PG101A yang dijana dari modul Pendaftaran mempunyai _stamping_ dari sistem yang betul
+
 ### 31/1/2023 (v2.0.10)
 
 #### Added

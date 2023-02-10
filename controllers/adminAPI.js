@@ -18,6 +18,7 @@ const Event = require('../models/Event');
 const Sosmed = require('../models/MediaSosial');
 const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
+const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
 
 // helper
@@ -27,9 +28,11 @@ const Dictionary = {
   kp: 'klinik',
   kpallnegeri: 'klinik-all-negeri',
   kkiakd: 'kkiakd',
+  kkiakdspesifik: 'kkiakd-spesifik',
   kkiakdallnegeri: 'kkiakd-all-negeri',
   pp: 'pegawai',
   ppall: 'pegawai-all',
+  pegawaispesifik: 'pegawai-spesifik',
   jp: 'juruterapi pergigian',
   jpall: 'jp-all',
   taska: 'taska',
@@ -41,6 +44,7 @@ const Dictionary = {
   ins: 'institusi',
   kpb: 'kp-bergerak',
   'kpb-all': 'kp-bergerak-all',
+  kpbmpbspesifik: 'kpbmpb-spesifik',
   mpb: 'makmal-pergigian',
   'mpb-all': 'makmal-pergigian-all',
   event: 'event',
@@ -49,6 +53,9 @@ const Dictionary = {
   sosmedByKodProgram: 'sosmedByKodProgram',
   followers: 'followers',
   program: 'program',
+  programspesifik: 'program-spesifik',
+  // token
+  tokenbal: 'token-balance',
   // negeri
   negerijohor: 'Johor',
   negerikedah: 'Kedah',
@@ -418,8 +425,8 @@ const getDataRoute = async (req, res) => {
   const currentUser = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
-  const { negeri, daerah } = currentUser.getProfile();
-  const { FType } = req.query;
+  const { negeri, daerah, user_name } = currentUser.getProfile();
+  const { FType, kp } = req.query;
   const type = Dictionary[FType];
   // 2nd phase
   let data, countedData, owner;
@@ -447,6 +454,22 @@ const getDataRoute = async (req, res) => {
         }
       }
       break;
+    case 'kkiakd-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kp,
+        jenisFasiliti: 'kkiakd',
+      })
+        .select('nama kodKkiaKd')
+        .lean();
+      break;
+    case 'kpbmpb-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kp,
+        jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
+      })
+        .select('nama proposedName')
+        .lean();
+      break;
     case 'pegawai-all':
       data = await Operator.find({
         statusPegawai: 'pp',
@@ -460,6 +483,11 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         activationStatus: true,
       }).lean();
+      break;
+    case 'pegawai-spesifik':
+      data = await Operator.find({ kodFasiliti: kp })
+        .select('nama mdcNumber mdtbNumber statusPegawai')
+        .lean();
       break;
     case 'jp-all':
       data = await Operator.find({
@@ -482,6 +510,13 @@ const getDataRoute = async (req, res) => {
         assignedByDaerah: true,
         tahunDibuat: new Date().getFullYear(),
       }).lean();
+      break;
+    case 'program-spesifik':
+      data = await Event.find({
+        createdByKodFasiliti: kp,
+      })
+        .select('nama jenisEvent')
+        .lean();
       break;
     case 'sosmed':
       countedData = [];
@@ -522,6 +557,13 @@ const getDataRoute = async (req, res) => {
         belongsTo: owner,
       }).lean();
       break;
+    case 'token-balance':
+      data = await GenerateToken.find({
+        belongsTo: user_name,
+      })
+        .select('jumlahToken jenisReten')
+        .lean();
+      break;
     default:
       data = await Fasiliti.find({
         jenisFasiliti: type,
@@ -538,7 +580,7 @@ const getDataKpRoute = async (req, res) => {
   console.log('getRouteKp');
   // 1st phase
   const authKey = req.headers.authorization;
-  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+  const { kp, daerah, negeri, kodFasiliti, username } = jwt.verify(
     authKey,
     process.env.JWT_SECRET
   );
@@ -674,6 +716,45 @@ const getDataKpRoute = async (req, res) => {
         jenisFasiliti: 'makmal-pergigian',
         statusPerkhidmatan: 'active',
       }).lean();
+      break;
+    case 'kkiakd-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kodFasiliti,
+        jenisFasiliti: 'kkiakd',
+      })
+        .select('nama kodKkiaKd')
+        .lean();
+      break;
+    case 'kpbmpb-spesifik':
+      data = await Fasiliti.find({
+        kodFasilitiHandler: kodFasiliti,
+        jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
+      })
+        .select('nama proposedName')
+        .lean();
+      break;
+    case 'program-spesifik':
+      data = await Event.find({
+        createdByKodFasiliti: kodFasiliti,
+      })
+        .select('nama jenisEvent')
+        .lean();
+      break;
+    case 'pegawai-spesifik':
+      data = await Operator.find({
+        kpSkrg: kp,
+        kodFasiliti: kodFasiliti,
+        activationStatus: true,
+      })
+        .select('nama mdcNumber mdtbNumber statusPegawai')
+        .lean();
+      break;
+    case 'token-balance':
+      data = await GenerateToken.find({
+        belongsTo: username,
+      })
+        .select('jumlahToken jenisReten')
+        .lean();
       break;
     default:
       console.log('default');
@@ -953,7 +1034,7 @@ const getData = async (req, res) => {
             });
             if (exists) {
               return res.status(400).json({
-                message: 'Taska/Tadika telah wujud',
+                message: 'Kod Taska/Tadika ini telah wujud',
               });
             } else {
               Data = {
@@ -969,10 +1050,11 @@ const getData = async (req, res) => {
           if (theType === 'kp-bergerak' || theType === 'makmal-pergigian') {
             const exists = await Fasiliti.findOne({
               nama: Data.nama,
+              jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
             });
             if (exists) {
               return res.status(400).json({
-                message: 'KPB/MPB telah wujud',
+                message: 'No plat KPB/MPB ini telah wujud',
               });
             } else {
               Data = {

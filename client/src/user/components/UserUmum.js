@@ -59,8 +59,9 @@ function UserUmum({ sekolahIdc }) {
 
   // datepicker issues
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
-    new Date(dateToday)
+    moment(dateToday, moment.ISO_8601).toDate()
   );
+
   const TarikhKedatangan = () => {
     return masterDatePicker({
       selected: tarikhKedatanganDP,
@@ -104,7 +105,14 @@ function UserUmum({ sekolahIdc }) {
       }
     };
     query();
-  }, [tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
+  }, [
+    tarikhKedatangan,
+    jenisFasiliti,
+    jenisProgram,
+    reloadState,
+    reliefUserToken,
+    userToken,
+  ]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
@@ -457,9 +465,9 @@ function UserUmum({ sekolahIdc }) {
                           <td
                             className={`${
                               pilih === singlePersonUmum._id && 'bg-user3'
-                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                            } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 normal-case`}
                           >
-                            {singlePersonUmum.ic.toUpperCase()}
+                            {singlePersonUmum.ic}
                           </td>
                           <td
                             className={`${
@@ -765,7 +773,7 @@ function UserUmum({ sekolahIdc }) {
                     </div>
                     <div className='text-xs lg:text-sm flex flex-row pl-5'>
                       <h2 className='font-semibold'>IC/Passport :</h2>
-                      <p className='ml-1'>{singlePersonUmum.ic}</p>
+                      <p className='ml-1 normal-case'>{singlePersonUmum.ic}</p>
                     </div>
                     {operasiHapus ? (
                       <button
@@ -833,7 +841,10 @@ function UserUmum({ sekolahIdc }) {
                 atasRef.current?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              <BsFillArrowUpCircleFill className='text-user3 text-2xl animate-bounce' />
+              <span className='bg-user3 text-userWhite text-sm p-1 flex flex-row items-center rounded-md'>
+                Kembali Ke Atas
+                <BsFillArrowUpCircleFill className='animate-bounce ml-1' />
+              </span>
             </button>
           )}
         </div>

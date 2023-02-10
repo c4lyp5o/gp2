@@ -9,6 +9,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import DatePicker from 'react-datepicker';
+import Datetime from 'react-datetime';
 
 const storageUserToken = localStorage.getItem('userToken');
 const storageUsername = localStorage.getItem('username');
@@ -94,6 +95,11 @@ function masterDatePicker({
       showMonthDropdown
       showYearDropdown
       dropdownMode='select'
+      withPortal={window.matchMedia('(max-width: 400px)').matches}
+      onKeyDown={(e) => {
+        e.preventDefault();
+      }}
+      onFocus={(e) => e.target.blur()} // disable keyboad input
       selected={selected}
       onChange={onChange}
       required={required}
@@ -104,15 +110,27 @@ function masterDatePicker({
       endDate={endDate}
       minDate={minDate}
       disabled={disabled}
-      withPortal={window.matchMedia('(max-width: 400px)').matches}
-      onKeyDown={(e) => {
-        e.preventDefault();
-      }}
-      onFocus={(e) => e.target.blur()} // disable keyboad input
       className={className}
     />
   );
 }
+
+// wip ----------
+function masterDatetime({ value, initialValue, onChange, inputProps }) {
+  return (
+    <Datetime
+      initialViewMode='time'
+      dateFormat={false}
+      timeFormat='hh:mm A'
+      input={true}
+      value={value}
+      initialValue={initialValue}
+      onChange={onChange}
+      inputProps={inputProps}
+    />
+  );
+}
+// --------------
 
 const Dictionary = {
   kp: 'Klinik Pergigian',
@@ -281,6 +299,7 @@ function UserAppProvider({ children }) {
   const [dateToday, setDateToday] = useState('');
   const [dateYesterday, setDateYesterday] = useState('');
   const [datePastTwoDays, setDatePastTwoDays] = useState('');
+  const [refetchDateTime, setRefetchDateTime] = useState(false);
 
   const [userToken, setUserToken] = useState(storageUserToken);
   const [username, setUsername] = useState(storageUsername);
@@ -320,7 +339,7 @@ function UserAppProvider({ children }) {
       setDatePastTwoDays(data.datePastTwoDays);
     };
     fetchDate();
-  }, []);
+  }, [refetchDateTime]);
 
   // pengguna logout timer
   useEffect(() => {
@@ -433,6 +452,7 @@ function UserAppProvider({ children }) {
     setUserToken(null);
     setUsername(null);
     setUserinfo(null);
+    setReliefUserToken(null);
     setFasilitiRelief(null);
     setKaunterToken(null);
   };
@@ -441,6 +461,7 @@ function UserAppProvider({ children }) {
     <UserAppContext.Provider
       value={{
         userToken,
+        setUserToken,
         username,
         setUsername,
         userinfo,
@@ -450,6 +471,7 @@ function UserAppProvider({ children }) {
         fasilitiRelief,
         setFasilitiRelief,
         kaunterToken,
+        setKaunterToken,
         loginErrorMessage,
         isLoginError,
         displayLoginForm,
@@ -466,6 +488,8 @@ function UserAppProvider({ children }) {
         dateToday,
         dateYesterday,
         datePastTwoDays,
+        refetchDateTime,
+        setRefetchDateTime,
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,

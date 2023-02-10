@@ -156,23 +156,22 @@ export default function PatientData({
 
   const formatMelayu = (date) => {
     const months = {
-      1: 'Januari',
-      2: 'Februari',
-      3: 'Mac',
-      4: 'April',
-      5: 'Mei',
-      6: 'Jun',
-      7: 'Julai',
-      8: 'Ogos',
-      9: 'September',
-      10: 'Oktober',
-      11: 'November',
-      12: 'Disember',
+      0: 'Januari',
+      1: 'Februari',
+      2: 'Mac',
+      3: 'April',
+      4: 'Mei',
+      5: 'Jun',
+      6: 'Julai',
+      7: 'Ogos',
+      8: 'September',
+      9: 'Oktober',
+      10: 'November',
+      11: 'Disember',
     };
-    const dateObj = new Date(date);
-    const month = months[dateObj.getMonth() + 1];
-    const day = String(dateObj.getDate()).padStart(2, '0');
-    const year = dateObj.getFullYear();
+    const day = moment(date).date();
+    const month = months[moment(date).month()];
+    const year = moment(date).year();
     const output = day + ' ' + month + ' ' + year;
     return output;
   };
@@ -205,7 +204,7 @@ export default function PatientData({
           .startOf('month')
           .format('YYYY-MM-DD')}&tarikhAkhir=${moment(pilihanBulan)
           .endOf('month')
-          .format('YYYY-MM-DD')}`,
+          .format('YYYY-MM-DD')}&fromEtl=false`,
         {
           headers: {
             Authorization: kaunterToken,
@@ -215,7 +214,6 @@ export default function PatientData({
       );
       return res;
     } catch (err) {
-      // console.log(err.response);
       switch (err.response.status) {
         case 401:
           toast.error(
@@ -274,9 +272,7 @@ export default function PatientData({
 
   const saveFile = (blob) => {
     const link = document.createElement('a');
-    link.download = `PG101A_${kp}_${moment(new Date()).format(
-      'DDMMYYYY'
-    )}.xlsx`;
+    link.download = `PG101A_${kp}_${moment(dateToday).format('DDMMYYYY')}.xlsx`;
     link.href = URL.createObjectURL(new Blob([blob]));
     link.addEventListener('click', (e) => {
       setTimeout(() => {
@@ -291,14 +287,18 @@ export default function PatientData({
       setIsLoading(true);
       if (jenisFasiliti !== 'projek-komuniti-lain') {
         const { data } = await axios.get(
-          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&jenisFasiliti=${jenisFasiliti}`,
+          `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+            'YYYY-MM-DD'
+          )}&jenisFasiliti=${jenisFasiliti}`,
           { headers: { Authorization: `Bearer ${kaunterToken}` } }
         );
         setData(data);
       }
       if (jenisFasiliti === 'projek-komuniti-lain') {
         const { data } = await axios.get(
-          `/api/v1/query/kaunter?tarikhKedatangan=${dateToday}&namaProgram=${namaProgram}`,
+          `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
+            'YYYY-MM-DD'
+          )}&namaProgram=${namaProgram}`,
           { headers: { Authorization: `Bearer ${kaunterToken}` } }
         );
         setData(data);
@@ -489,7 +489,7 @@ export default function PatientData({
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
                               {p.nama}
                             </td>
-                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
+                            <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
                               {p.ic}
                             </td>
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
