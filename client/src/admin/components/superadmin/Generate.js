@@ -170,9 +170,6 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (props.pilihanFasiliti === 'individu') {
-      return toast.error('Fungsi ini belum tersedia');
-    }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -630,6 +627,71 @@ const ModalGenerateAdHoc = (props) => {
                                   </option>
                                 );
                               })}
+                          </select>
+                        </div>
+                      ) : null}
+                    </div>
+                    <div>
+                      {props.pilihanKlinik !== '' &&
+                      props.pilihanKlinik !== 'all' &&
+                      props.pilihanDaerah !== 'all' &&
+                      (props.jenisReten === 'PGPRO01' ||
+                        props.jenisReten === 'PGPRO01Combined') ? (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='factype'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Fasiliti
+                          </label>
+                          <select
+                            required
+                            name='factype'
+                            id='factype'
+                            onChange={(e) => {
+                              props.handleGetIndividu(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            <option value='klinik'>Klinik</option>
+                            <option value='individu'>Individu</option>
+                          </select>
+                        </div>
+                      ) : null}
+                      {props.pilihanFasiliti === 'individu' &&
+                      (props.jenisReten === 'PGPRO01' ||
+                        props.jenisReten === 'PGPRO01Combined') ? (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='klinik'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Pegawai
+                          </label>
+                          <select
+                            required
+                            name='pegawai'
+                            id='pegawai'
+                            onChange={(e) => {
+                              props.setPilihanIndividu(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            {props.individuData.map((i, index) => {
+                              return (
+                                <option
+                                  key={index}
+                                  value={
+                                    i.mdcNumber ? i.mdcNumber : i.mdtbNumber
+                                  }
+                                  className='capitalize'
+                                >
+                                  {i.nama}
+                                </option>
+                              );
+                            })}
                           </select>
                         </div>
                       ) : null}
@@ -1287,6 +1349,71 @@ const ModalGenerateBulanan = (props) => {
                         </div>
                       ) : null}
                     </div>
+                    <div>
+                      {props.pilihanKlinik !== '' &&
+                      props.pilihanKlinik !== 'all' &&
+                      props.pilihanDaerah !== 'all' &&
+                      (props.jenisReten === 'PGPRO01' ||
+                        props.jenisReten === 'PGPRO01Combined') ? (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='factype'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Fasiliti
+                          </label>
+                          <select
+                            required
+                            name='factype'
+                            id='factype'
+                            onChange={(e) => {
+                              props.handleGetIndividu(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            <option value='klinik'>Klinik</option>
+                            <option value='individu'>Individu</option>
+                          </select>
+                        </div>
+                      ) : null}
+                      {props.pilihanFasiliti === 'individu' &&
+                      (props.jenisReten === 'PGPRO01' ||
+                        props.jenisReten === 'PGPRO01Combined') ? (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='klinik'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Pegawai
+                          </label>
+                          <select
+                            required
+                            name='pegawai'
+                            id='pegawai'
+                            onChange={(e) => {
+                              props.setPilihanIndividu(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            {props.individuData.map((i, index) => {
+                              return (
+                                <option
+                                  key={index}
+                                  value={
+                                    i.mdcNumber ? i.mdcNumber : i.mdtbNumber
+                                  }
+                                  className='capitalize'
+                                >
+                                  {i.nama}
+                                </option>
+                              );
+                            })}
+                          </select>
+                        </div>
+                      ) : null}
+                    </div>
                   </div>
                 </div>
               </div>
@@ -1456,13 +1583,13 @@ const Generate = (props) => {
       kod: 'PGPRO 01 Pind. 2/2022 FFR',
       kodRingkas: 'PGPRO01',
       deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
     },
     {
       kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
       kodRingkas: 'PGPRO01Combined',
       deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
     },
     {
       kod: 'PG201 Pind. 2/2022',
@@ -1541,7 +1668,6 @@ const Generate = (props) => {
     } else {
       await readSpesifikIndividuData(pilihanKlinik)
         .then((res) => {
-          console.log('res', res);
           setIndividuData(res.data);
         })
         .catch((err) => {

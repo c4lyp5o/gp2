@@ -16004,15 +16004,14 @@ const getParams211 = (payload, reten) => {
   }
 };
 const getParams206 = (payload) => {
-  const { negeri, daerah, klinik, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: id,
+      createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
     };
     return param;
   };
@@ -16021,11 +16020,8 @@ const getParams206 = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -16037,8 +16033,6 @@ const getParams206 = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -16049,13 +16043,11 @@ const getParams206 = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
 
-  if (pegawai) {
+  if (pilihanIndividu) {
     return byPegawai(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
@@ -16069,16 +16061,14 @@ const getParams206 = (payload) => {
   }
 };
 const getParams206sekolah = (payload) => {
-  const { negeri, daerah, klinik, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: id,
+      createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -16087,11 +16077,8 @@ const getParams206sekolah = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      // createdByUsername: { $regex: /^(?!dr.).*$/ },
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -16103,8 +16090,6 @@ const getParams206sekolah = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -16115,13 +16100,11 @@ const getParams206sekolah = (payload) => {
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
 
-  if (pegawai) {
+  if (pilihanIndividu) {
     return byPegawai(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
@@ -16135,12 +16118,12 @@ const getParams206sekolah = (payload) => {
   }
 };
 const getParams207 = (payload) => {
-  const { negeri, daerah, klinik, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: id,
+      createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
     };
@@ -16151,7 +16134,6 @@ const getParams207 = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
     };
@@ -16179,7 +16161,7 @@ const getParams207 = (payload) => {
     return param;
   };
 
-  if (pegawai) {
+  if (pilihanIndividu) {
     return byPegawai(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
@@ -16193,12 +16175,12 @@ const getParams207 = (payload) => {
   }
 };
 const getParams207sekolah = (payload) => {
-  const { negeri, daerah, klinik, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: id,
+      createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
     };
     return param;
@@ -16208,10 +16190,7 @@ const getParams207sekolah = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      // createdByUsername: { $regex: /^dr./, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // ibuMengandung: false,
-      // orangKurangUpaya: false,
     };
     return param;
   };
@@ -16222,8 +16201,6 @@ const getParams207sekolah = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      ibuMengandung: false,
-      orangKurangUpaya: false,
     };
     return param;
   };
@@ -16233,32 +16210,30 @@ const getParams207sekolah = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      ibuMengandung: false,
-      orangKurangUpaya: false,
     };
     return param;
   };
 
-  if (payload.pegawai) {
+  if (pilihanIndividu) {
     return byPegawai(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik !== 'all') {
+  if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (payload.daerah !== 'all' && payload.klinik === 'all') {
+  if (daerah !== 'all' && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (payload.daerah === 'all') {
+  if (daerah === 'all') {
     return byNegeri(payload);
   }
 };
 const getParamsPgPro = (payload) => {
-  const { pegawai, klinik, daerah, negeri } = payload;
+  const { pilihanIndividu, klinik, daerah, negeri } = payload;
 
   const byIndividu = () => {
     let param = {
       promosiIndividu: true,
-      createdByMdcMdtb: pegawai,
+      createdByMdcMdtb: pilihanIndividu,
     };
     return param;
   };
@@ -16286,7 +16261,7 @@ const getParamsPgPro = (payload) => {
     };
   };
 
-  if (pegawai) {
+  if (pilihanIndividu) {
     return byIndividu();
   }
   if (daerah !== 'all' && klinik !== 'all') {
