@@ -16395,6 +16395,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      ...dateModifier(payload),
     };
     return param;
   };
@@ -16407,6 +16408,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      ...dateModifier(payload),
     };
     return param;
   };
@@ -16418,6 +16420,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      ...dateModifier(payload),
     };
     return param;
   };
