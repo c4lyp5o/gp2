@@ -160,7 +160,9 @@ const ModalGenerateAdHoc = (props) => {
           toast.error('Tiada data untuk tarikh yang dipilih');
           break;
         default:
-          toast.error('Internal Server Error');
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila cuba lagi'
+          );
           break;
       }
     }
@@ -704,7 +706,9 @@ const ModalGenerateBulanan = (props) => {
   const handleJana = async (e) => {
     e.preventDefault();
     if (props.pilihanFasiliti === 'individu') {
-      return toast.error('Fungsi ini belum tersedia');
+      return toast.error(
+        'Harap maaf, fungsi penjanaan individu belum tersedia'
+      );
     }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
@@ -1349,13 +1353,13 @@ const Generate = (props) => {
       kod: 'PGPRO 01 Pind. 2/2022 FFR',
       kodRingkas: 'PGPRO01',
       deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
     },
     {
       kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
       kodRingkas: 'PGPRO01Combined',
       deskripsi:
-        'Kompilasi Laporan Bulanan Individu/Fasiliti/Daerah/ Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Kombinasi',
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
     },
     {
       kod: 'PG201 Pind. 2/2022',
@@ -1549,6 +1553,7 @@ const Generate = (props) => {
     setPilihanKlinik,
     generating,
     setGenerating,
+    // trigger get data
     handleGetKkia,
     handleGetProgramEnKPBMPB,
     handleGetIndividu,
