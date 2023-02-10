@@ -180,7 +180,7 @@ export default function AdminAfterLogin() {
               <Route path='kp/program' element={<DataKp FType='program' />} />
               <Route path='kp/kpb' element={<DataKp FType='kpb' />} />
               <Route path='kp/mpb' element={<DataKp FType='mpb' />} />
-              {/* <Route path='kp/generate' element={<GenerateKp {...props} />} /> */}
+              <Route path='kp/generate' element={<GenerateKp {...props} />} />
             </>
           ) : null}
           <Route path='*' element={<AdminLoggedInNotFound />} />
