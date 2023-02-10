@@ -6,6 +6,7 @@ const moment = require('moment');
 const Excel = require('exceljs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Operator = require('../models/Operator');
 const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
@@ -137,14 +138,9 @@ exports.startQueue = async function (req, res) {
 
 // kp
 exports.startQueueKp = async function (req, res) {
-  console.log('masuk queue kp');
   // get userdata
   const { authorization } = req.headers;
-  const { username, accountType } = jwt.verify(
-    authorization,
-    process.env.JWT_SECRET
-  );
-  console.log('username: ' + username);
+  const { username } = jwt.verify(authorization, process.env.JWT_SECRET);
   //
   const { jenisReten, fromEtl } = req.query;
   //
@@ -235,13 +231,13 @@ const downloader = async (req, res, callback) => {
     pilihanKkia,
     pilihanProgram,
     pilihanKpbmpb,
+    pilihanIndividu,
     tarikhMula,
     tarikhAkhir,
     bulan,
     id,
     fromEtl,
   } = req.query;
-  // console.log(req.query);
   // check if there is any query
   if (!jenisReten) {
     return callback('No data found');
@@ -289,6 +285,7 @@ const downloader = async (req, res, callback) => {
     pilihanKkia,
     pilihanProgram,
     pilihanKpbmpb,
+    pilihanIndividu,
     tarikhMula,
     tarikhAkhir,
     bulan,
@@ -314,7 +311,6 @@ const downloader = async (req, res, callback) => {
       excelFile = await makePG214(payload);
       break;
     case 'PG206':
-      console.log('switch block PG206');
       excelFile = await makePG206(payload);
       break;
     case 'PG207':
@@ -876,7 +872,11 @@ const makePG211A = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG211A');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
@@ -1040,7 +1040,11 @@ const makePG211C = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG211C');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
@@ -1314,7 +1318,7 @@ const makePG214 = async (payload) => {
   }
 };
 const makePG206 = async (payload) => {
-  console.log('dlm makePG206');
+  console.log('PG206');
   try {
     let {
       klinik,
@@ -1323,7 +1327,7 @@ const makePG206 = async (payload) => {
       tarikhMula,
       tarikhAkhir,
       bulan,
-      pegawai,
+      pilihanIndividu,
       username,
       fromEtl,
     } = payload;
@@ -1339,7 +1343,6 @@ const makePG206 = async (payload) => {
         data = ETL[0].data;
         break;
       default:
-        console.log('switch dalam make206');
         data = await Helper.countPG206(payload);
         break;
     }
@@ -1364,20 +1367,29 @@ const makePG206 = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG206');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     worksheet.getCell('V5').value = monthName;
     worksheet.getCell('Z5').value = yearNow;
 
+    if (pilihanIndividu) {
+      const currentIndividu = await Operator.findOne({
+        mdtbNumber: pilihanIndividu,
+      })
+        .select('nama')
+        .lean();
+      worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
+    }
+
     worksheet.getCell('B6').value = `${klinik.toUpperCase()}`;
     worksheet.getCell('B7').value = `${daerah.toUpperCase()}`;
     worksheet.getCell('B8').value = `${negeri.toUpperCase()}`;
-
-    if (pegawai) {
-      worksheet.getCell('B9').value = `${pegawai.toUpperCase()}`;
-    }
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -1657,7 +1669,7 @@ const makePG207 = async (payload) => {
       tarikhMula,
       tarikhAkhir,
       bulan,
-      pegawai,
+      pilihanIndividu,
       username,
       fromEtl,
     } = payload;
@@ -1682,7 +1694,9 @@ const makePG207 = async (payload) => {
     }
     //
     if (klinik !== 'all') {
-      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik })
+        .select('kp')
+        .lean();
       klinik = currentKlinik.kp;
     }
     //
@@ -1697,21 +1711,33 @@ const makePG207 = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG207');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     worksheet.getCell('AO5').value = monthName;
     worksheet.getCell('AU5').value = yearNow;
 
+    if (pilihanIndividu) {
+      const currentIndividu = await Operator.findOne({
+        mdcNumber: pilihanIndividu,
+      })
+        .select('nama')
+        .lean();
+      worksheet.getCell('A6').value = 'PEGAWAI: ';
+      worksheet.getCell('A6').font = { bold: true, size: 12, name: 'Arial' };
+      worksheet.getCell('B6').value = `${currentIndividu.nama.toUpperCase()}`;
+      worksheet.getCell('B6').font = { bold: true, size: 12, name: 'Arial' };
+      worksheet.getCell('B6').alignment = { horizontal: 'left' };
+    }
+
     worksheet.getCell('B7').value = `${klinik.toUpperCase()}`;
     worksheet.getCell('B8').value = `${daerah.toUpperCase()}`;
     worksheet.getCell('B9').value = `${negeri.toUpperCase()}`;
-
-    // if (pegawai) {
-    //   let intro4 = worksheet.getRow(10);
-    //   intro4.getCell(2).value = `${pegawai.toUpperCase()}`;
-    // }
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -2104,7 +2130,11 @@ const makePG201 = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PG201');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
@@ -2350,7 +2380,11 @@ const makePGPR201 = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('PGPR201 Pin.1.2022');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
@@ -2509,7 +2543,7 @@ const makePgPro01 = async (payload) => {
   try {
     let {
       username,
-      pegawai,
+      pilihanIndividu,
       klinik,
       daerah,
       negeri,
@@ -2548,13 +2582,36 @@ const makePgPro01 = async (payload) => {
       '..',
       'public',
       'exports',
-      'PGPRO01_2023_Kod_Program.xlsx'
+      'PGPRO 01_2023_Kod Program.xlsx'
     );
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('INDIVIDU_PGPRO01 BARU_FFR_Kod P');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
+    if (pilihanIndividu) {
+      const mdcMdtbPicker = () => {
+        if (/^MDTB/.test(pilihanIndividu)) {
+          return {
+            mdtbNumber: pilihanIndividu,
+          };
+        } else {
+          return {
+            mdcNumber: pilihanIndividu,
+          };
+        }
+      };
+      const query = mdcMdtbPicker();
+      const currentIndividu = await Operator.findOne(query)
+        .select('nama')
+        .lean();
+      worksheet.getCell('D11').value = `${currentIndividu.nama.toUpperCase()}`;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
@@ -2567,7 +2624,6 @@ const makePgPro01 = async (payload) => {
     worksheet.getCell('D8').value = negeri.toUpperCase();
     worksheet.getCell('D9').value = daerah.toUpperCase();
     worksheet.getCell('D10').value = klinik.toUpperCase();
-    worksheet.getCell('D11').value = pegawai ? pegawai.toUpperCase() : '';
 
     let j = 0;
     for (let i = 0; i < data.length; i++) {
@@ -2699,7 +2755,7 @@ const makePgPro01Combined = async (payload) => {
   try {
     let {
       username,
-      pegawai,
+      pilihanIndividu,
       klinik,
       daerah,
       negeri,
@@ -2738,13 +2794,17 @@ const makePgPro01Combined = async (payload) => {
       '..',
       'public',
       'exports',
-      'PGPRO01_2023_FFR.xlsx'
+      'PGPRO 01_2023_FFR.xlsx'
     );
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('INDIVIDU_PGPRO 01 BARU_FFR');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
@@ -2754,10 +2814,28 @@ const makePgPro01Combined = async (payload) => {
     worksheet.getCell('AO6').value = monthName.toUpperCase();
     worksheet.getCell('AT6').value = yearNow;
 
+    if (pilihanIndividu) {
+      const mdcMdtbPicker = () => {
+        if (/^MDTB/.test(pilihanIndividu)) {
+          return {
+            mdtbNumber: pilihanIndividu,
+          };
+        } else {
+          return {
+            mdcNumber: pilihanIndividu,
+          };
+        }
+      };
+      const query = mdcMdtbPicker();
+      const currentIndividu = await Operator.findOne(query)
+        .select('nama')
+        .lean();
+      worksheet.getCell('E11').value = `${currentIndividu.nama.toUpperCase()}`;
+    }
+
     worksheet.getCell('E8').value = negeri.toUpperCase();
     worksheet.getCell('E9').value = daerah.toUpperCase();
     worksheet.getCell('E10').value = klinik.toUpperCase();
-    worksheet.getCell('E11').value = pegawai ? pegawai.toUpperCase() : '';
 
     for (let i = 0; i < data.length; i++) {
       let rowNew = worksheet.getRow(19 + i);
@@ -3209,8 +3287,8 @@ const makeMasa = async (payload) => {
 
     for (let j = 0; j < data[1].temujanjiData.length; j++) {
       if (data[1].temujanjiData[j][0]) {
-        jumlahRetenSalah += data[0].temujanjiData[j][0].statusReten;
-        jumlahReten += data[0].temujanjiData[j][0].jumlahReten;
+        jumlahRetenSalah += data[1].temujanjiData[j][0].statusReten;
+        jumlahReten += data[1].temujanjiData[j][0].jumlahReten;
         worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[1].temujanjiData[j][0].jumlahPesakit;
         cellNumber = cellNumber + 3;
@@ -3315,6 +3393,10 @@ const makeBp = async (payload) => {
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({ kodFasiliti: klinik });
       klinik = currentKlinik.kp;
+    }
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
     }
     //
     let filename = path.join(__dirname, '..', 'public', 'exports', 'BP.xlsx');
@@ -4177,6 +4259,7 @@ const makePG201P2 = async (payload) => {
     console.log(err);
   }
 };
+
 // debug
 exports.debug = async (req, res) => {
   let payload = {
