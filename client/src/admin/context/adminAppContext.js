@@ -398,7 +398,6 @@ function AdminAppProvider({ children }) {
 
   // specifics for each kp for superadmin
   const readSpesifikKkiaData = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getdata?FType=kkiakdspesifik&kp=${kp}`,
@@ -414,7 +413,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readSpesifikProgramData = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getdata?FType=programspesifik&kp=${kp}`,
@@ -430,7 +428,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readSpesifikKPBMPBData = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getdata?FType=kpbmpbspesifik&kp=${kp}`,
@@ -446,7 +443,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readSpesifikIndividuData = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getdata?FType=pegawaispesifik&kp=${kp}`,
@@ -464,7 +460,6 @@ function AdminAppProvider({ children }) {
 
   // specifics for each kp for kpuser
   const readSpesifikKkiaDataForKp = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getkpdata?FType=kkiakdspesifik&kp=${kp}`,
@@ -480,7 +475,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readSpesifikProgramDataForKp = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getkpdata?FType=programspesifik&kp=${kp}`,
@@ -496,7 +490,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readSpesifikKPBMPBDataForKp = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getkpdata?FType=kpbmpbspesifik&kp=${kp}`,
@@ -512,7 +505,6 @@ function AdminAppProvider({ children }) {
     }
   };
   const readSpesifikIndividuDataForKp = async (kp) => {
-    console.log(kp);
     try {
       const response = await axios.get(
         `/api/v1/superadmin/getkpdata?FType=pegawaispesifik&kp=${kp}`,
