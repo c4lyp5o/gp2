@@ -58,7 +58,6 @@ function UserFormSekolahPemeriksaan() {
     useState(false);
   const [adaDesidus, setAdaDesidus] = useState(false);
   const [dAdaGigiDesidus, setDAdaGigiDesidus] = useState(0);
-  const [mAdaGigiDesidus, setMAdaGigiDesidus] = useState(0);
   const [fAdaGigiDesidus, setFAdaGigiDesidus] = useState(0);
   const [xAdaGigiDesidus, setXAdaGigiDesidus] = useState(0);
   const [sumDMFXDesidus, setSumDMFXDesidus] = useState(0);
@@ -216,11 +215,10 @@ function UserFormSekolahPemeriksaan() {
   useEffect(() => {
     setSumDMFXDesidus(
       parseInt(dAdaGigiDesidus) +
-        parseInt(mAdaGigiDesidus) +
         parseInt(fAdaGigiDesidus) +
         parseInt(xAdaGigiDesidus)
     );
-  }, [dAdaGigiDesidus, mAdaGigiDesidus, fAdaGigiDesidus, xAdaGigiDesidus]);
+  }, [dAdaGigiDesidus, fAdaGigiDesidus, xAdaGigiDesidus]);
 
   // calculate total DMFX kekal
   useEffect(() => {
@@ -336,7 +334,6 @@ function UserFormSekolahPemeriksaan() {
     }
     if (!adaDesidus) {
       setDAdaGigiDesidus(0);
-      setMAdaGigiDesidus(0);
       setFAdaGigiDesidus(0);
       setXAdaGigiDesidus(0);
     }
@@ -457,9 +454,6 @@ function UserFormSekolahPemeriksaan() {
           );
           setDAdaGigiDesidus(
             data.personSekolahWithPopulate.pemeriksaanSekolah.dAdaGigiDesidus
-          );
-          setMAdaGigiDesidus(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.mAdaGigiDesidus
           );
           setFAdaGigiDesidus(
             data.personSekolahWithPopulate.pemeriksaanSekolah.fAdaGigiDesidus
@@ -695,18 +689,9 @@ function UserFormSekolahPemeriksaan() {
       });
       return;
     }
-    if (sumGigiDesidus !== dAdaGigiDesidus) {
+    if (sumGigiKekal <= dAdaGigiKekal) {
       toast.error(
-        'Jumlah tampalan diperlukan gigi desidus tidak sama dengan jumlah d gigi desidus',
-        {
-          autoClose: 3000,
-        }
-      );
-      return;
-    }
-    if (sumGigiKekal !== dAdaGigiKekal) {
-      toast.error(
-        'Jumlah tampalan diperlukan gigi kekal tidak sama dengan jumlah D gigi kekal',
+        'Jumlah tampalan diperlukan gigi kekal kurang dengan jumlah D gigi kekal',
         {
           autoClose: 3000,
         }
@@ -749,7 +734,6 @@ function UserFormSekolahPemeriksaan() {
               perluPenskaleranOralHygiene,
               adaDesidus,
               dAdaGigiDesidus,
-              mAdaGigiDesidus,
               fAdaGigiDesidus,
               xAdaGigiDesidus,
               adaKekal,
@@ -855,7 +839,6 @@ function UserFormSekolahPemeriksaan() {
               perluPenskaleranOralHygiene,
               adaDesidus,
               dAdaGigiDesidus,
-              mAdaGigiDesidus,
               fAdaGigiDesidus,
               xAdaGigiDesidus,
               adaKekal,
@@ -1145,7 +1128,7 @@ function UserFormSekolahPemeriksaan() {
                     onChange={(e) => {
                       setStatikBergerak(e.target.value);
                     }}
-                    className='outline outline-1 outline-userBlack'
+                    className='appearance-none w-60 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   >
                     <option value=''>Sila pilih</option>
                     <option value='klinik-pergigian-statik'>
@@ -1185,7 +1168,7 @@ function UserFormSekolahPemeriksaan() {
                     onChange={(e) => {
                       setPlateNo(e.target.value);
                     }}
-                    className='outline outline-1 outline-userBlack w-auto text-sm font-m'
+                    className='appearance-none w-28 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                   >
                     <option value=''>Plate No</option>
                     <option value='1'>1</option>
@@ -1589,7 +1572,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setKebersihanMulutOralHygiene(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     >
                       <option value=''></option>
                       <option value='A'>A</option>
@@ -1613,7 +1596,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setSkorBpeOralHygiene(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     >
                       <option value=''></option>
                       <option value='0'>0</option>
@@ -1659,7 +1642,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setSkorGisMulutOralHygiene(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     >
                       <option value=''></option>
                       <option value='0'>0</option>
@@ -1729,24 +1712,7 @@ function UserFormSekolahPemeriksaan() {
                           onChange={(e) => {
                             setDAdaGigiDesidus(e.target.value);
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
-                        />
-                      </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m lowercase'>m: </p>
-                        <span className='text-user6'>*</span>
-                        <input
-                          required
-                          min='0'
-                          max='20'
-                          type='number'
-                          name='m-ada-status-gigi-desidus'
-                          id='m-ada-status-gigi-desidus'
-                          value={mAdaGigiDesidus}
-                          onChange={(e) => {
-                            setMAdaGigiDesidus(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1763,7 +1729,7 @@ function UserFormSekolahPemeriksaan() {
                           onChange={(e) => {
                             setFAdaGigiDesidus(e.target.value);
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1780,7 +1746,7 @@ function UserFormSekolahPemeriksaan() {
                           onChange={(e) => {
                             setXAdaGigiDesidus(e.target.value);
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                     </div>
@@ -1829,7 +1795,7 @@ function UserFormSekolahPemeriksaan() {
                           id='d-ada-status-gigi-kekal'
                           value={dAdaGigiKekal}
                           onChange={(e) => setDAdaGigiKekal(e.target.value)}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1846,7 +1812,7 @@ function UserFormSekolahPemeriksaan() {
                           onChange={(e) => {
                             setMAdaGigiKekal(e.target.value);
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1863,7 +1829,7 @@ function UserFormSekolahPemeriksaan() {
                           onChange={(e) => {
                             setFAdaGigiKekal(e.target.value);
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1880,7 +1846,7 @@ function UserFormSekolahPemeriksaan() {
                           onChange={(e) => {
                             setEAdaGigiKekal(e.target.value);
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                       <div className='flex flex-row items-center pl-5'>
@@ -1897,7 +1863,7 @@ function UserFormSekolahPemeriksaan() {
                           onChange={(e) => {
                             setXAdaGigiKekal(e.target.value);
                           }}
-                          className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
                     </div>
@@ -1926,7 +1892,7 @@ function UserFormSekolahPemeriksaan() {
                         onChange={(e) => {
                           setJumlahFaktorRisiko(e.target.value);
                         }}
-                        className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       >
                         <option value=''></option>
                         <option value='0'>0</option>
@@ -2062,7 +2028,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setGicBilanganFsDibuat3TahunLepas(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center'>
@@ -2077,7 +2043,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setResinBilanganFsDibuat3TahunLepas(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center col-span-2 md:col-span-1'>
@@ -2092,7 +2058,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setLainLainBilanganFsDibuat3TahunLepas(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                 </article>
@@ -2112,7 +2078,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setDBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center'>
@@ -2127,7 +2093,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setMBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center'>
@@ -2142,7 +2108,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setFBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center'>
@@ -2157,7 +2123,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setEBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center'>
@@ -2172,7 +2138,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setXBilanganFsDibuat3TahunLepasTerjadi(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                 </article>
@@ -2190,7 +2156,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setClassID(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center'>
@@ -2205,7 +2171,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setClassIID(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   {sumClassD > dAdaGigiKekal && (
@@ -2228,7 +2194,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setClassIF(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   <div className='flex flex-row pl-5 items-center'>
@@ -2243,7 +2209,7 @@ function UserFormSekolahPemeriksaan() {
                       onChange={(e) => {
                         setClassIIF(e.target.value);
                       }}
-                      className='outline outline-1 outline-userBlack w-10 m-3 text-sm font-m'
+                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                     />
                   </div>
                   {sumClassF > fAdaGigiKekal && (
@@ -2312,7 +2278,7 @@ function UserFormSekolahPemeriksaan() {
                         onChange={(e) => {
                           setBaruJumlahGigiKekalPerluFs(e.target.value);
                         }}
-                        className='outline outline-1 outline-userBlack w-10 mr-3 text-sm font-m'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                       <label
                         htmlFor='baru-jumlah-gigi-kekal-perlu-fs'
@@ -2408,7 +2374,7 @@ function UserFormSekolahPemeriksaan() {
                         onChange={(e) => {
                           setBaruJumlahGigiKekalPerluPrrJenis1(e.target.value);
                         }}
-                        className='outline outline-1 outline-userBlack w-10 mr-3 text-sm font-m'
+                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       />
                       <label
                         htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
@@ -2493,25 +2459,16 @@ function UserFormSekolahPemeriksaan() {
                       </h4>
                       <div className='m-1 flex items-center justify-center'>
                         <span
-                          className={`text-xs text-userWhite font-mono px-2 py-1 text-center lowercase rounded-lg mr-1 ${
-                            sumGigiDesidus !== dAdaGigiDesidus
-                              ? 'bg-user9'
-                              : 'bg-user7'
-                          } `}
-                        >
-                          d : {dAdaGigiDesidus}{' '}
-                          {dAdaGigiDesidus !== sumGigiDesidus ? '≠' : '='}{' '}
-                          {sumGigiDesidus}
-                        </span>
-                        <span
                           className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ${
-                            sumGigiKekal !== dAdaGigiKekal
-                              ? 'bg-user9'
-                              : 'bg-user7'
+                            dAdaGigiKekal <= sumGigiKekal
+                              ? dAdaGigiKekal === 0 && sumGigiKekal > 0
+                                ? 'bg-user9'
+                                : 'bg-user7'
+                              : 'bg-user9'
                           } `}
                         >
                           D : {dAdaGigiKekal}{' '}
-                          {dAdaGigiKekal !== sumGigiKekal ? '≠' : '='}{' '}
+                          {dAdaGigiKekal <= sumGigiKekal ? '≤' : '>'}{' '}
                           {sumGigiKekal}
                         </span>
                       </div>
@@ -2534,7 +2491,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2560,7 +2517,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2586,7 +2543,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2612,7 +2569,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2643,7 +2600,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2669,7 +2626,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2695,7 +2652,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2721,7 +2678,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2752,7 +2709,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2778,7 +2735,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2804,7 +2761,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required
@@ -2830,7 +2787,7 @@ function UserFormSekolahPemeriksaan() {
                                 e.target.value
                               );
                             }}
-                            className='outline outline-1 outline-userBlack w-10 text-sm font-m'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             min='0'
                             max='32'
                             required

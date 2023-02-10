@@ -158,7 +158,7 @@ export default function AdminAfterLogin() {
               <Route path='kpb' element={<Data FType='kpb' />} />
               <Route path='mpb' element={<Data FType='mpb' />} />
               <Route path='tetapan' element={<Settings />} />
-              {/* <Route path='generate' element={<Generate {...props} />} /> */}
+              <Route path='generate' element={<Generate {...props} />} />
               {/* AdHoc Query thanks myhdw! */}
               <Route
                 path='aq'
@@ -180,7 +180,7 @@ export default function AdminAfterLogin() {
               <Route path='kp/program' element={<DataKp FType='program' />} />
               <Route path='kp/kpb' element={<DataKp FType='kpb' />} />
               <Route path='kp/mpb' element={<DataKp FType='mpb' />} />
-              {/* <Route path='kp/generate' element={<GenerateKp {...props} />} /> */}
+              <Route path='kp/generate' element={<GenerateKp {...props} />} />
             </>
           ) : null}
           <Route path='*' element={<AdminLoggedInNotFound />} />

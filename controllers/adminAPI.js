@@ -32,6 +32,7 @@ const Dictionary = {
   kkiakdallnegeri: 'kkiakd-all-negeri',
   pp: 'pegawai',
   ppall: 'pegawai-all',
+  pegawaispesifik: 'pegawai-spesifik',
   jp: 'juruterapi pergigian',
   jpall: 'jp-all',
   taska: 'taska',
@@ -483,6 +484,11 @@ const getDataRoute = async (req, res) => {
         activationStatus: true,
       }).lean();
       break;
+    case 'pegawai-spesifik':
+      data = await Operator.find({ kodFasiliti: kp })
+        .select('nama mdcNumber mdtbNumber statusPegawai')
+        .lean();
+      break;
     case 'jp-all':
       data = await Operator.find({
         statusPegawai: 'jp',
@@ -574,7 +580,7 @@ const getDataKpRoute = async (req, res) => {
   console.log('getRouteKp');
   // 1st phase
   const authKey = req.headers.authorization;
-  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+  const { kp, daerah, negeri, kodFasiliti, username } = jwt.verify(
     authKey,
     process.env.JWT_SECRET
   );
@@ -734,9 +740,18 @@ const getDataKpRoute = async (req, res) => {
         .select('nama jenisEvent')
         .lean();
       break;
+    case 'pegawai-spesifik':
+      data = await Operator.find({
+        kpSkrg: kp,
+        kodFasiliti: kodFasiliti,
+        activationStatus: true,
+      })
+        .select('nama mdcNumber mdtbNumber statusPegawai')
+        .lean();
+      break;
     case 'token-balance':
       data = await GenerateToken.find({
-        belongsTo: kodFasiliti,
+        belongsTo: username,
       })
         .select('jumlahToken jenisReten')
         .lean();

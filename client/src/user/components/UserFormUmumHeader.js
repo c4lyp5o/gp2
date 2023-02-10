@@ -37,8 +37,8 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   const theCheckTPRShow = () => {
-    if (sekolahIdc === 'umum-sekolah') {
-      console.log('idc');
+    console.log('sekolah');
+    if (singlePersonUmum.jenisProgram === 'incremental') {
       if (skorGisMulutOralHygienePemeriksaanUmum === '') {
         return toast.info('Sila isi skor GIS');
       }
@@ -86,7 +86,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
       }
       setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
     }
-    if (sekolahIdc !== 'umum-sekolah') {
+    if (singlePersonUmum.jenisProgram !== 'incremental') {
       console.log('bukan sekolah');
       if (
         parseInt(singlePersonUmum.umur) > 14 &&
@@ -1395,13 +1395,11 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.setStatusSelepas6BulanUmum = setStatusSelepas6BulanUmum;
 
   //dateTime issues
-  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(
-    moment(dateToday, moment.ISO_8601).toDate()
-  );
+  const [waktuDipanggilDT, setWaktuDipanggilDT] = useState(null);
   masterForm.waktuDipanggilDT = waktuDipanggilDT;
   masterForm.setWaktuDipanggilDT = setWaktuDipanggilDT;
 
-  // calculate total dmfx + sm desidus
+  // calculate total dfx
   useEffect(() => {
     setSumDMFXDesidusUmum(
       parseInt(dAdaGigiDesidusPemeriksaanUmum) +
@@ -1414,21 +1412,19 @@ function UserFormUmumHeader({ sekolahIdc }) {
     xAdaGigiDesidusPemeriksaanUmum,
   ]);
 
-  // calculate total DMFXE
+  // calculate total DMFX
   useEffect(() => {
     setSumDMFXKekalUmum(
       parseInt(dAdaGigiKekalPemeriksaanUmum) +
         parseInt(mAdaGigiKekalPemeriksaanUmum) +
         parseInt(fAdaGigiKekalPemeriksaanUmum) +
-        parseInt(xAdaGigiKekalPemeriksaanUmum) +
-        parseInt(eAdaGigiKekalPemeriksaanUmum)
+        parseInt(xAdaGigiKekalPemeriksaanUmum)
     );
   }, [
     dAdaGigiKekalPemeriksaanUmum,
     mAdaGigiKekalPemeriksaanUmum,
     fAdaGigiKekalPemeriksaanUmum,
     xAdaGigiKekalPemeriksaanUmum,
-    eAdaGigiKekalPemeriksaanUmum,
   ]);
 
   useEffect(() => {
@@ -1982,7 +1978,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
       }
     };
     fetchSinglePersonUmum();
-  }, [showKemaskini]);
+  }, [showKemaskini, reliefUserToken, userToken]);
 
   // pull kpbmpb data for whole negeri that is used for this kp
   useEffect(() => {
@@ -2029,7 +2025,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
       }
     };
     getAllKPBMPBForNegeri();
-  }, []);
+  }, [reliefUserToken, userToken]);
 
   const kemaskini = () => {
     setShowKemasKini(true);
@@ -2052,6 +2048,23 @@ function UserFormUmumHeader({ sekolahIdc }) {
       statusReten = 'belum diisi';
     }
 
+    // check waktu dipanggil
+    if (
+      (singlePersonUmum.jenisFasiliti === 'kp' &&
+        statusKehadiran === false &&
+        waktuDipanggil === '') ||
+      (singlePersonUmum.jenisFasiliti === 'kp' &&
+        statusKehadiran === false &&
+        moment(waktuDipanggil, 'HH:mm').diff(
+          moment(singlePersonUmum.waktuSampai, 'HH:mm'),
+          'minutes'
+        ) <= 0)
+    ) {
+      toast.error('Sila semak semula waktu dipanggil');
+      return;
+    }
+
+    // check BP
     if (
       (singlePersonUmum.kedatangan === 'baru-kedatangan' &&
         singlePersonUmum.jenisFasiliti === 'kp' &&
@@ -2067,6 +2080,19 @@ function UserFormUmumHeader({ sekolahIdc }) {
         diastolicTekananDarah === '0')
     ) {
       toast.error('Sila isi tekanan darah');
+      return;
+    }
+
+    if (sumDMFXDesidusUmum > 20) {
+      toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
+        autoClose: 3000,
+      });
+      return;
+    }
+    if (sumDMFXKekalUmum > 32) {
+      toast.error('Jumlah DMFX Kekal tidak boleh lebih dari 32', {
+        autoClose: 3000,
+      });
       return;
     }
 
@@ -2544,7 +2570,8 @@ function UserFormUmumHeader({ sekolahIdc }) {
                                   ).format('DD/MM/YYYY')}
                                 </p>
                               </div>
-                              {sekolahIdc === 'umum-sekolah' && (
+                              {singlePersonUmum.jenisProgram ===
+                                'incremental' && (
                                 <div className='text-sm flex flex-row whitespace-nowrap'>
                                   <h2 className='font-semibold'>
                                     NAMA SEKOLAH :

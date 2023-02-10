@@ -105,7 +105,14 @@ function UserUmum({ sekolahIdc }) {
       }
     };
     query();
-  }, [tarikhKedatangan, jenisFasiliti, jenisProgram, reloadState]);
+  }, [
+    tarikhKedatangan,
+    jenisFasiliti,
+    jenisProgram,
+    reloadState,
+    reliefUserToken,
+    userToken,
+  ]);
 
   useEffect(() => {
     const resultFilter = queryResult.filter((singlePersonUmum) => {
@@ -834,7 +841,10 @@ function UserUmum({ sekolahIdc }) {
                 atasRef.current?.scrollIntoView({ behavior: 'smooth' });
               }}
             >
-              <BsFillArrowUpCircleFill className='text-user3 text-2xl animate-bounce' />
+              <span className='bg-user3 text-userWhite text-sm p-1 flex flex-row items-center rounded-md'>
+                Kembali Ke Atas
+                <BsFillArrowUpCircleFill className='animate-bounce ml-1' />
+              </span>
             </button>
           )}
         </div>

@@ -150,13 +150,13 @@ export default function Pemeriksaan(props) {
                             dateFormat={false}
                             timeFormat='hh:mm A'
                             input={true}
-                            value={props.waktuDipanggilDT}
-                            initialValue={
-                              props.waktuDipanggil
-                                ? props.waktuDipanggil
-                                : props.setWaktuDipanggil(
-                                    moment(dateToday).format('HH:mm')
-                                  )
+                            value={
+                              props.waktuDipanggilDT
+                                ? props.waktuDipanggilDT
+                                : moment(
+                                    props.singlePersonUmum.waktuSampai,
+                                    'HH:mm'
+                                  ).format('hh:mm A')
                             }
                             onChange={(dt) => {
                               const timeString = moment(dt).format('HH:mm');
@@ -1937,7 +1937,7 @@ export default function Pemeriksaan(props) {
                 ) : null}{' '}
                 {props.statusKehadiran === false &&
                 props.singlePersonUmum.umur >= 15 &&
-                props.sekolahIdc !== 'umum-sekolah' ? (
+                props.singlePersonUmum.jenisProgram !== 'incremental' ? (
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       Pengurusan Penyakit dan kondisi periodontium serta

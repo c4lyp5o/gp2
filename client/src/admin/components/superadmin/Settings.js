@@ -87,11 +87,11 @@ export default function Settings({ update }) {
     e.preventDefault();
     try {
       const data = {
-        nama: e.target[nama].value,
-        tarikhLahir: tarikhLahir,
+        // nama: e.target[nama].value,
+        // tarikhLahir: tarikhLahir,
         e_mail: e.target[e_mail].value,
         totp: loginInfo.totp,
-        image: profileImageData,
+        // image: profileImageData,
       };
       if (!profileImageData) {
         delete data.image;
@@ -175,7 +175,7 @@ export default function Settings({ update }) {
                   </div>
                 </>
               ) : null} */}
-              <div className='relative border-b border-user1'>
+              {/* <div className='relative border-b border-user1'>
                 <input
                   type='text'
                   name='username'
@@ -193,8 +193,8 @@ export default function Settings({ update }) {
                 >
                   Nama Pentadbir
                 </label>
-              </div>
-              <div className='relative border-b border-user1'>
+              </div> */}
+              {/* <div className='relative border-b border-user1'>
                 <TarikhLahir />
                 <label
                   htmlFor={tarikhLahir}
@@ -202,7 +202,7 @@ export default function Settings({ update }) {
                 >
                   Tarikh Lahir
                 </label>
-              </div>
+              </div> */}
               <div className='relative border-b border-user1'>
                 <input
                   type='text'
