@@ -49,7 +49,7 @@ exports.startQueue = async function (req, res) {
             belongsTo: username,
             accountType,
             jenisReten,
-            jumlahToken: 5,
+            jumlahToken: 15,
           });
           await negeriToken.save();
           userTokenData = negeriToken;
@@ -60,7 +60,7 @@ exports.startQueue = async function (req, res) {
             belongsTo: username,
             accountType,
             jenisReten,
-            jumlahToken: 3,
+            jumlahToken: 15,
           });
           await daerahToken.save();
           userTokenData = daerahToken;
@@ -128,7 +128,7 @@ exports.refreshTokens = async function (req, res) {
 
   if (negeriTokens) {
     negeriTokens.forEach(async (token) => {
-      token.jumlahToken = 5;
+      token.jumlahToken = 15;
       await token.save();
     });
     console.log('dah refresh token negeri');
@@ -140,7 +140,7 @@ exports.refreshTokens = async function (req, res) {
   });
   if (daerahTokens) {
     daerahTokens.forEach(async (token) => {
-      token.jumlahToken = 3;
+      token.jumlahToken = 15;
       await token.save();
     });
     console.log('dah refresh token daerah');
