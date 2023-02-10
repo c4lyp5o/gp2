@@ -13905,7 +13905,7 @@ const countMasa = async (payload) => {
 
   const temujanjiJanuari = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-01-01`,
         $lte: `${new Date().getFullYear()}-01-31`,
       },
@@ -13915,7 +13915,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiFebruari = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-02-01`,
         $lte: `${new Date().getFullYear()}-02-28`,
       },
@@ -13925,7 +13925,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiMac = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-03-01`,
         $lte: `${new Date().getFullYear()}-03-31`,
       },
@@ -13935,7 +13935,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiApril = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-04-01`,
         $lte: `${new Date().getFullYear()}-04-30`,
       },
@@ -13945,7 +13945,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiMei = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-05-01`,
         $lte: `${new Date().getFullYear()}-05-31`,
       },
@@ -13955,7 +13955,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiJun = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-06-01`,
         $lte: `${new Date().getFullYear()}-06-30`,
       },
@@ -13965,7 +13965,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiJulai = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-07-01`,
         $lte: `${new Date().getFullYear()}-07-31`,
       },
@@ -13975,7 +13975,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiOgos = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-08-01`,
         $lte: `${new Date().getFullYear()}-08-31`,
       },
@@ -13985,7 +13985,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiSeptember = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-09-01`,
         $lte: `${new Date().getFullYear()}-09-30`,
       },
@@ -13995,7 +13995,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiOktober = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-10-01`,
         $lte: `${new Date().getFullYear()}-10-31`,
       },
@@ -14005,7 +14005,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiNovember = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-11-01`,
         $lte: `${new Date().getFullYear()}-11-30`,
       },
@@ -14015,7 +14015,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiDisember = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-12-01`,
         $lte: `${new Date().getFullYear()}-12-31`,
       },
