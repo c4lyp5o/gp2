@@ -2358,7 +2358,7 @@ const countPG206 = async (payload) => {
       skorGISZero: {
         $sum: {
           $cond: [
-            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0] },
+            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
             1,
             0,
           ],
@@ -2367,9 +2367,7 @@ const countPG206 = async (payload) => {
       skorGISMoreThanZero: {
         $sum: {
           $cond: [
-            {
-              $gte: ['$skorGisMulutOralHygienePemeriksaanUmum', 1],
-            },
+            { $ne: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
             1,
             0,
           ],
@@ -3000,14 +2998,18 @@ const countPG206 = async (payload) => {
                     { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                     {
                       $or: [
-                        { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0] },
-                        { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2] },
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                        },
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                        },
                       ],
                     },
                     {
                       $or: [
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 0] },
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 2] },
+                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] },
                       ],
                     },
                   ],
@@ -3031,7 +3033,7 @@ const countPG206 = async (payload) => {
                   $eq: ['$merged.kedatangan', 'baru-kedatangan'],
                 },
                 {
-                  $eq: ['$merged.skorGisMulutOralHygiene', 0],
+                  $eq: ['$merged.skorGisMulutOralHygiene', '0'],
                 },
               ],
             },
@@ -3049,7 +3051,7 @@ const countPG206 = async (payload) => {
                   $eq: ['$merged.kedatangan', 'baru-kedatangan'],
                 },
                 {
-                  $gte: ['$merged.skorGisMulutOralHygiene', 1],
+                  $ne: ['$merged.skorGisMulutOralHygiene', '0'],
                 },
               ],
             },
@@ -3538,10 +3540,10 @@ const countPG207 = async (payload) => {
                     {
                       $or: [
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0],
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
                         },
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2],
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
                         },
                       ],
                     },
@@ -4500,8 +4502,8 @@ const countPG207 = async (payload) => {
                     { $eq: ['$merged.xAdaGigiDesidus', 0] },
                     {
                       $or: [
-                        { $eq: ['$merged.skorGisMulutOralHygiene', 0] },
-                        { $eq: ['$merged.skorGisMulutOralHygiene', 2] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
                       ],
                     },
                   ],
@@ -10062,10 +10064,10 @@ const countPGS203 = async (payload) => {
                   {
                     $or: [
                       {
-                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0],
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
                       },
                       {
-                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2],
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
                       },
                     ],
                   },
@@ -13903,7 +13905,7 @@ const countMasa = async (payload) => {
 
   const temujanjiJanuari = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-01-01`,
         $lte: `${new Date().getFullYear()}-01-31`,
       },
@@ -13913,7 +13915,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiFebruari = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-02-01`,
         $lte: `${new Date().getFullYear()}-02-28`,
       },
@@ -13923,7 +13925,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiMac = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-03-01`,
         $lte: `${new Date().getFullYear()}-03-31`,
       },
@@ -13933,7 +13935,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiApril = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-04-01`,
         $lte: `${new Date().getFullYear()}-04-30`,
       },
@@ -13943,7 +13945,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiMei = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-05-01`,
         $lte: `${new Date().getFullYear()}-05-31`,
       },
@@ -13953,7 +13955,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiJun = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-06-01`,
         $lte: `${new Date().getFullYear()}-06-30`,
       },
@@ -13963,7 +13965,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiJulai = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-07-01`,
         $lte: `${new Date().getFullYear()}-07-31`,
       },
@@ -13973,7 +13975,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiOgos = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-08-01`,
         $lte: `${new Date().getFullYear()}-08-31`,
       },
@@ -13983,7 +13985,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiSeptember = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-09-01`,
         $lte: `${new Date().getFullYear()}-09-30`,
       },
@@ -13993,7 +13995,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiOktober = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-10-01`,
         $lte: `${new Date().getFullYear()}-10-31`,
       },
@@ -14003,7 +14005,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiNovember = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-11-01`,
         $lte: `${new Date().getFullYear()}-11-30`,
       },
@@ -14013,7 +14015,7 @@ const countMasa = async (payload) => {
   };
   const temujanjiDisember = {
     $match: {
-      tarikhTemujanji: {
+      tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-12-01`,
         $lte: `${new Date().getFullYear()}-12-31`,
       },
@@ -15801,6 +15803,7 @@ const countPG201P2 = async (payload) => {
   }
   return bigData;
 };
+
 // helper function
 const getParams101 = (payload, reten) => {
   const {
@@ -15826,6 +15829,7 @@ const getParams101 = (payload, reten) => {
     const forKp = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
@@ -15863,6 +15867,7 @@ const getParams101 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
@@ -15901,6 +15906,7 @@ const getParams101 = (payload, reten) => {
     const forKp = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
@@ -15958,7 +15964,7 @@ const getParams211 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: AorC(reten),
-      jenisProgram: { $ne: 'incremental' },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       deleted: false,
     };
     return param;
@@ -16389,6 +16395,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      ...dateModifier(payload),
     };
     return param;
   };
@@ -16401,6 +16408,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      ...dateModifier(payload),
     };
     return param;
   };
@@ -16412,6 +16420,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      ...dateModifier(payload),
     };
     return param;
   };
