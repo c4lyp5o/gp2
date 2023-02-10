@@ -15803,6 +15803,7 @@ const countPG201P2 = async (payload) => {
   }
   return bigData;
 };
+
 // helper function
 const getParams101 = (payload, reten) => {
   const {
@@ -15828,6 +15829,7 @@ const getParams101 = (payload, reten) => {
     const forKp = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
@@ -15865,6 +15867,7 @@ const getParams101 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
@@ -15903,6 +15906,7 @@ const getParams101 = (payload, reten) => {
     const forKp = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
     };
     const forKkia = {
