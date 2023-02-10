@@ -3116,7 +3116,17 @@ const makeGender = async (payload) => {
 const makeMasa = async (payload) => {
   console.log('makeMasa');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -3218,92 +3228,45 @@ const makeMasa = async (payload) => {
       cellNumber = 3;
     }
 
-    // info
-    let rowTambahan = 1;
-    let rowNew;
-    rowNew = worksheet.getRow(34);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = process.env.npm_package_version;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Memaparkan maklumat dari';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date())
-      .startOf('month')
-      .format('DD-MM-YYYY')} - ${moment(new Date()).format('DD-MM-YYYY')}`;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Tarikh dan masa penjanaan';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )} - ${moment(new Date()).format('HH:mm:ss')}`;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).font = {
-    //     color: { argb: 'FF0000' },
-    //    };
-    rowNew.getCell(1).value = 'TIDAK BERKENAAN';
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Dijana oleh';
-    rowTambahan++;
-    rowNew = worksheet.getRow(34 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).font = {
-      color: { argb: 'FF0000' },
+    worksheet.getCell(
+      'H3'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('H4').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('H5').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+    worksheet.getCell('H6').value = ' ';
+
+    worksheet.getCell('H3').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
     };
-    rowNew.getCell(1).value = username;
+    worksheet.getCell('H4').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('H5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('H6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     const newfile = makeFile(payload, 'MASA');
 
