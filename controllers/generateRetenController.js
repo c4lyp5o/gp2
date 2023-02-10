@@ -2102,7 +2102,17 @@ const makePG207 = async (payload) => {
 const makePG201 = async (payload) => {
   console.log('PG201');
   try {
-    let { kp, daerah, negeri, bulan, sekolah } = payload;
+    let {
+      kp,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      username,
+      fromEtl,
+      sekolah,
+    } = payload;
     //
     const data = await Helper.countPG201(kp, sekolah);
     //
@@ -2169,7 +2179,6 @@ const makePG201 = async (payload) => {
     // rowNamaJenis.commit();
     //
     for (let i = 0; i < data.dataPemeriksaan.length; i++) {
-      let rowNew = worksheet.getRow(13 + i);
       if (data.dataPemeriksaan[i][0]) {
         //PG201
         // Reten Sekolah (Darjah 1)
@@ -2301,21 +2310,10 @@ const makePG201 = async (payload) => {
           data.dataPemeriksaan[i].pesakitPerluFullDentureBawah; // Pesakit Perlu Full Denture Bawah (Darjah 1)
         rowNew3.getCell(75).value =
           data.dataPemeriksaan[i].pesakitPerluPartialDentureBawah; // Pesakit Perlu Partial Denture Bawah (Darjah 1)
-        rowNew3.commit();
-        console.log('setting row4');
-        let rowIdnt = worksheet.getRow(47);
-        rowIdnt.getCell(1).value = 'Compiled by Gi-Ret';
-        console.log('done setting data');
       }
     }
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + kp + '-PG201.xlsx'
-    );
+    const newfile = makeFile(payload, 'PG201');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);
