@@ -2,11 +2,42 @@
 
 ### Unreleased
 
+#### Fixed
+
+- Waktu sampai akan berubah mengikut waktu semasa ketika mendaftarkan pesakit di modul Pendaftaran
+- Cara carian promosi klinik & promosi individu dibuat dengan lebih efisien
+
+#### e-Reporting
+
+- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan bulanan)
+
+### 10/2/2023 (v2.0.12)
+
+#### Added
+
+- Catatan dipaparkan di submodul Status Harian bagi modul Pengguna
+
+#### Changed
+
+- Perubahan cara carian bagi submodul Promosi Klinik & Promosi Individu bagi modul Pengguna
+- Jumlah DMFX tidak lagi dikira bersama E di borang pesakit umum
+
+#### Fixed
+
+- Sistem akan mengesan secara automatik sekiranya nama pengguna di tab yang berlainan telah berubah
+- Sistem akan log keluar secara automatik sekiranya pengguna telah log keluar di tab yang berlainan
+- Waktu dipanggil tidak boleh kurang atau sama dengan waktu sampai semasa mengisi borang pesakit umum bagi pesakit fasiliti klinik pergigian
+- Submodul Program Pergigian Sekolah 2022/2023 diperbetulkan untuk setiap pesakit yang didaftarkan di bawah Program Pergigian Sekolah Sesi 2022/2023
+
+#### Removed
+
+- Kemaskini nama & tarikh lahir ditutup di modul Pentadbir kerana keperluan yang sangat rendah
+
 #### e-Reporting
 
 - Setiap reten yang dijana mempunyai _stamping_ dari sistem yang betul
-- Penjanaan reten dibuka di modul Pentadbir bagi Pentadbir Negeri & Pentadbir Daerah
-- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan bulanan yang hanya wujud pada 7hb bulan seterusnya)
+- Penjanaan reten dibuka di modul Pentadbir bagi Pentadbir Negeri, Pentadbir Daerah & Pentadbir Klinik
+- Diperbetulkan nama bulan bagi reten PG101A di modul Pendaftaran bagi submodul Klinik Pergigian
 
 ### 7/2/2023 (v2.0.11)
 
