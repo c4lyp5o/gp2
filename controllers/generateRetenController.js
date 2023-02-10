@@ -569,49 +569,13 @@ const makePG101A = async (payload) => {
             ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
             : ''
         } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
-        rowNew.getCell(35).value = catatan; //catatan
+        rowNew.getCell(35).value = catatan;
       }
       for (let z = 1; z < 36; z++) {
         rowNew.getCell(z).border = borderStyle;
       }
     }
-
-    let rowTambahan = 1;
-    let rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '* Kedatangan Baru Ibu Mengandung hanya dikira sekali sahaja bagi setiap episod baru mengandung, pada ruangan ini.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '**Sila masukkan nombor kad OKU bagi pesakit yang berkenaan.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '***Sila nyatakan nombor kad pesara Kerajaan / ATM di Ruangan Catatan.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '****Punca rujukan: Rujukan Dalaman, Klinik Pergigian Kerajaan, Klinik Kesihatan Kerajaan, Hospital/Institusi Kerajaan, Swasta atau Lain-lain. Hanya Punca Rujukan Baru sahaja direkod.';
-
+    //
     worksheet.getCell(
       'AI7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
