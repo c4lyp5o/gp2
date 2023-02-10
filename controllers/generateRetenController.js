@@ -20,6 +20,7 @@ const borderStyle = {
   right: { style: 'thin' },
 };
 
+// superadmins
 exports.startQueue = async function (req, res) {
   // get userdata
   const { authorization } = req.headers;
@@ -44,6 +45,17 @@ exports.startQueue = async function (req, res) {
     // create if there is no userTokenData
     if (!userTokenData) {
       switch (accountType) {
+        case 'hqSuperadmin':
+          const hqToken = new GenerateToken({
+            belongsTo: username,
+            accountType,
+            jenisReten,
+            jumlahToken: 9000,
+          });
+          await hqToken.save();
+          userTokenData = hqToken;
+          console.log('dah save token hq');
+          break;
         case 'negeriSuperadmin':
           const negeriToken = new GenerateToken({
             belongsTo: username,
