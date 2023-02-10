@@ -15964,7 +15964,7 @@ const getParams211 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: AorC(reten),
-      jenisProgram: { $ne: 'incremental' },
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       deleted: false,
     };
     return param;
