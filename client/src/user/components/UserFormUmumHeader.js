@@ -1399,7 +1399,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
   masterForm.waktuDipanggilDT = waktuDipanggilDT;
   masterForm.setWaktuDipanggilDT = setWaktuDipanggilDT;
 
-  // calculate total dmfx + sm desidus
+  // calculate total dfx
   useEffect(() => {
     setSumDMFXDesidusUmum(
       parseInt(dAdaGigiDesidusPemeriksaanUmum) +
@@ -1412,7 +1412,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
     xAdaGigiDesidusPemeriksaanUmum,
   ]);
 
-  // calculate total DMFXE
+  // calculate total DMFX
   useEffect(() => {
     setSumDMFXKekalUmum(
       parseInt(dAdaGigiKekalPemeriksaanUmum) +

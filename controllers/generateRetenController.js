@@ -36,7 +36,7 @@ exports.startQueue = async function (req, res) {
     fromEtl === 'false' &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
-    console.log('not kaunter user n from etl');
+    console.log('not kaunter user & not from etl');
     let userTokenData = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
@@ -123,9 +123,11 @@ exports.startQueue = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        console.log('dah kurangkan token');
+        console.log('dah kurangkan token ' + accountType);
+        logger.info('dah kurangkan token' + accountType);
       } else {
         console.log('not production and ' + accountType);
+        logger.info('not production and ' + accountType);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
