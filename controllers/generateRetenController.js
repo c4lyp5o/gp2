@@ -132,34 +132,6 @@ exports.startQueue = async function (req, res) {
     })
   );
 };
-exports.refreshTokens = async function (req, res) {
-  // refresh negeri tokens
-  const negeriTokens = await GenerateToken.find({
-    accountType: 'negeriSuperadmin',
-  });
-
-  if (negeriTokens) {
-    negeriTokens.forEach(async (token) => {
-      token.jumlahToken = 15;
-      await token.save();
-    });
-    console.log('dah refresh token negeri');
-  }
-
-  // refresh token daerah
-  const daerahTokens = await GenerateToken.find({
-    accountType: 'daerahSuperadmin',
-  });
-  if (daerahTokens) {
-    daerahTokens.forEach(async (token) => {
-      token.jumlahToken = 15;
-      await token.save();
-    });
-    console.log('dah refresh token daerah');
-  }
-
-  res.status(200).json({ message: 'Tokens refreshed' });
-};
 
 // kp
 exports.startQueueKp = async function (req, res) {
@@ -2332,7 +2304,6 @@ const makePG201 = async (payload) => {
   }
 };
 const makePGPR201 = async (payload) => {
-  //Formula and excel baru lagi..(dapat dari Dr. Adib 22-01-2023)
   console.log('PGPR201Baru');
   try {
     let {
@@ -4305,4 +4276,58 @@ const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
   query.dataFormat = 'Monthly';
   query.dataDate = moment(bulan).endOf('month').format('YYYY-MM-DD');
   return query;
+};
+
+// refresh token
+exports.refreshTokens = async function (req, res) {
+  // refresh hq tokens
+  const hqTokens = await GenerateToken.find({
+    accountType: 'hqSuperadmin',
+  });
+
+  if (hqTokens) {
+    hqTokens.forEach(async (token) => {
+      token.jumlahToken = 9000;
+      await token.save();
+    });
+    console.log('dah refresh token hq');
+  }
+
+  // refresh negeri tokens
+  const negeriTokens = await GenerateToken.find({
+    accountType: 'negeriSuperadmin',
+  });
+
+  if (negeriTokens) {
+    negeriTokens.forEach(async (token) => {
+      token.jumlahToken = 15;
+      await token.save();
+    });
+    console.log('dah refresh token negeri');
+  }
+
+  // refresh token daerah
+  const daerahTokens = await GenerateToken.find({
+    accountType: 'daerahSuperadmin',
+  });
+  if (daerahTokens) {
+    daerahTokens.forEach(async (token) => {
+      token.jumlahToken = 15;
+      await token.save();
+    });
+    console.log('dah refresh token daerah');
+  }
+
+  const kpTokens = await GenerateToken.find({
+    accountType: 'kpUser',
+  });
+  if (kpTokens) {
+    kpTokens.forEach(async (token) => {
+      token.jumlahToken = 15;
+      await token.save();
+    });
+    console.log('dah refresh token kp');
+  }
+
+  res.status(200).json({ message: 'Tokens refreshed' });
 };
