@@ -149,6 +149,90 @@ exports.refreshTokens = async function (req, res) {
   res.status(200).json({ message: 'Tokens refreshed' });
 };
 
+// kp
+exports.startQueueKp = async function (req, res) {
+  console.log('masuk queue kp');
+  // get userdata
+  const { authorization } = req.headers;
+  const { username, accountType } = jwt.verify(
+    authorization,
+    process.env.JWT_SECRET
+  );
+  console.log('username: ' + username);
+  //
+  const { jenisReten, fromEtl } = req.query;
+  //
+  if (
+    fromEtl === 'false' &&
+    (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
+  ) {
+    console.log('not kaunter user n from etl');
+    let userTokenData = await GenerateToken.findOne({
+      belongsTo: username,
+      jenisReten,
+    });
+
+    // create if there is no userTokenData
+    if (!userTokenData) {
+      const kpUserToken = new GenerateToken({
+        belongsTo: username,
+        accountType,
+        jenisReten,
+        jumlahToken: 15,
+      });
+      await kpUserToken.save();
+      userTokenData = kpUserToken;
+      console.log('dah save token kp user');
+    }
+
+    if (
+      process.env.BUILD_ENV === 'production' &&
+      userTokenData.jumlahToken <= 0
+    ) {
+      console.log('no more coins left');
+      return res.status(401).json({ msg: 'no more coins left' });
+    }
+  }
+
+  // get in line soldier!
+  const downloadQueueKp = async.queue(async (task, callback) => {
+    try {
+      const result = await task();
+      callback(null, result);
+    } catch (err) {
+      callback(err);
+    }
+  }, process.env.GENERATE_WORKERS || 5);
+
+  downloadQueueKp.push(() =>
+    downloader(req, res, async (err, result) => {
+      if (err) {
+        if (err === 'No data found') {
+          return res.status(404).json({ message: err });
+        }
+        return res.status(500).json({ message: err });
+      }
+      if (
+        process.env.BUILD_ENV === 'production' &&
+        fromEtl === 'false' &&
+        (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
+      ) {
+        let userTokenData = await GenerateToken.findOne({
+          belongsTo: username,
+          jenisReten,
+        });
+        userTokenData.jumlahToken -= 1;
+        await userTokenData.save();
+        console.log('dah kurangkan token');
+      } else {
+        console.log('not production and ' + accountType);
+      }
+      res.setHeader('Content-Type', 'application/vnd.ms-excel');
+      res.status(200).send(result);
+    })
+  );
+};
+
 // helper
 const Helper = require('../controllers/countHelper');
 
@@ -171,6 +255,7 @@ const downloader = async (req, res, callback) => {
     id,
     fromEtl,
   } = req.query;
+  // console.log(req.query);
   // check if there is any query
   if (!jenisReten) {
     return callback('No data found');
@@ -223,6 +308,7 @@ const downloader = async (req, res, callback) => {
     bulan,
     fromEtl,
   };
+  console.log(payload);
   logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
   let excelFile;
   switch (jenisReten) {
@@ -242,6 +328,7 @@ const downloader = async (req, res, callback) => {
       excelFile = await makePG214(payload);
       break;
     case 'PG206':
+      console.log('switch block PG206');
       excelFile = await makePG206(payload);
       break;
     case 'PG207':
@@ -816,6 +903,7 @@ const makePG211A = async (payload) => {
         break;
       default:
         data = await Helper.countPG211A(payload);
+        console.log(data);
         break;
     }
     //
@@ -1276,7 +1364,7 @@ const makePG214 = async (payload) => {
   }
 };
 const makePG206 = async (payload) => {
-  console.log('PG206');
+  console.log('dlm makePG206');
   try {
     let {
       klinik,
@@ -1301,6 +1389,7 @@ const makePG206 = async (payload) => {
         data = ETL[0].data;
         break;
       default:
+        console.log('switch dalam make206');
         data = await Helper.countPG206(payload);
         break;
     }
@@ -2309,34 +2398,28 @@ const makePGPR201 = async (payload) => {
       '..',
       'public',
       'exports',
-      'PGPR201Baru.xlsx'
+      'PGPR 201_2023.xlsx'
     );
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PGPR201');
+    let worksheet = workbook.getWorksheet('PGPR201 Pin.1.2022');
 
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
-    let details = worksheet.getRow(6);
-    details.getCell(5).value = `${monthName.toUpperCase()}`;
-    details.getCell(7).value = `${yearNow}`;
+    worksheet.getCell('D6').value = monthName;
+    worksheet.getCell('G6').value = yearNow;
 
-    let intro3 = worksheet.getRow(7);
-    intro3.getCell(3).value = `${klinik.toUpperCase()}`;
-
-    let intro2 = worksheet.getRow(8);
-    intro2.getCell(3).value = `${daerah.toUpperCase()}`;
-
-    let intro1 = worksheet.getRow(9);
-    intro1.getCell(3).value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('C9').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('C8').value = `${negeri.toUpperCase()}`;
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
 
     let j = 0;
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(15 + j);
+      let rowNew = worksheet.getRow(17 + j);
       j++;
       if (data[i][0]) {
         jumlahReten += data[i][0].jumlahReten;
@@ -2414,9 +2497,9 @@ const makePGPR201 = async (payload) => {
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
     worksheet.getCell(
-      'J6'
+      'J8'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('J7').value = `Maklumat dari ${
+    worksheet.getCell('J9').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
             bulan
@@ -2428,22 +2511,12 @@ const makePGPR201 = async (payload) => {
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell(
-      'J8'
+      'J10'
     ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
-    worksheet.getCell('J9').value = `Dijana oleh: ${username} (${moment(
+    worksheet.getCell('J11').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
 
-    worksheet.getCell('J6').alignment = {
-      wrapText: false,
-      shrinkToFit: false,
-      horizontal: 'right',
-    };
-    worksheet.getCell('J7').alignment = {
-      wrapText: false,
-      shrinkToFit: false,
-      horizontal: 'right',
-    };
     worksheet.getCell('J8').alignment = {
       wrapText: false,
       shrinkToFit: false,
@@ -2454,14 +2527,18 @@ const makePGPR201 = async (payload) => {
       shrinkToFit: false,
       horizontal: 'right',
     };
+    worksheet.getCell('J10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('J11').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
-    let newfile = path.join(
-      __dirname,
-      '..',
-      'public',
-      'exports',
-      'test-' + klinik + '-PGPR201Baru.xlsx'
-    );
+    const newfile = makeFile(payload, 'PGPR201');
 
     // Write the file
     await workbook.xlsx.writeFile(newfile);

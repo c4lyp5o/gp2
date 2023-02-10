@@ -43,6 +43,7 @@ const adminAPI = require('./routes/adminAPI');
 
 // generate import
 const genRouter = require('./routes/generateRouter');
+const genRouterKp = require('./routes/generateRouterKp');
 
 // ETL
 const ETL = require('./routes/ETL');
@@ -125,6 +126,9 @@ app.use('/api/v1/superadmin', adminAPI);
 
 // generate route
 app.use('/api/v1/generate', genRouter);
+
+// generate kp route (5 minutes lifehack)
+app.use('/api/v1/generatekp', genRouterKp);
 
 // ETL
 app.use('/api/v1/etl', etlAuth, ETL);
