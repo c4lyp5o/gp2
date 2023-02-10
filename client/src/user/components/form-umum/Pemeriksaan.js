@@ -1937,7 +1937,7 @@ export default function Pemeriksaan(props) {
                 ) : null}{' '}
                 {props.statusKehadiran === false &&
                 props.singlePersonUmum.umur >= 15 &&
-                props.jenisProgram !== 'incremental' ? (
+                props.singlePersonUmum.jenisProgram !== 'incremental' ? (
                   <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       Pengurusan Penyakit dan kondisi periodontium serta
