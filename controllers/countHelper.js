@@ -2358,7 +2358,7 @@ const countPG206 = async (payload) => {
       skorGISZero: {
         $sum: {
           $cond: [
-            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0] },
+            { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
             1,
             0,
           ],
@@ -2367,9 +2367,7 @@ const countPG206 = async (payload) => {
       skorGISMoreThanZero: {
         $sum: {
           $cond: [
-            {
-              $gte: ['$skorGisMulutOralHygienePemeriksaanUmum', 1],
-            },
+            { $ne: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
             1,
             0,
           ],
@@ -3000,14 +2998,18 @@ const countPG206 = async (payload) => {
                     { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                     {
                       $or: [
-                        { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0] },
-                        { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2] },
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                        },
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                        },
                       ],
                     },
                     {
                       $or: [
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 0] },
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 2] },
+                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] },
                       ],
                     },
                   ],
@@ -3031,7 +3033,7 @@ const countPG206 = async (payload) => {
                   $eq: ['$merged.kedatangan', 'baru-kedatangan'],
                 },
                 {
-                  $eq: ['$merged.skorGisMulutOralHygiene', 0],
+                  $eq: ['$merged.skorGisMulutOralHygiene', '0'],
                 },
               ],
             },
@@ -3049,7 +3051,7 @@ const countPG206 = async (payload) => {
                   $eq: ['$merged.kedatangan', 'baru-kedatangan'],
                 },
                 {
-                  $gte: ['$merged.skorGisMulutOralHygiene', 1],
+                  $ne: ['$merged.skorGisMulutOralHygiene', '0'],
                 },
               ],
             },
@@ -3538,10 +3540,10 @@ const countPG207 = async (payload) => {
                     {
                       $or: [
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0],
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
                         },
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2],
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
                         },
                       ],
                     },
@@ -4500,8 +4502,8 @@ const countPG207 = async (payload) => {
                     { $eq: ['$merged.xAdaGigiDesidus', 0] },
                     {
                       $or: [
-                        { $eq: ['$merged.skorGisMulutOralHygiene', 0] },
-                        { $eq: ['$merged.skorGisMulutOralHygiene', 2] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
                       ],
                     },
                   ],
@@ -10062,10 +10064,10 @@ const countPGS203 = async (payload) => {
                   {
                     $or: [
                       {
-                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 0],
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
                       },
                       {
-                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', 2],
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
                       },
                     ],
                   },
