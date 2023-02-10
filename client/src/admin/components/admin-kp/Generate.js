@@ -79,7 +79,19 @@ const ModalGenerateAdHoc = (props) => {
   const penjanaanReten = async (e) => {
     try {
       const res = await axios.get(
-        `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${props.loginInfo.negeri}&daerah=${props.loginInfo.daerah}&klinik=${props.loginInfo.kodFasiliti}&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${props.pilihanKpbmpb}&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
+        `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
+          props.loginInfo.negeri
+        }&daerah=${props.loginInfo.daerah}&klinik=${
+          props.loginInfo.kodFasiliti
+        }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
+          props.pilihanKkia
+        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
+          props.pilihanKpbmpb
+        }${
+          props.pilihanFasiliti === 'individu'
+            ? `&pilihanIndividu=${props.pilihanIndividu}`
+            : ''
+        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
         {
           headers: {
             Authorization: adminToken,
@@ -527,20 +539,19 @@ const ModalGenerateBulanan = (props) => {
   const penjanaanReten = async (e) => {
     try {
       const res = await axios.get(
-        `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          props.loginInfo.accountType === 'hqSuperadmin'
-            ? ''
-            : props.loginInfo.negeri
-        }&daerah=${
-          props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
-        }&klinik=${
-          props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
+        `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
+          props.loginInfo.negeri
+        }&daerah=${props.loginInfo.daerah}&klinik=${
+          props.loginInfo.kodFasiliti
         }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
           props.pilihanKkia
         }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
           props.pilihanKpbmpb
-        }
-        &bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
+        }${
+          props.pilihanFasiliti === 'individu'
+            ? `&pilihanIndividu=${props.pilihanIndividu}`
+            : ''
+        }&bulan=${new Date().getFullYear()}-${bulan}&fromEtl=false`,
         {
           headers: {
             Authorization: adminToken,
@@ -563,7 +574,9 @@ const ModalGenerateBulanan = (props) => {
           toast.error('Tiada data untuk tarikh yang dipilih');
           break;
         default:
-          toast.error('Internal Server Error');
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila cuba lagi'
+          );
           break;
       }
     }
@@ -571,12 +584,11 @@ const ModalGenerateBulanan = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    // if (
-    //   props.pilihanFasiliti === 'program' ||
-    //   props.pilihanFasiliti === 'kpbmpb'
-    // ) {
-    //   return toast.error('Sabar bos. Sikit lg nk ejas..');
-    // }
+    if (props.pilihanFasiliti === 'individu') {
+      return toast.error(
+        'Harap maaf, fungsi penjanaan individu belum tersedia'
+      );
+    }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -811,6 +823,106 @@ const ModalGenerateBulanan = (props) => {
                             </select>
                           </div>
                         )}
+                    </div>
+                    <div>
+                      {props.jenisReten === 'PG206' ||
+                      props.jenisReten === 'PG207' ? (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='factype'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Fasiliti
+                          </label>
+                          <select
+                            required
+                            name='factype'
+                            id='factype'
+                            onChange={(e) => {
+                              props.handleGetIndividu(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            <option value='klinik'>Klinik</option>
+                            <option value='individu'>Individu</option>
+                          </select>
+                        </div>
+                      ) : null}
+                      {props.pilihanFasiliti === 'individu' &&
+                      props.jenisReten === 'PG206' ? (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='klinik'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Pegawai
+                          </label>
+                          <select
+                            required
+                            name='pegawai'
+                            id='pegawai'
+                            onChange={(e) => {
+                              props.setPilihanIndividu(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            {props.individuData
+                              .filter((i) => i.statusPegawai === 'jp')
+                              .map((i, index) => {
+                                return (
+                                  <option
+                                    key={index}
+                                    value={
+                                      i.mdcNumber ? i.mdcNumber : i.mdtbNumber
+                                    }
+                                    className='capitalize'
+                                  >
+                                    {i.nama}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                      ) : null}
+                      {props.pilihanFasiliti === 'individu' &&
+                      props.jenisReten === 'PG207' ? (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='klinik'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Pegawai
+                          </label>
+                          <select
+                            required
+                            name='pegawai'
+                            id='pegawai'
+                            onChange={(e) => {
+                              props.setPilihanIndividu(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            {props.individuData
+                              .filter((i) => i.statusPegawai === 'pp')
+                              .map((i, index) => {
+                                return (
+                                  <option
+                                    key={index}
+                                    value={
+                                      i.mdcNumber ? i.mdcNumber : i.mdtbNumber
+                                    }
+                                    className='capitalize'
+                                  >
+                                    {i.nama}
+                                  </option>
+                                );
+                              })}
+                          </select>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 </div>
