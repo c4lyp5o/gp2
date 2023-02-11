@@ -2050,10 +2050,12 @@ function UserFormUmumHeader({ sekolahIdc }) {
 
     // check waktu dipanggil
     if (
-      (singlePersonUmum.jenisFasiliti === 'kp' &&
+      (!operatorLain &&
+        singlePersonUmum.jenisFasiliti === 'kp' &&
         statusKehadiran === false &&
         waktuDipanggil === '') ||
-      (singlePersonUmum.jenisFasiliti === 'kp' &&
+      (!operatorLain &&
+        singlePersonUmum.jenisFasiliti === 'kp' &&
         statusKehadiran === false &&
         moment(waktuDipanggil, 'HH:mm').diff(
           moment(singlePersonUmum.waktuSampai, 'HH:mm'),
