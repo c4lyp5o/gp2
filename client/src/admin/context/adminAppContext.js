@@ -527,7 +527,7 @@ function AdminAppProvider({ children }) {
     );
     switch (FType) {
       case 'sr':
-        const currentSr = await readData(FType);
+        const currentSr = await readData('sr-sm-all');
         if (currentSr.data.length === 0) {
           console.log('no sr');
           console.log(response.data);
@@ -542,7 +542,7 @@ function AdminAppProvider({ children }) {
         }
         return response.data[1].sekolahRendah;
       case 'sm':
-        const currentSm = await readData(FType);
+        const currentSm = await readData('sr-sm-all');
         if (currentSm.data.length === 0) {
           console.log('no sm');
           return response.data[2].sekolahMenengah;

@@ -41,6 +41,7 @@ const Dictionary = {
   tastadallnegeri: 'tastad-all-negeri',
   sr: 'sekolah-rendah',
   sm: 'sekolah-menengah',
+  'sr-sm-all': 'sr-sm-all',
   ins: 'institusi',
   kpb: 'kp-bergerak',
   'kpb-all': 'kp-bergerak-all',
@@ -366,10 +367,10 @@ const loginUser = async (req, res) => {
       userData.role = 'sosmedadmin';
     }
     userData = {
+      ...userData,
       userId: kpUser._id,
       username: kpUser.username,
       officername: superOperator.nama,
-      ...userData,
       kodFasiliti: kpUser.kodFasiliti,
       accountType: 'kpUser',
       negeri: kpUser.negeri,
@@ -465,7 +466,7 @@ const getDataRoute = async (req, res) => {
     case 'kpbmpb-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kp,
-        jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
+        jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
       })
         .select('nama proposedName')
         .lean();
@@ -502,6 +503,25 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         activationStatus: true,
       }).lean();
+      break;
+    case 'sekolah-rendah':
+      data = await Fasiliti.find({
+        jenisFasiliti: type,
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      });
+      break;
+    case 'sekolah-menengah':
+      data = await Fasiliti.find({
+        jenisFasiliti: type,
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      });
+      break;
+    case 'sr-sm-all':
+      data = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+      });
       break;
     case 'program':
       data = await Event.find({
