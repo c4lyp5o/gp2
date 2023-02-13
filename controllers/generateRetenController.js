@@ -387,10 +387,19 @@ const makePG101A = async (payload) => {
       'exports',
       'PG101A.xlsx'
     );
+    let filenameUTC = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG101C.xlsx'
+    );
     //
     let workbook = new Excel.Workbook();
-    await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PG101A');
+    await workbook.xlsx.readFile(/utc/i.test(klinik) ? filenameUTC : filename);
+    let worksheet = workbook.getWorksheet(
+      /utc/i.test(klinik) ? 'PG101C' : 'PG101A'
+    );
     //
     if (!bulan) {
       bulan = tarikhMula;
@@ -403,7 +412,9 @@ const makePG101A = async (payload) => {
     worksheet.getCell('M5').value = yearNow;
 
     let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = 'PRIMER';
+    /utc/i.test(klinik)
+      ? (intro1.getCell(2).value = 'OUTREACH')
+      : (intro1.getCell(2).value = 'PRIMER');
 
     let intro2 = worksheet.getRow(7);
     intro2.getCell(2).value = `${klinik.toUpperCase()} ${
