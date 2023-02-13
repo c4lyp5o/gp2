@@ -68,9 +68,6 @@ export default function Data({ FType }) {
         case 'pp':
           setShow({ operators: true });
           break;
-        case 'program':
-          setShow({ program: true });
-          break;
         case 'taska':
         case 'tadika':
           setShow({ tastad: true });
@@ -78,6 +75,9 @@ export default function Data({ FType }) {
         case 'sr':
         case 'sm':
           setShow({ sekolah: true });
+          break;
+        case 'program':
+          setShow({ program: true });
           break;
         case 'kpb':
         case 'mpb':
