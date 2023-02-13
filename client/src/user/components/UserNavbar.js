@@ -123,20 +123,24 @@ function UserNavbar() {
                 >
                   UMUM
                 </NavLink>
-                {/* <NavLink
-                  to='senarai-sekolah'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowGenerateSubMenu(false);
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  PRA SEKOLAH & SEKOLAH
-                </NavLink> */}
+                {process.env.REACT_APP_ENV === 'TRAINING' ||
+                process.env.REACT_APP_ENV === 'UNSTABLE' ||
+                process.env.REACT_APP_ENV === 'DEV' ? (
+                  <NavLink
+                    to='senarai-sekolah'
+                    onClick={() => {
+                      setShowLinks(!showLinks);
+                      setShowGenerateSubMenu(false);
+                    }}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    }
+                  >
+                    PRA SEKOLAH & SEKOLAH
+                  </NavLink>
+                ) : null}
                 <NavLink
                   to='promosi-individu'
                   onClick={() => {
