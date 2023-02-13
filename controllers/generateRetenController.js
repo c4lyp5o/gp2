@@ -226,7 +226,6 @@ const downloader = async (req, res, callback) => {
     negeri,
     daerah,
     klinik,
-    pegawai,
     pilihanFasiliti,
     pilihanKkia,
     pilihanProgram,
@@ -235,7 +234,6 @@ const downloader = async (req, res, callback) => {
     tarikhMula,
     tarikhAkhir,
     bulan,
-    id,
     fromEtl,
   } = req.query;
   // check if there is any query
@@ -275,9 +273,7 @@ const downloader = async (req, res, callback) => {
   const payload = {
     jenisReten,
     username,
-    id,
     accountType,
-    pegawai,
     klinik,
     daerah,
     negeri,
@@ -3416,7 +3412,17 @@ const makeMasa = async (payload) => {
 const makeBp = async (payload) => {
   console.log('Reten BP');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -3637,7 +3643,6 @@ const makeBp = async (payload) => {
     );
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
     rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    rowTambahan++;
     rowNew = worksheet.getRow(43 + rowTambahan);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -4309,15 +4314,16 @@ const makePG201P2 = async (payload) => {
 
 // debug
 exports.debug = async (req, res) => {
+  console.log('debug');
   let payload = {
-    negeri: 'WP Kuala Lumpur',
+    negeri: 'Selangor',
     // daerah: 'Arau',
-    daerah: 'Zon Lembah Pantai',
+    daerah: 'Petaling',
     // klinik: 'Klinik Pergigian Kaki Bukit',
-    klinik: 'W03-001-01',
-    bulan: '2023-01-01',
+    klinik: 'B07-006-02',
+    bulan: '2023-02-01',
   };
-  const data = await makePG206(payload);
+  const data = await makePG214(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
