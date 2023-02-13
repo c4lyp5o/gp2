@@ -79,7 +79,7 @@ const ModalGenerateAdHoc = (props) => {
   const penjanaanReten = async (e) => {
     try {
       const res = await axios.get(
-        `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
+        `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
           props.loginInfo.negeri
         }&daerah=${props.loginInfo.daerah}&klinik=${
           props.loginInfo.kodFasiliti
@@ -601,7 +601,7 @@ const ModalGenerateBulanan = (props) => {
   const penjanaanReten = async (e) => {
     try {
       const res = await axios.get(
-        `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
+        `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
           props.loginInfo.negeri
         }&daerah=${props.loginInfo.daerah}&klinik=${
           props.loginInfo.kodFasiliti

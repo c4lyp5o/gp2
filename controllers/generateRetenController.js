@@ -226,7 +226,6 @@ const downloader = async (req, res, callback) => {
     negeri,
     daerah,
     klinik,
-    pegawai,
     pilihanFasiliti,
     pilihanKkia,
     pilihanProgram,
@@ -235,7 +234,6 @@ const downloader = async (req, res, callback) => {
     tarikhMula,
     tarikhAkhir,
     bulan,
-    id,
     fromEtl,
   } = req.query;
   // check if there is any query
@@ -275,9 +273,7 @@ const downloader = async (req, res, callback) => {
   const payload = {
     jenisReten,
     username,
-    id,
     accountType,
-    pegawai,
     klinik,
     daerah,
     negeri,
@@ -387,10 +383,19 @@ const makePG101A = async (payload) => {
       'exports',
       'PG101A.xlsx'
     );
+    let filenameUTC = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG101C.xlsx'
+    );
     //
     let workbook = new Excel.Workbook();
-    await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PG101A');
+    await workbook.xlsx.readFile(/utc/i.test(klinik) ? filenameUTC : filename);
+    let worksheet = workbook.getWorksheet(
+      /utc/i.test(klinik) ? 'PG101C' : 'PG101A'
+    );
     //
     if (!bulan) {
       bulan = tarikhMula;
@@ -403,7 +408,9 @@ const makePG101A = async (payload) => {
     worksheet.getCell('M5').value = yearNow;
 
     let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = 'PRIMER';
+    /utc/i.test(klinik)
+      ? (intro1.getCell(2).value = 'OUTREACH')
+      : (intro1.getCell(2).value = 'PRIMER');
 
     let intro2 = worksheet.getRow(7);
     intro2.getCell(2).value = `${klinik.toUpperCase()} ${
@@ -869,9 +876,19 @@ const makePG211A = async (payload) => {
       'exports',
       'PG211A.xlsx'
     );
+    let filenameUTC = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'PG211C.xlsx'
+    );
+    //
     let workbook = new Excel.Workbook();
-    await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('PG211A');
+    await workbook.xlsx.readFile(/utc/i.test(klinik) ? filenameUTC : filename);
+    let worksheet = workbook.getWorksheet(
+      /utc/i.test(klinik) ? 'PG211C' : 'PG211A'
+    );
     //
     if (!bulan) {
       bulan = tarikhMula;
@@ -884,7 +901,9 @@ const makePG211A = async (payload) => {
     worksheet.getCell('R5').value = yearNow;
 
     let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = 'PRIMER';
+    /utc/i.test(klinik)
+      ? (intro1.getCell(2).value = 'OUTREACH')
+      : (intro1.getCell(2).value = 'PRIMER');
 
     let intro2 = worksheet.getRow(7);
     intro2.getCell(2).value = `${klinik.toUpperCase()}`;
@@ -1213,7 +1232,7 @@ const makePG214 = async (payload) => {
       bulan = tarikhMula;
     }
 
-    worksheet.getCell('O5').value = `BAGI BULAN: ${moment(bulan)
+    worksheet.getCell('J5').value = `BAGI BULAN: ${moment(bulan)
       .format('MMMM')
       .toUpperCase()}`;
     worksheet.getCell('O5').value = `TAHUN: ${moment(bulan).format('YYYY')}`;
@@ -1225,35 +1244,59 @@ const makePG214 = async (payload) => {
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
     //
+    let rowNew;
+
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(13 + i);
-      if (data[i][0]) {
-        jumlahReten += data[i][0].jumlahReten;
-        jumlahRetenSalah += data[i][0].statusReten;
-        rowNew.getCell(3).value = data[i][0].jumlahMelayu; //C13	Kategori Umur 60 Tahun
-        rowNew.getCell(4).value = data[i][0].jumlahCina; //D13	Kategori Umur 60 Tahun
-        rowNew.getCell(5).value = data[i][0].jumlahIndia; //E13	Kategori Umur 60 Tahun
-        rowNew.getCell(6).value = data[i][0].jumlahBajau; //F13	Kategori Umur 60 Tahun
-        rowNew.getCell(7).value = data[i][0].jumlahDusun; //G13	Kategori Umur 60 Tahun
-        rowNew.getCell(8).value = data[i][0].jumlahKadazan; //H13 Kategori Umur 60 Tahun
-        rowNew.getCell(9).value = data[i][0].jumlahMurut; //I13	Kategori Umur 60 Tahun
-        rowNew.getCell(10).value = data[i][0].jumlahBMSL; //J13 Kategori Umur 60 Tahun
-        rowNew.getCell(11).value = data[i][0].jumlahMelanau; //K13 Kategori Umur 60 Tahun
-        rowNew.getCell(12).value = data[i][0].jumlahKedayan; //L13 Kategori Umur 60 Tahun
-        rowNew.getCell(13).value = data[i][0].jumlahIban; //M13 Kategori Umur 60 Tahun
-        rowNew.getCell(14).value = data[i][0].jumlahBidayuh; //N13 Kategori Umur 60 Tahun
-        rowNew.getCell(15).value = data[i][0].jumlahPenan; //O13 Kategori Umur 60 Tahun
-        rowNew.getCell(16).value = data[i][0].jumlahBMSwL; //P13 Kategori Umur 60 Tahun
-        rowNew.getCell(17).value = data[i][0].jumlahOAS; //Q13 Kategori Umur 60 Tahun
-        rowNew.getCell(18).value = data[i][0].jumlahLainlain; //R13 Kategori Umur 60 Tahun
-        rowNew.getCell(19).value = data[i][0].jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
-        rowNew.getCell(20).value = data[i][0].jumlahLelaki; //T13 Kategori Umur 60 Tahun
-        rowNew.getCell(21).value = data[i][0].jumlahPerempuan; //U13 Kategori Umur 60 Tahun
-        rowNew.getCell(22).value = data[i][0].jumlahEdentulous; //V13 Kategori Umur 60 Tahun
-        rowNew.getCell(23).value = data[i][0].jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
-        rowNew.getCell(24).value = data[i][0].jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
-        rowNew.getCell(25).value = data[i][0].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
+      if (data[0].PG214[i]) {
+        switch (data[0].PG214[i]._id) {
+          case '60':
+            rowNew = worksheet.getRow(13);
+            break;
+          case '61 - 64':
+            rowNew = worksheet.getRow(14);
+            break;
+          case '65':
+            rowNew = worksheet.getRow(15);
+            break;
+          case '66 - 69':
+            rowNew = worksheet.getRow(16);
+            break;
+          case '70 - 74':
+            rowNew = worksheet.getRow(17);
+            break;
+          case '75++':
+            rowNew = worksheet.getRow(18);
+            break;
+          default:
+            console.log('no data');
+            break;
+        }
       }
+      jumlahReten += data[0].PG214[i].jumlahReten;
+      jumlahRetenSalah += data[0].PG214[i].statusReten;
+      rowNew.getCell(3).value = data[0].PG214[i].jumlahMelayu; //C13	Kategori Umur 60 Tahun
+      rowNew.getCell(4).value = data[0].PG214[i].jumlahCina; //D13	Kategori Umur 60 Tahun
+      rowNew.getCell(5).value = data[0].PG214[i].jumlahIndia; //E13	Kategori Umur 60 Tahun
+      rowNew.getCell(6).value = data[0].PG214[i].jumlahBajau; //F13	Kategori Umur 60 Tahun
+      rowNew.getCell(7).value = data[0].PG214[i].jumlahDusun; //G13	Kategori Umur 60 Tahun
+      rowNew.getCell(8).value = data[0].PG214[i].jumlahKadazan; //H13 Kategori Umur 60 Tahun
+      rowNew.getCell(9).value = data[0].PG214[i].jumlahMurut; //I13	Kategori Umur 60 Tahun
+      rowNew.getCell(10).value = data[0].PG214[i].jumlahBMSL; //J13 Kategori Umur 60 Tahun
+      rowNew.getCell(11).value = data[0].PG214[i].jumlahMelanau; //K13 Kategori Umur 60 Tahun
+      rowNew.getCell(12).value = data[0].PG214[i].jumlahKedayan; //L13 Kategori Umur 60 Tahun
+      rowNew.getCell(13).value = data[0].PG214[i].jumlahIban; //M13 Kategori Umur 60 Tahun
+      rowNew.getCell(14).value = data[0].PG214[i].jumlahBidayuh; //N13 Kategori Umur 60 Tahun
+      rowNew.getCell(15).value = data[0].PG214[i].jumlahPenan; //O13 Kategori Umur 60 Tahun
+      rowNew.getCell(16).value = data[0].PG214[i].jumlahBMSwL; //P13 Kategori Umur 60 Tahun
+      rowNew.getCell(17).value = data[0].PG214[i].jumlahOAS; //Q13 Kategori Umur 60 Tahun
+      rowNew.getCell(18).value = data[0].PG214[i].jumlahLainlain; //R13 Kategori Umur 60 Tahun
+      rowNew.getCell(19).value = data[0].PG214[i].jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
+      rowNew.getCell(20).value = data[0].PG214[i].jumlahLelaki; //T13 Kategori Umur 60 Tahun
+      rowNew.getCell(21).value = data[0].PG214[i].jumlahPerempuan; //U13 Kategori Umur 60 Tahun
+      rowNew.getCell(22).value = data[0].PG214[i].jumlahEdentulous; //V13 Kategori Umur 60 Tahun
+      rowNew.getCell(23).value = data[0].PG214[i].jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
+      rowNew.getCell(24).value = data[0].PG214[i].jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
+      rowNew.getCell(25).value = data[0].PG214[i].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
@@ -3369,7 +3412,17 @@ const makeMasa = async (payload) => {
 const makeBp = async (payload) => {
   console.log('Reten BP');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -3590,7 +3643,6 @@ const makeBp = async (payload) => {
     );
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
     rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    rowTambahan++;
     rowNew = worksheet.getRow(43 + rowTambahan);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -4262,15 +4314,16 @@ const makePG201P2 = async (payload) => {
 
 // debug
 exports.debug = async (req, res) => {
+  console.log('debug');
   let payload = {
-    negeri: 'WP Kuala Lumpur',
+    negeri: 'Selangor',
     // daerah: 'Arau',
-    daerah: 'Zon Lembah Pantai',
+    daerah: 'Petaling',
     // klinik: 'Klinik Pergigian Kaki Bukit',
-    klinik: 'W03-001-01',
-    bulan: '2023-01-01',
+    klinik: 'B07-006-02',
+    bulan: '2023-02-01',
   };
-  const data = await makePG206(payload);
+  const data = await makePG214(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
