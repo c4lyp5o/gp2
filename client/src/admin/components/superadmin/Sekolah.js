@@ -46,6 +46,9 @@ export default function Sekolah(props) {
                   Bil.
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Nama Sekolah
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Nama Klinik Bertugas
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
