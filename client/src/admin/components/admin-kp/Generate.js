@@ -85,8 +85,8 @@ const ModalGenerateAdHoc = (props) => {
           props.loginInfo.kodFasiliti
         }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
           props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
-          props.pilihanKpbmpb
+        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
+          props.pilihanKpbMpb
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
@@ -607,8 +607,8 @@ const ModalGenerateBulanan = (props) => {
           props.loginInfo.kodFasiliti
         }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
           props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
-          props.pilihanKpbmpb
+        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
+          props.pilihanKpbMpb
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
@@ -1367,7 +1367,7 @@ const Generate = (props) => {
         <h1 className='font-bold text-lg text-user1 mb-2'>
           Penjanaan Laporan bagi {loginInfo.kp}
         </h1>
-        <div className='flex flex-col items-center gap-1'>
+        <div className='flex flex-col items-center gap-1 normal-case'>
           <p>
             1. Penjanaan Laporan Mengikut Tarikh (secara adhoc) dihadkan kepada
             jumlah baki token yang tinggal (buat sementara waktu sahaja)

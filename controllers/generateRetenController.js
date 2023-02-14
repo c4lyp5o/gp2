@@ -229,7 +229,7 @@ const downloader = async (req, res, callback) => {
     pilihanFasiliti,
     pilihanKkia,
     pilihanProgram,
-    pilihanKpbmpb,
+    pilihanKpbMpb,
     pilihanIndividu,
     tarikhMula,
     tarikhAkhir,
@@ -280,7 +280,7 @@ const downloader = async (req, res, callback) => {
     pilihanFasiliti,
     pilihanKkia,
     pilihanProgram,
-    pilihanKpbmpb,
+    pilihanKpbMpb,
     pilihanIndividu,
     tarikhMula,
     tarikhAkhir,
@@ -584,7 +584,7 @@ const makePG101C = async (payload) => {
       daerah,
       negeri,
       pilihanProgram,
-      pilihanKpbmpb,
+      pilihanKpbMpb,
       username,
       tarikhMula,
       bulan,
@@ -629,7 +629,7 @@ const makePG101C = async (payload) => {
     let intro2 = worksheet.getRow(7);
     intro2.getCell(2).value = `${klinik.toUpperCase()} ${
       pilihanProgram ? ` / ${pilihanProgram.toUpperCase()}` : ''
-    } ${pilihanKpbmpb ? ` / ${pilihanKpbmpb.toUpperCase()}` : ''}`;
+    } ${pilihanKpbMpb ? ` / ${pilihanKpbMpb.toUpperCase()}` : ''}`;
 
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `${daerah.toUpperCase()}`;
