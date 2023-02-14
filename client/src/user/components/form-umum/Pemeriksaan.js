@@ -639,6 +639,10 @@ export default function Pemeriksaan(props) {
                         <div className='shadow-lg  grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
                           <h4 className='font-bold flex flex-row pl-5'>
                             Status Gigi Desidus
+                            {props.adaDesidusPemeriksaanUmum === true ||
+                            props.adaKekalPemeriksaanUmum === true ? null : (
+                              <span className='text-user6'>*</span>
+                            )}
                           </h4>
                           <div className='grid gap-1'>
                             <div className='flex items-center pl-5'>
@@ -781,6 +785,10 @@ export default function Pemeriksaan(props) {
                         <div className='shadow-lg grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
                           <h4 className='font-bold flex flex-row pl-5'>
                             Status Gigi Kekal
+                            {props.adaKekalPemeriksaanUmum === true ||
+                            props.adaDesidusPemeriksaanUmum === true ? null : (
+                              <span className='text-user6'>*</span>
+                            )}
                           </h4>
                           <div className='grid gap-1 '>
                             <div className='flex items-center pl-5'>
