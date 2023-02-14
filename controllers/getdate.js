@@ -23,6 +23,7 @@ const getdate = async (req, res) => {
 
   // read the table when reformatting back at FE: https://momentjs.com/docs/#/displaying/format/
   const beThisDate = moment(dateToday).format('YYYY-MM-DD');
+  const doubleBeThisDateJustInCase = moment(beThisDate).format('YYYY-MM-DD');
   const beThisTime = moment(dateToday).format('HH:mm');
 
   // be AWARE FE MUST use momentjs for compatibility, NOT new Date()
@@ -39,6 +40,7 @@ const getdate = async (req, res) => {
     dateYesterday,
     datePastTwoDays,
     beThisDate,
+    doubleBeThisDateJustInCase,
     beThisTime,
     beThisDateObject,
     hourForThisDateObject,
