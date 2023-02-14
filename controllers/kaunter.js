@@ -1,3 +1,4 @@
+const moment = require('moment');
 const Umum = require('../models/Umum');
 const Runningnumber = require('../models/Runningnumber');
 const Event = require('../models/Event');
@@ -39,6 +40,11 @@ const createPersonKaunter = async (req, res) => {
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
   req.body.tahunDaftar = new Date().getFullYear();
+
+  // converting tarikhKedatangan again at the backend just in case
+  req.body.tarikhKedatangan = moment(req.body.tarikhKedatangan).format(
+    'YYYY-MM-DD'
+  );
 
   // handling baby of. kena buat system wide & sentiasa baru-kedatangan jugak untuk mengelakkan ic ibunya menjadi ulangan-kedatangan apabila didaftarkan sebagai pesakit biasa (Boss pun setuju)
   if (req.body.jenisIc === 'birth-of') {
@@ -124,6 +130,11 @@ const updatePersonKaunter = async (req, res) => {
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  // converting tarikhKedatangan again at the backend just in case
+  req.body.tarikhKedatangan = moment(req.body.tarikhKedatangan).format(
+    'YYYY-MM-DD'
+  );
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
     {

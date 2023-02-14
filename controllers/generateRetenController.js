@@ -37,7 +37,7 @@ exports.startQueue = async function (req, res) {
     fromEtl === 'false' &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
-    console.log('not kaunter user & not from etl');
+    console.log(`not kaunter user & not from etl, from ${username}`);
     let userTokenData = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
@@ -148,7 +148,7 @@ exports.startQueueKp = async function (req, res) {
     fromEtl === 'false' &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
-    console.log('not kaunter user n from etl');
+    console.log(`from kpUser & not from etl, from ${username}`);
     let userTokenData = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
