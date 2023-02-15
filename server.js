@@ -160,7 +160,7 @@ const start = async () => {
     // display application version number everytime server start
     logger.info('v' + process.env.npm_package_version);
   } catch (error) {
-    logger.error(error.message);
+    logger.error(error);
   }
 };
 
