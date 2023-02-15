@@ -3019,8 +3019,8 @@ const countPG206 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    { $gte: ['$merge.umur', 6] },
-                    { $lte: ['$merge.umur', 18] },
+                    { $gte: ['$merge.umur', 1] },
+                    { $lte: ['$merge.umur', 59] },
                     { $eq: ['$merge.dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$merge.mAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$merge.fAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -3031,14 +3031,14 @@ const countPG206 = async (payload) => {
                     { $eq: ['$merge.xAdaGigiKekalPemeriksaanUmum', 0] },
                   ],
                 },
-                {
-                  $and: [
-                    { $lte: ['$merge.umur', 6] },
-                    { $eq: ['$merge.dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.xAdaGigiDesidusPemeriksaanUmum', 0] },
-                  ],
-                },
+                // {
+                //   $and: [
+                //     { $lte: ['$merge.umur', 6] },
+                //     { $eq: ['$merge.dAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$merge.fAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$merge.xAdaGigiDesidusPemeriksaanUmum', 0] },
+                //   ],
+                // },
               ],
             },
             1,
@@ -3051,6 +3051,8 @@ const countPG206 = async (payload) => {
           $cond: [
             {
               $and: [
+                { $gte: ['$merge.umur', 1] },
+                { $lte: ['$merge.umur', 59] },
                 { $eq: ['$merged.dAdaGigiKekal', 0] },
                 { $eq: ['$merged.mAdaGigiKekal', 0] },
                 { $eq: ['$merged.fAdaGigiKekal', 0] },
@@ -3563,8 +3565,8 @@ const countPG207 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    { $gt: ['$umur', 6] },
-                    { $lte: ['$umur', 18] },
+                    { $gte: ['$umur', 1] },
+                    { $lte: ['$umur', 59] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -3574,14 +3576,14 @@ const countPG207 = async (payload) => {
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                   ],
                 },
-                {
-                  $and: [
-                    { $lte: ['$umur', 6] },
-                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                  ],
-                },
+                // {
+                //   $and: [
+                //     { $lte: ['$umur', 6] },
+                //     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                //   ],
+                // },
               ],
             },
             1,
@@ -3595,6 +3597,8 @@ const countPG207 = async (payload) => {
           $cond: [
             {
               $and: [
+                { $gte: ['$umur', 1] },
+                { $lte: ['$umur', 59] },
                 { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
@@ -4531,10 +4535,34 @@ const countPG207 = async (payload) => {
         },
       },
       jumlahMBK: {
+        //MBK criterias; No 1 (dmfx = 0 + sm =0 ; ) +/- No 2 (DFMX = 0); Cuma boleh gigi susu and mixed dentition
         $sum: {
           $cond: [
             {
-              $eq: ['$merged.dAdaGigiDesidus', 0],
+              $or: [
+                {
+                  $and: [
+                    { $gte: ['$merge.umur', 1] },
+                    { $lte: ['$merge.umur', 59] },
+                    { $eq: ['$merge.dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$merge.mAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$merge.fAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$merge.xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$merge.dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$merge.mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$merge.fAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$merge.xAdaGigiKekalPemeriksaanUmum', 0] },
+                  ],
+                },
+                // {
+                //   $and: [
+                //     { $lte: ['$merge.umur', 6] },
+                //     { $eq: ['$merge.dAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$merge.fAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$merge.xAdaGigiDesidusPemeriksaanUmum', 0] },
+                //   ],
+                // },
+              ],
             },
             1,
             0,
@@ -4546,18 +4574,12 @@ const countPG207 = async (payload) => {
           $cond: [
             {
               $and: [
-                {
-                  $eq: ['$merged.dAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.mAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.fAdaGigiKekal', 0],
-                },
-                {
-                  $eq: ['$merged.xAdaGigiKekal', 0],
-                },
+                { $gte: ['$merge.umur', 1] },
+                { $lte: ['$merge.umur', 59] },
+                { $eq: ['$merged.dAdaGigiKekal', 0] },
+                { $eq: ['$merged.mAdaGigiKekal', 0] },
+                { $eq: ['$merged.fAdaGigiKekal', 0] },
+                { $eq: ['$merged.xAdaGigiKekal', 0] },
               ],
             },
             1,
