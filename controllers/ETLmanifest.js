@@ -85,7 +85,7 @@ const initialDataKlinik = async (allDaerah) => {
 };
 
 const initiateETL = async (req, res) => {
-  logger.info(`[ETL]initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
+  ETLLogger.info(`[ETL]initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
   try {
     // first launch
     const negeri = await initialDataNegeri();
@@ -109,7 +109,7 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        logger.info(
+        ETLLogger.info(
           `[ETL] generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
         );
         const data = await monthlyCount[j].func(payload);
@@ -148,7 +148,7 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        logger.info(
+        ETLLogger.info(
           `[ETL] generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
         );
         const data = await monthlyCount[j].func(payload);
@@ -187,7 +187,7 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        logger.info(
+        ETLLogger.info(
           `[ETL] generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
         );
         const data = await monthlyCount[j].func(payload);
@@ -208,13 +208,15 @@ const initiateETL = async (req, res) => {
       }
     }
     // }
-    logger.info(`ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
+    ETLLogger.info(
+      `ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+    );
     res
       .status(200)
       .json({ msg: 'ETL initiated. May the server is not on fire now' });
   } catch (error) {
     console.log(error);
-    logger.error(error);
+    ETLLogger.error(error);
     res
       .status(error.statusCode || 500)
       .json({ msg: error.message } || { msg: 'Internal Server Error' });
