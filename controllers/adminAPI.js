@@ -20,7 +20,7 @@ const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
-const logger = require('../logs/logger');
+const { logger } = require('../logs/logger');
 
 // helper
 const Helper = require('../controllers/countHelper');
@@ -358,9 +358,7 @@ const loginUser = async (req, res) => {
       expiresIn: process.env.JWT_LIFETIME,
     });
     logger.info(
-      `[adminAPI/loginUser] kpUser ${
-        kpUser.username | kpUser.officername
-      } logged in`
+      `[adminAPI/loginUser] kpUser ${userData.username} | ${userData.officername} logged in`
     );
     return res.status(200).json({
       status: 'success',
