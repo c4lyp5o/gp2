@@ -131,8 +131,8 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
         }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
           props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
-          props.pilihanKpbmpb
+        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
+          props.pilihanKpbMpb
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
@@ -412,7 +412,6 @@ const ModalGenerateAdHoc = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
-                              console.log(e.target.value);
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -474,7 +473,6 @@ const ModalGenerateAdHoc = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
@@ -508,7 +506,6 @@ const ModalGenerateAdHoc = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
@@ -830,8 +827,8 @@ const ModalGenerateBulanan = (props) => {
           props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
         }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
           props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
-          props.pilihanKpbmpb
+        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
+          props.pilihanKpbMpb
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
