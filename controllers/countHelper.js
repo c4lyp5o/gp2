@@ -1748,7 +1748,6 @@ const countPG214 = async (payload) => {
       umur: { $gte: 59 },
       kedatangan: 'baru-kedatangan',
       statusKehadiran: true,
-      deleted: false,
     },
   };
 
