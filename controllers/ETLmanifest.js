@@ -85,7 +85,7 @@ const initialDataKlinik = async (allDaerah) => {
 };
 
 const initiateETL = async (req, res) => {
-  logger.info(`ETL initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
+  logger.info(`[ETL]initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
   try {
     // first launch
     const negeri = await initialDataNegeri();
@@ -110,7 +110,7 @@ const initiateETL = async (req, res) => {
             .format('YYYY-MM-DD'),
         };
         logger.info(
-          `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
+          `[ETL] generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
         );
         const data = await monthlyCount[j].func(payload);
         const dataObj = {
@@ -149,7 +149,7 @@ const initiateETL = async (req, res) => {
             .format('YYYY-MM-DD'),
         };
         logger.info(
-          `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
+          `[ETL] generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
         );
         const data = await monthlyCount[j].func(payload);
         const dataObj = {
@@ -188,7 +188,7 @@ const initiateETL = async (req, res) => {
             .format('YYYY-MM-DD'),
         };
         logger.info(
-          `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
+          `[ETL] generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
         );
         const data = await monthlyCount[j].func(payload);
         const dataObj = {

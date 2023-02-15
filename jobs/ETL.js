@@ -6,9 +6,9 @@ module.exports = function () {
   const runETL = new cron.CronJob(
     '0 1 7 * *',
     function () {
-      logger.info('From ETL cronjob, im running now. Wish me luck.');
+      logger.info('[ETL] From ETL cronjob, im running now. Wish me luck.');
       ETL.initiateETL().then(() => {
-        logger.info('From ETL cronjob. im done.');
+        logger.info('[ETL] From ETL cronjob. im done.');
       });
     },
     null,

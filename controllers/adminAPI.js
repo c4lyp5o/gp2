@@ -357,7 +357,11 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(userData, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_LIFETIME,
     });
-    logger.info(`kpUser ${kpUser.username | kpUser.officername} logged in`);
+    logger.info(
+      `[adminAPI/loginUser] kpUser ${
+        kpUser.username | kpUser.officername
+      } logged in`
+    );
     return res.status(200).json({
       status: 'success',
       adminToken: token,
@@ -378,7 +382,9 @@ const loginUser = async (req, res) => {
         message: 'Nombor TOTP anda salah. Sila isi sekali lagi',
       });
     }
-    logger.info(`superadminUser ${adminUser.user_name} logged in using totp`);
+    logger.info(
+      `[adminAPI/loginUser] superadminUser ${adminUser.user_name} logged in using totp`
+    );
     return res.status(200).json({
       status: 'success',
       adminToken: adminUser.createJWT(),
@@ -392,7 +398,7 @@ const loginUser = async (req, res) => {
     });
   }
   logger.info(
-    `superadminUser ${adminUser.user_name} logged in using generated password`
+    `[adminAPI/loginUser] superadminUser ${adminUser.user_name} logged in using generated password`
   );
   return res.status(200).json({
     status: 'success',
@@ -410,7 +416,7 @@ const getDataRoute = async (req, res) => {
   const { FType, kp } = req.query;
   const type = Dictionary[FType];
   logger.info(
-    `[getDataRoute] superadminUser ${user_name} requested ${type} data`
+    `[adminAPI/getDataRoute] superadminUser ${user_name} requested ${type} data`
   );
   // 2nd phase
   let data, countedData, owner;
@@ -588,7 +594,9 @@ const getDataKpRoute = async (req, res) => {
   );
   const { FType } = req.query;
   const type = Dictionary[FType];
-  logger.info(`[getDataKpRoute] kpUser ${username} requested ${type} data`);
+  logger.info(
+    `[adminAPI/getDataKpRoute] kpUser ${username} requested ${type} data`
+  );
   // 2nd phase
   let data, countedData;
   switch (type) {
@@ -772,7 +780,7 @@ const getOneDataRoute = async (req, res) => {
   const { FType, Id } = req.query;
   const type = Dictionary[FType];
   logger.info(
-    `[getOneDataRoute] superadminUser requested ${type} data with id ${Id}`
+    `[adminAPI/getOneDataRoute] superadminUser requested ${type} data with id ${Id}`
   );
   // 2nd phase
   let data;
@@ -800,7 +808,7 @@ const getOneDataKpRoute = async (req, res) => {
   const { FType, Id } = req.query;
   const type = Dictionary[FType];
   logger.info(
-    `[getOneDataKpRoute] kpUser requested ${type} data with id ${Id}`
+    `[adminAPI/getOneDataKpRoute] kpUser requested ${type} data with id ${Id}`
   );
   // 2nd phase
   let data;
@@ -883,7 +891,9 @@ const getData = async (req, res) => {
       var { daerah, negeri } = currentUser.getProfile();
       switch (Fn) {
         case 'create':
-          logger.info(`[DataCenter] ${currentUser.user_name} using create`);
+          logger.info(
+            `[adminAPI/DataCenter] ${currentUser.user_name} using create`
+          );
           if (
             theType !== 'pegawai' &&
             theType !== 'klinik' &&
@@ -903,7 +913,7 @@ const getData = async (req, res) => {
               createdByNegeri: negeri,
             };
             logger.info(
-              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
             );
             const data = await Fasiliti.create(Data);
             res.status(200).json(data);
@@ -926,7 +936,7 @@ const getData = async (req, res) => {
               exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
               logger.info(
-                `[DataCenter] ${currentUser.user_name} reactivated ${theType} - ${Data.nama}`
+                `[adminAPI/DataCenter] ${currentUser.user_name} reactivated ${theType} - ${Data.nama}`
               );
               return res.status(200).json(prevOfficer);
             }
@@ -937,7 +947,7 @@ const getData = async (req, res) => {
             };
             const data = await Operator.create(Data);
             logger.info(
-              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -959,7 +969,7 @@ const getData = async (req, res) => {
               exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
               logger.info(
-                `[DataCenter] ${currentUser.user_name} reactivated ${theType} - ${Data.nama}`
+                `[adminAPI/DataCenter] ${currentUser.user_name} reactivated ${theType} - ${Data.nama}`
               );
               return res.status(200).json(prevOfficer);
             }
@@ -970,7 +980,7 @@ const getData = async (req, res) => {
             };
             const data = await Operator.create(Data);
             logger.info(
-              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -1027,7 +1037,7 @@ const getData = async (req, res) => {
               }
             });
             logger.info(
-              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kp}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kp}`
             );
             return res.status(200).json(data);
           }
@@ -1048,7 +1058,7 @@ const getData = async (req, res) => {
               };
               const data = await Fasiliti.create(Data);
               logger.info(
-                `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+                `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
               );
               res.status(200).json(data);
             }
@@ -1071,7 +1081,7 @@ const getData = async (req, res) => {
               };
               const data = await Fasiliti.create(Data);
               logger.info(
-                `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+                `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
               );
               res.status(200).json(data);
             }
@@ -1110,7 +1120,7 @@ const getData = async (req, res) => {
                 { new: true }
               );
               logger.info(
-                `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kodProgram}`
+                `[adminAPI/DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kodProgram}`
               );
               res.status(200).json(updatedSosmed);
             }
@@ -1131,13 +1141,15 @@ const getData = async (req, res) => {
             }
             const createProgramData = await Event.create(Data);
             logger.info(
-              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
             );
             res.status(200).json(createProgramData);
           }
           break;
         case 'update':
-          logger.info(`[DataCenter] ${currentUser.user_name} using update`);
+          logger.info(
+            `[adminAPI/DataCenter] ${currentUser.user_name} using update`
+          );
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
@@ -1150,7 +1162,7 @@ const getData = async (req, res) => {
               { new: true }
             );
             logger.info(
-              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -1161,7 +1173,7 @@ const getData = async (req, res) => {
               { new: true }
             );
             logger.info(
-              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -1172,7 +1184,7 @@ const getData = async (req, res) => {
               { new: true }
             );
             logger.info(
-              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kp}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kp}`
             );
             return res.status(200).json(data);
           }
@@ -1183,14 +1195,14 @@ const getData = async (req, res) => {
               { new: true }
             );
             logger.info(
-              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kodProgram}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kodProgram}`
             );
             return res.status(200).json(data);
           }
           break;
         case 'delete':
           logger.info(
-            `[DataCenter] ${currentUser.user_name} using DataCenter - delete`
+            `[adminAPI/DataCenter] ${currentUser.user_name} using DataCenter - delete`
           );
           if (
             theType !== 'pegawai' &&
@@ -1202,7 +1214,7 @@ const getData = async (req, res) => {
           ) {
             const data = await Fasiliti.findByIdAndDelete({ _id: Id });
             logger.info(
-              `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -1212,7 +1224,7 @@ const getData = async (req, res) => {
             data.tempatBertugasSebelumIni.push(data.kpSkrg);
             await data.save();
             logger.info(
-              `[DataCenter] ${currentUser.user_name} deactivated ${theType} - ${data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} deactivated ${theType} - ${data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -1279,7 +1291,7 @@ const getData = async (req, res) => {
               }
             });
             logger.info(
-              `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.kp}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.kp}`
             );
             return res.status(200).json(data);
           }
@@ -1299,7 +1311,7 @@ const getData = async (req, res) => {
             }
             const data = await Event.findByIdAndDelete({ _id: Id });
             logger.info(
-              `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -1320,7 +1332,7 @@ const getData = async (req, res) => {
                 belongsTo: owner,
               });
               logger.info(
-                `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${deletedSosmed.kodProgram}`
+                `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${deletedSosmed.kodProgram}`
               );
               return res.status(200).json(deletedSosmed);
             } else {
@@ -1330,7 +1342,7 @@ const getData = async (req, res) => {
                 { new: true }
               );
               logger.info(
-                `[DataCenter] ${currentUser.user_name} deleted one activity ${theType} - ${deletedSosmed.kodProgram}`
+                `[adminAPI/DataCenter] ${currentUser.user_name} deleted one activity ${theType} - ${deletedSosmed.kodProgram}`
               );
               res.status(200).json(deletedSosmed);
             }
@@ -1348,7 +1360,7 @@ const getData = async (req, res) => {
       );
       switch (Fn) {
         case 'create':
-          logger.info(`[KpCenter] ${kp} using create`);
+          logger.info(`[adminAPI/KpCenter] ${kp} using create`);
           switch (FType) {
             case 'program':
               Data = {
@@ -1360,7 +1372,7 @@ const getData = async (req, res) => {
               };
               const createdEvent = await Event.create(Data);
               logger.info(
-                `[KpCenter] ${kp} created ${theType} - ${createdEvent.nama}`
+                `[adminAPI/KpCenter] ${kp} created ${theType} - ${createdEvent.nama}`
               );
               res.status(200).json(createdEvent);
               break;
@@ -1377,7 +1389,7 @@ const getData = async (req, res) => {
                 };
                 const createdSosmed = await Sosmed.create(Data);
                 logger.info(
-                  `[KpCenter] ${kp} created ${theType} - ${createdSosmed.kodProgram}`
+                  `[adminAPI/KpCenter] ${kp} created ${theType} - ${createdSosmed.kodProgram}`
                 );
                 return res.status(200).json(createdSosmed);
               } else {
@@ -1394,7 +1406,7 @@ const getData = async (req, res) => {
                   { new: true }
                 );
                 logger.info(
-                  `[KpCenter] ${kp} updated one activity ${theType} - ${updatedSosmed.kodProgram}`
+                  `[adminAPI/KpCenter] ${kp} updated one activity ${theType} - ${updatedSosmed.kodProgram}`
                 );
                 res.status(200).json(updatedSosmed);
               }
@@ -1402,7 +1414,7 @@ const getData = async (req, res) => {
             case 'followers':
               const createFollowerData = await Followers.create(Data);
               logger.info(
-                `[KpCenter] ${kp} created ${theType} - ${createFollowerData.namaPlatform}`
+                `[adminAPI/KpCenter] ${kp} created ${theType} - ${createFollowerData.namaPlatform}`
               );
               res.status(200).json(createFollowerData);
               break;
@@ -1412,7 +1424,7 @@ const getData = async (req, res) => {
           }
           break;
         case 'update':
-          logger.info(`[KpCenter] ${kp} using update`);
+          logger.info(`[adminAPI/KpCenter] ${kp} using update`);
           switch (FType) {
             case 'program':
               const updateEvent = await Event.findByIdAndUpdate(
@@ -1421,7 +1433,7 @@ const getData = async (req, res) => {
                 { new: true }
               );
               logger.info(
-                `[KpCenter] ${kp} updated ${theType} - ${updateEvent.nama}`
+                `[adminAPI/KpCenter] ${kp} updated ${theType} - ${updateEvent.nama}`
               );
               res.status(200).json(updateEvent);
               break;
@@ -1433,7 +1445,7 @@ const getData = async (req, res) => {
                 { new: true }
               );
               logger.info(
-                `[KpCenter] ${kp} updated CSCSP ${theType} - ${updatePP.nama}`
+                `[adminAPI/KpCenter] ${kp} updated CSCSP ${theType} - ${updatePP.nama}`
               );
               res.status(200).json(updatePP);
               break;
@@ -1444,7 +1456,7 @@ const getData = async (req, res) => {
                 { new: true }
               );
               logger.info(
-                `[KpCenter] ${kp} updated enrolmen ${theType} - ${updateTastad.nama}`
+                `[adminAPI/KpCenter] ${kp} updated enrolmen ${theType} - ${updateTastad.nama}`
               );
               res.status(200).json(updateTastad);
               break;
@@ -1456,7 +1468,7 @@ const getData = async (req, res) => {
                 { new: true }
               );
               logger.info(
-                `[KpCenter] ${kp} updated penggunaan ${theType} - ${updateKpb.nama}`
+                `[adminAPI/KpCenter] ${kp} updated penggunaan ${theType} - ${updateKpb.nama}`
               );
               res.status(200).json(updateKpb);
               break;
@@ -1466,7 +1478,7 @@ const getData = async (req, res) => {
           }
           break;
         case 'delete':
-          logger.info(`[KpCenter] ${kp} using delete`);
+          logger.info(`[adminAPI/KpCenter] ${kp} using delete`);
           switch (FType) {
             case 'program':
               const program = await Event.findOne({ _id: Id });
@@ -1483,7 +1495,9 @@ const getData = async (req, res) => {
                 });
               }
               const data = await Event.findByIdAndDelete({ _id: Id });
-              logger.info(`[KpCenter] ${kp} deleted ${theType} - ${data.nama}`);
+              logger.info(
+                `[adminAPI/KpCenter] ${kp} deleted ${theType} - ${data.nama}`
+              );
               res.status(200).json(data);
               break;
             case 'sosmed':
@@ -1496,7 +1510,7 @@ const getData = async (req, res) => {
                   belongsTo: kp,
                 });
                 logger.info(
-                  `[KpCenter] ${kp} deleted ${theType} - ${deletedSosmed.kodProgram}`
+                  `[adminAPI/KpCenter] ${kp} deleted ${theType} - ${deletedSosmed.kodProgram}`
                 );
                 return res.status(200).json(deletedSosmed);
               } else {
@@ -1506,7 +1520,7 @@ const getData = async (req, res) => {
                   { new: true }
                 );
                 logger.info(
-                  `[KpCenter] ${kp} deleted one activity ${theType} - ${deletedSosmed.kodProgram}`
+                  `[adminAPI/KpCenter] ${kp} deleted one activity ${theType} - ${deletedSosmed.kodProgram}`
                 );
                 res.status(200).json(deletedSosmed);
               }
@@ -1527,7 +1541,7 @@ const getData = async (req, res) => {
           console.log('create for superadmincenter');
           break;
         case 'read':
-          logger.info('SuperadminCenter - read accessed');
+          logger.info('[adminAPI/SuperadminCenter] - read accessed');
           const all = await Superadmin.find({});
           const allKlinik = await User.find({
             role: 'klinik',
@@ -1595,7 +1609,7 @@ const getData = async (req, res) => {
           res.status(200).json(cleanData);
           break;
         case 'readDaerah':
-          logger.info('[SuperadminCenter] readDaerah accessed');
+          logger.info('[adminAPI/SuperadminCenter] readDaerah accessed');
           var u = await Superadmin.findById(
             jwt.verify(token, process.env.JWT_SECRET).userId
           );
@@ -1608,7 +1622,7 @@ const getData = async (req, res) => {
           res.status(200).json(daerahOnly);
           break;
         case 'readKlinik':
-          logger.info('[SuperadminCenter] readKlinik accessed');
+          logger.info('[adminAPI/SuperadminCenter] readKlinik accessed');
           var u = await Superadmin.findById(
             jwt.verify(token, process.env.JWT_SECRET).userId
           );
@@ -1656,7 +1670,7 @@ const getData = async (req, res) => {
       var { username, password, data } = req.body;
       switch (Fn) {
         case 'create':
-          logger.info('[UserCenter] create accessed');
+          logger.info('[adminAPI/UserCenter] create accessed');
           const { user_name, daerah, negeri, e_mail, accountType } = req.body;
           // const regData = await Superadmin.create({
           //   user_name: user_name,
@@ -1674,13 +1688,15 @@ const getData = async (req, res) => {
           break;
         case 'read':
           logger.info(
-            `[UserCenter] read accessed to get current logged in user info`
+            `[adminAPI/UserCenter] read accessed to get current logged in user info`
           );
           const userData = await readUserData(token);
           res.status(200).json(userData);
           break;
         case 'readOne':
-          logger.info(`[UserCenter] ${username} being checked in readOne`);
+          logger.info(
+            `[adminAPI/UserCenter] ${username} being checked in readOne`
+          );
           const tempUser = await Superadmin.findOne({ user_name: username });
           // if no superadmin
           if (!tempUser) {
@@ -1714,7 +1730,7 @@ const getData = async (req, res) => {
           });
           break;
         case 'update':
-          logger.info(`[UserCenter] ${username} submitting in update`);
+          logger.info(`[adminAPI/UserCenter] ${username} submitting in update`);
           const adminUser = await Superadmin.findOne({ user_name: username });
           // if kp
           if (!adminUser) {
@@ -1763,7 +1779,9 @@ const getData = async (req, res) => {
           });
           break;
         case 'updateOne':
-          logger.info(`[UserCenter] ${username} updating info in updateOne`);
+          logger.info(
+            `[adminAPI/UserCenter] ${username} updating info in updateOne`
+          );
           const newToken = await updateUserData(token, data);
           res.status(200).json({
             status: 'success',
@@ -1788,7 +1806,9 @@ const getData = async (req, res) => {
             token,
             process.env.JWT_SECRET
           );
-          logger.info(`[HqCenter] ${accountType} ${userId} accessed read`);
+          logger.info(
+            `[adminAPI/HqCenter] ${accountType} ${userId} accessed read`
+          );
           if (accountType === 'kpUser') {
             return res.status(200).json({
               status: 'success',
@@ -2052,7 +2072,7 @@ const getData = async (req, res) => {
           }
           return res.status(200).json(data);
         case 'readOne':
-          logger.info(`[HqCenter] readOne accessed`);
+          logger.info(`[adminAPI/HqCenter] readOne accessed`);
           const { id } = req.body;
           let klinikData = await User.find({
             kodFasiliti: id,
@@ -2154,7 +2174,7 @@ const getData = async (req, res) => {
             process.env.JWT_SECRET
           );
           logger.info(
-            `[TotpManager] created totptoken for ${username} because accessing settings`
+            `[adminAPI/TotpManager] created totptoken for ${username} because accessing settings`
           );
           let backupCodes = [];
           let hashedBackupCodes = [];
@@ -2197,7 +2217,7 @@ const getData = async (req, res) => {
           });
           break;
         case 'read':
-          logger.info(`[TotpManager] read totptoken for validation`);
+          logger.info(`[adminAPI/TotpManager] read totptoken for validation`);
           const { totpCode } = req.body;
           const { base32 } = await Superadmin.findById(
             jwt.verify(token, process.env.JWT_SECRET).userId
@@ -2220,7 +2240,7 @@ const getData = async (req, res) => {
           }
           break;
         case 'update':
-          logger.info(`[TotpManager] update totptoken for validation`);
+          logger.info(`[adminAPI/TotpManager] update totptoken for validation`);
           const { initialTotpCode, initialTotpToken } = req.body;
           const { tempSecret: userSecret } = jwt.verify(
             initialTotpToken,

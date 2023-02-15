@@ -123,21 +123,19 @@ exports.startQueue = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        logger.info(
-          '[generateRetenController] dah kurangkan token' + accountType
-        );
+        logger.info('[generateRetenController] dah kurangkan token' + username);
       } else {
-        logger.info(
-          '[generateRetenController] not production and ' + accountType
-        );
+        logger.info('[generateRetenController] not production and ' + username);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
     })
   );
 
-  console.log('que superadmin sekarang: ' + downloadQueue.length());
-  logger.info('que superadmin sekarang: ' + downloadQueue.length());
+  logger.info(
+    '[generateRetenController] que superadmin sekarang: ' +
+      downloadQueue.length()
+  );
 };
 
 // kp
@@ -173,14 +171,18 @@ exports.startQueueKp = async function (req, res) {
       });
       await kpUserToken.save();
       userTokenData = kpUserToken;
-      logger.info('[generateRetenController] dah save token kp user');
+      logger.info(
+        `[generateRetenController] dah save token kp user ${username}`
+      );
     }
 
     if (
       process.env.BUILD_ENV === 'production' &&
       userTokenData.jumlahToken <= 0
     ) {
-      logger.info('[generateRetenController] no more coins left');
+      logger.info(
+        `[generateRetenController] no more coins left for ${username}`
+      );
       return res.status(401).json({ msg: 'no more coins left' });
     }
   }
@@ -214,19 +216,20 @@ exports.startQueueKp = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        logger.info('[generateRetenController] dah kurangkan token');
-      } else {
         logger.info(
-          '[generateRetenController] not production and ' + accountType
+          `[generateRetenController] dah kurangkan token untuk ${username}`
         );
+      } else {
+        logger.info('[generateRetenController] not production and ' + username);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
     })
   );
 
-  console.log('que kp sekarang: ' + downloadQueueKp.length());
-  logger.info('que kp sekarang: ' + downloadQueueKp.length());
+  logger.info(
+    '[generateRetenController] que kp sekarang: ' + downloadQueueKp.length()
+  );
 };
 
 // helper
@@ -300,7 +303,9 @@ const downloader = async (req, res, callback) => {
     fromEtl,
   };
   console.log(payload);
-  logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
+  logger.info(
+    `[generateRetenController] ${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`
+  );
   let excelFile;
   switch (jenisReten) {
     case 'PG101A':
@@ -797,7 +802,6 @@ const makePG101C = async (payload) => {
       logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-
     return file;
   } catch (err) {
     logger.error(err);
@@ -3685,7 +3689,7 @@ const makeBp = async (payload) => {
   }
 };
 const makeBPE = async (payload) => {
-  logger.info('Reten BPE');
+  logger.info('[generateRetenController] Reten BPE');
   try {
     let {
       klinik,
@@ -4260,7 +4264,7 @@ const makePG201P2 = async (payload) => {
 
 // debug
 exports.debug = async (req, res) => {
-  logger.info('debug test');
+  logger.info('[generateRetenController] debug test');
   let payload = {
     negeri: 'Selangor',
     // daerah: 'Arau',
