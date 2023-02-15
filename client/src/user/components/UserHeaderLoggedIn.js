@@ -78,7 +78,6 @@ function UserHeaderLoggedIn() {
       setReliefUserToken(localStorage.getItem('reliefUserToken'));
       setFasilitiRelief(localStorage.getItem('fasilitiRelief'));
       setRefetchDateTime(!refetchDateTime);
-      console.log('refetch pengguna on focus');
     };
     refetchIdentityDatetime();
   }, [refetchState]);

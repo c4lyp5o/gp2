@@ -368,8 +368,6 @@ function UserAppProvider({ children }) {
 
       setKickerNoti(kickerNotiNumber);
       setKicker(kickerNumber);
-
-      console.log('user kicker started');
     }
   }, [refreshTimer]);
 

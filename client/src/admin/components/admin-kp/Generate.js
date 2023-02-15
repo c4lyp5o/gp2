@@ -57,7 +57,6 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
-    console.log('1');
     file = `${props.jenisReten}_${props.namaKlinik}_${moment(new Date()).format(
       'DDMMYYYY'
     )}.xlsx`;
@@ -124,11 +123,6 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (props.pilihanFasiliti === 'individu') {
-      return toast.error(
-        'Harap maaf, fungsi penjanaan individu belum tersedia'
-      );
-    }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -240,7 +234,6 @@ const ModalGenerateAdHoc = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
-                              console.log(e.target.value);
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -579,7 +572,6 @@ const ModalGenerateBulanan = (props) => {
 
   const fileName = () => {
     let file = '';
-    console.log('1');
     file = `${props.jenisReten}_${props.namaKlinik}_${moment(new Date()).format(
       'DDMMYYYY'
     )}.xlsx`;
@@ -646,11 +638,6 @@ const ModalGenerateBulanan = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (props.pilihanFasiliti === 'individu') {
-      return toast.error(
-        'Harap maaf, fungsi penjanaan individu belum tersedia'
-      );
-    }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -671,6 +658,9 @@ const ModalGenerateBulanan = (props) => {
       .catch((err) => {
         console.log(err);
         toast.dismiss(id);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-download'
+        );
         setTimeout(() => {
           props.setGenerating(false);
         }, 5000);
@@ -773,7 +763,6 @@ const ModalGenerateBulanan = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
-                              console.log(e.target.value);
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -832,7 +821,6 @@ const ModalGenerateBulanan = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
@@ -866,7 +854,6 @@ const ModalGenerateBulanan = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
@@ -1114,6 +1101,7 @@ const Generate = (props) => {
     readSpesifikKPBMPBDataForKp,
     readSpesifikIndividuDataForKp,
     readGenerateTokenDataForKp,
+    toast,
   } = useGlobalAdminAppContext();
 
   const init = useRef(false);
@@ -1258,6 +1246,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kkiakd'
+          );
         });
     }
   };
@@ -1271,6 +1262,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-program'
+          );
         });
     } else if (e === 'kpbmpb') {
       await readSpesifikKPBMPBDataForKp(loginInfo.kodFasiliti)
@@ -1279,6 +1273,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kpbmpb'
+          );
         });
     }
   };
@@ -1290,11 +1287,13 @@ const Generate = (props) => {
     } else {
       await readSpesifikIndividuDataForKp(loginInfo.kodFasiliti)
         .then((res) => {
-          console.log('res', res.data);
           setIndividuData(res.data);
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-individu'
+          );
         });
     }
   };
@@ -1323,6 +1322,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-token'
+          );
         });
     }
     init.current = true;

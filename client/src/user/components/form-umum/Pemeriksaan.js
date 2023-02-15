@@ -1775,7 +1775,6 @@ export default function Pemeriksaan(props) {
                           props.setPerluPenskaleranPemeriksaanUmum(
                             !props.perluPenskaleranPemeriksaanUmum
                           );
-                          console.log(e.target.checked);
                           if (e.target.checked === true) {
                             props.setTidakPerluRawatanPemeriksaanUmum(false);
                           }

@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 // const axios = require('axios');
-const logger = require('./logs/logger');
+const { logger } = require('./logs/logger');
 
 // cron job
 const startETL = require('./jobs/ETL');
@@ -149,30 +149,23 @@ app.use(notFound);
 const port = process.env.PORT || 5000;
 
 const start = async () => {
-  console.log('Starting server...');
   logger.info('Starting server...');
   try {
     await connectDB(process.env.MONGO_URI);
-    console.log('Connected to Giret Database!');
     logger.info('Connected to Giret Database!');
     app.listen(
       port,
-      console.log(`Server is listening at port: ${port}. Lessgo!`),
       logger.info(`Server is listening at port: ${port}. Lessgo!`)
     );
     // display application version number everytime server start
-    console.log('v' + process.env.npm_package_version);
     logger.info('v' + process.env.npm_package_version);
   } catch (error) {
     logger.error(error.message);
-    console.log('Could not Connect to Giret Database!');
-    console.log(error);
   }
 };
 
 start();
 // .then(() => {
 //   startETL();
-//   console.log('Server has started, starting ETL... Warp drives engaged!');
 //   logger.info('Server has started, starting ETL... Warp drives engaged!');
 // });

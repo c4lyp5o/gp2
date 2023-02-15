@@ -529,11 +529,8 @@ function AdminAppProvider({ children }) {
       case 'sr':
         const currentSr = await readData('sr-sm-all');
         if (currentSr.data.length === 0) {
-          console.log('no sr');
-          console.log(response.data);
           return response.data[1].sekolahRendah;
         }
-        console.log('current sr', currentSr.data);
         for (let j = 0; j < currentSr.data.length; j++) {
           const deleteSr = response.data[1].sekolahRendah
             .map((e) => e.kodSekolah)
@@ -541,13 +538,11 @@ function AdminAppProvider({ children }) {
           response.data[1].sekolahRendah.splice(deleteSr, 1);
         }
         return response.data[1].sekolahRendah;
-      case 'sm':
+      default:
         const currentSm = await readData('sr-sm-all');
         if (currentSm.data.length === 0) {
-          console.log('no sm');
           return response.data[2].sekolahMenengah;
         }
-        console.log('current sm', currentSm.data);
         for (let j = 0; j < currentSm.data.length; j++) {
           const deleteSm = response.data[2].sekolahMenengah
             .map((e) => e.kodSekolah)
@@ -555,8 +550,6 @@ function AdminAppProvider({ children }) {
           response.data[2].sekolahMenengah.splice(deleteSm, 1);
         }
         return response.data[2].sekolahMenengah;
-      default:
-        console.log('there was no request');
     }
   };
 

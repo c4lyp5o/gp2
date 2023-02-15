@@ -13,7 +13,8 @@ const ConfirmModal = ({
   waktuSampai,
   waktuSelesaiDaftar,
 }) => {
-  const { kaunterToken, dateToday, formatTime } = useGlobalUserAppContext();
+  const { kaunterToken, dateToday, formatTime, toast } =
+    useGlobalUserAppContext();
 
   const [open, setOpen] = useState(false);
   const [doubleConfirm, setDoubleConfirm] = useState(false);
@@ -42,6 +43,9 @@ const ConfirmModal = ({
       setCheckingDuplicate(false);
     } catch (error) {
       console.log(error);
+      toast.error(
+        'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-confirmation-checkDuplicate'
+      );
     }
   };
 
