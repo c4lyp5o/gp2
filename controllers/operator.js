@@ -1,5 +1,5 @@
 const Operator = require('../models/Operator');
-const logger = require('../logs/logger');
+const { logger } = require('../logs/logger');
 
 // GET /:operatorId
 const getSinglePersonOperator = async (req, res) => {
