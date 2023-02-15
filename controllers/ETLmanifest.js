@@ -1,6 +1,6 @@
 const _ = require('lodash');
 const moment = require('moment');
-const logger = require('../logs/logger');
+const { ETLLogger } = require('../logs/logger');
 
 const Helper = require('../controllers/countHelper');
 

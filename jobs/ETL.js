@@ -1,6 +1,6 @@
 const cron = require('cron');
 const ETL = require('../controllers/ETLmanifest');
-const logger = require('../logs/logger');
+const { ETLLogger } = require('../logs/logger');
 
 module.exports = function () {
   const runETL = new cron.CronJob(
