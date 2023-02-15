@@ -6,7 +6,7 @@ import { Spinner } from 'react-awesome-spinners';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserSekolahList() {
-  const { userToken, reliefUserToken, refreshTimer, setRefreshTimer } =
+  const { userToken, reliefUserToken, refreshTimer, setRefreshTimer, toast } =
     useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
@@ -60,6 +60,9 @@ function UserSekolahList() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-senarai-sekolah-fetchFasilitiSekolahs'
+        );
       }
     };
     fetchFasilitiSekolahs();
@@ -81,6 +84,9 @@ function UserSekolahList() {
       );
     } catch (error) {
       console.log(error);
+      toast.error(
+        'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-senarai-sekolah-selesaiSekolah'
+      );
     }
   };
 

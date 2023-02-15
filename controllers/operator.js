@@ -3,7 +3,9 @@ const logger = require('../logs/logger');
 
 // GET /:operatorId
 const getSinglePersonOperator = async (req, res) => {
-  logger.info(`${req.method} ${req.url} getSinglePersonOperatorcalled`);
+  logger.info(
+    `[operatorController] ${req.method} ${req.url} getSinglePersonOperatorcalled`
+  );
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -23,7 +25,9 @@ const getSinglePersonOperator = async (req, res) => {
 
 // PATCH /:personOperatorId
 const updateSinglePersonOperator = async (req, res) => {
-  logger.info(`${req.method} ${req.url} updateSinglePersonOperator called`);
+  logger.info(
+    `[operatorController] ${req.method} ${req.url} updateSinglePersonOperator called`
+  );
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }

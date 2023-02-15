@@ -85,6 +85,7 @@ export default function Data({ FType }) {
           break;
         default:
           console.log('nope');
+          break;
       }
       setTimeout(() => {
         setLoading(false);

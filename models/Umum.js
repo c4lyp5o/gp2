@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const Runningnumber = require('./Runningnumber');
+const logger = require('../logs/logger');
 
 const UmumSchema = new mongoose.Schema(
   {
@@ -884,7 +885,7 @@ UmumSchema.pre('save', async function () {
         });
         const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;
-        console.log('no pendaftaran baru: ', newReg);
+        logger.info('[UmumModel] no pendafataran baru: ', newReg);
       }
       // if running number exist
       if (currentRunningNumber) {
@@ -892,11 +893,11 @@ UmumSchema.pre('save', async function () {
         await currentRunningNumber.save();
         const newReg = `${this.jenisFasiliti}/${acronym}/${currentRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;
-        console.log('no pendaftaran baru: ', newReg);
+        logger.info('[UmumModel] no pendafataran baru: ', newReg);
       }
     }
     if (this.kedatangan === 'ulangan-kedatangan') {
-      console.log('ini pasien lama');
+      logger.info('[UmumModel] ini pasien lama');
     }
     // kedatangan baru ulangan punya hal
   } catch (err) {
