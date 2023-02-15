@@ -5,7 +5,7 @@ const express = require('express');
 const app = express();
 const path = require('path');
 // const axios = require('axios');
-const logger = require('./logs/logger');
+const { logger } = require('./logs/logger');
 
 // cron job
 const startETL = require('./jobs/ETL');

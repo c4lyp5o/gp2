@@ -12,7 +12,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
-const logger = require('../logs/logger');
+const { logger } = require('../logs/logger');
 
 const borderStyle = {
   top: { style: 'thin' },
@@ -303,9 +303,7 @@ const downloader = async (req, res, callback) => {
     fromEtl,
   };
   console.log(payload);
-  logger.info(
-    `[generateRetenController] ${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`
-  );
+  logger.info(`[generateRetenController] ${username} requesting ${jenisReten}`);
   let excelFile;
   switch (jenisReten) {
     case 'PG101A':
