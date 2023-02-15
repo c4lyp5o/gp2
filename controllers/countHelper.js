@@ -919,13 +919,17 @@ const countPG211A = async (payload) => {
 
   let data = [];
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const pipeline = [match_stage[i], group_stage];
-    const query = await Umum.aggregate(pipeline);
-    data.push(query);
+  try {
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline = [match_stage[i], group_stage];
+      const query = await Umum.aggregate(pipeline);
+      data.push(query);
+    }
+    return data;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
-
-  return data;
 };
 const countPG211C = async (payload) => {
   let match_stage = [];
@@ -1725,13 +1729,17 @@ const countPG211C = async (payload) => {
 
   let data = [];
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const pipeline = [match_stage[i], group_stage];
-    const query = await Umum.aggregate(pipeline);
-    data.push(query);
+  try {
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline = [match_stage[i], group_stage];
+      const query = await Umum.aggregate(pipeline);
+      data.push(query);
+    }
+    return data;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
-
-  return data;
 };
 const countPG214 = async (payload) => {
   const match_stage = {
@@ -5688,13 +5696,17 @@ const countPGPR201Baru = async (payload) => {
 
   let data = [];
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const pipeline = [match_stage[i], group_stage];
-    const query = await Umum.aggregate(pipeline);
-    data.push(query);
+  try {
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline = [match_stage[i], group_stage];
+      const query = await Umum.aggregate(pipeline);
+      data.push(query);
+    }
+    return data;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
-
-  return data;
 };
 //Reten Sekolah (Lama)
 const countPG201 = async (klinik, bulan, sekolah) => {
@@ -13804,23 +13816,28 @@ const countGender = async (payload) => {
   let dataPerempuan = [];
   let bigData = [];
 
-  for (let i = 0; i < match_stage_lelaki.length; i++) {
-    const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
-    dataLelaki.push(result[0]);
+  try {
+    for (let i = 0; i < match_stage_lelaki.length; i++) {
+      const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
+      dataLelaki.push(result[0]);
+    }
+
+    for (let i = 0; i < match_stage_perempuan.length; i++) {
+      const result = await Umum.aggregate([
+        match_stage_perempuan[i],
+        group_stage,
+      ]);
+      dataPerempuan.push(result[0]);
+    }
+
+    bigData.push({ dataLelaki });
+    bigData.push({ dataPerempuan });
+
+    return bigData;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
-
-  for (let i = 0; i < match_stage_perempuan.length; i++) {
-    const result = await Umum.aggregate([
-      match_stage_perempuan[i],
-      group_stage,
-    ]);
-    dataPerempuan.push(result[0]);
-  }
-
-  bigData.push({ dataLelaki });
-  bigData.push({ dataPerempuan });
-
-  return bigData;
 };
 const countMasa = async (payload) => {
   let match_stage_op = [];
@@ -14157,28 +14174,33 @@ const countMasa = async (payload) => {
   let temujanjiData = [];
   let opData = [];
 
-  for (let i = 0; i < match_stage_op.length; i++) {
-    const dataOp = await Umum.aggregate([
-      match_stage_op[i],
-      add_fields_stage,
-      group_stage,
-    ]);
-    opData.push(dataOp);
+  try {
+    for (let i = 0; i < match_stage_op.length; i++) {
+      const dataOp = await Umum.aggregate([
+        match_stage_op[i],
+        add_fields_stage,
+        group_stage,
+      ]);
+      opData.push(dataOp);
+    }
+
+    for (let i = 0; i < match_stage_temujanji.length; i++) {
+      const dataTemujanji = await Umum.aggregate([
+        match_stage_temujanji[i],
+        add_fields_stage,
+        group_stage,
+      ]);
+      temujanjiData.push(dataTemujanji);
+    }
+
+    bigData.push({ opData });
+    bigData.push({ temujanjiData });
+
+    return bigData;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
-
-  for (let i = 0; i < match_stage_temujanji.length; i++) {
-    const dataTemujanji = await Umum.aggregate([
-      match_stage_temujanji[i],
-      add_fields_stage,
-      group_stage,
-    ]);
-    temujanjiData.push(dataTemujanji);
-  }
-
-  bigData.push({ opData });
-  bigData.push({ temujanjiData });
-
-  return bigData;
 };
 const countBp = async (payload) => {
   //
@@ -14425,37 +14447,48 @@ const countBp = async (payload) => {
   let dayak = [];
   let lain2 = [];
 
-  for (let i = 0; i < match_stage_melayu.length; i++) {
-    const dataMelayu = await Umum.aggregate([
-      match_stage_melayu[i],
-      group_stage,
-    ]);
-    melayu.push(dataMelayu);
-  }
-  for (let i = 0; i < match_stage_cina.length; i++) {
-    const dataCina = await Umum.aggregate([match_stage_cina[i], group_stage]);
-    cina.push(dataCina);
-  }
-  for (let i = 0; i < match_stage_india.length; i++) {
-    const dataIndia = await Umum.aggregate([match_stage_india[i], group_stage]);
-    india.push(dataIndia);
-  }
-  for (let i = 0; i < match_stage_dayak.length; i++) {
-    const dataDayak = await Umum.aggregate([match_stage_dayak[i], group_stage]);
-    dayak.push(dataDayak);
-  }
-  for (let i = 0; i < match_stage_lain.length; i++) {
-    const dataLain = await Umum.aggregate([match_stage_lain[i], group_stage]);
-    lain2.push(dataLain);
-  }
+  try {
+    for (let i = 0; i < match_stage_melayu.length; i++) {
+      const dataMelayu = await Umum.aggregate([
+        match_stage_melayu[i],
+        group_stage,
+      ]);
+      melayu.push(dataMelayu);
+    }
+    for (let i = 0; i < match_stage_cina.length; i++) {
+      const dataCina = await Umum.aggregate([match_stage_cina[i], group_stage]);
+      cina.push(dataCina);
+    }
+    for (let i = 0; i < match_stage_india.length; i++) {
+      const dataIndia = await Umum.aggregate([
+        match_stage_india[i],
+        group_stage,
+      ]);
+      india.push(dataIndia);
+    }
+    for (let i = 0; i < match_stage_dayak.length; i++) {
+      const dataDayak = await Umum.aggregate([
+        match_stage_dayak[i],
+        group_stage,
+      ]);
+      dayak.push(dataDayak);
+    }
+    for (let i = 0; i < match_stage_lain.length; i++) {
+      const dataLain = await Umum.aggregate([match_stage_lain[i], group_stage]);
+      lain2.push(dataLain);
+    }
 
-  bigData.push({ melayu });
-  bigData.push({ cina });
-  bigData.push({ india });
-  bigData.push({ dayak });
-  bigData.push({ lain2 });
+    bigData.push({ melayu });
+    bigData.push({ cina });
+    bigData.push({ india });
+    bigData.push({ dayak });
+    bigData.push({ lain2 });
 
-  return bigData;
+    return bigData;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
+  }
 };
 const countBPE = async (payload) => {
   //
@@ -14874,12 +14907,17 @@ const countBPE = async (payload) => {
   // bismillah
   let bigData = [];
 
-  for (let i = 0; i < match_stage.length; i++) {
-    const pipeline = [match_stage[i], group_stage];
-    const dataBPE = await Umum.aggregate(pipeline);
-    bigData.push(dataBPE);
+  try {
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline = [match_stage[i], group_stage];
+      const dataBPE = await Umum.aggregate(pipeline);
+      bigData.push(dataBPE);
+    }
+    return bigData;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
-  return bigData;
 };
 
 // new lagi
@@ -15854,11 +15892,16 @@ const countPG201P2 = async (payload) => {
   //   const dataPGS203 = await Umum.aggregate(pipeline);
   //   bigData.push(dataPGS203);
   // }
-  for (const stage of match_stage) {
-    const dataPG201P2 = await Umum.aggregate([...stage, ...group_stage]);
-    bigData.push(dataPG201P2);
+  try {
+    for (const stage of match_stage) {
+      const dataPG201P2 = await Umum.aggregate([...stage, ...group_stage]);
+      bigData.push(dataPG201P2);
+    }
+    return bigData;
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
-  return bigData;
 };
 
 // helper function
