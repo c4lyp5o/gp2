@@ -124,23 +124,29 @@ exports.startQueue = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        console.log('dah kurangkan token ' + accountType);
-        logger.info('dah kurangkan token' + accountType);
+        console.log('dah kurangkan token ' + username);
+        logger.info('dah kurangkan token' + username);
       } else {
-        console.log('not production and ' + accountType);
-        logger.info('not production and ' + accountType);
+        console.log('not production and ' + username);
+        logger.info('not production and ' + username);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
     })
   );
+
+  console.log('que superadmin sekarang: ' + downloadQueue.length());
+  logger.info('que superadmin sekarang: ' + downloadQueue.length());
 };
 
 // kp
 exports.startQueueKp = async function (req, res) {
   // get userdata
   const { authorization } = req.headers;
-  const { username } = jwt.verify(authorization, process.env.JWT_SECRET);
+  const { username, accountType } = jwt.verify(
+    authorization,
+    process.env.JWT_SECRET
+  );
   //
   const { jenisReten, fromEtl } = req.query;
   //
@@ -205,14 +211,19 @@ exports.startQueueKp = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        console.log('dah kurangkan token');
+        console.log('dah kurangkan token ' + username);
+        logger.info('dah kurangkan token' + username);
       } else {
-        console.log('not production and ' + accountType);
+        console.log('not production and ' + username);
+        logger.info('not production and ' + username);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
     })
   );
+
+  console.log('que kp sekarang: ' + downloadQueueKp.length());
+  logger.info('que kp sekarang: ' + downloadQueueKp.length());
 };
 
 // helper
