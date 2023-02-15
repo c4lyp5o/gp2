@@ -16131,7 +16131,6 @@ const getParams206 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: true,
@@ -16200,7 +16199,6 @@ const getParams206sekolah = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: true,
@@ -16269,7 +16267,6 @@ const getParams207 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: true,
@@ -16338,7 +16335,6 @@ const getParams207sekolah = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: true,
