@@ -78,7 +78,6 @@ export default function Rawatan(props) {
                                 setShowKesSelesai(true);
                                 setPilihanRawatan(
                                   e.map((item) => {
-                                    console.log(item.value);
                                     return item.value;
                                   })
                                 );
@@ -93,7 +92,6 @@ export default function Rawatan(props) {
                                   })
                                 );
                               }
-                              console.log(pilihanRawatan);
                             }}
                           />
                         ) : null}

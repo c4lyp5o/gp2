@@ -2075,7 +2075,7 @@ export function InputEditEvent(props) {
 }
 
 export function InputKpAddEvent(props) {
-  const { getCurrentUser } = useGlobalAdminAppContext();
+  const { getCurrentUser, toast } = useGlobalAdminAppContext();
 
   const [loginInfo, setLoginInfo] = useState({
     negeri: 'SIAPA NEGERI KAU HA???', // initial state ni kena ada, kalau x nanti dia error
@@ -2091,6 +2091,9 @@ export function InputKpAddEvent(props) {
     };
     getUser().catch((err) => {
       console.log(err);
+      toast.error(
+        'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: input-kp-tambah-program'
+      );
     });
   }, []);
 
@@ -2891,7 +2894,6 @@ export function InputKpEditEvent(props) {
                               className='border-2 w-48 mr-1'
                               value={props.editedEntity.penggunaanKpb}
                               onChange={(e) => {
-                                console.log(e.target.value);
                                 props.setEditedEntity({
                                   ...props.editedEntity,
                                   penggunaanKpb: e.target.value,

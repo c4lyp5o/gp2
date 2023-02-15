@@ -85,8 +85,7 @@ const initialDataKlinik = async (allDaerah) => {
 };
 
 const initiateETL = async (req, res) => {
-  console.log(`ETL initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
-  logger.info(`ETL initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
+  logger.info(`[ETL]initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
   try {
     // first launch
     const negeri = await initialDataNegeri();
@@ -110,11 +109,8 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        console.log(
-          `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
-        );
         logger.info(
-          `generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
+          `[ETL] generating monthly data ${monthlyCount[j].name} for ${negeri[i]}`
         );
         const data = await monthlyCount[j].func(payload);
         const dataObj = {
@@ -152,11 +148,8 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        console.log(
-          `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
-        );
         logger.info(
-          `generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
+          `[ETL] generating monthly data ${monthlyCount[j].name} for ${daerah[i].daerah}`
         );
         const data = await monthlyCount[j].func(payload);
         const dataObj = {
@@ -194,11 +187,8 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        console.log(
-          `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
-        );
         logger.info(
-          `generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
+          `[ETL] generating monthly data ${monthlyCount[j].name} for ${klinik[i].kodFasiliti}`
         );
         const data = await monthlyCount[j].func(payload);
         const dataObj = {
@@ -218,11 +208,13 @@ const initiateETL = async (req, res) => {
       }
     }
     // }
+    logger.info(`ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
     res
       .status(200)
       .json({ msg: 'ETL initiated. May the server is not on fire now' });
   } catch (error) {
     console.log(error);
+    logger.error(error);
     res
       .status(error.statusCode || 500)
       .json({ msg: error.message } || { msg: 'Internal Server Error' });

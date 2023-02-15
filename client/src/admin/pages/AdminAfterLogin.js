@@ -120,7 +120,9 @@ export default function AdminAfterLogin() {
       });
     };
     getUser().catch((err) => {
-      console.log(err);
+      toast.error(
+        'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-login'
+      );
       logOutUser();
     });
     logOutNotiSystem();

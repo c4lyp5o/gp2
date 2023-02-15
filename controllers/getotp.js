@@ -30,7 +30,7 @@ const saveTempKey = async (req, res) => {
   };
   transporter.sendMail(mailOptions, (err, info) => {
     if (err) {
-      console.log(err);
+      logger.error(err);
       return res.status(500).json({
         status: 'error',
         message: 'Email tidak dapat dihantar',
