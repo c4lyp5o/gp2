@@ -1218,7 +1218,7 @@ const makePG214 = async (payload) => {
     //
     let rowNew;
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data[0].PG214.length; i++) {
       if (data[0].PG214[i]) {
         switch (data[0].PG214[i]._id) {
           case '60':
@@ -1733,8 +1733,8 @@ const makePG207 = async (payload) => {
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
-    worksheet.getCell('AO5').value = monthName;
-    worksheet.getCell('AU5').value = yearNow;
+    worksheet.getCell('AO6').value = monthName;
+    worksheet.getCell('AU6').value = yearNow;
 
     if (pilihanIndividu) {
       const currentIndividu = await Operator.findOne({
