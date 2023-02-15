@@ -161,7 +161,7 @@ const ModalGenerateAdHoc = (props) => {
           break;
         default:
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila cuba lagi'
+            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
           );
           break;
       }
@@ -862,7 +862,9 @@ const ModalGenerateBulanan = (props) => {
           );
           break;
         default:
-          toast.error('Internal Server Error');
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
+          );
           break;
       }
     }
@@ -1800,7 +1802,7 @@ const Generate = (props) => {
         <h1 className='font-bold text-lg text-user1 mb-2'>
           Penjanaan Laporan bagi {currentUser}
         </h1>
-        <div className='flex flex-col items-center gap-1'>
+        <div className='flex flex-col items-center gap-1 normal-case'>
           <p>
             1. Penjanaan Laporan Mengikut Tarikh (secara adhoc) dihadkan kepada
             jumlah baki token yang tinggal (buat sementara waktu sahaja)

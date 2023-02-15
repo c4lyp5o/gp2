@@ -115,7 +115,7 @@ const ModalGenerateAdHoc = (props) => {
           break;
         default:
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila cuba lagi'
+            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
           );
           break;
       }
@@ -637,7 +637,7 @@ const ModalGenerateBulanan = (props) => {
           break;
         default:
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila cuba lagi'
+            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
           );
           break;
       }
