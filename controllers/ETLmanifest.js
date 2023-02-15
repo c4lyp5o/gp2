@@ -85,7 +85,9 @@ const initialDataKlinik = async (allDaerah) => {
 };
 
 const initiateETL = async (req, res) => {
-  ETLLogger.info(`[ETL]initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`);
+  ETLLogger.info(
+    `[ETL] initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+  );
   try {
     // first launch
     const negeri = await initialDataNegeri();
