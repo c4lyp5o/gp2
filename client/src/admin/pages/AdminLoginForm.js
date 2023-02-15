@@ -361,10 +361,11 @@ export default function AdminLoginForm() {
     const getData = async () => {
       try {
         const response = await readNegeri();
-        // console.log(response.data);
         setAllNegeri(response.data);
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadnegeri'
+        );
       }
     };
     getData();
@@ -377,10 +378,12 @@ export default function AdminLoginForm() {
     const getData = async () => {
       try {
         const response = await readDaerah(pilihanNegeri);
-        // console.log(response.data);
         setAllDaerah(response.data);
-      } catch (e) {
-        console.log(e);
+      } catch (error) {
+        console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loaddaerah'
+        );
       }
     };
     getData();
@@ -393,13 +396,12 @@ export default function AdminLoginForm() {
     const getData = async () => {
       try {
         const response = await readKlinik(pilihanDaerah);
-        // console.log(response.data);
         setAllKlinik(response.data);
-      } catch (e) {
-        console.log(e);
-        // toast.error(
-        //   'Tiada Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
-        // );
+      } catch (error) {
+        console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadklinik'
+        );
       }
     };
     getData();
@@ -412,14 +414,12 @@ export default function AdminLoginForm() {
     const getData = async () => {
       try {
         const response = await readAdmins(pilihanKlinik);
-        // console.log(response.data);
         setAllAdmin(response.data);
-      } catch (e) {
-        console.log(e);
-        // toast.error(
-        //   'Tiada Pentadbir Klinik yang telah didaftarkan. Sila hubungi pentadbir daerah anda.'
-        // );
-        // setPilihanKlinik('');
+      } catch (error) {
+        console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadpentadbir'
+        );
       }
     };
     getData();

@@ -104,7 +104,6 @@ function KaunterAfterLogin() {
   useEffect(() => {
     logOutNotiSystem();
     setRefetchDateTime(!refetchDateTime);
-    console.log('kaunter kicker started & refetch kaunter datetime');
   }, [refreshTimer]);
 
   return (

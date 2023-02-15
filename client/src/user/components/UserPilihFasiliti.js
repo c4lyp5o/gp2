@@ -12,6 +12,7 @@ function UserPilihFasiliti() {
     setDisplayPilihFasiliti,
     navigate,
     catchAxiosErrorAndLogout,
+    toast,
   } = useGlobalUserAppContext();
 
   const [listPilihFasiliti, setListPilihFasiliti] = useState([]);
@@ -52,6 +53,9 @@ function UserPilihFasiliti() {
       navigate('/pengguna/landing');
     } catch (error) {
       console.log(error);
+      toast.error(
+        'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-pilih-fasiliti-handleSubmit'
+      );
     }
   };
 

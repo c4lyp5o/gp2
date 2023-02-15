@@ -1,9 +1,7 @@
 import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
 import Calendar from 'react-calendar';
 import moment from 'moment';
 import axios from 'axios';
-import { Spinner } from 'react-awesome-spinners';
 import {
   BsFillCircleFill,
   BsFillBookmarkXFill,
@@ -20,6 +18,7 @@ export default function UserStatusHarian() {
     dateToday,
     refreshTimer,
     setRefreshTimer,
+    toast,
   } = useGlobalUserAppContext();
 
   const [pickedDate, setPickedDate] = useState(
@@ -62,6 +61,9 @@ export default function UserStatusHarian() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-status-harian-query'
+        );
       }
     };
     query();
@@ -113,6 +115,9 @@ export default function UserStatusHarian() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-status-harian-fetchAllPersonUmum'
+        );
       }
     };
     fetchAllPersonUmum();

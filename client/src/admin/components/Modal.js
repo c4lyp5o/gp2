@@ -207,13 +207,6 @@ const AddModal = ({
         assignedByDaerah: true,
       };
     }
-    // if (FType === 'ins') {
-    //   Data = {
-    //     ...Data,
-    //     kategoriInstitusi: kategoriInstitusi,
-    //   };
-    // }
-    // console.log(Data);
     createData(FType, Data).then((res) => {
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
@@ -236,14 +229,11 @@ const AddModal = ({
   };
 
   useEffect(() => {
-    console.log(FType);
     if (FType === 'sr' || FType === 'sm') {
       pingApdmServer().then((res) => {
         if (res.status === 200) {
-          // statusApdm.current = true;
           setStatusApdm(true);
         } else {
-          // statusApdm.current = false;
           setStatusApdm(false);
         }
       });
@@ -400,7 +390,6 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
       };
     }
     createDataForKp(FType, Data).then((res) => {
-      console.log(res.data);
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
         setReload(!reload);
@@ -528,7 +517,6 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       };
     }
     updateData(FType, id, Data).then((res) => {
-      console.log(res.data);
       toast.info(`Data berjaya dikemaskini`);
       setShowEditModal(false);
       setReload(!reload);
@@ -862,7 +850,6 @@ const DeleteModal = ({
               return;
             }
             if (res.response.status !== 200) {
-              console.log(res);
               setShowDeleteModal(false);
               setDeletingData(false);
               toast.error(`${res.response.data.msg}`);

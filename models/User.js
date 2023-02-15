@@ -3,6 +3,7 @@ const jwt = require('jsonwebtoken');
 const bcryptjs = require('bcryptjs');
 const Runningnumber = require('./Runningnumber');
 const emailGen = require('../lib/emailgen');
+const logger = require('../logs/logger');
 
 const UserSchema = new mongoose.Schema({
   username: {
@@ -103,9 +104,9 @@ UserSchema.pre('save', async function () {
         }`;
         this.username = username;
       }
-      console.log('updateRunningNumber');
+      logger.info('[UserModel] updateRunningNumber');
     } catch (err) {
-      console.log(err);
+      logger.error(`[UserModel] updateRunningNumber ${err}`);
     }
   }
 });

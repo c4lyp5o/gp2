@@ -17,7 +17,7 @@ function Kaunter({
   createdByDaerah,
   createdByNegeri,
 }) {
-  const { kaunterToken, dateToday } = useGlobalUserAppContext();
+  const { kaunterToken, dateToday, toast } = useGlobalUserAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setIsLoading] = useState(true);
@@ -49,6 +49,9 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-fetch-person-umum'
+          );
         }
       };
       setSemuaProgram([]);
@@ -71,6 +74,9 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-fetch-jenis-program'
+          );
         }
       };
       fetchJenisProgram();
@@ -95,6 +101,9 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-fetch-person-umum-program-komuniti'
+          );
         }
       };
       fetchPersonUmum();

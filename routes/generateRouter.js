@@ -12,6 +12,6 @@ router.get('/download', adminAuth, generator.startQueue);
 router.get('/refresh', refreshAuth, generator.refreshTokens);
 
 // debug
-// router.get('/debug', generator.debug);
+router.get('/debug', generator.debug);
 
 module.exports = router;

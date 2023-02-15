@@ -6,6 +6,7 @@ const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
 const MediaSosial = require('../models/MediaSosial');
+const countRetenLogger = require('../logs/countRetenLogger');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
@@ -3350,7 +3351,8 @@ const countPG206 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 const countPG207 = async (payload) => {
@@ -5079,7 +5081,8 @@ const countPG207 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 const countPGPR201Lama = async (payload) => {
@@ -5726,14 +5729,11 @@ const countPG201 = async (klinik, bulan, sekolah) => {
   console.log('in year selector');
   let pilihanTahun = [];
   if (sekolah.match(/^RC|^RB/)) {
-    console.log('RC/RB');
     pilihanTahun = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'];
   }
   if (sekolah.match(/^RE|^RF|^RH|^RR/)) {
-    console.log('RE/RF/RH/RR');
     pilihanTahun = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
   }
-  console.log(pilihanTahun[0]);
   // sr/srpk/sm/smpk
   const match_grade1 = {
     $match: {
@@ -6849,7 +6849,8 @@ const countPG201 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 //Reten Sekolah (effective until Feb 2023)
@@ -6885,14 +6886,11 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
   console.log('in year selector');
   let pilihanTahun = [];
   if (sekolah.match(/^RC|^RB/)) {
-    console.log('RC/RB');
     pilihanTahun = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'];
   }
   if (sekolah.match(/^RE|^RF|^RH|^RR/)) {
-    console.log('RE/RF/RH/RR');
     pilihanTahun = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
   }
-  console.log(pilihanTahun[0]);
   // sr/srpk/sm/smpk
   const match_grade1 = {
     $match: {
@@ -7654,7 +7652,8 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 const countPG201A = async (klinik, bulan, sekolah) => {
@@ -7689,14 +7688,11 @@ const countPG201A = async (klinik, bulan, sekolah) => {
   console.log('in year selector');
   let pilihanTahun = [];
   if (sekolah.match(/^RC|^RB/)) {
-    console.log('RC/RB');
     pilihanTahun = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'];
   }
   if (sekolah.match(/^RE|^RF|^RH|^RR/)) {
-    console.log('RE/RF/RH/RR');
     pilihanTahun = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
   }
-  console.log(pilihanTahun[0]);
   // sr/srpk/sm/smpk
   const match_grade1 = {
     $match: {
@@ -8763,7 +8759,8 @@ const countPG201A = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 //Reten Sekolah (effective starting on March 2023)
@@ -8799,14 +8796,11 @@ const countPG201PindSatu2022 = async (payload) => {
   console.log('in year selector');
   let pilihanTahun = [];
   if (sekolah.match(/^RC|^RB/)) {
-    console.log('RC/RB');
     pilihanTahun = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'];
   }
   if (sekolah.match(/^RE|^RF|^RH|^RR/)) {
-    console.log('RE/RF/RH/RR');
     pilihanTahun = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
   }
-  console.log(pilihanTahun[0]);
   // sr/srpk/sm/smpk
   const match_grade1 = {
     $match: {
@@ -9812,7 +9806,8 @@ const countPG201PindSatu2022 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 //PGS203 yang focus pada taska and tadika - dengan harapan nanty campur dengan PGS203 Sek
@@ -11752,7 +11747,8 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 //Reten Sekolah (Kekal sampai diberitahu kelak)
@@ -11763,14 +11759,11 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
   console.log('in year selector');
   let pilihanTahun = [];
   if (sekolah.match(/^RC|^RB/)) {
-    console.log('RC/RB');
     pilihanTahun = ['D1', 'D2', 'D3', 'D4', 'D5', 'D6'];
   }
   if (sekolah.match(/^RE|^RF|^RH|^RR/)) {
-    console.log('RE/RF/RH/RR');
     pilihanTahun = ['T1', 'T2', 'T3', 'T4', 'T5', 'T6'];
   }
-  console.log(pilihanTahun[0]);
   // sr/srpk/sm/smpk
   const match_grade1 = {
     $match: {
@@ -12270,7 +12263,8 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 
@@ -12285,7 +12279,6 @@ const countAdHocQuery = async (
   bersekolah,
   pesara
 ) => {
-  console.log('x', x, 'y', y);
   const Dictionary = {
     '': false,
     Pegawai: '$createdByUsername',
@@ -12374,7 +12367,8 @@ const countAdHocQuery = async (
     }
     return query;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 
@@ -13000,8 +12994,9 @@ const countPGPro01 = async (payload) => {
       bigData.push(data[0]);
     }
     return bigData;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 const countPGPro02 = async (payload) => {
@@ -13223,7 +13218,6 @@ const countPGPro02 = async (payload) => {
   };
   // bismillah
   let bigData = await MediaSosial.aggregate([...match_stage, group_stage]);
-  console.log(bigData);
   return bigData;
 };
 const countPGPro01Combined = async (payload) => {
@@ -13582,7 +13576,8 @@ const countPGPro01Combined = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    console.log(error);
+    countRetenLogger.error(error);
+    return 'Error counting data';
   }
 };
 const countGender = async (payload) => {

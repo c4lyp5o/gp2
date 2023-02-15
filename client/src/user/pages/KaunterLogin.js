@@ -50,6 +50,9 @@ function KaunterLogin() {
         setListKlinik(data);
       } catch (error) {
         console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-login-fetchKlinik'
+        );
       }
     };
     fetchKlinik();
@@ -69,8 +72,8 @@ function KaunterLogin() {
         setUsername(data.username);
         setShowPasswordBox(true);
       } catch (error) {
-        toast.error('Klinik belum didaftarkan di modul Pentadbir Daerah');
         console.log(error);
+        toast.error('Klinik belum didaftarkan di modul Pentadbir Daerah');
       }
       setIsLoading(false);
     };

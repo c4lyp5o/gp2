@@ -20,6 +20,7 @@ const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
+const logger = require('../logs/logger');
 
 // helper
 const Helper = require('../controllers/countHelper');
@@ -114,27 +115,7 @@ const initialDataNegeri = async (req, res) => {
 };
 
 const initialDataDaerah = async (req, res) => {
-  // let cap;
   const { negeri } = req.query;
-  // const spliced = negeri.split('negeri');
-  // if (spliced.includes('sembilan')) {
-  //   cap = 'Negeri Sembilan';
-  // } else {
-  //   cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
-  // }
-  // let real = cap;
-  // if (cap === 'Wpputrajaya' || cap === 'Wplabuan') {
-  //   real = cap.split('Wp');
-  //   real = `${real[1]}`;
-  //   real = real.charAt(0).toUpperCase() + real.slice(1);
-  //   real = `WP ${real}`;
-  // }
-  // if (cap === 'Wpkualalumpur') {
-  //   real = `WP Kuala Lumpur`;
-  // }
-  // if (cap === 'Pulaupinang') {
-  //   real = `Pulau Pinang`;
-  // }
   const all = await Superadmin.find({
     negeri: Dictionary[negeri],
     accountType: 'daerahSuperadmin',
@@ -160,8 +141,6 @@ const initialDataDaerah = async (req, res) => {
 
 const initialDataKlinik = async (req, res) => {
   const { daerah } = req.query;
-  // const spliced = daerah.split('sdo');
-  // const cap = spliced[1].charAt(0).toUpperCase() + spliced[1].slice(1);
   const admin = await Superadmin.find({ daerah: daerah });
   const all = await User.find({
     daerah: admin[0].daerah,
@@ -296,7 +275,6 @@ const checkUser = async (req, res) => {
   // if no superadmin
   if (!tempUser) {
     // check kp user
-    // const tempKpUser = await User.findOne({ username: username });
     let regNumber = {};
     if (username.includes('MDTB')) {
       regNumber.mdtbNumber = username;
@@ -339,7 +317,6 @@ const loginUser = async (req, res) => {
   const adminUser = await Superadmin.findOne({ user_name: username });
   // if kp
   if (!adminUser) {
-    console.log('kp user');
     let regNumber = {};
     let userData = {};
     if (username.includes('MDTB')) {
@@ -380,6 +357,7 @@ const loginUser = async (req, res) => {
     const token = jwt.sign(userData, process.env.JWT_SECRET, {
       expiresIn: process.env.JWT_LIFETIME,
     });
+    logger.info(`kpUser ${kpUser.username | kpUser.officername} logged in`);
     return res.status(200).json({
       status: 'success',
       adminToken: token,
@@ -388,7 +366,6 @@ const loginUser = async (req, res) => {
   // if admin
   // check if using totp or not
   if (adminUser.totp) {
-    console.log('totp');
     const verified = speakeasy.totp.verify({
       secret: adminUser.hex,
       encoding: 'hex',
@@ -401,6 +378,7 @@ const loginUser = async (req, res) => {
         message: 'Nombor TOTP anda salah. Sila isi sekali lagi',
       });
     }
+    logger.info(`superadminUser ${adminUser.user_name} logged in using totp`);
     return res.status(200).json({
       status: 'success',
       adminToken: adminUser.createJWT(),
@@ -413,6 +391,9 @@ const loginUser = async (req, res) => {
       message: 'Kunci verifikasi anda salah. Sila isi sekali lagi',
     });
   }
+  logger.info(
+    `superadminUser ${adminUser.user_name} logged in using generated password`
+  );
   return res.status(200).json({
     status: 'success',
     adminToken: adminUser.createJWT(),
@@ -420,7 +401,6 @@ const loginUser = async (req, res) => {
 };
 
 const getDataRoute = async (req, res) => {
-  console.log('getRoute');
   // 1st phase
   const authKey = req.headers.authorization;
   const currentUser = await Superadmin.findById(
@@ -429,6 +409,9 @@ const getDataRoute = async (req, res) => {
   const { negeri, daerah, user_name } = currentUser.getProfile();
   const { FType, kp } = req.query;
   const type = Dictionary[FType];
+  logger.info(
+    `[getDataRoute] superadminUser ${user_name} requested ${type} data`
+  );
   // 2nd phase
   let data, countedData, owner;
   switch (type) {
@@ -597,7 +580,6 @@ const getDataRoute = async (req, res) => {
 };
 
 const getDataKpRoute = async (req, res) => {
-  console.log('getRouteKp');
   // 1st phase
   const authKey = req.headers.authorization;
   const { kp, daerah, negeri, kodFasiliti, username } = jwt.verify(
@@ -606,6 +588,7 @@ const getDataKpRoute = async (req, res) => {
   );
   const { FType } = req.query;
   const type = Dictionary[FType];
+  logger.info(`[getDataKpRoute] kpUser ${username} requested ${type} data`);
   // 2nd phase
   let data, countedData;
   switch (type) {
@@ -785,16 +768,12 @@ const getDataKpRoute = async (req, res) => {
 };
 
 const getOneDataRoute = async (req, res) => {
-  console.log('getOneDataRoute');
   // 1st phase
-  const authKey = req.headers.authorization;
-  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
-    authKey,
-    process.env.JWT_SECRET
-  );
   const { FType, Id } = req.query;
   const type = Dictionary[FType];
-  console.log(type);
+  logger.info(
+    `[getOneDataRoute] superadminUser requested ${type} data with id ${Id}`
+  );
   // 2nd phase
   let data;
   switch (type) {
@@ -817,16 +796,12 @@ const getOneDataRoute = async (req, res) => {
 };
 
 const getOneDataKpRoute = async (req, res) => {
-  console.log('getOneDataKpRoute');
   // 1st phase
-  const authKey = req.headers.authorization;
-  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
-    authKey,
-    process.env.JWT_SECRET
-  );
   const { FType, Id } = req.query;
   const type = Dictionary[FType];
-  console.log(type);
+  logger.info(
+    `[getOneDataKpRoute] kpUser requested ${type} data with id ${Id}`
+  );
   // 2nd phase
   let data;
   switch (type) {
@@ -846,13 +821,11 @@ const getOneDataKpRoute = async (req, res) => {
 };
 
 const getStatisticsData = async (req, res) => {
-  console.log('getStatisticsRoute');
   // 1st phase
   const authKey = req.headers.authorization;
   const currentUser = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
-  // console.log(req.query);
   let negeri, daerah;
   const userData = currentUser.getProfile();
   if (userData.negeri === '-') {
@@ -865,7 +838,6 @@ const getStatisticsData = async (req, res) => {
   // 2nd phase
   let data;
   if (negeri && daerah) {
-    console.log('get daerah');
     // data = await User.find({ negeri: negeri, daerah: daerah }).distinct('kp');
     data = await Umum.find({
       createdByNegeri: negeri,
@@ -876,7 +848,6 @@ const getStatisticsData = async (req, res) => {
       )
       .lean();
   } else if (negeri && !daerah) {
-    console.log('get negeri');
     // data = await User.find({ negeri: negeri }).distinct('daerah');
     data = await Umum.find({ createdByNegeri: negeri })
       .select(
@@ -912,7 +883,7 @@ const getData = async (req, res) => {
       var { daerah, negeri } = currentUser.getProfile();
       switch (Fn) {
         case 'create':
-          console.log('create for', theType);
+          logger.info(`[DataCenter] ${currentUser.user_name} using create`);
           if (
             theType !== 'pegawai' &&
             theType !== 'klinik' &&
@@ -931,6 +902,9 @@ const getData = async (req, res) => {
               createdByDaerah: daerah,
               createdByNegeri: negeri,
             };
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+            );
             const data = await Fasiliti.create(Data);
             res.status(200).json(data);
           }
@@ -939,7 +913,6 @@ const getData = async (req, res) => {
               mdcNumber: Data.mdcNumber,
             });
             if (exists) {
-              console.log('exists pegawai?');
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
@@ -952,6 +925,9 @@ const getData = async (req, res) => {
               exists.rolePromosiKlinik = Data.rolePromosiKlinik;
               exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
+              logger.info(
+                `[DataCenter] ${currentUser.user_name} reactivated ${theType} - ${Data.nama}`
+              );
               return res.status(200).json(prevOfficer);
             }
             Data = {
@@ -959,8 +935,10 @@ const getData = async (req, res) => {
               createdByDaerah: daerah,
               createdByNegeri: negeri,
             };
-            console.log(Data);
             const data = await Operator.create(Data);
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'juruterapi pergigian') {
@@ -968,7 +946,6 @@ const getData = async (req, res) => {
               mdtbNumber: Data.mdtbNumber,
             });
             if (exists) {
-              console.log('exists jp?');
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
               exists.kpSkrg = Data.kpSkrg;
@@ -981,6 +958,9 @@ const getData = async (req, res) => {
               exists.rolePromosiKlinik = Data.rolePromosiKlinik;
               exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
               const prevOfficer = await exists.save();
+              logger.info(
+                `[DataCenter] ${currentUser.user_name} reactivated ${theType} - ${Data.nama}`
+              );
               return res.status(200).json(prevOfficer);
             }
             Data = {
@@ -988,8 +968,10 @@ const getData = async (req, res) => {
               createdByDaerah: daerah,
               createdByNegeri: negeri,
             };
-            console.log(Data);
             const data = await Operator.create(Data);
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'klinik') {
@@ -1018,7 +1000,6 @@ const getData = async (req, res) => {
                 accountType: 'kaunterUser',
                 password: generateRandomString(8),
               });
-              console.log('tempKaunter:', tempKaunter);
               // creating generic 5 JP when creating clinic
               for (let ojp = 1; ojp < 6; ojp++) {
                 const ojpGen = {
@@ -1043,9 +1024,11 @@ const getData = async (req, res) => {
                   activationStatus: true,
                 };
                 const ojpGenCreated = await Operator.create(ojpGen);
-                console.log(ojpGenCreated);
               }
             });
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kp}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'taska' || theType === 'tadika') {
@@ -1064,6 +1047,9 @@ const getData = async (req, res) => {
                 createdByNegeri: negeri,
               };
               const data = await Fasiliti.create(Data);
+              logger.info(
+                `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+              );
               res.status(200).json(data);
             }
           }
@@ -1084,6 +1070,9 @@ const getData = async (req, res) => {
                 createdByNegeri: negeri,
               };
               const data = await Fasiliti.create(Data);
+              logger.info(
+                `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+              );
               res.status(200).json(data);
             }
           }
@@ -1100,7 +1089,6 @@ const getData = async (req, res) => {
               kodProgram: Data.kodProgram,
             });
             if (previousData.length === 0) {
-              console.log('previous data not found');
               delete Data.data[0].kodProgram;
               Data.data[0] = {
                 id: 1,
@@ -1109,7 +1097,6 @@ const getData = async (req, res) => {
               const createdSosmed = await Sosmed.create(Data);
               return res.status(200).json(createdSosmed);
             } else {
-              console.log('previous data got');
               delete Data.data[0].kodProgram;
               const lastData = previousData[0].data.length;
               const lastIdofData = previousData[0].data[lastData - 1].id;
@@ -1122,11 +1109,17 @@ const getData = async (req, res) => {
                 { $push: { data: Data.data[0] } },
                 { new: true }
               );
+              logger.info(
+                `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kodProgram}`
+              );
               res.status(200).json(updatedSosmed);
             }
           }
           if (theType === 'followers') {
             const createFollowerData = await Followers.create(Data);
+            logger.info(
+              `${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
+            );
             res.status(200).json(createFollowerData);
           }
           if (theType === 'program') {
@@ -1137,11 +1130,14 @@ const getData = async (req, res) => {
               Data.createdByDaerah = daerah;
             }
             const createProgramData = await Event.create(Data);
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
+            );
             res.status(200).json(createProgramData);
           }
           break;
         case 'update':
-          console.log('update for', theType);
+          logger.info(`[DataCenter] ${currentUser.user_name} using update`);
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
@@ -1153,6 +1149,9 @@ const getData = async (req, res) => {
               { $set: Data },
               { new: true }
             );
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.nama}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
@@ -1160,6 +1159,9 @@ const getData = async (req, res) => {
               { _id: Id },
               { $set: Data },
               { new: true }
+            );
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.nama}`
             );
             return res.status(200).json(data);
           }
@@ -1169,6 +1171,9 @@ const getData = async (req, res) => {
               { $set: Data },
               { new: true }
             );
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kp}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'program') {
@@ -1177,11 +1182,16 @@ const getData = async (req, res) => {
               { $set: Data },
               { new: true }
             );
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kodProgram}`
+            );
             return res.status(200).json(data);
           }
           break;
         case 'delete':
-          console.log('delete for', theType);
+          logger.info(
+            `[DataCenter] ${currentUser.user_name} using DataCenter - delete`
+          );
           if (
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
@@ -1191,6 +1201,9 @@ const getData = async (req, res) => {
             theType !== 'followers'
           ) {
             const data = await Fasiliti.findByIdAndDelete({ _id: Id });
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
@@ -1198,6 +1211,9 @@ const getData = async (req, res) => {
             data.activationStatus = false;
             data.tempatBertugasSebelumIni.push(data.kpSkrg);
             await data.save();
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} deactivated ${theType} - ${data.nama}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'klinik') {
@@ -1262,6 +1278,9 @@ const getData = async (req, res) => {
                 }
               }
             });
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.kp}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'program') {
@@ -1279,6 +1298,9 @@ const getData = async (req, res) => {
               });
             }
             const data = await Event.findByIdAndDelete({ _id: Id });
+            logger.info(
+              `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
+            );
             return res.status(200).json(data);
           }
           if (theType === 'sosmed') {
@@ -1297,12 +1319,18 @@ const getData = async (req, res) => {
                 kodProgram: Id.kodProgram,
                 belongsTo: owner,
               });
+              logger.info(
+                `[DataCenter] ${currentUser.user_name} deleted ${theType} - ${deletedSosmed.kodProgram}`
+              );
               return res.status(200).json(deletedSosmed);
             } else {
               const deletedSosmed = await Sosmed.findOneAndUpdate(
                 { kodProgram: Id.kodProgram, belongsTo: owner },
                 { $pull: { data: { id: Id.id } } },
                 { new: true }
+              );
+              logger.info(
+                `[DataCenter] ${currentUser.user_name} deleted one activity ${theType} - ${deletedSosmed.kodProgram}`
               );
               res.status(200).json(deletedSosmed);
             }
@@ -1318,10 +1346,9 @@ const getData = async (req, res) => {
         token,
         process.env.JWT_SECRET
       );
-      console.log(FType);
       switch (Fn) {
         case 'create':
-          console.log('create for kpcenter');
+          logger.info(`[KpCenter] ${kp} using create`);
           switch (FType) {
             case 'program':
               Data = {
@@ -1332,25 +1359,28 @@ const getData = async (req, res) => {
                 createdByNegeri: negeri,
               };
               const createdEvent = await Event.create(Data);
+              logger.info(
+                `[KpCenter] ${kp} created ${theType} - ${createdEvent.nama}`
+              );
               res.status(200).json(createdEvent);
               break;
             case 'sosmed':
-              console.log(kp);
               const previousData = await Sosmed.find({
                 belongsTo: kp,
                 kodProgram: Data.kodProgram,
               });
               if (previousData.length === 0) {
-                console.log('previous data not found');
                 delete Data.data[0].kodProgram;
                 Data.data[0] = {
                   id: 1,
                   ...Data.data[0],
                 };
                 const createdSosmed = await Sosmed.create(Data);
+                logger.info(
+                  `[KpCenter] ${kp} created ${theType} - ${createdSosmed.kodProgram}`
+                );
                 return res.status(200).json(createdSosmed);
               } else {
-                console.log('previous data got');
                 delete Data.data[0].kodProgram;
                 const lastData = previousData[0].data.length;
                 const lastIdofData = previousData[0].data[lastData - 1].id;
@@ -1363,11 +1393,17 @@ const getData = async (req, res) => {
                   { $push: { data: Data.data[0] } },
                   { new: true }
                 );
+                logger.info(
+                  `[KpCenter] ${kp} updated one activity ${theType} - ${updatedSosmed.kodProgram}`
+                );
                 res.status(200).json(updatedSosmed);
               }
               break;
             case 'followers':
               const createFollowerData = await Followers.create(Data);
+              logger.info(
+                `[KpCenter] ${kp} created ${theType} - ${createFollowerData.namaPlatform}`
+              );
               res.status(200).json(createFollowerData);
               break;
             default:
@@ -1376,13 +1412,16 @@ const getData = async (req, res) => {
           }
           break;
         case 'update':
-          console.log('update for kpcenter');
+          logger.info(`[KpCenter] ${kp} using update`);
           switch (FType) {
             case 'program':
               const updateEvent = await Event.findByIdAndUpdate(
                 { _id: Id },
                 { $set: Data },
                 { new: true }
+              );
+              logger.info(
+                `[KpCenter] ${kp} updated ${theType} - ${updateEvent.nama}`
               );
               res.status(200).json(updateEvent);
               break;
@@ -1393,6 +1432,9 @@ const getData = async (req, res) => {
                 { $set: Data },
                 { new: true }
               );
+              logger.info(
+                `[KpCenter] ${kp} updated CSCSP ${theType} - ${updatePP.nama}`
+              );
               res.status(200).json(updatePP);
               break;
             case 'tastad':
@@ -1400,6 +1442,9 @@ const getData = async (req, res) => {
                 { _id: Id },
                 { $set: Data },
                 { new: true }
+              );
+              logger.info(
+                `[KpCenter] ${kp} updated enrolmen ${theType} - ${updateTastad.nama}`
               );
               res.status(200).json(updateTastad);
               break;
@@ -1410,6 +1455,9 @@ const getData = async (req, res) => {
                 { $push: { penggunaanKPBMPB: Data } },
                 { new: true }
               );
+              logger.info(
+                `[KpCenter] ${kp} updated penggunaan ${theType} - ${updateKpb.nama}`
+              );
               res.status(200).json(updateKpb);
               break;
             default:
@@ -1418,7 +1466,7 @@ const getData = async (req, res) => {
           }
           break;
         case 'delete':
-          console.log('delete for kpcenter');
+          logger.info(`[KpCenter] ${kp} using delete`);
           switch (FType) {
             case 'program':
               const program = await Event.findOne({ _id: Id });
@@ -1430,12 +1478,12 @@ const getData = async (req, res) => {
                 deleted: false,
               });
               if (exists.length > 0) {
-                console.log('patients registered under the program');
                 return res.status(409).json({
                   msg: `Program tidak boleh dihapus kerana ada pesakit yang didaftarkan. Jumlah pesakit: ${exists.length}`,
                 });
               }
               const data = await Event.findByIdAndDelete({ _id: Id });
+              logger.info(`[KpCenter] ${kp} deleted ${theType} - ${data.nama}`);
               res.status(200).json(data);
               break;
             case 'sosmed':
@@ -1447,12 +1495,18 @@ const getData = async (req, res) => {
                   kodProgram: Id.kodProgram,
                   belongsTo: kp,
                 });
+                logger.info(
+                  `[KpCenter] ${kp} deleted ${theType} - ${deletedSosmed.kodProgram}`
+                );
                 return res.status(200).json(deletedSosmed);
               } else {
                 const deletedSosmed = await Sosmed.findOneAndUpdate(
                   { kodProgram: Id.kodProgram, belongsTo: kp },
                   { $pull: { data: { id: Id.id } } },
                   { new: true }
+                );
+                logger.info(
+                  `[KpCenter] ${kp} deleted one activity ${theType} - ${deletedSosmed.kodProgram}`
                 );
                 res.status(200).json(deletedSosmed);
               }
@@ -1473,7 +1527,7 @@ const getData = async (req, res) => {
           console.log('create for superadmincenter');
           break;
         case 'read':
-          console.log('read for superadmincenter');
+          logger.info('SuperadminCenter - read accessed');
           const all = await Superadmin.find({});
           const allKlinik = await User.find({
             role: 'klinik',
@@ -1541,7 +1595,7 @@ const getData = async (req, res) => {
           res.status(200).json(cleanData);
           break;
         case 'readDaerah':
-          console.log('readDaerah for superadmincenter');
+          logger.info('[SuperadminCenter] readDaerah accessed');
           var u = await Superadmin.findById(
             jwt.verify(token, process.env.JWT_SECRET).userId
           );
@@ -1554,7 +1608,7 @@ const getData = async (req, res) => {
           res.status(200).json(daerahOnly);
           break;
         case 'readKlinik':
-          console.log('readKlinik for superadmincenter');
+          logger.info('[SuperadminCenter] readKlinik accessed');
           var u = await Superadmin.findById(
             jwt.verify(token, process.env.JWT_SECRET).userId
           );
@@ -1602,7 +1656,7 @@ const getData = async (req, res) => {
       var { username, password, data } = req.body;
       switch (Fn) {
         case 'create':
-          console.log('create for user');
+          logger.info('[UserCenter] create accessed');
           const { user_name, daerah, negeri, e_mail, accountType } = req.body;
           // const regData = await Superadmin.create({
           //   user_name: user_name,
@@ -1617,15 +1671,16 @@ const getData = async (req, res) => {
             const regData = await Superadmin.create(SuperadminList);
             return res.status(201).json(regData);
           }
-          // res.status(200).json(regData);
           break;
         case 'read':
-          console.log('read for user');
+          logger.info(
+            `[UserCenter] read accessed to get current logged in user info`
+          );
           const userData = await readUserData(token);
           res.status(200).json(userData);
           break;
         case 'readOne':
-          console.log('readOne for user');
+          logger.info(`[UserCenter] ${username} being checked in readOne`);
           const tempUser = await Superadmin.findOne({ user_name: username });
           // if no superadmin
           if (!tempUser) {
@@ -1652,18 +1707,17 @@ const getData = async (req, res) => {
           }
           // if not using totp
           const currentMail = await sendVerificationEmail(tempUser._id);
-          return res.status(200).json({
+          res.status(200).json({
             status: 'success',
             email: currentMail,
             totp: false,
           });
           break;
         case 'update':
-          console.log('update for user');
+          logger.info(`[UserCenter] ${username} submitting in update`);
           const adminUser = await Superadmin.findOne({ user_name: username });
           // if kp
           if (!adminUser) {
-            console.log('kp user');
             const kpUser = await User.findOne({ username: username });
             if (password !== kpUser.password) {
               return res.status(401).json({
@@ -1679,7 +1733,6 @@ const getData = async (req, res) => {
           // if kp
           // check if using totp or not
           if (adminUser.totp) {
-            console.log('totp');
             const verified = speakeasy.totp.verify({
               secret: adminUser.hex,
               encoding: 'hex',
@@ -1704,13 +1757,13 @@ const getData = async (req, res) => {
               message: 'Kunci verifikasi anda salah. Sila isi sekali lagi',
             });
           }
-          return res.status(200).json({
+          res.status(200).json({
             status: 'success',
             adminToken: adminUser.createJWT(),
           });
           break;
         case 'updateOne':
-          console.log('updateOne for user');
+          logger.info(`[UserCenter] ${username} updating info in updateOne`);
           const newToken = await updateUserData(token, data);
           res.status(200).json({
             status: 'success',
@@ -1731,11 +1784,11 @@ const getData = async (req, res) => {
           console.log('create for hq');
           break;
         case 'read':
-          console.log('read for hq');
           const { userId, accountType } = jwt.verify(
             token,
             process.env.JWT_SECRET
           );
+          logger.info(`[HqCenter] ${accountType} ${userId} accessed read`);
           if (accountType === 'kpUser') {
             return res.status(200).json({
               status: 'success',
@@ -1748,7 +1801,6 @@ const getData = async (req, res) => {
           let kpSelectionPayload = {};
           let ptSelectionPayload = {};
           if (accountType === 'hqSuperadmin') {
-            console.log('superadmin query');
             kpSelectionPayload = {
               accountType: 'kpUser',
             };
@@ -2000,7 +2052,7 @@ const getData = async (req, res) => {
           }
           return res.status(200).json(data);
         case 'readOne':
-          console.log('readOne for hq');
+          logger.info(`[HqCenter] readOne accessed`);
           const { id } = req.body;
           let klinikData = await User.find({
             kodFasiliti: id,
@@ -2097,10 +2149,12 @@ const getData = async (req, res) => {
       const userToken = req.body.token;
       switch (Fn) {
         case 'create':
-          console.log('create for totp');
           const { userId, username } = jwt.verify(
             userToken,
             process.env.JWT_SECRET
+          );
+          logger.info(
+            `[TotpManager] created totptoken for ${username} because accessing settings`
           );
           let backupCodes = [];
           let hashedBackupCodes = [];
@@ -2143,7 +2197,7 @@ const getData = async (req, res) => {
           });
           break;
         case 'read':
-          console.log('read for totp');
+          logger.info(`[TotpManager] read totptoken for validation`);
           const { totpCode } = req.body;
           const { base32 } = await Superadmin.findById(
             jwt.verify(token, process.env.JWT_SECRET).userId
@@ -2166,6 +2220,7 @@ const getData = async (req, res) => {
           }
           break;
         case 'update':
+          logger.info(`[TotpManager] update totptoken for validation`);
           const { initialTotpCode, initialTotpToken } = req.body;
           const { tempSecret: userSecret } = jwt.verify(
             initialTotpToken,
@@ -2178,7 +2233,6 @@ const getData = async (req, res) => {
             window: 1,
           });
           if (initialVerification) {
-            console.log('initial verification success');
             const initialAdmin = await Superadmin.findByIdAndUpdate(
               jwt.verify(token, process.env.JWT_SECRET).userId,
               {
@@ -2214,7 +2268,6 @@ const getData = async (req, res) => {
     case 'ImageResizer':
       switch (Fn) {
         case 'resize':
-          console.log('resize for image');
           const { image, type } = req.body;
           // const base64 = await resizeProfileImage(image, type);
           // if (base64 !== 'err') {
@@ -2242,7 +2295,6 @@ const getData = async (req, res) => {
           console.log('create for aq');
           break;
         case 'read':
-          console.log('read for aq');
           const { userId } = jwt.verify(token, process.env.JWT_SECRET);
           const { daerah, negeri } = await Superadmin.findOne({
             _id: userId,
@@ -2277,7 +2329,6 @@ const getData = async (req, res) => {
           console.log('create for promosi');
           break;
         case 'read':
-          console.log('read for promosi');
           const types = await PromosiType.find({ nama: 'current' });
           const { program } = types[0];
           res.status(200).json(program);
@@ -2320,18 +2371,6 @@ const sendVerificationEmail = async (userId) => {
     }
   };
   const key = generateRandomString(8);
-  // const superadmin = await Superadmin.findByIdAndUpdate(
-  //   userId,
-  //   { tempKey: key },
-  //   { new: true }
-  // );
-  // if (!superadmin) {
-  //   const superoperator = await Operator.findByIdAndUpdate(
-  //     userId,
-  //     { tempKey: key },
-  //     { new: true }
-  //   );
-  // }
   try {
     const superadmin = await Superadmin.findByIdAndUpdate(
       userId,

@@ -2,7 +2,8 @@ const log4js = require('log4js');
 
 log4js.configure({
   appenders: {
-    everything: {
+    console: { type: 'console' },
+    file: {
       type: 'file',
       filename: 'logs/everything.log',
       maxLogSize: 10485760,
@@ -15,11 +16,13 @@ log4js.configure({
     },
   },
   categories: {
-    default: { appenders: ['everything'], level: 'info' },
+    default: {
+      appenders: ['console', 'file'],
+      level: ['all'],
+    },
   },
 });
 
 const logger = log4js.getLogger();
-logger.level = 'info';
 
 module.exports = logger;

@@ -65,13 +65,11 @@ const ModalGenerateAdHoc = (props) => {
   const fileName = () => {
     let file = '';
     if (props.pilihanKkia !== '') {
-      console.log('kkia');
       file = `${props.jenisReten}_${props.namaKlinik}_${props.namaKkia
         .split(' | ')[1]
         .toUpperCase()}_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanProgram !== '') {
-      console.log('kd');
       file = `${props.jenisReten}_${
         props.namaKlinik
       }_${props.pilihanProgram.toUpperCase()}_${moment(new Date()).format(
@@ -84,19 +82,16 @@ const ModalGenerateAdHoc = (props) => {
       props.pilihanKkia === '' &&
       props.pilihanProgram === ''
     ) {
-      console.log('1');
       file = `${props.jenisReten}_${props.namaKlinik}_${moment(
         new Date()
       ).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanDaerah !== 'all' && props.pilihanKlinik === 'all') {
-      console.log('2');
       file = `${props.jenisReten}_${props.pilihanDaerah.toUpperCase()}_${moment(
         new Date()
       ).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanDaerah === 'all') {
-      console.log('3');
       file = `${
         props.jenisReten
       }_${props.loginInfo.negeri.toUpperCase()}_${moment(new Date()).format(
@@ -761,13 +756,11 @@ const ModalGenerateBulanan = (props) => {
   const fileName = () => {
     let file = '';
     if (props.pilihanKkia !== '') {
-      console.log('kkia');
       file = `${props.jenisReten}_${props.namaKlinik}_${props.namaKkia
         .split(' | ')[1]
         .toUpperCase()}_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanProgram !== '') {
-      console.log('kd');
       file = `${props.jenisReten}_${
         props.namaKlinik
       }_${props.pilihanProgram.toUpperCase()}_${moment(new Date()).format(
@@ -780,19 +773,16 @@ const ModalGenerateBulanan = (props) => {
       props.pilihanKkia === '' &&
       props.pilihanProgram === ''
     ) {
-      console.log('1');
       file = `${props.jenisReten}_${props.namaKlinik}_${moment(
         new Date()
       ).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanDaerah !== 'all' && props.pilihanKlinik === 'all') {
-      console.log('2');
       file = `${props.jenisReten}_${props.pilihanDaerah.toUpperCase()}_${moment(
         new Date()
       ).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanDaerah === 'all') {
-      console.log('3');
       file = `${
         props.jenisReten
       }_${props.loginInfo.negeri.toUpperCase()}_${moment(new Date()).format(
@@ -894,6 +884,9 @@ const ModalGenerateBulanan = (props) => {
       .catch((err) => {
         console.log(err);
         toast.dismiss(id);
+        toast.error(
+          `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-download-${props.jenisReten}`
+        );
         setTimeout(() => {
           props.setGenerating(false);
         }, 5000);
@@ -1482,6 +1475,7 @@ const Generate = (props) => {
     readSpesifikKPBMPBData,
     readSpesifikIndividuData,
     readGenerateTokenData,
+    toast,
   } = useGlobalAdminAppContext();
 
   const init = useRef(false);
@@ -1635,6 +1629,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-kkiakd'
+          );
         });
     }
   };
@@ -1648,6 +1645,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-program'
+          );
         });
     } else if (e === 'kpbmpb') {
       await readSpesifikKPBMPBData(pilihanKlinik)
@@ -1656,6 +1656,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-kpbmpb'
+          );
         });
     }
   };
@@ -1671,6 +1674,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-individu'
+          );
         });
     }
   };
@@ -1737,11 +1743,13 @@ const Generate = (props) => {
       }
       readGenerateTokenData()
         .then((res) => {
-          console.log(res.data);
           setStatusToken(res.data);
         })
         .catch((err) => {
           console.log(err);
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-token'
+          );
         });
     }
     init.current = true;

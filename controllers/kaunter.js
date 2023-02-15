@@ -7,7 +7,9 @@ const logger = require('../logs/logger');
 
 // GET /:personKaunterId
 const getSinglePersonKaunter = async (req, res) => {
-  logger.info(`${req.method} ${req.url} getSinglePersonKaunter called`);
+  logger.info(
+    `${req.method} ${req.url} [kaunterController] getSinglePersonKaunter called`
+  );
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -29,7 +31,9 @@ const getSinglePersonKaunter = async (req, res) => {
 
 // POST /
 const createPersonKaunter = async (req, res) => {
-  logger.info(`${req.method} ${req.url} createPersonKaunter called`);
+  logger.info(
+    `${req.method} ${req.url} [kaunterController] createPersonKaunter called`
+  );
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -106,16 +110,20 @@ const createPersonKaunter = async (req, res) => {
 
   // tagging person according to their status
   if (personExist) {
-    logger.info(`${req.method} ${req.url} ic telah wujud. tagging ulangan`);
     req.body.kedatangan = 'ulangan-kedatangan';
-    console.log('ic telah wujud. tagging ulangan');
+    logger.info(
+      `${req.method} ${req.url} [kaunterController] ic telah wujud. tagging ulangan`
+    );
     req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    console.log('no pendaftaran ulangan: ', req.body.noPendaftaranUlangan);
+    logger.info(
+      `${req.method} ${req.url} [kaunterController] no pendaftaran ulangan: ${req.body.noPendaftaranUlangan}`
+    );
   }
 
   if (!personExist) {
-    logger.info(`${req.method} ${req.url} ic tidak wujud. tagging baru`);
-    console.log('ic belum wujud. tagging baru');
+    logger.info(
+      `${req.method} ${req.url} [kaunterController] ic tidak wujud. tagging baru`
+    );
     req.body.kedatangan = 'baru-kedatangan';
   }
 
@@ -126,7 +134,9 @@ const createPersonKaunter = async (req, res) => {
 
 // PATCH /:personKaunterId
 const updatePersonKaunter = async (req, res) => {
-  logger.info(`${req.method} ${req.url} updatePersonKaunter called`);
+  logger.info(
+    `${req.method} ${req.url} [kaunterController] updatePersonKaunter called`
+  );
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -252,6 +262,10 @@ const getKkKdList = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  logger.info(
+    `${req.method} ${req.url} [kaunterController] getKkKdList called`
+  );
+
   const kkKdAll = await Fasiliti.find({
     createdByNegeri: req.user.negeri,
     createdByDaerah: req.user.daerah,
@@ -270,6 +284,10 @@ const getTaskaTadikaList = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  logger.info(
+    `${req.method} ${req.url} [kaunterController] getTaskaTadikaList called`
+  );
+
   const taskaTadikaAll = await Fasiliti.find({
     createdByNegeri: req.user.negeri,
     createdByDaerah: req.user.daerah,
@@ -284,10 +302,13 @@ const getTaskaTadikaList = async (req, res) => {
 
 // query /kaunter/events
 const getProjekKomuniti = async (req, res) => {
-  logger.info(`${req.method} ${req.url} getProjekKomuniti called`);
   if (req.user.accountType !== 'kaunterUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  logger.info(
+    `${req.method} ${req.url} [kaunterController] getProjekKomuniti called`
+  );
 
   const projekKomuniti = await Event.find({
     createdByNegeri: req.user.negeri,
