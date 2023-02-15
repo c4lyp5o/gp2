@@ -123,11 +123,6 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (props.pilihanFasiliti === 'individu') {
-      return toast.error(
-        'Harap maaf, fungsi penjanaan individu belum tersedia'
-      );
-    }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -643,11 +638,6 @@ const ModalGenerateBulanan = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
-    if (props.pilihanFasiliti === 'individu') {
-      return toast.error(
-        'Harap maaf, fungsi penjanaan individu belum tersedia'
-      );
-    }
     props.setGenerating(true);
     const id = toast.loading('Sedang menjana reten...');
     await penjanaanReten()
@@ -1257,7 +1247,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-data-kkiakd'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kkiakd'
           );
         });
     }
@@ -1273,7 +1263,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-data-program'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-program'
           );
         });
     } else if (e === 'kpbmpb') {
@@ -1284,7 +1274,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-data-kpbmpb'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kpbmpb'
           );
         });
     }
@@ -1302,7 +1292,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-data-individu'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-individu'
           );
         });
     }
@@ -1333,7 +1323,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-token'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-token'
           );
         });
     }

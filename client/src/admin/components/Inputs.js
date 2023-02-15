@@ -2092,7 +2092,7 @@ export function InputKpAddEvent(props) {
     getUser().catch((err) => {
       console.log(err);
       toast.error(
-        'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan.'
+        'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: input-kp-tambah-program'
       );
     });
   }, []);

@@ -50,7 +50,7 @@ function Kaunter({
         } catch (error) {
           console.log(error);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-fetch-person-umum'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single'
           );
         }
       };
@@ -75,7 +75,7 @@ function Kaunter({
         } catch (error) {
           console.log(error);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-fetch-jenis-program'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-pj'
           );
         }
       };
@@ -102,7 +102,7 @@ function Kaunter({
         } catch (error) {
           console.log(error);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-fetch-person-umum-program-komuniti'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single-pj'
           );
         }
       };

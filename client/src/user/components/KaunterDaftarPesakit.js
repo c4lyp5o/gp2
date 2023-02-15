@@ -118,7 +118,7 @@ export default function DaftarPesakit({ createdByKp }) {
         } catch (error) {
           console.log(error);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunterdaftarpesakit-fetchallpersonkaunter'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-reg-mlt'
           );
         }
       };

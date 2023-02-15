@@ -885,7 +885,7 @@ const ModalGenerateBulanan = (props) => {
         console.log(err);
         toast.dismiss(id);
         toast.error(
-          `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-download-${props.jenisReten}`
+          `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-download-${props.jenisReten}`
         );
         setTimeout(() => {
           props.setGenerating(false);
@@ -1630,7 +1630,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-kkiakd'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kkiakd'
           );
         });
     }
@@ -1646,7 +1646,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-program'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-program'
           );
         });
     } else if (e === 'kpbmpb') {
@@ -1657,7 +1657,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-kpbmpb'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kpbmpb'
           );
         });
     }
@@ -1675,7 +1675,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-individu'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-individu'
           );
         });
     }
@@ -1748,7 +1748,7 @@ const Generate = (props) => {
         .catch((err) => {
           console.log(err);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generateadmin-data-token'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
           );
         });
     }

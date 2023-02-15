@@ -346,7 +346,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         } catch (error) {
           console.log(error);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-kemaskini-fetchTaskaTadika'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kkni-tt'
           );
         }
       };
@@ -370,7 +370,7 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         } catch (error) {
           console.log(error);
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-kemaskini-fetchEvents'
+            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kkni-pj'
           );
         }
       };
