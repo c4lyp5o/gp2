@@ -57,9 +57,25 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
-    file = `${props.jenisReten}_${props.namaKlinik}_${moment(new Date()).format(
-      'DDMMYYYY'
-    )}.xlsx`;
+    if (props.pilihanKkia !== '') {
+      file = `${
+        props.jenisReten
+      }_${props.namaKlinik.toUpperCase()}_${props.namaKkia
+        .split(' | ')[1]
+        .toUpperCase()}_${moment(new Date()).format('DDMMYYYY')}_token.xlsx`;
+    }
+    if (props.pilihanProgram !== '') {
+      file = `${
+        props.jenisReten
+      }_${props.namaKlinik.toUpperCase()}_${props.pilihanProgram.toUpperCase()}_${moment(
+        new Date()
+      ).format('DDMMYYYY')}_token.xlsx`;
+    }
+    if (props.pilihanKkia === '' && props.pilihanProgram === '') {
+      file = `${props.jenisReten}_${props.namaKlinik.toUpperCase()}_${moment(
+        new Date()
+      ).format('DDMMYYYY')}_token.xlsx`;
+    }
     return file;
   };
 
@@ -234,6 +250,11 @@ const ModalGenerateAdHoc = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
+                              props.setNamaKkia(
+                                e.target.options[
+                                  e.target.selectedIndex
+                                ].getAttribute('data-key')
+                              );
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -242,6 +263,7 @@ const ModalGenerateAdHoc = (props) => {
                               return (
                                 <option
                                   key={index}
+                                  data-key={k.nama}
                                   value={k.kodKkiaKd}
                                   className='capitalize'
                                 >
@@ -570,11 +592,44 @@ const ModalGenerateBulanan = (props) => {
 
   const [bulan, setBulan] = useState('');
 
+  const namaNamaBulan = {
+    '01-01': 'JAN',
+    '02-01': 'FEB',
+    '03-01': 'MAC',
+    '04-01': 'APR',
+    '05-01': 'MEI',
+    '06-01': 'JUN',
+    '07-01': 'JUL',
+    '08-01': 'OGOS',
+    '09-01': 'SEP',
+    '10-01': 'OKT',
+    '11-01': 'NOV',
+    '12-01': 'DIS',
+  };
+
   const fileName = () => {
     let file = '';
-    file = `${props.jenisReten}_${props.namaKlinik}_${moment(new Date()).format(
-      'DDMMYYYY'
-    )}.xlsx`;
+    if (props.pilihanKkia !== '') {
+      file = `${
+        props.jenisReten
+      }_${props.namaKlinik.toUpperCase()}_${props.namaKkia
+        .split(' | ')[1]
+        .toUpperCase()}_${namaNamaBulan[bulan]}_${moment(new Date()).format(
+        'DDMMYYYY'
+      )}.xlsx`;
+    }
+    if (props.pilihanProgram !== '') {
+      file = `${
+        props.jenisReten
+      }_${props.namaKlinik.toUpperCase()}_${props.pilihanProgram.toUpperCase()}_${
+        namaNamaBulan[bulan]
+      }_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
+    }
+    if (props.pilihanKkia === '' && props.pilihanProgram === '') {
+      file = `${props.jenisReten}_${props.namaKlinik.toUpperCase()}_${
+        namaNamaBulan[bulan]
+      }_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
+    }
     return file;
   };
 
@@ -768,6 +823,11 @@ const ModalGenerateBulanan = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
+                              props.setNamaKkia(
+                                e.target.options[
+                                  e.target.selectedIndex
+                                ].getAttribute('data-key')
+                              );
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -776,6 +836,7 @@ const ModalGenerateBulanan = (props) => {
                               return (
                                 <option
                                   key={index}
+                                  data-key={k.nama}
                                   value={k.kodKkiaKd}
                                   className='capitalize'
                                 >
@@ -1132,6 +1193,7 @@ const Generate = (props) => {
 
   // masalah negara
   const [namaKlinik, setNamaKlinik] = useState('');
+  const [namaKkia, setNamaKkia] = useState('');
   const [pilihanFasiliti, setPilihanFasiliti] = useState('');
   const [pilihanKkia, setPilihanKkia] = useState('');
   const [pilihanProgram, setPilihanProgram] = useState('');
@@ -1308,6 +1370,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [pilihanFasiliti]);
 
   useEffect(() => {
@@ -1352,6 +1415,8 @@ const Generate = (props) => {
     setPilihanFasiliti,
     pilihanKkia,
     setPilihanKkia,
+    namaKkia,
+    setNamaKkia,
     namaKlinik,
     setNamaKlinik,
     generating,
