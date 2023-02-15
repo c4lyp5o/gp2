@@ -131,8 +131,8 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
         }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
           props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
-          props.pilihanKpbmpb
+        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
+          props.pilihanKpbMpb
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
@@ -161,7 +161,7 @@ const ModalGenerateAdHoc = (props) => {
           break;
         default:
           toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila cuba lagi'
+            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
           );
           break;
       }
@@ -412,7 +412,6 @@ const ModalGenerateAdHoc = (props) => {
                             id='kkia'
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
-                              console.log(e.target.value);
                             }}
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
@@ -474,7 +473,6 @@ const ModalGenerateAdHoc = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
@@ -508,7 +506,6 @@ const ModalGenerateAdHoc = (props) => {
                               id='program'
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
-                                console.log(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
@@ -830,8 +827,8 @@ const ModalGenerateBulanan = (props) => {
           props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
         }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
           props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbmpb=${
-          props.pilihanKpbmpb
+        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
+          props.pilihanKpbMpb
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
@@ -862,7 +859,9 @@ const ModalGenerateBulanan = (props) => {
           );
           break;
         default:
-          toast.error('Internal Server Error');
+          toast.error(
+            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
+          );
           break;
       }
     }
@@ -1800,7 +1799,7 @@ const Generate = (props) => {
         <h1 className='font-bold text-lg text-user1 mb-2'>
           Penjanaan Laporan bagi {currentUser}
         </h1>
-        <div className='flex flex-col items-center gap-1'>
+        <div className='flex flex-col items-center gap-1 normal-case'>
           <p>
             1. Penjanaan Laporan Mengikut Tarikh (secara adhoc) dihadkan kepada
             jumlah baki token yang tinggal (buat sementara waktu sahaja)
