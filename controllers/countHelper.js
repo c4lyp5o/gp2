@@ -16084,7 +16084,7 @@ const getParams211 = (payload, reten) => {
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16098,7 +16098,7 @@ const getParams211 = (payload, reten) => {
       jenisFasiliti: AorC(reten),
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16111,7 +16111,7 @@ const getParams211 = (payload, reten) => {
       jenisFasiliti: AorC(reten),
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16137,7 +16137,7 @@ const getParams206 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16150,7 +16150,7 @@ const getParams206 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16164,7 +16164,7 @@ const getParams206 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16177,7 +16177,7 @@ const getParams206 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16206,7 +16206,7 @@ const getParams206sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16219,7 +16219,7 @@ const getParams206sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16233,7 +16233,7 @@ const getParams206sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16246,7 +16246,7 @@ const getParams206sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16275,7 +16275,7 @@ const getParams207 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16288,7 +16288,7 @@ const getParams207 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16302,7 +16302,7 @@ const getParams207 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16315,7 +16315,7 @@ const getParams207 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16344,7 +16344,7 @@ const getParams207sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16357,7 +16357,7 @@ const getParams207sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16371,7 +16371,7 @@ const getParams207sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16384,7 +16384,7 @@ const getParams207sekolah = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16459,7 +16459,7 @@ const getParamsGender = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16472,7 +16472,7 @@ const getParamsGender = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16484,7 +16484,7 @@ const getParamsGender = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16509,7 +16509,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16524,7 +16524,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16538,7 +16538,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16564,7 +16564,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
       statusKehadiran: true,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16580,7 +16580,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
       statusKehadiran: true,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16595,7 +16595,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
       statusKehadiran: true,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16622,7 +16622,7 @@ const getParamsBPE = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16635,7 +16635,7 @@ const getParamsBPE = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16649,7 +16649,7 @@ const getParamsBPE = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16662,7 +16662,7 @@ const getParamsBPE = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16691,7 +16691,7 @@ const getParamsPGS203 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16704,7 +16704,7 @@ const getParamsPGS203 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16718,7 +16718,7 @@ const getParamsPGS203 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16731,7 +16731,7 @@ const getParamsPGS203 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16760,7 +16760,7 @@ const getParamsPG201P2 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16773,7 +16773,7 @@ const getParamsPG201P2 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16787,7 +16787,7 @@ const getParamsPG201P2 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16800,7 +16800,7 @@ const getParamsPG201P2 = (payload) => {
       statusKehadiran: true,
       deleted: false,
       //
-      updatedAt: { $lte: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
