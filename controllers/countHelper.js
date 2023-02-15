@@ -15875,7 +15875,7 @@ const getParams101 = (payload, reten) => {
     pilihanFasiliti,
     pilihanKkia,
     pilihanProgram,
-    pilihanKpbmpb,
+    pilihanKpbMpb,
   } = payload;
 
   const AorC = (reten) => {
@@ -15908,9 +15908,9 @@ const getParams101 = (payload, reten) => {
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: { $eq: klinik },
-      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
-      penggunaanKPBMPB: { $eq: pilihanKpbmpb },
+      // createdByKodFasiliti: { $eq: klinik },
+      // jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      penggunaanKPBMPB: { $eq: pilihanKpbMpb },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -15918,7 +15918,7 @@ const getParams101 = (payload, reten) => {
     if (pilihanFasiliti === 'program' && pilihanProgram !== '') {
       return forProgram;
     }
-    if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
+    if (pilihanFasiliti === 'kpbmpb' && pilihanKpbMpb !== '') {
       return forKpbmpb;
     }
     return forKp;
@@ -15947,10 +15947,10 @@ const getParams101 = (payload, reten) => {
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
-      createdByDaerah: { $eq: daerah },
-      createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
-      penggunaanKPBMPB: { $eq: pilihanKpbmpb },
+      // createdByDaerah: { $eq: daerah },
+      // createdByNegeri: { $eq: negeri },
+      // jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      penggunaanKPBMPB: { $eq: pilihanKpbMpb },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -15958,7 +15958,7 @@ const getParams101 = (payload, reten) => {
     if (pilihanFasiliti === 'program' && pilihanProgram !== '') {
       return forProgram;
     }
-    if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
+    if (pilihanFasiliti === 'kpbmpb' && pilihanKpbMpb !== '') {
       return forKpbmpb;
     }
     return forKp;
@@ -15984,9 +15984,9 @@ const getParams101 = (payload, reten) => {
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
-      penggunaanKPBMPB: { $eq: pilihanProgram },
+      // createdByNegeri: { $eq: negeri },
+      // jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      penggunaanKPBMPB: { $eq: pilihanKpbMpb },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -15994,7 +15994,7 @@ const getParams101 = (payload, reten) => {
     if (pilihanFasiliti === 'program' && pilihanProgram !== '') {
       return forProgram;
     }
-    if (pilihanFasiliti === 'projek-komuniti-lain' && pilihanKpbmpb !== '') {
+    if (pilihanFasiliti === 'kpbmpb' && pilihanKpbMpb !== '') {
       return forKpbmpb;
     }
     return forKp;
