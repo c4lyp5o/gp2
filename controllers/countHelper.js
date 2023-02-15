@@ -1747,7 +1747,7 @@ const countPG214 = async (payload) => {
       ...getParams211(payload),
       umur: { $gte: 59 },
       kedatangan: 'baru-kedatangan',
-      // statusKehadiran: true,
+      statusKehadiran: false,
     },
   };
 
@@ -16133,7 +16133,7 @@ const getParams206 = (payload) => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16146,7 +16146,7 @@ const getParams206 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16160,7 +16160,7 @@ const getParams206 = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16173,7 +16173,7 @@ const getParams206 = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16201,7 +16201,7 @@ const getParams206sekolah = (payload) => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16214,7 +16214,7 @@ const getParams206sekolah = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16228,7 +16228,7 @@ const getParams206sekolah = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16241,7 +16241,7 @@ const getParams206sekolah = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16269,7 +16269,7 @@ const getParams207 = (payload) => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16282,7 +16282,7 @@ const getParams207 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16296,7 +16296,7 @@ const getParams207 = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16309,7 +16309,7 @@ const getParams207 = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16337,7 +16337,7 @@ const getParams207sekolah = (payload) => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16350,7 +16350,7 @@ const getParams207sekolah = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16364,7 +16364,7 @@ const getParams207sekolah = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16377,7 +16377,7 @@ const getParams207sekolah = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16452,7 +16452,7 @@ const getParamsGender = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16465,7 +16465,7 @@ const getParamsGender = (payload) => {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16477,7 +16477,7 @@ const getParamsGender = (payload) => {
     let param = {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16502,7 +16502,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16517,7 +16517,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16531,7 +16531,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16561,7 +16561,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
-      // statusKehadiran: true,
+      statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
     return param;
@@ -16577,7 +16577,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
-      // statusKehadiran: true,
+      statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
     return param;
@@ -16592,7 +16592,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
-      // statusKehadiran: true,
+      statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
     return param;
@@ -16615,7 +16615,7 @@ const getParamsBPE = (payload) => {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16628,7 +16628,7 @@ const getParamsBPE = (payload) => {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16642,7 +16642,7 @@ const getParamsBPE = (payload) => {
       createdByDaerah: daerah,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16655,7 +16655,7 @@ const getParamsBPE = (payload) => {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16684,7 +16684,7 @@ const getParamsPGS203 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16697,7 +16697,7 @@ const getParamsPGS203 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16711,7 +16711,7 @@ const getParamsPGS203 = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16724,7 +16724,7 @@ const getParamsPGS203 = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16753,7 +16753,7 @@ const getParamsPG201P2 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16766,7 +16766,7 @@ const getParamsPG201P2 = (payload) => {
       createdByKodFasiliti: klinik,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16780,7 +16780,7 @@ const getParamsPG201P2 = (payload) => {
       createdByDaerah: daerah,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
@@ -16793,7 +16793,7 @@ const getParamsPG201P2 = (payload) => {
       createdByNegeri: negeri,
       createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
       tarikhKedatangan: dateModifier(payload),
-      // statusKehadiran: true,
+      statusKehadiran: false,
       deleted: false,
       //
       updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
