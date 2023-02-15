@@ -3,7 +3,7 @@ const Umum = require('../models/Umum');
 const Runningnumber = require('../models/Runningnumber');
 const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
-const logger = require('../logs/logger');
+const { logger } = require('../logs/logger');
 
 // GET /:personKaunterId
 const getSinglePersonKaunter = async (req, res) => {

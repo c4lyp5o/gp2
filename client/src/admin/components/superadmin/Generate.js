@@ -861,7 +861,7 @@ const ModalGenerateBulanan = (props) => {
     e.preventDefault();
     if (props.pilihanFasiliti === 'individu') {
       return toast.error(
-        'Harap maaf, fungsi penjanaan individu belum tersedia'
+        'Harap maaf, fungsi penjanaan individu bulanan belum tersedia. Sila gunakan penjanaan mengikut tarikh'
       );
     }
     props.setGenerating(true);
