@@ -1,6 +1,8 @@
 const Operator = require('../models/Operator');
 const { generateRandomString } = require('./adminAPI');
 const mailer = require('nodemailer');
+const { logger } = require('../logs/logger');
+
 const transporter = mailer.createTransport({
   host: process.env.EMAILER_HOST,
   port: process.env.EMAILER_PORT,
