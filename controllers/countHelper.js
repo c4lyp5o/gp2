@@ -2331,8 +2331,8 @@ const countPG206 = async (payload) => {
                 {
                   $and: [
                     //add in kedatangan baru
-                    { $gt: ['$umur', 6] },
-                    { $lte: ['$umur', 18] },
+                    { $gte: ['$umur', 1] },
+                    { $lte: ['$umur', 59] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -2342,27 +2342,27 @@ const countPG206 = async (payload) => {
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                   ],
                 },
-                {
-                  $and: [
-                    //kedatangan baru
-                    { $lte: ['$umur', 6] },
-                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                  ],
-                },
-                {
-                  $and: [
-                    { $lte: ['$umur', 6] },
-                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                  ],
-                },
+                // {
+                //   $and: [
+                //     //kedatangan baru
+                //     { $lte: ['$umur', 6] },
+                //     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                //     { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                //     { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                //     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                //   ],
+                // },
+                // {
+                //   $and: [
+                //     { $lte: ['$umur', 6] },
+                //     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                //     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                //   ],
+                // },
               ],
             },
             1,
@@ -2375,11 +2375,17 @@ const countPG206 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+              $or: [
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $lte: ['$umur', 59] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                  ],
+                },
               ],
             },
             1,
