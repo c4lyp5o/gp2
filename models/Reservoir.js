@@ -6,6 +6,7 @@ const reservoirSchema = new Schema(
     createdByNegeri: { type: String, required: true },
     createdByDaerah: { type: String, required: true },
     createdByKodFasiliti: { type: String, required: true },
+    createdByMdcMdtb: { type: String },
     dataType: { type: String, required: true },
     dataFormat: { type: String, required: true },
     dataDate: { type: String, required: true },
