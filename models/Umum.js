@@ -1,6 +1,6 @@
 const mongoose = require('mongoose');
 const Runningnumber = require('./Runningnumber');
-const logger = require('../logs/logger');
+const { logger } = require('../logs/logger');
 
 const UmumSchema = new mongoose.Schema(
   {

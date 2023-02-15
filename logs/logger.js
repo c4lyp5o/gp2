@@ -25,6 +25,17 @@ log4js.configure({
         pattern: '%d %p %c - %m',
       },
     },
+    fileETL: {
+      type: 'file',
+      filename: 'logs/ETL.log',
+      maxLogSize: 10485760,
+      backups: 3,
+      compress: true,
+      layout: {
+        type: 'pattern',
+        pattern: '%d %p %c - %m',
+      },
+    },
   },
   categories: {
     default: {
@@ -35,10 +46,15 @@ log4js.configure({
       appenders: ['console', 'fileReten'],
       level: ['all'],
     },
+    ETL: {
+      appenders: ['console', 'fileETL'],
+      level: ['all'],
+    },
   },
 });
 
 const logger = log4js.getLogger();
 const retenLogger = log4js.getLogger('reten');
+const ETLLogger = log4js.getLogger('ETL');
 
-module.exports = { logger, retenLogger };
+module.exports = { logger, retenLogger, ETLLogger };
