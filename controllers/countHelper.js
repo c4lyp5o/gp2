@@ -16611,11 +16611,11 @@ const getParamsBp = (payload, kaum, jantina) => {
   }
 };
 const getParamsBPE = (payload) => {
-  const { negeri, daerah, klinik, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
     let param = {
-      createdByMdcMdtb: id,
+      createdByMdcMdtb: pilihanIndividu,
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
@@ -16667,7 +16667,7 @@ const getParamsBPE = (payload) => {
     return param;
   };
 
-  if (pegawai) {
+  if (pilihanIndividu) {
     return byPegawai(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
@@ -16681,12 +16681,12 @@ const getParamsBPE = (payload) => {
   }
 };
 const getParamsPGS203 = (payload) => {
-  const { negeri, daerah, klinik, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: id,
+      createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: true,
       deleted: false,
@@ -16736,7 +16736,7 @@ const getParamsPGS203 = (payload) => {
     return param;
   };
 
-  if (pegawai) {
+  if (pilihanIndividu) {
     return byPegawai(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
@@ -16750,12 +16750,12 @@ const getParamsPGS203 = (payload) => {
   }
 };
 const getParamsPG201P2 = (payload) => {
-  const { negeri, daerah, klinik, pegawai, id } = payload;
+  const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: id,
+      createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: true,
       deleted: false,
@@ -16805,7 +16805,7 @@ const getParamsPG201P2 = (payload) => {
     return param;
   };
 
-  if (pegawai) {
+  if (pilihanIndividu) {
     return byPegawai(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
@@ -16870,8 +16870,8 @@ const getParams307 = (payload, reten) => {
 
 // place
 const placeModifier = (payload) => {
-  const { klinik, daerah, negeri } = payload;
-  if (pegawai) {
+  const { klinik, daerah, negeri, pilihanIndividu } = payload;
+  if (pilihanIndividu) {
     return '$createdByUsername';
   }
   if (daerah !== 'all' && klinik !== 'all') {
