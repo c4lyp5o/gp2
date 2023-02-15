@@ -605,7 +605,7 @@ const ModalGenerateBulanan = (props) => {
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
             : ''
-        }&bulan=${new Date().getFullYear()}-${bulan}&fromEtl=false`,
+        }&bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
