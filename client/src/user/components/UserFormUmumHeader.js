@@ -37,7 +37,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   const theCheckTPRShow = () => {
-    console.log('sekolah');
     if (singlePersonUmum.jenisProgram === 'incremental') {
       if (skorGisMulutOralHygienePemeriksaanUmum === '') {
         return toast.info('Sila isi skor GIS');
@@ -87,12 +86,10 @@ function UserFormUmumHeader({ sekolahIdc }) {
       setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
     }
     if (singlePersonUmum.jenisProgram !== 'incremental') {
-      console.log('bukan sekolah');
       if (
         parseInt(singlePersonUmum.umur) > 14 &&
         parseInt(singlePersonUmum.umur) < 18
       ) {
-        console.log('umur 15 - 17');
         if (
           skorGisMulutOralHygienePemeriksaanUmum === '' ||
           skorBpeOralHygienePemeriksaanUmum === ''
@@ -150,7 +147,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
         setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
       }
       if (parseInt(singlePersonUmum.umur) > 17) {
-        console.log('umur > 17');
         if (skorBpeOralHygienePemeriksaanUmum === '') {
           return toast.info('Sila isi skor BPE');
         }
@@ -192,7 +188,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
         }
         setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
       } else {
-        console.log('bawah 14 tahun');
         if (skorGisMulutOralHygienePemeriksaanUmum === '') {
           return toast.info('Sila isi skor GIS');
         }
@@ -1975,6 +1970,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-fetchsinglepersonumum'
+        );
       }
     };
     fetchSinglePersonUmum();
@@ -2022,6 +2020,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
         setAllUsedKPBMPB(KPBMPBInRangeDate);
       } catch (error) {
         console.log(error);
+        toast.error(
+          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
+        );
       }
     };
     getAllKPBMPBForNegeri();

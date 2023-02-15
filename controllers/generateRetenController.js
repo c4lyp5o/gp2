@@ -12,7 +12,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
-const logger = require('../logs/logger');
+const { logger } = require('../logs/logger');
 
 const borderStyle = {
   top: { style: 'thin' },
@@ -37,7 +37,9 @@ exports.startQueue = async function (req, res) {
     fromEtl === 'false' &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
-    console.log(`not kaunter user & not from etl, from ${username}`);
+    logger.info(
+      `[generateRetenController] not kaunter user & not from etl, from ${username}`
+    );
     let userTokenData = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
@@ -55,7 +57,6 @@ exports.startQueue = async function (req, res) {
           });
           await hqToken.save();
           userTokenData = hqToken;
-          console.log('dah save token hq');
           break;
         case 'negeriSuperadmin':
           const negeriToken = new GenerateToken({
@@ -66,7 +67,6 @@ exports.startQueue = async function (req, res) {
           });
           await negeriToken.save();
           userTokenData = negeriToken;
-          console.log('dah save token negeri');
           break;
         case 'daerahSuperadmin':
           const daerahToken = new GenerateToken({
@@ -89,7 +89,6 @@ exports.startQueue = async function (req, res) {
       process.env.BUILD_ENV === 'production' &&
       userTokenData.jumlahToken <= 0
     ) {
-      console.log('no more coins left');
       return res.status(401).json({ msg: 'no more coins left' });
     }
   }
@@ -124,19 +123,19 @@ exports.startQueue = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        console.log('dah kurangkan token ' + username);
-        logger.info('dah kurangkan token' + username);
+        logger.info('[generateRetenController] dah kurangkan token' + username);
       } else {
-        console.log('not production and ' + username);
-        logger.info('not production and ' + username);
+        logger.info('[generateRetenController] not production and ' + username);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
     })
   );
 
-  console.log('que superadmin sekarang: ' + downloadQueue.length());
-  logger.info('que superadmin sekarang: ' + downloadQueue.length());
+  logger.info(
+    '[generateRetenController] que superadmin sekarang: ' +
+      downloadQueue.length()
+  );
 };
 
 // kp
@@ -154,7 +153,9 @@ exports.startQueueKp = async function (req, res) {
     fromEtl === 'false' &&
     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
   ) {
-    console.log(`from kpUser & not from etl, from ${username}`);
+    logger.info(
+      `[generateRetenController] from kpUser & not from etl, from ${username}`
+    );
     let userTokenData = await GenerateToken.findOne({
       belongsTo: username,
       jenisReten,
@@ -170,14 +171,18 @@ exports.startQueueKp = async function (req, res) {
       });
       await kpUserToken.save();
       userTokenData = kpUserToken;
-      console.log('dah save token kp user');
+      logger.info(
+        `[generateRetenController] dah save token kp user ${username}`
+      );
     }
 
     if (
       process.env.BUILD_ENV === 'production' &&
       userTokenData.jumlahToken <= 0
     ) {
-      console.log('no more coins left');
+      logger.info(
+        `[generateRetenController] no more coins left for ${username}`
+      );
       return res.status(401).json({ msg: 'no more coins left' });
     }
   }
@@ -211,19 +216,20 @@ exports.startQueueKp = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        console.log('dah kurangkan token ' + username);
-        logger.info('dah kurangkan token' + username);
+        logger.info(
+          `[generateRetenController] dah kurangkan token untuk ${username}`
+        );
       } else {
-        console.log('not production and ' + username);
-        logger.info('not production and ' + username);
+        logger.info('[generateRetenController] not production and ' + username);
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
     })
   );
 
-  console.log('que kp sekarang: ' + downloadQueueKp.length());
-  logger.info('que kp sekarang: ' + downloadQueueKp.length());
+  logger.info(
+    '[generateRetenController] que kp sekarang: ' + downloadQueueKp.length()
+  );
 };
 
 // helper
@@ -256,13 +262,11 @@ const downloader = async (req, res, callback) => {
   //
   let currentKodFasiliti, currentDaerah, currentNegeri, accountType, username;
   if (!authorization) {
-    console.log('no authorization');
     // kp = klinikid;
     // daerah = klinikdaerah;
     // negeri = kliniknegeri;
   }
   if (authorization) {
-    // console.log(authorization);
     // const token = authorization.split(' ')[1];
     accountType = jwt.verify(authorization, process.env.JWT_SECRET).accountType;
     currentKodFasiliti = jwt.verify(
@@ -299,7 +303,7 @@ const downloader = async (req, res, callback) => {
     fromEtl,
   };
   console.log(payload);
-  logger.info(`${req.method} ${req.url} ${klinik} Requesting ${jenisReten}`);
+  logger.info(`[generateRetenController] ${username} requesting ${jenisReten}`);
   let excelFile;
   switch (jenisReten) {
     case 'PG101A':
@@ -367,7 +371,7 @@ const downloader = async (req, res, callback) => {
 
 // functions
 const makePG101A = async (payload) => {
-  console.log('PG101A');
+  logger.info('[generateRetenController] PG101A');
   try {
     let kkia;
     let { klinik, daerah, negeri, pilihanKkia, username, tarikhMula, bulan } =
@@ -575,20 +579,20 @@ const makePG101A = async (payload) => {
 
     const newfile = makeFile(payload, 'PG101A');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file - ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 const makePG101C = async (payload) => {
-  console.log('PG101C');
+  logger.info('[generateRetenController] PG101C');
   try {
     let {
       klinik,
@@ -778,42 +782,6 @@ const makePG101C = async (payload) => {
       }
     }
 
-    let rowTambahan = 1;
-    let rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '* Kedatangan Baru Ibu Mengandung hanya dikira sekali sahaja bagi setiap episod baru mengandung, pada ruangan ini.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '**Sila masukkan nombor kad OKU bagi pesakit yang berkenaan.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '***Sila nyatakan nombor kad pesara Kerajaan / ATM di Ruangan Catatan.';
-    rowTambahan++;
-    console.log(rowTambahan);
-    rowNew = worksheet.getRow(16 + data.length + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(10).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value =
-      '****Punca rujukan: Rujukan Dalaman, Klinik Pergigian Kerajaan, Klinik Kesihatan Kerajaan, Hospital/Institusi Kerajaan, Swasta atau Lain-lain. Hanya Punca Rujukan Baru sahaja direkod.';
-
     worksheet.getCell(
       'AI7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
@@ -825,24 +793,21 @@ const makePG101C = async (payload) => {
 
     const newfile = makeFile(payload, 'PG101C');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
-    // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePG211A = async (payload) => {
-  console.log('PG211A');
+  logger.info('[generateRetenController] PG211A');
   try {
     let {
       klinik,
@@ -867,7 +832,6 @@ const makePG211A = async (payload) => {
         break;
       default:
         data = await Helper.countPG211A(payload);
-        console.log(data);
         break;
     }
     //
@@ -1006,24 +970,22 @@ const makePG211A = async (payload) => {
 
     const newfile = makeFile(payload, 'PG211A');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePG211C = async (payload) => {
-  console.log('PG211C');
+  logger.info('[generateRetenController] PG211C');
   try {
     let {
       klinik,
@@ -1174,24 +1136,23 @@ const makePG211C = async (payload) => {
 
     const newfile = makeFile(payload, 'PG211C');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePG214 = async (payload) => {
-  console.log('PG214');
+  logger.info('[generateRetenController] PG214');
   try {
     let {
       klinik,
@@ -1359,20 +1320,20 @@ const makePG214 = async (payload) => {
     const newfile = makeFile(payload, 'PG214');
 
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile); // delete this file after 1 second
-      console.log('deleting file');
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePG206 = async (payload) => {
-  console.log('PG206');
+  logger.info('[generateRetenController] PG206');
   try {
     let {
       klinik,
@@ -1697,24 +1658,23 @@ const makePG206 = async (payload) => {
 
     const newfile = makeFile(payload, 'PG206');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePG207 = async (payload) => {
-  console.log('PG207');
+  logger.info('[generateRetenController] PG207');
   try {
     let {
       klinik,
@@ -2137,24 +2097,23 @@ const makePG207 = async (payload) => {
 
     const newfile = makeFile(payload, 'PG207');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePG201 = async (payload) => {
-  console.log('PG201');
+  logger.info('[generateRetenController] PG201');
   try {
     let {
       kp,
@@ -2373,24 +2332,23 @@ const makePG201 = async (payload) => {
 
     const newfile = makeFile(payload, 'PG201');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePGPR201 = async (payload) => {
-  console.log('PGPR201Baru');
+  logger.info('[generateRetenController] PGPR201Baru');
   try {
     let {
       klinik,
@@ -2575,25 +2533,25 @@ const makePGPR201 = async (payload) => {
 
     const newfile = makeFile(payload, 'PGPR201');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 
 // new
 const makePgPro01 = async (payload) => {
-  console.log('makePgPro01');
+  logger.info('[generateRetenController] makePgPro01');
   try {
     let {
       username,
@@ -2789,23 +2747,22 @@ const makePgPro01 = async (payload) => {
 
     const newfile = makeFile(payload, 'PGPRO01');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makePgPro01Combined = async (payload) => {
-  console.log('makePgPro01Combined');
+  logger.info('[generateRetenController] makePgPro01Combined');
   try {
     let {
       username,
@@ -2988,23 +2945,22 @@ const makePgPro01Combined = async (payload) => {
 
     const newfile = makeFile(payload, 'PGPRO01Combined');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makeGender = async (payload) => {
-  console.log('makeGender');
+  logger.info('[generateRetenController] makeGender');
   try {
     let { pegawai, klinik, daerah, negeri, bulan, username, fromEtl } = payload;
     //
@@ -3196,7 +3152,6 @@ const makeGender = async (payload) => {
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
     rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
     rowTambahan++;
-    console.log(rowTambahan);
     rowNew = worksheet.getRow(16 + rowTambahan);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -3208,7 +3163,6 @@ const makeGender = async (payload) => {
     rowNew.getCell(1).value = 'TIDAK BERKENAAN';
     //
     rowTambahan++;
-    console.log(rowTambahan);
     rowNew = worksheet.getRow(16 + rowTambahan);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -3216,7 +3170,6 @@ const makeGender = async (payload) => {
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
     rowNew.getCell(1).value = 'Dijana oleh';
     rowTambahan++;
-    console.log(rowTambahan);
     rowNew = worksheet.getRow(16 + rowTambahan);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -3231,24 +3184,23 @@ const makeGender = async (payload) => {
 
     const newfile = makeFile(payload, 'GENDER');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makeMasa = async (payload) => {
-  console.log('makeMasa');
+  logger.info('[generateRetenController] makeMasa');
   try {
     let {
       klinik,
@@ -3314,15 +3266,9 @@ const makeMasa = async (payload) => {
         jumlahReten += data[0].opData[j][0].jumlahReten;
         worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[0].opData[j][0].jumlahPesakit;
-        console.log(
-          `index number: ${j}, ${data[0].opData[j][0].jumlahPesakit}`
-        );
         cellNumber = cellNumber + 3;
         worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[0].opData[j][0].jumlahPesakitYangDipanggilSebelum30Minit;
-        console.log(
-          `index number: ${j}, ${data[0].opData[j][0].jumlahPesakitYangDipanggilSebelum30Minit}`
-        );
         cellNumber = cellNumber + 3;
         worksheet.getRow(j + 15).getCell(cellNumber).value = (
           (jumlahRetenSalah / jumlahReten) *
@@ -3404,24 +3350,23 @@ const makeMasa = async (payload) => {
 
     const newfile = makeFile(payload, 'MASA');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makeBp = async (payload) => {
-  console.log('Reten BP');
+  logger.info('[generateRetenController] Reten BP');
   try {
     let {
       klinik,
@@ -3491,35 +3436,26 @@ const makeBp = async (payload) => {
     let cellNumber = 3;
 
     for (let j = 0; j < data[0].melayu.length; j++) {
-      console.log(`index number ${j}`, data[0].melayu[j][0]);
       if (data[0].melayu[j][0]) {
         //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].jumlahReten;
-        console.log('jumlahReten', data[0].melayu[j][0].jumlahReten);
-        console.log('writing', rowNumber, cellNumber);
         //
         cellNumber = cellNumber + 3;
         //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].adaSejarahDarahTinggi;
-        console.log('hpt', data[0].melayu[j][0].adaSejarahDarahTinggi);
-        console.log('writing', rowNumber, cellNumber);
         //
         cellNumber++;
         //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].tiadaSejarahDarahTinggi;
-        console.log('no hpt', data[0].melayu[j][0].tiadaSejarahDarahTinggi);
-        console.log('writing', rowNumber, cellNumber);
         //
         cellNumber = 13;
         //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].jumlahDirujukKeKk;
-        console.log('rujuk', data[0].melayu[j][0].jumlahDirujukKeKk);
-        console.log('writing', rowNumber, cellNumber) +
-          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value;
       }
       rowNumber++;
       if (j < 5) {
@@ -3735,24 +3671,23 @@ const makeBp = async (payload) => {
 
     const newfile = makeFile(payload, 'BP');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
-      fs.unlinkSync(newfile); // delete this file after 30 seconds
-      console.log('deleting file');
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-    // return file
+
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
     res.status(500).json({ message: err.message });
   }
 };
 const makeBPE = async (payload) => {
-  console.log('Reten BPE');
+  logger.info('[generateRetenController] Reten BPE');
   try {
     let {
       klinik,
@@ -3898,21 +3833,21 @@ const makeBPE = async (payload) => {
 
     const newfile = makeFile(payload, 'BPE Reten');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      console.log('deleting file');
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 const makePGS203P2 = async (payload) => {
-  console.log('PGS203P2');
+  logger.info('[generateRetenController] PGS203P2');
   try {
     let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
@@ -4075,20 +4010,21 @@ const makePGS203P2 = async (payload) => {
 
     const newfile = makeFile(payload, 'PGS203P2');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 const makePG201P2 = async (payload) => {
-  console.log('PG201 Pind. 2/2022 ');
+  logger.info('[generateRetenController] PG201 Pind. 2/2022 ');
   try {
     let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
     //
@@ -4310,22 +4246,23 @@ const makePG201P2 = async (payload) => {
 
     const newfile = makeFile(payload, 'PGS203P2');
 
-    // Write the file
     await workbook.xlsx.writeFile(newfile);
-    console.log('writing file');
+    logger.info(`[generateRetenController] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
+    logger.error(err);
+    res.status(500).json({ message: err.message });
   }
 };
 
 // debug
 exports.debug = async (req, res) => {
-  console.log('debug');
+  logger.info('[generateRetenController] debug test');
   let payload = {
     negeri: 'Selangor',
     // daerah: 'Arau',
@@ -4373,7 +4310,6 @@ const fileName = (params, reten) => {
 };
 
 const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
-  console.log(jenisReten, klinik, daerah, negeri, bulan);
   let query = {};
   if (klinik !== 'all') {
     query.createdByKodFasiliti = klinik;
@@ -4402,7 +4338,7 @@ exports.refreshTokens = async function (req, res) {
       token.jumlahToken = 9000;
       await token.save();
     });
-    console.log('dah refresh token hq');
+    logger.info('[generateRetenController] dah refresh token hq');
   }
 
   // refresh negeri tokens
@@ -4415,7 +4351,7 @@ exports.refreshTokens = async function (req, res) {
       token.jumlahToken = 15;
       await token.save();
     });
-    console.log('dah refresh token negeri');
+    logger.info('[generateRetenController] dah refresh token negeri');
   }
 
   // refresh token daerah
@@ -4427,7 +4363,7 @@ exports.refreshTokens = async function (req, res) {
       token.jumlahToken = 15;
       await token.save();
     });
-    console.log('dah refresh token daerah');
+    logger.info('[generateRetenController] dah refresh token daerah');
   }
 
   const kpTokens = await GenerateToken.find({
@@ -4438,7 +4374,7 @@ exports.refreshTokens = async function (req, res) {
       token.jumlahToken = 15;
       await token.save();
     });
-    console.log('dah refresh token kp');
+    logger.info('[generateRetenController] dah refresh token kp');
   }
 
   res.status(200).json({ message: 'Tokens refreshed' });
