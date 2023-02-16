@@ -149,16 +149,16 @@ app.use(notFound);
 const port = process.env.PORT || 5000;
 
 const start = async () => {
-  logger.info('Starting server...');
+  logger.info('[server] Starting server...');
   try {
     await connectDB(process.env.MONGO_URI);
-    logger.info('Connected to Giret Database!');
+    logger.info('[server] Connected to Giret Database!');
     app.listen(
       port,
-      logger.info(`Server is listening at port: ${port}. Lessgo!`)
+      logger.info(`[server] Server is listening at port: ${port}. Lessgo!`)
     );
     // display application version number everytime server start
-    logger.info('v' + process.env.npm_package_version);
+    logger.info('[server] v' + process.env.npm_package_version);
   } catch (error) {
     logger.error(error);
   }
@@ -166,6 +166,10 @@ const start = async () => {
 
 start();
 // .then(() => {
-//   startETL();
-//   logger.info('Server has started, starting ETL... Warp drives engaged!');
+//   if (process.env.BUILD_ENV === 'production') {
+//     startETL();
+//     logger.info(
+//       '[server] Server has started, starting ETL... Warp drives engaged!'
+//     );
+//   }
 // });

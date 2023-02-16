@@ -2086,7 +2086,7 @@ const countPG214 = async (payload) => {
                           { $lt: ['$age', 75] },
                           '70 - 74',
                           {
-                            $cond: [{ $eq: ['$age', 75] }, 75, '75++'],
+                            $cond: [{ $gte: ['$age', 75] }, 75, '75++'],
                           },
                         ],
                       },
@@ -12415,469 +12415,16 @@ const countAdHocQuery = async (
 
 // new tambahan
 const countPGPro01 = async (payload) => {
-  // match stage
-  let match_stage = [];
   //PGPRO01 Pind.2 - 2022 - FFR
-  const PRO1001 = {
+  const match_stage = {
     $match: {
-      kodProgram: 'PRO1001',
       ...getParamsPgPro(payload),
     },
   };
-
-  const PRO1002 = {
-    $match: {
-      kodProgram: 'PRO1002',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1003 = {
-    $match: {
-      kodProgram: 'PRO1003',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1004 = {
-    $match: {
-      kodProgram: 'PRO1004',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1005 = {
-    $match: {
-      kodProgram: 'PRO1005',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1006 = {
-    $match: {
-      kodProgram: 'PRO1006',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1007 = {
-    $match: {
-      kodProgram: 'PRO1007',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1008 = {
-    $match: {
-      kodProgram: 'PRO1008',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1009 = {
-    $match: {
-      kodProgram: 'PRO1009',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1010 = {
-    $match: {
-      kodProgram: 'PRO1010',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1011 = {
-    $match: {
-      kodProgram: 'PRO1011',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1012 = {
-    $match: {
-      kodProgram: 'PRO1012',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1013 = {
-    $match: {
-      kodProgram: 'PRO1013',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1014 = {
-    $match: {
-      kodProgram: 'PRO1014',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1015 = {
-    $match: {
-      kodProgram: 'PRO1015',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1016 = {
-    $match: {
-      kodProgram: 'PRO1016',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1017 = {
-    $match: {
-      kodProgram: 'PRO1017',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1018 = {
-    $match: {
-      kodProgram: 'PRO1018',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1019 = {
-    $match: {
-      kodProgram: 'PRO1019',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1020 = {
-    $match: {
-      kodProgram: 'PRO1020',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1021 = {
-    $match: {
-      kodProgram: 'PRO1021',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO1022 = {
-    $match: {
-      kodProgram: 'PRO1022',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO2001 = {
-    $match: {
-      kodProgram: 'PRO2001',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO2002 = {
-    $match: {
-      kodProgram: 'PRO2002',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO2003 = {
-    $match: {
-      kodProgram: 'PRO2003',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO3001 = {
-    $match: {
-      kodProgram: 'PRO3001',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO3002 = {
-    $match: {
-      kodProgram: 'PRO3002',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO3003 = {
-    $match: {
-      kodProgram: 'PRO3003',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO3004 = {
-    $match: {
-      kodProgram: 'PRO3004',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO3005 = {
-    $match: {
-      kodProgram: 'PRO3005',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO4001 = {
-    $match: {
-      kodProgram: 'PRO4001',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO5001 = {
-    $match: {
-      kodProgram: 'PRO5001',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO5002 = {
-    $match: {
-      kodProgram: 'PRO5002',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO5003 = {
-    $match: {
-      kodProgram: 'PRO5003',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO5004 = {
-    $match: {
-      kodProgram: 'PRO5004',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO5005 = {
-    $match: {
-      kodProgram: 'PRO5005',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO6001 = {
-    $match: {
-      kodProgram: 'PRO6001',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO6002 = {
-    $match: {
-      kodProgram: 'PRO6002',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO6003 = {
-    $match: {
-      kodProgram: 'PRO6003',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO6004 = {
-    $match: {
-      kodProgram: 'PRO6004',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO6005 = {
-    $match: {
-      kodProgram: 'PRO6005',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO6006 = {
-    $match: {
-      kodProgram: 'PRO6006',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO6007 = {
-    $match: {
-      kodProgram: 'PRO6007',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO7001 = {
-    $match: {
-      kodProgram: 'PRO7001',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO7002 = {
-    $match: {
-      kodProgram: 'PRO7002',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO7003 = {
-    $match: {
-      kodProgram: 'PRO7003',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8001 = {
-    $match: {
-      kodProgram: 'PRO8001',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8002 = {
-    $match: {
-      kodProgram: 'PRO8002',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8003 = {
-    $match: {
-      kodProgram: 'PRO8003',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8004 = {
-    $match: {
-      kodProgram: 'PRO8004',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8005 = {
-    $match: {
-      kodProgram: 'PRO8005',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8006 = {
-    $match: {
-      kodProgram: 'PRO8006',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8007 = {
-    $match: {
-      kodProgram: 'PRO8007',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8008 = {
-    $match: {
-      kodProgram: 'PRO8008',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8009 = {
-    $match: {
-      kodProgram: 'PRO8009',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8010 = {
-    $match: {
-      kodProgram: 'PRO8010',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  const PRO8011 = {
-    $match: {
-      kodProgram: 'PRO8011',
-      ...getParamsPgPro(payload),
-    },
-  };
-
-  match_stage.push(PRO1001);
-  match_stage.push(PRO1002);
-  match_stage.push(PRO1003);
-  match_stage.push(PRO1004);
-  match_stage.push(PRO1005);
-  match_stage.push(PRO1006);
-  match_stage.push(PRO1007);
-  match_stage.push(PRO1008);
-  match_stage.push(PRO1009);
-  match_stage.push(PRO1010);
-  match_stage.push(PRO1011);
-  match_stage.push(PRO1012);
-  match_stage.push(PRO1013);
-  match_stage.push(PRO1014);
-  match_stage.push(PRO1015);
-  match_stage.push(PRO1016);
-  match_stage.push(PRO1017);
-  match_stage.push(PRO1018);
-  match_stage.push(PRO1019);
-  match_stage.push(PRO1020);
-  match_stage.push(PRO1021);
-  match_stage.push(PRO1022);
-  match_stage.push(PRO2001);
-  match_stage.push(PRO2002);
-  match_stage.push(PRO2003);
-  match_stage.push(PRO3001);
-  match_stage.push(PRO3002);
-  match_stage.push(PRO3003);
-  match_stage.push(PRO3004);
-  match_stage.push(PRO3005);
-  match_stage.push(PRO4001);
-  match_stage.push(PRO5001);
-  match_stage.push(PRO5002);
-  match_stage.push(PRO5003);
-  match_stage.push(PRO5004);
-  match_stage.push(PRO5005);
-  match_stage.push(PRO6001);
-  match_stage.push(PRO6002);
-  match_stage.push(PRO6003);
-  match_stage.push(PRO6004);
-  match_stage.push(PRO6005);
-  match_stage.push(PRO6006);
-  match_stage.push(PRO6007);
-  match_stage.push(PRO7001);
-  match_stage.push(PRO7002);
-  match_stage.push(PRO7003);
-  match_stage.push(PRO8001);
-  match_stage.push(PRO8002);
-  match_stage.push(PRO8003);
-  match_stage.push(PRO8004);
-  match_stage.push(PRO8005);
-  match_stage.push(PRO8006);
-  match_stage.push(PRO8007);
-  match_stage.push(PRO8008);
-  match_stage.push(PRO8009);
-  match_stage.push(PRO8010);
-  match_stage.push(PRO8011);
 
   const group_stage = {
     $group: {
-      _id: placeModifier(payload),
+      _id: '$kodProgram',
       jumlahAktivitiCeramahBaru: {
         $sum: '$bilanganAktivitiBaruCeramahBahagianA',
       },
@@ -13028,13 +12575,9 @@ const countPGPro01 = async (payload) => {
 
   // run aggregate
   try {
-    let bigData = [];
-    for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [match_stage[i], group_stage];
-      const data = await Promosi.aggregate(pipeline);
-      bigData.push(data[0]);
-    }
-    return bigData;
+    const pipeline = [match_stage, group_stage];
+    const data = await Promosi.aggregate(pipeline);
+    return data;
   } catch (error) {
     retenLogger.error(error);
     return 'Error counting data';
@@ -16612,7 +16155,6 @@ const getParamsBPE = (payload) => {
   const byPegawai = () => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
-      createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
@@ -16681,7 +16223,6 @@ const getParamsPGS203 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
@@ -16750,7 +16291,6 @@ const getParamsPG201P2 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
