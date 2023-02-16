@@ -248,6 +248,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -312,20 +313,21 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.programData.map((k, index) => {
+                              {props.programData.map((p, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={p.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {p.nama}
                                   </option>
                                 );
                               })}
@@ -345,20 +347,21 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.kpbmpbData.map((k, index) => {
+                              {props.kpbmpbData.map((km, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={km.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {km.nama}
                                   </option>
                                 );
                               })}
@@ -404,6 +407,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -441,6 +445,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -505,6 +510,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -680,7 +686,9 @@ const ModalGenerateBulanan = (props) => {
           toast.error('Anda tidak dibenarkan untuk menjana reten');
           break;
         case 404:
-          toast.error('Tiada data untuk tarikh yang dipilih');
+          toast.error(
+            'Maklumat bagi bulan yang anda pilih belum ada. Sila gunakan penjanaan mengikut tarikh'
+          );
           break;
         default:
           toast.error(
@@ -718,9 +726,9 @@ const ModalGenerateBulanan = (props) => {
       .catch((err) => {
         console.log(err);
         toast.dismiss(id);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-download'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-download'
+        // );
         setTimeout(() => {
           props.setGenerating(false);
         }, 5000);
@@ -821,6 +829,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -885,20 +894,21 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.programData.map((k, index) => {
+                              {props.programData.map((p, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={p.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {p.nama}
                                   </option>
                                 );
                               })}
@@ -918,20 +928,21 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.kpbmpbData.map((k, index) => {
+                              {props.kpbmpbData.map((km, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={km.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {km.nama}
                                   </option>
                                 );
                               })}
@@ -977,6 +988,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1014,6 +1026,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1078,6 +1091,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1313,9 +1327,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kkiakd'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kkiakd'
+          // );
         });
     }
   };
@@ -1329,9 +1343,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-program'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-program'
+          // );
         });
     } else if (e === 'kpbmpb') {
       await readSpesifikKPBMPBDataForKp(loginInfo.kodFasiliti)
@@ -1340,9 +1354,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kpbmpb'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kpbmpb'
+          // );
         });
     }
   };
@@ -1358,9 +1372,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-individu'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-individu'
+          // );
         });
     }
   };
@@ -1390,9 +1404,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-token'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-token'
+          // );
         });
     }
     init.current = true;
