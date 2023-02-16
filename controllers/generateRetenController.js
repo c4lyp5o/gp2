@@ -4460,9 +4460,19 @@ const makeFile = () => {
   );
 };
 
-const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
+const createQuery = ({
+  jenisReten,
+  pilihanIndividu,
+  klinik,
+  daerah,
+  negeri,
+  bulan,
+}) => {
   let query = {};
-  if (klinik !== 'all') {
+  if (pilihanIndividu) {
+    query.createdByMdcMdtb = pilihanIndividu;
+  }
+  if (!pilihanIndividu || klinik !== 'all') {
     query.createdByKodFasiliti = klinik;
   }
   if (daerah !== 'all') {
