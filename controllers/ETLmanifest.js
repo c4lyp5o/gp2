@@ -6,6 +6,7 @@ const Helper = require('../controllers/countHelper');
 
 const Superadmin = require('../models/Superadmin');
 const User = require('../models/User');
+const Operator = require('../models/Operator');
 const Reservoir = require('../models/Reservoir');
 
 const dailyCount = [
@@ -80,6 +81,43 @@ const initialDataKlinik = async (allDaerah) => {
     });
   });
   return klinik;
+};
+
+const initialDataIndividual = async (allKlinik) => {
+  const individu = [];
+  const promises = [];
+  for (const klinik of allKlinik) {
+    const { kodFasiliti } = klinik;
+    promises.push(
+      Operator.find({ kodFasiliti })
+        .select(
+          'createdByNegeri createdByDaerah kodFasiliti nama mdcNumber mdtbNumber'
+        )
+        .lean()
+        .then((results) => {
+          return results.map(
+            ({
+              createdByNegeri,
+              createdByDaerah,
+              kodFasiliti,
+              nama,
+              mdcNumber,
+              mdtbNumber,
+            }) => ({
+              createdByNegeri,
+              createdByDaerah,
+              kodFasiliti,
+              nama,
+              mdcNumber,
+              mdtbNumber,
+            })
+          );
+        })
+    );
+  }
+  const allResults = await Promise.all(promises);
+  individu.push(...allResults.flat());
+  return individu;
 };
 
 const initiateETL = async (req, res) => {
