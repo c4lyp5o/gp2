@@ -322,9 +322,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
         }
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-kemaskini-fetchSinglePersonUmum'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-kemaskini-fetchSinglePersonUmum'
+        // );
       }
     };
     fetchSinglePersonUmum();
@@ -345,9 +345,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           setTaskaTadikaAll(data.taskaTadikaAll);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kkni-tt'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kkni-tt'
+          // );
         }
       };
       fetchTaskaTadika();
@@ -369,9 +369,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
           setEvents(data);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kkni-pj'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kkni-pj'
+          // );
         }
       };
       fetchEvents();
@@ -471,9 +471,9 @@ function Kemaskini({ showKemaskini, setShowKemaskini, toast }) {
       setShowKemaskini(false);
     } catch (error) {
       console.log(error);
-      toast.error(
-        'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-kemaskini-handleSubmit'
-      );
+      // toast.error(
+      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-kemaskini-handleSubmit'
+      // );
     }
   };
 

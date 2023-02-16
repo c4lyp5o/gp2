@@ -70,9 +70,9 @@ function UserFormPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-promosi-fetchAllProgramPromosi'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-promosi-fetchAllProgramPromosi'
+        // );
       }
     };
     fetchAllProgramPromosi();
@@ -96,9 +96,9 @@ function UserFormPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-promosi-fetchSingleAktivitiPromosi'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-promosi-fetchSingleAktivitiPromosi'
+        // );
       }
     };
     fetchSingleAktivitiPromosi();

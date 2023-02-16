@@ -363,9 +363,10 @@ export default function AdminLoginForm() {
         const response = await readNegeri();
         setAllNegeri(response.data);
       } catch (error) {
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadnegeri'
-        );
+        console.log(error);
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadnegeri'
+        // );
       }
     };
     getData();
@@ -381,9 +382,9 @@ export default function AdminLoginForm() {
         setAllDaerah(response.data);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loaddaerah'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loaddaerah'
+        // );
       }
     };
     getData();
@@ -399,9 +400,9 @@ export default function AdminLoginForm() {
         setAllKlinik(response.data);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadklinik'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadklinik'
+        // );
       }
     };
     getData();
@@ -417,9 +418,9 @@ export default function AdminLoginForm() {
         setAllAdmin(response.data);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadpentadbir'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-loadpentadbir'
+        // );
       }
     };
     getData();

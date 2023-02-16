@@ -1970,9 +1970,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-fetchsinglepersonumum'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-fetchsinglepersonumum'
+        // );
       }
     };
     fetchSinglePersonUmum();
@@ -2020,9 +2020,9 @@ function UserFormUmumHeader({ sekolahIdc }) {
         setAllUsedKPBMPB(KPBMPBInRangeDate);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
+        // );
       }
     };
     getAllKPBMPBForNegeri();

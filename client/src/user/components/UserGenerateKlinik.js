@@ -90,9 +90,9 @@ export default function UserGenerateKlinik() {
         setNamaSekolahs(namaSekolahs);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-generate-klinik-fetch-sekolah'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-generate-klinik-fetch-sekolah'
+        // );
       }
     };
     const fetchKp = async () => {
@@ -100,9 +100,9 @@ export default function UserGenerateKlinik() {
         setKp(userinfo.kpSkrg);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-generate-klinik-fetch-kp'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-generate-klinik-fetch-kp'
+        // );
       }
     };
     fetchSekolah();

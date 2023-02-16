@@ -120,9 +120,9 @@ export default function DataKp({ FType }) {
       .catch((err) => {
         console.log(err);
         setLoading(false);
-        toast.error(
-          'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kp-get-data'
-        );
+        // toast.error(
+        //   'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kp-get-data'
+        // );
       });
     return () => {
       setData(null);

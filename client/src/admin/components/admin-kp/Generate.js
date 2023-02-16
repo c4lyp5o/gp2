@@ -686,7 +686,9 @@ const ModalGenerateBulanan = (props) => {
           toast.error('Anda tidak dibenarkan untuk menjana reten');
           break;
         case 404:
-          toast.error('Tiada data untuk tarikh yang dipilih');
+          toast.error(
+            'Maklumat bagi bulan yang anda pilih belum ada. Sila gunakan penjanaan mengikut tarikh'
+          );
           break;
         default:
           toast.error(
@@ -724,9 +726,9 @@ const ModalGenerateBulanan = (props) => {
       .catch((err) => {
         console.log(err);
         toast.dismiss(id);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-download'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: generatekp-download'
+        // );
         setTimeout(() => {
           props.setGenerating(false);
         }, 5000);
@@ -1325,9 +1327,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kkiakd'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kkiakd'
+          // );
         });
     }
   };
@@ -1341,9 +1343,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-program'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-program'
+          // );
         });
     } else if (e === 'kpbmpb') {
       await readSpesifikKPBMPBDataForKp(loginInfo.kodFasiliti)
@@ -1352,9 +1354,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kpbmpb'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-kpbmpb'
+          // );
         });
     }
   };
@@ -1370,9 +1372,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-individu'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-individu'
+          // );
         });
     }
   };
@@ -1402,9 +1404,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-token'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-token'
+          // );
         });
     }
     init.current = true;

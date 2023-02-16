@@ -1169,9 +1169,9 @@ export default function FillableForm({
           setIsEditLoading(false);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kt-fillsingle'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kt-fillsingle'
+          // );
         }
       };
       fetchSinglePersonKaunter();
@@ -1189,9 +1189,9 @@ export default function FillableForm({
           setKkKdAll(data.kkKdAll);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kt-fill-kkkd'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kt-fill-kkkd'
+          // );
         }
       };
       fetchKkKd();
@@ -1212,9 +1212,9 @@ export default function FillableForm({
           setTaskaTadikaAll(data.taskaTadikaAll);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kt-fill-tt'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kt-fill-tt'
+          // );
         }
       };
       fetchTaskaTadika();

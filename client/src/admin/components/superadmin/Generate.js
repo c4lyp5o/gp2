@@ -930,9 +930,9 @@ const ModalGenerateBulanan = (props) => {
       .catch((err) => {
         console.log(err);
         toast.dismiss(id);
-        toast.error(
-          `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-download-${props.jenisReten}`
-        );
+        // toast.error(
+        //   `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-download-${props.jenisReten}`
+        // );
         setTimeout(() => {
           props.setGenerating(false);
         }, 5000);
@@ -1684,9 +1684,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kkiakd'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kkiakd'
+          // );
         });
     }
   };
@@ -1700,9 +1700,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-program'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-program'
+          // );
         });
     } else if (e === 'kpbmpb') {
       await readSpesifikKPBMPBData(pilihanKlinik)
@@ -1711,9 +1711,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kpbmpb'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kpbmpb'
+          // );
         });
     }
   };
@@ -1729,9 +1729,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-individu'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-individu'
+          // );
         });
     }
   };
@@ -1806,9 +1806,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
+          // );
         });
     }
     init.current = true;
