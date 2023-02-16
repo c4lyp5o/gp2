@@ -71,7 +71,16 @@ const ModalGenerateAdHoc = (props) => {
         new Date()
       ).format('DDMMYYYY')}_token.xlsx`;
     }
-    if (props.pilihanKkia === '' && props.pilihanProgram === '') {
+    if (props.pilihanKpbMpb !== '') {
+      file = `${props.jenisReten}_${props.pilihanKpbMpb}_${moment(
+        new Date()
+      ).format('DDMMYYYY')}_token.xlsx`;
+    }
+    if (
+      props.pilihanKkia === '' &&
+      props.pilihanProgram === '' &&
+      props.pilihanKpbMpb === ''
+    ) {
       file = `${props.jenisReten}_${props.namaKlinik.toUpperCase()}_${moment(
         new Date()
       ).format('DDMMYYYY')}_token.xlsx`;
@@ -172,7 +181,7 @@ const ModalGenerateAdHoc = (props) => {
     <>
       <form onSubmit={handleJana}>
         <div
-          className={styles.darkBG}
+          className='absolute inset-0 bg-user1 z-0 opacity-75'
           onClick={() => props.setOpenModalGenerateAdHoc(false)}
         />
         <div className={styles.centered}>
@@ -631,7 +640,16 @@ const ModalGenerateBulanan = (props) => {
         namaNamaBulan[bulan]
       }_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
     }
-    if (props.pilihanKkia === '' && props.pilihanProgram === '') {
+    if (props.pilihanKpbMpb !== '') {
+      file = `${props.jenisReten}_${props.pilihanKpbMpb}_${
+        namaNamaBulan[bulan]
+      }_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
+    }
+    if (
+      props.pilihanKkia === '' &&
+      props.pilihanProgram === '' &&
+      props.pilihanKpbMpb === ''
+    ) {
       file = `${props.jenisReten}_${props.namaKlinik.toUpperCase()}_${
         namaNamaBulan[bulan]
       }_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
@@ -739,7 +757,7 @@ const ModalGenerateBulanan = (props) => {
     <>
       <form onSubmit={handleJana}>
         <div
-          className={styles.darkBG}
+          className='absolute inset-0 bg-user1 z-0 opacity-75'
           onClick={() => props.setOpenModalGenerateBulanan(false)}
         />
         <div className={styles.centered}>
