@@ -2638,10 +2638,185 @@ const makePgPro01 = async (payload) => {
     worksheet.getCell('D9').value = daerah.toUpperCase();
     worksheet.getCell('D10').value = klinik.toUpperCase();
 
-    let j = 0;
+    let rowNew;
+
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(19 + j);
       if (data[i]) {
+        switch (data[i]._id) {
+          case 'PRO1001':
+            rowNew = worksheet.getRow(19);
+            break;
+          case 'PRO1002':
+            rowNew = worksheet.getRow(20);
+            break;
+          case 'PRO1003':
+            rowNew = worksheet.getRow(21);
+            break;
+          case 'PRO1004':
+            rowNew = worksheet.getRow(22);
+            break;
+          case 'PRO1005':
+            rowNew = worksheet.getRow(23);
+            break;
+          case 'PRO1006':
+            rowNew = worksheet.getRow(24);
+            break;
+          case 'PRO1007':
+            rowNew = worksheet.getRow(25);
+            break;
+          case 'PRO1008':
+            rowNew = worksheet.getRow(26);
+            break;
+          case 'PRO1009':
+            rowNew = worksheet.getRow(27);
+            break;
+          case 'PRO1010':
+            rowNew = worksheet.getRow(28);
+            break;
+          case 'PRO1011':
+            rowNew = worksheet.getRow(29);
+            break;
+          case 'PRO1012':
+            rowNew = worksheet.getRow(30);
+            break;
+          case 'PRO1013':
+            rowNew = worksheet.getRow(31);
+            break;
+          case 'PRO1014':
+            rowNew = worksheet.getRow(32);
+            break;
+          case 'PRO1015':
+            rowNew = worksheet.getRow(33);
+            break;
+          case 'PRO1016':
+            rowNew = worksheet.getRow(34);
+            break;
+          case 'PRO1017':
+            rowNew = worksheet.getRow(35);
+            break;
+          case 'PRO1018':
+            rowNew = worksheet.getRow(36);
+            break;
+          case 'PRO1019':
+            rowNew = worksheet.getRow(37);
+            break;
+          case 'PRO1020':
+            rowNew = worksheet.getRow(38);
+            break;
+          case 'PRO1021':
+            rowNew = worksheet.getRow(39);
+            break;
+          case 'PRO1022':
+            rowNew = worksheet.getRow(40);
+            break;
+          case 'PRO2001':
+            rowNew = worksheet.getRow(42);
+            break;
+          case 'PRO2002':
+            rowNew = worksheet.getRow(43);
+            break;
+          case 'PRO2003':
+            rowNew = worksheet.getRow(44);
+            break;
+          case 'PRO3001':
+            rowNew = worksheet.getRow(46);
+            break;
+          case 'PRO3002':
+            rowNew = worksheet.getRow(47);
+            break;
+          case 'PRO3003':
+            rowNew = worksheet.getRow(48);
+            break;
+          case 'PRO3004':
+            rowNew = worksheet.getRow(49);
+            break;
+          case 'PRO3005':
+            rowNew = worksheet.getRow(50);
+            break;
+          case 'PRO4001':
+            rowNew = worksheet.getRow(52);
+            break;
+          case 'PRO5001':
+            rowNew = worksheet.getRow(54);
+            break;
+          case 'PRO5002':
+            rowNew = worksheet.getRow(55);
+            break;
+          case 'PRO5003':
+            rowNew = worksheet.getRow(56);
+            break;
+          case 'PRO5004':
+            rowNew = worksheet.getRow(57);
+            break;
+          case 'PRO5005':
+            rowNew = worksheet.getRow(58);
+            break;
+          case 'PRO6001':
+            rowNew = worksheet.getRow(60);
+            break;
+          case 'PRO6002':
+            rowNew = worksheet.getRow(61);
+            break;
+          case 'PRO6003':
+            rowNew = worksheet.getRow(62);
+            break;
+          case 'PRO6004':
+            rowNew = worksheet.getRow(63);
+            break;
+          case 'PRO6005':
+            rowNew = worksheet.getRow(64);
+            break;
+          case 'PRO6006':
+            rowNew = worksheet.getRow(65);
+            break;
+          case 'PRO6007':
+            rowNew = worksheet.getRow(66);
+            break;
+          case 'PRO7001':
+            rowNew = worksheet.getRow(68);
+            break;
+          case 'PRO7002':
+            rowNew = worksheet.getRow(69);
+            break;
+          case 'PRO7003':
+            rowNew = worksheet.getRow(70);
+            break;
+          case 'PRO8001':
+            rowNew = worksheet.getRow(72);
+            break;
+          case 'PRO8002':
+            rowNew = worksheet.getRow(73);
+            break;
+          case 'PRO8003':
+            rowNew = worksheet.getRow(74);
+            break;
+          case 'PRO8004':
+            rowNew = worksheet.getRow(75);
+            break;
+          case 'PRO8005':
+            rowNew = worksheet.getRow(76);
+            break;
+          case 'PRO8006':
+            rowNew = worksheet.getRow(77);
+            break;
+          case 'PRO8007':
+            rowNew = worksheet.getRow(78);
+            break;
+          case 'PRO8008':
+            rowNew = worksheet.getRow(79);
+            break;
+          case 'PRO8009':
+            rowNew = worksheet.getRow(80);
+            break;
+          case 'PRO8010':
+            rowNew = worksheet.getRow(81);
+            break;
+          case 'PRO8011':
+            rowNew = worksheet.getRow(82);
+            break;
+          default:
+            console.log('no match');
+        }
         rowNew.getCell(5).value = data[i].jumlahAktivitiCeramahBaru; //C15
         rowNew.getCell(6).value = data[i].jumlahPesertaCeramahBaru; //D15
         if (i > 35 && i < 43) {
@@ -2697,18 +2872,6 @@ const makePgPro01 = async (payload) => {
         rowNew.getCell(53).value = data[i].jumlahAktivitiRadio; //BA15
         rowNew.getCell(54).value = data[i].jumlahPesertaRadio; //BB15
         rowNew.getCell(55).value = data[i].jumlahAktivitiCetak; //BC15
-      }
-      j++;
-      if (
-        i === 21 ||
-        i === 24 ||
-        i === 29 ||
-        i === 30 ||
-        i === 35 ||
-        i === 42 ||
-        i === 45
-      ) {
-        j++;
       }
     }
 
