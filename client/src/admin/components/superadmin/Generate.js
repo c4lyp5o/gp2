@@ -258,6 +258,7 @@ const ModalGenerateAdHoc = (props) => {
                           required
                           name='negeri'
                           id='negeri'
+                          value={props.pilihanNegeri}
                           onChange={(e) => {
                             props.setPilihanNegeri(e.target.value);
                             if (
@@ -300,6 +301,7 @@ const ModalGenerateAdHoc = (props) => {
                           required
                           name='daerah'
                           id='daerah'
+                          value={props.pilihanDaerah}
                           onChange={(e) => {
                             props.setPilihanDaerah(e.target.value);
                             if (
@@ -345,6 +347,7 @@ const ModalGenerateAdHoc = (props) => {
                           required
                           name='klinik'
                           id='klinik'
+                          value={props.pilihanKlinik}
                           onChange={(e) => {
                             props.setPilihanKlinik(e.target.value);
                             props.setNamaKlinik(
@@ -413,6 +416,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -480,6 +484,7 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
@@ -513,6 +518,7 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
@@ -575,6 +581,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -612,6 +619,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -679,6 +687,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -999,6 +1008,7 @@ const ModalGenerateBulanan = (props) => {
                           required
                           name='negeri'
                           id='negeri'
+                          value={props.pilihanNegeri}
                           onChange={(e) => {
                             props.setPilihanNegeri(e.target.value);
                             if (
@@ -1041,6 +1051,7 @@ const ModalGenerateBulanan = (props) => {
                           required
                           name='daerah'
                           id='daerah'
+                          value={props.pilihanDaerah}
                           onChange={(e) => {
                             props.setPilihanDaerah(e.target.value);
                             if (
@@ -1086,6 +1097,7 @@ const ModalGenerateBulanan = (props) => {
                           required
                           name='klinik'
                           id='klinik'
+                          value={props.pilihanKlinik}
                           onChange={(e) => {
                             props.setPilihanKlinik(e.target.value);
                             props.setNamaKlinik(
@@ -1154,6 +1166,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -1221,6 +1234,7 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
@@ -1254,6 +1268,7 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
@@ -1316,6 +1331,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1353,6 +1369,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1420,6 +1437,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1723,6 +1741,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [pilihanFasiliti]);
 
   useEffect(() => {
@@ -1730,6 +1749,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [pilihanKlinik]);
 
   useEffect(() => {
@@ -1738,6 +1758,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [pilihanDaerah]);
 
   useEffect(() => {
@@ -1745,8 +1766,8 @@ const Generate = (props) => {
       setPilihanNegeri('');
     }
     if (
-      loginInfo.accountType === 'negeriSuperadmin' ||
-      loginInfo.accountType === 'hqSuperadmin'
+      loginInfo.accountType === 'hqSuperadmin' ||
+      loginInfo.accountType === 'negeriSuperadmin'
     ) {
       setPilihanDaerah('');
     }
@@ -1755,6 +1776,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
   useEffect(() => {

@@ -248,6 +248,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -312,6 +313,7 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
@@ -345,6 +347,7 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
@@ -404,6 +407,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -441,6 +445,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -505,6 +510,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -821,6 +827,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -885,6 +892,7 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
@@ -918,6 +926,7 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
@@ -977,6 +986,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1014,6 +1024,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1078,6 +1089,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
