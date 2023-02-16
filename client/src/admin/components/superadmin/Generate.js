@@ -1808,6 +1808,16 @@ const Generate = (props) => {
     setPilihanProgram('');
     setPilihanKpbMpb('');
     setPilihanIndividu('');
+    // refetch token after init.current = true
+    if (init.current === true) {
+      readGenerateTokenData()
+        .then((res) => {
+          setStatusToken(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
   useEffect(() => {
