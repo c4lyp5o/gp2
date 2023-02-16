@@ -206,8 +206,8 @@ const ModalGenerateAdHoc = (props) => {
     <>
       <form onSubmit={handleJana}>
         <div
-          className={styles.darkBG}
           onClick={() => props.setOpenModalGenerateAdHoc(false)}
+          className='absolute inset-0 bg-user1 z-0 opacity-75'
         />
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
@@ -943,7 +943,7 @@ const ModalGenerateBulanan = (props) => {
     <>
       <form onSubmit={handleJana}>
         <div
-          className={styles.darkBG}
+          className='absolute inset-0 bg-user1 z-0 opacity-75'
           onClick={() => props.setOpenModalGenerateBulanan(false)}
         />
         <div className={styles.centered}>
