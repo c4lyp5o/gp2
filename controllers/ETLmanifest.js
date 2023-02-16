@@ -32,55 +32,53 @@ const initialDataNegeri = async () => {
   const all = await Superadmin.find({ accountType: 'negeriSuperadmin' })
     .select('negeri')
     .lean();
-  const allNegeri = _.uniqBy(all, 'negeri');
-  let negeri = [];
-  allNegeri.forEach((item) => {
-    negeri.push(item.negeri);
-  });
+  const negeri = all.map((item) => item.negeri);
   return negeri;
 };
 
 const initialDataDaerah = async (allNegeri) => {
-  let daerah = [];
-  for (let i = 0; i < allNegeri.length; i++) {
-    const all = await Superadmin.find({
-      negeri: allNegeri[i],
-      accountType: 'daerahSuperadmin',
-    })
-      .select('negeri daerah')
-      .lean();
-    const specDaerah = _.uniqBy(all, 'daerah');
-    specDaerah.forEach((item) => {
-      let daerahObj = {
-        negeri: item.negeri,
-        daerah: item.daerah,
-      };
+  const daerah = [];
+  const promises = [];
+  for (const negeri of allNegeri) {
+    promises.push(
+      Superadmin.find({
+        negeri,
+        accountType: 'daerahSuperadmin',
+      })
+        .select('negeri daerah')
+        .lean()
+    );
+  }
+  const allResults = await Promise.all(promises);
+  allResults.forEach((results) => {
+    results.forEach((result) => {
+      const daerahObj = { negeri: result.negeri, daerah: result.daerah };
       daerah.push(daerahObj);
     });
-  }
+  });
   return daerah;
 };
 
 const initialDataKlinik = async (allDaerah) => {
-  let klinik = [];
-  for (let i = 0; i < allDaerah.length; i++) {
-    const all = await User.find({
-      negeri: allDaerah[i].negeri,
-      daerah: allDaerah[i].daerah,
-      accountType: 'kpUser',
-    })
-      .select('negeri daerah kodFasiliti')
-      .lean();
-    const specKlinik = _.uniqBy(all, 'kodFasiliti');
-    specKlinik.forEach((item) => {
-      let klinikObj = {
-        negeri: item.negeri,
-        daerah: item.daerah,
-        kodFasiliti: item.kodFasiliti,
-      };
-      klinik.push(klinikObj);
-    });
+  const klinik = [];
+  const promises = [];
+  for (const { negeri, daerah } of allDaerah) {
+    promises.push(
+      User.find({
+        negeri,
+        daerah,
+        accountType: 'kpUser',
+      })
+        .select('negeri daerah kodFasiliti kp')
+        .lean()
+    );
   }
+  const allResults = await Promise.all(promises);
+  allResults.forEach((results) => {
+    results.forEach(({ negeri, daerah, kodFasiliti, kp }) => {
+      klinik.push({ negeri, daerah, kodFasiliti, kp });
+    });
+  });
   return klinik;
 };
 
