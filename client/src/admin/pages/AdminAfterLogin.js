@@ -121,6 +121,9 @@ export default function AdminAfterLogin() {
     };
     getUser().catch((err) => {
       console.log(err);
+      // toast.error(
+      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-login'
+      // );
       logOutUser();
     });
     logOutNotiSystem();
@@ -135,7 +138,7 @@ export default function AdminAfterLogin() {
       <Header {...props} />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
       <Navbar {...props} />
-      <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pb-5 px-3'>
+      <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pt-2 pb-2 px-3'>
         <Routes>
           <Route path='followers' element={<DataKp FType='followers' />} />
           <Route path='sosmed' element={<DataKp FType='sosmed' />} />

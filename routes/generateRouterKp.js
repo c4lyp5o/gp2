@@ -9,7 +9,4 @@ const generator = require('../controllers/generateRetenController');
 // Routes
 router.get('/download', adminAuth, generator.startQueueKp);
 
-// debug
-router.get('/debug', generator.debug);
-
 module.exports = router;

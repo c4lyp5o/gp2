@@ -60,20 +60,26 @@ function UserAfterLogin() {
             element={<UserFormUmumHeader />}
           />
 
-          <Route path='senarai-sekolah' element={<UserSenaraiSekolah />} />
-          <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
-          <Route
-            path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
-            element={<UserFormSekolahPemeriksaan />}
-          />
-          <Route
-            path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
-            element={<UserFormSekolahRawatan />}
-          />
-          <Route
-            path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
-            element={<UserFormSekolahKOTAK />}
-          />
+          {process.env.REACT_APP_ENV === 'TRAINING' ||
+          process.env.REACT_APP_ENV === 'UNSTABLE' ||
+          process.env.REACT_APP_ENV === 'DEV' ? (
+            <>
+              <Route path='senarai-sekolah' element={<UserSenaraiSekolah />} />
+              <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
+              <Route
+                path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
+                element={<UserFormSekolahPemeriksaan />}
+              />
+              <Route
+                path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
+                element={<UserFormSekolahRawatan />}
+              />
+              <Route
+                path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
+                element={<UserFormSekolahKOTAK />}
+              />
+            </>
+          ) : null}
 
           {/* sampai mac2023 je */}
           <Route

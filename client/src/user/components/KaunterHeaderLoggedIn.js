@@ -34,7 +34,6 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
     const refetchIdentityDatetime = () => {
       setKaunterToken(localStorage.getItem('kaunterToken'));
       setRefetchDateTime(!refetchDateTime);
-      console.log('refetch kaunter on focus');
     };
     refetchIdentityDatetime();
   }, [refetchState]);
