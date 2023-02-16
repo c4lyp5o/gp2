@@ -307,7 +307,7 @@ const downloader = async (req, res, callback) => {
     bulan,
     fromEtl,
   };
-  console.log(payload);
+  process.env.BUILD_ENV === 'production' ? null : console.table(payload);
   logger.info(`[generateRetenController] ${username} requesting ${jenisReten}`);
   let excelFile;
   switch (jenisReten) {
@@ -582,7 +582,7 @@ const makePG101A = async (payload) => {
 
     worksheet.name = 'PG101A';
 
-    const newfile = makeFile(payload, 'PG101A');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file - ${newfile}`);
@@ -593,7 +593,7 @@ const makePG101A = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG101C = async (payload) => {
@@ -796,7 +796,7 @@ const makePG101C = async (payload) => {
 
     worksheet.name = 'PG101C';
 
-    const newfile = makeFile(payload, 'PG101C');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -808,7 +808,7 @@ const makePG101C = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG211A = async (payload) => {
@@ -973,7 +973,7 @@ const makePG211A = async (payload) => {
 
     worksheet.name = 'PG211A';
 
-    const newfile = makeFile(payload, 'PG211A');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -986,7 +986,7 @@ const makePG211A = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG211C = async (payload) => {
@@ -1139,7 +1139,7 @@ const makePG211C = async (payload) => {
 
     worksheet.name = 'PG211C';
 
-    const newfile = makeFile(payload, 'PG211C');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -1153,7 +1153,7 @@ const makePG211C = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG214 = async (payload) => {
@@ -1245,7 +1245,6 @@ const makePG214 = async (payload) => {
             rowNew = worksheet.getRow(18);
             break;
           default:
-            console.log('no data');
             break;
         }
       }
@@ -1322,7 +1321,7 @@ const makePG214 = async (payload) => {
 
     worksheet.name = 'PG214';
 
-    const newfile = makeFile(payload, 'PG214');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -1334,7 +1333,7 @@ const makePG214 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG206 = async (payload) => {
@@ -1661,7 +1660,7 @@ const makePG206 = async (payload) => {
 
     worksheet.name = 'PG206';
 
-    const newfile = makeFile(payload, 'PG206');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -1675,7 +1674,7 @@ const makePG206 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG207 = async (payload) => {
@@ -2100,7 +2099,7 @@ const makePG207 = async (payload) => {
 
     worksheet.name = 'PG207';
 
-    const newfile = makeFile(payload, 'PG207');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2114,7 +2113,7 @@ const makePG207 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG201 = async (payload) => {
@@ -2335,7 +2334,7 @@ const makePG201 = async (payload) => {
       }
     }
 
-    const newfile = makeFile(payload, 'PG201');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2349,7 +2348,7 @@ const makePG201 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePGPR201 = async (payload) => {
@@ -2539,7 +2538,7 @@ const makePGPR201 = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'PGPR201');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2551,7 +2550,7 @@ const makePGPR201 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 
@@ -2914,7 +2913,7 @@ const makePgPro01 = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'PGPRO01');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2927,7 +2926,7 @@ const makePgPro01 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePgPro01Combined = async (payload) => {
@@ -3112,7 +3111,7 @@ const makePgPro01Combined = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'PGPRO01Combined');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3125,7 +3124,7 @@ const makePgPro01Combined = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeGender = async (payload) => {
@@ -3351,7 +3350,7 @@ const makeGender = async (payload) => {
 
     worksheet.name = 'GENDER';
 
-    const newfile = makeFile(payload, 'GENDER');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3365,7 +3364,7 @@ const makeGender = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeMasa = async (payload) => {
@@ -3517,7 +3516,7 @@ const makeMasa = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'MASA');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3531,7 +3530,7 @@ const makeMasa = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeBp = async (payload) => {
@@ -3838,7 +3837,7 @@ const makeBp = async (payload) => {
 
     worksheet.name = moment(bulan).format('MMMM');
 
-    const newfile = makeFile(payload, 'BP');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3852,7 +3851,7 @@ const makeBp = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeBPE = async (payload) => {
@@ -4000,7 +3999,7 @@ const makeBPE = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'BPE Reten');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -4012,7 +4011,7 @@ const makeBPE = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePGS203P2 = async (payload) => {
@@ -4177,7 +4176,7 @@ const makePGS203P2 = async (payload) => {
 
     worksheet.name = 'PGS203P2';
 
-    const newfile = makeFile(payload, 'PGS203P2');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -4189,7 +4188,7 @@ const makePGS203P2 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG201P2 = async (payload) => {
@@ -4413,7 +4412,7 @@ const makePG201P2 = async (payload) => {
 
     worksheet.name = 'PGS203P2';
 
-    const newfile = makeFile(payload, 'PGS203P2');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -4425,7 +4424,7 @@ const makePG201P2 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 
