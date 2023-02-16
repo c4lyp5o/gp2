@@ -4450,31 +4450,13 @@ exports.debug = async (req, res) => {
 };
 
 // helper
-const makeFile = (payload, reten) => {
-  // const { pegawai, klinik, daerah, negeri } = payload;
-  // if (pegawai) {
-  //   return fileName(pegawai, reten);
-  // }
-  // if (daerah !== 'all' && klinik !== 'all') {
-  //   return fileName(klinik, reten);
-  // }
-  // if (daerah !== 'all' && klinik === 'all') {
-  //   return fileName(daerah, reten);
-  // }
-  // if (daerah === 'all') {
-  //   return fileName(negeri, reten);
-  // }
-  return fileName(generateRandomString(20), reten);
-};
-
-const fileName = (params, reten) => {
+const makeFile = () => {
   return path.join(
     __dirname,
     '..',
     'public',
     'exports',
-    // `test-${params}-${reten}.xlsx`
-    `${params}.xlsx`
+    `${generateRandomString(20)}.xlsx`
   );
 };
 
