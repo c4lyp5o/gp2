@@ -6,10 +6,26 @@
 
 - Waktu sampai akan berubah mengikut waktu semasa ketika mendaftarkan pesakit di modul Pendaftaran
 - Cara carian promosi klinik & promosi individu dibuat dengan lebih efisien
+- Token di modul Pentadbir dipaparkan dengan jumlah 15 sekiranya belum mula menjana apa-apa reten
+
+### 17/2/2023 (v2.0.13)
+
+#### Fixed
+
+- Token di modul Pentadbir akan dipaparkan kepada jumlah yang baru selepas penolakan berlaku selepas penjanaan reten
 
 #### e-Reporting
 
-- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan bulanan)
+- Penambahbaikan PG101 dan PG211 untuk UTC
+- Penambahbaikan reten PG101A dan PG101C
+- Pembetulan penjanaan reten PG101C untuk KPB/MPB
+- Penambahbaikan PG214, PG206 dan PG207
+- Penambahbaikan reten BP, MASA dan PGPRO
+- Penambahbaikan menyeluruh pada label bulan di semua reten
+- Kemaskini reten PGPRO dan MASA
+- Penjanaan untuk individu dibuka bagi PG206, PG207 dan PGPRO di modul Pentadbir untuk penjanaan menggunakan token
+- Nama setiap file reten diperbetulkan mengikut reten yang dijana
+- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan secara bulanan yang telah siap dikira sebagai reten akhir pada setiap 6 haribulan bulan berikutnya)
 
 ### 10/2/2023 (v2.0.12)
 
