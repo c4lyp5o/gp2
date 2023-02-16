@@ -491,14 +491,14 @@ const ModalGenerateAdHoc = (props) => {
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.programData.map((k, index) => {
+                              {props.programData.map((p, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={p.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {p.nama}
                                   </option>
                                 );
                               })}
@@ -525,14 +525,14 @@ const ModalGenerateAdHoc = (props) => {
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.kpbmpbData.map((k, index) => {
+                              {props.kpbmpbData.map((km, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={km.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {km.nama}
                                   </option>
                                 );
                               })}
@@ -1241,14 +1241,14 @@ const ModalGenerateBulanan = (props) => {
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.programData.map((k, index) => {
+                              {props.programData.map((p, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={p.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {p.nama}
                                   </option>
                                 );
                               })}
@@ -1275,14 +1275,14 @@ const ModalGenerateBulanan = (props) => {
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.kpbmpbData.map((k, index) => {
+                              {props.kpbmpbData.map((km, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={km.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {km.nama}
                                   </option>
                                 );
                               })}
