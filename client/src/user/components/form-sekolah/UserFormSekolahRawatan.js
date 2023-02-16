@@ -103,8 +103,9 @@ function UserFormSekolahRawatan() {
   ] = useState(0);
   const [pulpotomiSekolahRawatan, setPulpotomiSekolahRawatan] = useState(0);
   const [endodontikSekolahRawatan, setEndodontikSekolahRawatan] = useState(0);
-  const [absesSekolahRawatan, setAbsesSekolahRawatan] = useState(0);
-  const [penskaleranSekolahRawatan, setPenskaleranSekolahRawatan] = useState(0);
+  const [absesSekolahRawatan, setAbsesSekolahRawatan] = useState(false);
+  const [penskaleranSekolahRawatan, setPenskaleranSekolahRawatan] =
+    useState(false);
   const [kesSelesaiSekolahRawatan, setKesSelesaiSekolahRawatan] =
     useState(false);
   const [kesSelesaiIcdasSekolahRawatan, setKesSelesaiIcdasSekolahRawatan] =
@@ -1093,7 +1094,7 @@ function UserFormSekolahRawatan() {
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         rawatan lain yang telah dilakukan
                       </h4>
-                      <div className='grid grid-cols-1 lg:grid-cols-3 col-span-2'>
+                      <div className='grid grid-cols-1 lg:grid-cols-2 col-span-2'>
                         <div className='flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>pulpotomi: </p>
                           <input
@@ -1133,43 +1134,52 @@ function UserFormSekolahRawatan() {
                           />
                         </div>
                         <div className='flex items-center flex-row pl-5'>
-                          <p className='text-sm font-m'>abses: </p>
                           <input
-                            type='number'
+                            type='checkbox'
                             name='abses-penyata-akhir-2'
                             id='abses-penyata-akhir-2'
-                            value={absesSekolahRawatan}
+                            checked={absesSekolahRawatan}
                             onChange={(e) => {
-                              setAbsesSekolahRawatan(e.target.value);
+                              setAbsesSekolahRawatan(!absesSekolahRawatan);
                               setConfirmData({
                                 ...confirmData,
-                                absesSekolahRawatan: e.target.value,
+                                absesSekolahRawatan: !absesSekolahRawatan,
                               });
                             }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            min='0'
-                            max='1'
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
+                          <label
+                            htmlFor='abses-penyata-akhir-2'
+                            className='text-sm font-m mx-2'
+                          >
+                            abses
+                          </label>
                         </div>
                       </div>
-                      <div className='flex flex-row items-center pl-5'>
-                        <p className='text-sm font-m'>Penskaleran:</p>
+                      <div className='flex flex-row items-center pl-5 col-start-1'>
                         <input
-                          type='number'
+                          type='checkbox'
                           name='penskaleran-penyata-akhir-2'
                           id='penskaleran-penyata-akhir-2'
-                          value={penskaleranSekolahRawatan}
+                          checked={penskaleranSekolahRawatan}
                           onChange={(e) => {
-                            setPenskaleranSekolahRawatan(e.target.value);
+                            setPenskaleranSekolahRawatan(
+                              !penskaleranSekolahRawatan
+                            );
                             setConfirmData({
                               ...confirmData,
-                              penskaleranSekolahRawatan: e.target.value,
+                              penskaleranSekolahRawatan:
+                                !penskaleranSekolahRawatan,
                             });
                           }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          min='0'
-                          max='4'
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
+                        <label
+                          htmlFor='penskaleran-penyata-akhir-2'
+                          className='text-sm font-m mx-2'
+                        >
+                          Penskaleran
+                        </label>
                       </div>
                     </article>
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
