@@ -16155,7 +16155,6 @@ const getParamsBPE = (payload) => {
   const byPegawai = () => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
-      createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
@@ -16224,7 +16223,6 @@ const getParamsPGS203 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
@@ -16293,7 +16291,6 @@ const getParamsPG201P2 = (payload) => {
 
   const byPegawai = () => {
     let param = {
-      createdByKodFasiliti: klinik,
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
