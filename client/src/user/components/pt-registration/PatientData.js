@@ -226,8 +226,11 @@ export default function PatientData({
         case 404:
           toast.error('Tiada pesakit untuk bulan yang dipilih');
           break;
+        case 0:
+          toast.error('Network error');
+          break;
         default:
-          toast.error('Internal Server Error');
+          toast.error('Something wrong happened');
           break;
       }
     }

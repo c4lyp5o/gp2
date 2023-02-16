@@ -162,10 +162,11 @@ const ModalGenerateAdHoc = (props) => {
         case 404:
           toast.error('Tiada data untuk tarikh yang dipilih');
           break;
+        case 0:
+          toast.error('Network error');
+          break;
         default:
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
-          );
+          toast.error('Something wrong happened');
           break;
       }
     }
@@ -174,26 +175,46 @@ const ModalGenerateAdHoc = (props) => {
   const handleJana = async (e) => {
     e.preventDefault();
     props.setGenerating(true);
+    props.setGeneratingNoWayBack(true);
     const id = toast.loading('Sedang menjana reten...');
-    await penjanaanReten()
-      .then((res) => {
-        saveFile(res.data);
-      })
-      .then(() => {
-        toast.update(id, {
-          render: 'Berjaya menjana reten',
-          type: 'success',
-          isLoading: false,
-          autoClose: 2000,
-        });
-        setTimeout(() => {
+    setTimeout(async () => {
+      await penjanaanReten()
+        .then((res) => {
+          saveFile(res.data);
+        })
+        .then(() => {
+          toast.update(id, {
+            render: 'Berjaya menjana reten',
+            type: 'success',
+            isLoading: false,
+            autoClose: 2000,
+          });
+          props.setGeneratingNoWayBack(false);
+          setTimeout(() => {
+            props.setGenerating(false);
+          }, 3000);
+          props.setOpenModalGenerateAdHoc(false);
+          props.setOpenModalGenerateBulanan(false);
+        })
+        .catch((err) => {
+          toast.dismiss(id);
           props.setGenerating(false);
-        }, 5000);
-      })
-      .catch((err) => {
-        toast.dismiss(id);
-        props.setGenerating(false);
+          props.setGeneratingNoWayBack(false);
+        });
+    }, 3000);
+  };
+
+  const noWayBack = () => {
+    if (props.generatingNoWayBack) {
+      toast.warning('Sila sabar menunggu...', {
+        autoClose: 2000,
+        pauseOnHover: false,
       });
+      return;
+    }
+    if (!props.generatingNoWayBack) {
+      props.setOpenModalGenerateAdHoc(false);
+    }
   };
 
   // reset endDate if change startDate
@@ -206,8 +227,8 @@ const ModalGenerateAdHoc = (props) => {
     <>
       <form onSubmit={handleJana}>
         <div
-          onClick={() => props.setOpenModalGenerateAdHoc(false)}
           className='absolute inset-0 bg-user1 z-0 opacity-75'
+          onClick={noWayBack}
         />
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
@@ -216,10 +237,7 @@ const ModalGenerateAdHoc = (props) => {
                 Penjanaan Reten {props.jenisReten}
               </h5>
             </div>
-            <span
-              className={styles.closeBtn}
-              onClick={() => props.setOpenModalGenerateAdHoc(false)}
-            >
+            <span className={styles.closeBtn} onClick={noWayBack}>
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </span>
             <div className={styles.modalContent}>
@@ -756,7 +774,7 @@ const ModalGenerateAdHoc = (props) => {
                   <button
                     type='button'
                     className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
-                    onClick={() => props.setOpenModalGenerateAdHoc(false)}
+                    onClick={noWayBack}
                   >
                     Kembali
                   </button>
@@ -894,10 +912,11 @@ const ModalGenerateBulanan = (props) => {
             'Maklumat bagi bulan yang anda pilih belum ada. Sila gunakan penjanaan mengikut tarikh'
           );
           break;
+        case 0:
+          toast.error('Network error');
+          break;
         default:
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Mohon tunggu sebentar'
-          );
+          toast.error('Something wrong happened');
           break;
       }
     }
@@ -911,32 +930,46 @@ const ModalGenerateBulanan = (props) => {
       );
     }
     props.setGenerating(true);
+    props.setGeneratingNoWayBack(true);
     const id = toast.loading('Sedang menjana reten...');
-    await penjanaanReten()
-      .then((res) => {
-        saveFile(res.data);
-      })
-      .then(() => {
-        toast.update(id, {
-          render: 'Berjaya menjana reten',
-          type: 'success',
-          isLoading: false,
-          autoClose: 2000,
+    setTimeout(async () => {
+      await penjanaanReten()
+        .then((res) => {
+          saveFile(res.data);
+        })
+        .then(() => {
+          toast.update(id, {
+            render: 'Berjaya menjana reten',
+            type: 'success',
+            isLoading: false,
+            autoClose: 2000,
+          });
+          props.setGeneratingNoWayBack(false);
+          setTimeout(() => {
+            props.setGenerating(false);
+          }, 3000);
+          props.setOpenModalGenerateBulanan(false);
+          props.setOpenModalGenerateAdHoc(false);
+        })
+        .catch((err) => {
+          toast.dismiss(id);
+          props.setGenerating(false);
+          props.setGeneratingNoWayBack(false);
         });
-        setTimeout(() => {
-          props.setGenerating(false);
-        }, 5000);
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.dismiss(id);
-        // toast.error(
-        //   `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-download-${props.jenisReten}`
-        // );
-        setTimeout(() => {
-          props.setGenerating(false);
-        }, 5000);
+    }, 3000);
+  };
+
+  const noWayBack = () => {
+    if (props.generatingNoWayBack) {
+      toast.warning('Sila sabar menunggu...', {
+        autoClose: 2000,
+        pauseOnHover: false,
       });
+      return;
+    }
+    if (!props.generatingNoWayBack) {
+      props.setOpenModalGenerateBulanan(false);
+    }
   };
 
   return (
@@ -944,7 +977,7 @@ const ModalGenerateBulanan = (props) => {
       <form onSubmit={handleJana}>
         <div
           className='absolute inset-0 bg-user1 z-0 opacity-75'
-          onClick={() => props.setOpenModalGenerateBulanan(false)}
+          onClick={noWayBack}
         />
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
@@ -953,10 +986,7 @@ const ModalGenerateBulanan = (props) => {
                 Penjanaan Reten {props.jenisReten}
               </h5>
             </div>
-            <span
-              className={styles.closeBtn}
-              onClick={() => props.setOpenModalGenerateBulanan(false)}
-            >
+            <span className={styles.closeBtn} onClick={noWayBack}>
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </span>
             <div className={styles.modalContent}>
@@ -1506,7 +1536,7 @@ const ModalGenerateBulanan = (props) => {
                   <button
                     type='button'
                     className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
-                    onClick={() => props.setOpenModalGenerateBulanan(false)}
+                    onClick={noWayBack}
                   >
                     Kembali
                   </button>
@@ -1542,6 +1572,7 @@ const Generate = (props) => {
     useState(false);
   const [jenisReten, setJenisReten] = useState('');
   const [generating, setGenerating] = useState(false);
+  const [generatingNoWayBack, setGeneratingNoWayBack] = useState(false);
 
   const [kkiaData, setKkiaData] = useState([]);
   const [programData, setProgramData] = useState([]);
@@ -1777,6 +1808,16 @@ const Generate = (props) => {
     setPilihanProgram('');
     setPilihanKpbMpb('');
     setPilihanIndividu('');
+    // refetch token after init.current = true
+    if (init.current === true) {
+      readGenerateTokenData()
+        .then((res) => {
+          setStatusToken(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    }
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
   useEffect(() => {
@@ -1848,6 +1889,8 @@ const Generate = (props) => {
     setPilihanKlinik,
     generating,
     setGenerating,
+    generatingNoWayBack,
+    setGeneratingNoWayBack,
     // trigger get data
     handleGetKkia,
     handleGetProgramEnKPBMPB,
@@ -1862,7 +1905,7 @@ const Generate = (props) => {
 
   return (
     <>
-      <div className='p-2'>
+      <div className='h-full overflow-y-auto rounded-md'>
         <h1 className='font-bold text-lg text-user1 mb-2'>
           Penjanaan Laporan bagi {currentUser}
         </h1>
