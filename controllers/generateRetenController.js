@@ -307,7 +307,7 @@ const downloader = async (req, res, callback) => {
     bulan,
     fromEtl,
   };
-  console.log(payload);
+  process.env.BUILD_ENV === 'production' ? null : console.table(payload);
   logger.info(`[generateRetenController] ${username} requesting ${jenisReten}`);
   let excelFile;
   switch (jenisReten) {
@@ -582,7 +582,7 @@ const makePG101A = async (payload) => {
 
     worksheet.name = 'PG101A';
 
-    const newfile = makeFile(payload, 'PG101A');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file - ${newfile}`);
@@ -593,7 +593,7 @@ const makePG101A = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG101C = async (payload) => {
@@ -796,7 +796,7 @@ const makePG101C = async (payload) => {
 
     worksheet.name = 'PG101C';
 
-    const newfile = makeFile(payload, 'PG101C');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -808,7 +808,7 @@ const makePG101C = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG211A = async (payload) => {
@@ -973,7 +973,7 @@ const makePG211A = async (payload) => {
 
     worksheet.name = 'PG211A';
 
-    const newfile = makeFile(payload, 'PG211A');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -986,7 +986,7 @@ const makePG211A = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG211C = async (payload) => {
@@ -1139,7 +1139,7 @@ const makePG211C = async (payload) => {
 
     worksheet.name = 'PG211C';
 
-    const newfile = makeFile(payload, 'PG211C');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -1153,7 +1153,7 @@ const makePG211C = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG214 = async (payload) => {
@@ -1223,7 +1223,7 @@ const makePG214 = async (payload) => {
     //
     let rowNew;
 
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data[0].PG214.length; i++) {
       if (data[0].PG214[i]) {
         switch (data[0].PG214[i]._id) {
           case '60':
@@ -1245,7 +1245,6 @@ const makePG214 = async (payload) => {
             rowNew = worksheet.getRow(18);
             break;
           default:
-            console.log('no data');
             break;
         }
       }
@@ -1322,7 +1321,7 @@ const makePG214 = async (payload) => {
 
     worksheet.name = 'PG214';
 
-    const newfile = makeFile(payload, 'PG214');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -1334,7 +1333,7 @@ const makePG214 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG206 = async (payload) => {
@@ -1661,7 +1660,7 @@ const makePG206 = async (payload) => {
 
     worksheet.name = 'PG206';
 
-    const newfile = makeFile(payload, 'PG206');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -1675,7 +1674,7 @@ const makePG206 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG207 = async (payload) => {
@@ -1738,8 +1737,8 @@ const makePG207 = async (payload) => {
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
-    worksheet.getCell('AO5').value = monthName;
-    worksheet.getCell('AU5').value = yearNow;
+    worksheet.getCell('AO6').value = monthName;
+    worksheet.getCell('AU6').value = yearNow;
 
     if (pilihanIndividu) {
       const currentIndividu = await Operator.findOne({
@@ -2100,7 +2099,7 @@ const makePG207 = async (payload) => {
 
     worksheet.name = 'PG207';
 
-    const newfile = makeFile(payload, 'PG207');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2114,7 +2113,7 @@ const makePG207 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG201 = async (payload) => {
@@ -2335,7 +2334,7 @@ const makePG201 = async (payload) => {
       }
     }
 
-    const newfile = makeFile(payload, 'PG201');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2349,7 +2348,7 @@ const makePG201 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePGPR201 = async (payload) => {
@@ -2366,12 +2365,15 @@ const makePGPR201 = async (payload) => {
       fromEtl,
     } = payload;
     //
-    console.log('Cuba Uji Test');
     let data;
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPGPR201Baru(payload);
@@ -2536,7 +2538,7 @@ const makePGPR201 = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'PGPR201');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2544,13 +2546,11 @@ const makePGPR201 = async (payload) => {
       fs.unlinkSync(newfile);
       logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
-    // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 
@@ -2642,10 +2642,185 @@ const makePgPro01 = async (payload) => {
     worksheet.getCell('D9').value = daerah.toUpperCase();
     worksheet.getCell('D10').value = klinik.toUpperCase();
 
-    let j = 0;
+    let rowNew;
+
     for (let i = 0; i < data.length; i++) {
-      let rowNew = worksheet.getRow(19 + j);
       if (data[i]) {
+        switch (data[i]._id) {
+          case 'PRO1001':
+            rowNew = worksheet.getRow(19);
+            break;
+          case 'PRO1002':
+            rowNew = worksheet.getRow(20);
+            break;
+          case 'PRO1003':
+            rowNew = worksheet.getRow(21);
+            break;
+          case 'PRO1004':
+            rowNew = worksheet.getRow(22);
+            break;
+          case 'PRO1005':
+            rowNew = worksheet.getRow(23);
+            break;
+          case 'PRO1006':
+            rowNew = worksheet.getRow(24);
+            break;
+          case 'PRO1007':
+            rowNew = worksheet.getRow(25);
+            break;
+          case 'PRO1008':
+            rowNew = worksheet.getRow(26);
+            break;
+          case 'PRO1009':
+            rowNew = worksheet.getRow(27);
+            break;
+          case 'PRO1010':
+            rowNew = worksheet.getRow(28);
+            break;
+          case 'PRO1011':
+            rowNew = worksheet.getRow(29);
+            break;
+          case 'PRO1012':
+            rowNew = worksheet.getRow(30);
+            break;
+          case 'PRO1013':
+            rowNew = worksheet.getRow(31);
+            break;
+          case 'PRO1014':
+            rowNew = worksheet.getRow(32);
+            break;
+          case 'PRO1015':
+            rowNew = worksheet.getRow(33);
+            break;
+          case 'PRO1016':
+            rowNew = worksheet.getRow(34);
+            break;
+          case 'PRO1017':
+            rowNew = worksheet.getRow(35);
+            break;
+          case 'PRO1018':
+            rowNew = worksheet.getRow(36);
+            break;
+          case 'PRO1019':
+            rowNew = worksheet.getRow(37);
+            break;
+          case 'PRO1020':
+            rowNew = worksheet.getRow(38);
+            break;
+          case 'PRO1021':
+            rowNew = worksheet.getRow(39);
+            break;
+          case 'PRO1022':
+            rowNew = worksheet.getRow(40);
+            break;
+          case 'PRO2001':
+            rowNew = worksheet.getRow(42);
+            break;
+          case 'PRO2002':
+            rowNew = worksheet.getRow(43);
+            break;
+          case 'PRO2003':
+            rowNew = worksheet.getRow(44);
+            break;
+          case 'PRO3001':
+            rowNew = worksheet.getRow(46);
+            break;
+          case 'PRO3002':
+            rowNew = worksheet.getRow(47);
+            break;
+          case 'PRO3003':
+            rowNew = worksheet.getRow(48);
+            break;
+          case 'PRO3004':
+            rowNew = worksheet.getRow(49);
+            break;
+          case 'PRO3005':
+            rowNew = worksheet.getRow(50);
+            break;
+          case 'PRO4001':
+            rowNew = worksheet.getRow(52);
+            break;
+          case 'PRO5001':
+            rowNew = worksheet.getRow(54);
+            break;
+          case 'PRO5002':
+            rowNew = worksheet.getRow(55);
+            break;
+          case 'PRO5003':
+            rowNew = worksheet.getRow(56);
+            break;
+          case 'PRO5004':
+            rowNew = worksheet.getRow(57);
+            break;
+          case 'PRO5005':
+            rowNew = worksheet.getRow(58);
+            break;
+          case 'PRO6001':
+            rowNew = worksheet.getRow(60);
+            break;
+          case 'PRO6002':
+            rowNew = worksheet.getRow(61);
+            break;
+          case 'PRO6003':
+            rowNew = worksheet.getRow(62);
+            break;
+          case 'PRO6004':
+            rowNew = worksheet.getRow(63);
+            break;
+          case 'PRO6005':
+            rowNew = worksheet.getRow(64);
+            break;
+          case 'PRO6006':
+            rowNew = worksheet.getRow(65);
+            break;
+          case 'PRO6007':
+            rowNew = worksheet.getRow(66);
+            break;
+          case 'PRO7001':
+            rowNew = worksheet.getRow(68);
+            break;
+          case 'PRO7002':
+            rowNew = worksheet.getRow(69);
+            break;
+          case 'PRO7003':
+            rowNew = worksheet.getRow(70);
+            break;
+          case 'PRO8001':
+            rowNew = worksheet.getRow(72);
+            break;
+          case 'PRO8002':
+            rowNew = worksheet.getRow(73);
+            break;
+          case 'PRO8003':
+            rowNew = worksheet.getRow(74);
+            break;
+          case 'PRO8004':
+            rowNew = worksheet.getRow(75);
+            break;
+          case 'PRO8005':
+            rowNew = worksheet.getRow(76);
+            break;
+          case 'PRO8006':
+            rowNew = worksheet.getRow(77);
+            break;
+          case 'PRO8007':
+            rowNew = worksheet.getRow(78);
+            break;
+          case 'PRO8008':
+            rowNew = worksheet.getRow(79);
+            break;
+          case 'PRO8009':
+            rowNew = worksheet.getRow(80);
+            break;
+          case 'PRO8010':
+            rowNew = worksheet.getRow(81);
+            break;
+          case 'PRO8011':
+            rowNew = worksheet.getRow(82);
+            break;
+          default:
+            console.log('no match');
+        }
         rowNew.getCell(5).value = data[i].jumlahAktivitiCeramahBaru; //C15
         rowNew.getCell(6).value = data[i].jumlahPesertaCeramahBaru; //D15
         if (i > 35 && i < 43) {
@@ -2702,18 +2877,6 @@ const makePgPro01 = async (payload) => {
         rowNew.getCell(54).value = data[i].jumlahPesertaRadio; //BB15
         rowNew.getCell(55).value = data[i].jumlahAktivitiCetak; //BC15
       }
-      j++;
-      if (
-        i === 21 ||
-        i === 24 ||
-        i === 29 ||
-        i === 30 ||
-        i === 35 ||
-        i === 42 ||
-        i === 45
-      ) {
-        j++;
-      }
     }
 
     worksheet.getCell(
@@ -2750,7 +2913,7 @@ const makePgPro01 = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'PGPRO01');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2763,7 +2926,7 @@ const makePgPro01 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePgPro01Combined = async (payload) => {
@@ -2948,7 +3111,7 @@ const makePgPro01Combined = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'PGPRO01Combined');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -2961,7 +3124,7 @@ const makePgPro01Combined = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeGender = async (payload) => {
@@ -3187,7 +3350,7 @@ const makeGender = async (payload) => {
 
     worksheet.name = 'GENDER';
 
-    const newfile = makeFile(payload, 'GENDER');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3201,7 +3364,7 @@ const makeGender = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeMasa = async (payload) => {
@@ -3353,7 +3516,7 @@ const makeMasa = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'MASA');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3367,7 +3530,7 @@ const makeMasa = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeBp = async (payload) => {
@@ -3674,7 +3837,7 @@ const makeBp = async (payload) => {
 
     worksheet.name = moment(bulan).format('MMMM');
 
-    const newfile = makeFile(payload, 'BP');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3688,7 +3851,7 @@ const makeBp = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makeBPE = async (payload) => {
@@ -3836,7 +3999,7 @@ const makeBPE = async (payload) => {
       horizontal: 'right',
     };
 
-    const newfile = makeFile(payload, 'BPE Reten');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -3848,7 +4011,7 @@ const makeBPE = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePGS203P2 = async (payload) => {
@@ -4013,7 +4176,7 @@ const makePGS203P2 = async (payload) => {
 
     worksheet.name = 'PGS203P2';
 
-    const newfile = makeFile(payload, 'PGS203P2');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -4025,7 +4188,7 @@ const makePGS203P2 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 const makePG201P2 = async (payload) => {
@@ -4249,7 +4412,7 @@ const makePG201P2 = async (payload) => {
 
     worksheet.name = 'PGS203P2';
 
-    const newfile = makeFile(payload, 'PGS203P2');
+    const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(`[generateRetenController] writing file ${newfile}`);
@@ -4261,7 +4424,7 @@ const makePG201P2 = async (payload) => {
     return file;
   } catch (err) {
     logger.error(err);
-    res.status(500).json({ message: err.message });
+    return err;
   }
 };
 
@@ -4286,37 +4449,29 @@ exports.debug = async (req, res) => {
 };
 
 // helper
-const makeFile = (payload, reten) => {
-  // const { pegawai, klinik, daerah, negeri } = payload;
-  // if (pegawai) {
-  //   return fileName(pegawai, reten);
-  // }
-  // if (daerah !== 'all' && klinik !== 'all') {
-  //   return fileName(klinik, reten);
-  // }
-  // if (daerah !== 'all' && klinik === 'all') {
-  //   return fileName(daerah, reten);
-  // }
-  // if (daerah === 'all') {
-  //   return fileName(negeri, reten);
-  // }
-  return fileName(generateRandomString(20), reten);
-};
-
-const fileName = (params, reten) => {
+const makeFile = () => {
   return path.join(
     __dirname,
     '..',
     'public',
     'exports',
-    // `test-${params}-${reten}.xlsx`
-    `${params}.xlsx`
+    `${generateRandomString(20)}.xlsx`
   );
 };
 
-const createQuery = ({ jenisReten, klinik, daerah, negeri, bulan }) => {
+const createQuery = ({
+  jenisReten,
+  pilihanIndividu,
+  klinik,
+  daerah,
+  negeri,
+  bulan,
+}) => {
   let query = {};
-  if (klinik !== 'all') {
+  if (pilihanIndividu) {
+    query.createdByMdcMdtb = pilihanIndividu;
+  }
+  if (!pilihanIndividu || klinik !== 'all') {
     query.createdByKodFasiliti = klinik;
   }
   if (daerah !== 'all') {
