@@ -89,6 +89,9 @@ exports.startQueue = async function (req, res) {
       process.env.BUILD_ENV === 'production' &&
       userTokenData.jumlahToken <= 0
     ) {
+      logger.info(
+        '[generateRetenController] no more coins left for ' + username
+      );
       return res.status(401).json({ msg: 'no more coins left' });
     }
   }
@@ -123,7 +126,9 @@ exports.startQueue = async function (req, res) {
         });
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
-        logger.info('[generateRetenController] dah kurangkan token' + username);
+        logger.info(
+          '[generateRetenController] dah kurangkan token untuk ' + username
+        );
       } else {
         logger.info('[generateRetenController] not production and ' + username);
       }
@@ -181,7 +186,7 @@ exports.startQueueKp = async function (req, res) {
       userTokenData.jumlahToken <= 0
     ) {
       logger.info(
-        `[generateRetenController] no more coins left for ${username}`
+        '[generateRetenController] no more coins left for ' + username
       );
       return res.status(401).json({ msg: 'no more coins left' });
     }
@@ -217,7 +222,7 @@ exports.startQueueKp = async function (req, res) {
         userTokenData.jumlahToken -= 1;
         await userTokenData.save();
         logger.info(
-          `[generateRetenController] dah kurangkan token untuk ${username}`
+          '[generateRetenController] dah kurangkan token untuk ' + username
         );
       } else {
         logger.info('[generateRetenController] not production and ' + username);
