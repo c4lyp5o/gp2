@@ -2361,12 +2361,15 @@ const makePGPR201 = async (payload) => {
       fromEtl,
     } = payload;
     //
-    console.log('Cuba Uji Test');
     let data;
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
-        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        const ETL = await Reservoir.find(query).sort({ createdAt: -1 });
+        if (ETL.length === 0) {
+          return 'No data found';
+        }
+        data = ETL[0].data;
         break;
       default:
         data = await Helper.countPGPR201Baru(payload);
@@ -2539,9 +2542,7 @@ const makePGPR201 = async (payload) => {
       fs.unlinkSync(newfile);
       logger.info(`[generateRetenController] deleting file ${newfile}`);
     }, 1000);
-    // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
-
     return file;
   } catch (err) {
     logger.error(err);
