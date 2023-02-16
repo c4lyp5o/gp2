@@ -164,11 +164,12 @@ const start = async () => {
   }
 };
 
-start().then(() => {
-  if (process.env.BUILD_ENV === 'production') {
-    startETL();
-    logger.info(
-      '[server] Server has started, starting ETL... Warp drives engaged!'
-    );
-  }
-});
+start();
+// .then(() => {
+//   if (process.env.BUILD_ENV === 'production') {
+//     startETL();
+//     logger.info(
+//       '[server] Server has started, starting ETL... Warp drives engaged!'
+//     );
+//   }
+// });
