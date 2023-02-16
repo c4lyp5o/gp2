@@ -6,7 +6,7 @@ function AdminProtectedRoute({ children }) {
   const { adminToken } = useGlobalAdminAppContext();
 
   if (!adminToken) {
-    return <Navigate to='/' />;
+    return <Navigate to='/pentadbir' />;
   }
   return children;
 }

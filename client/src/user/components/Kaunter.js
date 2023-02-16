@@ -49,9 +49,9 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single'
+          // );
         }
       };
       setSemuaProgram([]);
@@ -74,9 +74,9 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-pj'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-pj'
+          // );
         }
       };
       fetchJenisProgram();
@@ -101,9 +101,9 @@ function Kaunter({
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single-pj'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-single-pj'
+          // );
         }
       };
       fetchPersonUmum();
