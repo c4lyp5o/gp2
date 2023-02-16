@@ -258,6 +258,7 @@ const ModalGenerateAdHoc = (props) => {
                           required
                           name='negeri'
                           id='negeri'
+                          value={props.pilihanNegeri}
                           onChange={(e) => {
                             props.setPilihanNegeri(e.target.value);
                             if (
@@ -300,6 +301,7 @@ const ModalGenerateAdHoc = (props) => {
                           required
                           name='daerah'
                           id='daerah'
+                          value={props.pilihanDaerah}
                           onChange={(e) => {
                             props.setPilihanDaerah(e.target.value);
                             if (
@@ -345,6 +347,7 @@ const ModalGenerateAdHoc = (props) => {
                           required
                           name='klinik'
                           id='klinik'
+                          value={props.pilihanKlinik}
                           onChange={(e) => {
                             props.setPilihanKlinik(e.target.value);
                             props.setNamaKlinik(
@@ -413,6 +416,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -480,20 +484,21 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.programData.map((k, index) => {
+                              {props.programData.map((p, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={p.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {p.nama}
                                   </option>
                                 );
                               })}
@@ -513,20 +518,21 @@ const ModalGenerateAdHoc = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.kpbmpbData.map((k, index) => {
+                              {props.kpbmpbData.map((km, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={km.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {km.nama}
                                   </option>
                                 );
                               })}
@@ -575,6 +581,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -612,6 +619,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -679,6 +687,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -921,9 +930,9 @@ const ModalGenerateBulanan = (props) => {
       .catch((err) => {
         console.log(err);
         toast.dismiss(id);
-        toast.error(
-          `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-download-${props.jenisReten}`
-        );
+        // toast.error(
+        //   `Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-download-${props.jenisReten}`
+        // );
         setTimeout(() => {
           props.setGenerating(false);
         }, 5000);
@@ -999,6 +1008,7 @@ const ModalGenerateBulanan = (props) => {
                           required
                           name='negeri'
                           id='negeri'
+                          value={props.pilihanNegeri}
                           onChange={(e) => {
                             props.setPilihanNegeri(e.target.value);
                             if (
@@ -1041,6 +1051,7 @@ const ModalGenerateBulanan = (props) => {
                           required
                           name='daerah'
                           id='daerah'
+                          value={props.pilihanDaerah}
                           onChange={(e) => {
                             props.setPilihanDaerah(e.target.value);
                             if (
@@ -1086,6 +1097,7 @@ const ModalGenerateBulanan = (props) => {
                           required
                           name='klinik'
                           id='klinik'
+                          value={props.pilihanKlinik}
                           onChange={(e) => {
                             props.setPilihanKlinik(e.target.value);
                             props.setNamaKlinik(
@@ -1154,6 +1166,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='kkia'
                             id='kkia'
+                            value={props.pilihanKkia}
                             onChange={(e) => {
                               props.setPilihanKkia(e.target.value);
                               props.setNamaKkia(
@@ -1221,20 +1234,21 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanProgram}
                               onChange={(e) => {
                                 props.setPilihanProgram(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.programData.map((k, index) => {
+                              {props.programData.map((p, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={p.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {p.nama}
                                   </option>
                                 );
                               })}
@@ -1254,20 +1268,21 @@ const ModalGenerateBulanan = (props) => {
                               required
                               name='program'
                               id='program'
+                              value={props.pilihanKpbMpb}
                               onChange={(e) => {
                                 props.setPilihanKpbMpb(e.target.value);
                               }}
                               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             >
                               <option value=''>Sila pilih..</option>
-                              {props.kpbmpbData.map((k, index) => {
+                              {props.kpbmpbData.map((km, index) => {
                                 return (
                                   <option
                                     key={index}
-                                    value={k.kodKkiaKd}
+                                    value={km.nama}
                                     className='capitalize'
                                   >
-                                    {k.nama}
+                                    {km.nama}
                                   </option>
                                 );
                               })}
@@ -1316,6 +1331,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1353,6 +1369,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1420,6 +1437,7 @@ const ModalGenerateBulanan = (props) => {
                             required
                             name='pegawai'
                             id='pegawai'
+                            value={props.pilihanIndividu}
                             onChange={(e) => {
                               props.setPilihanIndividu(e.target.value);
                             }}
@@ -1666,9 +1684,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kkiakd'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kkiakd'
+          // );
         });
     }
   };
@@ -1682,9 +1700,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-program'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-program'
+          // );
         });
     } else if (e === 'kpbmpb') {
       await readSpesifikKPBMPBData(pilihanKlinik)
@@ -1693,9 +1711,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kpbmpb'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kpbmpb'
+          // );
         });
     }
   };
@@ -1711,9 +1729,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-individu'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-individu'
+          // );
         });
     }
   };
@@ -1723,6 +1741,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [pilihanFasiliti]);
 
   useEffect(() => {
@@ -1730,6 +1749,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [pilihanKlinik]);
 
   useEffect(() => {
@@ -1738,6 +1758,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [pilihanDaerah]);
 
   useEffect(() => {
@@ -1745,8 +1766,8 @@ const Generate = (props) => {
       setPilihanNegeri('');
     }
     if (
-      loginInfo.accountType === 'negeriSuperadmin' ||
-      loginInfo.accountType === 'hqSuperadmin'
+      loginInfo.accountType === 'hqSuperadmin' ||
+      loginInfo.accountType === 'negeriSuperadmin'
     ) {
       setPilihanDaerah('');
     }
@@ -1755,6 +1776,7 @@ const Generate = (props) => {
     setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
+    setPilihanIndividu('');
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
   useEffect(() => {
@@ -1784,9 +1806,9 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
+          // );
         });
     }
     init.current = true;

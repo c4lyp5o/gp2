@@ -60,9 +60,9 @@ function UserSekolahList() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-senarai-sekolah-fetchFasilitiSekolahs'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-senarai-sekolah-fetchFasilitiSekolahs'
+        // );
       }
     };
     fetchFasilitiSekolahs();
@@ -84,9 +84,9 @@ function UserSekolahList() {
       );
     } catch (error) {
       console.log(error);
-      toast.error(
-        'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-senarai-sekolah-selesaiSekolah'
-      );
+      // toast.error(
+      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-senarai-sekolah-selesaiSekolah'
+      // );
     }
   };
 

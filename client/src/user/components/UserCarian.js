@@ -81,9 +81,9 @@ export default function UserCarian() {
         setNamaKlinik(data.kp);
       } catch (error) {
         console.log(error);
-        toast.error(
-          'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-carian-identity'
-        );
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-carian-identity'
+        // );
       }
     };
     fetchIdentity();
@@ -117,9 +117,9 @@ export default function UserCarian() {
           setIsLoading(false);
         } catch (error) {
           console.log(error);
-          toast.error(
-            'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-cr-single'
-          );
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-cr-single'
+          // );
         }
       };
       setPilihanId('');
