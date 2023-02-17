@@ -3167,7 +3167,11 @@ const makeGender = async (payload) => {
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('GENDER');
-
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
@@ -3291,9 +3295,9 @@ const makeGender = async (payload) => {
     //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
     // );
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date())
+    rowNew.getCell(1).value = `${moment(tarikhMula)
       .startOf('month')
-      .format('DD-MM-YYYY')} - ${moment(new Date()).format('DD-MM-YYYY')}`;
+      .format('DD-MM-YYYY')} - ${moment(tarikhAkhir).format('DD-MM-YYYY')}`;
     //
     rowTambahan++;
     rowNew = worksheet.getRow(16 + rowTambahan);
@@ -3572,10 +3576,6 @@ const makeBp = async (payload) => {
       klinik = currentKlinik.kp;
     }
     //
-    if (!bulan) {
-      bulan = tarikhMula;
-    }
-    //
     let filename = path.join(__dirname, '..', 'public', 'exports', 'BP.xlsx');
     //
     let workbook = new Excel.Workbook();
@@ -3795,9 +3795,17 @@ const makeBp = async (payload) => {
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
     );
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )} - ${moment(new Date()).format('HH:mm:ss')}`;
+    rowNew.getCell(1).value =
+      `${
+        bulan
+          ? `${moment(bulan).format('DD-MM-YYYY')}`
+          : `${moment(tarikhMula).format('DD-MM-YYYY')}`
+      }` -
+      `${
+        bulan
+          ? `${moment(bulan).format('DD-MM-YYYY')}`
+          : `${moment(tarikhAkhir).format('DD-MM-YYYY')}`
+      }`;
     //
     rowTambahan++;
     rowNew = worksheet.getRow(43 + rowTambahan);
