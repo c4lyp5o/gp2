@@ -242,26 +242,34 @@ const ModalGenerateAdHoc = (props) => {
             </span>
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
-                <div className='grid grid-cols-2 gap-2'>
-                  <div className='px-3 py-1'>
-                    <label
-                      htmlFor='tarikhMula'
-                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                    >
-                      Daripada:
-                    </label>
-                    <TarikhAwal />
+                {props.jenisReten !== 'MASA' ? (
+                  <div className='grid grid-cols-2 gap-2'>
+                    <div className='px-3 py-1'>
+                      <label
+                        htmlFor='tarikhMula'
+                        className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                      >
+                        Daripada:
+                      </label>
+                      <TarikhAwal />
+                    </div>
+                    <div className='px-3 py-1'>
+                      <label
+                        htmlFor='tarikhAkhir'
+                        className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                      >
+                        Sehingga:
+                      </label>
+                      <TarikhAkhir />
+                    </div>
                   </div>
-                  <div className='px-3 py-1'>
-                    <label
-                      htmlFor='tarikhAkhir'
-                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                    >
-                      Sehingga:
-                    </label>
-                    <TarikhAkhir />
+                ) : (
+                  <div className='grid grid-row-2 gap-2 p-2 normal-case'>
+                    Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
+                    PENUH, maklumat yang akan dijana adalah yang terbaru
+                    sehingga yang diisi sekarang
                   </div>
-                </div>
+                )}
                 <div className='mb-3'>
                   <div className='grid gap-1'>
                     {props.loginInfo.accountType === 'hqSuperadmin' ? (
@@ -993,6 +1001,13 @@ const ModalGenerateBulanan = (props) => {
               <div className='admin-pegawai-handler-container'>
                 <div className='grid grid-flow-row'>
                   <div className='px-3 py-1'>
+                    {props.jenisReten === 'MASA' ? (
+                      <div className='grid grid-row-2 gap-2 p-2 normal-case'>
+                        Penjanaan PIAGAM MASA mengikut bulan adalah maklumat
+                        SATU TAHUN setakat yang dikira pada 7 haribulan bulan
+                        berikutnya
+                      </div>
+                    ) : null}
                     <label
                       htmlFor='bulan'
                       className='text-sm font-semibold text-user1 flex flex-row items-center p-2'

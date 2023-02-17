@@ -13,6 +13,7 @@
 #### Fixed
 
 - Token di modul Pentadbir akan dipaparkan kepada jumlah yang baru selepas penolakan berlaku selepas penjanaan reten
+- Format tarikh pendaftaran pesakit diperbetulkan di bahagian _server_ juga sekiranya dihantar dengan format yang salah daripada pelayar internet pengguna supaya tiada pesakit yang hilang selepas didaftarkan
 
 #### e-Reporting
 
