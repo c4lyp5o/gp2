@@ -226,8 +226,11 @@ export default function PatientData({
         case 404:
           toast.error('Tiada pesakit untuk bulan yang dipilih');
           break;
+        case 0:
+          toast.error('Network error');
+          break;
         default:
-          toast.error('Internal Server Error');
+          toast.error('Something wrong happened');
           break;
       }
     }
@@ -306,6 +309,9 @@ export default function PatientData({
       setIsLoading(false);
     } catch (error) {
       console.log(error);
+      // toast.error(
+      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-patientdata-reloadData'
+      // );
     }
   };
 

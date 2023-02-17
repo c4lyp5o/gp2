@@ -8,7 +8,7 @@ graphql.config.json
 /.idea
 
 # logs file
-/logs/everything.log
+/logs/*.log
 
 # postman like test
 /thunder-tests

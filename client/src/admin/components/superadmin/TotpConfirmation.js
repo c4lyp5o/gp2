@@ -36,7 +36,6 @@ const TotpModal = ({ children, image }) => {
         hide();
       } else {
         toast.error('Kod TOTP tidak sah. SIla isi sekali lagi.');
-        console.log('error');
       }
     });
   };

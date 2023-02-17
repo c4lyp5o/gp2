@@ -140,9 +140,7 @@ export const ModalAddFollowers = (props) => {
         belongsTo: props.negeri,
       };
     }
-    console.log(Data);
     createDataForKp('followers', Data).then((res) => {
-      console.log(res);
       props.setShowFollowersModal(false);
       props.setReload(!props.reload);
     });
@@ -365,7 +363,6 @@ export const ModalSosMed = (props) => {
         belongsTo: props.negeri,
       };
     }
-    // console.log(Data);
     createData(props.FType, Data).then((res) => {
       if (res.status === 200) {
         toast.info(`Data berjaya ditambah`);
@@ -529,7 +526,6 @@ export const ModalDataIkutProgram = (props) => {
     }
     if (props.accountType === 'kpUser') {
       readDataForKp('sosmedByKodProgram').then((res) => {
-        console.log(res);
         setData(res.data);
       });
     }

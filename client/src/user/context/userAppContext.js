@@ -333,12 +333,19 @@ function UserAppProvider({ children }) {
   // getdate from the server
   useLayoutEffect(() => {
     const fetchDate = async () => {
-      const { data } = await axios.get('/api/v1/getdate');
-      setDateToday(data.dateToday);
-      setDateYesterday(data.dateYesterday);
-      setDatePastTwoDays(data.datePastTwoDays);
+      try {
+        const { data } = await axios.get('/api/v1/getdate');
+        setDateToday(data.dateToday);
+        setDateYesterday(data.dateYesterday);
+        setDatePastTwoDays(data.datePastTwoDays);
+      } catch (error) {
+        console.log(error.response.status);
+      }
     };
     fetchDate();
+    {
+      process.env.REACT_APP_ENV === 'DEV' && console.log('refetch datetime');
+    }
   }, [refetchDateTime]);
 
   // pengguna logout timer
@@ -368,8 +375,6 @@ function UserAppProvider({ children }) {
 
       setKickerNoti(kickerNotiNumber);
       setKicker(kickerNumber);
-
-      console.log('user kicker started');
     }
   }, [refreshTimer]);
 
