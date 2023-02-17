@@ -101,10 +101,6 @@ const ModalGenerateAdHoc = (props) => {
   };
 
   const penjanaanReten = async (e) => {
-    if (props.jenisReten === 'BP') {
-      setStartDate('2023-01-01');
-      setEndDate('2023-12-31');
-    }
     try {
       const res = await axios.get(
         `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
@@ -221,7 +217,7 @@ const ModalGenerateAdHoc = (props) => {
             </span>
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
-                {props.jenisReten !== 'BP' ? (
+                {props.jenisReten !== 'MASA' ? (
                   <div className='grid grid-cols-2 gap-2'>
                     <div className='px-3 py-1'>
                       <label
@@ -243,8 +239,10 @@ const ModalGenerateAdHoc = (props) => {
                     </div>
                   </div>
                 ) : (
-                  <div className='grid grid-row-2 gap-2 p-2'>
-                    Penjanaan PIAGAM MASA adalah untuk satu tahun penuh
+                  <div className='grid grid-row-2 gap-2 p-2 normal-case'>
+                    Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
+                    PENUH, maklumat yang akan dijana adalah yang terbaru
+                    sehingga yang diisi sekarang
                   </div>
                 )}
                 <div className='mb-3'>
@@ -698,9 +696,6 @@ const ModalGenerateBulanan = (props) => {
   };
 
   const penjanaanReten = async (e) => {
-    if (props.jenisReten === 'BP') {
-      setBulan('01-01');
-    }
     try {
       const res = await axios.get(
         `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
@@ -819,43 +814,45 @@ const ModalGenerateBulanan = (props) => {
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
                 <div className='grid grid-flow-row'>
-                  {props.jenisReten !== 'BP' ? (
-                    <div className='px-3 py-1'>
-                      <label
-                        htmlFor='bulan'
-                        className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                      >
-                        Sila pilih bulan
-                      </label>
-                      <select
-                        required
-                        name='bulan'
-                        id='bulan'
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        onChange={(e) => {
-                          setBulan(e.target.value);
-                        }}
-                      >
-                        <option value=''>Sila pilih bulan</option>
-                        <option value='01-01'>Januari</option>
-                        <option value='02-01'>Februari</option>
-                        <option value='03-01'>Mac</option>
-                        <option value='04-01'>April</option>
-                        <option value='05-01'>Mei</option>
-                        <option value='06-01'>Jun</option>
-                        <option value='07-01'>Julai</option>
-                        <option value='08-01'>Ogos</option>
-                        <option value='09-01'>September</option>
-                        <option value='10-01'>Oktober</option>
-                        <option value='11-01'>November</option>
-                        <option value='12-01'>Disember</option>
-                      </select>
-                    </div>
-                  ) : (
-                    <div className='grid grid-row-2 gap-2 p-2'>
-                      Penjanaan PIAGAM MASA adalah untuk setahun penuh
-                    </div>
-                  )}
+                  <div className='px-3 py-1'>
+                    {props.jenisReten === 'MASA' ? (
+                      <div className='grid grid-row-2 gap-2 p-2 normal-case'>
+                        Penjanaan PIAGAM MASA mengikut bulan adalah maklumat
+                        SATU TAHUN setakat yang dikira pada 7 haribulan bulan
+                        berikutnya
+                      </div>
+                    ) : null}
+
+                    <label
+                      htmlFor='bulan'
+                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                    >
+                      Sila pilih bulan
+                    </label>
+                    <select
+                      required
+                      name='bulan'
+                      id='bulan'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      onChange={(e) => {
+                        setBulan(e.target.value);
+                      }}
+                    >
+                      <option value=''>Sila pilih bulan</option>
+                      <option value='01-01'>Januari</option>
+                      <option value='02-01'>Februari</option>
+                      <option value='03-01'>Mac</option>
+                      <option value='04-01'>April</option>
+                      <option value='05-01'>Mei</option>
+                      <option value='06-01'>Jun</option>
+                      <option value='07-01'>Julai</option>
+                      <option value='08-01'>Ogos</option>
+                      <option value='09-01'>September</option>
+                      <option value='10-01'>Oktober</option>
+                      <option value='11-01'>November</option>
+                      <option value='12-01'>Disember</option>
+                    </select>
+                  </div>
                 </div>
                 <div className='mb-3'>
                   <div className='grid gap-1'>
