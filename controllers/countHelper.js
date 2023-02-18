@@ -15597,6 +15597,41 @@ const getParams101 = (payload, reten) => {
     }
     return forKp;
   };
+
+  const satuMalaysia = () => {
+    const forKp = {
+      tarikhKedatangan: dateModifier(payload),
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
+      jenisFasiliti: AorC(reten),
+    };
+    const forKkia = {
+      tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kk-kd' },
+    };
+    const forProgram = {
+      tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'projek-komuniti-lain' },
+      namaProgram: { $eq: pilihanProgram },
+    };
+    const forKpbmpb = {
+      tarikhKedatangan: dateModifier(payload),
+      penggunaanKPBMPB: { $eq: pilihanKpbMpb },
+    };
+    if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
+      return forKkia;
+    }
+    if (pilihanFasiliti === 'program' && pilihanProgram !== '') {
+      return forProgram;
+    }
+    if (pilihanFasiliti === 'kpbmpb' && pilihanKpbMpb !== '') {
+      return forKpbmpb;
+    }
+    return forKp;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
+  }
   if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
@@ -15626,8 +15661,6 @@ const getParams211 = (payload, reten) => {
       jenisFasiliti: AorC(reten),
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15640,8 +15673,6 @@ const getParams211 = (payload, reten) => {
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15653,12 +15684,23 @@ const getParams211 = (payload, reten) => {
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
 
+  const satuMalaysia = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
+      jenisFasiliti: AorC(reten),
+      deleted: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
+  }
   if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
@@ -15678,8 +15720,6 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15691,8 +15731,6 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15705,8 +15743,6 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15718,12 +15754,23 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
 
+  const satuMalaysia = () => {
+    let param = {
+      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      tarikhKedatangan: dateModifier(payload),
+      statusKehadiran: false,
+      deleted: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
+  }
   if (pilihanIndividu) {
     return byPegawai(payload);
   }
@@ -15746,8 +15793,6 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15759,8 +15804,6 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15773,8 +15816,6 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15786,12 +15827,23 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
 
+  const satuMalaysia = () => {
+    let param = {
+      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      tarikhKedatangan: dateModifier(payload),
+      statusKehadiran: false,
+      deleted: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
+  }
   if (pilihanIndividu) {
     return byPegawai(payload);
   }
@@ -15814,8 +15866,6 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15827,8 +15877,6 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15841,8 +15889,6 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15854,12 +15900,23 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
 
+  const satuMalaysia = () => {
+    let param = {
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      tarikhKedatangan: dateModifier(payload),
+      statusKehadiran: false,
+      deleted: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
+  }
   if (pilihanIndividu) {
     return byPegawai(payload);
   }
@@ -15882,8 +15939,6 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15895,8 +15950,6 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15909,8 +15962,6 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -15922,12 +15973,22 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
+    };
+    return param;
+  };
+  const satuMalaysia = () => {
+    let param = {
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      tarikhKedatangan: dateModifier(payload),
+      statusKehadiran: false,
+      deleted: false,
     };
     return param;
   };
 
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
+  }
   if (pilihanIndividu) {
     return byPegawai(payload);
   }
@@ -15975,6 +16036,15 @@ const getParamsPgPro = (payload) => {
     };
   };
 
+  const satuMalaysia = () => {
+    return {
+      promosiKlinik: true,
+    };
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia();
+  }
   if (pilihanIndividu) {
     return byIndividu();
   }
@@ -15997,8 +16067,6 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16010,8 +16078,6 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16022,11 +16088,22 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
+
+  const satuMalaysia = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      statusKehadiran: false,
+      deleted: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia();
+  }
 
   if (klinik !== 'all') {
     return byKp();
@@ -16047,8 +16124,6 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16062,8 +16137,6 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16076,11 +16149,24 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
+
+  const satuMalaysia = () => {
+    let param = {
+      jenisFasiliti: { $eq: 'kp' },
+      waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
+      statusKehadiran: false,
+      deleted: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia();
+  }
 
   if (klinik !== 'all') {
     return byKp();
@@ -16102,8 +16188,6 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16118,8 +16202,6 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16133,13 +16215,26 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
     return param;
   };
+  const satuMalaysia = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      kumpulanEtnik: kaum,
+      jantina: theSex,
+      jenisFasiliti: { $eq: 'kp' },
+      deleted: false,
+      statusKehadiran: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia();
+  }
 
   if (klinik !== 'all') {
     return byKp();
@@ -16159,8 +16254,6 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16172,8 +16265,6 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16186,8 +16277,6 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16199,11 +16288,23 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
+
+  const satuMalaysia = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'kp' },
+      statusKehadiran: false,
+      deleted: false,
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia();
+  }
 
   if (pilihanIndividu) {
     return byPegawai(payload);
@@ -16227,8 +16328,6 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16240,8 +16339,6 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16254,8 +16351,6 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16267,8 +16362,6 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16295,8 +16388,6 @@ const getParamsPG201P2 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16308,8 +16399,6 @@ const getParamsPG201P2 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16322,8 +16411,6 @@ const getParamsPG201P2 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16335,8 +16422,6 @@ const getParamsPG201P2 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      //
-      updatedAt: { $lt: new Date('2023-02-07T16:00:00.000Z') }, // for ETL bulan ni
     };
     return param;
   };
@@ -16407,6 +16492,11 @@ const getParams307 = (payload, reten) => {
 // place
 const placeModifier = (payload) => {
   const { klinik, daerah, negeri, pilihanIndividu } = payload;
+
+  if (negeri === 'all') {
+    return null;
+  }
+
   if (pilihanIndividu) {
     return '$createdByUsername';
   }

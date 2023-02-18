@@ -391,13 +391,15 @@ const queryPersonUmum = async (req, res) => {
     user: { negeri, daerah, kp, kodFasiliti },
     query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
-  const queryObject = {};
-  queryObject.createdByNegeri = negeri;
-  queryObject.createdByDaerah = daerah;
-  queryObject.createdByKp = kp;
-  queryObject.createdByKodFasiliti = kodFasiliti;
-  queryObject.tahunDaftar = new Date().getFullYear();
-  queryObject.deleted = false;
+
+  const queryObject = {
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKp: kp,
+    createdByKodFasiliti: kodFasiliti,
+    tahunDaftar: new Date().getFullYear(),
+    deleted: false,
+  };
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -415,7 +417,11 @@ const queryPersonUmum = async (req, res) => {
     queryObject.jenisProgram = jenisProgram;
   }
 
-  const umumResultQuery = await Umum.find(queryObject);
+  const umumResultQuery = await Umum.find(queryObject)
+    .select(
+      '_id tarikhKedatangan waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan createdByUsername statusReten noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram'
+    )
+    .lean();
 
   res.status(200).json({ umumResultQuery });
 };
