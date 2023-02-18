@@ -8,14 +8,8 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const {
-    toast,
-    adminToken,
-    masterDatePicker,
-    readDaerah,
-    readKlinik,
-    Dictionary,
-  } = useGlobalAdminAppContext();
+  const { toast, adminToken, masterDatePicker, Dictionary } =
+    useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -64,6 +58,22 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
+    if (props.loginInfo.accountType === 'hqSuperadmin') {
+      file = `${props.jenisReten}_${
+        props.pilihanNegeri === 'all' ? 'MALAYSIA' : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanDaerah === 'all'
+          ? `${Dictionary[props.pilihanNegeri].toUpperCase()}`
+          : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanKlinik === 'all'
+          ? `${props.pilihanDaerah.toUpperCase()}`
+          : ''
+      }${
+        props.pilihanKlinik !== 'all' ? `${props.namaKlinik.toUpperCase()}` : ''
+      }_${moment(new Date()).format('DDMMYYYY')}_token.xlsx`;
+      return file;
+    }
     if (props.pilihanKkia !== '') {
       file = `${
         props.jenisReten
@@ -289,17 +299,7 @@ const ModalGenerateAdHoc = (props) => {
                           name='negeri'
                           id='negeri'
                           value={props.pilihanNegeri}
-                          onChange={(e) => {
-                            props.setPilihanNegeri(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readDaerah(e.target.value).then((res) => {
-                              props.setDaerah(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihNegeri(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -319,7 +319,8 @@ const ModalGenerateAdHoc = (props) => {
                       </div>
                     ) : null}
                     {props.loginInfo.accountType === 'negeriSuperadmin' ||
-                    props.daerah.length > 0 ? (
+                    (props.pilihanNegeri !== '' &&
+                      props.pilihanNegeri !== 'all') ? (
                       <div className='px-3 py-1'>
                         <label
                           htmlFor='daerah'
@@ -332,17 +333,7 @@ const ModalGenerateAdHoc = (props) => {
                           name='daerah'
                           id='daerah'
                           value={props.pilihanDaerah}
-                          onChange={(e) => {
-                            props.setPilihanDaerah(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readKlinik(e.target.value).then((res) => {
-                              props.setKlinik(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihDaerah(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
                         >
                           <option value=''>Sila pilih..</option>
@@ -378,14 +369,7 @@ const ModalGenerateAdHoc = (props) => {
                           name='klinik'
                           id='klinik'
                           value={props.pilihanKlinik}
-                          onChange={(e) => {
-                            props.setPilihanKlinik(e.target.value);
-                            props.setNamaKlinik(
-                              e.target.options[
-                                e.target.selectedIndex
-                              ].getAttribute('data-key')
-                            );
-                          }}
+                          onChange={(e) => props.handlePilihKlinik(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -801,8 +785,7 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, readDaerah, readKlinik, Dictionary } =
-    useGlobalAdminAppContext();
+  const { toast, adminToken, Dictionary } = useGlobalAdminAppContext();
 
   const [bulan, setBulan] = useState('');
 
@@ -823,6 +806,22 @@ const ModalGenerateBulanan = (props) => {
 
   const fileName = () => {
     let file = '';
+    if (props.loginInfo.accountType === 'hqSuperadmin') {
+      file = `${props.jenisReten}_${
+        props.pilihanNegeri === 'all' ? 'MALAYSIA' : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanDaerah === 'all'
+          ? `${Dictionary[props.pilihanNegeri].toUpperCase()}`
+          : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanKlinik === 'all'
+          ? `${props.pilihanDaerah.toUpperCase()}`
+          : ''
+      }${
+        props.pilihanKlinik !== 'all' ? `${props.namaKlinik.toUpperCase()}` : ''
+      }_${namaNamaBulan[bulan]}_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
+      return file;
+    }
     if (props.pilihanKkia !== '') {
       file = `${
         props.jenisReten
@@ -1069,17 +1068,7 @@ const ModalGenerateBulanan = (props) => {
                           name='negeri'
                           id='negeri'
                           value={props.pilihanNegeri}
-                          onChange={(e) => {
-                            props.setPilihanNegeri(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readDaerah(e.target.value).then((res) => {
-                              props.setDaerah(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihNegeri(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -1112,17 +1101,7 @@ const ModalGenerateBulanan = (props) => {
                           name='daerah'
                           id='daerah'
                           value={props.pilihanDaerah}
-                          onChange={(e) => {
-                            props.setPilihanDaerah(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readKlinik(e.target.value).then((res) => {
-                              props.setKlinik(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihDaerah(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
                         >
                           <option value=''>Sila pilih..</option>
@@ -1158,14 +1137,7 @@ const ModalGenerateBulanan = (props) => {
                           name='klinik'
                           id='klinik'
                           value={props.pilihanKlinik}
-                          onChange={(e) => {
-                            props.setPilihanKlinik(e.target.value);
-                            props.setNamaKlinik(
-                              e.target.options[
-                                e.target.selectedIndex
-                              ].getAttribute('data-key')
-                            );
-                          }}
+                          onChange={(e) => props.handlePilihKlinik(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -1797,6 +1769,73 @@ const Generate = (props) => {
     }
   };
 
+  // handling plihan
+  const handlePilihNegeri = (e) => {
+    setPilihanNegeri(e.target.value);
+    if (e.target.value === 'all') {
+      setPilihanDaerah('all');
+      setPilihanKlinik('all');
+      return;
+    }
+    if (e.target.value === '') {
+      setPilihanDaerah('');
+      setPilihanKlinik('');
+      setDaerah([]);
+      setKlinik([]);
+      resetPilihanBiasa();
+      return;
+    }
+    resetPilihanBiasa();
+    readDaerah(e.target.value).then((res) => {
+      setDaerah(res.data);
+    });
+  };
+
+  const handlePilihDaerah = (e) => {
+    setPilihanDaerah(e.target.value);
+    if (e.target.value === 'all') {
+      setPilihanKlinik('all');
+      return;
+    }
+    if (e.target.value === '') {
+      setPilihanKlinik('');
+      setNamaKlinik('');
+      setKlinik([]);
+      resetPilihanBiasa();
+      return;
+    }
+    resetPilihanBiasa();
+    readKlinik(e.target.value).then((res) => {
+      setKlinik(res.data);
+    });
+  };
+
+  const handlePilihKlinik = (e) => {
+    setPilihanKlinik(e.target.value);
+    if (e.target.value === 'all') {
+      return;
+    }
+    if (e.target.value === '') {
+      setNamaKlinik('');
+      resetPilihanBiasa();
+      return;
+    }
+    resetPilihanBiasa();
+    setNamaKlinik(
+      e.target.options[e.target.selectedIndex].getAttribute('data-key')
+    );
+  };
+
+  // reset the usual suspects
+  const resetPilihanBiasa = () => {
+    setPilihanFasiliti('');
+    setPilihanKkia('');
+    setPilihanProgram('');
+    setPilihanKpbMpb('');
+    setPilihanIndividu('');
+  };
+
+
   // reset stuff
   useEffect(() => {
     setPilihanKkia('');
@@ -1805,22 +1844,21 @@ const Generate = (props) => {
     setPilihanIndividu('');
   }, [pilihanFasiliti]);
 
-  useEffect(() => {
-    setPilihanFasiliti('');
-    setPilihanKkia('');
-    setPilihanProgram('');
-    setPilihanKpbMpb('');
-    setPilihanIndividu('');
-  }, [pilihanKlinik]);
+  // useEffect(() => {
+  //   setPilihanFasiliti('');
+  //   setPilihanKkia('');
+  //   setPilihanProgram('');
+  //   setPilihanKpbMpb('');
+  //   setPilihanIndividu('');
+  // }, [pilihanKlinik, pilihanDaerah, pilihanNegeri]);
 
-  useEffect(() => {
-    setPilihanKlinik('');
-    setPilihanFasiliti('');
-    setPilihanKkia('');
-    setPilihanProgram('');
-    setPilihanKpbMpb('');
-    setPilihanIndividu('');
-  }, [pilihanDaerah]);
+  // useEffect(() => {
+  //   setPilihanFasiliti('');
+  //   setPilihanKkia('');
+  //   setPilihanProgram('');
+  //   setPilihanKpbMpb('');
+  //   setPilihanIndividu('');
+  // }, [pilihanDaerah]);
 
   useEffect(() => {
     if (loginInfo.accountType === 'hqSuperadmin') {
@@ -1921,6 +1959,10 @@ const Generate = (props) => {
     setGenerating,
     generatingNoWayBack,
     setGeneratingNoWayBack,
+    // handle pilih
+    handlePilihNegeri,
+    handlePilihDaerah,
+    handlePilihKlinik,
     // trigger get data
     handleGetKkia,
     handleGetProgramEnKPBMPB,
