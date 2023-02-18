@@ -140,12 +140,18 @@ const ModalGenerateAdHoc = (props) => {
             : props.loginInfo.negeri
         }&daerah=${
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
-        }&klinik=${
-          props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
-        }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
-          props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
-          props.pilihanKpbMpb
+        }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
+          props.pilihanFasiliti === 'kkiakd'
+            ? `&pilihanKkia=${props.pilihanKkia}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'program'
+            ? `&pilihanProgram=${props.pilihanProgram}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'kpbmpb'
+            ? `&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            : ''
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
@@ -886,20 +892,23 @@ const ModalGenerateBulanan = (props) => {
           props.loginInfo.accountType === 'hqSuperadmin'
             ? Dictionary[props.pilihanNegeri]
             : props.loginInfo.negeri
-        }&daerah=${
-          props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
-        }&klinik=${
-          props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
-        }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
-          props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
-          props.pilihanKpbMpb
+        }&daerah=${props.pilihanDaerah}&klinik=${props.pilihanKlinik}${
+          props.pilihanFasiliti === 'kkiakd'
+            ? `&pilihanKkia=${props.pilihanKkia}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'program'
+            ? `&pilihanProgram=${props.pilihanProgram}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'kpbmpb'
+            ? `&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            : ''
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
             : ''
-        }
-        &bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
+        }&bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
