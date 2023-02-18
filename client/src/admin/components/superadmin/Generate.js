@@ -8,14 +8,8 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const {
-    toast,
-    adminToken,
-    masterDatePicker,
-    readDaerah,
-    readKlinik,
-    Dictionary,
-  } = useGlobalAdminAppContext();
+  const { toast, adminToken, masterDatePicker, Dictionary } =
+    useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -64,6 +58,22 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
+    if (props.loginInfo.accountType === 'hqSuperadmin') {
+      file = `${props.jenisReten}_${
+        props.pilihanNegeri === 'all' ? 'MALAYSIA' : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanDaerah === 'all'
+          ? `${Dictionary[props.pilihanNegeri].toUpperCase()}`
+          : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanKlinik === 'all'
+          ? `${props.pilihanDaerah.toUpperCase()}`
+          : ''
+      }${
+        props.pilihanKlinik !== 'all' ? `${props.namaKlinik.toUpperCase()}` : ''
+      }_${moment(new Date()).format('DDMMYYYY')}_token.xlsx`;
+      return file;
+    }
     if (props.pilihanKkia !== '') {
       file = `${
         props.jenisReten
@@ -130,12 +140,18 @@ const ModalGenerateAdHoc = (props) => {
             : props.loginInfo.negeri
         }&daerah=${
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
-        }&klinik=${
-          props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
-        }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
-          props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
-          props.pilihanKpbMpb
+        }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
+          props.pilihanFasiliti === 'kkiakd'
+            ? `&pilihanKkia=${props.pilihanKkia}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'program'
+            ? `&pilihanProgram=${props.pilihanProgram}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'kpbmpb'
+            ? `&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            : ''
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
@@ -204,19 +220,6 @@ const ModalGenerateAdHoc = (props) => {
     }, 3000);
   };
 
-  const noWayBack = () => {
-    if (props.generatingNoWayBack) {
-      toast.warning('Sila sabar menunggu...', {
-        autoClose: 2000,
-        pauseOnHover: false,
-      });
-      return;
-    }
-    if (!props.generatingNoWayBack) {
-      props.setOpenModalGenerateAdHoc(false);
-    }
-  };
-
   // reset endDate if change startDate
   useEffect(() => {
     setEndDate('');
@@ -228,7 +231,7 @@ const ModalGenerateAdHoc = (props) => {
       <form onSubmit={handleJana}>
         <div
           className='absolute inset-0 bg-user1 z-0 opacity-75'
-          onClick={noWayBack}
+          onClick={props.noWayBack}
         />
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
@@ -237,12 +240,22 @@ const ModalGenerateAdHoc = (props) => {
                 Penjanaan Reten {props.jenisReten}
               </h5>
             </div>
-            <span className={styles.closeBtn} onClick={noWayBack}>
+            <span className={styles.closeBtn} onClick={props.noWayBack}>
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </span>
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
-                {props.jenisReten !== 'MASA' ? (
+                {props.jenisReten === 'MASA' ? (
+                  <div className='grid grid-row-2 gap-2 p-2 normal-case'>
+                    Penjanaan PIAGAM MASA mengikut tarikh akan mengira maklumat
+                    untuk SATU TAHUN. Oleh itu, maklumat yang di jana adalah
+                    dari 01/01/{moment().format('YYYY')} sehingga{' '}
+                    {moment().format('DD/MM/YYYY')}{' '}
+                    <span className='font-bold'>
+                      Penjanaan ini menggunakan token
+                    </span>{' '}
+                  </div>
+                ) : (
                   <div className='grid grid-cols-2 gap-2'>
                     <div className='px-3 py-1'>
                       <label
@@ -263,12 +276,6 @@ const ModalGenerateAdHoc = (props) => {
                       <TarikhAkhir />
                     </div>
                   </div>
-                ) : (
-                  <div className='grid grid-row-2 gap-2 p-2 normal-case'>
-                    Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
-                    PENUH, maklumat yang akan dijana adalah yang terbaru
-                    sehingga yang diisi sekarang
-                  </div>
                 )}
                 <div className='mb-3'>
                   <div className='grid gap-1'>
@@ -285,17 +292,7 @@ const ModalGenerateAdHoc = (props) => {
                           name='negeri'
                           id='negeri'
                           value={props.pilihanNegeri}
-                          onChange={(e) => {
-                            props.setPilihanNegeri(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readDaerah(e.target.value).then((res) => {
-                              props.setDaerah(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihNegeri(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -315,7 +312,8 @@ const ModalGenerateAdHoc = (props) => {
                       </div>
                     ) : null}
                     {props.loginInfo.accountType === 'negeriSuperadmin' ||
-                    props.daerah.length > 0 ? (
+                    (props.pilihanNegeri !== '' &&
+                      props.pilihanNegeri !== 'all') ? (
                       <div className='px-3 py-1'>
                         <label
                           htmlFor='daerah'
@@ -328,17 +326,7 @@ const ModalGenerateAdHoc = (props) => {
                           name='daerah'
                           id='daerah'
                           value={props.pilihanDaerah}
-                          onChange={(e) => {
-                            props.setPilihanDaerah(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readKlinik(e.target.value).then((res) => {
-                              props.setKlinik(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihDaerah(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
                         >
                           <option value=''>Sila pilih..</option>
@@ -374,14 +362,7 @@ const ModalGenerateAdHoc = (props) => {
                           name='klinik'
                           id='klinik'
                           value={props.pilihanKlinik}
-                          onChange={(e) => {
-                            props.setPilihanKlinik(e.target.value);
-                            props.setNamaKlinik(
-                              e.target.options[
-                                e.target.selectedIndex
-                              ].getAttribute('data-key')
-                            );
-                          }}
+                          onChange={(e) => props.handlePilihKlinik(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -782,7 +763,7 @@ const ModalGenerateAdHoc = (props) => {
                   <button
                     type='button'
                     className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
-                    onClick={noWayBack}
+                    onClick={props.noWayBack}
                   >
                     Kembali
                   </button>
@@ -797,8 +778,7 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, readDaerah, readKlinik, Dictionary } =
-    useGlobalAdminAppContext();
+  const { toast, adminToken, Dictionary } = useGlobalAdminAppContext();
 
   const [bulan, setBulan] = useState('');
 
@@ -819,6 +799,22 @@ const ModalGenerateBulanan = (props) => {
 
   const fileName = () => {
     let file = '';
+    if (props.loginInfo.accountType === 'hqSuperadmin') {
+      file = `${props.jenisReten}_${
+        props.pilihanNegeri === 'all' ? 'MALAYSIA' : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanDaerah === 'all'
+          ? `${Dictionary[props.pilihanNegeri].toUpperCase()}`
+          : ''
+      }${
+        props.pilihanNegeri !== 'all' && props.pilihanKlinik === 'all'
+          ? `${props.pilihanDaerah.toUpperCase()}`
+          : ''
+      }${
+        props.pilihanKlinik !== 'all' ? `${props.namaKlinik.toUpperCase()}` : ''
+      }_${namaNamaBulan[bulan]}_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
+      return file;
+    }
     if (props.pilihanKkia !== '') {
       file = `${
         props.jenisReten
@@ -883,20 +879,23 @@ const ModalGenerateBulanan = (props) => {
           props.loginInfo.accountType === 'hqSuperadmin'
             ? Dictionary[props.pilihanNegeri]
             : props.loginInfo.negeri
-        }&daerah=${
-          props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
-        }&klinik=${
-          props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
-        }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
-          props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
-          props.pilihanKpbMpb
+        }&daerah=${props.pilihanDaerah}&klinik=${props.pilihanKlinik}${
+          props.pilihanFasiliti === 'kkiakd'
+            ? `&pilihanKkia=${props.pilihanKkia}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'program'
+            ? `&pilihanProgram=${props.pilihanProgram}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'kpbmpb'
+            ? `&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            : ''
         }${
           props.pilihanFasiliti === 'individu'
             ? `&pilihanIndividu=${props.pilihanIndividu}`
             : ''
-        }
-        &bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
+        }&bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
         {
           headers: {
             Authorization: adminToken,
@@ -967,25 +966,12 @@ const ModalGenerateBulanan = (props) => {
     }, 3000);
   };
 
-  const noWayBack = () => {
-    if (props.generatingNoWayBack) {
-      toast.warning('Sila sabar menunggu...', {
-        autoClose: 2000,
-        pauseOnHover: false,
-      });
-      return;
-    }
-    if (!props.generatingNoWayBack) {
-      props.setOpenModalGenerateBulanan(false);
-    }
-  };
-
   return (
     <>
       <form onSubmit={handleJana}>
         <div
           className='absolute inset-0 bg-user1 z-0 opacity-75'
-          onClick={noWayBack}
+          onClick={props.noWayBack}
         />
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
@@ -994,7 +980,7 @@ const ModalGenerateBulanan = (props) => {
                 Penjanaan Reten {props.jenisReten}
               </h5>
             </div>
-            <span className={styles.closeBtn} onClick={noWayBack}>
+            <span className={styles.closeBtn} onClick={props.noWayBack}>
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </span>
             <div className={styles.modalContent}>
@@ -1003,40 +989,51 @@ const ModalGenerateBulanan = (props) => {
                   <div className='px-3 py-1'>
                     {props.jenisReten === 'MASA' ? (
                       <div className='grid grid-row-2 gap-2 p-2 normal-case'>
-                        Penjanaan PIAGAM MASA mengikut bulan adalah maklumat
-                        SATU TAHUN setakat yang dikira pada 7 haribulan bulan
-                        berikutnya
+                        Penjanaan PIAGAM MASA mengikut bulan akan mengira
+                        maklumat untuk SATU TAHUN. Oleh itu, maklumat yang di
+                        jana adalah dari 01/01/{moment().format('YYYY')}{' '}
+                        sehingga{' '}
+                        {moment()
+                          .startOf('month')
+                          .add(6, 'days')
+                          .format('DD/MM/YYYY')}{' '}
+                        <span className='font-bold'>
+                          Penjanaan ini tidak menggunakan token
+                        </span>{' '}
                       </div>
-                    ) : null}
-                    <label
-                      htmlFor='bulan'
-                      className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                    >
-                      Sila pilih bulan
-                    </label>
-                    <select
-                      required
-                      name='bulan'
-                      id='bulan'
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      onChange={(e) => {
-                        setBulan(e.target.value);
-                      }}
-                    >
-                      <option value=''>Sila pilih bulan</option>
-                      <option value='01-01'>Januari</option>
-                      <option value='02-01'>Februari</option>
-                      <option value='03-01'>Mac</option>
-                      <option value='04-01'>April</option>
-                      <option value='05-01'>Mei</option>
-                      <option value='06-01'>Jun</option>
-                      <option value='07-01'>Julai</option>
-                      <option value='08-01'>Ogos</option>
-                      <option value='09-01'>September</option>
-                      <option value='10-01'>Oktober</option>
-                      <option value='11-01'>November</option>
-                      <option value='12-01'>Disember</option>
-                    </select>
+                    ) : (
+                      <>
+                        <label
+                          htmlFor='bulan'
+                          className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                        >
+                          Sila pilih bulan
+                        </label>
+                        <select
+                          required
+                          name='bulan'
+                          id='bulan'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          onChange={(e) => {
+                            setBulan(e.target.value);
+                          }}
+                        >
+                          <option value=''>Sila pilih bulan</option>
+                          <option value='01-01'>Januari</option>
+                          <option value='02-01'>Februari</option>
+                          <option value='03-01'>Mac</option>
+                          <option value='04-01'>April</option>
+                          <option value='05-01'>Mei</option>
+                          <option value='06-01'>Jun</option>
+                          <option value='07-01'>Julai</option>
+                          <option value='08-01'>Ogos</option>
+                          <option value='09-01'>September</option>
+                          <option value='10-01'>Oktober</option>
+                          <option value='11-01'>November</option>
+                          <option value='12-01'>Disember</option>
+                        </select>
+                      </>
+                    )}
                   </div>
                 </div>
                 <div className='mb-3'>
@@ -1054,17 +1051,7 @@ const ModalGenerateBulanan = (props) => {
                           name='negeri'
                           id='negeri'
                           value={props.pilihanNegeri}
-                          onChange={(e) => {
-                            props.setPilihanNegeri(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readDaerah(e.target.value).then((res) => {
-                              props.setDaerah(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihNegeri(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -1097,17 +1084,7 @@ const ModalGenerateBulanan = (props) => {
                           name='daerah'
                           id='daerah'
                           value={props.pilihanDaerah}
-                          onChange={(e) => {
-                            props.setPilihanDaerah(e.target.value);
-                            if (
-                              e.target.value === 'all' ||
-                              e.target.value === ''
-                            )
-                              return;
-                            readKlinik(e.target.value).then((res) => {
-                              props.setKlinik(res.data);
-                            });
-                          }}
+                          onChange={(e) => props.handlePilihDaerah(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
                         >
                           <option value=''>Sila pilih..</option>
@@ -1143,14 +1120,7 @@ const ModalGenerateBulanan = (props) => {
                           name='klinik'
                           id='klinik'
                           value={props.pilihanKlinik}
-                          onChange={(e) => {
-                            props.setPilihanKlinik(e.target.value);
-                            props.setNamaKlinik(
-                              e.target.options[
-                                e.target.selectedIndex
-                              ].getAttribute('data-key')
-                            );
-                          }}
+                          onChange={(e) => props.handlePilihKlinik(e)}
                           className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         >
                           <option value=''>Sila pilih..</option>
@@ -1551,7 +1521,7 @@ const ModalGenerateBulanan = (props) => {
                   <button
                     type='button'
                     className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
-                    onClick={noWayBack}
+                    onClick={props.noWayBack}
                   >
                     Kembali
                   </button>
@@ -1782,6 +1752,86 @@ const Generate = (props) => {
     }
   };
 
+  // handling plihan
+  const handlePilihNegeri = (e) => {
+    setPilihanNegeri(e.target.value);
+    if (e.target.value === 'all') {
+      setPilihanDaerah('all');
+      setPilihanKlinik('all');
+      return;
+    }
+    if (e.target.value === '') {
+      setPilihanDaerah('');
+      setPilihanKlinik('');
+      setDaerah([]);
+      setKlinik([]);
+      resetPilihanBiasa();
+      return;
+    }
+    resetPilihanBiasa();
+    readDaerah(e.target.value).then((res) => {
+      setDaerah(res.data);
+    });
+  };
+
+  const handlePilihDaerah = (e) => {
+    setPilihanDaerah(e.target.value);
+    if (e.target.value === 'all') {
+      setPilihanKlinik('all');
+      return;
+    }
+    if (e.target.value === '') {
+      setPilihanKlinik('');
+      setNamaKlinik('');
+      setKlinik([]);
+      resetPilihanBiasa();
+      return;
+    }
+    resetPilihanBiasa();
+    readKlinik(e.target.value).then((res) => {
+      setKlinik(res.data);
+    });
+  };
+
+  const handlePilihKlinik = (e) => {
+    setPilihanKlinik(e.target.value);
+    if (e.target.value === 'all') {
+      return;
+    }
+    if (e.target.value === '') {
+      setNamaKlinik('');
+      resetPilihanBiasa();
+      return;
+    }
+    resetPilihanBiasa();
+    setNamaKlinik(
+      e.target.options[e.target.selectedIndex].getAttribute('data-key')
+    );
+  };
+
+  // reset the usual suspects
+  const resetPilihanBiasa = () => {
+    setPilihanFasiliti('');
+    setPilihanKkia('');
+    setPilihanProgram('');
+    setPilihanKpbMpb('');
+    setPilihanIndividu('');
+  };
+
+  // THERE.IS.NO.WAY.BACK
+  const noWayBack = () => {
+    if (generatingNoWayBack) {
+      toast.warning('Sila sabar menunggu...', {
+        autoClose: 2000,
+        pauseOnHover: false,
+      });
+      return;
+    }
+    if (!generatingNoWayBack) {
+      setOpenModalGenerateBulanan(false);
+    }
+  };
+
   // reset stuff
   useEffect(() => {
     setPilihanKkia('');
@@ -1790,22 +1840,21 @@ const Generate = (props) => {
     setPilihanIndividu('');
   }, [pilihanFasiliti]);
 
-  useEffect(() => {
-    setPilihanFasiliti('');
-    setPilihanKkia('');
-    setPilihanProgram('');
-    setPilihanKpbMpb('');
-    setPilihanIndividu('');
-  }, [pilihanKlinik]);
+  // useEffect(() => {
+  //   setPilihanFasiliti('');
+  //   setPilihanKkia('');
+  //   setPilihanProgram('');
+  //   setPilihanKpbMpb('');
+  //   setPilihanIndividu('');
+  // }, [pilihanKlinik, pilihanDaerah, pilihanNegeri]);
 
-  useEffect(() => {
-    setPilihanKlinik('');
-    setPilihanFasiliti('');
-    setPilihanKkia('');
-    setPilihanProgram('');
-    setPilihanKpbMpb('');
-    setPilihanIndividu('');
-  }, [pilihanDaerah]);
+  // useEffect(() => {
+  //   setPilihanFasiliti('');
+  //   setPilihanKkia('');
+  //   setPilihanProgram('');
+  //   setPilihanKpbMpb('');
+  //   setPilihanIndividu('');
+  // }, [pilihanDaerah]);
 
   useEffect(() => {
     if (loginInfo.accountType === 'hqSuperadmin') {
@@ -1906,6 +1955,11 @@ const Generate = (props) => {
     setGenerating,
     generatingNoWayBack,
     setGeneratingNoWayBack,
+    noWayBack,
+    // handle pilih
+    handlePilihNegeri,
+    handlePilihDaerah,
+    handlePilihKlinik,
     // trigger get data
     handleGetKkia,
     handleGetProgramEnKPBMPB,
