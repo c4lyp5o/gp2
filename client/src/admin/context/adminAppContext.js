@@ -644,6 +644,7 @@ function AdminAppProvider({ children }) {
 
   // Dictionaries
   const Dictionary = {
+    all: 'all',
     kkiakd: 'KKIA / KD',
     pp: 'Pegawai Pergigian',
     jp: 'Juruterapi Pergigian',
