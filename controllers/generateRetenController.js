@@ -3130,7 +3130,16 @@ const makePgPro01Combined = async (payload) => {
 const makeGender = async (payload) => {
   logger.info('[generateRetenController] makeGender');
   try {
-    let { pegawai, klinik, daerah, negeri, bulan, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      bulan,
+      tarikhMula,
+      tarikhAkhir,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -3168,14 +3177,19 @@ const makeGender = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('GENDER');
 
-    const monthName = moment(bulan).format('MMMM');
-    const yearNow = moment(new Date()).format('YYYY');
-
-    let intro1 = worksheet.getCell('B3');
-    intro1.value = `${negeri.toUpperCase()}`;
-
-    let intro2 = worksheet.getCell('B4');
-    intro2.value = yearNow;
+    worksheet.getCell('B3').value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('B4').value = moment(new Date()).format('YYYY');
+    if (bulan) {
+      worksheet.getCell('B5').value = moment(bulan).format('MMMM');
+    } else {
+      const monthMula = moment(tarikhMula).format('MMMM');
+      const monthAkhir = moment(tarikhAkhir).format('MMMM');
+      if (monthMula === monthAkhir) {
+        worksheet.getCell('B5').value = monthMula;
+      } else {
+        worksheet.getCell('B5').value = `${monthMula} - ${monthAkhir}`;
+      }
+    }
 
     // data lelaki
 
@@ -3270,7 +3284,6 @@ const makeGender = async (payload) => {
     );
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
     rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    rowTambahan++;
     rowNew = worksheet.getRow(16 + rowTambahan);
     worksheet.mergeCells(
       `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
@@ -3287,13 +3300,16 @@ const makeGender = async (payload) => {
     rowNew.getCell(1).value = 'Memaparkan maklumat dari';
     rowTambahan++;
     rowNew = worksheet.getRow(16 + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date())
-      .startOf('month')
-      .format('DD-MM-YYYY')} - ${moment(new Date()).format('DD-MM-YYYY')}`;
+    if (bulan) {
+      rowNew.getCell(1).value = `${moment(bulan)
+        .startOf('month')
+        .format('DD-MM-YYYY')} - ${moment(bulan).format('DD-MM-YYYY')}`;
+    } else {
+      rowNew.getCell(1).value = `${moment(tarikhMula).format(
+        'DD-MM-YYYY'
+      )} - ${moment(tarikhAkhir).format('DD-MM-YYYY')}`;
+    }
     //
     rowTambahan++;
     rowNew = worksheet.getRow(16 + rowTambahan);
@@ -3572,10 +3588,6 @@ const makeBp = async (payload) => {
       klinik = currentKlinik.kp;
     }
     //
-    if (!bulan) {
-      bulan = tarikhMula;
-    }
-    //
     let filename = path.join(__dirname, '..', 'public', 'exports', 'BP.xlsx');
     //
     let workbook = new Excel.Workbook();
@@ -3584,7 +3596,17 @@ const makeBp = async (payload) => {
     let worksheet = workbook.getWorksheet('Bulan');
     // write bulan
     let intro1 = worksheet.getCell('F3');
-    intro1.value = moment(bulan).format('MMMM');
+    if (bulan) {
+      intro1.value = moment(bulan).format('MMMM');
+    } else {
+      const monthMula = moment(tarikhMula).format('MMMM');
+      const monthAkhir = moment(tarikhAkhir).format('MMMM');
+      if (monthMula === monthAkhir) {
+        intro1.value = monthMula;
+      } else {
+        intro1.value = `${monthMula} - ${monthAkhir}`;
+      }
+    }
     // write year
     let intro2 = worksheet.getCell('I3');
     intro2.value = moment(bulan).format('YYYY');
@@ -3778,9 +3800,17 @@ const makeBp = async (payload) => {
     //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
     // );
     rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date())
-      .startOf('month')
-      .format('DD-MM-YYYY')} - ${moment(new Date()).format('DD-MM-YYYY')}`;
+    if (bulan) {
+      rowNew.getCell(1).value = `${moment(bulan)
+        .startOf('month')
+        .format('DD-MM-YYYY')} - ${moment(bulan)
+        .endOf('month')
+        .format('DD-MM-YYYY')}`;
+    } else {
+      rowNew.getCell(1).value = `${moment(tarikhMula).format(
+        'DD-MM-YYYY'
+      )} - ${moment(tarikhAkhir).format('DD-MM-YYYY')}`;
+    }
     //
     rowTambahan++;
     rowNew = worksheet.getRow(43 + rowTambahan);
