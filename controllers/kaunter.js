@@ -106,24 +106,60 @@ const createPersonKaunter = async (req, res) => {
     kodFasilitiTaskaTadika: req.body.kodFasilitiTaskaTadika,
     jenisProgram: req.body.jenisProgram,
     namaProgram: req.body.namaProgram,
-  });
+  }).sort({ createdAt: -1 });
+
+  console.log(personExist);
 
   // tagging person according to their status
   if (personExist) {
-    req.body.kedatangan = 'ulangan-kedatangan';
+    // req.body.kedatangan = 'ulangan-kedatangan';
+    // logger.info(
+    //   `${req.method} ${req.url} [kaunterController] ic telah wujud. tagging ulangan`
+    // );
+    // req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+    // logger.info(
+    //   `${req.method} ${req.url} [kaunterController] no pendaftaran ulangan: ${req.body.noPendaftaranUlangan}`
+    // );
     logger.info(
-      `${req.method} ${req.url} [kaunterController] ic telah wujud. tagging ulangan`
+      `[kaunterController] ic telah wujud. check status hapus dan status ulangan`
     );
-    req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    logger.info(
-      `${req.method} ${req.url} [kaunterController] no pendaftaran ulangan: ${req.body.noPendaftaranUlangan}`
-    );
+    // see if it is deleted beforehand
+    if (personExist.kedatangan === 'baru-kedatangan' && personExist.deleted) {
+      logger.info(
+        `[kaunterController] ic telah wujud tetapi telah dihapuskan pada kedatangan pertama. tagging baru`
+      );
+      req.body.kedatangan = 'baru-kedatangan';
+      req.body.noPendaftaranBaru = personExist.noPendaftaranBaru;
+      req.body.deleted = true;
+    }
+    if (
+      personExist.kedatangan === 'baru-kedatangan' &&
+      !personExist.deleted &&
+      personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] ic telah wujud tetapi tidak mendapatkan rawatan pada kedatangan pertama. tagging ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+      req.body.checkupEnabled = true;
+    }
+    if (
+      personExist.kedatangan === 'ulangan-kedatangan' &&
+      !personExist.deleted &&
+      !personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] ic telah wujud dan kedatangan lama ulangan. tagging ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
+      req.body.checkupEnabled = false;
+    }
   }
 
   if (!personExist) {
-    logger.info(
-      `${req.method} ${req.url} [kaunterController] ic tidak wujud. tagging baru`
-    );
+    logger.info(`[kaunterController] ic tidak wujud. tagging baru`);
     req.body.kedatangan = 'baru-kedatangan';
   }
 
