@@ -1,14 +1,15 @@
 html {
   height: 100%;
   background: #223;
-  display: grid;
+  display: block;
   place-items: center;
 }
 .box {
   --border-size: 3px;
   --border-angle: 0turn;
-  width: 60vmin;
-  height: 50vmin;
+  width: 50vmin;
+  height: 35vmin;
+  z-index: 20;
   background-image: conic-gradient(
       from var(--border-angle),
       #213,
