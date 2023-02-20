@@ -1,15 +1,23 @@
 import { useEffect, useState } from 'react';
-import { FaInfoCircle, FaCaretDown, FaClock } from 'react-icons/fa';
+import {
+  FaInfoCircle,
+  FaCaretDown,
+  FaClock,
+  FaCheckCircle,
+} from 'react-icons/fa';
 import moment from 'moment';
 import Datetime from 'react-datetime';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
+
+import styles from '../../Zazz.module.css';
 
 export default function Pemeriksaan(props) {
   const { dateToday, formatTime, dictionaryJenisFasiliti } =
     useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
+
   let isDisabled = false;
   if (
     props.statusReten === 'telah diisi' ||
@@ -91,6 +99,210 @@ export default function Pemeriksaan(props) {
       props.setPemeriksaanTaskaTadika('');
     }
   }, [props.tidakHadirTaskaTadika]);
+
+  // test table dmfx
+  function DmfxInfoIcon({ statusDmfx }) {
+    const [showDmfxTable, setShowDmfxTable] = useState(false);
+    const [dmfxTablePosition, setDmfxTablePosition] = useState({ x: 0, y: 0 });
+
+    const handleMouseEnter = () => {
+      console.log('enter');
+      setShowDmfxTable(true);
+    };
+
+    const handleMouseLeave = () => {
+      console.log('leave');
+      setShowDmfxTable(false);
+    };
+
+    const handleMouseMove = (event) => {
+      setDmfxTablePosition({ x: event.clientX, y: event.clientY });
+    };
+    return (
+      <>
+        <FaInfoCircle
+          className='text-user6'
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+        />
+        <HoveringTable
+          show={showDmfxTable}
+          position={dmfxTablePosition}
+          patient={statusDmfx}
+        />
+      </>
+    );
+  }
+
+  function HoveringTable({ show, position, patient }) {
+    const data = [
+      {
+        nameDesidus: 'D desidus',
+        valueDesidus: patient.dAdaGigiDesidusPemeriksaanUmum,
+        nameKekal: 'D kekal',
+        valueKekal: patient.dAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'MBK',
+        valueStatus:
+          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) === 0 &&
+          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) === 0 &&
+          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum) === 0 &&
+          parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
+          parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
+          parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
+          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
+            <div className='flex justify-center'>
+              <FaCheckCircle className='text-user7' />
+            </div>
+          ) : (
+            'Tidak'
+          ),
+      },
+      {
+        nameDesidus: 'F desidus',
+        valueDesidus: patient.fAdaGigiDesidusPemeriksaanUmum,
+        nameKekal: 'M kekal',
+        valueKekal: patient.mAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'BK',
+        valueStatus:
+          parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
+          parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
+          parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
+          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
+            <div className='flex justify-center'>
+              <FaCheckCircle className='text-user7' />
+            </div>
+          ) : (
+            'Tidak'
+          ),
+      },
+      {
+        nameDesidus: 'X desidus',
+        valueDesidus: patient.xAdaGigiDesidusPemeriksaanUmum,
+        nameKekal: 'F kekal',
+        valueKekal: patient.fAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'MBG',
+        valueStatus:
+          parseInt(patient.skorGisMulutOralHygienePemeriksaanUmum) === 0 ? (
+            <div className='flex justify-center'>
+              <FaCheckCircle className='text-user7' />
+            </div>
+          ) : (
+            'Tidak'
+          ),
+      },
+      {
+        nameDesidus: 'Jumlah dfx desidus',
+        valueDesidus:
+          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
+        nameKekal: 'X kekal',
+        valueKekal: patient.xAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'TPR',
+        valueStatus: patient.tidakPerluRawatanPemeriksaanUmum ? (
+          <div className='flex justify-center'>
+            <FaCheckCircle className='text-user7' />
+          </div>
+        ) : (
+          'Tidak'
+        ),
+      },
+      {
+        // nameDesidus: 'Property 5',
+        // valueDesidus: 'Value 5',
+        nameKekal: 'DMFX',
+        valueKekal:
+          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
+        nameStatus: 'TSL',
+        valueStatus: patient.toothSurfaceLossTraumaPemeriksaanUmum ? (
+          <div className='flex justify-center'>
+            <FaCheckCircle className='text-user7' />
+          </div>
+        ) : (
+          'Tidak'
+        ),
+      },
+      {
+        nameDesidus: 'E desidus',
+        valueDesidus: patient.eAdaGigiKekalPemeriksaanUmum,
+        nameKekal: 'X + M',
+        valueKekal:
+          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.mAdaGigiKekalPemeriksaanUmum),
+      },
+      {
+        // nameDesidus: 'Property 7',
+        // valueDesidus: 'Value 7',
+        nameKekal: 'Jumlah Gigi Kekal',
+        valueKekal:
+          parseInt(patient.dAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.fAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.eAdaGigiKekalPemeriksaanUmum),
+      },
+    ];
+
+    return (
+      <div
+        className={`absolute shadow-md rounded-md p-2 ${
+          show ? 'block' : 'hidden'
+        }`}
+        style={{
+          left: position.x,
+          // top: position.y,
+        }}
+      >
+        <div
+          className={styles.box}
+          style={{
+            height: 'auto',
+            width: 'auto',
+            padding: '5px',
+          }}
+        >
+          <div className='flex justify-center'>
+            <table className='bg-adminWhite z-30 rounded-lg shadow-md max-w-full max-h-full overflow-y-auto'>
+              <thead>
+                <tr>
+                  <th className='px-2 py-1 text-left text-xs'>Gigi Desidus</th>
+                  <th className='px-2 py-1 text-left text-xs'>Jumlah</th>
+                  <th className='px-2 py-1 text-left text-xs'>Gigi Kekal</th>
+                  <th className='px-2 py-1 text-left text-xs'>Jumlah</th>
+                  <th className='px-2 py-1 text-left text-xs'>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <tr key={index}>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.nameDesidus}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.valueDesidus}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.nameKekal}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.valueKekal}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.nameStatus}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.valueStatus}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -637,6 +849,14 @@ export default function Pemeriksaan(props) {
                           Tidak
                         </label>
                       </div>
+                      {props.yaTidakPesakitMempunyaiGigi ===
+                        'ya-pesakit-mempunyai-gigi' && (
+                        <div className='flex items-center justify-center ml-2'>
+                          <DmfxInfoIcon statusDmfx={props} />
+                          {/* <HoveringTable /> */}
+                          {/* <Box /> */}
+                        </div>
+                      )}
                     </div>
                     {props.yaTidakPesakitMempunyaiGigi ===
                       'ya-pesakit-mempunyai-gigi' && (
