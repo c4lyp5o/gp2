@@ -270,7 +270,9 @@ export default function FillableForm({
     const dob = new Date(date);
     const diff = today.getTime() - dob.getTime();
     const days_diff = Math.floor((diff % 31556736000) / 86400000);
-    const values = `${days_diff} days`;
+    const months = Math.floor(days_diff / 30.4167);
+    const days = days_diff - months * 30.4167;
+    const values = `${days} days`;
     return values;
   };
 
