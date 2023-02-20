@@ -419,7 +419,7 @@ const queryPersonUmum = async (req, res) => {
 
   const umumResultQuery = await Umum.find(queryObject)
     .select(
-      '_id tarikhKedatangan waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan createdByUsername statusReten noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram'
+      '_id statusKehadiran tarikhKedatangan waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan createdByUsername statusReten noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram'
     )
     .lean();
 
