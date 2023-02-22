@@ -880,9 +880,9 @@ const deleteRoute = async (req, res) => {
 const getData = async (req, res) => {
   let { main, Fn, token, FType, Id } = req.body;
   let { Data } = req.body;
+  const theType = Dictionary[FType];
   switch (main) {
     case 'DataCenter':
-      const theType = Dictionary[FType];
       const currentUser = await Superadmin.findById(
         jwt.verify(token, process.env.JWT_SECRET).userId
       );
