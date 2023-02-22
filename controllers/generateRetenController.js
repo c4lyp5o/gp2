@@ -4358,10 +4358,11 @@ const makePGS203P2 = async (payload) => {
     // write data
     let rowNumber = 16;
 
-    for (let i = 0; i < data[0].length; i++) {
+    for (let i = 0; i < data.length; i++) {
       // let rowNew = worksheet.getRow(16 + i);
-      console.log(`array ${i}`, data[0]);
+      console.log(`array ${i}. row ${rowNumber}`);
       if (data[i][0]) {
+        console.log(`we got data in this array`);
         worksheet.getRow(rowNumber).getCell(4).value =
           data[i][0].kedatanganTahunSemasaBaru; //column D (4)
         worksheet.getRow(rowNumber).getCell(5).value =
