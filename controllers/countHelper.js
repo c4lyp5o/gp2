@@ -3453,7 +3453,6 @@ const countPG206 = async (payload) => {
 };
 const countPG207 = async (payload) => {
   // for umum
-
   let match_stage_pemeriksaan = [];
 
   const match_pemeriksaan_below1year = {
@@ -5313,15 +5312,18 @@ const countPG207 = async (payload) => {
       dataSekolah.push({ querySekolah });
     }
 
-    for (let i = 0; i < match_stage_operatorLain.length; i++) {
-      const pipeline = [
-        match_stage_operatorLain[i],
-        ...getParamsOperatorLain,
-        group,
-        project,
-      ];
-      const queryOperatorLain = await Umum.aggregate(pipeline);
-      dataOperatorLain.push({ queryOperatorLain });
+    if (!payload.pilihanIndividu) {
+      for (let i = 0; i < match_stage_operatorLain.length; i++) {
+        const pipeline = [
+          match_stage_operatorLain[i],
+          ...getParamsOperatorLain,
+          group,
+          project,
+        ];
+        const queryOperatorLain = await Umum.aggregate(pipeline);
+        console.log(queryOperatorLain);
+        dataOperatorLain.push({ queryOperatorLain });
+      }
     }
 
     bigData.push(dataPemeriksaan);
