@@ -4163,10 +4163,7 @@ const countPG207 = async (payload) => {
             {
               $and: [
                 {
-                  $eq: [
-                    '$yaTidakAbsesPembedahanRawatanUmum',
-                    'ya-abses-pembedahan-rawatan-umum',
-                  ],
+                  $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true],
                 },
               ],
             },
@@ -5006,10 +5003,7 @@ const countPG207 = async (payload) => {
             {
               $and: [
                 {
-                  $eq: [
-                    '$merged.yaTidakAbsesPembedahan',
-                    'ya-abses-pembedahan',
-                  ],
+                  $eq: ['$merged.yaTidakAbsesPembedahan', true],
                 },
               ],
             },
