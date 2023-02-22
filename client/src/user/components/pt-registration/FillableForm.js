@@ -66,6 +66,7 @@ export default function FillableForm({
   const [waktuSampai, setWaktuSampai] = useState('');
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
+  const [waktuTemujanji, setWaktuTemujanji] = useState('');
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
@@ -168,6 +169,9 @@ export default function FillableForm({
   const [waktuSampaiDT, setWaktuSampaiDT] = useState(
     moment(dateToday, moment.ISO_8601).toDate()
   );
+  const [waktuTemujanjiDT, setWaktuTemujanjiDT] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
 
   // myidentity
   const [myIdVerified, setMyIdVerified] = useState(false);
@@ -192,26 +196,6 @@ export default function FillableForm({
         'appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
   };
-
-  // wip ----------
-  const WaktuSampai = () => {
-    return masterDatetime({
-      value: waktuSampaiDT,
-      initialValue: setWaktuSampai(moment(dateToday).format('HH:mm')),
-      onChange: (dt) => {
-        const timeString = moment(dt).format('HH:mm');
-        setWaktuSampai(timeString);
-        setWaktuSampaiDT(dt);
-      },
-      inputProps: {
-        required: true,
-        readOnly: true,
-        className:
-          'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
-      },
-    });
-  };
-  // --------------
 
   const TarikhLahir = () => {
     return masterDatePicker({
@@ -553,13 +537,14 @@ export default function FillableForm({
             {
               createdByUsername: 'kaunter',
               jenisFasiliti,
+              kedatangan,
+              noPendaftaranBaru,
+              noPendaftaranUlangan,
               tarikhKedatangan,
               waktuSampai,
               waktuSelesaiDaftar: waktuSelesaiDaftar.current,
               temujanji,
-              kedatangan,
-              noPendaftaranBaru,
-              noPendaftaranUlangan,
+              waktuTemujanji,
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
@@ -661,12 +646,13 @@ export default function FillableForm({
           axios.patch(
             `/api/v1/kaunter/${editId}`,
             {
-              tarikhKedatangan,
-              waktuSampai,
-              temujanji,
               kedatangan,
               noPendaftaranBaru,
               noPendaftaranUlangan,
+              tarikhKedatangan,
+              waktuSampai,
+              temujanji,
+              waktuTemujanji,
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
@@ -763,12 +749,13 @@ export default function FillableForm({
 
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
-    setTarikhKedatangan(moment(dateToday).format('YYYY-MM-DD'));
-    setWaktuSampai('');
-    setTemujanji(false);
     setKedatangan('');
     setNoPendaftaranBaru('');
     setNoPendaftaranUlangan('');
+    setTarikhKedatangan(moment(dateToday).format('YYYY-MM-DD'));
+    setWaktuSampai('');
+    setTemujanji(false);
+    setWaktuTemujanji('');
     setNama('');
     setJenisIc('');
     setIc('');
@@ -789,8 +776,8 @@ export default function FillableForm({
     setEpisodMengandung('');
     setBookingIM('');
     setMengandungDahGravida(false);
-    setOrangKurangUpaya(false);
     setBersekolah(false);
+    setOrangKurangUpaya(false);
     setNoOku('');
     setStatusPesara('');
     setNoPesara('');
@@ -850,6 +837,7 @@ export default function FillableForm({
     setTarikhMulaRawatanKeppDP(null);
     // datetime issues
     setWaktuSampaiDT(moment(dateToday, moment.ISO_8601).toDate());
+    setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
     if (showForm === false) {
       // reset editId when change jenisFasiliti & showForm === false
       setEditId('');
@@ -860,6 +848,14 @@ export default function FillableForm({
   useEffect(() => {
     setShowForm(false);
   }, [jenisFasiliti]);
+
+  // reset waktuTemujanji when change temujanji
+  useEffect(() => {
+    if (!editId) {
+      setWaktuTemujanji('');
+      setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
+    }
+  }, [temujanji]);
 
   //reset no telefon 2 when change no telefon
   useEffect(() => {
@@ -1016,18 +1012,20 @@ export default function FillableForm({
             headers: { Authorization: `Bearer ${kaunterToken}` },
           });
           // core
-          setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
-          setWaktuSampai(data.singlePersonKaunter.waktuSampai);
-          setTemujanji(data.singlePersonKaunter.temujanji);
           setKedatangan(data.singlePersonKaunter.kedatangan);
           setNoPendaftaranBaru(data.singlePersonKaunter.noPendaftaranBaru);
           setNoPendaftaranUlangan(
             data.singlePersonKaunter.noPendaftaranUlangan
           );
+          setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
+          setWaktuSampai(data.singlePersonKaunter.waktuSampai);
+          setTemujanji(data.singlePersonKaunter.temujanji);
+          setWaktuTemujanji(data.singlePersonKaunter.waktuTemujanji);
           setNama(data.singlePersonKaunter.nama);
           setJenisIc(data.singlePersonKaunter.jenisIc);
           setIc(data.singlePersonKaunter.ic);
           setNomborTelefon(data.singlePersonKaunter.nomborTelefon);
+          setTambahTelefon(true);
           setNomborTelefon2(data.singlePersonKaunter.nomborTelefon2);
           setEmel(data.singlePersonKaunter.emel);
           setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
@@ -1046,8 +1044,8 @@ export default function FillableForm({
           setMengandungDahGravida(
             data.singlePersonKaunter.mengandungDahGravida
           );
-          setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setBersekolah(data.singlePersonKaunter.bersekolah);
+          setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setNoOku(data.singlePersonKaunter.noOku);
           setStatusPesara(data.singlePersonKaunter.statusPesara);
           setNoPesara(data.singlePersonKaunter.noPesara);
@@ -1370,12 +1368,13 @@ export default function FillableForm({
                           <FaClock className='absolute top-2 right-2 text-kaunter3' />
                         </span>
                       </div>
-                      <div className='flex justify-start mt-2'>
+                      <div className='flex justify-start my-2'>
                         <input
                           type='checkbox'
                           name='temujanji'
                           id='temujanji'
                           value='temujanji'
+                          disabled={editId ? true : false}
                           checked={temujanji}
                           onChange={() => {
                             setTemujanji(!temujanji);
@@ -1390,6 +1389,56 @@ export default function FillableForm({
                         </label>
                       </div>
                     </div>
+                    {temujanji && (
+                      <>
+                        <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
+                          waktu janji temu:{' '}
+                          <span className='font-semibold text-user6'>*</span>
+                        </p>
+                        <div className='flex flex-col justify-start'>
+                          <div className='relative w-full md:w-56'>
+                            {!editId ? (
+                              <Datetime
+                                initialViewMode='time'
+                                dateFormat={false}
+                                timeFormat='hh:mm A'
+                                input={true}
+                                value={waktuTemujanjiDT}
+                                initialValue={
+                                  waktuTemujanji
+                                    ? waktuTemujanji
+                                    : setWaktuTemujanji(
+                                        moment(dateToday).format('HH:mm')
+                                      )
+                                }
+                                onChange={(dt) => {
+                                  const timeString = moment(dt).format('HH:mm');
+                                  setWaktuTemujanji(timeString);
+                                  setWaktuTemujanjiDT(dt);
+                                }}
+                                inputProps={{
+                                  required: true,
+                                  readOnly: true,
+                                  className:
+                                    'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+                                }}
+                              />
+                            ) : (
+                              <input
+                                disabled={true}
+                                type='text'
+                                name='waktuTemujani'
+                                value={formatTime(waktuTemujanji)}
+                                className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                              />
+                            )}
+                            <span>
+                              <FaClock className='absolute top-2 right-2 text-kaunter3' />
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 ) : null}
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min col-start-1'>
