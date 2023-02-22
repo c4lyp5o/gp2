@@ -5953,7 +5953,9 @@ const countPGPR201Baru = async (payload) => {
   }
 };
 //Reten Sekolah (Lama)
-const countPG201 = async (klinik, bulan, sekolah) => {
+const countPG201 = async (payload) => {
+  const { kodSekolah, tahun } = payload;
+
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
@@ -14924,7 +14926,7 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $gte: 5, $lt: 6 },
+        umur: { $eq: 5 },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
       },
@@ -14935,7 +14937,7 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $gte: 6, $lt: 7 },
+        umur: { $eq: 6 },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
       },
@@ -15662,11 +15664,6 @@ const countPG201P2 = async (payload) => {
   // bismillah
   let bigData = [];
 
-  // for (let i = 0; i < match_stage.length; i++) {
-  //   const pipeline = [match_stage[i], group_stage];
-  //   const dataPGS203 = await Umum.aggregate(pipeline);
-  //   bigData.push(dataPGS203);
-  // }
   try {
     for (const stage of match_stage) {
       const dataPG201P2 = await Umum.aggregate([...stage, ...group_stage]);
@@ -16615,7 +16612,7 @@ const getParamsPG201P2 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16627,7 +16624,7 @@ const getParamsPG201P2 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16638,7 +16635,7 @@ const getParamsPG201P2 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
