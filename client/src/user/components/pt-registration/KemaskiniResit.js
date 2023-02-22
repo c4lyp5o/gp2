@@ -33,7 +33,7 @@ export default function KemaskiniResit({ setShowKemaskiniResit, editId }) {
     await toast
       .promise(
         axios.patch(
-          `/api/v1/kaunter/${editId}`,
+          `/api/v1/kaunter/${editId}?fromResit=true`,
           {
             noBayaran,
             noResit,
