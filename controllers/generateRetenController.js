@@ -2391,7 +2391,7 @@ const makePG201 = async (payload) => {
       sekolah,
     } = payload;
     //
-    const data = await Helper.countPG201(kp, sekolah);
+    const data = await Helper.countPG201(payload);
     //
     if (data.length === 0) {
       return 'No data found';
@@ -4484,7 +4484,16 @@ const makePGS203P2 = async (payload) => {
 const makePG201P2 = async (payload) => {
   logger.info('[generateRetenController] PG201 Pind. 2/2022 ');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanIndividu,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -4513,14 +4522,18 @@ const makePG201P2 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     //get worksheet
     let worksheet = workbook.getWorksheet('PG201');
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
     //Find Month and Year at the moment
-    const monthName = moment(new Date()).format('MMMM');
+    const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
     //write bulan and sesi at the moment
-    // let details = worksheet.getRow(5);
-    // details.getCell(
-    //   2
-    // ).value = `BAGI BULAN      ${monthName.toUpperCase()}         SESI      ${yearNow}`;
+    let details = worksheet.getRow(5);
+    details.getCell(
+      2
+    ).value = `BAGI BULAN      ${monthName.toUpperCase()}         SESI      ${yearNow}`;
     // write facility
     let intro1 = worksheet.getRow(7);
     intro1.getCell(4).value = `${klinik.toUpperCase()}`;
@@ -4538,10 +4551,11 @@ const makePG201P2 = async (payload) => {
     // write data
     let rowNumber = 18;
 
-    for (let i = 0; i < data[0].length; i++) {
+    for (let i = 0; i < data.length; i++) {
       // let rowNew = worksheet.getRow(16 + i);
-      console.log(`array ${i}`, data[0]);
+      console.log(`array ${i}. row ${rowNumber}`);
       if (data[i][0]) {
+        console.log(`we have data`);
         //worksheet.getRow(rowNumber).getCell(3).value = data[i][0].enrolmen; //column C (3)
 
         //Kedatangan
