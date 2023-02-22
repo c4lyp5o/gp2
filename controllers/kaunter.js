@@ -177,10 +177,14 @@ const updatePersonKaunter = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const { fromResit } = req.query;
+
   // converting tarikhKedatangan again at the backend just in case
-  req.body.tarikhKedatangan = moment(req.body.tarikhKedatangan).format(
-    'YYYY-MM-DD'
-  );
+  if (fromResit !== 'true') {
+    req.body.tarikhKedatangan = moment(req.body.tarikhKedatangan).format(
+      'YYYY-MM-DD'
+    );
+  }
 
   const updatedSinglePersonKaunter = await Umum.findOneAndUpdate(
     {
