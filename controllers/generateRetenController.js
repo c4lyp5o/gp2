@@ -130,7 +130,10 @@ exports.startQueue = async function (req, res) {
           '[generateRetenController] dah kurangkan token untuk ' + username
         );
       } else {
-        logger.info('[generateRetenController] not production and ' + username);
+        logger.info(
+          '[generateRetenController] not production atau generate bulanan and ' +
+            username
+        );
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
@@ -225,7 +228,10 @@ exports.startQueueKp = async function (req, res) {
           '[generateRetenController] dah kurangkan token untuk ' + username
         );
       } else {
-        logger.info('[generateRetenController] not production and ' + username);
+        logger.info(
+          '[generateRetenController] not production atau generate bulanan and ' +
+            username
+        );
       }
       res.setHeader('Content-Type', 'application/vnd.ms-excel');
       res.status(200).send(result);
