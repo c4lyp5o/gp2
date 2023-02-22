@@ -1372,7 +1372,6 @@ export default function FillableForm({
                           name='temujanji'
                           id='temujanji'
                           value='temujanji'
-                          disabled={editId ? true : false}
                           checked={temujanji}
                           onChange={() => {
                             setTemujanji(!temujanji);
@@ -1395,41 +1394,39 @@ export default function FillableForm({
                         </p>
                         <div className='flex flex-col justify-start'>
                           <div className='relative w-full md:w-56'>
-                            {!editId ? (
-                              <Datetime
-                                initialViewMode='time'
-                                dateFormat={false}
-                                timeFormat='hh:mm A'
-                                input={true}
-                                value={waktuTemujanjiDT}
-                                initialValue={
-                                  waktuTemujanji
-                                    ? waktuTemujanji
-                                    : setWaktuTemujanji(
-                                        moment(dateToday).format('HH:mm')
-                                      )
-                                }
-                                onChange={(dt) => {
-                                  const timeString = moment(dt).format('HH:mm');
-                                  setWaktuTemujanji(timeString);
-                                  setWaktuTemujanjiDT(dt);
-                                }}
-                                inputProps={{
-                                  required: true,
-                                  readOnly: true,
-                                  className:
-                                    'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
-                                }}
-                              />
-                            ) : (
-                              <input
-                                disabled={true}
-                                type='text'
-                                name='waktuTemujani'
-                                value={formatTime(waktuTemujanji)}
-                                className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
-                              />
-                            )}
+                            <Datetime
+                              initialViewMode='time'
+                              dateFormat={false}
+                              timeFormat='hh:mm A'
+                              input={true}
+                              value={
+                                editId
+                                  ? moment(
+                                      moment(dateToday).format('YYYY-MM-DD') +
+                                        ' ' +
+                                        waktuTemujanji
+                                    ).toDate()
+                                  : waktuTemujanjiDT
+                              }
+                              initialValue={
+                                waktuTemujanji
+                                  ? waktuTemujanji
+                                  : setWaktuTemujanji(
+                                      moment(dateToday).format('HH:mm')
+                                    )
+                              }
+                              onChange={(dt) => {
+                                const timeString = moment(dt).format('HH:mm');
+                                setWaktuTemujanji(timeString);
+                                setWaktuTemujanjiDT(dt);
+                              }}
+                              inputProps={{
+                                required: true,
+                                readOnly: true,
+                                className:
+                                  'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+                              }}
+                            />
                             <span>
                               <FaClock className='absolute top-2 right-2 text-kaunter3' />
                             </span>
