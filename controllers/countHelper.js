@@ -10078,8 +10078,6 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
-        deleted: false,
       },
     },
     {
@@ -10114,8 +10112,6 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
-        deleted: false,
       },
     },
     {
@@ -10150,9 +10146,7 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
         orangKurangUpaya: true,
-        deleted: false,
       },
     },
   ];
@@ -10161,9 +10155,7 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
         kumpulanEtnik: 'penan',
-        deleted: false,
       },
     },
   ];
@@ -10617,11 +10609,6 @@ const countPGS203 = async (payload) => {
   // bismillah
   let bigData = [];
 
-  // for (let i = 0; i < match_stage.length; i++) {
-  //   const pipeline = [match_stage[i], group_stage];
-  //   const dataPGS203 = await Umum.aggregate(pipeline);
-  //   bigData.push(dataPGS203);
-  // }
   for (const stage of match_stage) {
     const dataPGS203 = await Umum.aggregate([...stage, ...group_stage]);
     bigData.push(dataPGS203);
@@ -16543,6 +16530,7 @@ const getParamsPGS203 = (payload) => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
     };
@@ -16552,7 +16540,8 @@ const getParamsPGS203 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
+      jenisFasiliti: { $eq: 'taska-tadika' },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16564,7 +16553,8 @@ const getParamsPGS203 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
+      jenisFasiliti: { $eq: 'taska-tadika' },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16575,8 +16565,9 @@ const getParamsPGS203 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
     };
