@@ -34,6 +34,10 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
     const refetchIdentityDatetime = () => {
       setKaunterToken(localStorage.getItem('kaunterToken'));
       setRefetchDateTime(!refetchDateTime);
+      {
+        process.env.REACT_APP_ENV === 'DEV' &&
+          console.log('refetch identity kaunter');
+      }
     };
     refetchIdentityDatetime();
   }, [refetchState]);
