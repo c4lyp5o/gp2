@@ -38,17 +38,32 @@ const countPG101A = async (payload) => {
       bersekolah: '$bersekolah',
       noOku: '$noOku',
       noPesara: 1,
-      kategoriPesakit: '$kategoriPesakit',
-      statusPesara: '$statusPesara',
-      kumpulanEtnik: '$kumpulanEtnik',
-      rujukDaripada: '$rujukDaripada',
+      kategoriPesakit: 1,
+      statusPesara: 1,
+      kumpulanEtnik: 1,
+      rujukDaripada: 1,
       noBayaran: 1,
       noResit: 1,
       noBayaran2: 1,
       noResit2: 1,
       noBayaran3: 1,
       noResit3: 1,
-      catatan: '$catatan',
+      catatan: 1,
+      rawatanDibuatOperatorLain: 1,
+      maklumatOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nama',
+          in: '$$nama.createdByUsername',
+        },
+      },
+      idOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nomborMdc',
+          in: '$$nomborMdc.createdByMdcMdtb',
+        },
+      },
     },
   };
 
@@ -102,6 +117,22 @@ const countPG101C = async (payload) => {
       kumpulanEtnik: '$kumpulanEtnik',
       rujukDaripada: '$rujukDaripada',
       catatan: '$catatan',
+      catatan: 1,
+      rawatanDibuatOperatorLain: 1,
+      maklumatOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nama',
+          in: '$$nama.createdByUsername',
+        },
+      },
+      idOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nomborMdc',
+          in: '$$nomborMdc.createdByMdcMdtb',
+        },
+      },
     },
   };
 

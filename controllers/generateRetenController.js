@@ -547,11 +547,56 @@ const makePG101A = async (payload) => {
       if (data[i].deleted) {
         rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
       } else {
+        // let catatan = `${
+        //   data[i].createdByUsername !== 'kaunter'
+        //     ? `Operator: ${data[i].createdByUsername} `
+        //     : ''
+        // } ${
+        //   data[i].rawatanDibuatOperatorLain
+        //     ? `Operator Lain: ${data[i].maklumatOperatorLain[0]} ${
+        //         data[i].maklumatOperatorLain[0]
+        //           ? `${data[i].maklumatOperatorLain[0]}`
+        //           : ''
+        //       } `
+        //     : ''
+        // } ${
+        //   data[i].rawatanDibuatOperatorLain
+        //     ? `Operator Lain: ${data[i].maklumatOperatorLain[1]} ${
+        //         data[i].maklumatOperatorLain[1]
+        //           ? `${data[i].maklumatOperatorLain[1]}`
+        //           : ''
+        //       } `
+        //     : ''
+        // } ${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
+        //   data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
+        // } ${
+        //   data[i].noBayaran && data[i].noResit
+        //     ? `No. Resit dan bayaran: ${data[i].noResit} - ${data[i].noBayaran}`
+        //     : ''
+        // } ${
+        //   data[i].noBayaran2 && data[i].noResit2
+        //     ? `No. Resit dan bayaran: ${data[i].noResit2} - ${data[i].noBayaran2}`
+        //     : ''
+        // } ${
+        //   data[i].noBayaran3 && data[i].noResit3
+        //     ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
+        //     : ''
+        // } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
         let catatan = `${
           data[i].createdByUsername !== 'kaunter'
-            ? `Operator: ${data[i].createdByUsername} `
+            ? `Operator: ${data[i].createdByUsername}. `
             : ''
-        } ${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
+        }`;
+
+        if (data[i].rawatanDibuatOperatorLain) {
+          for (let j = 0; j < data[i].maklumatOperatorLain.length; j++) {
+            if (data[i].maklumatOperatorLain[j]) {
+              catatan += `Operator Lain: ${data[i].maklumatOperatorLain[j]}. `;
+            }
+          }
+        }
+
+        catatan += `${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
           data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
         } ${
           data[i].noBayaran && data[i].noResit
@@ -566,6 +611,7 @@ const makePG101A = async (payload) => {
             ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
             : ''
         } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
+
         rowNew.getCell(35).value = catatan;
       }
       for (let z = 1; z < 36; z++) {
@@ -761,11 +807,41 @@ const makePG101C = async (payload) => {
       if (data[i].deleted) {
         rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
       } else {
+        // let catatan = `${
+        //   data[i].createdByUsername !== 'kaunter'
+        //     ? `Operator: ${data[i].createdByUsername} `
+        //     : ''
+        // } ${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
+        //   data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
+        // } ${
+        //   data[i].noBayaran && data[i].noResit
+        //     ? `No. Resit dan bayaran: ${data[i].noResit} - ${data[i].noBayaran}`
+        //     : ''
+        // } ${
+        //   data[i].noBayaran2 && data[i].noResit2
+        //     ? `No. Resit dan bayaran: ${data[i].noResit2} - ${data[i].noBayaran2}`
+        //     : ''
+        // } ${
+        //   data[i].noBayaran3 && data[i].noResit3
+        //     ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
+        //     : ''
+        // } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
+        // rowNew.getCell(35).value = catatan; //catatan
         let catatan = `${
           data[i].createdByUsername !== 'kaunter'
-            ? `Operator: ${data[i].createdByUsername} `
+            ? `Operator: ${data[i].createdByUsername}. `
             : ''
-        } ${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
+        }`;
+
+        if (data[i].rawatanDibuatOperatorLain) {
+          for (let j = 0; j < data[i].maklumatOperatorLain.length; j++) {
+            if (data[i].maklumatOperatorLain[j]) {
+              catatan += `Operator Lain: ${data[i].maklumatOperatorLain[j]}. `;
+            }
+          }
+        }
+
+        catatan += `${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
           data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
         } ${
           data[i].noBayaran && data[i].noResit
@@ -780,7 +856,8 @@ const makePG101C = async (payload) => {
             ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
             : ''
         } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
-        rowNew.getCell(35).value = catatan; //catatan
+
+        rowNew.getCell(35).value = catatan;
       }
       for (let z = 1; z < 36; z++) {
         rowNew.getCell(z).border = borderStyle;
