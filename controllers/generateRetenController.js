@@ -3826,7 +3826,6 @@ const makeBp = async (payload) => {
       tarikhMula,
       tarikhAkhir,
       bulan,
-      pegawai,
       username,
       fromEtl,
     } = payload;

@@ -14149,16 +14149,16 @@ const countBp = async (payload) => {
     umur60keatasperempuan(payload, 'dayak', 'p'),
   ];
   match_stage_lain = [
-    umur1829lelaki(payload, 'lain lain', 'l'),
-    umur3039lelaki(payload, 'lain lain', 'l'),
-    umur4049lelaki(payload, 'lain lain', 'l'),
-    umur5059lelaki(payload, 'lain lain', 'l'),
-    umur60keataslelaki(payload, 'lain lain', 'l'),
-    umur1829perempuan(payload, 'lain lain', 'p'),
-    umur3039perempuan(payload, 'lain lain', 'p'),
-    umur4049perempuan(payload, 'lain lain', 'p'),
-    umur5059perempuan(payload, 'lain lain', 'p'),
-    umur60keatasperempuan(payload, 'lain lain', 'p'),
+    umur1829lelaki(payload, 'lain-lain', 'l'),
+    umur3039lelaki(payload, 'lain-lain', 'l'),
+    umur4049lelaki(payload, 'lain-lain', 'l'),
+    umur5059lelaki(payload, 'lain-lain', 'l'),
+    umur60keataslelaki(payload, 'lain-lain', 'l'),
+    umur1829perempuan(payload, 'lain-lain', 'p'),
+    umur3039perempuan(payload, 'lain-lain', 'p'),
+    umur4049perempuan(payload, 'lain-lain', 'p'),
+    umur5059perempuan(payload, 'lain-lain', 'p'),
+    umur60keatasperempuan(payload, 'lain-lain', 'p'),
   ];
   //
   const group_stage = {
