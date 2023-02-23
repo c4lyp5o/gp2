@@ -220,6 +220,19 @@ const ModalGenerateAdHoc = (props) => {
     }, 3000);
   };
 
+  const noWayBack = () => {
+    if (props.generatingNoWayBack) {
+      toast.warning('Sila sabar menunggu...', {
+        autoClose: 2000,
+        pauseOnHover: false,
+      });
+      return;
+    }
+    if (!props.generatingNoWayBack) {
+      props.setOpenModalGenerateAdHoc(false);
+    }
+  };
+
   // reset endDate if change startDate
   useEffect(() => {
     setEndDate('');
@@ -231,7 +244,7 @@ const ModalGenerateAdHoc = (props) => {
       <form onSubmit={handleJana}>
         <div
           className='absolute inset-0 bg-user1 z-0 opacity-75'
-          onClick={props.noWayBack}
+          onClick={noWayBack}
         />
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
@@ -240,7 +253,7 @@ const ModalGenerateAdHoc = (props) => {
                 Penjanaan Reten {props.jenisReten}
               </h5>
             </div>
-            <span className={styles.closeBtn} onClick={props.noWayBack}>
+            <span className={styles.closeBtn} onClick={noWayBack}>
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </span>
             <div className={styles.modalContent}>
@@ -763,7 +776,7 @@ const ModalGenerateAdHoc = (props) => {
                   <button
                     type='button'
                     className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
-                    onClick={props.noWayBack}
+                    onClick={noWayBack}
                   >
                     Kembali
                   </button>
@@ -966,12 +979,25 @@ const ModalGenerateBulanan = (props) => {
     }, 3000);
   };
 
+  const noWayBack = () => {
+    if (props.generatingNoWayBack) {
+      toast.warning('Sila sabar menunggu...', {
+        autoClose: 2000,
+        pauseOnHover: false,
+      });
+      return;
+    }
+    if (!props.generatingNoWayBack) {
+      props.setOpenModalGenerateBulanan(false);
+    }
+  };
+
   return (
     <>
       <form onSubmit={handleJana}>
         <div
           className='absolute inset-0 bg-user1 z-0 opacity-75'
-          onClick={props.noWayBack}
+          onClick={noWayBack}
         />
         <div className={styles.centered}>
           <div className={styles.modalEvent}>
@@ -980,7 +1006,7 @@ const ModalGenerateBulanan = (props) => {
                 Penjanaan Reten {props.jenisReten}
               </h5>
             </div>
-            <span className={styles.closeBtn} onClick={props.noWayBack}>
+            <span className={styles.closeBtn} onClick={noWayBack}>
               <RiCloseLine style={{ marginBottom: '-3px' }} />
             </span>
             <div className={styles.modalContent}>
@@ -1521,7 +1547,7 @@ const ModalGenerateBulanan = (props) => {
                   <button
                     type='button'
                     className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
-                    onClick={props.noWayBack}
+                    onClick={noWayBack}
                   >
                     Kembali
                   </button>
@@ -1818,19 +1844,6 @@ const Generate = (props) => {
     setPilihanIndividu('');
   };
 
-  // THERE.IS.NO.WAY.BACK
-  const noWayBack = () => {
-    if (generatingNoWayBack) {
-      toast.warning('Sila sabar menunggu...', {
-        autoClose: 2000,
-        pauseOnHover: false,
-      });
-      return;
-    }
-    if (!generatingNoWayBack) {
-      setOpenModalGenerateBulanan(false);
-    }
-  };
 
   // reset stuff
   useEffect(() => {
@@ -1955,7 +1968,6 @@ const Generate = (props) => {
     setGenerating,
     generatingNoWayBack,
     setGeneratingNoWayBack,
-    noWayBack,
     // handle pilih
     handlePilihNegeri,
     handlePilihDaerah,
