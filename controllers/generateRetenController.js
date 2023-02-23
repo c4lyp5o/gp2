@@ -20,6 +20,12 @@ const borderStyle = {
   bottom: { style: 'thin' },
   right: { style: 'thin' },
 };
+const noBorderStyle = {
+  top: { style: 'none' },
+  left: { style: 'none' },
+  bottom: { style: 'none' },
+  right: { style: 'none' },
+};
 
 // superadmins
 exports.startQueue = async function (req, res) {
@@ -451,12 +457,11 @@ const makePG101A = async (payload) => {
     //
     for (let i = 0; i < data.length; i++) {
       worksheet.getRow(16 + i).height = 33;
+      worksheet.getRow(16 + i).font = { name: 'Arial', size: 10 };
       let rowNew = worksheet.getRow(16 + i);
-      // change tarikh kedatangan to local
-      const localDate = moment(data[i].tarikhKedatangan).format('DD/MM/YYYY');
-      data[i].tarikhKedatangan = localDate;
-      // change tarikh kedatangan to local
-      rowNew.getCell(1).value = data[i].tarikhKedatangan;
+      rowNew.getCell(1).value = moment(data[i].tarikhKedatangan).format(
+        'DD/MM/YYYY'
+      );
       rowNew.getCell(2).value = data[i].noSiri;
       rowNew.getCell(3).value = data[i].waktuSampai;
       if (data[i].noPendaftaranBaru) {
@@ -625,6 +630,7 @@ const makePG101A = async (payload) => {
       }
     }
     //
+    worksheet.getCell('AI6').style = noBorderStyle;
     worksheet.getCell(
       'AI7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
