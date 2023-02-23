@@ -38,17 +38,32 @@ const countPG101A = async (payload) => {
       bersekolah: '$bersekolah',
       noOku: '$noOku',
       noPesara: 1,
-      kategoriPesakit: '$kategoriPesakit',
-      statusPesara: '$statusPesara',
-      kumpulanEtnik: '$kumpulanEtnik',
-      rujukDaripada: '$rujukDaripada',
+      kategoriPesakit: 1,
+      statusPesara: 1,
+      kumpulanEtnik: 1,
+      rujukDaripada: 1,
       noBayaran: 1,
       noResit: 1,
       noBayaran2: 1,
       noResit2: 1,
       noBayaran3: 1,
       noResit3: 1,
-      catatan: '$catatan',
+      catatan: 1,
+      rawatanDibuatOperatorLain: 1,
+      maklumatOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nama',
+          in: '$$nama.createdByUsername',
+        },
+      },
+      idOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nomborMdc',
+          in: '$$nomborMdc.createdByMdcMdtb',
+        },
+      },
     },
   };
 
@@ -102,6 +117,22 @@ const countPG101C = async (payload) => {
       kumpulanEtnik: '$kumpulanEtnik',
       rujukDaripada: '$rujukDaripada',
       catatan: '$catatan',
+      catatan: 1,
+      rawatanDibuatOperatorLain: 1,
+      maklumatOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nama',
+          in: '$$nama.createdByUsername',
+        },
+      },
+      idOperatorLain: {
+        $map: {
+          input: '$rawatanOperatorLain',
+          as: 'nomborMdc',
+          in: '$$nomborMdc.createdByMdcMdtb',
+        },
+      },
     },
   };
 
@@ -2811,44 +2842,6 @@ const countPG206 = async (payload) => {
       umur: { $gte: 15, $lte: 17 },
     },
   };
-  const match_pemeriksaan_sekolah_18to19years = {
-    $match: {
-      ...getParams206sekolah(payload),
-      statusRawatan: 'belum selesai',
-      umur: { $gte: 18, $lte: 19 },
-    },
-  };
-  const match_pemeriksaan_sekolah_20to29years = {
-    $match: {
-      ...getParams206sekolah(payload),
-      umur: { $gte: 20, $lte: 29 },
-    },
-  };
-  const match_pemeriksaan_sekolah_30to49years = {
-    $match: {
-      ...getParams206sekolah(payload),
-      umur: { $gte: 30, $lte: 49 },
-    },
-  };
-  const match_pemeriksaan_sekolah_50to59years = {
-    $match: {
-      ...getParams206sekolah(payload),
-      umur: { $gte: 50, $lte: 59 },
-    },
-  };
-  const match_pemeriksaan_sekolah_60yearsandup = {
-    $match: {
-      ...getParams206sekolah(payload),
-      umur: { $gte: 60 },
-    },
-  };
-  const match_pemeriksaan_sekolah_ibumengandung = {
-    $match: {
-      ...getParams206sekolah(payload),
-      statusRawatan: 'belum selesai',
-      ibuMengandung: true,
-    },
-  };
   const match_pemeriksaan_sekolah_oku = {
     $match: {
       ...getParams206sekolah(payload),
@@ -2871,12 +2864,6 @@ const countPG206 = async (payload) => {
   match_stage_sekolah.push(match_pemeriksaan_sekolah_10to12years);
   match_stage_sekolah.push(match_pemeriksaan_sekolah_13to14years);
   match_stage_sekolah.push(match_pemeriksaan_sekolah_15to17years);
-  match_stage_sekolah.push(match_pemeriksaan_sekolah_18to19years);
-  match_stage_sekolah.push(match_pemeriksaan_sekolah_20to29years);
-  match_stage_sekolah.push(match_pemeriksaan_sekolah_30to49years);
-  match_stage_sekolah.push(match_pemeriksaan_sekolah_50to59years);
-  match_stage_sekolah.push(match_pemeriksaan_sekolah_60yearsandup);
-  match_stage_sekolah.push(match_pemeriksaan_sekolah_ibumengandung);
   match_stage_sekolah.push(match_pemeriksaan_sekolah_oku);
   match_stage_sekolah.push(match_pemeriksaan_sekolah_bukanWarganegara);
 
@@ -3330,10 +3317,90 @@ const countPG206 = async (payload) => {
     },
   };
 
+  let mixed_stage_operatorLain = [];
+
+  const match_OperatorLain_below1year = {
+    $match: {
+      ...getParams206(payload),
+      umur: { $lt: 1 },
+      umurBulan: { $lt: 13 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_OperatorLain_1to4years = {
+    $match: {
+      ...getParams206(payload),
+      umur: { $gte: 1, $lte: 4 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_OperatorLain_5to6years = {
+    $match: {
+      ...getParams206(payload),
+      umur: { $gte: 5, $lte: 6 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_OperatorLain_7to9years = {
+    $match: {
+      ...getParams206(payload),
+      umur: { $gte: 7, $lte: 9 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_OperatorLain_10to12years = {
+    $match: {
+      ...getParams206(payload),
+      umur: { $gte: 10, $lte: 12 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_OperatorLain_13to14years = {
+    $match: {
+      ...getParams206(payload),
+      umur: { $gte: 13, $lte: 14 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_OperatorLain_15to17years = {
+    $match: {
+      ...getParams206(payload),
+      umur: { $gte: 15, $lte: 17 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_OperatorLain_oku = {
+    $match: {
+      ...getParams206(payload),
+      rawatanDibuatOperatorLain: true,
+      orangKurangUpaya: true,
+    },
+  };
+  const match_OperatorLain_bukanWarganegara = {
+    $match: {
+      ...getParams206(payload),
+      rawatanDibuatOperatorLain: true,
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
+    },
+  };
+
+  mixed_stage_operatorLain.push(
+    match_OperatorLain_below1year,
+    match_OperatorLain_1to4years,
+    match_OperatorLain_5to6years,
+    match_OperatorLain_7to9years,
+    match_OperatorLain_10to12years,
+    match_OperatorLain_13to14years,
+    match_OperatorLain_15to17years,
+    match_OperatorLain_oku,
+    match_OperatorLain_bukanWarganegara
+  );
+
   try {
     let dataPemeriksaan = [];
     let dataRawatan = [];
     let dataSekolah = [];
+    let dataOperatorLain = [];
     let bigData = [];
 
     for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
@@ -3362,9 +3429,21 @@ const countPG206 = async (payload) => {
       dataSekolah.push({ querySekolah });
     }
 
+    for (let i = 0; i < mixed_stage_operatorLain.length; i++) {
+      const pipeline = [
+        mixed_stage_operatorLain[i],
+        ...getParamsOperatorLain,
+        group,
+        project,
+      ];
+      const queryOperatorLain = await Umum.aggregate(pipeline);
+      dataOperatorLain.push({ queryOperatorLain });
+    }
+
     bigData.push(dataPemeriksaan);
     bigData.push(dataRawatan);
     bigData.push(dataSekolah);
+    bigData.push(dataOperatorLain);
 
     return bigData;
   } catch (error) {
@@ -3374,7 +3453,6 @@ const countPG206 = async (payload) => {
 };
 const countPG207 = async (payload) => {
   // for umum
-
   let match_stage_pemeriksaan = [];
 
   const match_pemeriksaan_below1year = {
@@ -4084,10 +4162,7 @@ const countPG207 = async (payload) => {
             {
               $and: [
                 {
-                  $eq: [
-                    '$yaTidakAbsesPembedahanRawatanUmum',
-                    'ya-abses-pembedahan-rawatan-umum',
-                  ],
+                  $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true],
                 },
               ],
             },
@@ -4927,10 +5002,7 @@ const countPG207 = async (payload) => {
             {
               $and: [
                 {
-                  $eq: [
-                    '$merged.yaTidakAbsesPembedahan',
-                    'ya-abses-pembedahan',
-                  ],
+                  $eq: ['$merged.yaTidakAbsesPembedahan', true],
                 },
               ],
             },
@@ -5078,12 +5150,140 @@ const countPG207 = async (payload) => {
     },
   };
 
+  let match_stage_operatorLain = [];
+
+  const match_operatorLain_below1year = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $lt: 1 },
+      umurBulan: { $lt: 13 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_1to4years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 1, $lte: 4 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_5to6years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 5, $lte: 6 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_7to9years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 7, $lte: 9 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_10to12years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 10, $lte: 12 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_13to14years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 13, $lte: 14 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_15to17years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 15, $lte: 17 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_18to19years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 18, $lte: 19 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_20to29years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 20, $lte: 29 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_30to49years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 30, $lte: 49 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_50to59years = {
+    $match: {
+      ...getParams207(payload),
+      umur: { $gte: 50, $lte: 59 },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+  const match_operatorLain_60yearsandup = {
+    $match: {
+      ...getParams207(payload),
+      rawatanDibuatOperatorLain: true,
+      umur: { $gte: 60 },
+    },
+  };
+  const match_operatorLain_ibumengandung = {
+    $match: {
+      ...getParams207(payload),
+      rawatanDibuatOperatorLain: true,
+      ibuMengandung: true,
+    },
+  };
+  const match_operatorLain_oku = {
+    $match: {
+      ...getParams207(payload),
+      rawatanDibuatOperatorLain: true,
+      orangKurangUpaya: true,
+    },
+  };
+  const match_operatorLain_bukanWarganegara = {
+    $match: {
+      ...getParams207(payload),
+      kumpulanEtnik: { $eq: 'bukan warganegara' },
+      rawatanDibuatOperatorLain: true,
+    },
+  };
+
+  match_stage_operatorLain.push(
+    match_operatorLain_below1year,
+    match_operatorLain_1to4years,
+    match_operatorLain_5to6years,
+    match_operatorLain_7to9years,
+    match_operatorLain_10to12years,
+    match_operatorLain_13to14years,
+    match_operatorLain_15to17years,
+    match_operatorLain_18to19years,
+    match_operatorLain_20to29years,
+    match_operatorLain_30to49years,
+    match_operatorLain_50to59years,
+    match_operatorLain_60yearsandup,
+    match_operatorLain_ibumengandung,
+    match_operatorLain_oku,
+    match_operatorLain_bukanWarganegara
+  );
+
   //
 
   try {
     let dataPemeriksaan = [];
     let dataRawatan = [];
     let dataSekolah = [];
+    let dataOperatorLain = [];
     let bigData = [];
 
     for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
@@ -5112,9 +5312,24 @@ const countPG207 = async (payload) => {
       dataSekolah.push({ querySekolah });
     }
 
+    if (!payload.pilihanIndividu) {
+      for (let i = 0; i < match_stage_operatorLain.length; i++) {
+        const pipeline = [
+          match_stage_operatorLain[i],
+          ...getParamsOperatorLain,
+          group,
+          project,
+        ];
+        const queryOperatorLain = await Umum.aggregate(pipeline);
+        console.log(queryOperatorLain);
+        dataOperatorLain.push({ queryOperatorLain });
+      }
+    }
+
     bigData.push(dataPemeriksaan);
     bigData.push(dataRawatan);
     bigData.push(dataSekolah);
+    bigData.push(dataOperatorLain);
 
     return bigData;
   } catch (error) {
@@ -5738,7 +5953,9 @@ const countPGPR201Baru = async (payload) => {
   }
 };
 //Reten Sekolah (Lama)
-const countPG201 = async (klinik, bulan, sekolah) => {
+const countPG201 = async (payload) => {
+  const { kodSekolah, tahun } = payload;
+
   let match_stage = [];
   // pra/tadika
   const match_5tahun = {
@@ -9861,8 +10078,6 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
-        deleted: false,
       },
     },
     {
@@ -9897,8 +10112,6 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
-        deleted: false,
       },
     },
     {
@@ -9933,9 +10146,7 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
         orangKurangUpaya: true,
-        deleted: false,
       },
     },
   ];
@@ -9944,9 +10155,7 @@ const countPGS203 = async (payload) => {
       $match: {
         ...getParamsPGS203(payload),
         umur: { $lt: 7 },
-        jenisFasiliti: { $eq: 'taska-tadika' },
         kumpulanEtnik: 'penan',
-        deleted: false,
       },
     },
   ];
@@ -10400,11 +10609,6 @@ const countPGS203 = async (payload) => {
   // bismillah
   let bigData = [];
 
-  // for (let i = 0; i < match_stage.length; i++) {
-  //   const pipeline = [match_stage[i], group_stage];
-  //   const dataPGS203 = await Umum.aggregate(pipeline);
-  //   bigData.push(dataPGS203);
-  // }
   for (const stage of match_stage) {
     const dataPGS203 = await Umum.aggregate([...stage, ...group_stage]);
     bigData.push(dataPGS203);
@@ -13945,16 +14149,16 @@ const countBp = async (payload) => {
     umur60keatasperempuan(payload, 'dayak', 'p'),
   ];
   match_stage_lain = [
-    umur1829lelaki(payload, 'lain lain', 'l'),
-    umur3039lelaki(payload, 'lain lain', 'l'),
-    umur4049lelaki(payload, 'lain lain', 'l'),
-    umur5059lelaki(payload, 'lain lain', 'l'),
-    umur60keataslelaki(payload, 'lain lain', 'l'),
-    umur1829perempuan(payload, 'lain lain', 'p'),
-    umur3039perempuan(payload, 'lain lain', 'p'),
-    umur4049perempuan(payload, 'lain lain', 'p'),
-    umur5059perempuan(payload, 'lain lain', 'p'),
-    umur60keatasperempuan(payload, 'lain lain', 'p'),
+    umur1829lelaki(payload, 'lain-lain', 'l'),
+    umur3039lelaki(payload, 'lain-lain', 'l'),
+    umur4049lelaki(payload, 'lain-lain', 'l'),
+    umur5059lelaki(payload, 'lain-lain', 'l'),
+    umur60keataslelaki(payload, 'lain-lain', 'l'),
+    umur1829perempuan(payload, 'lain-lain', 'p'),
+    umur3039perempuan(payload, 'lain-lain', 'p'),
+    umur4049perempuan(payload, 'lain-lain', 'p'),
+    umur5059perempuan(payload, 'lain-lain', 'p'),
+    umur60keatasperempuan(payload, 'lain-lain', 'p'),
   ];
   //
   const group_stage = {
@@ -14709,7 +14913,7 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $gte: 5, $lt: 6 },
+        umur: { $eq: 5 },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
       },
@@ -14720,7 +14924,7 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $gte: 6, $lt: 7 },
+        umur: { $eq: 6 },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
       },
@@ -15447,11 +15651,6 @@ const countPG201P2 = async (payload) => {
   // bismillah
   let bigData = [];
 
-  // for (let i = 0; i < match_stage.length; i++) {
-  //   const pipeline = [match_stage[i], group_stage];
-  //   const dataPGS203 = await Umum.aggregate(pipeline);
-  //   bigData.push(dataPGS203);
-  // }
   try {
     for (const stage of match_stage) {
       const dataPG201P2 = await Umum.aggregate([...stage, ...group_stage]);
@@ -16007,6 +16206,7 @@ const getParamsPgPro = (payload) => {
 
   const byIndividu = () => {
     let param = {
+      tarikhKedatangan: dateModifier(payload),
       promosiIndividu: true,
       createdByMdcMdtb: pilihanIndividu,
     };
@@ -16015,6 +16215,7 @@ const getParamsPgPro = (payload) => {
 
   const byKp = () => {
     let param = {
+      tarikhKedatangan: dateModifier(payload),
       promosiKlinik: true,
       createdByKodFasiliti: klinik,
     };
@@ -16023,6 +16224,7 @@ const getParamsPgPro = (payload) => {
 
   const byDaerah = () => {
     return {
+      tarikhKedatangan: dateModifier(payload),
       promosiKlinik: true,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
@@ -16031,6 +16233,7 @@ const getParamsPgPro = (payload) => {
 
   const byNegeri = () => {
     return {
+      tarikhKedatangan: dateModifier(payload),
       promosiKlinik: true,
       createdByNegeri: negeri,
     };
@@ -16038,6 +16241,7 @@ const getParamsPgPro = (payload) => {
 
   const satuMalaysia = () => {
     return {
+      tarikhKedatangan: dateModifier(payload),
       promosiKlinik: true,
     };
   };
@@ -16326,6 +16530,7 @@ const getParamsPGS203 = (payload) => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
     };
@@ -16335,7 +16540,8 @@ const getParamsPGS203 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
+      jenisFasiliti: { $eq: 'taska-tadika' },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16347,7 +16553,8 @@ const getParamsPGS203 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
+      jenisFasiliti: { $eq: 'taska-tadika' },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16358,8 +16565,9 @@ const getParamsPGS203 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
     };
@@ -16395,7 +16603,7 @@ const getParamsPG201P2 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16407,7 +16615,7 @@ const getParamsPG201P2 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16418,7 +16626,7 @@ const getParamsPG201P2 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -16488,6 +16696,27 @@ const getParams307 = (payload, reten) => {
     return byNegeri(payload);
   }
 };
+
+// operator lain punya hal
+const getParamsOperatorLain = [
+  {
+    $unwind: {
+      path: '$rawatanOperatorLain',
+      includeArrayIndex: 'operatorLain',
+    },
+  },
+  {
+    $project: {
+      _id: 0,
+      rawatanOperatorLain: 1,
+    },
+  },
+  {
+    $replaceRoot: {
+      newRoot: '$rawatanOperatorLain',
+    },
+  },
+];
 
 // place
 const placeModifier = (payload) => {
