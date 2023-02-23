@@ -407,15 +407,12 @@ const loginUser = async (req, res) => {
 const getDataRoute = async (req, res) => {
   // 1st phase
   const authKey = req.headers.authorization;
-  const currentUser = await Superadmin.findById(
+  const { negeri, daerah, user_name } = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
-  const { negeri, daerah, user_name } = currentUser.getProfile();
   const { FType, kp } = req.query;
   const type = Dictionary[FType];
-  logger.info(
-    `[adminAPI/getDataRoute] superadminUser ${user_name} requested ${type} data`
-  );
+  logger.info(`[adminAPI/getDataRoute] ${user_name} requested ${type} data`);
   // 2nd phase
   let data, countedData, owner;
   switch (type) {
@@ -592,9 +589,7 @@ const getDataKpRoute = async (req, res) => {
   );
   const { FType } = req.query;
   const type = Dictionary[FType];
-  logger.info(
-    `[adminAPI/getDataKpRoute] kpUser ${username} requested ${type} data`
-  );
+  logger.info(`[adminAPI/getDataKpRoute] ${kp} requested ${type} data`);
   // 2nd phase
   let data, countedData;
   switch (type) {
@@ -775,10 +770,14 @@ const getDataKpRoute = async (req, res) => {
 
 const getOneDataRoute = async (req, res) => {
   // 1st phase
+  const authKey = req.headers.authorization;
   const { FType, Id } = req.query;
+  const { user_name } = await Superadmin.findById(
+    jwt.verify(authKey, process.env.JWT_SECRET).userId
+  );
   const type = Dictionary[FType];
   logger.info(
-    `[adminAPI/getOneDataRoute] superadminUser requested ${type} data with id ${Id}`
+    `[adminAPI/getOneDataRoute] ${user_name} requested ${type} data with id ${Id}`
   );
   // 2nd phase
   let data;
@@ -803,10 +802,12 @@ const getOneDataRoute = async (req, res) => {
 
 const getOneDataKpRoute = async (req, res) => {
   // 1st phase
+  const authKey = req.headers.authorization;
   const { FType, Id } = req.query;
+  const { kp } = jwt.verify(authKey, process.env.JWT_SECRET);
   const type = Dictionary[FType];
   logger.info(
-    `[adminAPI/getOneDataKpRoute] kpUser requested ${type} data with id ${Id}`
+    `[adminAPI/getOneDataKpRoute] ${kp} requested ${type} data with id ${Id}`
   );
   // 2nd phase
   let data;
@@ -866,15 +867,619 @@ const getStatisticsData = async (req, res) => {
 };
 
 const postRoute = async (req, res) => {
-  console.log('postRoute');
+  const { FType, Data, token } = req.body;
+  const { daerah, negeri, user_name } = await Superadmin.findById(
+    jwt.verify(token, process.env.JWT_SECRET).userId
+  );
+  const type = Dictionary[FType];
+  logger.info(
+    `[adminAPI/postRoute] ${user_name} attempting to create ${type} data`
+  );
+  let data, exists;
+  switch (type) {
+    case 'pegawai':
+      exists = await Operator.findOne({
+        mdcNumber: Data.mdcNumber,
+      });
+      if (exists) {
+        exists.createdByNegeri = negeri;
+        exists.createdByDaerah = daerah;
+        exists.kpSkrg = Data.kpSkrg;
+        exists.kodFasiliti = Data.kodFasiliti;
+        exists.activationStatus = true;
+        exists.nama = Data.nama;
+        exists.email = Data.email;
+        exists.gred = Data.gred;
+        exists.role = Data.role;
+        exists.rolePromosiKlinik = Data.rolePromosiKlinik;
+        exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
+        data = await exists.save();
+        logger.info(
+          `[adminAPI/DataCenter] ${user_name} reactivated ${type} - ${Data.nama}`
+        );
+      } else {
+        Data = {
+          ...Data,
+          createdByDaerah: daerah,
+          createdByNegeri: negeri,
+        };
+        data = await Operator.create(Data);
+        logger.info(
+          `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.nama}`
+        );
+      }
+      break;
+    case 'juruterapi pergigian':
+      exists = await Operator.findOne({
+        mdtbNumber: Data.mdtbNumber,
+      });
+      if (exists) {
+        exists.createdByNegeri = negeri;
+        exists.createdByDaerah = daerah;
+        exists.kpSkrg = Data.kpSkrg;
+        exists.kodFasiliti = Data.kodFasiliti;
+        exists.activationStatus = true;
+        exists.nama = Data.nama;
+        exists.email = Data.email;
+        exists.gred = Data.gred;
+        exists.role = Data.role;
+        exists.rolePromosiKlinik = Data.rolePromosiKlinik;
+        exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
+        data = await exists.save();
+        logger.info(
+          `[adminAPI/DataCenter] ${user_name} reactivated ${type} - ${Data.nama}`
+        );
+      } else {
+        Data = {
+          ...Data,
+          createdByDaerah: daerah,
+          createdByNegeri: negeri,
+        };
+        data = await Operator.create(Data);
+        logger.info(
+          `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.nama}`
+        );
+      }
+      break;
+    case 'klinik':
+      Data = {
+        ...Data,
+        daerah,
+        negeri,
+      };
+      data = await User.create(Data).then(async () => {
+        // creating kaunter user for created klinik
+        let acronym = '';
+        const simplifiedKlinikName = Data.kp.split(' ');
+        for (let i = 0; i < simplifiedKlinikName.length; i++) {
+          acronym += simplifiedKlinikName[i].charAt(0);
+        }
+        const negeriNum = emailGen[negeri].kodNegeri;
+        const daerahNum = emailGen[negeri].daerah[daerah];
+        const tempKaunter = await User.create({
+          username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+            Data.kodFasiliti
+          }`,
+          negeri: Data.negeri,
+          daerah: Data.daerah,
+          kp: Data.kp,
+          kodFasiliti: Data.kodFasiliti,
+          accountType: 'kaunterUser',
+          password: generateRandomString(8),
+        });
+        // creating generic 5 JP when creating clinic
+        for (let ojp = 1; ojp < 6; ojp++) {
+          const ojpGen = {
+            nama: 'JP' + ojp,
+            email: '-',
+            mdtbNumber:
+              'MDTBAUTO' +
+              emailGen[negeri].kodNegeri +
+              emailGen[negeri].daerah[daerah] +
+              ojp +
+              Data.kodFasiliti,
+            gred: '',
+            createdByNegeri: negeri,
+            createdByDaerah: daerah,
+            kpSkrg: Data.kp,
+            kodFasiliti: Data.kodFasiliti,
+            role: 'umum',
+            rolePromosiKlinik: false,
+            roleMediaSosialKlinik: false,
+            statusPegawai: 'jp',
+            cscspVerified: false,
+            activationStatus: true,
+          };
+          const ojpGenCreated = await Operator.create(ojpGen);
+        }
+      });
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.kp}`
+      );
+      break;
+    case 'taska':
+    case 'tadika':
+      const exists = await Fasiliti.findOne({
+        kodTastad: Data.kodTastad,
+      });
+      if (exists) {
+        return res.status(400).json({
+          message: 'Kod Taska/Tadika ini telah wujud',
+        });
+      } else {
+        Data = {
+          ...Data,
+          jenisFasiliti: theType,
+          createdByDaerah: daerah,
+          createdByNegeri: negeri,
+        };
+        data = await Fasiliti.create(Data);
+        logger.info(
+          `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.nama}`
+        );
+      }
+      break;
+    case 'kp-bergerak':
+    case 'makmal-pergigian':
+      exists = await Fasiliti.findOne({
+        nama: Data.nama,
+        jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
+      });
+      if (exists) {
+        return res.status(400).json({
+          message: 'No plat KPB/MPB ini telah wujud',
+        });
+      } else {
+        Data = {
+          ...Data,
+          jenisFasiliti: theType,
+          createdByDaerah: daerah,
+          createdByNegeri: negeri,
+        };
+        data = await Fasiliti.create(Data);
+        logger.info(
+          `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+        );
+      }
+      break;
+    case 'sosmed':
+      let owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      const previousData = await Sosmed.find({
+        belongsTo: owner,
+        kodProgram: Data.kodProgram,
+      });
+      if (previousData.length === 0) {
+        delete Data.data[0].kodProgram;
+        Data.data[0] = {
+          id: 1,
+          ...Data.data[0],
+        };
+        data = await Sosmed.create(Data);
+      } else {
+        delete Data.data[0].kodProgram;
+        const lastData = previousData[0].data.length;
+        const lastIdofData = previousData[0].data[lastData - 1].id;
+        Data.data[0] = {
+          id: lastIdofData + 1,
+          ...Data.data[0],
+        };
+        data = await Sosmed.findOneAndUpdate(
+          { kodProgram: Data.kodProgram, belongsTo: owner },
+          { $push: { data: Data.data[0] } },
+          { new: true }
+        );
+        logger.info(
+          `[adminAPI/DataCenter] ${user_name} updated ${type} - ${Data.kodProgram}`
+        );
+      }
+      break;
+    case 'followers':
+      data = await Followers.create(Data);
+      logger.info(`${user_name} created ${type} - ${Data.kodProgram}`);
+      break;
+    case 'program':
+      if (negeri) {
+        Data.createdByNegeri = negeri;
+      }
+      if (daerah) {
+        Data.createdByDaerah = daerah;
+      }
+      data = await Event.create(Data);
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.kodProgram}`
+      );
+      break;
+    default:
+      console.log('default');
+      break;
+  }
+  res.status(200).json(data);
+};
+
+const postRouteKp = async (req, res) => {
+  const { FType, Data, token } = req.body;
+  const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
+    token,
+    process.env.JWT_SECRET
+  );
+  const type = Dictionary[FType];
+  logger.info(
+    `[adminAPI/postRouteKp] kpUser attempting to create ${type} data`
+  );
+  let data, exists;
+  switch (type) {
+    case 'program':
+      Data = {
+        ...Data,
+        createdByKp: kp,
+        createdByKodFasiliti: kodFasiliti,
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+      };
+      data = await Event.create(Data);
+      logger.info(`[adminAPI/KpCenter] ${kp} created ${type} - ${data.nama}`);
+      break;
+    case 'sosmed':
+      exists = await Sosmed.find({
+        belongsTo: kp,
+        kodProgram: Data.kodProgram,
+      });
+      if (exists.length === 0) {
+        delete Data.data[0].kodProgram;
+        Data.data[0] = {
+          id: 1,
+          ...Data.data[0],
+        };
+        data = await Sosmed.create(Data);
+        logger.info(
+          `[adminAPI/KpCenter] ${kp} created ${type} - ${data.kodProgram}`
+        );
+      } else {
+        delete Data.data[0].kodProgram;
+        const lastData = previousData[0].data.length;
+        const lastIdofData = previousData[0].data[lastData - 1].id;
+        Data.data[0] = {
+          id: lastIdofData + 1,
+          ...Data.data[0],
+        };
+        data = await Sosmed.findOneAndUpdate(
+          { kodProgram: Data.kodProgram, belongsTo: kp },
+          { $push: { data: Data.data[0] } },
+          { new: true }
+        );
+        logger.info(
+          `[adminAPI/KpCenter] ${kp} updated one activity ${type} - ${data.kodProgram}`
+        );
+      }
+      break;
+    case 'followers':
+      data = await Followers.create(Data);
+      logger.info(
+        `[adminAPI/KpCenter] ${kp} created ${type} - ${data.namaPlatform}`
+      );
+      break;
+    default:
+      console.log('default');
+      break;
+  }
+  res.status(200).json(data);
 };
 
 const patchRoute = async (req, res) => {
-  console.log('patchRoute');
+  const { FType, Id, Data, token } = req.body;
+  const { user_name, daerah, negeri } = jwt.verify(
+    token,
+    process.env.JWT_SECRET
+  );
+  const type = Dictionary[FType];
+  logger.info(
+    `[adminAPI/patchRoute] ${user_name} attempting to update ${type} data with id ${Id}`
+  );
+  let data;
+  switch (type) {
+    case 'juruterapi pergigian':
+    case 'pegawai':
+      data = await Operator.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.nama}`
+      );
+      break;
+    case 'klinik':
+      data = await User.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.kp}`
+      );
+      break;
+    case 'program':
+      data = await Event.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.kodProgram}`
+      );
+      break;
+    default:
+      data = await Fasiliti.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.nama}`
+      );
+      break;
+  }
+  res.status(200).json(data);
+};
+
+const patchRouteKp = async (req, res) => {
+  const { FType, Id, Data, token } = req.body;
+  const { kp } = jwt.verify(token, process.env.JWT_SECRET);
+  const type = Dictionary[FType];
+  logger.info(
+    `[adminAPI/patchRouteKp] kpUser attempting to update ${type} data with id ${Id}`
+  );
+  let data;
+  switch (type) {
+    case 'program':
+      data = await Event.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRouteKp] ${kp} updated ${type} - ${data.nama}`
+      );
+      break;
+    case 'jp':
+    case 'pp':
+      data = await Operator.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRouteKp] ${kp} updated CSCSP ${type} - ${data.nama}`
+      );
+      break;
+    case 'tastad':
+      data = await Fasiliti.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRouteKp] ${kp} updated enrolmen ${type} - ${data.nama}`
+      );
+      break;
+    case 'mpb':
+    case 'kpb':
+      data = await Fasiliti.findByIdAndUpdate(
+        { _id: Id },
+        { $push: { penggunaanKPBMPB: Data } },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/patchRouteKp] ${kp} updated penggunaan ${type} - ${data.nama}`
+      );
+      break;
+    default:
+      console.log('default case for update');
+      break;
+  }
+  res.status(200).json(data);
 };
 
 const deleteRoute = async (req, res) => {
-  console.log('deleteRoute');
+  const { FType, Id, token } = req.query;
+  const { daerah, negeri, user_name } = await Superadmin.findById(
+    jwt.verify(token, process.env.JWT_SECRET).userId
+  );
+  const type = Dictionary[FType];
+  logger.info(
+    `[adminAPI/deleteRoute] ${user_name} attempting to delete ${type} data with id ${Id}`
+  );
+  let data, exists;
+  switch (type) {
+    case 'pegawai':
+    case 'juruterapi pergigian':
+      data = await Operator.findById({ _id: Id });
+      data.activationStatus = false;
+      data.tempatBertugasSebelumIni.push(data.kpSkrg);
+      await data.save();
+      logger.info(
+        `[adminAPI/deleteRoute] ${user_name} deactivated ${type} - ${data.nama}`
+      );
+      break;
+    case 'klinik':
+      const klinik = await User.findOne({ _id: Id });
+      const fasilitiUnderKlinik = await Fasiliti.find({
+        handler: klinik.kp,
+        kodFasilitiHandler: klinik.kodFasiliti,
+      });
+      const operatorUnderKlinik = await Operator.find({
+        kpSkrg: klinik.kp,
+        kodFasiliti: klinik.kodFasiliti,
+        activationStatus: true,
+      });
+      if (fasilitiUnderKlinik.length > 0 || operatorUnderKlinik.length > 0) {
+        let mustDelete = '';
+        if (fasilitiUnderKlinik.length > 0) {
+          for (let q = 0; q < fasilitiUnderKlinik.length; q++) {
+            mustDelete += fasilitiUnderKlinik[q].nama;
+            mustDelete += ', ';
+          }
+        }
+        if (operatorUnderKlinik.length > 0) {
+          for (let w = 0; w < operatorUnderKlinik.length; w++) {
+            mustDelete += operatorUnderKlinik[w].nama;
+            mustDelete += ', ';
+          }
+        }
+        return res.status(409).json(mustDelete);
+      }
+      let acronym = '';
+      const simplifiedKlinikName = klinik.kp.split(' ');
+      for (let i = 0; i < simplifiedKlinikName.length; i++) {
+        acronym += simplifiedKlinikName[i].charAt(0);
+      }
+      // deleting kaunter and klinik
+      data = await User.findByIdAndDelete({ _id: Id }).then(async () => {
+        const negeriNum = emailGen[data.negeri].kodNegeri;
+        const daerahNum = emailGen[data.negeri].daerah[klinik.daerah];
+        await User.findOneAndDelete({
+          username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+            data.kodFasiliti
+          }`,
+        });
+      });
+      // deleting events
+      const events = await Event.find({
+        createdByKp: data.kp,
+        createdByDaerah: data.daerah,
+        createdByNegeri: data.negeri,
+        createdByKodFasiliti: data.kodFasiliti,
+      }).then(async () => {
+        if (events.length > 0) {
+          for (let i = 0; i < events.length; i++) {
+            await Event.findOneAndDelete({
+              _id: events[i]._id,
+            });
+          }
+        }
+      });
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} deleted ${type} - ${data.kp}`
+      );
+      break;
+    case 'program':
+      data = await Event.findOne({ _id: Id });
+      exists = await Umum.find({
+        namaProgram: program.nama,
+        jenisProgram: program.jenisEvent,
+        createdByKodFasiliti: program.createdByKodFasiliti,
+        tahunDaftar: program.tahunDibuat,
+        deleted: false,
+      });
+      if (exists.length > 0) {
+        return res.status(409).json({
+          msg: `Program tidak boleh dihapus kerana ada pesakit yang didaftarkan. Jumlah pesakit: ${exists.length}`,
+        });
+      }
+      data = await Event.findByIdAndDelete({ _id: Id });
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} deleted ${type} - ${data.nama}`
+      );
+      break;
+    case 'sosmed':
+      let owner = '';
+      if (daerah === '-') {
+        owner = negeri;
+      }
+      if (daerah !== '-') {
+        owner = daerah;
+      }
+      const checkSosmed = await Sosmed.findOne({
+        kodProgram: Id.kodProgram,
+      });
+      if (checkSosmed.data.length < 2) {
+        data = await Sosmed.findOneAndDelete({
+          kodProgram: Id.kodProgram,
+          belongsTo: owner,
+        });
+        logger.info(
+          `[adminAPI/deleteRoute] ${user_name} deleted ${type} - ${data.kodProgram}`
+        );
+      } else {
+        data = await Sosmed.findOneAndUpdate(
+          { kodProgram: Id.kodProgram, belongsTo: owner },
+          { $pull: { data: { id: Id.id } } },
+          { new: true }
+        );
+        logger.info(
+          `[adminAPI/deleteRoute] ${user_name} deleted one activity ${type} - ${data.kodProgram}`
+        );
+      }
+      break;
+    default:
+      data = await Fasiliti.findByIdAndDelete({ _id: Id });
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} deleted ${type} - ${data.nama}`
+      );
+      break;
+  }
+  res.status(200).json(data);
+};
+
+const deleteKpRoute = async (req, res) => {
+  const { FType, Id, token } = req.body;
+  const { kp } = jwt.verify(token, process.env.JWT_SECRET);
+  const type = Dictionary[FType];
+  let data;
+  switch (type) {
+    case 'program':
+      const program = await Event.findOne({ _id: Id });
+      const exists = await Umum.find({
+        namaProgram: program.nama,
+        jenisProgram: program.jenisEvent,
+        createdByKodFasiliti: program.createdByKodFasiliti,
+        tahunDaftar: program.tahunDibuat,
+        deleted: false,
+      });
+      if (exists.length > 0) {
+        return res.status(409).json({
+          msg: `Program tidak boleh dihapus kerana ada pesakit yang didaftarkan. Jumlah pesakit: ${exists.length}`,
+        });
+      }
+      data = await Event.findByIdAndDelete({ _id: Id });
+      logger.info(
+        `[adminAPI/deleteKpRoute] ${kp} deleted ${type} - ${data.nama}`
+      );
+      break;
+    case 'sosmed':
+      const checkSosmed = await Sosmed.findOne({
+        kodProgram: Id.kodProgram,
+      });
+      if (checkSosmed.data.length < 2) {
+        data = await Sosmed.findOneAndDelete({
+          kodProgram: Id.kodProgram,
+          belongsTo: kp,
+        });
+        logger.info(
+          `[adminAPI/deleteKpRoute] ${kp} deleted ${type} - ${data.kodProgram}`
+        );
+      } else {
+        data = await Sosmed.findOneAndUpdate(
+          { kodProgram: Id.kodProgram, belongsTo: kp },
+          { $pull: { data: { id: Id.id } } },
+          { new: true }
+        );
+        logger.info(
+          `[adminAPI/deleteKpRoute] ${kp} deleted one activity ${type} - ${data.kodProgram}`
+        );
+      }
+      break;
+    default:
+      console.log('default');
+      break;
+  }
+  res.status(200).json(data);
 };
 
 const getData = async (req, res) => {
@@ -2915,6 +3520,12 @@ module.exports = {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
+  postRoute,
+  postRouteKp,
+  patchRoute,
+  patchRouteKp,
+  deleteRoute,
+  deleteKpRoute,
   getStatisticsData,
   processOperatorQuery,
   processFasilitiQuery,
