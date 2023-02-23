@@ -3431,11 +3431,6 @@ const makeGender = async (payload) => {
       return 'No data found';
     }
     //
-    if (klinik !== 'all') {
-      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
-      klinik = currentKlinik.kp;
-    }
-    //
     let filename = path.join(
       __dirname,
       '..',
@@ -3461,9 +3456,11 @@ const makeGender = async (payload) => {
         worksheet.getCell('B5').value = `${monthMula} - ${monthAkhir}`;
       }
     }
+    worksheet.getCell('B6').value = `${
+      klinik ? `${klinik.toUpperCase()} / ` : ''
+    } ${daerah ? `${daerah.toUpperCase()}` : ''}`;
 
     // data lelaki
-
     if (data[0].dataLelaki[0]) {
       worksheet.getCell('C9').value = data[0].dataLelaki[0].pesakitBaru;
       worksheet.getCell('C10').value = data[0].dataLelaki[0].pesakitUlangan;
@@ -3505,7 +3502,6 @@ const makeGender = async (payload) => {
     }
 
     // data perempuan
-
     if (data[1].dataPerempuan[0]) {
       worksheet.getCell('D9').value = data[1].dataPerempuan[0].pesakitBaru;
       worksheet.getCell('D10').value = data[1].dataPerempuan[0].pesakitUlangan;
