@@ -203,11 +203,11 @@ export default function FillableForm({
       required: true,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
-        const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
-        const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
-        const hari = parseInt(howOldAreYouMyFrienddays(tempDate));
-        setTarikhLahirDP(tarikhLahir);
+        const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahir));
+        const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahir));
+        const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahir));
         setTarikhLahir(tempDate);
+        setTarikhLahirDP(tarikhLahir);
         setUmur(tahun);
         setUmurBulan(bulan);
         setUmurHari(hari);
@@ -228,36 +228,62 @@ export default function FillableForm({
   };
 
   // kira tahun
-  const howOldAreYouMyFriendtahun = (date) => {
-    const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(date);
-    const diff = today.getTime() - dob.getTime();
-    const years = Math.floor(diff / 31556736000);
-    const values = `${years} years`;
-    return values;
+  // const howOldAreYouMyFriendtahun = (date) => {
+  //   const today = moment(dateToday, moment.ISO_8601).toDate();
+  //   const dob = new Date(date);
+  //   const diff = today.getTime() - dob.getTime();
+  //   const years = Math.floor(diff / 31556736000);
+  //   const values = `${years} years`;
+  //   return values;
+  // };
+  const howOldAreYouMyFriendtahunV2 = (date) => {
+    const years = moment(dateToday, moment.ISO_8601).diff(
+      moment(date),
+      'years'
+    );
+    return years;
   };
 
   // kira bulan
-  const howOldAreYouMyFriendbulan = (date) => {
-    const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(date);
-    const diff = today.getTime() - dob.getTime();
-    const days_diff = Math.floor((diff % 31556736000) / 86400000);
-    const months = Math.floor(days_diff / 30.4167);
-    const values = `${months} months`;
-    return values;
+  // const howOldAreYouMyFriendbulan = (date) => {
+  //   const today = moment(dateToday, moment.ISO_8601).toDate();
+  //   const dob = new Date(date);
+  //   const diff = today.getTime() - dob.getTime();
+  //   const days_diff = Math.floor((diff % 31556736000) / 86400000);
+  //   const months = Math.floor(days_diff / 30.4167);
+  //   const values = `${months} months`;
+  //   return values;
+  // };
+  const howOldAreYouMyFriendbulanV2 = (date) => {
+    const months =
+      moment(dateToday, moment.ISO_8601).diff(moment(date), 'months') % 12;
+    return months;
   };
 
   //kira days
-  const howOldAreYouMyFrienddays = (date) => {
-    const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(date);
-    const diff = today.getTime() - dob.getTime();
-    const days_diff = Math.floor((diff % 31556736000) / 86400000);
-    const months = Math.floor(days_diff / 30.4167);
-    const days = days_diff - months * 30.4167;
-    const values = `${days} days`;
-    return values;
+  // const howOldAreYouMyFrienddays = (date) => {
+  //   const today = moment(dateToday, moment.ISO_8601).toDate();
+  //   const dob = new Date(date);
+  //   const diff = today.getTime() - dob.getTime();
+  //   const days_diff = Math.floor((diff % 31556736000) / 86400000);
+  //   const months = Math.floor(days_diff / 30.4167);
+  //   const days = days_diff - months * 30.4167;
+  //   const values = `${days} days`;
+  //   return values;
+  // };
+  const howOldAreYouMyFrienddaysV2 = (date) => {
+    const duration = moment.duration(
+      moment(dateToday, moment.ISO_8601).diff(moment(date))
+    );
+    const days = duration.days();
+    // guarding days to always return 0 if birthday month & day same as dateToday
+    if (
+      moment(dateToday, moment.ISO_8601).month() === moment(date).month() &&
+      moment(dateToday, moment.ISO_8601).date() === moment(date).date()
+    ) {
+      return 0;
+    }
+    return days;
   };
 
   const TarikhRujukanKepp = () => {
@@ -313,28 +339,21 @@ export default function FillableForm({
     const month = ic.substring(2, 4);
     const day = ic.substring(4, 6);
     const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(`19${year}-${month}-${day}`);
-    const dob2 = new Date(`20${year}-${month}-${day}`);
-    const diff = today.getTime() - dob.getTime();
-    const diff2 = today.getTime() - dob2.getTime();
+    const dob19 = moment(`19${year}-${month}-${day}`).toDate(); // year 1900
+    const dob20 = moment(`20${year}-${month}-${day}`).toDate(); // year 2000
+    const diff = today.getTime() - dob19.getTime();
     const years = Math.floor(diff / 31556736000);
-    const years2 = Math.floor(diff2 / 31556736000);
-    const months = Math.floor((diff % 31556736000) / 2629800000);
     let value;
-    if (years > 99) {
+    // it's year 1900 for years 99 and below
+    if (years <= 99) {
       value = {
-        dob: dob2,
-        dobISO: new Date(dob2),
-        years: years2,
-        months: months,
+        dob: dob19,
       };
     }
-    if (years < 100) {
+    // it's year 2000 for years 100 and above
+    if (years >= 100) {
       value = {
-        dob: dob,
-        dobISO: new Date(dob),
-        years: years,
-        months: months,
+        dob: dob20,
       };
     }
     return value;
@@ -345,25 +364,25 @@ export default function FillableForm({
     if (icLength === 12) {
       const age = findAgeFromIc(ic);
       const tempDate = moment(age.dob).format('YYYY-MM-DD');
-      const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
-      const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
-      const hari = parseInt(howOldAreYouMyFrienddays(tempDate));
-      const last2 = ic.substring(10, 12);
-      const jantina = last2 % 2 === 0 ? 'perempuan' : 'lelaki';
-      setJantina(jantina);
+      const tahun = parseInt(howOldAreYouMyFriendtahunV2(age.dob));
+      const bulan = parseInt(howOldAreYouMyFriendbulanV2(age.dob));
+      const hari = parseInt(howOldAreYouMyFrienddaysV2(age.dob));
+      const lasttwo = ic.substring(10, 12);
+      const jantina = lasttwo % 2 === 0 ? 'perempuan' : 'lelaki';
       setTarikhLahir(tempDate);
-      setTarikhLahirDP(age.dobISO);
-      setUmurHari(hari);
-      setUmurBulan(bulan);
+      setTarikhLahirDP(age.dob);
       setUmur(tahun);
+      setUmurBulan(bulan);
+      setUmurHari(hari);
+      setJantina(jantina);
       setConfirmData({
         ...confirmData,
         ic: ic,
-        tarikhLahir: age.dob,
-        jantina: jantina,
+        tarikhLahir: tempDate,
         umur: tahun,
         umurBulan: bulan,
         umurHari: hari,
+        jantina: jantina,
       });
     }
   };
@@ -463,9 +482,10 @@ export default function FillableForm({
       setNama(nama);
       setTarikhLahir(tarikhLahir);
       // recalculate umur kalau autofill triggered
-      const newUmur = parseInt(howOldAreYouMyFriendtahun(tarikhLahir));
-      const newBulan = parseInt(howOldAreYouMyFriendbulan(tarikhLahir));
-      const newHari = parseInt(howOldAreYouMyFrienddays(tarikhLahir));
+      const tarikhLahirObj = moment(tarikhLahir).toDate();
+      const newUmur = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahirObj));
+      const newBulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahirObj));
+      const newHari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahirObj));
       setUmur(newUmur);
       setUmurBulan(newBulan);
       setUmurHari(newHari);
@@ -483,7 +503,7 @@ export default function FillableForm({
       setOrangKurangUpaya(orangKurangUpaya);
       setStatusPesara(statusPesara);
       //datepicker issues
-      setTarikhLahirDP(new Date(tarikhLahir));
+      setTarikhLahirDP(tarikhLahirObj);
       setConfirmData({
         ...confirmData,
         ic: ic,
@@ -507,7 +527,8 @@ export default function FillableForm({
         statusPesara: statusPesara,
       });
       toast.success(
-        'Menggunakan maklumat pesakit sedia ada, sila semak semula untuk memastikan maklumat adalah tepat'
+        'Menggunakan maklumat pesakit yang pernah didaftarkan di dalam Sistem Gi-Ret 2.0, sila semak semula untuk memastikan maklumat adalah tepat',
+        { autoClose: 10000 }
       );
       return true;
     } catch (error) {
