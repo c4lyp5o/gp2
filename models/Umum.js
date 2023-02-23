@@ -33,6 +33,7 @@ const UmumSchema = new mongoose.Schema(
     waktuSelesaiDaftar: { type: String, default: '' },
     temujanji: { type: Boolean, default: false },
     waktuTemujanji: { type: String, default: '' },
+    oncall: { type: Boolean, default: false },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },

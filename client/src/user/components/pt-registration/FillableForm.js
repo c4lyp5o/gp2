@@ -66,6 +66,7 @@ export default function FillableForm({
   const [waktuSampai, setWaktuSampai] = useState('');
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
+  const [oncall, setOncall] = useState(false);
   const [waktuTemujanji, setWaktuTemujanji] = useState('');
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
@@ -566,6 +567,7 @@ export default function FillableForm({
               waktuSelesaiDaftar: waktuSelesaiDaftar.current,
               temujanji,
               waktuTemujanji,
+              oncall,
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
@@ -674,6 +676,7 @@ export default function FillableForm({
               waktuSampai,
               temujanji,
               waktuTemujanji,
+              oncall,
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
@@ -777,6 +780,7 @@ export default function FillableForm({
     setWaktuSampai('');
     setTemujanji(false);
     setWaktuTemujanji('');
+    setOncall(false);
     setNama('');
     setJenisIc('');
     setIc('');
@@ -1042,6 +1046,7 @@ export default function FillableForm({
           setWaktuSampai(data.singlePersonKaunter.waktuSampai);
           setTemujanji(data.singlePersonKaunter.temujanji);
           setWaktuTemujanji(data.singlePersonKaunter.waktuTemujanji);
+          setOncall(data.singlePersonKaunter.oncall);
           setNama(data.singlePersonKaunter.nama);
           setJenisIc(data.singlePersonKaunter.jenisIc);
           setIc(data.singlePersonKaunter.ic);
@@ -1403,9 +1408,23 @@ export default function FillableForm({
                         />
                         <label
                           htmlFor='temujanji'
-                          className='inline-flex text-sm'
+                          className='inline-flex text-sm mr-2'
                         >
                           Pesakit Janji Temu
+                        </label>
+                        <input
+                          type='checkbox'
+                          name='oncall'
+                          id='oncall'
+                          value='oncall'
+                          checked={oncall}
+                          onChange={() => {
+                            setOncall(!oncall);
+                          }}
+                          className='mr-2'
+                        />
+                        <label htmlFor='oncall' className='inline-flex text-sm'>
+                          Pesakit On Call
                         </label>
                       </div>
                     </div>
