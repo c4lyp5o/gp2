@@ -186,6 +186,23 @@ function UserNavbar() {
                 >
                   PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
                 </NavLink>
+                {process.env.REACT_APP_ENV === 'UNSTABLE' ||
+                process.env.REACT_APP_ENV === 'DEV' ? (
+                  <NavLink
+                    to='kohort'
+                    onClick={() => {
+                      setShowLinks(!showLinks);
+                      setShowGenerateSubMenu(false);
+                    }}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    }
+                  >
+                    KOHORT
+                  </NavLink>
+                ) : null}
               </div>
             </div>
             {/* {reliefUserToken ? null : (
