@@ -152,13 +152,29 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-  const getKlinikData = async (id) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'HqCenter',
-      Fn: 'readOne',
-      token: adminToken,
-      id,
-    });
+  const getDetailedData = async ({ type, idn, idd, id }) => {
+    const endpoint = '/api/v1/superadmin/newroute';
+    const params = { main: 'HqCenter', token: adminToken };
+
+    switch (type) {
+      case 'negeri':
+        params.Fn = 'readOneNegeri';
+        params.idn = idn;
+        break;
+      case 'daerah':
+        params.Fn = 'readOneDaerah';
+        params.idn = idn;
+        params.idd = idd;
+        break;
+      case 'klinik':
+        params.Fn = 'readOneKlinik';
+        params.id = id;
+        break;
+      default:
+        throw new Error('Invalid type');
+    }
+
+    const response = await axios.post(`${endpoint}`, params);
     return response;
   };
   const getStatsData = async (negeri, daerah) => {
@@ -885,7 +901,7 @@ function AdminAppProvider({ children }) {
         verifySecret,
         // hq
         getAllNegeriAndDaerah,
-        getKlinikData,
+        getDetailedData,
         // ahq
         adhocQuery,
       }}

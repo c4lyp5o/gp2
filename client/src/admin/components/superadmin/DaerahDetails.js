@@ -34,7 +34,7 @@ ChartJS.register(
   Legend
 );
 
-function DataKlinik({ data }) {
+function DataDaerah({ data }) {
   const options = {
     responsive: true,
     scales: {
@@ -49,11 +49,11 @@ function DataKlinik({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit ke ${data.kp}`,
+        text: `Kedatangan Pesakit di daerah ${data.idd}`,
       },
     },
   };
-  const labels = data.kedatanganPt.map((item) => {
+  const labels = data.kedatanganPtDaerah.map((item) => {
     return item.tarikh;
   });
   const chartData = {
@@ -61,7 +61,7 @@ function DataKlinik({ data }) {
     datasets: [
       {
         label: `Jumlah Pesakit`,
-        data: data.kedatanganPt.map((i) => i.kedatangan),
+        data: data.kedatanganPtDaerah.map((i) => i.kedatangan),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
@@ -98,7 +98,7 @@ function Statistik({ data }) {
         <div className='grid grid-cols-2 gap-3 py-4'>
           <p className='col-span-2 text-2xl font-semibold'>Jumlah</p>
           <div className='flex flex-col col-span-2 border-l-8 border-admin4 shadow-lg py-2'>
-            <span className='font-mono text-8xl'>{data.jumlahPt}</span>
+            <span className='font-mono text-8xl'>{data.jumlahPtDaerah}</span>
             <p className='text-xs'>
               Pesakit sehingga {new Date().toLocaleDateString()}
             </p>
@@ -109,7 +109,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Hari Ini</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptHariIni}
+                  {data.ptDaerahHariIni}
                 </span>
               </div>
             </div>
@@ -120,7 +120,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Minggu Ini</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptMingguIni}
+                  {data.ptDaerahMingguIni}
                 </span>
               </div>
             </div>
@@ -131,7 +131,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Bulan Ini</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptBulanIni}
+                  {data.ptDaerahBulanIni}
                 </span>
               </div>
             </div>
@@ -142,7 +142,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Baru</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptBaru}
+                  {data.ptDaerahBaru}
                 </span>
               </div>
             </div>
@@ -153,7 +153,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Ulangan</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptUlangan}
+                  {data.ptDaerahUlangan}
                 </span>
               </div>
             </div>
@@ -250,13 +250,13 @@ export default function Daerah() {
   const [searchParams] = useSearchParams();
   const negeri = searchParams.get('idn');
   const daerah = searchParams.get('idd');
-  const { toast, getStatsData } = useGlobalAdminAppContext();
+  const { toast, getDetailedData } = useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getStatsData(negeri, daerah)
+    getDetailedData({ type: 'daerah', idd: daerah, idn: negeri })
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -276,23 +276,11 @@ export default function Daerah() {
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
+        <h1 className='text-2xl font-bold underline'>{daerah}</h1>
         <div className='grid grid-cols-3 gap-2'>
-          <p>
-            hey {daerah}, klinik anda ada {data.length}
-          </p>
-          <p>jumlah kedatangan pesakit: {data.length}</p>
-          {/* {data.map((item) => (
-            <div key={item}>
-              <div className='max-w rounded overflow-hidden shadow-lg'>
-                <div className='px-6 py-4'>
-                  <div className='font-bold text-xl mb-2 underline'>{item}</div>
-                </div>
-              </div>
-            </div>
-          ))} */}
-          {/* <JanaReten data={data} />
+          {/* <JanaReten data={data} /> */}
           <Statistik data={data} />
-          <DataKlinik data={data} /> */}
+          <DataDaerah data={data} />
         </div>
       </div>
     </>
