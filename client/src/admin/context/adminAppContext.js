@@ -901,7 +901,7 @@ function AdminAppProvider({ children }) {
         verifySecret,
         // hq
         getAllNegeriAndDaerah,
-        getKlinikData,
+        getDetailedData,
         // ahq
         adhocQuery,
       }}
