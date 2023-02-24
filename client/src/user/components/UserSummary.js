@@ -8,7 +8,9 @@ import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserSummary() {
   const { userToken, userinfo, toast } = useGlobalUserAppContext();
-  const [data, setData] = useState(null);
+  const [bulan, setBulan] = useState('');
+  const [waitForData, setWaitForData] = useState(false);
+  const [data, setData] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
 
   // const uploadImage = useId();
@@ -64,6 +66,35 @@ export default function UserSummary() {
   //   }
   // };
 
+  const handleMonthChange = async (pilihanBulan) => {
+    setBulan(pilihanBulan);
+    if (pilihanBulan === '') {
+      return;
+    }
+    setWaitForData(true);
+    const fetchSummaryData = async () => {
+      const res = await axios.get(
+        `/api/v1/summary?id=${
+          userinfo._id
+        }&bulan=${pilihanBulan}&tahun=${moment().format('YYYY')}`,
+        {
+          headers: { Authorization: `Bearer ${userToken}` },
+        }
+      );
+      if (res.data[0].filteredSummary.length === 0) {
+        return setData([]);
+      }
+      setData(res.data[0].filteredSummary);
+    };
+    fetchSummaryData()
+      .then(() => {
+        setWaitForData(false);
+      })
+      .catch((err) => {
+        setWaitForData(false);
+      });
+  };
+
   useEffect(() => {
     const fetchData = async () => {
       const res = await axios.get(`/api/v1/operator/${userinfo._id}`, {
@@ -75,24 +106,24 @@ export default function UserSummary() {
       }
       setData(res.data.singlePersonOperator.summary);
     };
-    fetchData().catch((err) => {
-      console.log(err.response.data.msg);
-      // toast.error(
-      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-summary-fetchData'
-      // );
-    });
+    // fetchData().catch((err) => {
+    //   console.log(err.response.data.msg);
+    // toast.error(
+    //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-summary-fetchData'
+    // );
+    // });
     return () => {
-      setData(null);
+      setData([]);
     };
   }, [userToken]);
 
-  if (!data) {
-    return (
-      <div className='mt-5'>
-        <Spinner />
-      </div>
-    );
-  }
+  // if (!data) {
+  //   return (
+  //     <div className='mt-5'>
+  //       <Spinner />
+  //     </div>
+  //   );
+  // }
 
   return (
     <>
@@ -138,8 +169,12 @@ export default function UserSummary() {
                 <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
                 <div>
                   <p className='text-xs flex flex-row'>Jumlah Pesakit</p>
-                  <span className='font-mono text-5xl flex flex-row'>
-                    {data.length}
+                  <span
+                    className={`font-mono ${
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                    } flex flex-row`}
+                  >
+                    {data.length > 0 ? data.length : null}
                   </span>
                 </div>
               </div>
@@ -149,11 +184,16 @@ export default function UserSummary() {
                 <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
                 <div>
                   <p className='text-xs flex flex-row'>Kes Selesai</p>
-                  <span className='font-mono text-5xl flex flex-row'>
-                    {
-                      data.filter((item) => item.kesSelesaiRawatanUmum === true)
-                        .length
-                    }
+                  <span
+                    className={`font-mono ${
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                    } flex flex-row`}
+                  >
+                    {data.length > 0
+                      ? data.filter(
+                          (item) => item.kesSelesaiRawatanUmum === true
+                        ).length
+                      : null}
                   </span>
                 </div>
               </div>
@@ -163,12 +203,16 @@ export default function UserSummary() {
                 <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
                 <div>
                   <p className='text-xs flex flex-row'>Pesakit Baru</p>
-                  <span className='font-mono text-5xl flex flex-row'>
-                    {
-                      data.filter(
-                        (item) => item.kedatangan === 'baru-kedatangan'
-                      ).length
-                    }
+                  <span
+                    className={`font-mono ${
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                    } flex flex-row`}
+                  >
+                    {data.length > 0
+                      ? data.filter(
+                          (item) => item.kedatangan === 'baru-kedatangan'
+                        ).length
+                      : null}
                   </span>
                 </div>
               </div>
@@ -178,12 +222,16 @@ export default function UserSummary() {
                 <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
                 <div>
                   <p className='text-xs flex flex-row'>Pesakit Ulangan</p>
-                  <span className='font-mono text-5xl flex flex-row'>
-                    {
-                      data.filter(
-                        (item) => item.kedatangan === 'ulangan-kedatangan'
-                      ).length
-                    }
+                  <span
+                    className={`font-mono ${
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                    } flex flex-row`}
+                  >
+                    {data.length > 0
+                      ? data.filter(
+                          (item) => item.kedatangan === 'ulangan-kedatangan'
+                        ).length
+                      : null}
                   </span>
                 </div>
               </div>
@@ -233,8 +281,36 @@ export default function UserSummary() {
           </div>
         </div> */}
         </div>
+        <div className='flex flex-col items-center my-2'>
+          <div className='flex flex-row items-center'>
+            <select
+              onChange={(e) => handleMonthChange(e.target.value)}
+              className='border-2 border-user2 rounded-md p-1 m-1'
+            >
+              <option value=''>Pilih Bulan</option>
+              <option value='01'>Januari</option>
+              <option value='02'>Februari</option>
+              <option value='03'>Mac</option>
+              <option value='04'>April</option>
+              <option value='05'>Mei</option>
+              <option value='06'>Jun</option>
+              <option value='07'>Julai</option>
+              <option value='08'>Ogos</option>
+              <option value='09'>September</option>
+              <option value='10'>Oktober</option>
+              <option value='11'>November</option>
+              <option value='12'>Disember</option>
+            </select>
+            {/* <button
+              onClick={(e) => handleMonthChange(e)}
+              className='border-2 border-user2 rounded-md p-1 m-1'
+            >
+              Cari
+            </button> */}
+          </div>
+        </div>
         {data.length > 0 ? (
-          <section className='my-5 p-1'>
+          <section className='p-1'>
             {/* <div className='flex flex-col items-center mt-5'> */}
             <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
               <table className='table-auto'>
@@ -300,8 +376,16 @@ export default function UserSummary() {
           </section>
         ) : (
           <div className='flex flex-col items-center mt-5'>
-            <span className='bg-admin2 text-adminWhite text-3xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-              Tiada rekod beban kerja
+            <span
+              className={`${
+                bulan !== '' && data.length === 0 && waitForData === false
+                  ? 'bg-admin2 text-adminWhite text-3xl font-semibold'
+                  : 'mt-3 font-mono text-xl'
+              } px-1.5 py-0.5 rounded whitespace-nowrap`}
+            >
+              {bulan !== '' && data.length === 0 && waitForData === false
+                ? 'Tiada rekod beban kerja'
+                : 'Sila pilih bulan'}
             </span>
           </div>
         )}

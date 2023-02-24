@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import moment from 'moment';
 import {
   Chart as ChartJS,
@@ -114,16 +114,20 @@ function MainChart({ data, accountType }) {
 export default function AdminCenterStage(props) {
   const { toast, getAllNegeriAndDaerah, navigate } = useGlobalAdminAppContext();
   const [data, setData] = useState(null);
+  const init = useRef(false);
 
   useEffect(() => {
     const fetchData = async () => {
       const res = await getAllNegeriAndDaerah();
       setData(res.data);
     };
-    fetchData().catch((err) => {
-      toast.error(err.response.data.message);
-      navigate('/pentadbir');
-    });
+    if (init.current === false) {
+      fetchData().catch((err) => {
+        toast.error(err.response.data.message);
+        navigate('/pentadbir');
+      });
+      init.current = true;
+    }
   }, []);
 
   if (!data) {
@@ -162,10 +166,9 @@ export default function AdminCenterStage(props) {
                 src={FlagsDictionary[item.namaNegeri]}
                 onClick={() => {
                   if (props.loginInfo.accountType === 'hqSuperadmin') {
-                    // navigate(
-                    //   `/pentadbir/landing/negeri?idn=${item.namaNegeri}`
-                    // );
-                    toast.info('Coming Soon!');
+                    navigate(
+                      `/pentadbir/landing/negeri?idn=${item.namaNegeri}`
+                    );
                   }
                 }}
               />
@@ -183,10 +186,9 @@ export default function AdminCenterStage(props) {
                         if (
                           props.loginInfo.accountType !== 'daerahSuperadmin'
                         ) {
-                          // navigate(
-                          //   `/pentadbir/landing/daerah?idn=${item.namaNegeri}&idd=${daerah.namaDaerah}`
-                          // );
-                          toast.info('Coming Soon!');
+                          navigate(
+                            `/pentadbir/landing/daerah?idn=${item.namaNegeri}&idd=${daerah.namaDaerah}`
+                          );
                         }
                       }}
                     >
