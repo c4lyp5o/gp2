@@ -4,13 +4,14 @@ import {
   FaCaretDown,
   FaClock,
   FaCheckCircle,
+  FaTimesCircle,
 } from 'react-icons/fa';
 import moment from 'moment';
 import Datetime from 'react-datetime';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import styles from '../../Zazz.module.css';
+// import styles from '../../Zazz.module.css';
 
 export default function Pemeriksaan(props) {
   const { dateToday, formatTime, dictionaryJenisFasiliti } =
@@ -138,48 +139,60 @@ export default function Pemeriksaan(props) {
   function HoveringTable({ show, position, patient }) {
     const data = [
       {
-        nameDesidus: 'D desidus',
+        nameDesidus: 'd',
         valueDesidus: patient.dAdaGigiDesidusPemeriksaanUmum,
-        nameKekal: 'D kekal',
+        nameKekal: 'D',
         valueKekal: patient.dAdaGigiKekalPemeriksaanUmum,
         nameStatus: 'MBK',
         valueStatus:
-          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) === 0 &&
-          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) === 0 &&
-          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum) === 0 &&
-          parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
-          parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
-          parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
-          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
-            <div className='flex justify-center'>
-              <FaCheckCircle className='text-user7' />
-            </div>
+          patient.adaDesidusPemeriksaanUmum === true ? (
+            parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) === 0 &&
+            parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) === 0 &&
+            parseInt(patient.xAdaGigiDesidusPemeriksaanUmum) === 0 &&
+            parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
+              <div className='flex justify-center'>
+                <FaCheckCircle className='text-user7' />
+              </div>
+            ) : (
+              <div className='flex justify-center'>
+                <FaTimesCircle className='text-user9' />
+              </div>
+            )
           ) : (
-            'Tidak'
+            <div className='flex justify-center'>-</div>
           ),
       },
       {
-        nameDesidus: 'F desidus',
+        nameDesidus: 'f',
         valueDesidus: patient.fAdaGigiDesidusPemeriksaanUmum,
-        nameKekal: 'M kekal',
+        nameKekal: 'M',
         valueKekal: patient.mAdaGigiKekalPemeriksaanUmum,
         nameStatus: 'BK',
         valueStatus:
-          parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
-          parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
-          parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
-          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
-            <div className='flex justify-center'>
-              <FaCheckCircle className='text-user7' />
-            </div>
+          patient.adaKekalPemeriksaanUmum === true ? (
+            parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
+              <div className='flex justify-center'>
+                <FaCheckCircle className='text-user7' />
+              </div>
+            ) : (
+              <div className='flex justify-center'>
+                <FaTimesCircle className='text-user9' />
+              </div>
+            )
           ) : (
-            'Tidak'
+            <div className='flex justify-center'>-</div>
           ),
       },
       {
-        nameDesidus: 'X desidus',
+        nameDesidus: 'x',
         valueDesidus: patient.xAdaGigiDesidusPemeriksaanUmum,
-        nameKekal: 'F kekal',
+        nameKekal: 'F',
         valueKekal: patient.fAdaGigiKekalPemeriksaanUmum,
         nameStatus: 'MBG',
         valueStatus:
@@ -188,16 +201,18 @@ export default function Pemeriksaan(props) {
               <FaCheckCircle className='text-user7' />
             </div>
           ) : (
-            'Tidak'
+            <div className='flex justify-center'>
+              <FaTimesCircle className='text-user9' />
+            </div>
           ),
       },
       {
-        nameDesidus: 'Jumlah dfx desidus',
+        nameDesidus: 'dfx',
         valueDesidus:
           parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
           parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
           parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
-        nameKekal: 'X kekal',
+        nameKekal: 'X',
         valueKekal: patient.xAdaGigiKekalPemeriksaanUmum,
         nameStatus: 'TPR',
         valueStatus: patient.tidakPerluRawatanPemeriksaanUmum ? (
@@ -205,12 +220,12 @@ export default function Pemeriksaan(props) {
             <FaCheckCircle className='text-user7' />
           </div>
         ) : (
-          'Tidak'
+          <div className='flex justify-center'>
+            <FaTimesCircle className='text-user9' />
+          </div>
         ),
       },
       {
-        // nameDesidus: 'Property 5',
-        // valueDesidus: 'Value 5',
         nameKekal: 'DMFX',
         valueKekal:
           parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
@@ -222,48 +237,32 @@ export default function Pemeriksaan(props) {
             <FaCheckCircle className='text-user7' />
           </div>
         ) : (
-          'Tidak'
+          <div className='flex justify-center'>
+            <FaTimesCircle className='text-user9' />
+          </div>
         ),
       },
       {
-        nameDesidus: 'E desidus',
-        valueDesidus: patient.eAdaGigiKekalPemeriksaanUmum,
         nameKekal: 'X + M',
         valueKekal:
           parseInt(patient.xAdaGigiKekalPemeriksaanUmum) +
           parseInt(patient.mAdaGigiKekalPemeriksaanUmum),
       },
       {
-        // nameDesidus: 'Property 7',
-        // valueDesidus: 'Value 7',
-        nameKekal: 'Jumlah Gigi Kekal',
-        valueKekal:
-          parseInt(patient.dAdaGigiKekalPemeriksaanUmum) +
-          parseInt(patient.fAdaGigiKekalPemeriksaanUmum) +
-          parseInt(patient.eAdaGigiKekalPemeriksaanUmum),
+        nameKekal: 'E',
+        valueKekal: patient.eAdaGigiKekalPemeriksaanUmum,
       },
     ];
 
     return (
       <div
-        className={`absolute shadow-md rounded-md p-2 ${
+        className={`absolute shadow-md p-2 left-16 ${
           show ? 'block' : 'hidden'
         }`}
-        style={{
-          left: position.x,
-          // top: position.y,
-        }}
       >
-        <div
-          className={styles.box}
-          style={{
-            height: 'auto',
-            width: 'auto',
-            padding: '5px',
-          }}
-        >
+        <div className='z-20 w-52 h-36 border-2 '>
           <div className='flex justify-center'>
-            <table className='bg-adminWhite z-30 rounded-lg shadow-md max-w-full max-h-full overflow-y-auto'>
+            <table className='bg-adminWhite z-30 rounded-t-md shadow-md max-w-full max-h-full overflow-y-auto'>
               <thead>
                 <tr>
                   <th className='px-2 py-1 text-left text-xs'>Gigi Desidus</th>
@@ -276,7 +275,7 @@ export default function Pemeriksaan(props) {
               <tbody>
                 {data.map((item, index) => (
                   <tr key={index}>
-                    <td className='border px-2 py-1 text-xs'>
+                    <td className='border px-2 py-1 text-xs normal-case'>
                       {item.nameDesidus}
                     </td>
                     <td className='border px-2 py-1 text-xs'>
@@ -851,7 +850,7 @@ export default function Pemeriksaan(props) {
                       </div>
                       {props.yaTidakPesakitMempunyaiGigi ===
                         'ya-pesakit-mempunyai-gigi' && (
-                        <div className='flex items-center justify-center ml-2'>
+                        <div className='relative flex items-center justify-center ml-2'>
                           <DmfxInfoIcon statusDmfx={props} />
                           {/* <HoveringTable /> */}
                           {/* <Box /> */}
@@ -860,8 +859,8 @@ export default function Pemeriksaan(props) {
                     </div>
                     {props.yaTidakPesakitMempunyaiGigi ===
                       'ya-pesakit-mempunyai-gigi' && (
-                      <article className=' border border-userBlack pl-3 p-2 rounded-md'>
-                        <div className='shadow-lg  grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
+                      <article className=' border border-userBlack pl-3 p-2 rounded-md grid lg:grid-cols-2'>
+                        <div className='shadow-lg  grid grid-cols-1 auto-rows-min items-center justify-start py-2'>
                           <h4 className='font-bold flex flex-row pl-5'>
                             Status Gigi Desidus
                             {props.adaDesidusPemeriksaanUmum === true ||
@@ -900,7 +899,7 @@ export default function Pemeriksaan(props) {
                             <div
                               className={`${
                                 !props.adaDesidusPemeriksaanUmum && 'hidden'
-                              } grid grid-cols-1 sm:grid-cols-2`}
+                              } grid grid-cols-1`}
                             >
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m lowercase'>d: </p>
@@ -1007,7 +1006,7 @@ export default function Pemeriksaan(props) {
                             )}
                           </div>
                         </div>
-                        <div className='shadow-lg grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
+                        <div className='shadow-lg grid grid-cols-1 auto-rows-min items-center justify-start py-2'>
                           <h4 className='font-bold flex flex-row pl-5'>
                             Status Gigi Kekal
                             {props.adaKekalPemeriksaanUmum === true ||
@@ -1046,7 +1045,7 @@ export default function Pemeriksaan(props) {
                             <div
                               className={`${
                                 !props.adaKekalPemeriksaanUmum && 'hidden'
-                              } grid grid-cols-2`}
+                              } grid grid-cols-1`}
                             >
                               <div className='flex flex-row items-center  pl-5'>
                                 <p className='text-sm font-m '>D: </p>
@@ -1114,30 +1113,6 @@ export default function Pemeriksaan(props) {
                                 />
                               </div>
                               <div className='flex flex-row items-center pl-5'>
-                                <p className='text-sm font-m '>E: </p>
-                                <span className='text-user6'>* </span>
-                                <input
-                                  disabled={isDisabled}
-                                  required
-                                  min='0'
-                                  max='32'
-                                  type='number'
-                                  name='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                                  id='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                                  value={props.eAdaGigiKekalPemeriksaanUmum}
-                                  onChange={(e) => {
-                                    props.setEAdaGigiKekalPemeriksaanUmum(
-                                      e.target.value
-                                    );
-                                  }}
-                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                />
-                                <FaInfoCircle
-                                  title='Hanya masukkan E10 , E12 & E13'
-                                  className='text-lg m-1'
-                                />
-                              </div>
-                              <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m '>X: </p>
                                 <span className='text-user6'>*</span>
                                 <input
@@ -1160,6 +1135,30 @@ export default function Pemeriksaan(props) {
                                     }
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                              <div className='flex flex-row items-center pl-5'>
+                                <p className='text-sm font-m '>E: </p>
+                                <span className='text-user6'>* </span>
+                                <input
+                                  disabled={isDisabled}
+                                  required
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                                  id='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                                  value={props.eAdaGigiKekalPemeriksaanUmum}
+                                  onChange={(e) => {
+                                    props.setEAdaGigiKekalPemeriksaanUmum(
+                                      e.target.value
+                                    );
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <FaInfoCircle
+                                  title='Hanya masukkan E10 , E12 & E13'
+                                  className='text-lg m-1'
                                 />
                               </div>
                             </div>

@@ -20,6 +20,8 @@ import UserFormSekolahKOTAK from '../components/form-sekolah/UserFormSekolahKOTA
 import UserPromosi from '../components/UserPromosi';
 import UserFormPromosi from '../components/form-promosi/UserFormPromosi';
 
+import UserKohort from '../components/kohort/UserKohortPage';
+
 import UserGenerateIndividu from '../components/UserGenerateIndividu';
 import UserGenerateKlinik from '../components/UserGenerateKlinik';
 
@@ -115,6 +117,13 @@ function UserAfterLogin() {
               />
             </>
           )}
+
+          {process.env.REACT_APP_ENV === 'UNSTABLE' ||
+          process.env.REACT_APP_ENV === 'DEV' ? (
+            <>
+              <Route path='kohort' element={<UserKohort />} />
+            </>
+          ) : null}
 
           {/* {reliefUserToken ? null : (
             <>
