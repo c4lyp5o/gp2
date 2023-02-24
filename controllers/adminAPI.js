@@ -1134,10 +1134,7 @@ const postRouteKp = async (req, res) => {
 
 const patchRoute = async (req, res) => {
   const { FType, Id, Data, token } = req.body;
-  const { user_name, daerah, negeri } = jwt.verify(
-    token,
-    process.env.JWT_SECRET
-  );
+  const { user_name } = jwt.verify(token, process.env.JWT_SECRET);
   const type = Dictionary[FType];
   logger.info(
     `[adminAPI/patchRoute] ${user_name} attempting to update ${type} data with id ${Id}`
