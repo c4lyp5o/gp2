@@ -2587,56 +2587,75 @@ const getData = async (req, res) => {
             kedatanganPtDaerah,
           };
           return res.status(200).json(resultDaerah);
+        case 'readOneKlinik':
+          logger.info(`[adminAPI/HqCenter] readOne for ${id} accessed`);
+          const klinikData = await User.findOne({ kodFasiliti: id })
+            .lean()
+            .select('kp');
+          const klinikPtData = await Umum.find({ createdByKp: klinikData.kp })
+            .lean()
+            .select('kedatangan tarikhKedatangan');
+          const countPtByDate = (daysAgo) => {
+            const date = moment()
+              .subtract(daysAgo, 'days')
+              .format('YYYY-MM-DD');
+            return klinikPtData.filter((item) => item.tarikhKedatangan === date)
+              .length;
+          };
+          const ptHariIni = countPtByDate(0);
+          const pt2HariLepas = countPtByDate(1);
+          const pt3HariLepas = countPtByDate(2);
+          const pt4HariLepas = countPtByDate(3);
+          const pt5HariLepas = countPtByDate(4);
           const ptMingguIni = klinikPtData.filter((item) =>
             moment(item.tarikhKedatangan).isBetween(
               moment().startOf('week'),
               moment().endOf('week')
             )
-          );
+          ).length;
           const ptBulanIni = klinikPtData.filter((item) =>
             moment(item.tarikhKedatangan).isBetween(
               moment().startOf('month'),
               moment().endOf('month')
             )
-          );
+          ).length;
           const ptBaru = klinikPtData.filter(
             (item) => item.kedatangan === 'baru-kedatangan'
-          );
+          ).length;
           const ptUlangan = klinikPtData.filter(
             (item) => item.kedatangan === 'ulangan-kedatangan'
-          );
-          klinikData = {
-            ...klinikData[0]._doc,
+          ).length;
+          const kedatanganPt = [
+            {
+              kedatangan: pt5HariLepas,
+              tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
+            },
+            {
+              kedatangan: pt4HariLepas,
+              tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
+            },
+            {
+              kedatangan: pt3HariLepas,
+              tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
+            },
+            {
+              kedatangan: pt2HariLepas,
+              tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
+            },
+            { kedatangan: ptHariIni, tarikh: moment().format('YYYY-MM-DD') },
+          ];
+          const jumlahPt = klinikPtData.length;
+          const resultKlinik = {
+            ...klinikData,
             jumlahPt,
-            ptHariIni: ptHariIni.length,
-            ptMingguIni: ptMingguIni.length,
-            ptBulanIni: ptBulanIni.length,
-            ptBaru: ptBaru.length,
-            ptUlangan: ptUlangan.length,
-            kedatanganPt: [
-              {
-                kedatangan: pt5HariLepas.length,
-                tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
-              },
-              {
-                kedatangan: pt4HariLepas.length,
-                tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
-              },
-              {
-                kedatangan: pt3HariLepas.length,
-                tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-              },
-              {
-                kedatangan: pt2HariLepas.length,
-                tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-              },
-              {
-                kedatangan: ptHariIni.length,
-                tarikh: moment().format('YYYY-MM-DD'),
-              },
-            ],
+            ptHariIni,
+            ptMingguIni,
+            ptBulanIni,
+            ptBaru,
+            ptUlangan,
+            kedatanganPt,
           };
-          return res.status(200).json(klinikData);
+          return res.status(200).json(resultKlinik);
         case 'update':
           console.log('update for hq');
           break;
