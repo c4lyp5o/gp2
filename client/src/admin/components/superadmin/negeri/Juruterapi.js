@@ -5,6 +5,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 export default function Juruterapi(props) {
   const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [pilihanRole, setPilihanRole] = useState('');
+  const [pos, setPos] = useState({ x: 0, y: 0 });
 
   const namaKliniks = props.data.reduce(
     (arrNamaKliniks, pegawai) => {
@@ -104,7 +105,6 @@ export default function Juruterapi(props) {
             </thead>
             <tbody className='bg-admin4'>
               {props.data
-                .filter((os) => os.nama.match(/^((?!jp).)*$/i))
                 .filter(
                   (os) =>
                     os.kpSkrg.includes(pilihanKlinik) &&
@@ -121,24 +121,43 @@ export default function Juruterapi(props) {
                         {o.tempatBertugasSebelumIni.length > 0 && (
                           <FaInfoCircle
                             className='ml-2 text-md text-userBlack'
-                            onMouseEnter={() => props.setShowInfo(true, index)}
-                            onMouseLeave={() => props.setShowInfo(false)}
+                            onMouseEnter={() => {
+                              props.setShowInfo(true);
+                              props.setDataIndex(index);
+                            }}
+                            onMouseLeave={() => {
+                              props.setShowInfo(false);
+                              props.setDataIndex(null);
+                            }}
+                            onMouseMove={(e) => {
+                              setPos({ x: e.clientX, y: e.clientY });
+                            }}
                           />
                         )}
                         {props.showInfo && props.dataIndex === index && (
-                          <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
-                            <div className='text-xs'>
-                              <h2 className='font-mono'>
-                                Tempat Bertugas Sebelum Ini:{' '}
-                                {o.tempatBertugasSebelumIni.map(
-                                  (o, indexPegawai) => (
-                                    <div key={indexPegawai}>
-                                      {indexPegawai + 1}. {o}{' '}
-                                    </div>
-                                  )
-                                )}
-                              </h2>
-                              <p className='whitespace-nowrap'></p>
+                          <div
+                            className={`absolute shadow-md rounded-md p-2 ${
+                              props.showInfo ? 'block' : 'hidden'
+                            }`}
+                            style={{
+                              left: pos.x,
+                              bottom: pos.y,
+                            }}
+                          >
+                            <div className='bg-adminWhite rounded-md shadow-md'>
+                              <div className='flex justify-center'>
+                                <h2 className='font-mono'>
+                                  Tempat Bertugas Sebelum Ini:{' '}
+                                  {o.tempatBertugasSebelumIni.map(
+                                    (o, indexPegawai) => (
+                                      <div key={indexPegawai}>
+                                        {indexPegawai + 1}. {o}{' '}
+                                      </div>
+                                    )
+                                  )}
+                                </h2>
+                                <p className='whitespace-nowrap'></p>
+                              </div>
                             </div>
                           </div>
                         )}
