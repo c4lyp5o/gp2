@@ -483,6 +483,7 @@ const getDataRoute = async (req, res) => {
         activationStatus: true,
       })
         .select('-summary')
+        .sort({ nama: 1 })
         .lean();
       break;
     case 'jp-all':
