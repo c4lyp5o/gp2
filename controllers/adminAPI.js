@@ -34,8 +34,10 @@ const Dictionary = {
   pp: 'pegawai',
   ppall: 'pegawai-all',
   pegawaispesifik: 'pegawai-spesifik',
+  ppspn: 'pegawai-spesifik-negeri',
   jp: 'juruterapi pergigian',
   jpall: 'jp-all',
+  jpspn: 'jp-spesifik-negeri',
   taska: 'taska',
   tadika: 'tadika',
   tastad: 'tastad',
@@ -474,6 +476,15 @@ const getDataRoute = async (req, res) => {
         .select('nama mdcNumber mdtbNumber statusPegawai')
         .lean();
       break;
+    case 'pegawai-spesifik-negeri':
+      data = await Operator.find({
+        createdByNegeri: negeri,
+        statusPegawai: 'pp',
+        activationStatus: true,
+      })
+        .select('-summary')
+        .lean();
+      break;
     case 'jp-all':
       data = await Operator.find({
         statusPegawai: 'jp',
@@ -487,6 +498,15 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         activationStatus: true,
       }).lean();
+      break;
+    case 'jp-spesifik-negeri':
+      data = await Operator.find({
+        createdByNegeri: negeri,
+        statusPegawai: 'jp',
+        activationStatus: true,
+      })
+        .select('-summary')
+        .lean();
       break;
     case 'sekolah-rendah':
       data = await Fasiliti.find({
