@@ -6,6 +6,7 @@ export default function Navbar(props) {
   const [showLinks, setShowLinks] = useState(false);
   const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
   const [showPenetapanSubMenu, setShowPenetapanSubMenu] = useState(false);
+  const [showMaklumatLainSubMenu, setShowMaklumatLainSubMenu] = useState(false);
 
   const togglePenetapanSubMenu = () => {
     setShowPenetapanSubMenu(!showPenetapanSubMenu);
@@ -14,6 +15,11 @@ export default function Navbar(props) {
 
   const toggleSubMenuMedSos = () => {
     setShowMedSosSubMenu(!showMedSosSubMenu);
+    setShowPenetapanSubMenu(false);
+  };
+
+  const toggleSubMenuMaklumatLain = () => {
+    setShowMaklumatLainSubMenu(!showMaklumatLainSubMenu);
     setShowPenetapanSubMenu(false);
   };
 
@@ -52,122 +58,120 @@ export default function Navbar(props) {
             >
               PAPARAN UTAMA
             </NavLink>
-            {props.loginInfo.accountType !== 'kpUser' &&
-              props.loginInfo.accountType !== 'negeriSuperadmin' &&
-              props.loginInfo.accountType !== 'hqSuperadmin' && (
-                <>
-                  <div>
-                    <div
-                      className={`${
-                        showPenetapanSubMenu ? 'bg-admin3' : 'bg-admin2'
-                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
-                      onClick={togglePenetapanSubMenu}
+            {props.loginInfo.accountType === 'daerahSuperadmin' && (
+              <>
+                <div>
+                  <div
+                    className={`${
+                      showPenetapanSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                    onClick={togglePenetapanSubMenu}
+                  >
+                    <span>PENETAPAN</span>
+                    <span className='inline-flex ml-2'>
+                      <FaArrowAltCircleUp
+                        className={`transition-all ${
+                          showPenetapanSubMenu && 'rotate-180'
+                        }`}
+                      />
+                    </span>
+                  </div>
+                  <div
+                    className={`grid transition-all ${
+                      showPenetapanSubMenu
+                        ? 'max-h-[50rem]'
+                        : 'max-h-0 overflow-hidden'
+                    }`}
+                  >
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='kp'
+                      onClick={() => setShowLinks(!showLinks)}
                     >
-                      <span>PENETAPAN</span>
-                      <span className='inline-flex ml-2'>
-                        <FaArrowAltCircleUp
-                          className={`transition-all ${
-                            showPenetapanSubMenu && 'rotate-180'
-                          }`}
-                        />
-                      </span>
-                    </div>
-                    <div
-                      className={`grid transition-all ${
-                        showPenetapanSubMenu
-                          ? 'max-h-[50rem]'
-                          : 'max-h-0 overflow-hidden'
-                      }`}
+                      KLINIK PERGIGIAN
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='kkiakd'
+                      onClick={() => setShowLinks(!showLinks)}
                     >
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='kp'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        KLINIK PERGIGIAN
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='kkiakd'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        KKIA / KD
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='pp'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        PEGAWAI PERGIGIAN
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='jp'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        JURUTERAPI PERGIGIAN
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='taska'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        TASKA
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='tadika'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        TADIKA
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='sr'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        SEKOLAH RENDAH
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='sm'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        SEKOLAH MENENGAH
-                      </NavLink>
-                      {/* <NavLink
+                      KKIA / KD
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='pp'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      PEGAWAI PERGIGIAN
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='jp'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      JURUTERAPI PERGIGIAN
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='taska'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      TASKA
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='tadika'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      TADIKA
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='sr'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      SEKOLAH RENDAH
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='sm'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      SEKOLAH MENENGAH
+                    </NavLink>
+                    {/* <NavLink
                       className={({ isActive }) =>
                         isActive
                           ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
@@ -178,100 +182,98 @@ export default function Navbar(props) {
                     >
                       INSTITUSI
                     </NavLink> */}
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='program'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        PROGRAM KOMUNITI
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='kpb'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        KLINIK PERGIGIAN BERGERAK
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                        }
-                        to='mpb'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        MAKMAL PERGIGIAN BERGERAK
-                      </NavLink>
-                    </div>
-                  </div>
-                  <div>
-                    <div
-                      className={`${
-                        showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
-                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
-                      onClick={toggleSubMenuMedSos}
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='program'
+                      onClick={() => setShowLinks(!showLinks)}
                     >
-                      <span>MEDIA SOSIAL</span>
-                      <span className='inline-flex ml-2'>
-                        <FaArrowAltCircleUp
-                          className={`transition-all ${
-                            showMedSosSubMenu && 'rotate-180'
-                          }`}
-                        />
-                      </span>
-                    </div>
-                    <div
-                      className={`grid transition-all ${
-                        showMedSosSubMenu
-                          ? 'max-h-96'
-                          : 'max-h-0 overflow-hidden'
-                      }`}
+                      PROGRAM KOMUNITI
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='kpb'
+                      onClick={() => setShowLinks(!showLinks)}
                     >
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                        }
-                        to='followers'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        <i>FOLLOWERS</i> MEDIA SOSIAL
-                      </NavLink>
-                      <NavLink
-                        className={({ isActive }) =>
-                          isActive
-                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
-                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
-                        }
-                        to='sosmed'
-                        onClick={() => setShowLinks(!showLinks)}
-                      >
-                        AKTIVITI MEDIA SOSIAL
-                      </NavLink>
-                    </div>
+                      KLINIK PERGIGIAN BERGERAK
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                      }
+                      to='mpb'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      MAKMAL PERGIGIAN BERGERAK
+                    </NavLink>
                   </div>
-                  <NavLink
-                    className={({ isActive }) =>
-                      isActive
-                        ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                        : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    }
-                    to='generate'
-                    onClick={() => setShowLinks(!showLinks)}
+                </div>
+                <div>
+                  <div
+                    className={`${
+                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                    onClick={toggleSubMenuMedSos}
                   >
-                    PENJANAAN RETEN
-                  </NavLink>
-                  {/* <NavLink
+                    <span>MEDIA SOSIAL</span>
+                    <span className='inline-flex ml-2'>
+                      <FaArrowAltCircleUp
+                        className={`transition-all ${
+                          showMedSosSubMenu && 'rotate-180'
+                        }`}
+                      />
+                    </span>
+                  </div>
+                  <div
+                    className={`grid transition-all ${
+                      showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                    }`}
+                  >
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='followers'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      <i>FOLLOWERS</i> MEDIA SOSIAL
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
+                      }
+                      to='sosmed'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      AKTIVITI MEDIA SOSIAL
+                    </NavLink>
+                  </div>
+                </div>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='generate'
+                  onClick={() => setShowLinks(!showLinks)}
+                >
+                  PENJANAAN RETEN
+                </NavLink>
+                {/* <NavLink
                   className={({ isActive }) =>
                     isActive
                       ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
@@ -282,8 +284,8 @@ export default function Navbar(props) {
                 >
                   AD-HOC QUERY
                 </NavLink> */}
-                </>
-              )}
+              </>
+            )}
             {props.loginInfo.accountType === 'kpUser' &&
               props.loginInfo.role === 'admin' && (
                 <>
@@ -540,6 +542,53 @@ export default function Navbar(props) {
                       onClick={() => setShowLinks(!showLinks)}
                     >
                       AKTIVITI MEDIA SOSIAL
+                    </NavLink>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className={`${
+                      showMaklumatLainSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                    onClick={toggleSubMenuMaklumatLain}
+                  >
+                    <span>MAKLUMAT LAIN</span>
+                    <span className='inline-flex ml-2'>
+                      <FaArrowAltCircleUp
+                        className={`transition-all ${
+                          showMaklumatLainSubMenu && 'rotate-180'
+                        }`}
+                      />
+                    </span>
+                  </div>
+                  <div
+                    className={`grid transition-all ${
+                      showMaklumatLainSubMenu
+                        ? 'max-h-96'
+                        : 'max-h-0 overflow-hidden'
+                    }`}
+                  >
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='negeri/pp'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      PEGAWAI PERGIGIAN
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='negeri/jp'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      JURUTERAPI PERGIGIAN
                     </NavLink>
                   </div>
                 </div>
