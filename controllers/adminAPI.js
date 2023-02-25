@@ -504,6 +504,7 @@ const getDataRoute = async (req, res) => {
       data = await Operator.find({
         createdByNegeri: negeri,
         statusPegawai: 'jp',
+        nama: { $regex: /^((?!jp).)*$/i },
         activationStatus: true,
       })
         .select('-summary')
