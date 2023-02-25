@@ -3142,11 +3142,11 @@ const makePgPro01 = async (payload) => {
         rowNew.getCell(48).value = data[i].jumlahPesertaHentiAlkohol; //AT15
         rowNew.getCell(49).value = data[i].jumlahAktivitiHentiTabiatLain; //AU15
         rowNew.getCell(50).value = data[i].jumlahPesertaHentiTabiatLain; //AV15
-        rowNew.getCell(51).value = data[i].jumlahAktivitiTelevisyen; //AY15
-        rowNew.getCell(52).value = data[i].jumlahPesertaTelevisyen; //AZ15
-        rowNew.getCell(53).value = data[i].jumlahAktivitiRadio; //BA15
-        rowNew.getCell(54).value = data[i].jumlahPesertaRadio; //BB15
-        rowNew.getCell(55).value = data[i].jumlahAktivitiCetak; //BC15
+        rowNew.getCell(53).value = data[i].jumlahAktivitiTelevisyen; //AY15 // cells skipped
+        rowNew.getCell(54).value = data[i].jumlahPesertaTelevisyen; //AZ15
+        rowNew.getCell(55).value = data[i].jumlahAktivitiRadio; //BA15
+        rowNew.getCell(56).value = data[i].jumlahPesertaRadio; //BB15
+        rowNew.getCell(57).value = data[i].jumlahAktivitiCetak; //BC15
       }
     }
 
@@ -3340,11 +3340,11 @@ const makePgPro01Combined = async (payload) => {
         rowNew.getCell(46).value = data[i].jumlahPesertaHentiAlkohol; //AT15
         rowNew.getCell(47).value = data[i].jumlahAktivitiHentiTabiatLain; //AU15
         rowNew.getCell(48).value = data[i].jumlahPesertaHentiTabiatLain; //AV15
-        rowNew.getCell(49).value = data[i].jumlahAktivitiTelevisyen; //AY15
-        rowNew.getCell(50).value = data[i].jumlahPesertaTelevisyen; //AZ15
-        rowNew.getCell(51).value = data[i].jumlahAktivitiRadio; //BA15
-        rowNew.getCell(52).value = data[i].jumlahPesertaRadio; //BB15
-        rowNew.getCell(53).value = data[i].jumlahAktivitiCetak; //BC15
+        rowNew.getCell(51).value = data[i].jumlahAktivitiTelevisyen; //AY15
+        rowNew.getCell(52).value = data[i].jumlahPesertaTelevisyen; //AZ15
+        rowNew.getCell(53).value = data[i].jumlahAktivitiRadio; //BA15
+        rowNew.getCell(54).value = data[i].jumlahPesertaRadio; //BB15
+        rowNew.getCell(55).value = data[i].jumlahAktivitiCetak; //BC15
       }
     }
 
