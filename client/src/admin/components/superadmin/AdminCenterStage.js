@@ -114,6 +114,7 @@ function MainChart({ data, accountType }) {
 export default function AdminCenterStage(props) {
   const { toast, getAllNegeriAndDaerah, navigate } = useGlobalAdminAppContext();
   const [data, setData] = useState(null);
+
   const init = useRef(false);
 
   useEffect(() => {
@@ -158,14 +159,14 @@ export default function AdminCenterStage(props) {
             <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
               <img
                 className={`w-1/2 mx-auto ${
-                  props.loginInfo.accountType === 'hqSuperadmin'
+                  props.loginInfo.accountType !== 'daerahSuperadmin'
                     ? 'hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
                     : ''
                 } mt-3`}
                 alt={item.namaNegeri}
                 src={FlagsDictionary[item.namaNegeri]}
                 onClick={() => {
-                  if (props.loginInfo.accountType === 'hqSuperadmin') {
+                  if (props.loginInfo.accountType !== 'daerahSuperadmin') {
                     navigate(
                       `/pentadbir/landing/negeri?idn=${item.namaNegeri}`
                     );
@@ -177,19 +178,11 @@ export default function AdminCenterStage(props) {
                   <div className='px-6 py-4 h-full'>
                     <div
                       key={index}
-                      className={`mb-2 underline ${
-                        props.loginInfo.accountType !== 'daerahSuperadmin'
-                          ? 'hover:bg-admin3 hover:text-adminWhite hover:rounded-md hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
-                          : ''
-                      }`}
+                      className='mb-2 underline hover:bg-admin3 hover:text-adminWhite hover:rounded-md hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
                       onClick={() => {
-                        if (
-                          props.loginInfo.accountType !== 'daerahSuperadmin'
-                        ) {
-                          navigate(
-                            `/pentadbir/landing/daerah?idn=${item.namaNegeri}&idd=${daerah.namaDaerah}`
-                          );
-                        }
+                        navigate(
+                          `/pentadbir/landing/daerah?idn=${item.namaNegeri}&idd=${daerah.namaDaerah}`
+                        );
                       }}
                     >
                       {daerah.namaDaerah}
