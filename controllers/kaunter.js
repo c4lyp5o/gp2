@@ -294,7 +294,7 @@ const queryPersonKaunter = async (req, res) => {
 
   const kaunterResultQuery = await Umum.find(queryObject)
     .select(
-      'tarikhKedatangan waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan statusReten jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram'
+      'tarikhKedatangan createdByUsername waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan statusReten jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram'
     )
     .lean();
 
