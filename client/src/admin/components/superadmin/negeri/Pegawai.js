@@ -107,11 +107,11 @@ export default function Pegawai(props) {
             </thead>
             <tbody className='bg-admin4'>
               {props.data
-                .filter((os) => {
-                  const officersChoice = os.kpSkrg.includes(pilihanKlinik);
-                  const officersRole = os.role.includes(pilihanRole);
-                  return officersChoice && officersRole;
-                })
+                .filter(
+                  (os) =>
+                    os.kpSkrg.includes(pilihanKlinik) &&
+                    os.role.includes(pilihanRole)
+                )
                 .map((o, index) => (
                   <tr key={index + 1}>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -123,8 +123,14 @@ export default function Pegawai(props) {
                         {o.tempatBertugasSebelumIni.length > 0 && (
                           <FaInfoCircle
                             className='ml-2 text-md text-userBlack'
-                            onMouseEnter={() => props.setShowInfo(true, index)}
-                            onMouseLeave={() => props.setShowInfo(false)}
+                            onMouseEnter={() => {
+                              props.setShowInfo(true);
+                              props.setDataIndex(index);
+                            }}
+                            onMouseLeave={() => {
+                              props.setShowInfo(false);
+                              props.setDataIndex(null);
+                            }}
                             onMouseMove={(e) => {
                               setPos({ x: e.clientX, y: e.clientY });
                             }}
@@ -137,18 +143,11 @@ export default function Pegawai(props) {
                             }`}
                             style={{
                               left: pos.x,
-                              bottom: pos.y - 10,
+                              bottom: pos.y,
                             }}
                           >
-                            <div
-                              className={styles.box}
-                              style={{
-                                height: 'auto',
-                                width: 'auto',
-                                padding: '5px',
-                              }}
-                            >
-                              <div className='flex justify-center bg-adminWhite'>
+                            <div className='bg-adminWhite rounded-md shadow-md'>
+                              <div className='flex justify-center'>
                                 <h2 className='font-mono'>
                                   Tempat Bertugas Sebelum Ini:{' '}
                                   {o.tempatBertugasSebelumIni.map(
