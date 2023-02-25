@@ -16206,7 +16206,7 @@ const getParamsPgPro = (payload) => {
 
   const byIndividu = () => {
     let param = {
-      tarikhKedatangan: dateModifier(payload),
+      tarikhMula: dateModifier(payload),
       promosiIndividu: true,
       createdByMdcMdtb: pilihanIndividu,
     };
@@ -16215,7 +16215,7 @@ const getParamsPgPro = (payload) => {
 
   const byKp = () => {
     let param = {
-      tarikhKedatangan: dateModifier(payload),
+      tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByKodFasiliti: klinik,
     };
@@ -16224,7 +16224,7 @@ const getParamsPgPro = (payload) => {
 
   const byDaerah = () => {
     return {
-      tarikhKedatangan: dateModifier(payload),
+      tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
@@ -16233,7 +16233,7 @@ const getParamsPgPro = (payload) => {
 
   const byNegeri = () => {
     return {
-      tarikhKedatangan: dateModifier(payload),
+      tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByNegeri: negeri,
     };
