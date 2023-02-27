@@ -2,7 +2,7 @@ describe('Load Pendaftaran Login Page', () => {
   it('Successfully load /pendaftaran', () => {
     cy.visit(Cypress.env('GIRETCY_BASE_URL'));
     cy.get('[data-cy="klinik"]').click();
-    cy.get('[data-cy="pendaftaran"').click();
+    cy.get('[data-cy="pendaftaran"]').click();
     cy.url().should('contain', '/pendaftaran');
   });
 });
