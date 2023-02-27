@@ -4,9 +4,10 @@ describe('Display after login for Pentadbir Negeri', () => {
       onBeforeLoad: function (window) {
         window.localStorage.setItem(
           'adminToken',
-          Cypress.env('adminToken_negeri')
+          Cypress.env('ADMINTOKEN_NEGERI')
         );
       },
     });
+    cy.get('[data-cy="header"]').should('contain', 'NEGERI');
   });
 });
