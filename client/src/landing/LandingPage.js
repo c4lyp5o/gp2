@@ -148,6 +148,7 @@ function LandingPage() {
                     setShowKlinikSubMenu(!showKlinikSubMenu);
                   }}
                   className='flex items-center justify-center rounded-md shadow-md p-3 m-1 bg-user3 hover:bg-user2 hover:text-userWhite transition-all hover:cursor-pointer'
+                  data-cy='klinik'
                 >
                   <span>Klinik</span>
                   <span className='ml-10'>
@@ -166,6 +167,7 @@ function LandingPage() {
                   <Link
                     to='/pendaftaran'
                     className='grid bg-kaunter2 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-kaunter1 hover:text-kaunterWhite transition-all'
+                    data-cy='pendaftaran'
                   >
                     Pendaftaran
                   </Link>
