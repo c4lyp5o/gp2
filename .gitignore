@@ -10,6 +10,11 @@ graphql.config.json
 # logs file
 /logs/*.log
 
+# cypress test screenshots & videos
+/cypress.env.json
+/cypress/screenshots
+/cypress/videos
+
 # postman like test
 /thunder-tests
 /.vscode
