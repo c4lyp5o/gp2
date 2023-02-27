@@ -64,7 +64,7 @@ export default function Header(props) {
               <h1>
                 PENTADBIR{' '}
                 {props.loginInfo && (
-                  <div className='inline-flex'>
+                  <div className='inline-flex' data-cy='header'>
                     {props.loginInfo.accountType !== 'kpUser' ? (
                       <>
                         {props.loginInfo.accountType === 'daerahSuperadmin' && (
