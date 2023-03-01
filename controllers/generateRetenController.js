@@ -12,7 +12,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
-const { logger } = require('../logs/logger');
+const { logger, penjanaanRetenLogger } = require('../logs/logger');
 
 const borderStyle = {
   top: { style: 'thin' },
@@ -383,6 +383,13 @@ const downloader = async (req, res, callback) => {
   if (excelFile === 'No data found') {
     return callback('No data found');
   }
+  penjanaanRetenLogger.info(
+    `[penjanaanReten] ${username} menjana ${jenisReten} untuk ${
+      klinik === 'all' ? 'semua klinik' : klinik
+    }${daerah === 'all' ? '/semua daerah' : `/${daerah}`}${
+      negeri === 'all' ? '/semua negeri' : `/${negeri}`
+    }`
+  );
   return callback(null, excelFile);
 };
 
