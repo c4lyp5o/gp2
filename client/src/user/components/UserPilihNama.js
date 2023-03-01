@@ -99,6 +99,7 @@ function UserPilihNama() {
             ref={pilihanOperator}
             className='mt-5 w-2/3 leading-7 px-3 py-1 capitalize ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md hover:cursor-pointer'
             required
+            data-cy='pilihan-operator'
           >
             <option value=''>Pilih nama pengguna..</option>
             {listPilihNama.map((singlePerson, index) => {
@@ -120,6 +121,7 @@ function UserPilihNama() {
             type='text'
             required
             className='appearance-none leading-7 py-1 px-3 ml-3 ring-2 w-1/4 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+            data-cy='no-MDC-MDTB'
           />
           <br />
           <br />
@@ -140,6 +142,7 @@ function UserPilihNama() {
           <button
             type='submit'
             className='capitalize bg-user3 text-userWhite rounded-md shadow-xl px-5 py-2 hover:bg-user1 transition-all'
+            data-cy='pilih-operator-button'
           >
             pilih
           </button>
