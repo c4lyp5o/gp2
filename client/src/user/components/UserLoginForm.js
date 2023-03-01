@@ -114,6 +114,7 @@ function UserLoginForm() {
                 setPilihanNegeri(e.target.value);
               }}
               className='w-full leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+              data-cy='negeri'
             >
               <option value=''></option>
               <option value='Johor'>Johor</option>
@@ -149,6 +150,7 @@ function UserLoginForm() {
                   setPilihanDaerah(e.target.value);
                 }}
                 className='w-full leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                data-cy='daerah'
               >
                 <option value=''></option>
                 {listDaerah.map((d) => {
@@ -175,6 +177,7 @@ function UserLoginForm() {
                   setPilihanKlinik(e.target.value);
                 }}
                 className='w-full leading-7 px-3 py-1 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
+                data-cy='klinik'
               >
                 <option value=''></option>
                 {listKlinik.map((k) => {
@@ -199,6 +202,7 @@ function UserLoginForm() {
                 name='password'
                 onChange={(e) => setPassword(e.target.value)}
                 required
+                data-cy='password'
               />
               <label
                 htmlFor='password'
@@ -266,6 +270,7 @@ function UserLoginForm() {
             <button
               type='submit'
               className='order-first lg:order-last capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
+              data-cy='submit'
             >
               log masuk
             </button>
