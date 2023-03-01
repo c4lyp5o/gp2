@@ -149,7 +149,7 @@ export default function AdminCenterStage(props) {
             )}
           </h1>
         ) : (
-          <h1>Selamat datang, BIG BOSS</h1>
+          <h1 data-cy='big-boss'>Selamat datang, BIG BOSS</h1>
         )}
         <p>Hari ini {moment(new Date()).format('DD/MM/YYYY')}</p>
       </div>
