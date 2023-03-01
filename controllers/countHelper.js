@@ -16384,11 +16384,15 @@ const getParamsBp = (payload, kaum, jantina) => {
   const { klinik, daerah, negeri } = payload;
   //
   let theSex = jantina === 'l' ? 'lelaki' : 'perempuan';
+  let dayak;
+  if (kaum === 'dayak') {
+    kaum = { $in: ['iban', 'bidayuh'] };
+  }
 
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16402,7 +16406,7 @@ const getParamsBp = (payload, kaum, jantina) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16415,7 +16419,7 @@ const getParamsBp = (payload, kaum, jantina) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16427,7 +16431,7 @@ const getParamsBp = (payload, kaum, jantina) => {
   const satuMalaysia = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
