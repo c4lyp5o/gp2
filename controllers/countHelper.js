@@ -6,7 +6,7 @@ const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
 const MediaSosial = require('../models/MediaSosial');
-const { retenLogger } = require('../logs/logger');
+const { errorRetenLogger } = require('../logs/logger');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
@@ -958,7 +958,7 @@ const countPG211A = async (payload) => {
     }
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -1768,7 +1768,7 @@ const countPG211C = async (payload) => {
     }
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -3447,7 +3447,7 @@ const countPG206 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -5333,7 +5333,7 @@ const countPG207 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -5948,7 +5948,7 @@ const countPGPR201Baru = async (payload) => {
     }
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -7107,7 +7107,7 @@ const countPG201 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -7910,7 +7910,7 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -9017,7 +9017,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -10064,7 +10064,7 @@ const countPG201PindSatu2022 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -11992,7 +11992,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -12508,7 +12508,7 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -12612,7 +12612,7 @@ const countAdHocQuery = async (
     }
     return query;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -12783,7 +12783,7 @@ const countPGPro01 = async (payload) => {
     const data = await Promosi.aggregate(pipeline);
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -13364,7 +13364,7 @@ const countPGPro01Combined = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -13611,7 +13611,7 @@ const countGender = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -13974,7 +13974,7 @@ const countMasa = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -14262,7 +14262,7 @@ const countBp = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -14679,7 +14679,7 @@ const countBPE = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -15658,7 +15658,7 @@ const countPG201P2 = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
