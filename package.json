@@ -50,8 +50,8 @@
     "speakeasy": "^2.0.0"
   },
   "devDependencies": {
-    "concurrently": "^7.1.0",
+    "concurrently": "^7.6.0",
     "cypress": "^12.7.0",
-    "nodemon": "^2.0.15"
+    "nodemon": "^2.0.20"
   }
 }
