@@ -4745,6 +4745,30 @@ const makePG201P2 = async (payload) => {
     return err;
   }
 };
+const makeKEPP = async (payload) => {
+  logger.info('[generateRetenController] makeKEPP');
+  try {
+    let data;
+    let fromEtl = 'false';
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countKEPP(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    return data;
+  } catch (err) {
+    logger.error(err);
+    return err;
+  }
+};
 
 // debug
 exports.debug = async (req, res) => {
