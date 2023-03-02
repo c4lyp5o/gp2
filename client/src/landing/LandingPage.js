@@ -174,6 +174,7 @@ function LandingPage() {
                   <Link
                     to='/pengguna'
                     className='bg-user4 rounded-md shadow-md p-3 my-0.5 mx-1 hover:bg-user3 hover:text-userWhite transition-all'
+                    data-cy='pengguna'
                   >
                     Pengguna
                   </Link>

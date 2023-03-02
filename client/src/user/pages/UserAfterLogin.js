@@ -12,10 +12,10 @@ import UserUmum from '../components/UserUmum';
 import UserFormUmumHeader from '../components/UserFormUmumHeader';
 
 import UserSenaraiSekolah from '../components/UserSenaraiSekolah';
-import UserSekolah from '../components/UserSekolah';
-import UserFormSekolahPemeriksaan from '../components/form-sekolah/UserFormSekolahPemeriksaan';
-import UserFormSekolahRawatan from '../components/form-sekolah/UserFormSekolahRawatan';
-import UserFormSekolahKOTAK from '../components/form-sekolah/UserFormSekolahKOTAK';
+import UserSekolah from '../components/sekolah/UserSekolah';
+import UserFormSekolahPemeriksaan from '../components/sekolah/form-sekolah/UserFormSekolahPemeriksaan';
+import UserFormSekolahRawatan from '../components/sekolah/form-sekolah/UserFormSekolahRawatan';
+import UserFormSekolahKOTAK from '../components/sekolah/form-sekolah/UserFormSekolahKOTAK';
 
 import UserPromosi from '../components/UserPromosi';
 import UserFormPromosi from '../components/form-promosi/UserFormPromosi';
