@@ -7,6 +7,10 @@ on:
 jobs:
   cypress-test:
     runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        containers: [1, 2, 3]
     steps:
       # ---
       - name: Checkout
@@ -29,6 +33,16 @@ jobs:
       - run: CI=false npm run build-client
       # ---
       - name: Cypress run test
-        uses: cypress-io/github-action@v5.0.9 # use the explicit version number
+        uses: cypress-io/github-action@v5
         with:
           start: npm start
+          wait-on: 'http://localhost:5000'
+          config-file: cypress.config.js
+          record: true
+          parallel: true
+          group: 'Cypress test Gi-Ret 2.0'
+        env:
+          CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+          COMMIT_INFO_MESSAGE: ${{ github.event.pull_request.title }}
