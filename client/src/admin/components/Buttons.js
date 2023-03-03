@@ -69,6 +69,7 @@ export function SubmitButton({ func, level }) {
           : null
       }
       `}
+      data-cy='submit-button-pentadbir'
     >
       {func === 'add' ? 'Tambah Maklumat' : null}
       {func === 'del' ? 'Hapus Maklumat' : null}
