@@ -183,6 +183,7 @@ function LandingPage() {
               <Link
                 to='/pentadbir'
                 className='hidden lg:grid bg-admin3 rounded-md shadow-md p-3 h-max w-56 ml-auto mt-1 hover:bg-admin2 hover:text-userWhite text-center justify-center transition-all'
+                data-cy='pentadbir'
               >
                 Pentadbir
               </Link>
