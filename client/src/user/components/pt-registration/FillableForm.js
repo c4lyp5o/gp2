@@ -66,8 +66,8 @@ export default function FillableForm({
   const [waktuSampai, setWaktuSampai] = useState('');
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
-  const [oncall, setOncall] = useState(false);
   const [waktuTemujanji, setWaktuTemujanji] = useState('');
+  const [oncall, setOncall] = useState(false);
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
