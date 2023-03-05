@@ -2826,93 +2826,6 @@ export default function FillableForm({
                         </div>
                       </div>
                     </article>
-                    {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <p className='font-semibold col-span-2'>
-                        penyampaian perkhidmatan
-                      </p>
-                      <div className='flex items-center flex-row pl-5 '>
-                        <input
-                          type='checkbox'
-                          id='kp-bergerak-maklumat-lanjut-umum'
-                          name='kp-bergerak-maklumat-lanjut-umum'
-                          checked={kpBergerak ? true : false}
-                          onChange={() => {
-                            setKpBergerak(!kpBergerak);
-                          }}
-                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='kp-bergerak-maklumat-lanjut-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          KP bergerak
-                        </label>
-                        <select
-                          name='label-kp-bergerak-maklumat-lanjut-umum'
-                          id='label-kp-bergerak-maklumat-lanjut-umum'
-                          value={labelKpBergerak}
-                          onChange={(e) => {
-                            setLabelKpBergerak(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                        >
-                          <option value=''>Label</option>
-                          <option value='apa??'>Apa?</option>
-                        </select>
-                      </div>
-                      <div className='flex items-center flex-row pl-5 '>
-                        <input
-                          type='checkbox'
-                          id='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                          name='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                          checked={pasukanPergigianBergerak ? true : false}
-                          onChange={() => {
-                            setPasukanPergigianBergerak(
-                              !pasukanPergigianBergerak
-                            );
-                          }}
-                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          pasukan pergigian bergerak
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5 '>
-                        <input
-                          type='checkbox'
-                          id='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          name='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          checked={makmalPergigianBergerak ? true : false}
-                          onChange={() => {
-                            setMakmalPergigianBergerak(
-                              !makmalPergigianBergerak
-                            );
-                          }}
-                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          makmal pergigian bergerak
-                        </label>
-                        <select
-                          name='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          id='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          value={labelMakmalPergigianBergerak}
-                          onChange={(e) => {
-                            setLabelMakmalPergigianBergerak(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                        >
-                          <option value=''>Label</option>
-                          <option value='apa??'>Apa?</option>
-                        </select>
-                      </div>
-                    </article> */}
                   </>
                 )}
                 {jenisFasiliti === 'kk-kd' && (
@@ -3023,7 +2936,7 @@ export default function FillableForm({
                     </select>
                   </div>
                 )}
-                {jenisFasiliti === 'ipt-kolej' && (
+                {/* {jenisFasiliti === 'ipt-kolej' && (
                   <div className='row-span-3'>
                     <article className='grid grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
                       <div>
@@ -3322,8 +3235,8 @@ export default function FillableForm({
                       </div>
                     </article>
                   </div>
-                )}
-                {jenisFasiliti === 'insitusi-warga-emas' && (
+                )} */}
+                {/* {jenisFasiliti === 'insitusi-warga-emas' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <div>
                       <p className='font-semibold'>institusi warga emas</p>
@@ -3402,8 +3315,8 @@ export default function FillableForm({
                       </div>
                     </div>
                   </article>
-                )}
-                {jenisFasiliti === 'institusi-oku' && (
+                )} */}
+                {/* {jenisFasiliti === 'institusi-oku' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <div>
                       <p className='font-semibold'>institusi OKU</p>
@@ -3455,8 +3368,8 @@ export default function FillableForm({
                       </div>
                     </div>
                   </article>
-                )}
-                {jenisFasiliti === 'kampung-angkat' && (
+                )} */}
+                {/* {jenisFasiliti === 'kampung-angkat' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <div>
                       <p className='font-semibold'>KG angkat</p>
@@ -3508,7 +3421,7 @@ export default function FillableForm({
                       </div>
                     </div>
                   </article>
-                )}
+                )} */}
               </div>
               <button
                 onClick={() => {
