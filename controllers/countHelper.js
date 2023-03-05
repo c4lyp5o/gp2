@@ -14095,13 +14095,7 @@ const countBp = async (payload) => {
     };
   };
   //
-  let match_stage_melayu = [];
-  let match_stage_cina = [];
-  let match_stage_india = [];
-  let match_stage_dayak = [];
-  let match_stage_lain = [];
-  //
-  match_stage_melayu = [
+  let match_stage_melayu = [
     umur1829lelaki(payload, 'melayu', 'l'),
     umur3039lelaki(payload, 'melayu', 'l'),
     umur4049lelaki(payload, 'melayu', 'l'),
@@ -14113,7 +14107,7 @@ const countBp = async (payload) => {
     umur5059perempuan(payload, 'melayu', 'p'),
     umur60keatasperempuan(payload, 'melayu', 'p'),
   ];
-  match_stage_cina = [
+  let match_stage_cina = [
     umur1829lelaki(payload, 'cina', 'l'),
     umur3039lelaki(payload, 'cina', 'l'),
     umur4049lelaki(payload, 'cina', 'l'),
@@ -14125,7 +14119,7 @@ const countBp = async (payload) => {
     umur5059perempuan(payload, 'cina', 'p'),
     umur60keatasperempuan(payload, 'cina', 'p'),
   ];
-  match_stage_india = [
+  let match_stage_india = [
     umur1829lelaki(payload, 'india', 'l'),
     umur3039lelaki(payload, 'india', 'l'),
     umur4049lelaki(payload, 'india', 'l'),
@@ -14137,19 +14131,43 @@ const countBp = async (payload) => {
     umur5059perempuan(payload, 'india', 'p'),
     umur60keatasperempuan(payload, 'india', 'p'),
   ];
-  match_stage_dayak = [
-    umur1829lelaki(payload, 'dayak', 'l'),
-    umur3039lelaki(payload, 'dayak', 'l'),
-    umur4049lelaki(payload, 'dayak', 'l'),
-    umur5059lelaki(payload, 'dayak', 'l'),
-    umur60keataslelaki(payload, 'dayak', 'l'),
-    umur1829perempuan(payload, 'dayak', 'p'),
-    umur3039perempuan(payload, 'dayak', 'p'),
-    umur4049perempuan(payload, 'dayak', 'p'),
-    umur5059perempuan(payload, 'dayak', 'p'),
-    umur60keatasperempuan(payload, 'dayak', 'p'),
+  let match_stage_bumiputeraSabah = [
+    umur1829lelaki(payload, 'bumiputeraSabah', 'l'),
+    umur3039lelaki(payload, 'bumiputeraSabah', 'l'),
+    umur4049lelaki(payload, 'bumiputeraSabah', 'l'),
+    umur5059lelaki(payload, 'bumiputeraSabah', 'l'),
+    umur60keataslelaki(payload, 'bumiputeraSabah', 'l'),
+    umur1829perempuan(payload, 'bumiputeraSabah', 'p'),
+    umur3039perempuan(payload, 'bumiputeraSabah', 'p'),
+    umur4049perempuan(payload, 'bumiputeraSabah', 'p'),
+    umur5059perempuan(payload, 'bumiputeraSabah', 'p'),
+    umur60keatasperempuan(payload, 'bumiputeraSabah', 'p'),
   ];
-  match_stage_lain = [
+  let match_stage_bumiputeraSarawak = [
+    umur1829lelaki(payload, 'bumiputeraSarawak', 'l'),
+    umur3039lelaki(payload, 'bumiputeraSarawak', 'l'),
+    umur4049lelaki(payload, 'bumiputeraSarawak', 'l'),
+    umur5059lelaki(payload, 'bumiputeraSarawak', 'l'),
+    umur60keataslelaki(payload, 'bumiputeraSarawak', 'l'),
+    umur1829perempuan(payload, 'bumiputeraSarawak', 'p'),
+    umur3039perempuan(payload, 'bumiputeraSarawak', 'p'),
+    umur4049perempuan(payload, 'bumiputeraSarawak', 'p'),
+    umur5059perempuan(payload, 'bumiputeraSarawak', 'p'),
+    umur60keatasperempuan(payload, 'bumiputeraSarawak', 'p'),
+  ];
+  let match_stage_orangAsliSemenanjung = [
+    umur1829lelaki(payload, 'oas', 'l'),
+    umur3039lelaki(payload, 'oas', 'l'),
+    umur4049lelaki(payload, 'oas', 'l'),
+    umur5059lelaki(payload, 'oas', 'l'),
+    umur60keataslelaki(payload, 'oas', 'l'),
+    umur1829perempuan(payload, 'oas', 'p'),
+    umur3039perempuan(payload, 'oas', 'p'),
+    umur4049perempuan(payload, 'oas', 'p'),
+    umur5059perempuan(payload, 'oas', 'p'),
+    umur60keatasperempuan(payload, 'oas', 'p'),
+  ];
+  let match_stage_lain = [
     umur1829lelaki(payload, 'lain-lain', 'l'),
     umur3039lelaki(payload, 'lain-lain', 'l'),
     umur4049lelaki(payload, 'lain-lain', 'l'),
@@ -14184,7 +14202,6 @@ const countBp = async (payload) => {
           $cond: [
             {
               $eq: ['$sejarahDarahTinggi', true],
-              // $eq: ['$jantina', 'lelaki'],
             },
             1,
             0,
@@ -14196,7 +14213,6 @@ const countBp = async (payload) => {
           $cond: [
             {
               $eq: ['$sejarahDarahTinggi', false],
-              // $eq: ['$jantina', 'lelaki'],
             },
             1,
             0,
@@ -14221,7 +14237,9 @@ const countBp = async (payload) => {
   let melayu = [];
   let cina = [];
   let india = [];
-  let dayak = [];
+  let bumiputeraSabah = [];
+  let bumiputeraSarawak = [];
+  let orangAsliSemenanjung = [];
   let lain2 = [];
 
   try {
@@ -14243,12 +14261,26 @@ const countBp = async (payload) => {
       ]);
       india.push(dataIndia);
     }
-    for (let i = 0; i < match_stage_dayak.length; i++) {
-      const dataDayak = await Umum.aggregate([
-        match_stage_dayak[i],
+    for (let i = 0; i < match_stage_bumiputeraSabah.length; i++) {
+      const dataBumiputeraSabah = await Umum.aggregate([
+        match_stage_bumiputeraSabah[i],
         group_stage,
       ]);
-      dayak.push(dataDayak);
+      bumiputeraSabah.push(dataBumiputeraSabah);
+    }
+    for (let i = 0; i < match_stage_bumiputeraSarawak.length; i++) {
+      const dataBumiputeraSarawak = await Umum.aggregate([
+        match_stage_bumiputeraSarawak[i],
+        group_stage,
+      ]);
+      bumiputeraSarawak.push(dataBumiputeraSarawak);
+    }
+    for (let i = 0; i < match_stage_orangAsliSemenanjung.length; i++) {
+      const dataOrangAsliSemenanjung = await Umum.aggregate([
+        match_stage_orangAsliSemenanjung[i],
+        group_stage,
+      ]);
+      orangAsliSemenanjung.push(dataOrangAsliSemenanjung);
     }
     for (let i = 0; i < match_stage_lain.length; i++) {
       const dataLain = await Umum.aggregate([match_stage_lain[i], group_stage]);
@@ -14258,7 +14290,9 @@ const countBp = async (payload) => {
     bigData.push({ melayu });
     bigData.push({ cina });
     bigData.push({ india });
-    bigData.push({ dayak });
+    bigData.push({ bumiputeraSabah });
+    bigData.push({ bumiputeraSarawak });
+    bigData.push({ orangAsliSemenanjung });
     bigData.push({ lain2 });
 
     return bigData;
@@ -16504,15 +16538,50 @@ const getParamsBp = (payload, kaum, jantina) => {
   const { klinik, daerah, negeri } = payload;
   //
   let theSex = jantina === 'l' ? 'lelaki' : 'perempuan';
-  let dayak;
-  if (kaum === 'dayak') {
-    kaum = { $in: ['iban', 'bidayuh'] };
+  let pilihanKaum;
+
+  switch (kaum) {
+    case 'melayu':
+      pilihanKaum = { $eq: 'melayu' };
+      break;
+    case 'cina':
+      pilihanKaum = { $eq: 'cina' };
+      break;
+    case 'india':
+      pilihanKaum = { $eq: 'india' };
+      break;
+    case 'bumiputeraSabah':
+      pilihanKaum = {
+        $in: ['bajau', 'dusun', 'kadazan', 'murut', 'bumiputera sabah lain'],
+      };
+      break;
+    case 'bumiputeraSarawak':
+      pilihanKaum = {
+        $in: [
+          'melanau',
+          'kedayan',
+          'iban',
+          'bidayuh',
+          'penan',
+          'bumiputera sarawak lain',
+        ],
+      };
+      break;
+    case 'oas':
+      pilihanKaum = { $eq: 'orang asli semenanjung' };
+      break;
+    case 'lain-lain':
+      pilihanKaum = { $eq: 'lain-lain' };
+      break;
+    default:
+      console.log(`bp nope ${kaum}`);
+      break;
   }
 
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
+      kumpulanEtnik: pilihanKaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16526,7 +16595,7 @@ const getParamsBp = (payload, kaum, jantina) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
+      kumpulanEtnik: pilihanKaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16539,7 +16608,7 @@ const getParamsBp = (payload, kaum, jantina) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
+      kumpulanEtnik: pilihanKaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16551,7 +16620,7 @@ const getParamsBp = (payload, kaum, jantina) => {
   const satuMalaysia = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
+      kumpulanEtnik: pilihanKaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
