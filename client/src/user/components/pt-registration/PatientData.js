@@ -332,7 +332,7 @@ export default function PatientData({
         <div className='py-3'>
           <div className='grid grid-cols-1 lg:grid-cols-2'>
             <div className='font-semibold text-user6 mt-2 ml-3 lg:mr-auto'>
-              <p className='flex flex-row'>
+              <p className='flex flex-row' data-cy='jenis-fasiliti'>
                 Fasiliti: {Dictionary[jenisFasiliti]}
               </p>
               {jenisFasiliti === 'projek-komuniti-lain' ? (
@@ -379,6 +379,7 @@ export default function PatientData({
                 type='button'
                 className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
                 onClick={() => setShowForm(true)}
+                data-cy='daftar-pesakit'
               >
                 Daftar Pesakit
               </button>
@@ -394,6 +395,7 @@ export default function PatientData({
               type='button'
               className='px-6 py-2.5 m-1 w-60 bg-kaunter3 hover:bg-kaunter2 font-medium text-xs uppercase rounded-md shadow-md transition-all'
               onClick={() => setShowForm(true)}
+              data-cy='daftar-pesakit'
             >
               Daftar Pesakit
             </button>
@@ -526,6 +528,7 @@ export default function PatientData({
                                   setEditId(p._id);
                                   setShowForm(true);
                                 }}
+                                data-cy='kemaskini'
                               >
                                 Kemaskini
                               </button>
