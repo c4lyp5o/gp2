@@ -14,7 +14,11 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
+import './commands';
+
+// modul pendaftaran
+import './Pendaftaran/kp';
+import './Pendaftaran/kkiakd';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
