@@ -7,6 +7,5 @@ module.exports = defineConfig({
     },
     viewportWidth: 1366,
     viewportHeight: 768,
-    experimentalRunAllSpecs: true,
   },
 });
