@@ -977,6 +977,7 @@ export default function FillableForm({
       setNoBayaran2('');
       setNoResit2('');
       setNoBayaran3('');
+      setNoResit3('');
     }
   }, [statusPesara]);
 
@@ -1287,6 +1288,7 @@ export default function FillableForm({
       <button
         type='submit'
         className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+        data-cy='submit-pendaftaran'
       >
         Tambah Data
       </button>
@@ -1314,7 +1316,10 @@ export default function FillableForm({
         {(confirm) => (
           <>
             <form onSubmit={confirm(handleSubmit)}>
-              <h1 className='bg-kaunter3 font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md'>
+              <h1
+                className='bg-kaunter3 font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md'
+                data-cy='fillable-form-header'
+              >
                 pendaftaran {Dictionary[jenisFasiliti]}
                 <br />
                 {namaProgram ? `${namaProgram}` : null}
@@ -1495,6 +1500,7 @@ export default function FillableForm({
                           setJenisIc(e.target.value);
                         }}
                         className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
+                        data-cy='jenis-pengenalan'
                       >
                         <option value=''>SILA PILIH..</option>
                         <option value='mykad-mykid'>MyKad / MyKid</option>
@@ -1532,6 +1538,7 @@ export default function FillableForm({
                         }}
                         placeholder='901223015432'
                         className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                        data-cy='ic-mykad-mykid'
                       />
                     )}
                     {jenisIc !== 'mykad-mykid' &&
@@ -1556,6 +1563,7 @@ export default function FillableForm({
                               : 'Isi pengenalan diri..'
                           }
                           className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                          data-cy='not-ic-mykad-mykid'
                         />
                       )}
                   </div>
@@ -1601,6 +1609,7 @@ export default function FillableForm({
                                 nomborTelefon: e.target.value,
                               });
                             }}
+                            data-cy='nombor-telefon'
                           />
                           <span>
                             <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
@@ -1621,6 +1630,7 @@ export default function FillableForm({
                             onClick={() => {
                               setTambahTelefon(true);
                             }}
+                            data-cy='tambah-telefon'
                           />
                         )}
                       </span>
@@ -1648,6 +1658,7 @@ export default function FillableForm({
                                 nomborTelefon2: e.target.value,
                               });
                             }}
+                            data-cy='nombor-telefon2'
                           />
                           <span>
                             <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
@@ -1657,7 +1668,7 @@ export default function FillableForm({
                     )}
                     <div className='flex flex-col justify-start'>
                       <label
-                        htmlFor='email-mysj'
+                        htmlFor='email'
                         className='mr-4 flex text-left flex-row text-xs md:text-sm'
                       >
                         emel :
@@ -1666,8 +1677,8 @@ export default function FillableForm({
                         <input
                           value={emel}
                           type='email'
-                          name='email-mysj'
-                          id='email-mysj'
+                          name='email'
+                          id='email'
                           className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
                           onChange={(e) => {
                             setEmel(e.target.value);
@@ -1676,6 +1687,7 @@ export default function FillableForm({
                               emel: e.target.value,
                             });
                           }}
+                          data-cy='email'
                         />
                         <span>
                           <FaEnvelope className='absolute top-3 right-2 text-kaunter3' />
@@ -1711,6 +1723,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      data-cy='nama-umum'
                     />
                     <span>
                       <FaUserInjured className='absolute top-3 right-2 text-kaunter3' />
@@ -1813,6 +1826,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      data-cy='jantina'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='lelaki'>Lelaki</option>
@@ -1838,8 +1852,8 @@ export default function FillableForm({
                           ? false
                           : true
                       }
-                      name='kumpulanEtnik'
-                      id='kumpulanEtnik'
+                      name='kumpulan-etnik'
+                      id='kumpulan-etnik'
                       value={kumpulanEtnik}
                       onChange={(e) => {
                         setKumpulanEtnik(e.target.value);
@@ -1849,6 +1863,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      data-cy='kumpulan-etnik'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='melayu'>Melayu</option>
@@ -1908,6 +1923,7 @@ export default function FillableForm({
                       type='text'
                       name='alamat'
                       className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='alamat'
                     />
                     <span>
                       <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
@@ -1940,6 +1956,7 @@ export default function FillableForm({
                       type='text'
                       name='daerah-alamat'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='daerah-alamat'
                     />
                     <span>
                       <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
@@ -1970,6 +1987,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='negeri-alamat'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='johor'>Johor</option>
@@ -2025,6 +2043,7 @@ export default function FillableForm({
                       }}
                       placeholder='62519'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='poskod-alamat'
                     />
                     <span>
                       <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
@@ -2084,6 +2103,7 @@ export default function FillableForm({
                                       episodMengandung: e.target.value,
                                     });
                                   }}
+                                  data-cy='episod-mengandung'
                                 >
                                   <option value=''>SILA PILIH..</option>
                                   <option value='1'>1</option>
@@ -2256,6 +2276,7 @@ export default function FillableForm({
                       type='text'
                       name='no-oku'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md mt-2'
+                      data-cy='no-oku'
                     />
                   )}
                 </div>
@@ -2265,8 +2286,8 @@ export default function FillableForm({
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      name='statusPesara'
-                      id='statusPesara'
+                      name='status-pesara'
+                      id='status-pesara'
                       value={statusPesara}
                       onChange={(e) => {
                         setStatusPesara(e.target.value);
@@ -2276,6 +2297,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='status-pesara'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='pesara-kerajaan'>Pesara kerajaan</option>
@@ -2299,6 +2321,7 @@ export default function FillableForm({
                       type='text'
                       name='no-pesara'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md mt-2'
+                      data-cy='no-pesara'
                     />
                   )}
                 </div>
@@ -2308,8 +2331,8 @@ export default function FillableForm({
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      name='rujukDaripada'
-                      id='rujukDaripada'
+                      name='rujuk-daripada'
+                      id='rujuk-daripada'
                       value={rujukDaripada}
                       onChange={(e) => {
                         setRujukDaripada(e.target.value);
@@ -2319,6 +2342,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='rujuk-daripada'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='dalaman'>Dalaman</option>
@@ -2468,6 +2492,7 @@ export default function FillableForm({
                                 });
                               }}
                               className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                              data-cy='no-resit'
                             />
                             <label
                               htmlFor='no-resit'
@@ -2494,6 +2519,7 @@ export default function FillableForm({
                                   onClick={() => {
                                     setTambahBayaran(true);
                                   }}
+                                  data-cy='tambah-bayaran'
                                 />
                               )}
                             </span>
@@ -2551,6 +2577,7 @@ export default function FillableForm({
                                   });
                                 }}
                                 className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                                data-cy='no-resit-2'
                               />
                               <label
                                 htmlFor='no-resit-2'
@@ -2576,6 +2603,7 @@ export default function FillableForm({
                                   onClick={() => {
                                     setTambahBayaran2(true);
                                   }}
+                                  data-cy='tambah-bayaran-2'
                                 />
                               )}
                             </span>
@@ -2629,6 +2657,7 @@ export default function FillableForm({
                                   });
                                 }}
                                 className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                                data-cy='no-resit-3'
                               />
                               <label
                                 htmlFor='no-resit-3'
@@ -2662,6 +2691,7 @@ export default function FillableForm({
                           });
                         }}
                         className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                        data-cy='catatan'
                       />
                       <label
                         htmlFor='catatan'

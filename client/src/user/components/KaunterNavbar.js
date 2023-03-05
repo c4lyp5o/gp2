@@ -190,6 +190,7 @@ function KaunterNavbar() {
                   ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
                   : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
               }
+              data-cy='navbar-kp'
             >
               KLINIK PERGIGIAN
             </NavLink>
@@ -295,6 +296,7 @@ function KaunterNavbar() {
           <button
             className='text-2xl bg-kaunterWhite text-kaunterBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
             onClick={toggleLinks}
+            data-cy='navbar-button-pendaftaran'
           >
             <FaBars />
           </button>
