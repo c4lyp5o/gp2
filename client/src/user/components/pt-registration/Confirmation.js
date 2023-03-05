@@ -336,6 +336,7 @@ const ConfirmModal = ({
                       showDoubleConfirm();
                     }
                   }}
+                  data-cy='submit-confirm-1'
                 >
                   YA
                 </button>
@@ -446,6 +447,7 @@ const ConfirmModal = ({
                 <button
                   type='submit'
                   className='capitalize bg-kaunter1 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all'
+                  data-cy='submit-confirm-2'
                 >
                   YA
                 </button>
