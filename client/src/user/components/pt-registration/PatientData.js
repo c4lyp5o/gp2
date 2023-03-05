@@ -528,6 +528,7 @@ export default function PatientData({
                                   setEditId(p._id);
                                   setShowForm(true);
                                 }}
+                                data-cy='kemaskini'
                               >
                                 Kemaskini
                               </button>
