@@ -33,7 +33,7 @@ ChartJS.register(
   Legend
 );
 
-function DataKlinik({ data }) {
+function DataNegeri({ data }) {
   const options = {
     responsive: true,
     scales: {
@@ -48,7 +48,7 @@ function DataKlinik({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit ke ${data.kp}`,
+        text: `Kedatangan Pesakit di negeri ${data.nama}`,
       },
     },
   };
@@ -72,18 +72,6 @@ function DataKlinik({ data }) {
       <div className='max-w rounded overflow-hidden shadow-lg'>
         <div className='px-6 py-4'>
           <Line data={chartData} options={options} />
-          {/* <p className='underline'>Statistik</p>
-          <p className='text-xs'>
-            Jumlah Pesakit sehingga {new Date().toLocaleDateString()}:{' '}
-            {data.jumlahPt}
-          </p>
-          <p className='text-xs'>Jumlah Pesakit Hari Ini: {data.ptHariIni}</p>
-          <p className='text-xs'>
-            Jumlah Pesakit Minggu Ini: {data.ptMingguIni}
-          </p>
-          <p className='text-xs'>Jumlah Pesakit Bulan Ini: {data.ptBulanIni}</p>
-          <p className='text-xs'>Jumlah Pesakit Baru: {data.ptBaru}</p>
-          <p className='text-xs'>Jumlah Pesakit Ulangan: {data.ptUlangan}</p> */}
         </div>
       </div>
     </div>
@@ -248,13 +236,13 @@ function JanaReten({ data }) {
 export default function Negeri() {
   const [searchParams] = useSearchParams();
   const negeri = searchParams.get('idn');
-  const { toast, getStatsData } = useGlobalAdminAppContext();
+  const { toast, getDetailedData } = useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getStatsData(negeri)
+    getDetailedData({ type: 'negeri', idn: negeri })
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -274,20 +262,10 @@ export default function Negeri() {
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
+        <h1 className='text-2xl font-bold underline'>{negeri}</h1>
         <div className='grid grid-cols-3 gap-2'>
-          hey {negeri}, daerah anda ada {data.length}
-          {data.map((item) => (
-            <div key={item}>
-              <div className='max-w rounded overflow-hidden shadow-lg'>
-                <div className='px-6 py-4'>
-                  <div className='font-bold text-xl mb-2 underline'>{item}</div>
-                </div>
-              </div>
-            </div>
-          ))}
-          {/* <JanaReten data={data} />
           <Statistik data={data} />
-          <DataKlinik data={data} /> */}
+          <DataNegeri data={data} />
         </div>
       </div>
     </>

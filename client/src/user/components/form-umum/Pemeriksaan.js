@@ -1,15 +1,24 @@
 import { useEffect, useState } from 'react';
-import { FaInfoCircle, FaCaretDown, FaClock } from 'react-icons/fa';
+import {
+  FaInfoCircle,
+  FaCaretDown,
+  FaClock,
+  FaCheckCircle,
+  FaTimesCircle,
+} from 'react-icons/fa';
 import moment from 'moment';
 import Datetime from 'react-datetime';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
+
+// import styles from '../../Zazz.module.css';
 
 export default function Pemeriksaan(props) {
   const { dateToday, formatTime, dictionaryJenisFasiliti } =
     useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
+
   let isDisabled = false;
   if (
     props.statusReten === 'telah diisi' ||
@@ -91,6 +100,208 @@ export default function Pemeriksaan(props) {
       props.setPemeriksaanTaskaTadika('');
     }
   }, [props.tidakHadirTaskaTadika]);
+
+  // test table dmfx
+  function DmfxInfoIcon({ statusDmfx }) {
+    const [showDmfxTable, setShowDmfxTable] = useState(false);
+    const [dmfxTablePosition, setDmfxTablePosition] = useState({ x: 0, y: 0 });
+
+    const handleMouseEnter = () => {
+      console.log('enter');
+      setShowDmfxTable(true);
+    };
+
+    const handleMouseLeave = () => {
+      console.log('leave');
+      setShowDmfxTable(false);
+    };
+
+    const handleMouseMove = (event) => {
+      setDmfxTablePosition({ x: event.clientX, y: event.clientY });
+    };
+    return (
+      <>
+        <FaInfoCircle
+          className='text-user6'
+          onMouseEnter={handleMouseEnter}
+          onMouseLeave={handleMouseLeave}
+          onMouseMove={handleMouseMove}
+        />
+        <HoveringTable
+          show={showDmfxTable}
+          position={dmfxTablePosition}
+          patient={statusDmfx}
+        />
+      </>
+    );
+  }
+
+  function HoveringTable({ show, position, patient }) {
+    const data = [
+      {
+        nameDesidus: 'd',
+        valueDesidus: patient.dAdaGigiDesidusPemeriksaanUmum,
+        nameKekal: 'D',
+        valueKekal: patient.dAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'MBK',
+        valueStatus:
+          patient.adaDesidusPemeriksaanUmum === true ? (
+            parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) === 0 &&
+            parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) === 0 &&
+            parseInt(patient.xAdaGigiDesidusPemeriksaanUmum) === 0 &&
+            parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
+              <div className='flex justify-center'>
+                <FaCheckCircle className='text-user7' />
+              </div>
+            ) : (
+              <div className='flex justify-center'>
+                <FaTimesCircle className='text-user9' />
+              </div>
+            )
+          ) : (
+            <div className='flex justify-center'>-</div>
+          ),
+      },
+      {
+        nameDesidus: 'f',
+        valueDesidus: patient.fAdaGigiDesidusPemeriksaanUmum,
+        nameKekal: 'M',
+        valueKekal: patient.mAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'BK',
+        valueStatus:
+          patient.adaKekalPemeriksaanUmum === true ? (
+            parseInt(patient.dAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.mAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.fAdaGigiKekalPemeriksaanUmum) === 0 &&
+            parseInt(patient.xAdaGigiKekalPemeriksaanUmum) === 0 ? (
+              <div className='flex justify-center'>
+                <FaCheckCircle className='text-user7' />
+              </div>
+            ) : (
+              <div className='flex justify-center'>
+                <FaTimesCircle className='text-user9' />
+              </div>
+            )
+          ) : (
+            <div className='flex justify-center'>-</div>
+          ),
+      },
+      {
+        nameDesidus: 'x',
+        valueDesidus: patient.xAdaGigiDesidusPemeriksaanUmum,
+        nameKekal: 'F',
+        valueKekal: patient.fAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'MBG',
+        valueStatus:
+          parseInt(patient.skorGisMulutOralHygienePemeriksaanUmum) === 0 ? (
+            <div className='flex justify-center'>
+              <FaCheckCircle className='text-user7' />
+            </div>
+          ) : (
+            <div className='flex justify-center'>
+              <FaTimesCircle className='text-user9' />
+            </div>
+          ),
+      },
+      {
+        nameDesidus: 'dfx',
+        valueDesidus:
+          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
+        nameKekal: 'X',
+        valueKekal: patient.xAdaGigiKekalPemeriksaanUmum,
+        nameStatus: 'TPR',
+        valueStatus: patient.tidakPerluRawatanPemeriksaanUmum ? (
+          <div className='flex justify-center'>
+            <FaCheckCircle className='text-user7' />
+          </div>
+        ) : (
+          <div className='flex justify-center'>
+            <FaTimesCircle className='text-user9' />
+          </div>
+        ),
+      },
+      {
+        nameKekal: 'DMFX',
+        valueKekal:
+          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
+        nameStatus: 'TSL',
+        valueStatus: patient.toothSurfaceLossTraumaPemeriksaanUmum ? (
+          <div className='flex justify-center'>
+            <FaCheckCircle className='text-user7' />
+          </div>
+        ) : (
+          <div className='flex justify-center'>
+            <FaTimesCircle className='text-user9' />
+          </div>
+        ),
+      },
+      {
+        nameKekal: 'X + M',
+        valueKekal:
+          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.mAdaGigiKekalPemeriksaanUmum),
+      },
+      {
+        nameKekal: 'E',
+        valueKekal: patient.eAdaGigiKekalPemeriksaanUmum,
+      },
+    ];
+
+    return (
+      <div
+        className={`absolute shadow-md p-2 left-16 ${
+          show ? 'block' : 'hidden'
+        }`}
+      >
+        <div className='z-20 w-52 h-36 border-2 '>
+          <div className='flex justify-center'>
+            <table className='bg-adminWhite z-30 rounded-t-md shadow-md max-w-full max-h-full overflow-y-auto'>
+              <thead>
+                <tr>
+                  <th className='px-2 py-1 text-left text-xs'>Gigi Desidus</th>
+                  <th className='px-2 py-1 text-left text-xs'>Jumlah</th>
+                  <th className='px-2 py-1 text-left text-xs'>Gigi Kekal</th>
+                  <th className='px-2 py-1 text-left text-xs'>Jumlah</th>
+                  <th className='px-2 py-1 text-left text-xs'>Status</th>
+                </tr>
+              </thead>
+              <tbody>
+                {data.map((item, index) => (
+                  <tr key={index}>
+                    <td className='border px-2 py-1 text-xs normal-case'>
+                      {item.nameDesidus}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.valueDesidus}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.nameKekal}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.valueKekal}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.nameStatus}
+                    </td>
+                    <td className='border px-2 py-1 text-xs'>
+                      {item.valueStatus}
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+    );
+  }
 
   return (
     <>
@@ -415,13 +626,18 @@ export default function Pemeriksaan(props) {
           ) : null}
           <section
             className={` grid mt-3 mb-3 w-full ${
-              props.singlePersonUmum.kedatangan === 'baru-kedatangan'
+              props.singlePersonUmum.kedatangan === 'baru-kedatangan' ||
+              (props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
+                props.singlePersonUmum.checkupEnabled)
                 ? 'col-span-2 grid-cols-1 lg:grid-cols-2 gap-2'
                 : 'col-span-2 grid-cols-1'
             }`}
           >
-            {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-            props.statusKehadiran === false ? (
+            {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+              props.statusKehadiran === false) ||
+            (props.statusKehadiran === false &&
+              props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
+              props.singlePersonUmum.checkupEnabled) ? (
               <div className='grid gap-2 auto-rows-min'>
                 {props.jenisFasiliti === 'taska-tadika' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -632,11 +848,19 @@ export default function Pemeriksaan(props) {
                           Tidak
                         </label>
                       </div>
+                      {props.yaTidakPesakitMempunyaiGigi ===
+                        'ya-pesakit-mempunyai-gigi' && (
+                        <div className='relative flex items-center justify-center ml-2'>
+                          <DmfxInfoIcon statusDmfx={props} />
+                          {/* <HoveringTable /> */}
+                          {/* <Box /> */}
+                        </div>
+                      )}
                     </div>
                     {props.yaTidakPesakitMempunyaiGigi ===
                       'ya-pesakit-mempunyai-gigi' && (
-                      <article className=' border border-userBlack pl-3 p-2 rounded-md'>
-                        <div className='shadow-lg  grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
+                      <article className=' border border-userBlack pl-3 p-2 rounded-md grid lg:grid-cols-2'>
+                        <div className='shadow-lg  grid grid-cols-1 auto-rows-min items-center justify-start py-2'>
                           <h4 className='font-bold flex flex-row pl-5'>
                             Status Gigi Desidus
                             {props.adaDesidusPemeriksaanUmum === true ||
@@ -675,7 +899,7 @@ export default function Pemeriksaan(props) {
                             <div
                               className={`${
                                 !props.adaDesidusPemeriksaanUmum && 'hidden'
-                              } grid grid-cols-1 sm:grid-cols-2`}
+                              } grid grid-cols-1`}
                             >
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m lowercase'>d: </p>
@@ -782,7 +1006,7 @@ export default function Pemeriksaan(props) {
                             )}
                           </div>
                         </div>
-                        <div className='shadow-lg grid lg:grid-cols-[2fr_4fr] items-center justify-start py-2'>
+                        <div className='shadow-lg grid grid-cols-1 auto-rows-min items-center justify-start py-2'>
                           <h4 className='font-bold flex flex-row pl-5'>
                             Status Gigi Kekal
                             {props.adaKekalPemeriksaanUmum === true ||
@@ -821,7 +1045,7 @@ export default function Pemeriksaan(props) {
                             <div
                               className={`${
                                 !props.adaKekalPemeriksaanUmum && 'hidden'
-                              } grid grid-cols-2`}
+                              } grid grid-cols-1`}
                             >
                               <div className='flex flex-row items-center  pl-5'>
                                 <p className='text-sm font-m '>D: </p>
@@ -889,30 +1113,6 @@ export default function Pemeriksaan(props) {
                                 />
                               </div>
                               <div className='flex flex-row items-center pl-5'>
-                                <p className='text-sm font-m '>E: </p>
-                                <span className='text-user6'>* </span>
-                                <input
-                                  disabled={isDisabled}
-                                  required
-                                  min='0'
-                                  max='32'
-                                  type='number'
-                                  name='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                                  id='e-ada-status-gigi-kekal-pemeriksaan-umum'
-                                  value={props.eAdaGigiKekalPemeriksaanUmum}
-                                  onChange={(e) => {
-                                    props.setEAdaGigiKekalPemeriksaanUmum(
-                                      e.target.value
-                                    );
-                                  }}
-                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                />
-                                <FaInfoCircle
-                                  title='Hanya masukkan E10 , E12 & E13'
-                                  className='text-lg m-1'
-                                />
-                              </div>
-                              <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m '>X: </p>
                                 <span className='text-user6'>*</span>
                                 <input
@@ -935,6 +1135,30 @@ export default function Pemeriksaan(props) {
                                     }
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                              <div className='flex flex-row items-center pl-5'>
+                                <p className='text-sm font-m '>E: </p>
+                                <span className='text-user6'>* </span>
+                                <input
+                                  disabled={isDisabled}
+                                  required
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                                  id='e-ada-status-gigi-kekal-pemeriksaan-umum'
+                                  value={props.eAdaGigiKekalPemeriksaanUmum}
+                                  onChange={(e) => {
+                                    props.setEAdaGigiKekalPemeriksaanUmum(
+                                      e.target.value
+                                    );
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <FaInfoCircle
+                                  title='Hanya masukkan E10 , E12 & E13'
+                                  className='text-lg m-1'
                                 />
                               </div>
                             </div>
@@ -1682,8 +1906,11 @@ export default function Pemeriksaan(props) {
             {props.pemeriksaanTaskaTadika ===
             'tiada-pemeriksaan-taska-tadika' ? null : (
               <div className='grid gap-2 auto-rows-min'>
-                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                props.statusKehadiran === false ? (
+                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                  props.statusKehadiran === false) ||
+                (props.statusKehadiran === false &&
+                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
+                  props.singlePersonUmum.checkupEnabled) ? (
                   <article className='grid grid-cols-1 lg:grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
                       Kebersihan Mulut
@@ -1790,8 +2017,11 @@ export default function Pemeriksaan(props) {
                     </div>
                   </article>
                 ) : null}
-                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                props.statusKehadiran === false ? (
+                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                  props.statusKehadiran === false) ||
+                (props.statusKehadiran === false &&
+                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
+                  props.singlePersonUmum.checkupEnabled) ? (
                   <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 lg:grid-cols-2'>
                     <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
                       Risiko Karies
@@ -1829,8 +2059,11 @@ export default function Pemeriksaan(props) {
                     </div>
                   </article>
                 ) : null}
-                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                props.statusKehadiran === false ? (
+                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                  props.statusKehadiran === false) ||
+                (props.statusKehadiran === false &&
+                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
+                  props.singlePersonUmum.checkupEnabled) ? (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       Program Kanser Mulut
@@ -2219,8 +2452,11 @@ export default function Pemeriksaan(props) {
                   </div> */}
                   </article>
                 ) : null}
-                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                props.statusKehadiran === false ? (
+                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                  props.statusKehadiran === false) ||
+                (props.statusKehadiran === false &&
+                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
+                  props.singlePersonUmum.checkupEnabled) ? (
                   <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
                       kes endodontik diperlukan

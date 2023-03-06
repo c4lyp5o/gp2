@@ -32,6 +32,8 @@ const UmumSchema = new mongoose.Schema(
     waktuSampai: { type: String, default: '' },
     waktuSelesaiDaftar: { type: String, default: '' },
     temujanji: { type: Boolean, default: false },
+    waktuTemujanji: { type: String, default: '' },
+    oncall: { type: Boolean, default: false },
     nama: { type: String, trim: true, default: '' },
     jenisIc: { type: String, default: '' },
     ic: { type: String, default: '' },
@@ -110,6 +112,7 @@ const UmumSchema = new mongoose.Schema(
     namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
     //pemeriksaan -----------------------------------------------
+    checkupEnabled: { type: Boolean, default: false },
     statusKehadiran: {
       type: Boolean,
       default: false,
@@ -848,7 +851,7 @@ UmumSchema.pre('save', async function () {
     // no siri punya hal
 
     // kedatangan baru ulangan punya hal
-    if (this.kedatangan === 'baru-kedatangan') {
+    if (this.kedatangan === 'baru-kedatangan' && !this.deleted) {
       // create acronym
       let acronym = '';
       const simplifiedKlinikName = this.createdByKp.split(' ');
@@ -896,7 +899,19 @@ UmumSchema.pre('save', async function () {
         logger.info('[UmumModel] no pendafataran baru: ', newReg);
       }
     }
-    if (this.kedatangan === 'ulangan-kedatangan') {
+
+    if (this.kedatangan === 'baru-kedatangan' && this.deleted) {
+      this.deleted = false;
+      logger.info('[UmumModel] kedatangan baru tapi dah delete');
+    }
+
+    if (this.kedatangan === 'ulangan-kedatangan' && this.checkupEnabled) {
+      logger.info(
+        '[UmumModel] ini pasien baru tapi tak check. jadi dia skrg pasien lama dan boleh checkup'
+      );
+    }
+
+    if (this.kedatangan === 'ulangan-kedatangan' && !this.checkupEnabled) {
       logger.info('[UmumModel] ini pasien lama');
     }
     // kedatangan baru ulangan punya hal

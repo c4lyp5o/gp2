@@ -112,6 +112,16 @@
   border-top-right-radius: 16px;
 }
 
+.modalJana {
+  width: 35rem;
+  height: 38rem;
+  background: white;
+  color: white;
+  z-index: 50;
+  border-radius: 16px;
+  box-shadow: 0 5px 20px 0 rgba(0, 0, 0, 0.04);
+}
+
 .heading {
   margin: 0;
   padding: 10px;

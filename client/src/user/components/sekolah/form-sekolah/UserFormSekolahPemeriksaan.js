@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import ConfirmCheck from './ConfirmationPemeriksaan';
 
-import { useGlobalUserAppContext } from '../../context/userAppContext';
+import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
 function UserFormSekolahPemeriksaan() {
   const {

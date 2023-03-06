@@ -66,6 +66,8 @@ export default function FillableForm({
   const [waktuSampai, setWaktuSampai] = useState('');
   const waktuSelesaiDaftar = useRef(null);
   const [temujanji, setTemujanji] = useState(false);
+  const [waktuTemujanji, setWaktuTemujanji] = useState('');
+  const [oncall, setOncall] = useState(false);
   const [nama, setNama] = useState('');
   const [jenisIc, setJenisIc] = useState('');
   const [ic, setIc] = useState('');
@@ -168,6 +170,9 @@ export default function FillableForm({
   const [waktuSampaiDT, setWaktuSampaiDT] = useState(
     moment(dateToday, moment.ISO_8601).toDate()
   );
+  const [waktuTemujanjiDT, setWaktuTemujanjiDT] = useState(
+    moment(dateToday, moment.ISO_8601).toDate()
+  );
 
   // myidentity
   const [myIdVerified, setMyIdVerified] = useState(false);
@@ -193,37 +198,17 @@ export default function FillableForm({
     });
   };
 
-  // wip ----------
-  const WaktuSampai = () => {
-    return masterDatetime({
-      value: waktuSampaiDT,
-      initialValue: setWaktuSampai(moment(dateToday).format('HH:mm')),
-      onChange: (dt) => {
-        const timeString = moment(dt).format('HH:mm');
-        setWaktuSampai(timeString);
-        setWaktuSampaiDT(dt);
-      },
-      inputProps: {
-        required: true,
-        readOnly: true,
-        className:
-          'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
-      },
-    });
-  };
-  // --------------
-
   const TarikhLahir = () => {
     return masterDatePicker({
       selected: tarikhLahirDP,
       required: true,
       onChange: (tarikhLahir) => {
         const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
-        const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
-        const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
-        const hari = parseInt(howOldAreYouMyFrienddays(tempDate));
-        setTarikhLahirDP(tarikhLahir);
+        const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahir));
+        const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahir));
+        const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahir));
         setTarikhLahir(tempDate);
+        setTarikhLahirDP(tarikhLahir);
         setUmur(tahun);
         setUmurBulan(bulan);
         setUmurHari(hari);
@@ -244,34 +229,62 @@ export default function FillableForm({
   };
 
   // kira tahun
-  const howOldAreYouMyFriendtahun = (date) => {
-    const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(date);
-    const diff = today.getTime() - dob.getTime();
-    const years = Math.floor(diff / 31556736000);
-    const values = `${years} years`;
-    return values;
+  // const howOldAreYouMyFriendtahun = (date) => {
+  //   const today = moment(dateToday, moment.ISO_8601).toDate();
+  //   const dob = new Date(date);
+  //   const diff = today.getTime() - dob.getTime();
+  //   const years = Math.floor(diff / 31556736000);
+  //   const values = `${years} years`;
+  //   return values;
+  // };
+  const howOldAreYouMyFriendtahunV2 = (date) => {
+    const years = moment(dateToday, moment.ISO_8601).diff(
+      moment(date),
+      'years'
+    );
+    return years;
   };
 
   // kira bulan
-  const howOldAreYouMyFriendbulan = (date) => {
-    const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(date);
-    const diff = today.getTime() - dob.getTime();
-    const days_diff = Math.floor((diff % 31556736000) / 86400000);
-    const months = Math.floor(days_diff / 30.4167);
-    const values = `${months} months`;
-    return values;
+  // const howOldAreYouMyFriendbulan = (date) => {
+  //   const today = moment(dateToday, moment.ISO_8601).toDate();
+  //   const dob = new Date(date);
+  //   const diff = today.getTime() - dob.getTime();
+  //   const days_diff = Math.floor((diff % 31556736000) / 86400000);
+  //   const months = Math.floor(days_diff / 30.4167);
+  //   const values = `${months} months`;
+  //   return values;
+  // };
+  const howOldAreYouMyFriendbulanV2 = (date) => {
+    const months =
+      moment(dateToday, moment.ISO_8601).diff(moment(date), 'months') % 12;
+    return months;
   };
 
   //kira days
-  const howOldAreYouMyFrienddays = (date) => {
-    const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(date);
-    const diff = today.getTime() - dob.getTime();
-    const days_diff = Math.floor((diff % 31556736000) / 86400000);
-    const values = `${days_diff} days`;
-    return values;
+  // const howOldAreYouMyFrienddays = (date) => {
+  //   const today = moment(dateToday, moment.ISO_8601).toDate();
+  //   const dob = new Date(date);
+  //   const diff = today.getTime() - dob.getTime();
+  //   const days_diff = Math.floor((diff % 31556736000) / 86400000);
+  //   const months = Math.floor(days_diff / 30.4167);
+  //   const days = days_diff - months * 30.4167;
+  //   const values = `${days} days`;
+  //   return values;
+  // };
+  const howOldAreYouMyFrienddaysV2 = (date) => {
+    const duration = moment.duration(
+      moment(dateToday, moment.ISO_8601).diff(moment(date))
+    );
+    const days = duration.days();
+    // guarding days to always return 0 if birthday month & day same as dateToday
+    if (
+      moment(dateToday, moment.ISO_8601).month() === moment(date).month() &&
+      moment(dateToday, moment.ISO_8601).date() === moment(date).date()
+    ) {
+      return 0;
+    }
+    return days;
   };
 
   const TarikhRujukanKepp = () => {
@@ -327,28 +340,21 @@ export default function FillableForm({
     const month = ic.substring(2, 4);
     const day = ic.substring(4, 6);
     const today = moment(dateToday, moment.ISO_8601).toDate();
-    const dob = new Date(`19${year}-${month}-${day}`);
-    const dob2 = new Date(`20${year}-${month}-${day}`);
-    const diff = today.getTime() - dob.getTime();
-    const diff2 = today.getTime() - dob2.getTime();
+    const dob19 = moment(`19${year}-${month}-${day}`).toDate(); // year 1900
+    const dob20 = moment(`20${year}-${month}-${day}`).toDate(); // year 2000
+    const diff = today.getTime() - dob19.getTime();
     const years = Math.floor(diff / 31556736000);
-    const years2 = Math.floor(diff2 / 31556736000);
-    const months = Math.floor((diff % 31556736000) / 2629800000);
     let value;
-    if (years > 99) {
+    // it's year 1900 for years 99 and below
+    if (years <= 99) {
       value = {
-        dob: dob2,
-        dobISO: new Date(dob2),
-        years: years2,
-        months: months,
+        dob: dob19,
       };
     }
-    if (years < 100) {
+    // it's year 2000 for years 100 and above
+    if (years >= 100) {
       value = {
-        dob: dob,
-        dobISO: new Date(dob),
-        years: years,
-        months: months,
+        dob: dob20,
       };
     }
     return value;
@@ -359,25 +365,25 @@ export default function FillableForm({
     if (icLength === 12) {
       const age = findAgeFromIc(ic);
       const tempDate = moment(age.dob).format('YYYY-MM-DD');
-      const tahun = parseInt(howOldAreYouMyFriendtahun(tempDate));
-      const bulan = parseInt(howOldAreYouMyFriendbulan(tempDate));
-      const hari = parseInt(howOldAreYouMyFrienddays(tempDate));
-      const last2 = ic.substring(10, 12);
-      const jantina = last2 % 2 === 0 ? 'perempuan' : 'lelaki';
-      setJantina(jantina);
+      const tahun = parseInt(howOldAreYouMyFriendtahunV2(age.dob));
+      const bulan = parseInt(howOldAreYouMyFriendbulanV2(age.dob));
+      const hari = parseInt(howOldAreYouMyFrienddaysV2(age.dob));
+      const lasttwo = ic.substring(10, 12);
+      const jantina = lasttwo % 2 === 0 ? 'perempuan' : 'lelaki';
       setTarikhLahir(tempDate);
-      setTarikhLahirDP(age.dobISO);
-      setUmurHari(hari);
-      setUmurBulan(bulan);
+      setTarikhLahirDP(age.dob);
       setUmur(tahun);
+      setUmurBulan(bulan);
+      setUmurHari(hari);
+      setJantina(jantina);
       setConfirmData({
         ...confirmData,
         ic: ic,
-        tarikhLahir: age.dob,
-        jantina: jantina,
+        tarikhLahir: tempDate,
         umur: tahun,
         umurBulan: bulan,
         umurHari: hari,
+        jantina: jantina,
       });
     }
   };
@@ -477,9 +483,10 @@ export default function FillableForm({
       setNama(nama);
       setTarikhLahir(tarikhLahir);
       // recalculate umur kalau autofill triggered
-      const newUmur = parseInt(howOldAreYouMyFriendtahun(tarikhLahir));
-      const newBulan = parseInt(howOldAreYouMyFriendbulan(tarikhLahir));
-      const newHari = parseInt(howOldAreYouMyFrienddays(tarikhLahir));
+      const tarikhLahirObj = moment(tarikhLahir).toDate();
+      const newUmur = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahirObj));
+      const newBulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahirObj));
+      const newHari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahirObj));
       setUmur(newUmur);
       setUmurBulan(newBulan);
       setUmurHari(newHari);
@@ -497,7 +504,7 @@ export default function FillableForm({
       setOrangKurangUpaya(orangKurangUpaya);
       setStatusPesara(statusPesara);
       //datepicker issues
-      setTarikhLahirDP(new Date(tarikhLahir));
+      setTarikhLahirDP(tarikhLahirObj);
       setConfirmData({
         ...confirmData,
         ic: ic,
@@ -521,7 +528,8 @@ export default function FillableForm({
         statusPesara: statusPesara,
       });
       toast.success(
-        'Menggunakan maklumat pesakit sedia ada, sila semak semula untuk memastikan maklumat adalah tepat'
+        'Menggunakan maklumat pesakit yang pernah didaftarkan di dalam Sistem Gi-Ret 2.0, sila semak semula untuk memastikan maklumat adalah tepat',
+        { autoClose: 10000 }
       );
       return true;
     } catch (error) {
@@ -551,13 +559,15 @@ export default function FillableForm({
             {
               createdByUsername: 'kaunter',
               jenisFasiliti,
+              kedatangan,
+              noPendaftaranBaru,
+              noPendaftaranUlangan,
               tarikhKedatangan,
               waktuSampai,
               waktuSelesaiDaftar: waktuSelesaiDaftar.current,
               temujanji,
-              kedatangan,
-              noPendaftaranBaru,
-              noPendaftaranUlangan,
+              waktuTemujanji,
+              oncall,
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
@@ -659,12 +669,14 @@ export default function FillableForm({
           axios.patch(
             `/api/v1/kaunter/${editId}`,
             {
-              tarikhKedatangan,
-              waktuSampai,
-              temujanji,
               kedatangan,
               noPendaftaranBaru,
               noPendaftaranUlangan,
+              tarikhKedatangan,
+              waktuSampai,
+              temujanji,
+              waktuTemujanji,
+              oncall,
               nama: nama.toLowerCase(),
               jenisIc,
               ic,
@@ -761,12 +773,14 @@ export default function FillableForm({
 
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
-    setTarikhKedatangan(moment(dateToday).format('YYYY-MM-DD'));
-    setWaktuSampai('');
-    setTemujanji(false);
     setKedatangan('');
     setNoPendaftaranBaru('');
     setNoPendaftaranUlangan('');
+    setTarikhKedatangan(moment(dateToday).format('YYYY-MM-DD'));
+    setWaktuSampai('');
+    setTemujanji(false);
+    setWaktuTemujanji('');
+    setOncall(false);
     setNama('');
     setJenisIc('');
     setIc('');
@@ -787,8 +801,8 @@ export default function FillableForm({
     setEpisodMengandung('');
     setBookingIM('');
     setMengandungDahGravida(false);
-    setOrangKurangUpaya(false);
     setBersekolah(false);
+    setOrangKurangUpaya(false);
     setNoOku('');
     setStatusPesara('');
     setNoPesara('');
@@ -848,6 +862,7 @@ export default function FillableForm({
     setTarikhMulaRawatanKeppDP(null);
     // datetime issues
     setWaktuSampaiDT(moment(dateToday, moment.ISO_8601).toDate());
+    setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
     if (showForm === false) {
       // reset editId when change jenisFasiliti & showForm === false
       setEditId('');
@@ -858,6 +873,14 @@ export default function FillableForm({
   useEffect(() => {
     setShowForm(false);
   }, [jenisFasiliti]);
+
+  // reset waktuTemujanji when change temujanji
+  useEffect(() => {
+    if (!editId) {
+      setWaktuTemujanji('');
+      setWaktuTemujanjiDT(moment(dateToday, moment.ISO_8601).toDate());
+    }
+  }, [temujanji]);
 
   //reset no telefon 2 when change no telefon
   useEffect(() => {
@@ -954,6 +977,7 @@ export default function FillableForm({
       setNoBayaran2('');
       setNoResit2('');
       setNoBayaran3('');
+      setNoResit3('');
     }
   }, [statusPesara]);
 
@@ -1014,18 +1038,21 @@ export default function FillableForm({
             headers: { Authorization: `Bearer ${kaunterToken}` },
           });
           // core
-          setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
-          setWaktuSampai(data.singlePersonKaunter.waktuSampai);
-          setTemujanji(data.singlePersonKaunter.temujanji);
           setKedatangan(data.singlePersonKaunter.kedatangan);
           setNoPendaftaranBaru(data.singlePersonKaunter.noPendaftaranBaru);
           setNoPendaftaranUlangan(
             data.singlePersonKaunter.noPendaftaranUlangan
           );
+          setTarikhKedatangan(data.singlePersonKaunter.tarikhKedatangan);
+          setWaktuSampai(data.singlePersonKaunter.waktuSampai);
+          setTemujanji(data.singlePersonKaunter.temujanji);
+          setWaktuTemujanji(data.singlePersonKaunter.waktuTemujanji);
+          setOncall(data.singlePersonKaunter.oncall);
           setNama(data.singlePersonKaunter.nama);
           setJenisIc(data.singlePersonKaunter.jenisIc);
           setIc(data.singlePersonKaunter.ic);
           setNomborTelefon(data.singlePersonKaunter.nomborTelefon);
+          setTambahTelefon(true);
           setNomborTelefon2(data.singlePersonKaunter.nomborTelefon2);
           setEmel(data.singlePersonKaunter.emel);
           setTarikhLahir(data.singlePersonKaunter.tarikhLahir);
@@ -1044,8 +1071,8 @@ export default function FillableForm({
           setMengandungDahGravida(
             data.singlePersonKaunter.mengandungDahGravida
           );
-          setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setBersekolah(data.singlePersonKaunter.bersekolah);
+          setOrangKurangUpaya(data.singlePersonKaunter.orangKurangUpaya);
           setNoOku(data.singlePersonKaunter.noOku);
           setStatusPesara(data.singlePersonKaunter.statusPesara);
           setNoPesara(data.singlePersonKaunter.noPesara);
@@ -1261,6 +1288,7 @@ export default function FillableForm({
       <button
         type='submit'
         className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+        data-cy='submit-pendaftaran'
       >
         Tambah Data
       </button>
@@ -1288,7 +1316,10 @@ export default function FillableForm({
         {(confirm) => (
           <>
             <form onSubmit={confirm(handleSubmit)}>
-              <h1 className='bg-kaunter3 font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md'>
+              <h1
+                className='bg-kaunter3 font-bold text-xl sticky top-1 py-1 mt-1 z-10 shadow-md rounded-md'
+                data-cy='fillable-form-header'
+              >
                 pendaftaran {Dictionary[jenisFasiliti]}
                 <br />
                 {namaProgram ? `${namaProgram}` : null}
@@ -1368,7 +1399,7 @@ export default function FillableForm({
                           <FaClock className='absolute top-2 right-2 text-kaunter3' />
                         </span>
                       </div>
-                      <div className='flex justify-start mt-2'>
+                      <div className='flex justify-start my-2'>
                         <input
                           type='checkbox'
                           name='temujanji'
@@ -1382,12 +1413,74 @@ export default function FillableForm({
                         />
                         <label
                           htmlFor='temujanji'
-                          className='inline-flex text-sm'
+                          className='inline-flex text-sm mr-2'
                         >
                           Pesakit Janji Temu
                         </label>
+                        <input
+                          type='checkbox'
+                          name='oncall'
+                          id='oncall'
+                          value='oncall'
+                          checked={oncall}
+                          onChange={() => {
+                            setOncall(!oncall);
+                          }}
+                          className='mr-2'
+                        />
+                        <label htmlFor='oncall' className='inline-flex text-sm'>
+                          Pesakit On Call
+                        </label>
                       </div>
                     </div>
+                    {temujanji && (
+                      <>
+                        <p className='text-xs md:text-sm flex justify-end items-center mr-4 font-semibold whitespace-nowrap bg-user1 bg-opacity-5'>
+                          waktu janji temu:{' '}
+                          <span className='font-semibold text-user6'>*</span>
+                        </p>
+                        <div className='flex flex-col justify-start'>
+                          <div className='relative w-full md:w-56'>
+                            <Datetime
+                              initialViewMode='time'
+                              dateFormat={false}
+                              timeFormat='hh:mm A'
+                              input={true}
+                              value={
+                                editId
+                                  ? moment(
+                                      moment(dateToday).format('YYYY-MM-DD') +
+                                        ' ' +
+                                        waktuTemujanji
+                                    ).toDate()
+                                  : waktuTemujanjiDT
+                              }
+                              initialValue={
+                                waktuTemujanji
+                                  ? waktuTemujanji
+                                  : setWaktuTemujanji(
+                                      moment(dateToday).format('HH:mm')
+                                    )
+                              }
+                              onChange={(dt) => {
+                                const timeString = moment(dt).format('HH:mm');
+                                setWaktuTemujanji(timeString);
+                                setWaktuTemujanjiDT(dt);
+                              }}
+                              inputProps={{
+                                required: true,
+                                readOnly: true,
+                                className:
+                                  'appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md',
+                              }}
+                            />
+                            <span>
+                              <FaClock className='absolute top-2 right-2 text-kaunter3' />
+                            </span>
+                          </div>
+                        </div>
+                      </>
+                    )}
                   </div>
                 ) : null}
                 <div className='grid grid-cols-[1fr_2fr] m-2 auto-rows-min col-start-1'>
@@ -1407,6 +1500,7 @@ export default function FillableForm({
                           setJenisIc(e.target.value);
                         }}
                         className='appearance-none w-full md:w-56 leading-7 px-2 py-1 pr-6 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2 mr-2'
+                        data-cy='jenis-pengenalan'
                       >
                         <option value=''>SILA PILIH..</option>
                         <option value='mykad-mykid'>MyKad / MyKid</option>
@@ -1444,6 +1538,7 @@ export default function FillableForm({
                         }}
                         placeholder='901223015432'
                         className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                        data-cy='ic-mykad-mykid'
                       />
                     )}
                     {jenisIc !== 'mykad-mykid' &&
@@ -1468,6 +1563,7 @@ export default function FillableForm({
                               : 'Isi pengenalan diri..'
                           }
                           className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                          data-cy='not-ic-mykad-mykid'
                         />
                       )}
                   </div>
@@ -1513,6 +1609,7 @@ export default function FillableForm({
                                 nomborTelefon: e.target.value,
                               });
                             }}
+                            data-cy='nombor-telefon'
                           />
                           <span>
                             <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
@@ -1533,6 +1630,7 @@ export default function FillableForm({
                             onClick={() => {
                               setTambahTelefon(true);
                             }}
+                            data-cy='tambah-telefon'
                           />
                         )}
                       </span>
@@ -1560,6 +1658,7 @@ export default function FillableForm({
                                 nomborTelefon2: e.target.value,
                               });
                             }}
+                            data-cy='nombor-telefon2'
                           />
                           <span>
                             <FaPhoneAlt className='absolute top-3 right-2 text-kaunter3' />
@@ -1569,7 +1668,7 @@ export default function FillableForm({
                     )}
                     <div className='flex flex-col justify-start'>
                       <label
-                        htmlFor='email-mysj'
+                        htmlFor='email'
                         className='mr-4 flex text-left flex-row text-xs md:text-sm'
                       >
                         emel :
@@ -1578,8 +1677,8 @@ export default function FillableForm({
                         <input
                           value={emel}
                           type='email'
-                          name='email-mysj'
-                          id='email-mysj'
+                          name='email'
+                          id='email'
                           className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
                           onChange={(e) => {
                             setEmel(e.target.value);
@@ -1588,6 +1687,7 @@ export default function FillableForm({
                               emel: e.target.value,
                             });
                           }}
+                          data-cy='email'
                         />
                         <span>
                           <FaEnvelope className='absolute top-3 right-2 text-kaunter3' />
@@ -1623,6 +1723,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      data-cy='nama-umum'
                     />
                     <span>
                       <FaUserInjured className='absolute top-3 right-2 text-kaunter3' />
@@ -1725,6 +1826,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      data-cy='jantina'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='lelaki'>Lelaki</option>
@@ -1750,8 +1852,8 @@ export default function FillableForm({
                           ? false
                           : true
                       }
-                      name='kumpulanEtnik'
-                      id='kumpulanEtnik'
+                      name='kumpulan-etnik'
+                      id='kumpulan-etnik'
                       value={kumpulanEtnik}
                       onChange={(e) => {
                         setKumpulanEtnik(e.target.value);
@@ -1761,6 +1863,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 text-sm leading-7 px-2 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md uppercase'
+                      data-cy='kumpulan-etnik'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='melayu'>Melayu</option>
@@ -1820,6 +1923,7 @@ export default function FillableForm({
                       type='text'
                       name='alamat'
                       className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='alamat'
                     />
                     <span>
                       <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
@@ -1852,6 +1956,7 @@ export default function FillableForm({
                       type='text'
                       name='daerah-alamat'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='daerah-alamat'
                     />
                     <span>
                       <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
@@ -1882,6 +1987,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='negeri-alamat'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='johor'>Johor</option>
@@ -1937,6 +2043,7 @@ export default function FillableForm({
                       }}
                       placeholder='62519'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='poskod-alamat'
                     />
                     <span>
                       <FaHouseUser className='absolute top-3 right-2 text-kaunter3' />
@@ -1996,6 +2103,7 @@ export default function FillableForm({
                                       episodMengandung: e.target.value,
                                     });
                                   }}
+                                  data-cy='episod-mengandung'
                                 >
                                   <option value=''>SILA PILIH..</option>
                                   <option value='1'>1</option>
@@ -2168,6 +2276,7 @@ export default function FillableForm({
                       type='text'
                       name='no-oku'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md mt-2'
+                      data-cy='no-oku'
                     />
                   )}
                 </div>
@@ -2177,8 +2286,8 @@ export default function FillableForm({
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      name='statusPesara'
-                      id='statusPesara'
+                      name='status-pesara'
+                      id='status-pesara'
                       value={statusPesara}
                       onChange={(e) => {
                         setStatusPesara(e.target.value);
@@ -2188,6 +2297,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='status-pesara'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='pesara-kerajaan'>Pesara kerajaan</option>
@@ -2211,6 +2321,7 @@ export default function FillableForm({
                       type='text'
                       name='no-pesara'
                       className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md mt-2'
+                      data-cy='no-pesara'
                     />
                   )}
                 </div>
@@ -2220,8 +2331,8 @@ export default function FillableForm({
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      name='rujukDaripada'
-                      id='rujukDaripada'
+                      name='rujuk-daripada'
+                      id='rujuk-daripada'
                       value={rujukDaripada}
                       onChange={(e) => {
                         setRujukDaripada(e.target.value);
@@ -2231,6 +2342,7 @@ export default function FillableForm({
                         });
                       }}
                       className='appearance-none w-full md:w-56 leading-7 pl-3 pr-7 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='rujuk-daripada'
                     >
                       <option value=''>SILA PILIH..</option>
                       <option value='dalaman'>Dalaman</option>
@@ -2380,6 +2492,7 @@ export default function FillableForm({
                                 });
                               }}
                               className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                              data-cy='no-resit'
                             />
                             <label
                               htmlFor='no-resit'
@@ -2406,6 +2519,7 @@ export default function FillableForm({
                                   onClick={() => {
                                     setTambahBayaran(true);
                                   }}
+                                  data-cy='tambah-bayaran'
                                 />
                               )}
                             </span>
@@ -2463,6 +2577,7 @@ export default function FillableForm({
                                   });
                                 }}
                                 className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                                data-cy='no-resit-2'
                               />
                               <label
                                 htmlFor='no-resit-2'
@@ -2488,6 +2603,7 @@ export default function FillableForm({
                                   onClick={() => {
                                     setTambahBayaran2(true);
                                   }}
+                                  data-cy='tambah-bayaran-2'
                                 />
                               )}
                             </span>
@@ -2541,6 +2657,7 @@ export default function FillableForm({
                                   });
                                 }}
                                 className='appearance-none w-full md:w-60 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-r-md peer'
+                                data-cy='no-resit-3'
                               />
                               <label
                                 htmlFor='no-resit-3'
@@ -2574,6 +2691,7 @@ export default function FillableForm({
                           });
                         }}
                         className='appearance-none w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md peer'
+                        data-cy='catatan'
                       />
                       <label
                         htmlFor='catatan'
@@ -2708,93 +2826,6 @@ export default function FillableForm({
                         </div>
                       </div>
                     </article>
-                    {/* <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <p className='font-semibold col-span-2'>
-                        penyampaian perkhidmatan
-                      </p>
-                      <div className='flex items-center flex-row pl-5 '>
-                        <input
-                          type='checkbox'
-                          id='kp-bergerak-maklumat-lanjut-umum'
-                          name='kp-bergerak-maklumat-lanjut-umum'
-                          checked={kpBergerak ? true : false}
-                          onChange={() => {
-                            setKpBergerak(!kpBergerak);
-                          }}
-                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='kp-bergerak-maklumat-lanjut-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          KP bergerak
-                        </label>
-                        <select
-                          name='label-kp-bergerak-maklumat-lanjut-umum'
-                          id='label-kp-bergerak-maklumat-lanjut-umum'
-                          value={labelKpBergerak}
-                          onChange={(e) => {
-                            setLabelKpBergerak(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                        >
-                          <option value=''>Label</option>
-                          <option value='apa??'>Apa?</option>
-                        </select>
-                      </div>
-                      <div className='flex items-center flex-row pl-5 '>
-                        <input
-                          type='checkbox'
-                          id='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                          name='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                          checked={pasukanPergigianBergerak ? true : false}
-                          onChange={() => {
-                            setPasukanPergigianBergerak(
-                              !pasukanPergigianBergerak
-                            );
-                          }}
-                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='pasukan-pergigian-bergerak-maklumat-lanjut-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          pasukan pergigian bergerak
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5 '>
-                        <input
-                          type='checkbox'
-                          id='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          name='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          checked={makmalPergigianBergerak ? true : false}
-                          onChange={() => {
-                            setMakmalPergigianBergerak(
-                              !makmalPergigianBergerak
-                            );
-                          }}
-                          className='w-4 h-4 inline-block text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          className='m-2 text-sm font-m'
-                        >
-                          makmal pergigian bergerak
-                        </label>
-                        <select
-                          name='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          id='label-makmal-pergigian-bergerak-maklumat-lanjut-umum'
-                          value={labelMakmalPergigianBergerak}
-                          onChange={(e) => {
-                            setLabelMakmalPergigianBergerak(e.target.value);
-                          }}
-                          className='outline outline-1 outline-userBlack m-2 text-sm font-m'
-                        >
-                          <option value=''>Label</option>
-                          <option value='apa??'>Apa?</option>
-                        </select>
-                      </div>
-                    </article> */}
                   </>
                 )}
                 {jenisFasiliti === 'kk-kd' && (
@@ -2905,7 +2936,7 @@ export default function FillableForm({
                     </select>
                   </div>
                 )}
-                {jenisFasiliti === 'ipt-kolej' && (
+                {/* {jenisFasiliti === 'ipt-kolej' && (
                   <div className='row-span-3'>
                     <article className='grid grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
                       <div>
@@ -3204,8 +3235,8 @@ export default function FillableForm({
                       </div>
                     </article>
                   </div>
-                )}
-                {jenisFasiliti === 'insitusi-warga-emas' && (
+                )} */}
+                {/* {jenisFasiliti === 'insitusi-warga-emas' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <div>
                       <p className='font-semibold'>institusi warga emas</p>
@@ -3284,8 +3315,8 @@ export default function FillableForm({
                       </div>
                     </div>
                   </article>
-                )}
-                {jenisFasiliti === 'institusi-oku' && (
+                )} */}
+                {/* {jenisFasiliti === 'institusi-oku' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <div>
                       <p className='font-semibold'>institusi OKU</p>
@@ -3337,8 +3368,8 @@ export default function FillableForm({
                       </div>
                     </div>
                   </article>
-                )}
-                {jenisFasiliti === 'kampung-angkat' && (
+                )} */}
+                {/* {jenisFasiliti === 'kampung-angkat' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <div>
                       <p className='font-semibold'>KG angkat</p>
@@ -3390,7 +3421,7 @@ export default function FillableForm({
                       </div>
                     </div>
                   </article>
-                )}
+                )} */}
               </div>
               <button
                 onClick={() => {
@@ -3401,6 +3432,7 @@ export default function FillableForm({
                   setShowForm(false);
                 }}
                 className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+                data-cy='kembali-pendaftaran'
               >
                 kembali
               </button>

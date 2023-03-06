@@ -1,0 +1,47 @@
+name: Cypress test
+on:
+  pull_request:
+    branches:
+      - unstable-nightly
+
+jobs:
+  cypress-test:
+    runs-on: ubuntu-latest
+    steps:
+      # ---
+      - name: Checkout
+        uses: actions/checkout@v3
+      # ---
+      - name: Populate all env
+        run: |
+          echo "${{ secrets.ENV_SERVER }}" > .env
+          cd client
+          echo "${{ secrets.ENV_CLIENT }}" > .env
+          cd ..
+          echo '${{ secrets.ENV_CYPRESS }}' > cypress.env.json
+      # ---
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - run: npm run install-prod
+      - run: npm run install-client
+      - run: CI=false npm run build-client
+      # ---
+      - name: Cypress run test
+        uses: cypress-io/github-action@v5
+        with:
+          start: npm start
+          wait-on: 'http://localhost:5000'
+          config-file: cypress.config.js
+          # record: true
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          # CYPRESS_RECORD_KEY: ${{ secrets.CYPRESS_RECORD_KEY }}
+          # CYPRESS_PROJECT_ID: ${{ secrets.CYPRESS_PROJECT_ID }}
+      - name: Upload screenshots of failed test
+        uses: actions/upload-artifact@v3
+        if: failure()
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots

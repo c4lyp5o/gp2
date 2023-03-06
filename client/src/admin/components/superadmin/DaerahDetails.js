@@ -34,7 +34,7 @@ ChartJS.register(
   Legend
 );
 
-function DataKlinik({ data }) {
+function DataDaerah({ data }) {
   const options = {
     responsive: true,
     scales: {
@@ -49,7 +49,7 @@ function DataKlinik({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit ke ${data.kp}`,
+        text: `Kedatangan Pesakit di daerah ${data.nama}`,
       },
     },
   };
@@ -250,13 +250,13 @@ export default function Daerah() {
   const [searchParams] = useSearchParams();
   const negeri = searchParams.get('idn');
   const daerah = searchParams.get('idd');
-  const { toast, getStatsData } = useGlobalAdminAppContext();
+  const { toast, getDetailedData } = useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getStatsData(negeri, daerah)
+    getDetailedData({ type: 'daerah', idd: daerah, idn: negeri })
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -276,23 +276,11 @@ export default function Daerah() {
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
+        <h1 className='text-2xl font-bold underline'>{daerah}</h1>
         <div className='grid grid-cols-3 gap-2'>
-          <p>
-            hey {daerah}, klinik anda ada {data.length}
-          </p>
-          <p>jumlah kedatangan pesakit: {data.length}</p>
-          {/* {data.map((item) => (
-            <div key={item}>
-              <div className='max-w rounded overflow-hidden shadow-lg'>
-                <div className='px-6 py-4'>
-                  <div className='font-bold text-xl mb-2 underline'>{item}</div>
-                </div>
-              </div>
-            </div>
-          ))} */}
-          {/* <JanaReten data={data} />
+          {/* <JanaReten data={data} /> */}
           <Statistik data={data} />
-          <DataKlinik data={data} /> */}
+          <DataDaerah data={data} />
         </div>
       </div>
     </>

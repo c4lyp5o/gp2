@@ -1,0 +1,17 @@
+# pull Cypress image
+FROM cypress/included:12.7.0
+
+# create app directory
+WORKDIR /usr/src/app
+
+# bundle app source
+COPY . .
+
+# install node_modules
+RUN npm run install-prod && npm run install-client
+
+# build client React JS
+RUN CI=false npm run build-client
+
+# run the app
+CMD ["npm", "start"]
