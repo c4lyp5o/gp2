@@ -2469,160 +2469,32 @@ const getData = async (req, res) => {
             );
           });
           return res.status(200).json(data);
-        case 'readOneNegeri':
-          logger.info(`[adminAPI/HqCenter] readOneNegeri for ${idn} accessed`);
-          const negeriPtData = await Umum.find({ createdByNegeri: idn })
-            .lean()
-            .select('kedatangan tarikhKedatangan');
-          const countNegeriPtByDate = (daysAgo) => {
-            const date = moment()
-              .subtract(daysAgo, 'days')
-              .format('YYYY-MM-DD');
-            return negeriPtData.filter((item) => item.tarikhKedatangan === date)
-              .length;
+        case 'readOne':
+          //
+          const queryObj = {
+            tarikhKedatangan: {
+              $lte: moment().format('YYYY-MM-DD'),
+              $gte: moment().subtract(4, 'days').format('YYYY-MM-DD'),
+            },
           };
-          const ptNegeriHariIni = countNegeriPtByDate(0);
-          const ptNegeri2HariLepas = countNegeriPtByDate(1);
-          const ptNegeri3HariLepas = countNegeriPtByDate(2);
-          const ptNegeri4HariLepas = countNegeriPtByDate(3);
-          const ptNegeri5HariLepas = countNegeriPtByDate(4);
-          const ptNegeriMingguIni = negeriPtData.filter((item) =>
-            moment(item.tarikhKedatangan).isBetween(
-              moment().startOf('week'),
-              moment().endOf('week')
-            )
-          ).length;
-          const ptNegeriBulanIni = negeriPtData.filter((item) =>
-            moment(item.tarikhKedatangan).isBetween(
-              moment().startOf('month'),
-              moment().endOf('month')
-            )
-          ).length;
-          const ptNegeriBaru = negeriPtData.filter(
-            (item) => item.kedatangan === 'baru-kedatangan'
-          ).length;
-          const ptNegeriUlangan = negeriPtData.filter(
-            (item) => item.kedatangan === 'ulangan-kedatangan'
-          ).length;
-          const kedatanganPtNegeri = [
-            {
-              kedatangan: ptNegeri5HariLepas,
-              tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptNegeri4HariLepas,
-              tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptNegeri3HariLepas,
-              tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptNegeri2HariLepas,
-              tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptNegeriHariIni,
-              tarikh: moment().format('YYYY-MM-DD'),
-            },
-          ];
-          const jumlahPtNegeri = negeriPtData.length;
-          const resultNegeri = {
-            idn,
-            jumlahPtNegeri,
-            ptNegeriHariIni,
-            ptNegeriMingguIni,
-            ptNegeriBulanIni,
-            ptNegeriBaru,
-            ptNegeriUlangan,
-            kedatanganPtNegeri,
-          };
-          return res.status(200).json(resultNegeri);
-        case 'readOneDaerah':
-          logger.info(`[adminAPI/HqCenter] readOneDaerah for ${idd} accessed`);
-          const daerahPtData = await Umum.find({
-            createdByNegeri: idn,
-            createdByDaerah: idd,
-          })
-            .lean()
-            .select('kedatangan tarikhKedatangan');
-          const countDaerahPtByDate = (daysAgo) => {
-            const date = moment()
-              .subtract(daysAgo, 'days')
-              .format('YYYY-MM-DD');
-            return daerahPtData.filter((item) => item.tarikhKedatangan === date)
-              .length;
-          };
-          const ptDaerahHariIni = countDaerahPtByDate(0);
-          const ptDaerah2HariLepas = countDaerahPtByDate(1);
-          const ptDaerah3HariLepas = countDaerahPtByDate(2);
-          const ptDaerah4HariLepas = countDaerahPtByDate(3);
-          const ptDaerah5HariLepas = countDaerahPtByDate(4);
-          const ptDaerahMingguIni = daerahPtData.filter((item) =>
-            moment(item.tarikhKedatangan).isBetween(
-              moment().startOf('week'),
-              moment().endOf('week')
-            )
-          ).length;
-          const ptDaerahBulanIni = daerahPtData.filter((item) =>
-            moment(item.tarikhKedatangan).isBetween(
-              moment().startOf('month'),
-              moment().endOf('month')
-            )
-          ).length;
-          const ptDaerahBaru = daerahPtData.filter(
-            (item) => item.kedatangan === 'baru-kedatangan'
-          ).length;
-          const ptDaerahUlangan = daerahPtData.filter(
-            (item) => item.kedatangan === 'ulangan-kedatangan'
-          ).length;
-          const kedatanganPtDaerah = [
-            {
-              kedatangan: ptDaerah5HariLepas,
-              tarikh: moment().subtract(4, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptDaerah4HariLepas,
-              tarikh: moment().subtract(3, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptDaerah3HariLepas,
-              tarikh: moment().subtract(2, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptDaerah2HariLepas,
-              tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
-            },
-            {
-              kedatangan: ptDaerahHariIni,
-              tarikh: moment().format('YYYY-MM-DD'),
-            },
-          ];
-          const jumlahPtDaerah = daerahPtData.length;
-          const resultDaerah = {
-            idd,
-            jumlahPtDaerah,
-            ptDaerahHariIni,
-            ptDaerahMingguIni,
-            ptDaerahBulanIni,
-            ptDaerahBaru,
-            ptDaerahUlangan,
-            kedatanganPtDaerah,
-          };
-          return res.status(200).json(resultDaerah);
-        case 'readOneKlinik':
-          logger.info(`[adminAPI/HqCenter] readOne for ${id} accessed`);
-          const klinikData = await User.findOne({ kodFasiliti: id })
-            .lean()
-            .select('kp');
-          const klinikPtData = await Umum.find({ createdByKp: klinikData.kp })
+          if (id) queryObj.createdByKodFasiliti = id;
+          if (idn && !idd) queryObj.createdByNegeri = idn;
+          if (idn && idd) {
+            queryObj.createdByNegeri = idn;
+            queryObj.createdByDaerah = idd;
+          }
+          //
+          logger.info(
+            `[adminAPI/HqCenter] readOne for ${id || idd || idn} accessed`
+          );
+          const ptData = await Umum.find(queryObj)
             .lean()
             .select('kedatangan tarikhKedatangan');
           const countPtByDate = (daysAgo) => {
             const date = moment()
               .subtract(daysAgo, 'days')
               .format('YYYY-MM-DD');
-            return klinikPtData.filter((item) => item.tarikhKedatangan === date)
+            return ptData.filter((item) => item.tarikhKedatangan === date)
               .length;
           };
           const ptHariIni = countPtByDate(0);
@@ -2630,22 +2502,22 @@ const getData = async (req, res) => {
           const pt3HariLepas = countPtByDate(2);
           const pt4HariLepas = countPtByDate(3);
           const pt5HariLepas = countPtByDate(4);
-          const ptMingguIni = klinikPtData.filter((item) =>
+          const ptMingguIni = ptData.filter((item) =>
             moment(item.tarikhKedatangan).isBetween(
               moment().startOf('week'),
               moment().endOf('week')
             )
           ).length;
-          const ptBulanIni = klinikPtData.filter((item) =>
+          const ptBulanIni = ptData.filter((item) =>
             moment(item.tarikhKedatangan).isBetween(
               moment().startOf('month'),
               moment().endOf('month')
             )
           ).length;
-          const ptBaru = klinikPtData.filter(
+          const ptBaru = ptData.filter(
             (item) => item.kedatangan === 'baru-kedatangan'
           ).length;
-          const ptUlangan = klinikPtData.filter(
+          const ptUlangan = ptData.filter(
             (item) => item.kedatangan === 'ulangan-kedatangan'
           ).length;
           const kedatanganPt = [
@@ -2667,9 +2539,9 @@ const getData = async (req, res) => {
             },
             { kedatangan: ptHariIni, tarikh: moment().format('YYYY-MM-DD') },
           ];
-          const jumlahPt = klinikPtData.length;
-          const resultKlinik = {
-            ...klinikData,
+          const jumlahPt = ptData.length;
+          const result = {
+            nama: '',
             jumlahPt,
             ptHariIni,
             ptMingguIni,
@@ -2678,7 +2550,19 @@ const getData = async (req, res) => {
             ptUlangan,
             kedatanganPt,
           };
-          return res.status(200).json(resultKlinik);
+          if (id) {
+            const { kp } = await User.findOne({ kodFasiliti: id })
+              .select('kp')
+              .lean();
+            result.nama = kp;
+          }
+          if (idn && !idd) {
+            result.nama = idn;
+          }
+          if (idn && idd) {
+            result.nama = idd;
+          }
+          return res.status(200).json(result);
         case 'update':
           console.log('update for hq');
           break;
