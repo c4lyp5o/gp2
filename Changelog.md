@@ -11,10 +11,16 @@
 - Menambah kotak penandaan pesakit _oncall_ ketika mendaftarkan pesakit bagi fasiliti klinik pergigian di modul Pendaftaran
 - Penambahan cara carian di senarai daftar pesakit di modul Pendaftaran dengan cara carian tanpa tarikh atau dengan tarikh
 
+#### Changed
+
+- Pesakit yang dihapuskan sekiranya didaftarkan semula akan mendapat nombor pendaftaran yang asal tetapi kedatangan adalah baru
+- Pesakit ulangan yg tidak mendapatkan pemeriksaan pada kedatangan baru kini boleh diisi pemeriksaan pada kedatangan ulangan
+
 #### Fixed
 
 - Pengiraan umur pesakit dibetulkan sekiranya pesakit lahir pada hari yang sama dengan tarikh hari semasa hari kedatangan
 - Penambahbaikan cara paparan maklumat di submodul Rekod Regawai di modul Pengguna
+- _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum
 
 #### e-Reporting
 
