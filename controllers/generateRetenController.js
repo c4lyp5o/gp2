@@ -3861,61 +3861,113 @@ const makeBp = async (payload) => {
       klinik = currentKlinik.kp;
     }
     //
-    let filename = path.join(__dirname, '..', 'public', 'exports', 'BP.xlsx');
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'Format BP Pind.2.2023.xlsx'
+    );
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     // get first worksheet
-    let worksheet = workbook.getWorksheet('Bulan');
+    let worksheet = workbook.getWorksheet('Lampiran BP');
     // write bulan
-    let intro1 = worksheet.getCell('F3');
     if (bulan) {
-      intro1.value = moment(bulan).format('MMMM');
+      worksheet.getCell('B6').value = `${moment(bulan).format(
+        'MMMM'
+      )} / ${moment().format('YYYY')}`;
     } else {
       const monthMula = moment(tarikhMula).format('MMMM');
       const monthAkhir = moment(tarikhAkhir).format('MMMM');
       if (monthMula === monthAkhir) {
-        intro1.value = monthMula;
+        worksheet.getCell('B6').value = `${monthMula} / ${moment().format(
+          'YYYY'
+        )}`;
       } else {
-        intro1.value = `${monthMula} - ${monthAkhir}`;
+        worksheet.getCell(
+          'B6'
+        ).value = `${monthMula} - ${monthAkhir} / ${moment().format('YYYY')}`;
       }
     }
-    // write year
-    let intro2 = worksheet.getCell('I3');
-    intro2.value = moment(bulan).format('YYYY');
-    // write facility
-    let intro3 = worksheet.getCell('B4');
-    intro3.value = `${klinik.toUpperCase()}`;
-    // write daerah
-    let intro4 = worksheet.getCell('B5');
-    intro4.value = `${daerah.toUpperCase()}`;
-    // write negeri
-    let intro5 = worksheet.getCell('B6');
-    intro5.value = `${negeri.toUpperCase()}`;
-    // end intro
+    worksheet.getCell('B6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    let yangMeminta;
+    if (klinik !== 'all') {
+      yangMeminta = `${klinik} / ${daerah} / ${negeri}`;
+    } else if (daerah !== 'all') {
+      yangMeminta = `${daerah} / ${negeri}`;
+    } else if (negeri !== 'all') {
+      yangMeminta = `${negeri}`;
+    } else {
+      yangMeminta = 'Malaysia';
+    }
+
+    worksheet.getCell('C5').value = `${yangMeminta.toUpperCase()}`;
+    worksheet.getCell('C5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    worksheet.getCell(
+      'N4'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('N5').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('N7').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('N4').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('N5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('N7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    let jumlahReten = 0;
+    let retenSalah = 0;
 
     // write data
     let rowNumber = 11;
     let cellNumber = 3;
-
     for (let j = 0; j < data[0].melayu.length; j++) {
       if (data[0].melayu[j][0]) {
-        //
+        jumlahReten += data[0].melayu[j][0].jumlahReten;
+        retenSalah += data[0].melayu[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].jumlahReten;
-        //
         cellNumber = cellNumber + 3;
-        //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].adaSejarahDarahTinggi;
-        //
         cellNumber++;
-        //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].tiadaSejarahDarahTinggi;
-        //
         cellNumber = 13;
-        //
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].jumlahDirujukKeKk;
         worksheet.getRow(rowNumber).getCell(cellNumber).value;
@@ -3931,10 +3983,12 @@ const makeBp = async (payload) => {
         rowNumber = 11;
       }
     }
-    rowNumber = 17;
     cellNumber = 3;
+    rowNumber = 17;
     for (let j = 0; j < data[1].cina.length; j++) {
       if (data[1].cina[j][0]) {
+        jumlahReten += data[1].cina[j][0].jumlahReten;
+        retenSalah += data[1].cina[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[1].cina[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
@@ -3963,6 +4017,8 @@ const makeBp = async (payload) => {
     rowNumber = 23;
     for (let j = 0; j < data[2].india.length; j++) {
       if (data[2].india[j][0]) {
+        jumlahReten += data[2].india[j][0].jumlahReten;
+        retenSalah += data[2].india[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[2].india[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
@@ -3989,19 +4045,21 @@ const makeBp = async (payload) => {
     }
     cellNumber = 3;
     rowNumber = 29;
-    for (let j = 0; j < data[3].dayak.length; j++) {
-      if (data[3].dayak[j][0]) {
+    for (let j = 0; j < data[3].bumiputeraSabah.length; j++) {
+      if (data[3].bumiputeraSabah[j][0]) {
+        jumlahReten += data[3].bumiputeraSabah[j][0].jumlahReten;
+        retenSalah += data[3].bumiputeraSabah[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[3].dayak[j][0].jumlahReten;
+          data[3].bumiputeraSabah[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[3].dayak[j][0].adaSejarahDarahTinggi;
+          data[3].bumiputeraSabah[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[3].dayak[j][0].tiadaSejarahDarahTinggi;
+          data[3].bumiputeraSabah[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[3].dayak[j][0].jumlahDirujukKeKk +
+          data[3].bumiputeraSabah[j][0].jumlahDirujukKeKk +
           worksheet.getRow(rowNumber).getCell(cellNumber).value;
       }
       rowNumber++;
@@ -4017,19 +4075,21 @@ const makeBp = async (payload) => {
     }
     cellNumber = 3;
     rowNumber = 35;
-    for (let j = 0; j < data[4].lain2.length; j++) {
-      if (data[4].lain2[j][0]) {
+    for (let j = 0; j < data[4].bumiputeraSarawak.length; j++) {
+      if (data[4].bumiputeraSarawak[j][0]) {
+        jumlahReten += data[4].bumiputeraSarawak[j][0].jumlahReten;
+        retenSalah += data[4].bumiputeraSarawak[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[4].lain2[j][0].jumlahReten;
+          data[4].bumiputeraSarawak[j][0].jumlahReten;
         cellNumber = cellNumber + 3;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[4].lain2[j][0].adaSejarahDarahTinggi;
+          data[4].bumiputeraSarawak[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[4].lain2[j][0].tiadaSejarahDarahTinggi;
+          data[4].bumiputeraSarawak[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[4].lain2[j][0].jumlahDirujukKeKk +
+          data[4].bumiputeraSarawak[j][0].jumlahDirujukKeKk +
           worksheet.getRow(rowNumber).getCell(cellNumber).value;
       }
       rowNumber++;
@@ -4043,100 +4103,76 @@ const makeBp = async (payload) => {
         rowNumber = 35;
       }
     }
-
-    // info
-    let rowTambahan = 1;
-    let rowNew;
-    rowNew = worksheet.getRow(43);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = process.env.npm_package_version;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Memaparkan maklumat dari';
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    // worksheet.mergeCells(
-    //   `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    // );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    if (bulan) {
-      rowNew.getCell(1).value = `${moment(bulan)
-        .startOf('month')
-        .format('DD-MM-YYYY')} - ${moment(bulan)
-        .endOf('month')
-        .format('DD-MM-YYYY')}`;
-    } else {
-      rowNew.getCell(1).value = `${moment(tarikhMula).format(
-        'DD-MM-YYYY'
-      )} - ${moment(tarikhAkhir).format('DD-MM-YYYY')}`;
+    cellNumber = 3;
+    rowNumber = 41;
+    for (let j = 0; j < data[5].orangAsliSemenanjung.length; j++) {
+      if (data[5].orangAsliSemenanjung[j][0]) {
+        jumlahReten += data[5].orangAsliSemenanjung[j][0].jumlahReten;
+        retenSalah += data[5].orangAsliSemenanjung[j][0].statusReten;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[5].orangAsliSemenanjung[j][0].jumlahReten;
+        cellNumber = cellNumber + 3;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[5].orangAsliSemenanjung[j][0].adaSejarahDarahTinggi;
+        cellNumber++;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[5].orangAsliSemenanjung[j][0].tiadaSejarahDarahTinggi;
+        cellNumber = 13;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[5].orangAsliSemenanjung[j][0].jumlahDirujukKeKk +
+          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+      }
+      rowNumber++;
+      if (j < 5) {
+        cellNumber = 3;
+      }
+      if (j >= 4) {
+        cellNumber = 4;
+      }
+      if (j === 4) {
+        rowNumber = 41;
+      }
     }
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Tarikh dan masa penjanaan';
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )} - ${moment(new Date()).format('HH:mm:ss')}`;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).font = {
-    //     color: { argb: 'FF0000' },
-    //    };
-    rowNew.getCell(1).value = 'TIDAK BERKENAAN';
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Dijana oleh';
-    rowTambahan++;
-    rowNew = worksheet.getRow(43 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).font = {
-      color: { argb: 'FF0000' },
+    cellNumber = 3;
+    rowNumber = 47;
+    for (let j = 0; j < data[6].lain2.length; j++) {
+      if (data[6].lain2[j][0]) {
+        jumlahReten += data[6].lain2[j][0].jumlahReten;
+        retenSalah += data[6].lain2[j][0].statusReten;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[6].lain2[j][0].jumlahReten;
+        cellNumber = cellNumber + 3;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[6].lain2[j][0].adaSejarahDarahTinggi;
+        cellNumber++;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[6].lain2[j][0].tiadaSejarahDarahTinggi;
+        cellNumber = 13;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+          data[6].lain2[j][0].jumlahDirujukKeKk +
+          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+      }
+      rowNumber++;
+      if (j < 5) {
+        cellNumber = 3;
+      }
+      if (j >= 4) {
+        cellNumber = 4;
+      }
+      if (j === 4) {
+        rowNumber = 47;
+      }
+    }
+
+    worksheet.getCell('N6').value = `Peratus reten salah: ${(
+      (retenSalah / jumlahReten) *
+      100
+    ).toFixed(2)}%`;
+    worksheet.getCell('N6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
     };
-    rowNew.getCell(1).value = username;
 
     worksheet.name = moment(bulan).format('MMMM');
 
