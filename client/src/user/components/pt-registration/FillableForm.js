@@ -3432,6 +3432,7 @@ export default function FillableForm({
                   setShowForm(false);
                 }}
                 className='m-2 p-2 w-44 uppercase rounded bg-kaunter3 hover:bg-kaunter1 hover:text-userWhite hover:cursor-pointer shadow-md transition-all'
+                data-cy='kembali-pendaftaran'
               >
                 kembali
               </button>

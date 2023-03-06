@@ -19,6 +19,7 @@ import './commands';
 // modul pendaftaran
 import './Pendaftaran/kp';
 import './Pendaftaran/kkiakd';
+import './Pendaftaran/senarai-daftar-pesakit';
 
 // Alternatively you can use CommonJS syntax:
 // require('./commands')
