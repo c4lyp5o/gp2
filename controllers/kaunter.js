@@ -108,25 +108,15 @@ const createPersonKaunter = async (req, res) => {
     namaProgram: req.body.namaProgram,
   }).sort({ createdAt: -1 });
 
-  console.log(personExist);
-
   // tagging person according to their status
   if (personExist) {
-    // req.body.kedatangan = 'ulangan-kedatangan';
-    // logger.info(
-    //   `${req.method} ${req.url} [kaunterController] ic telah wujud. tagging ulangan`
-    // );
-    // req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    // logger.info(
-    //   `${req.method} ${req.url} [kaunterController] no pendaftaran ulangan: ${req.body.noPendaftaranUlangan}`
-    // );
     logger.info(
-      `[kaunterController] ic telah wujud. check status hapus dan status ulangan`
+      `[kaunterController] IC telah wujud. check status hapus dan status ulangan`
     );
     // see if it is deleted beforehand
     if (personExist.kedatangan === 'baru-kedatangan' && personExist.deleted) {
       logger.info(
-        `[kaunterController] ic telah wujud tetapi telah dihapuskan pada kedatangan pertama. tagging baru`
+        `[kaunterController] IC telah wujud tetapi dihapuskan pada kedatangan pertama. TAG: baru`
       );
       req.body.kedatangan = 'baru-kedatangan';
       req.body.noPendaftaranBaru = personExist.noPendaftaranBaru;
@@ -138,11 +128,22 @@ const createPersonKaunter = async (req, res) => {
       personExist.statusKehadiran
     ) {
       logger.info(
-        `[kaunterController] ic telah wujud tetapi tidak mendapatkan rawatan pada kedatangan pertama. tagging ulangan`
+        `[kaunterController] IC telah wujud tetapi tidak mendapatkan pemeriksaan pada kedatangan pertama. TAG: ulangan`
       );
       req.body.kedatangan = 'ulangan-kedatangan';
       req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
       req.body.checkupEnabled = true;
+    }
+    if (
+      personExist.kedatangan === 'baru-kedatangan' &&
+      !personExist.deleted &&
+      !personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] IC telah wujud dan telah mendapatkan pemeriksaan pada kedatangan pertama. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
     }
     if (
       personExist.kedatangan === 'ulangan-kedatangan' &&
@@ -150,16 +151,15 @@ const createPersonKaunter = async (req, res) => {
       !personExist.statusKehadiran
     ) {
       logger.info(
-        `[kaunterController] ic telah wujud dan kedatangan lama ulangan. tagging ulangan`
+        `[kaunterController] IC telah wujud dan kedatangan ulangan. TAG: ulangan`
       );
       req.body.kedatangan = 'ulangan-kedatangan';
       req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
-      req.body.checkupEnabled = false;
     }
   }
 
   if (!personExist) {
-    logger.info(`[kaunterController] ic tidak wujud. tagging baru`);
+    logger.info(`[kaunterController] IC tidak wujud. TAG: baru`);
     req.body.kedatangan = 'baru-kedatangan';
   }
 
