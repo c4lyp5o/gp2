@@ -9,5 +9,6 @@ describe('Login Pendaftaran and start testing', () => {
 
     cy.registerGeneralPtKp();
     cy.validateRegisteredGeneralPtKp();
+    cy.validateSenaraiDaftarPesakit();
   });
 });

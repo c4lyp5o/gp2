@@ -243,6 +243,7 @@ function KaunterNavbar() {
                   ? 'bg-kaunter3 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter2 transition-all'
                   : 'bg-kaunter2 rounded-md shadow-xl p-3 m-1 hover:bg-kaunter3 transition-all'
               }
+              data-cy='navbar-registry'
             >
               SENARAI DAFTAR PESAKIT
             </NavLink>
