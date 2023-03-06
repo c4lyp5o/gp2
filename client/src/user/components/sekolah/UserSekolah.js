@@ -4,7 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import { FaCheckCircle, FaTimesCircle } from 'react-icons/fa';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserSekolah() {
   const {

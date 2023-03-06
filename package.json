@@ -1,16 +1,19 @@
 {
   "name": "giret-2.0",
-  "version": "2.0.13",
+  "version": "2.0.14",
   "description": "An attempt at a mountain.",
   "main": "server.js",
   "scripts": {
     "install-server": "npm install",
     "install-client": "cd client && npm install",
+    "install-prod": "npm install --omit dev",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
     "build-client": "cd client && npm run build",
-    "deploy-local": "npm run build-client && npm run server",
+    "deploy-local": "npm run build-client && npm start",
     "start": "node server.js"
   },
   "repository": {
@@ -47,7 +50,8 @@
     "speakeasy": "^2.0.0"
   },
   "devDependencies": {
-    "concurrently": "^7.1.0",
-    "nodemon": "^2.0.15"
+    "concurrently": "^7.6.0",
+    "cypress": "^12.7.0",
+    "nodemon": "^2.0.20"
   }
 }

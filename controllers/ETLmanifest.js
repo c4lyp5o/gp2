@@ -129,14 +129,14 @@ const initiateETL = async (req, res) => {
     const negeri = await initialDataNegeri();
     const daerah = await initialDataDaerah(negeri);
     const klinik = await initialDataKlinik(daerah);
-    // const individu = await initialDataIndividual(klinik);
+    const individu = await initialDataIndividual(klinik);
 
     // negeri data
     // monthly count
     const countNegeri = [];
     const countDaerah = [];
     const countKlinik = [];
-    // const countIndividu = [];
+    const countIndividu = [];
 
     negeri.forEach((negeri) => {
       monthlyCount.forEach((monthlyCount) => {
@@ -270,113 +270,113 @@ const initiateETL = async (req, res) => {
         );
       });
 
-    // for laterz
-    // individu.forEach((individu) => {
-    //   monthlyCount.forEach((monthlyCount) => {
-    //     const mdcOrMdtb = individu.mdcNumber || individu.mdtbNumber;
-    //     const payload = {
-    //       negeri: 'ETL',
-    //       daerah: 'ETL',
-    //       klinik: individu.kodFasiliti,
-    //       pilihanIndividu: mdcOrMdtb,
-    //       bulan: moment()
-    //         .subtract(1, 'month')
-    //         .startOf('month')
-    //         .format('YYYY-MM-DD'),
-    //     };
-    //     const dataObj = {
-    //       createdByNegeri: individu.createdByNegeri,
-    //       createdByDaerah: individu.createdByDaerah,
-    //       createdByKodFasiliti: individu.kodFasiliti,
-    //       createdByMdcMdtb: mdcOrMdtb,
-    //       dataType: monthlyCount.name,
-    //       dataFormat: 'Monthly',
-    //       dataDate: moment()
-    //         .subtract(1, 'month')
-    //         .endOf('month')
-    //         .format('YYYY-MM-DD'),
-    //       createdAt: moment().format(),
-    //     };
-    //     switch (monthlyCount.name) {
-    //       case 'PG206':
-    //         const promise206 = monthlyCount
-    //           .func(payload)
-    //           .then(async (data) => {
-    //             dataObj.data = data;
-    //             await Reservoir.create(dataObj);
-    //             ETLLogger.info(
-    //               `[ETL] monthly data ${monthlyCount.name} generated for ${
-    //                 individu.nama
-    //               } | ${individu.mdcNumber ? 'MDC' : 'MDTB'}: ${mdcOrMdtb}`
-    //             );
-    //           })
-    //           .catch((err) => {
-    //             ETLLogger.error(
-    //               `[ETL] Error running individu ETL. Cause: ${err}`
-    //             );
-    //           });
-    //         countIndividu.push(promise206);
-    //         break;
-    //       case 'PG207':
-    //         const promise207 = monthlyCount
-    //           .func(payload)
-    //           .then(async (data) => {
-    //             dataObj.data = data;
-    //             await Reservoir.create(dataObj);
-    //             ETLLogger.info(
-    //               `[ETL] monthly data ${monthlyCount.name} generated for ${individu.nama}`
-    //             );
-    //           })
-    //           .catch((err) => {
-    //             ETLLogger.error(
-    //               `[ETL] Error running individu ETL. Cause: ${err}`
-    //             );
-    //           });
-    //         countIndividu.push(promise207);
-    //         break;
-    //       case 'PGPRO01':
-    //         const promisePGPRO01 = monthlyCount
-    //           .func(payload)
-    //           .then(async (data) => {
-    //             dataObj.data = data;
-    //             await Reservoir.create(dataObj);
-    //             ETLLogger.info(
-    //               `[ETL] monthly data ${monthlyCount.name} generated for ${individu.nama}`
-    //             );
-    //           })
-    //           .catch((err) => {
-    //             ETLLogger.error(
-    //               `[ETL] Error running individu ETL. Cause: ${err}`
-    //             );
-    //           });
-    //         countIndividu.push(promisePGPRO01);
-    //         break;
-    //       case 'PGPRO01Combined':
-    //         const promisePGPRO01Combined = monthlyCount
-    //           .func(payload)
-    //           .then(async (data) => {
-    //             dataObj.data = data;
-    //             await Reservoir.create(dataObj);
-    //             ETLLogger.info(
-    //               `[ETL] monthly data ${monthlyCount.name} generated for ${individu.nama}`
-    //             );
-    //           })
-    //           .catch((err) => {
-    //             ETLLogger.error(
-    //               `[ETL] Error running individu ETL. Cause: ${err}`
-    //             );
-    //           });
-    //         countIndividu.push(promisePGPRO01Combined);
-    //         break;
-    //       default:
-    //         break;
-    //     }
-    //   });
-    // });
+    // it is time
+    individu.forEach((individu) => {
+      monthlyCount.forEach((monthlyCount) => {
+        const mdcOrMdtb = individu.mdcNumber || individu.mdtbNumber;
+        const payload = {
+          negeri: 'ETL',
+          daerah: 'ETL',
+          klinik: individu.kodFasiliti,
+          pilihanIndividu: mdcOrMdtb,
+          bulan: moment()
+            .subtract(1, 'month')
+            .startOf('month')
+            .format('YYYY-MM-DD'),
+        };
+        const dataObj = {
+          createdByNegeri: individu.createdByNegeri,
+          createdByDaerah: individu.createdByDaerah,
+          createdByKodFasiliti: individu.kodFasiliti,
+          createdByMdcMdtb: mdcOrMdtb,
+          dataType: monthlyCount.name,
+          dataFormat: 'Monthly',
+          dataDate: moment()
+            .subtract(1, 'month')
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          createdAt: moment().format(),
+        };
+        switch (monthlyCount.name) {
+          case 'PG206':
+            const promise206 = monthlyCount
+              .func(payload)
+              .then(async (data) => {
+                dataObj.data = data;
+                await Reservoir.create(dataObj);
+                ETLLogger.info(
+                  `[ETL] monthly data ${monthlyCount.name} generated for ${
+                    individu.nama
+                  } | ${individu.mdcNumber ? 'MDC' : 'MDTB'}: ${mdcOrMdtb}`
+                );
+              })
+              .catch((err) => {
+                ETLLogger.error(
+                  `[ETL] Error running individu ETL. Cause: ${err}`
+                );
+              });
+            countIndividu.push(promise206);
+            break;
+          case 'PG207':
+            const promise207 = monthlyCount
+              .func(payload)
+              .then(async (data) => {
+                dataObj.data = data;
+                await Reservoir.create(dataObj);
+                ETLLogger.info(
+                  `[ETL] monthly data ${monthlyCount.name} generated for ${individu.nama}`
+                );
+              })
+              .catch((err) => {
+                ETLLogger.error(
+                  `[ETL] Error running individu ETL. Cause: ${err}`
+                );
+              });
+            countIndividu.push(promise207);
+            break;
+          case 'PGPRO01':
+            const promisePGPRO01 = monthlyCount
+              .func(payload)
+              .then(async (data) => {
+                dataObj.data = data;
+                await Reservoir.create(dataObj);
+                ETLLogger.info(
+                  `[ETL] monthly data ${monthlyCount.name} generated for ${individu.nama}`
+                );
+              })
+              .catch((err) => {
+                ETLLogger.error(
+                  `[ETL] Error running individu ETL. Cause: ${err}`
+                );
+              });
+            countIndividu.push(promisePGPRO01);
+            break;
+          case 'PGPRO01Combined':
+            const promisePGPRO01Combined = monthlyCount
+              .func(payload)
+              .then(async (data) => {
+                dataObj.data = data;
+                await Reservoir.create(dataObj);
+                ETLLogger.info(
+                  `[ETL] monthly data ${monthlyCount.name} generated for ${individu.nama}`
+                );
+              })
+              .catch((err) => {
+                ETLLogger.error(
+                  `[ETL] Error running individu ETL. Cause: ${err}`
+                );
+              });
+            countIndividu.push(promisePGPRO01Combined);
+            break;
+          default:
+            break;
+        }
+      });
+    });
 
-    // await Promise.all([Promise.all(countIndividu)]).then(() => {
-    //   ETLLogger.info(`[ETL] monthly data generated for all individu`);
-    // });
+    await Promise.all([Promise.all(countIndividu)]).then(() => {
+      ETLLogger.info(`[ETL] monthly data generated for all individu`);
+    });
 
     ETLLogger.info(
       `ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`

@@ -118,6 +118,7 @@ function KaunterLogin() {
                       setPilihanNegeri(e.target.value);
                     }}
                     className='w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                    data-cy='negeri'
                   >
                     <option value=''></option>
                     <option value='Johor'>Johor</option>
@@ -153,6 +154,7 @@ function KaunterLogin() {
                         setPilihanDaerah(e.target.value);
                       }}
                       className='w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='daerah'
                     >
                       <option value=''></option>
                       {listDaerah.map((d) => {
@@ -179,6 +181,7 @@ function KaunterLogin() {
                         setPilihanKlinik(e.target.value);
                       }}
                       className='w-full leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                      data-cy='klinik'
                     >
                       <option value=''></option>
                       {listKlinik.map((k) => {
@@ -205,6 +208,7 @@ function KaunterLogin() {
                       value={password}
                       onChange={(e) => setPassword(e.target.value)}
                       required
+                      data-cy='password'
                     />
                     <label
                       htmlFor='password-pendaftaran'
@@ -266,6 +270,7 @@ function KaunterLogin() {
                   <button
                     type='submit'
                     className='order-first lg:order-last capitalize bg-kaunter2 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                    data-cy='submit'
                   >
                     log masuk
                   </button>

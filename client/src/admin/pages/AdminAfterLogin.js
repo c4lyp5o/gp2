@@ -33,6 +33,7 @@ import Footer from '../components/Footer';
 // -----------------------------------------------------------
 
 import Data from '../components/superadmin/Data';
+import DataNegeri from '../components/superadmin/negeri/Data';
 import DataKp from '../components/admin-kp/Data';
 
 // settings
@@ -147,6 +148,10 @@ export default function AdminAfterLogin() {
             <>
               <Route index element={<AdminCenterStage {...props} />} />
               <Route path='negeri' element={<Negeri />} />
+              {/* Data untuk negeri */}
+              <Route path='negeri/pp' element={<DataNegeri DType='ppspn' />} />
+              <Route path='negeri/jp' element={<DataNegeri DType='jpspn' />} />
+              {/* Data untuk negeri */}
               <Route path='daerah' element={<Daerah />} />
               <Route path='klinik' element={<Klinik />} />
               <Route path='kkiakd' element={<Data FType='kkiakd' />} />

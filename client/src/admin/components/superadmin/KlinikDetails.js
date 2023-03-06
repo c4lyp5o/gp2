@@ -1,6 +1,5 @@
 import { useState, useEffect } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { Ring } from 'react-awesome-spinners';
 import { TbArrowBigLeftLine } from 'react-icons/tb';
 import {
   MdSupervisedUserCircle,
@@ -9,6 +8,7 @@ import {
   MdRunCircle,
 } from 'react-icons/md';
 import axios from 'axios';
+import moment from 'moment/moment';
 import {
   Chart as ChartJS,
   CategoryScale,
@@ -22,7 +22,7 @@ import {
 import { Line } from 'react-chartjs-2';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
-import moment from 'moment/moment';
+import { Loading } from '../Screens';
 
 ChartJS.register(
   CategoryScale,
@@ -49,7 +49,7 @@ function DataKlinik({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit ke ${data.kp}`,
+        text: `Kedatangan Pesakit ke ${data.nama}`,
       },
     },
   };
@@ -73,18 +73,6 @@ function DataKlinik({ data }) {
       <div className='max-w rounded overflow-hidden shadow-lg'>
         <div className='px-6 py-4'>
           <Line data={chartData} options={options} />
-          {/* <p className='underline'>Statistik</p>
-          <p className='text-xs'>
-            Jumlah Pesakit sehingga {new Date().toLocaleDateString()}:{' '}
-            {data.jumlahPt}
-          </p>
-          <p className='text-xs'>Jumlah Pesakit Hari Ini: {data.ptHariIni}</p>
-          <p className='text-xs'>
-            Jumlah Pesakit Minggu Ini: {data.ptMingguIni}
-          </p>
-          <p className='text-xs'>Jumlah Pesakit Bulan Ini: {data.ptBulanIni}</p>
-          <p className='text-xs'>Jumlah Pesakit Baru: {data.ptBaru}</p>
-          <p className='text-xs'>Jumlah Pesakit Ulangan: {data.ptUlangan}</p> */}
         </div>
       </div>
     </div>
@@ -269,13 +257,13 @@ function JanaReten({ data, id }) {
 export default function Klinik() {
   const [searchParams] = useSearchParams();
   const id = searchParams.get('id');
-  const { toast, getKlinikData } = useGlobalAdminAppContext();
+  const { toast, getDetailedData } = useGlobalAdminAppContext();
 
   const [data, setData] = useState([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    getKlinikData(id)
+    getDetailedData({ type: 'klinik', id })
       .then((res) => {
         setData(res.data);
         setLoading(false);
@@ -286,23 +274,13 @@ export default function Klinik() {
   }, []);
 
   if (loading) {
-    return (
-      <div className='flex justify-center text-center h-full w-full'>
-        <div className='m-auto p-4 bg-admin4 rounded-md grid'>
-          <div className='flex justify-center mb-2'>
-            <Ring color='#c44058' />
-          </div>
-          <span className='bg-admin3 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-            Memuat...
-          </span>
-        </div>
-      </div>
-    );
+    return <Loading />;
   }
 
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
+        <h1 className='text-2xl font-bold underline'>{data.nama}</h1>
         <div className='grid grid-cols-3 gap-2'>
           {/* <JanaReten data={data} id={id} /> */}
           <Statistik data={data} />

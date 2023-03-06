@@ -32,6 +32,7 @@ function NegeriBox(props) {
           });
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
+        data-cy='negeri'
       >
         <option value=''>Sila Pilih Negeri...</option>
         <option value='hqputrajaya' className='capitalize'>
@@ -70,6 +71,7 @@ function DaerahBox(props) {
           });
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize'
+        data-cy='daerah'
       >
         <option value=''>Sila Pilih Daerah...</option>
         {props.allDaerah.map((d) => {
@@ -111,6 +113,7 @@ function KlinikBox(props) {
           });
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md'
+        data-cy='klinik'
       >
         <option value=''>Sila Pilih Klinik</option>
         {props.allKlinik.map((k) => {
@@ -149,6 +152,7 @@ function AdminBox(props) {
           });
         }}
         className='w-full leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md'
+        data-cy='pentadbir-klinik'
       >
         <option value=''>Sila Pilih Pentadbir</option>
         {props.allAdmin.map((a) => {

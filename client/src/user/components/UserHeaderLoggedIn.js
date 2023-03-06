@@ -78,6 +78,10 @@ function UserHeaderLoggedIn() {
       setReliefUserToken(localStorage.getItem('reliefUserToken'));
       setFasilitiRelief(localStorage.getItem('fasilitiRelief'));
       setRefetchDateTime(!refetchDateTime);
+      {
+        process.env.REACT_APP_ENV === 'DEV' &&
+          console.log('refetch identity pengguna');
+      }
     };
     refetchIdentityDatetime();
   }, [refetchState]);
