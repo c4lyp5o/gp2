@@ -12,7 +12,7 @@ const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
-const { logger } = require('../logs/logger');
+const { logger, penjanaanRetenLogger } = require('../logs/logger');
 
 const borderStyle = {
   top: { style: 'thin' },
@@ -383,6 +383,13 @@ const downloader = async (req, res, callback) => {
   if (excelFile === 'No data found') {
     return callback('No data found');
   }
+  penjanaanRetenLogger.info(
+    `[penjanaanReten] ${username} menjana ${jenisReten} untuk ${
+      klinik === 'all' ? 'semua klinik' : klinik
+    }${daerah === 'all' ? '/semua daerah' : `/${daerah}`}${
+      negeri === 'all' ? '/semua negeri' : `/${negeri}`
+    }`
+  );
   return callback(null, excelFile);
 };
 
@@ -4738,6 +4745,30 @@ const makePG201P2 = async (payload) => {
     return err;
   }
 };
+const makeKEPP = async (payload) => {
+  logger.info('[generateRetenController] makeKEPP');
+  try {
+    let data;
+    let fromEtl = 'false';
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countKEPP(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    return data;
+  } catch (err) {
+    logger.error(err);
+    return err;
+  }
+};
 
 // debug
 exports.debug = async (req, res) => {
@@ -4849,4 +4880,54 @@ exports.refreshTokens = async function (req, res) {
   }
 
   res.status(200).json({ message: 'Tokens refreshed' });
+};
+// kill the tokens
+exports.killTokens = async function (req, res) {
+  const hqTokens = await GenerateToken.find({
+    accountType: 'hqSuperadmin',
+  });
+
+  if (hqTokens) {
+    hqTokens.forEach(async (token) => {
+      token.jumlahToken = 0;
+      await token.save();
+    });
+    logger.info('[generateRetenController] dah kill token hq');
+  }
+
+  const negeriTokens = await GenerateToken.find({
+    accountType: 'negeriSuperadmin',
+  });
+
+  if (negeriTokens) {
+    negeriTokens.forEach(async (token) => {
+      token.jumlahToken = 0;
+      await token.save();
+    });
+    logger.info('[generateRetenController] dah kill token negeri');
+  }
+
+  const daerahTokens = await GenerateToken.find({
+    accountType: 'daerahSuperadmin',
+  });
+  if (daerahTokens) {
+    daerahTokens.forEach(async (token) => {
+      token.jumlahToken = 0;
+      await token.save();
+    });
+    logger.info('[generateRetenController] dah kill token daerah');
+  }
+
+  const kpTokens = await GenerateToken.find({
+    accountType: 'kpUser',
+  });
+  if (kpTokens) {
+    kpTokens.forEach(async (token) => {
+      token.jumlahToken = 0;
+      await token.save();
+    });
+    logger.info('[generateRetenController] dah kill token kp');
+  }
+
+  res.status(200).json({ message: 'Tokens killed' });
 };
