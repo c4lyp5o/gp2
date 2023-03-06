@@ -418,9 +418,9 @@ const queryPersonUmum = async (req, res) => {
   }
 
   const umumResultQuery = await Umum.find(queryObject)
-    .select(
-      '_id statusKehadiran tarikhKedatangan waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan createdByUsername statusReten noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram rawatanDibuatOperatorLain'
-    )
+    // .select(
+    //   '_id noPendaftaranBaru noPendaftaranUlangan waktuSampai tarikhKedatangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan statusKehadiran createdByUsername statusReten noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram rawatanDibuatOperatorLain'
+    // )
     .lean();
 
   res.status(200).json({ umumResultQuery });
