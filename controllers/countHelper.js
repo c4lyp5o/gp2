@@ -1,4 +1,5 @@
 const moment = require('moment');
+const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaan = require('../models/Pemeriksaansekolah');
@@ -6,7 +7,7 @@ const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
 const MediaSosial = require('../models/MediaSosial');
-const { retenLogger } = require('../logs/logger');
+const { errorRetenLogger } = require('../logs/logger');
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
@@ -958,7 +959,7 @@ const countPG211A = async (payload) => {
     }
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -1768,7 +1769,7 @@ const countPG211C = async (payload) => {
     }
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -3447,7 +3448,7 @@ const countPG206 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -5333,7 +5334,7 @@ const countPG207 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -5948,7 +5949,7 @@ const countPGPR201Baru = async (payload) => {
     }
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -7107,7 +7108,7 @@ const countPG201 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -7910,7 +7911,7 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -9017,7 +9018,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -10064,7 +10065,7 @@ const countPG201PindSatu2022 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -11992,7 +11993,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -12508,7 +12509,7 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -12612,7 +12613,7 @@ const countAdHocQuery = async (
     }
     return query;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -12783,7 +12784,7 @@ const countPGPro01 = async (payload) => {
     const data = await Promosi.aggregate(pipeline);
     return data;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -13364,7 +13365,7 @@ const countPGPro01Combined = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -13611,7 +13612,7 @@ const countGender = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -13974,7 +13975,7 @@ const countMasa = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -14262,7 +14263,7 @@ const countBp = async (payload) => {
 
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -14679,7 +14680,7 @@ const countBPE = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
 };
@@ -15658,9 +15659,128 @@ const countPG201P2 = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    retenLogger.error(error);
+    errorRetenLogger.error(error);
     return 'Error counting data';
   }
+};
+const countKEPP = async (payload) => {
+  // let { negeri, daerah } = payload;
+  let negeri = 'Melaka';
+  let daerah = 'Melaka Tengah';
+
+  let all_kepp = [];
+  let bigData = [];
+
+  const kepps = await User.find({ statusRoleKlinik: 'kepp', negeri, daerah })
+    .select('kodFasiliti')
+    .lean();
+  console.log(kepps);
+  kepps.forEach(async (kepp) => {
+    let data = {};
+    data = { ...data, kp: kepp.kp, kodFasiliti: kepp.kodFasiliti };
+    const pesakit = await Umum.aggregate([
+      {
+        $match: { createdByKodFasiliti: kepp.kodFasiliti },
+      },
+      {
+        $group: {
+          _id: '$createdByKodFasiliti',
+          jumlahPesakit: { $sum: 1 },
+          jumlahKedatanganBaru: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: ['$kedatangan', 'baru-kedatangan'],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+          jumlahKedatanganUlangan: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: ['$kedatangan', 'ulangan-kedatangan'],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+          jumlahKesEndoPerluAnt: {
+            $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
+          },
+          jumlahKesEndoPerluPreMolar: {
+            $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
+          },
+          jumlahKesEndoPerluMolar: {
+            $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
+          },
+          jumlahKesEndoPerluRedo: {
+            $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum',
+          },
+          jumlahKesEndoRedoKP: {
+            $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
+          },
+          jumlahKesEndoRedoKeppAnt: {
+            $sum: '$jumlahAnteriorRawatanSemulaKeppRawatanUmum',
+          },
+          jumlahKesEndoRedoKeppPreMolar: {
+            $sum: '$jumlahPremolarRawatanSemulaKeppRawatanUmum',
+          },
+          jumlahKesEndoRedoKeppMolar: {
+            $sum: '$jumlahMolarRawatanSemulaKeppRawatanUmum',
+          },
+          jumlahKodRDITN3: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: ['$memenuhiRditnKod3KesRujukUpprRawatanUmum', true],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+          jumlahRestoPascaEndo: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: [
+                    '$restorasiPascaEndodontikKesRujukUpprRawatanUmum',
+                    true,
+                  ],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+          jumlahKomplikasiDiKEPP: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: [
+                    '$komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum',
+                    true,
+                  ],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+        },
+      },
+    ]);
+    data = { ...data, ...pesakit[0] };
+    bigData.push(data);
+  });
+
+  console.log(bigData);
+
+  return bigData;
 };
 
 // helper function
@@ -16384,11 +16504,15 @@ const getParamsBp = (payload, kaum, jantina) => {
   const { klinik, daerah, negeri } = payload;
   //
   let theSex = jantina === 'l' ? 'lelaki' : 'perempuan';
+  let dayak;
+  if (kaum === 'dayak') {
+    kaum = { $in: ['iban', 'bidayuh'] };
+  }
 
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16402,7 +16526,7 @@ const getParamsBp = (payload, kaum, jantina) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16415,7 +16539,7 @@ const getParamsBp = (payload, kaum, jantina) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16427,7 +16551,7 @@ const getParamsBp = (payload, kaum, jantina) => {
   const satuMalaysia = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: kaum,
+      kumpulanEtnik: kaum === 'dayak' ? dayak : kaum,
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
@@ -16785,4 +16909,5 @@ module.exports = {
   countMasa,
   countBp,
   countBPE,
+  countKEPP,
 };
