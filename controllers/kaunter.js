@@ -281,7 +281,7 @@ const queryPersonKaunter = async (req, res) => {
   }
 
   if (ic) {
-    queryObject.ic = ic;
+    queryObject.ic = { $regex: ic, $options: 'i' };
   }
 
   if (jenisProgram) {
