@@ -2,13 +2,30 @@
 
 ### Unreleased
 
+- N/A
+
+### 6/3/2023 (v2.0.14)
+
+#### Added
+
+- Menambah kotak penandaan pesakit _oncall_ ketika mendaftarkan pesakit bagi fasiliti klinik pergigian di modul Pendaftaran
+- Penambahan cara carian di senarai daftar pesakit di modul Pendaftaran dengan cara carian tanpa tarikh atau dengan tarikh
+
 #### Fixed
 
-- Waktu sampai akan berubah mengikut waktu semasa ketika mendaftarkan pesakit di modul Pendaftaran
-- Cara carian promosi klinik & promosi individu dibuat dengan lebih efisien
-- Token di modul Pentadbir dipaparkan dengan jumlah 15 sekiranya belum mula menjana apa-apa reten
+- Pengiraan umur pesakit dibetulkan sekiranya pesakit lahir pada hari yang sama dengan tarikh hari semasa hari kedatangan
+- Penambahbaikan cara paparan maklumat di submodul Rekod Regawai di modul Pengguna
+
+#### e-Reporting
+
+- Memaparkan tarikh & bulan yang betul di _stamping_ bagi reten Gender & reten Tekanan Darah
+- Memperbetulkan pelbagai formula bagi semua reten-reten di setiap peringkat pentadbir
 
 ### 17/2/2023 (v2.0.13)
+
+#### Added
+
+- Menambah ruangan waktu janji temu sekiranya kotak pesakit janji temu ditanda semasa mendaftarkan pesakit bagi fasiliti klinik pergigian
 
 #### Fixed
 
@@ -26,7 +43,7 @@
 - Kemaskini reten PGPRO dan MASA
 - Penjanaan untuk individu dibuka bagi PG206, PG207 dan PGPRO di modul Pentadbir untuk penjanaan menggunakan token
 - Nama setiap file reten diperbetulkan mengikut reten yang dijana
-- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan secara bulanan yang telah siap dikira sebagai reten akhir pada setiap 6 haribulan bulan berikutnya)
+- Penjanaan reten mempunyai dua mod, (mod penjanaan menggunakan limitasi token & mod penjanaan secara bulanan yang telah siap dikira sebagai reten akhir pada setiap 7 haribulan bulan berikutnya)
 
 ### 10/2/2023 (v2.0.12)
 

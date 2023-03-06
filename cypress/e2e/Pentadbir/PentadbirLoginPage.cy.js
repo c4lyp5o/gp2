@@ -1,4 +1,4 @@
-describe('Pentadbir login page', () => {
+describe('Testing Pentadbir login page', () => {
   it('Test everything at Pentadbir login page', () => {
     // intercept api request
     cy.intercept(

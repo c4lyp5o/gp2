@@ -207,16 +207,18 @@ export default function DaftarPesakit({ createdByKp }) {
             {flipCarian ? (
               <span
                 onClick={() => setFlipCarian(false)}
-                className='cursor-pointer bg-kaunter2 text-userWhite text-sm px-2 py-1 rounded-md whitespace-nowrap'
+                className='cursor-pointer bg-kaunter2 hover:bg-kaunter3 text-userWhite text-sm px-2 py-1 rounded-md shadow-md whitespace-nowrap normal-case transition-all'
+                data-cy='carian-tanpa-tarikh'
               >
-                Ada Tarikh
+                Carian dengan tarikh kedatangan
               </span>
             ) : (
               <span
                 onClick={() => setFlipCarian(true)}
-                className='cursor-pointer bg-kaunter2 text-userWhite text-sm px-2 py-1 rounded-md whitespace-nowrap'
+                className='cursor-pointer bg-kaunter2 hover:bg-kaunter3 text-userWhite text-sm px-2 py-1 rounded-md shadow-md whitespace-nowrap normal-case transition-all'
+                data-cy='carian-tanpa-tarikh'
               >
-                Tanpa Tarikh
+                Carian tanpa tarikh kedatangan
               </span>
             )}
           </div>
@@ -236,8 +238,9 @@ export default function DaftarPesakit({ createdByKp }) {
                     setPilihQuery(e.target.value);
                   }}
                   className='bg-kaunter4 text-kaunterWhite appearance-none w-40 text-sm leading-7 px-2 py-1 border border-user1 focus:outline-none rounded-md shadow-md uppercase mr-2'
+                  data-cy='pilih-query'
                 >
-                  <option value='ic'>KAD PENGENALAN</option>
+                  <option value='ic'>PENGENALAN DIRI</option>
                   <option value='nama'>NAMA</option>
                 </select>
                 <span>
@@ -254,6 +257,7 @@ export default function DaftarPesakit({ createdByKp }) {
                     value={nameQuery}
                     onChange={(event) => setNameQuery(event.target.value)}
                     className='appearance-none text-sm w-full md:w-52 leading-7 px-2 py-1 border border-user1 focus:outline-none rounded-md shadow-md uppercase'
+                    data-cy='name-query'
                   />
                 </label>
               ) : (
@@ -266,6 +270,7 @@ export default function DaftarPesakit({ createdByKp }) {
                     value={idQuery}
                     onChange={(event) => setIdQuery(event.target.value)}
                     className='appearance-none w-full md:w-52 text-sm leading-7 px-2 py-1 border border-user1 focus:outline-none rounded-md shadow-md uppercase'
+                    data-cy='id-query'
                   />
                 </label>
               )}
@@ -284,8 +289,8 @@ export default function DaftarPesakit({ createdByKp }) {
                 {isShown && pilihQuery === 'ic' && (
                   <div className='absolute top-8 right-2 w-36 text-left z-10 bg-kaunter4 text-kaunterWhite text-sm px-2 py-1 rounded-md whitespace-pre-wrap'>
                     <p className='text-center'>
-                      Carian kad pengenalan hanya dihasilkan apabila melebihi
-                      lapan aksara
+                      Carian dengan pengenalan diri hanya dihasilkan apabila
+                      melebihi lapan aksara
                     </p>
                   </div>
                 )}
@@ -301,6 +306,7 @@ export default function DaftarPesakit({ createdByKp }) {
               <button
                 type='submit'
                 className='appearance-none w-16 text-sm leading-7 px-2 py-1 ml-2 focus:outline-none rounded-md shadow-md uppercase bg-kaunter2 hover:bg-kaunter3'
+                data-cy='cari'
               >
                 Cari
               </button>
@@ -530,7 +536,10 @@ export default function DaftarPesakit({ createdByKp }) {
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
                         {item.nama}
                       </td>
-                      <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
+                      <td
+                        className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'
+                        data-cy='pengenalan-diri'
+                      >
                         {item.ic}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
@@ -721,7 +730,10 @@ export default function DaftarPesakit({ createdByKp }) {
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 uppercase'>
                             {p.nama}
                           </td>
-                          <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'>
+                          <td
+                            className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1 normal-case'
+                            data-cy='pengenalan-diri'
+                          >
                             {p.ic}
                           </td>
                           <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
