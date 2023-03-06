@@ -135,37 +135,44 @@ export default function DaftarPesakit({ createdByKp }) {
     }
   }, [tarikhKedatangan, showKemaskiniResit]);
 
+  //handlesubmit ic and nama search query
   const handleSubmit = async (event) => {
     event.preventDefault();
-    let searchQuery;
-    let minLength;
-    if (idQuery.trim().length >= 8) {
-      searchQuery = idQuery;
-      minLength = 8;
-    } else if (nameQuery.trim().length >= 5) {
-      searchQuery = nameQuery;
-      minLength = 5;
-    } else {
-      setSearchResults([]);
-      return;
+    if (pilihQuery === 'ic') {
+      if (idQuery.trim().length <= 7) {
+        toast.error('Sila masukkan nombor kad pengenalan melebihi 8 aksara');
+        return;
+      }
+      try {
+        const { data } = await axios.get(
+          `/api/v1/query/kaunter?ic=${idQuery}`,
+          {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          }
+        );
+        setSearchResults(data.kaunterResultQuery);
+      } catch (error) {
+        console.log(error);
+        setSearchResults([]);
+      }
     }
-    try {
-      const { data } = await axios.get(
-        `/api/v1/query/kaunter?q=${searchQuery}`,
-        {
-          headers: { Authorization: `Bearer ${kaunterToken}` },
-        }
-      );
-      const regex = new RegExp(searchQuery, 'i');
-      const filteredData = data.kaunterResultQuery.filter((result) => {
-        const fieldValue = searchQuery === idQuery ? result.ic : result.nama;
-        return regex.test(fieldValue) && fieldValue.length >= minLength;
-      });
-      setSearchResults(filteredData);
-      console.log(data);
-    } catch (error) {
-      console.log(error);
-      setSearchResults([]);
+    if (pilihQuery === 'nama') {
+      if (nameQuery.trim().length <= 4) {
+        toast.error('Sila masukkan nama melebihi 5 aksara');
+        return;
+      }
+      try {
+        const { data } = await axios.get(
+          `/api/v1/query/kaunter?nama=${nameQuery}`,
+          {
+            headers: { Authorization: `Bearer ${kaunterToken}` },
+          }
+        );
+        setSearchResults(data.kaunterResultQuery);
+      } catch (error) {
+        console.log(error);
+        setSearchResults([]);
+      }
     }
   };
 
@@ -268,14 +275,14 @@ export default function DaftarPesakit({ createdByKp }) {
                   onClick={() => setIsShown(!isShown)}
                 />
                 {isShown && pilihQuery === 'nama' && (
-                  <div className='absolute top-8 z-10 bg-kaunter4 text-kaunterWhite text-sm px-2 py-1 rounded-md whitespace-nowrap'>
+                  <div className='absolute top-8 right-2 w-36 text-left z-10 bg-kaunter4 text-kaunterWhite text-sm px-2 py-1 rounded-md whitespace-pre-wrap'>
                     <p className='text-center'>
                       Carian nama hanya dihasilkan apabila melebihi lima huruf
                     </p>
                   </div>
                 )}
                 {isShown && pilihQuery === 'ic' && (
-                  <div className='absolute top-8 z-10 bg-kaunter4 text-kaunterWhite text-sm px-2 py-1 rounded-md whitespace-nowrap'>
+                  <div className='absolute top-8 right-2 w-36 text-left z-10 bg-kaunter4 text-kaunterWhite text-sm px-2 py-1 rounded-md whitespace-pre-wrap'>
                     <p className='text-center'>
                       Carian kad pengenalan hanya dihasilkan apabila melebihi
                       lapan aksara
