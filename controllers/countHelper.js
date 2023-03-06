@@ -16585,6 +16585,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      kedatangan: { $eq: 'baru-kedatangan'},
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16599,6 +16600,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      kedatangan: { $eq: 'baru-kedatangan'},
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16612,6 +16614,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      kedatangan: { $eq: 'baru-kedatangan'},
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
     };
@@ -16624,6 +16627,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       jantina: theSex,
       jenisFasiliti: { $eq: 'kp' },
       deleted: false,
+      kedatangan: { $eq: 'baru-kedatangan'},
       statusKehadiran: false,
     };
     return param;
