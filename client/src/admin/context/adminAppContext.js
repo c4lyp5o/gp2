@@ -154,20 +154,17 @@ function AdminAppProvider({ children }) {
   };
   const getDetailedData = async ({ type, idn, idd, id }) => {
     const endpoint = '/api/v1/superadmin/newroute';
-    const params = { main: 'HqCenter', token: adminToken };
+    const params = { main: 'HqCenter', Fn: 'readOne', token: adminToken };
 
     switch (type) {
       case 'negeri':
-        params.Fn = 'readOneNegeri';
         params.idn = idn;
         break;
       case 'daerah':
-        params.Fn = 'readOneDaerah';
         params.idn = idn;
         params.idd = idd;
         break;
       case 'klinik':
-        params.Fn = 'readOneKlinik';
         params.id = id;
         break;
       default:

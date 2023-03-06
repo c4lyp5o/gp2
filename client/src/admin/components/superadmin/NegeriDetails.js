@@ -48,11 +48,11 @@ function DataNegeri({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit di negeri ${data.idn}`,
+        text: `Kedatangan Pesakit di negeri ${data.nama}`,
       },
     },
   };
-  const labels = data.kedatanganPtNegeri.map((item) => {
+  const labels = data.kedatanganPt.map((item) => {
     return item.tarikh;
   });
   const chartData = {
@@ -60,7 +60,7 @@ function DataNegeri({ data }) {
     datasets: [
       {
         label: `Jumlah Pesakit`,
-        data: data.kedatanganPtNegeri.map((i) => i.kedatangan),
+        data: data.kedatanganPt.map((i) => i.kedatangan),
         borderColor: 'rgb(255, 99, 132)',
         backgroundColor: 'rgba(255, 99, 132, 0.5)',
       },
@@ -85,7 +85,7 @@ function Statistik({ data }) {
         <div className='grid grid-cols-2 gap-3 py-4'>
           <p className='col-span-2 text-2xl font-semibold'>Jumlah</p>
           <div className='flex flex-col col-span-2 border-l-8 border-admin4 shadow-lg py-2'>
-            <span className='font-mono text-8xl'>{data.jumlahPtNegeri}</span>
+            <span className='font-mono text-8xl'>{data.jumlahPt}</span>
             <p className='text-xs'>
               Pesakit sehingga {new Date().toLocaleDateString()}
             </p>
@@ -96,7 +96,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Hari Ini</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptNegeriHariIni}
+                  {data.ptHariIni}
                 </span>
               </div>
             </div>
@@ -107,7 +107,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Minggu Ini</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptNegeriMingguIni}
+                  {data.ptMingguIni}
                 </span>
               </div>
             </div>
@@ -118,7 +118,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Bulan Ini</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptNegeriBulanIni}
+                  {data.ptBulanIni}
                 </span>
               </div>
             </div>
@@ -129,7 +129,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Baru</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptNegeriBaru}
+                  {data.ptBaru}
                 </span>
               </div>
             </div>
@@ -140,7 +140,7 @@ function Statistik({ data }) {
               <div>
                 <p className='text-xs flex flex-row'>Pesakit Ulangan</p>
                 <span className='font-mono text-5xl flex flex-row'>
-                  {data.ptNegeriUlangan}
+                  {data.ptUlangan}
                 </span>
               </div>
             </div>

@@ -49,7 +49,7 @@ function DataKlinik({ data }) {
       },
       title: {
         display: true,
-        text: `Kedatangan Pesakit ke ${data.kp}`,
+        text: `Kedatangan Pesakit ke ${data.nama}`,
       },
     },
   };
@@ -280,7 +280,7 @@ export default function Klinik() {
   return (
     <>
       <div className='h-full w-full p-5 overflow-y-auto'>
-        <h1 className='text-2xl font-bold underline'>{data.kp}</h1>
+        <h1 className='text-2xl font-bold underline'>{data.nama}</h1>
         <div className='grid grid-cols-3 gap-2'>
           {/* <JanaReten data={data} id={id} /> */}
           <Statistik data={data} />
