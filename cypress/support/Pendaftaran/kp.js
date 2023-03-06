@@ -99,52 +99,77 @@ Cypress.Commands.add('registerGeneralPtKp', () => {
 });
 
 Cypress.Commands.add('validateRegisteredGeneralPtKp', () => {
-  // the assertion for registered patient kp -----
-  cy.get('[data-cy="kemaskini"]').eq(-1).click();
-  cy.get('[data-cy="fillable-form-header"]').should(
-    'contain',
-    'Klinik Pergigian'
-  );
-  // jenis-pengenalan
-  cy.get('[data-cy="jenis-pengenalan"]').should('contain.value', 'mykad-mykid');
-  // select option
-  cy.get('[data-cy="jantina"]').should('contain.value', 'perempuan'); // assert jantina
-  cy.get('[data-cy="kumpulan-etnik"]').should('contain.value', 'melayu');
-  cy.get('[data-cy="negeri-alamat"]').should(
-    'contain.value',
-    'negeri sembilan'
-  );
-  cy.get('[data-cy="status-pesara"]').should('contain.value', 'pesara-atm');
-  cy.get('[data-cy="rujuk-daripada"]').should(
-    'contain.value',
-    'hospital/institusi-kerajaan'
-  );
-  // text
-  cy.get('[data-cy="nombor-telefon"]').should('contain.value', '0134445566');
-  cy.get('[data-cy="nombor-telefon2"').should('contain.value', '0123334455');
-  cy.get('[data-cy="email"]').should('contain.value', 'testmail@mail.test');
-  cy.get('[data-cy="nama-umum"]').should(
-    'contain.value',
-    'siti aminah binti abu salam'
-  );
-  cy.get('[data-cy="alamat"]').should('contain.value', 'Alamat Fake');
-  cy.get('[data-cy="daerah-alamat"]').should(
-    'contain.value',
-    'Kota Batu Samar'
-  );
-  cy.get('[data-cy="poskod-alamat"]').should('contain.value', '99999');
-  cy.get('[data-cy="no-pesara"]').should('contain.value', '123PESARA');
-  cy.get('[data-cy="no-resit"]').should('contain.value', 'RESIT1');
-  cy.get('[data-cy="no-resit-2"]').should('contain.value', 'RESIT2');
-  cy.get('[data-cy="no-resit-3"]').should('contain.value', 'RESIT3');
-  cy.get('[data-cy="catatan"]').should('contain.value', 'CATATAN APA-APA');
-  // checkbox & radio
-  cy.get('[type="checkbox"]').each((el) => {
-    expect(el[0].checked).to.equal(true);
-  });
-  cy.get('[name="booking-im"]').last().should('be.checked');
-  cy.get('[name="kedatangan-kepp"]').last().should('be.checked');
-  // after checkbox & radio
-  cy.get('[data-cy="episod-mengandung"]').should('contain.value', '5');
-  cy.get('[data-cy="no-oku"]').should('contain.value', '123OKU');
+  cy.intercept(
+    'GET',
+    Cypress.env('GIRETCY_BASE_URL') + '/api/v1/kaunter/**'
+  ).as('getSinglePersonKaunter');
+  cy.get('[data-cy="pengenalan-diri"]')
+    .eq(-1)
+    .then(($pd) => {
+      const randomIcPerempuan = $pd.text();
+      cy.get('[data-cy="kemaskini"]').eq(-1).click();
+      cy.wait('@getSinglePersonKaunter');
+      // the assertion for registered patient kp -----
+      cy.get('[data-cy="fillable-form-header"]').should(
+        'contain',
+        'Klinik Pergigian'
+      );
+      // jenis-pengenalan & randomIcPerempuan should match
+      cy.get('[data-cy="jenis-pengenalan"]').should(
+        'contain.value',
+        'mykad-mykid'
+      );
+      cy.get('[data-cy="ic-mykad-mykid"]').should(
+        'contain.value',
+        randomIcPerempuan
+      );
+      // select option
+      cy.get('[data-cy="jantina"]').should('contain.value', 'perempuan'); // assert jantina
+      cy.get('[data-cy="kumpulan-etnik"]').should('contain.value', 'melayu');
+      cy.get('[data-cy="negeri-alamat"]').should(
+        'contain.value',
+        'negeri sembilan'
+      );
+      cy.get('[data-cy="status-pesara"]').should('contain.value', 'pesara-atm');
+      cy.get('[data-cy="rujuk-daripada"]').should(
+        'contain.value',
+        'hospital/institusi-kerajaan'
+      );
+      // text
+      cy.get('[data-cy="nombor-telefon"]').should(
+        'contain.value',
+        '0134445566'
+      );
+      cy.get('[data-cy="nombor-telefon2"').should(
+        'contain.value',
+        '0123334455'
+      );
+      cy.get('[data-cy="email"]').should('contain.value', 'testmail@mail.test');
+      cy.get('[data-cy="nama-umum"]').should(
+        'contain.value',
+        'siti aminah binti abu salam'
+      );
+      cy.get('[data-cy="alamat"]').should('contain.value', 'Alamat Fake');
+      cy.get('[data-cy="daerah-alamat"]').should(
+        'contain.value',
+        'Kota Batu Samar'
+      );
+      cy.get('[data-cy="poskod-alamat"]').should('contain.value', '99999');
+      cy.get('[data-cy="no-pesara"]').should('contain.value', '123PESARA');
+      cy.get('[data-cy="no-resit"]').should('contain.value', 'RESIT1');
+      cy.get('[data-cy="no-resit-2"]').should('contain.value', 'RESIT2');
+      cy.get('[data-cy="no-resit-3"]').should('contain.value', 'RESIT3');
+      cy.get('[data-cy="catatan"]').should('contain.value', 'CATATAN APA-APA');
+      // checkbox & radio
+      cy.get('[type="checkbox"]').each((el) => {
+        expect(el[0].checked).to.equal(true);
+      });
+      cy.get('[name="booking-im"]').last().should('be.checked');
+      cy.get('[name="kedatangan-kepp"]').last().should('be.checked');
+      // after checkbox & radio
+      cy.get('[data-cy="episod-mengandung"]').should('contain.value', '5');
+      cy.get('[data-cy="no-oku"]').should('contain.value', '123OKU');
+      // done and return to main page
+      cy.get('[data-cy="kembali-pendaftaran"]').click();
+    });
 });
