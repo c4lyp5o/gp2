@@ -626,18 +626,13 @@ export default function Pemeriksaan(props) {
           ) : null}
           <section
             className={` grid mt-3 mb-3 w-full ${
-              props.singlePersonUmum.kedatangan === 'baru-kedatangan' ||
-              (props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
-                props.singlePersonUmum.checkupEnabled)
+              props.singlePersonUmum.kedatangan === 'baru-kedatangan'
                 ? 'col-span-2 grid-cols-1 lg:grid-cols-2 gap-2'
                 : 'col-span-2 grid-cols-1'
             }`}
           >
-            {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-              props.statusKehadiran === false) ||
-            (props.statusKehadiran === false &&
-              props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
-              props.singlePersonUmum.checkupEnabled) ? (
+            {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+            props.statusKehadiran === false ? (
               <div className='grid gap-2 auto-rows-min'>
                 {props.jenisFasiliti === 'taska-tadika' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -1906,11 +1901,8 @@ export default function Pemeriksaan(props) {
             {props.pemeriksaanTaskaTadika ===
             'tiada-pemeriksaan-taska-tadika' ? null : (
               <div className='grid gap-2 auto-rows-min'>
-                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                  props.statusKehadiran === false) ||
-                (props.statusKehadiran === false &&
-                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
-                  props.singlePersonUmum.checkupEnabled) ? (
+                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                props.statusKehadiran === false ? (
                   <article className='grid grid-cols-1 lg:grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
                       Kebersihan Mulut
@@ -2017,11 +2009,8 @@ export default function Pemeriksaan(props) {
                     </div>
                   </article>
                 ) : null}
-                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                  props.statusKehadiran === false) ||
-                (props.statusKehadiran === false &&
-                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
-                  props.singlePersonUmum.checkupEnabled) ? (
+                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                props.statusKehadiran === false ? (
                   <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 lg:grid-cols-2'>
                     <h4 className='font-bold flex flex-row pl-5 lg:col-span-2'>
                       Risiko Karies
@@ -2059,11 +2048,8 @@ export default function Pemeriksaan(props) {
                     </div>
                   </article>
                 ) : null}
-                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                  props.statusKehadiran === false) ||
-                (props.statusKehadiran === false &&
-                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
-                  props.singlePersonUmum.checkupEnabled) ? (
+                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                props.statusKehadiran === false ? (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       Program Kanser Mulut
@@ -2452,11 +2438,8 @@ export default function Pemeriksaan(props) {
                   </div> */}
                   </article>
                 ) : null}
-                {(props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
-                  props.statusKehadiran === false) ||
-                (props.statusKehadiran === false &&
-                  props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
-                  props.singlePersonUmum.checkupEnabled) ? (
+                {props.singlePersonUmum.kedatangan === 'baru-kedatangan' &&
+                props.statusKehadiran === false ? (
                   <article className='grid grid-cols-1 lg:grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-semibold flex flex-row pl-3 lg:col-span-2'>
                       kes endodontik diperlukan
