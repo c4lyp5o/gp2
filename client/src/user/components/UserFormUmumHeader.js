@@ -1298,8 +1298,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
     kanserMulutNasihatPergigianIndividuPromosiUmum;
   masterForm.setKanserMulutNasihatPergigianIndividuPromosiUmum =
     setKanserMulutNasihatPergigianIndividuPromosiUmum;
-  const [totalAg, setTotalAg] = useState(0);
-  masterForm.totalAg = totalAg;
   const [
     umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
     setUmur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
@@ -1422,37 +1420,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
     mAdaGigiKekalPemeriksaanUmum,
     fAdaGigiKekalPemeriksaanUmum,
     xAdaGigiKekalPemeriksaanUmum,
-  ]);
-
-  //calculate total AG
-  useEffect(() => {
-    setTotalAg(
-      parseInt(
-        umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-      ) +
-        parseInt(
-          umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        ) +
-        parseInt(
-          umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        ) +
-        parseInt(
-          umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        ) +
-        parseInt(
-          umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        ) +
-        parseInt(
-          umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum
-        )
-    );
-  }, [
-    umur1517BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-    umur1819BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-    umur2029BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-    umur3049BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-    umur5059BilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
-    umur60KeAtasBilanganIbuBapaPenjagaDiberiAnticipatoryGuidancePromosiUmum,
   ]);
 
   useEffect(() => {
@@ -2127,17 +2094,6 @@ function UserFormUmumHeader({ sekolahIdc }) {
       toast.error('Jumlah DMFX Kekal tidak boleh lebih dari 32', {
         autoClose: 3000,
       });
-      return;
-    }
-
-    //check total AG
-    if (totalAg <= 0 && singlePersonUmum.umur <= 4) {
-      toast.error(
-        'Sila isi bilangan ibu bapa / penjaga diberi anticipatory guidance (AG)',
-        {
-          autoClose: 3000,
-        }
-      );
       return;
     }
 
