@@ -263,7 +263,7 @@ export default function Promosi(props) {
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row col-span-2 pl-5'>
                         bilangan ibu bapa / penjaga diberi anticipatory guidance
-                        (AG)<span className='font-semibold text-user6'>*</span>
+                        (AG)
                       </h4>
                       <div className='grid grid-cols-[2fr_1fr] items-center pl-5'>
                         <p className='text-sm font-m flex justify-start text-left'>

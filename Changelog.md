@@ -2,7 +2,11 @@
 
 ### Unreleased
 
-- N/A
+#### Reverted
+
+- Pesakit yang dihapuskan sekiranya didaftarkan semula akan mendapat nombor pendaftaran yang asal tetapi kedatangan adalah baru - https://github.com/nocturnalmc/gp2/commit/1e3ba1a44aa1731a49083a562e9a5257d95d7698
+- Pesakit ulangan yg tidak mendapatkan pemeriksaan pada kedatangan baru kini boleh diisi pemeriksaan pada kedatangan ulangan - https://github.com/nocturnalmc/gp2/commit/1e3ba1a44aa1731a49083a562e9a5257d95d7698
+- _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum - https://github.com/nocturnalmc/gp2/commit/22d04e51a3b747baa7ddeb795b1dcb18115bc461
 
 ### 6/3/2023 (v2.0.14)
 
@@ -11,16 +15,10 @@
 - Menambah kotak penandaan pesakit _oncall_ ketika mendaftarkan pesakit bagi fasiliti klinik pergigian di modul Pendaftaran
 - Penambahan cara carian di senarai daftar pesakit di modul Pendaftaran dengan cara carian tanpa tarikh atau dengan tarikh
 
-#### Changed
-
-- Pesakit yang dihapuskan sekiranya didaftarkan semula akan mendapat nombor pendaftaran yang asal tetapi kedatangan adalah baru
-- Pesakit ulangan yg tidak mendapatkan pemeriksaan pada kedatangan baru kini boleh diisi pemeriksaan pada kedatangan ulangan
-
 #### Fixed
 
 - Pengiraan umur pesakit dibetulkan sekiranya pesakit lahir pada hari yang sama dengan tarikh hari semasa hari kedatangan
 - Penambahbaikan cara paparan maklumat di submodul Rekod Regawai di modul Pengguna
-- _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum
 
 #### e-Reporting
 
