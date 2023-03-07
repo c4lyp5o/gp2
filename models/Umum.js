@@ -112,6 +112,7 @@ const UmumSchema = new mongoose.Schema(
     namaProgram: { type: String, default: '' },
     // end of kaunter -------------------------------------------
     //pemeriksaan -----------------------------------------------
+    checkupEnabled: { type: Boolean, default: false },
     statusKehadiran: {
       type: Boolean,
       default: false,
