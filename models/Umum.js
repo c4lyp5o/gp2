@@ -850,7 +850,12 @@ UmumSchema.pre('save', async function () {
     // no siri punya hal
 
     // kedatangan baru ulangan punya hal
-    if (this.kedatangan === 'baru-kedatangan') {
+    if (this.kedatangan === 'baru-kedatangan' && this.deleted) {
+      this.deleted = false;
+      logger.info(`[UmumModel] ${this.nama} | Pasien baru tapi di delete`);
+    }
+
+    if (this.kedatangan === 'baru-kedatangan' && !this.deleted) {
       // create acronym
       let acronym = '';
       const simplifiedKlinikName = this.createdByKp.split(' ');
@@ -887,7 +892,9 @@ UmumSchema.pre('save', async function () {
         });
         const newReg = `${this.jenisFasiliti}/${acronym}/${newRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;
-        logger.info('[UmumModel] no pendafataran baru: ', newReg);
+        logger.info(
+          `[UmumModel] ${this.nama} | No. pendafataran baru: ${newReg}`
+        );
       }
       // if running number exist
       if (currentRunningNumber) {
@@ -895,15 +902,22 @@ UmumSchema.pre('save', async function () {
         await currentRunningNumber.save();
         const newReg = `${this.jenisFasiliti}/${acronym}/${currentRunningNumber.runningnumber}/${yearNumber}`;
         this.noPendaftaranBaru = newReg;
-        logger.info('[UmumModel] no pendafataran baru: ', newReg);
+        logger.info(
+          `[UmumModel] ${this.nama} | No. pendafataran baru: ${newReg}`
+        );
       }
     }
-    if (this.kedatangan === 'ulangan-kedatangan') {
-      logger.info('[UmumModel] ini pasien lama');
+
+    if (this.kedatangan === 'ulangan-kedatangan' && this.checkupEnabled) {
+      logger.info(`[UmumModel] ${this.nama} | Pasien ulangan boleh checkup`);
+    }
+
+    if (this.kedatangan === 'ulangan-kedatangan' && !this.checkupEnabled) {
+      logger.info(`[UmumModel] ${this.nama} | Pasien ulangan`);
     }
     // kedatangan baru ulangan punya hal
   } catch (err) {
-    console.error(err);
+    logger.error(`[UmumModel] Error dalam mendaftarkan pesakit. Error: ${err}`);
   }
 });
 
