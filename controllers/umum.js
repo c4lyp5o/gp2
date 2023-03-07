@@ -391,15 +391,13 @@ const queryPersonUmum = async (req, res) => {
     user: { negeri, daerah, kp, kodFasiliti },
     query: { nama, tarikhKedatangan, jenisFasiliti, jenisProgram },
   } = req;
-
-  const queryObject = {
-    createdByNegeri: negeri,
-    createdByDaerah: daerah,
-    createdByKp: kp,
-    createdByKodFasiliti: kodFasiliti,
-    tahunDaftar: new Date().getFullYear(),
-    deleted: false,
-  };
+  const queryObject = {};
+  queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByKp = kp;
+  queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.tahunDaftar = new Date().getFullYear();
+  queryObject.deleted = false;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };

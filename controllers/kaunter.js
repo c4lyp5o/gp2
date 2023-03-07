@@ -259,14 +259,13 @@ const queryPersonKaunter = async (req, res) => {
     },
   } = req;
 
-  const queryObject = {
-    createdByNegeri: negeri,
-    createdByDaerah: daerah,
-    createdByKp: kp,
-    createdByKodFasiliti: kodFasiliti,
-    tahunDaftar: new Date().getFullYear(),
-    deleted: false,
-  };
+  const queryObject = {};
+  queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByKp = kp;
+  queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.tahunDaftar = new Date().getFullYear();
+  queryObject.deleted = false;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
@@ -292,11 +291,7 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.namaProgram = namaProgram;
   }
 
-  const kaunterResultQuery = await Umum.find(queryObject)
-    .select(
-      'tarikhKedatangan createdByUsername waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan statusReten jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram'
-    )
-    .lean();
+  const kaunterResultQuery = await Umum.find(queryObject);
 
   res.status(200).json({ kaunterResultQuery });
 };
