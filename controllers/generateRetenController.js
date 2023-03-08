@@ -335,14 +335,23 @@ const downloader = async (req, res, callback) => {
     case 'PG211C':
       excelFile = await makePG211C(payload);
       break;
-    case 'PG214':
-      excelFile = await makePG214(payload);
-      break;
     case 'PG206':
       excelFile = await makePG206(payload);
       break;
     case 'PG207':
       excelFile = await makePG207(payload);
+      break;
+    case 'PG214':
+      excelFile = await makePG214(payload);
+      break;
+    case 'PGPR201':
+      excelFile = await makePGPR201(payload);
+      break;
+    case 'PGPRO01':
+      excelFile = await makePgPro01(payload);
+      break;
+    case 'PGPRO01Combined':
+      excelFile = await makePgPro01Combined(payload);
       break;
     case 'PG201':
       excelFile = await makePG201(payload);
@@ -356,18 +365,6 @@ const downloader = async (req, res, callback) => {
     case 'PGS203P2':
       excelFile = await makePGS203P2(payload);
       break;
-    case 'PGPR201':
-      excelFile = await makePGPR201(payload);
-      break;
-    case 'PGPRO01':
-      excelFile = await makePgPro01(payload);
-      break;
-    case 'PGPRO01Combined':
-      excelFile = await makePgPro01Combined(payload);
-      break;
-    case 'GENDER':
-      excelFile = await makeGender(payload);
-      break;
     case 'MASA':
       excelFile = await makeMasa(payload);
       break;
@@ -376,6 +373,9 @@ const downloader = async (req, res, callback) => {
       break;
     case 'BPE':
       excelFile = await makeBPE(payload);
+      break;
+    case 'GENDER':
+      excelFile = await makeGender(payload);
       break;
     default:
       return 'No data found';
