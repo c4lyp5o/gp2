@@ -3624,7 +3624,7 @@ const countPG206 = async (payload) => {
       dataSekolah.push({ querySekolah });
     }
 
-    for (let i = 0; i < mixed_stage_operatorLain.length; i++) {
+    for (let i = 0; i < match_stage_operatorLain.length; i++) {
       const pipeline = [
         match_stage_operatorLain[i],
         ...getParamsOperatorLain,
