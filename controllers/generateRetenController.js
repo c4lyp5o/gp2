@@ -1564,6 +1564,7 @@ const makePG206 = async (payload) => {
     for (let i = 0; i < data[1].length; i++) {
       let row = worksheet.getRow(17 + j);
       if (data[1][i].queryRawatan[0]) {
+        console.table(data[1][i].queryRawatan[0]);
         // rawatan
         row.getCell(3).value =
           data[1][i].queryRawatan[0].kedatanganTahunSemasaUlangan;
@@ -1717,57 +1718,58 @@ const makePG206 = async (payload) => {
         if (data[3][i].queryOperatorLain[0]) {
           // rawatan
           // row.getCell(3).value = data[3][i].queryOperatorLain[0].kedatanganTahunSemasaUlangan;
-          row.getCell(24).value =
+          row.getCell(24).value +=
             data[3][i].queryOperatorLain[0].sapuanFluorida;
           if (i > 1) {
-            row.getCell(25).value =
+            row.getCell(25).value +=
               data[3][i].queryOperatorLain[0].jumlahPesakitPrrJenis1;
-            row.getCell(26).value =
+            row.getCell(26).value +=
               data[3][i].queryOperatorLain[0].jumlahGigiPrrJenis1;
-            row.getCell(27).value =
+            row.getCell(27).value +=
               data[3][i].queryOperatorLain[0].jumlahPesakitDiBuatFs;
-            row.getCell(28).value =
+            row.getCell(28).value +=
               data[3][i].queryOperatorLain[0].jumlahGigiDibuatFs;
           }
-          row.getCell(29).value =
+          row.getCell(29).value +=
             data[3][i].queryOperatorLain[0].tampalanAntGdBaru;
-          row.getCell(30).value =
+          row.getCell(30).value +=
             data[3][i].queryOperatorLain[0].tampalanAntGdSemula;
           if (i > 1) {
-            row.getCell(31).value =
+            row.getCell(31).value +=
               data[3][i].queryOperatorLain[0].tampalanAntGkBaru;
-            row.getCell(32).value =
+            row.getCell(32).value +=
               data[3][i].queryOperatorLain[0].tampalanAntGkSemula;
           }
-          row.getCell(33).value =
+          row.getCell(33).value +=
             data[3][i].queryOperatorLain[0].tampalanPostGdBaru;
-          row.getCell(34).value =
+          row.getCell(34).value +=
             data[3][i].queryOperatorLain[0].tampalanPostGdSemula;
           if (i > 1) {
-            row.getCell(35).value =
+            row.getCell(35).value +=
               data[3][i].queryOperatorLain[0].tampalanPostGkBaru;
-            row.getCell(36).value =
+            row.getCell(36).value +=
               data[3][i].queryOperatorLain[0].tampalanPostGkSemula;
           }
-          row.getCell(37).value =
+          row.getCell(37).value +=
             data[3][i].queryOperatorLain[0].tampalanPostAmgGdBaru;
-          row.getCell(38).value =
+          row.getCell(38).value +=
             data[3][i].queryOperatorLain[0].tampalanPostAmgGdSemula;
           if (i > 1) {
-            row.getCell(39).value =
+            row.getCell(39).value +=
               data[3][i].queryOperatorLain[0].tampalanPostAmgGkBaru;
-            row.getCell(40).value =
+            row.getCell(40).value +=
               data[3][i].queryOperatorLain[0].tampalanPostAmgGkSemula;
           }
           // skipping cells
-          row.getCell(43).value =
+          row.getCell(43).value +=
             data[3][i].queryOperatorLain[0].tampalanSementara;
-          row.getCell(44).value = data[3][i].queryOperatorLain[0].cabutanGd;
+          row.getCell(44).value += data[3][i].queryOperatorLain[0].cabutanGd;
           if (i > 1) {
-            row.getCell(45).value = data[3][i].queryOperatorLain[0].cabutanGk;
-            row.getCell(46).value = data[3][i].queryOperatorLain[0].penskaleran;
+            row.getCell(45).value += data[3][i].queryOperatorLain[0].cabutanGk;
+            row.getCell(46).value +=
+              data[3][i].queryOperatorLain[0].penskaleran;
           }
-          row.getCell(47).value = data[3][i].queryOperatorLain[0].kesSelesai;
+          row.getCell(47).value += data[3][i].queryOperatorLain[0].kesSelesai;
         }
         j++;
         if (i === 6) {
