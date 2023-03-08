@@ -201,7 +201,7 @@ const initiateETL = async (req, res) => {
             .subtract(1, 'month')
             .endOf('month')
             .format('YYYY-MM-DD'),
-          createdAt: moment().format(),
+          dateCreated: moment().format(),
         };
         const promise = monthlyCount.func(payload).then(async (data) => {
           dataObj.data = data;
@@ -240,7 +240,7 @@ const initiateETL = async (req, res) => {
               .subtract(1, 'month')
               .endOf('month')
               .format('YYYY-MM-DD'),
-            createdAt: moment().format(),
+            dateCreated: moment().format(),
             data: data,
           };
           await Reservoir.create(dataObj);
@@ -278,7 +278,7 @@ const initiateETL = async (req, res) => {
               .subtract(1, 'month')
               .endOf('month')
               .format('YYYY-MM-DD'),
-            createdAt: moment().format(),
+            dateCreated: moment().format(),
             data: data,
           };
           await Reservoir.create(dataObj);
@@ -319,7 +319,7 @@ const initiateETL = async (req, res) => {
             .subtract(1, 'month')
             .endOf('month')
             .format('YYYY-MM-DD'),
-          createdAt: moment().format(),
+          dateCreated: moment().format(),
         };
         switch (monthlyCount.name) {
           case 'PG206':
@@ -443,7 +443,7 @@ const initiateCustomETL = async (req, res) => {
           dataDate: moment(currentPilihanBulan)
             .endOf('month')
             .format('YYYY-MM-DD'),
-          createdAt: moment().format(),
+          dateCreated: moment().format(),
         };
         const promise = monthlyCount.func(payload).then(async (data) => {
           dataObj.data = data;
@@ -479,7 +479,7 @@ const initiateCustomETL = async (req, res) => {
             dataDate: moment(currentPilihanBulan)
               .endOf('month')
               .format('YYYY-MM-DD'),
-            createdAt: moment().format(),
+            dateCreated: moment().format(),
             data: data,
           };
           await Reservoir.create(dataObj);
@@ -514,7 +514,7 @@ const initiateCustomETL = async (req, res) => {
             dataDate: moment(currentPilihanBulan)
               .endOf('month')
               .format('YYYY-MM-DD'),
-            createdAt: moment().format(),
+            dateCreated: moment().format(),
             data: data,
           };
           await Reservoir.create(dataObj);
@@ -551,7 +551,7 @@ const initiateCustomETL = async (req, res) => {
           dataDate: moment(currentPilihanBulan)
             .endOf('month')
             .format('YYYY-MM-DD'),
-          createdAt: moment().format(),
+          dateCreated: moment().format(),
         };
         switch (monthlyCount.name) {
           case 'PG206':
