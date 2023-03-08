@@ -335,14 +335,23 @@ const downloader = async (req, res, callback) => {
     case 'PG211C':
       excelFile = await makePG211C(payload);
       break;
-    case 'PG214':
-      excelFile = await makePG214(payload);
-      break;
     case 'PG206':
       excelFile = await makePG206(payload);
       break;
     case 'PG207':
       excelFile = await makePG207(payload);
+      break;
+    case 'PG214':
+      excelFile = await makePG214(payload);
+      break;
+    case 'PGPR201':
+      excelFile = await makePGPR201(payload);
+      break;
+    case 'PGPRO01':
+      excelFile = await makePgPro01(payload);
+      break;
+    case 'PGPRO01Combined':
+      excelFile = await makePgPro01Combined(payload);
       break;
     case 'PG201':
       excelFile = await makePG201(payload);
@@ -356,18 +365,6 @@ const downloader = async (req, res, callback) => {
     case 'PGS203P2':
       excelFile = await makePGS203P2(payload);
       break;
-    case 'PGPR201':
-      excelFile = await makePGPR201(payload);
-      break;
-    case 'PGPRO01':
-      excelFile = await makePgPro01(payload);
-      break;
-    case 'PGPRO01Combined':
-      excelFile = await makePgPro01Combined(payload);
-      break;
-    case 'GENDER':
-      excelFile = await makeGender(payload);
-      break;
     case 'MASA':
       excelFile = await makeMasa(payload);
       break;
@@ -376,6 +373,9 @@ const downloader = async (req, res, callback) => {
       break;
     case 'BPE':
       excelFile = await makeBPE(payload);
+      break;
+    case 'GENDER':
+      excelFile = await makeGender(payload);
       break;
     default:
       return 'No data found';
@@ -1717,57 +1717,58 @@ const makePG206 = async (payload) => {
         if (data[3][i].queryOperatorLain[0]) {
           // rawatan
           // row.getCell(3).value = data[3][i].queryOperatorLain[0].kedatanganTahunSemasaUlangan;
-          row.getCell(24).value =
+          row.getCell(24).value +=
             data[3][i].queryOperatorLain[0].sapuanFluorida;
           if (i > 1) {
-            row.getCell(25).value =
+            row.getCell(25).value +=
               data[3][i].queryOperatorLain[0].jumlahPesakitPrrJenis1;
-            row.getCell(26).value =
+            row.getCell(26).value +=
               data[3][i].queryOperatorLain[0].jumlahGigiPrrJenis1;
-            row.getCell(27).value =
+            row.getCell(27).value +=
               data[3][i].queryOperatorLain[0].jumlahPesakitDiBuatFs;
-            row.getCell(28).value =
+            row.getCell(28).value +=
               data[3][i].queryOperatorLain[0].jumlahGigiDibuatFs;
           }
-          row.getCell(29).value =
+          row.getCell(29).value +=
             data[3][i].queryOperatorLain[0].tampalanAntGdBaru;
-          row.getCell(30).value =
+          row.getCell(30).value +=
             data[3][i].queryOperatorLain[0].tampalanAntGdSemula;
           if (i > 1) {
-            row.getCell(31).value =
+            row.getCell(31).value +=
               data[3][i].queryOperatorLain[0].tampalanAntGkBaru;
-            row.getCell(32).value =
+            row.getCell(32).value +=
               data[3][i].queryOperatorLain[0].tampalanAntGkSemula;
           }
-          row.getCell(33).value =
+          row.getCell(33).value +=
             data[3][i].queryOperatorLain[0].tampalanPostGdBaru;
-          row.getCell(34).value =
+          row.getCell(34).value +=
             data[3][i].queryOperatorLain[0].tampalanPostGdSemula;
           if (i > 1) {
-            row.getCell(35).value =
+            row.getCell(35).value +=
               data[3][i].queryOperatorLain[0].tampalanPostGkBaru;
-            row.getCell(36).value =
+            row.getCell(36).value +=
               data[3][i].queryOperatorLain[0].tampalanPostGkSemula;
           }
-          row.getCell(37).value =
+          row.getCell(37).value +=
             data[3][i].queryOperatorLain[0].tampalanPostAmgGdBaru;
-          row.getCell(38).value =
+          row.getCell(38).value +=
             data[3][i].queryOperatorLain[0].tampalanPostAmgGdSemula;
           if (i > 1) {
-            row.getCell(39).value =
+            row.getCell(39).value +=
               data[3][i].queryOperatorLain[0].tampalanPostAmgGkBaru;
-            row.getCell(40).value =
+            row.getCell(40).value +=
               data[3][i].queryOperatorLain[0].tampalanPostAmgGkSemula;
           }
           // skipping cells
-          row.getCell(43).value =
+          row.getCell(43).value +=
             data[3][i].queryOperatorLain[0].tampalanSementara;
-          row.getCell(44).value = data[3][i].queryOperatorLain[0].cabutanGd;
+          row.getCell(44).value += data[3][i].queryOperatorLain[0].cabutanGd;
           if (i > 1) {
-            row.getCell(45).value = data[3][i].queryOperatorLain[0].cabutanGk;
-            row.getCell(46).value = data[3][i].queryOperatorLain[0].penskaleran;
+            row.getCell(45).value += data[3][i].queryOperatorLain[0].cabutanGk;
+            row.getCell(46).value +=
+              data[3][i].queryOperatorLain[0].penskaleran;
           }
-          row.getCell(47).value = data[3][i].queryOperatorLain[0].kesSelesai;
+          row.getCell(47).value += data[3][i].queryOperatorLain[0].kesSelesai;
         }
         j++;
         if (i === 6) {
@@ -4919,18 +4920,6 @@ exports.refreshTokens = async function (req, res) {
 };
 // kill the tokens
 exports.killTokens = async function (req, res) {
-  const hqTokens = await GenerateToken.find({
-    accountType: 'hqSuperadmin',
-  });
-
-  if (hqTokens) {
-    hqTokens.forEach(async (token) => {
-      token.jumlahToken = 0;
-      await token.save();
-    });
-    logger.info('[generateRetenController] dah kill token hq');
-  }
-
   const negeriTokens = await GenerateToken.find({
     accountType: 'negeriSuperadmin',
   });
