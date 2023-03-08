@@ -668,6 +668,14 @@ function UserFormSekolahPemeriksaan() {
     fetchSinglePersonSekolah();
   }, []);
 
+  let isDisabled = false;
+  if (
+    singlePersonSekolah.statusRawatan === 'selesai' ||
+    singlePersonSekolah.statusRawatan === 'belum selesai'
+  ) {
+    isDisabled = true;
+  }
+
   const handleSubmit = async (e) => {
     if (sumDMFXDesidus > 20) {
       toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
@@ -1036,6 +1044,7 @@ function UserFormSekolahPemeriksaan() {
                     <div className='grid grid-rows-2'>
                       <div className='flex items-center flex-row pl-5'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='enggan-kedatangan'
                           id='enggan-kedatangan'
@@ -1061,6 +1070,7 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                       <div className='flex items-center flex-row pl-5'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='tidak-hadir-kedatangan'
                           id='tidak-hadir-kedatangan'
@@ -1097,6 +1107,7 @@ function UserFormSekolahPemeriksaan() {
                       </h4>
                       <div className='flex items-center flex-row px-2'>
                         <input
+                          disabled={isDisabled}
                           required={
                             engganKedatanganPendaftaran ||
                             tidakHadirKedatanganPendaftaran
@@ -1130,6 +1141,7 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                       <div className='flex items-center flex-row px-2'>
                         <input
+                          disabled={isDisabled}
                           required={
                             engganKedatanganPendaftaran ||
                             tidakHadirKedatanganPendaftaran
@@ -1170,6 +1182,7 @@ function UserFormSekolahPemeriksaan() {
                     </h4>
                     <div className='flex flex-row items-center pl-5 col-span-2'>
                       <select
+                        disabled={isDisabled}
                         required
                         name='statik-bergerak'
                         id='statik-bergerak'
@@ -1195,6 +1208,7 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                     <div className='flex flex-row items-center pl-5'>
                       <input
+                        disabled={isDisabled}
                         type='checkbox'
                         name='kp-bergerak'
                         id='kp-bergerak'
@@ -1221,6 +1235,7 @@ function UserFormSekolahPemeriksaan() {
                       } flex flex-row items-center pl-5`}
                     >
                       <select
+                        disabled={isDisabled}
                         required={kpBergerak && true}
                         name='plate-no'
                         id='plate-no'
@@ -1255,6 +1270,7 @@ function UserFormSekolahPemeriksaan() {
                           </h4>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               required
                               type='radio'
                               name='sedia-ada-status-denture'
@@ -1282,6 +1298,7 @@ function UserFormSekolahPemeriksaan() {
                               Ya
                             </label>
                             <input
+                              disabled={isDisabled}
                               required
                               type='radio'
                               name='sedia-ada-status-denture'
@@ -1325,6 +1342,7 @@ function UserFormSekolahPemeriksaan() {
                             <div className='grid grid-cols-2'>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-atas-sedia-ada-denture'
                                   id='separa-atas-sedia-ada-denture'
@@ -1356,6 +1374,7 @@ function UserFormSekolahPemeriksaan() {
                               </div>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-atas-sedia-ada-denture'
                                   id='penuh-atas-sedia-ada-denture'
@@ -1403,6 +1422,7 @@ function UserFormSekolahPemeriksaan() {
                             <div className='grid grid-cols-2'>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-bawah-sedia-ada-denture'
                                   id='separa-bawah-sedia-ada-denture'
@@ -1434,6 +1454,7 @@ function UserFormSekolahPemeriksaan() {
                               </div>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-bawah-sedia-ada-denture'
                                   id='penuh-bawah-sedia-ada-denture'
@@ -1472,6 +1493,7 @@ function UserFormSekolahPemeriksaan() {
                           </h4>
                           <div className='flex items-center justify-center'>
                             <input
+                              disabled={isDisabled}
                               required
                               type='radio'
                               name='perlu-status-denture'
@@ -1499,6 +1521,7 @@ function UserFormSekolahPemeriksaan() {
                               Ya
                             </label>
                             <input
+                              disabled={isDisabled}
                               required
                               type='radio'
                               name='perlu-status-denture'
@@ -1542,6 +1565,7 @@ function UserFormSekolahPemeriksaan() {
                             <div className='grid grid-cols-2'>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-atas-perlu-denture'
                                   id='separa-atas-perlu-denture'
@@ -1573,6 +1597,7 @@ function UserFormSekolahPemeriksaan() {
                               </div>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-atas-perlu-denture'
                                   id='penuh-atas-perlu-denture'
@@ -1620,6 +1645,7 @@ function UserFormSekolahPemeriksaan() {
                             <div className='grid grid-cols-2'>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-bawah-perlu-denture'
                                   id='separa-bawah-perlu-denture'
@@ -1651,6 +1677,7 @@ function UserFormSekolahPemeriksaan() {
                               </div>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={isDisabled}
                                   type='radio'
                                   name='separa-penuh-bawah-perlu-denture'
                                   id='penuh-bawah-perlu-denture'
@@ -1694,6 +1721,7 @@ function UserFormSekolahPemeriksaan() {
                           Gred Skor Plak<span className='text-user6'>*</span>
                         </p>
                         <select
+                          disabled={isDisabled}
                           required
                           name='kebersihan-mulut'
                           id='kebersihan-mulut'
@@ -1722,6 +1750,7 @@ function UserFormSekolahPemeriksaan() {
                           Skor BPE<span className='text-user6'>*</span>
                         </p>
                         <select
+                          disabled={isDisabled}
                           required={
                             singlePersonSekolah.umur < 15 ? false : true
                           }
@@ -1757,6 +1786,7 @@ function UserFormSekolahPemeriksaan() {
                           Saringan Kanser Mulut
                         </label>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='saringan-kanser-mulut'
                           id='saringan-kanser-mulut'
@@ -1779,6 +1809,7 @@ function UserFormSekolahPemeriksaan() {
                           Skor GIS<span className='text-user6'>*</span>
                         </p>
                         <select
+                          disabled={isDisabled}
                           required
                           name='skor-gis'
                           id='skor-gis'
@@ -1801,6 +1832,7 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                       <div className='flex items-center flex-row pl-5'>
                         <input
+                          disabled={isDisabled}
                           type='checkbox'
                           name='perlu-penskaleran'
                           id='perlu-penskaleran'
@@ -1832,6 +1864,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='grid gap-1'>
                         <div className='flex items-center justify-center'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='ada-desidus'
                             id='ada-desidus'
@@ -1861,6 +1894,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m lowercase'>d: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='20'
@@ -1882,6 +1916,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m lowercase'>f: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='20'
@@ -1903,6 +1938,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m lowercase'>x: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='20'
@@ -1936,6 +1972,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='grid grid-cols-1'>
                         <div className='flex items-center justify-center peer-active:bg-user3'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='ada-kekal'
                             id='ada-kekal'
@@ -1965,6 +2002,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m '>D: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='32'
@@ -1986,6 +2024,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m '>M: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='32'
@@ -2007,6 +2046,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m '>F: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='32'
@@ -2028,6 +2068,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m '>E: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='32'
@@ -2049,6 +2090,7 @@ function UserFormSekolahPemeriksaan() {
                             <p className='text-sm font-m '>X: </p>
                             <span className='text-user6'>*</span>
                             <input
+                              disabled={isDisabled}
                               required
                               min='0'
                               max='32'
@@ -2085,6 +2127,7 @@ function UserFormSekolahPemeriksaan() {
                             Jumlah Faktor Risiko:
                           </p>
                           <select
+                            disabled={isDisabled}
                             required
                             name='jumlah-faktor-risiko'
                             id='jumlah-faktor-risiko'
@@ -2119,6 +2162,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='grid grid-cols-2'>
                         <div className='flex flex-row items-center pl-5 pt-1'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='ada-cleft-lip'
                             id='ada-cleft-lip'
@@ -2141,6 +2185,7 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                         <div className='flex flex-row items-center pl-5 pt-1'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='rujuk-cleft-lip-palate'
                             id='rujuk-cleft-lip-palate'
@@ -2168,6 +2213,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='grid grid-cols-1 lg:grid-cols-2'>
                         <div className='flex items-center flex-row pl-5'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='kecederaan-gigi-anterior'
                             id='kecederaan-gigi-anterior'
@@ -2193,6 +2239,7 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                         <div className='flex items-center flex-row pl-5'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='tisu-lembut'
                             id='tisu-lembut'
@@ -2215,6 +2262,7 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                         <div className='flex items-center flex-row pl-5'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='tisu-keras'
                             id='tisu-keras'
@@ -2244,6 +2292,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>GIC: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2263,6 +2312,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>Resin: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2282,6 +2332,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center col-span-2 md:col-span-1'>
                         <p className='text-sm font-m '>Lain-lain: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2309,6 +2360,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>D: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2331,6 +2383,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>M: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2353,6 +2406,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>F: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2375,6 +2429,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>E: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2397,6 +2452,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>X: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2424,6 +2480,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>Class I: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2443,6 +2500,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>Class II: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2472,6 +2530,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>Class I: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2491,6 +2550,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>Class II: </p>
                         <input
+                          disabled={isDisabled}
                           min='0'
                           max='32'
                           type='number'
@@ -2548,6 +2608,7 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                         <div className='flex flex-row items-center pl-11 col-span-2'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='baru-jumlah-murid-perlu-fs'
                             id='baru-jumlah-murid-perlu-fs'
@@ -2572,6 +2633,7 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
+                            disabled={isDisabled}
                             min='0'
                             max='16'
                             type='number'
@@ -2610,6 +2672,7 @@ function UserFormSekolahPemeriksaan() {
                         </h4>
                         <div className='flex flex-row items-center pl-11 col-span-2 pb-2'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='baru-jumlah-murid-perlu-fv'
                             id='baru-jumlah-murid-perlu-fv'
@@ -2657,6 +2720,7 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                         <div className='flex flex-row items-center pl-11 col-span-2'>
                           <input
+                            disabled={isDisabled}
                             type='checkbox'
                             name='baru-jumlah-murid-perlu-prr-jenis-1'
                             id='baru-jumlah-murid-perlu-prr-jenis-1'
@@ -2683,6 +2747,7 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
                           <input
+                            disabled={isDisabled}
                             min='0'
                             max='16'
                             type='number'
@@ -2726,6 +2791,7 @@ function UserFormSekolahPemeriksaan() {
                         </p>
                         <div className='flex items-center justify-center'>
                           <input
+                          disabled={isDisabled}
                             required
                             type='radio'
                             name='silver-diamine-fluoride-perlu-sapuan'
@@ -2756,6 +2822,7 @@ function UserFormSekolahPemeriksaan() {
                             Ya
                           </label>
                           <input
+                          disabled={isDisabled}
                             required
                             type='radio'
                             name='silver-diamine-fluoride-perlu-sapuan'
@@ -2815,6 +2882,7 @@ function UserFormSekolahPemeriksaan() {
                             </h4>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2846,6 +2914,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2877,6 +2946,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2908,6 +2978,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2944,6 +3015,7 @@ function UserFormSekolahPemeriksaan() {
                             </h4>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -2975,6 +3047,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -3006,6 +3079,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -3037,6 +3111,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
                                 id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
@@ -3073,6 +3148,7 @@ function UserFormSekolahPemeriksaan() {
                             </h4>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
                                 id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -3104,6 +3180,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
                                 id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -3135,6 +3212,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
                                 id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
@@ -3166,6 +3244,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                             <div className='flex flex-row items-center pl-5'>
                               <input
+                                disabled={isDisabled}
                                 type='number'
                                 name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
                                 id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
