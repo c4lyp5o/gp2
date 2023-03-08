@@ -169,6 +169,28 @@ function UserSekolah() {
         <div>
           <h2 className='text-xl font-semibold flex flex-row pl-5 lg:pl-12 p-2'>
             SILA PILIH
+            {pilihanSekolah &&
+              filteredFasilitiSekolah[0].sekolahSelesaiReten === true && (
+                <div className='ml-2'>
+                  <span className='px-2 py-1 rounded-l-xl bg-user5 text-sm font-light'>
+                    Reten
+                  </span>
+                  <span className='px-2 py-1 rounded-r-xl bg-user9 text-sm font-light'>
+                    Tutup
+                  </span>
+                </div>
+              )}
+            {pilihanSekolah &&
+              filteredFasilitiSekolah[0].sekolahSelesaiReten === false && (
+                <div className='ml-2'>
+                  <span className='px-2 py-1 rounded-l-xl bg-user5 text-sm font-light'>
+                    Reten
+                  </span>
+                  <span className='px-2 py-1 rounded-r-xl bg-user7 text-sm font-light'>
+                    Buka
+                  </span>
+                </div>
+              )}
           </h2>
           <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Sekolah</p>
           <select
@@ -265,14 +287,6 @@ function UserSekolah() {
             </button>
           </div>
         </div>
-        {pilihanSekolah &&
-          filteredFasilitiSekolah[0].sekolahSelesaiReten === true && (
-            <div>reten sekolah telah ditutup</div>
-          )}
-        {pilihanSekolah &&
-          filteredFasilitiSekolah[0].sekolahSelesaiReten === false && (
-            <div>reten sekolah masih dibuka</div>
-          )}
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-user2'>
@@ -346,25 +360,33 @@ function UserSekolah() {
                               } hover:bg-user8 text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
                             >
                               {singlePersonSekolah.pemeriksaanSekolah
-                                ? 'ubah pemeriksaan'
+                                ? 'lihat pemeriksaan'
                                 : 'tambah pemeriksaan'}
                             </Link>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                            <Link
-                              target='_blank'
-                              to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
-                              className={`${
-                                !singlePersonSekolah.pemeriksaanSekolah ||
-                                singlePersonSekolah.statusRawatan === 'selesai'
-                                  ? 'pointer-events-none bg-user4 shadow-none'
-                                  : 'bg-user3 hover:bg-user2 shadow-md'
-                              } text-userWhite rounded-sm  p-1 m-1 transition-all`}
-                            >
-                              {singlePersonSekolah.statusRawatan === 'selesai'
-                                ? 'selesai rawatan'
-                                : 'tambah rawatan'}
-                            </Link>
+                            {filteredFasilitiSekolah[0].sekolahSelesaiReten ===
+                            false ? (
+                              <Link
+                                target='_blank'
+                                to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
+                                className={`${
+                                  !singlePersonSekolah.pemeriksaanSekolah ||
+                                  singlePersonSekolah.statusRawatan ===
+                                    'selesai'
+                                    ? 'pointer-events-none bg-user4 shadow-none'
+                                    : 'bg-user3 hover:bg-user2 shadow-md'
+                                } text-userWhite rounded-sm  p-1 m-1 transition-all`}
+                              >
+                                {singlePersonSekolah.statusRawatan === 'selesai'
+                                  ? 'selesai rawatan'
+                                  : 'tambah rawatan'}
+                              </Link>
+                            ) : (
+                              <span className='bg-user4 text-userWhite rounded-sm  p-1 m-1 transition-all'>
+                                rawatan ditutup
+                              </span>
+                            )}
                             {/* keluar berapa rawatan & rawatan apa */}
                             {singlePersonSekolah.rawatanSekolah.length >= 1 && (
                               <div className='relative inline-flex'>
