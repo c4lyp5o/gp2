@@ -13,6 +13,7 @@ function UserSekolahList() {
     reliefUserToken,
     refreshTimer,
     setRefreshTimer,
+    percentageCalc,
     toast,
     userinfo,
   } = useGlobalUserAppContext();
@@ -99,14 +100,6 @@ function UserSekolahList() {
     };
     fetchFasilitiSekolahs();
   }, [reloadState]);
-
-  const percentageCalc = (kesSelesai, kedatanganBaru) => {
-    if (kesSelesai === 0 && kedatanganBaru === 0) {
-      return 0;
-    }
-    // one decimal place
-    return Math.round((kesSelesai / kedatanganBaru) * 1000) / 10;
-  };
 
   const handleSelesaiSekolah = async (idSekolah) => {
     if (!modalSelesaiSekolah) {
