@@ -5545,7 +5545,7 @@ const countPG207 = async (payload) => {
         },
       },
       jumlahGigiPrrJenis1: {
-        $sum: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+        $sum: { $toInt: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum' },
       },
       jumlahPesakitDiBuatFs: {
         $sum: {
