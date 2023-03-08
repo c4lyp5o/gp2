@@ -10,7 +10,7 @@ const reservoirSchema = new Schema(
     dataType: { type: String, required: true },
     dataFormat: { type: String, required: true },
     dataDate: { type: String, required: true },
-    createdAt: { type: String, required: true },
+    dateCreated: { type: String, required: true },
     data: { type: Array, required: true },
   },
   { timestamps: true }
