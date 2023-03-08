@@ -637,4 +637,257 @@ const initiateCustomETL = async (req, res) => {
   }
 };
 
-module.exports = { initiateETL, initiateCustomETL };
+const initiateCustomSingleETL = async (req, res) => {
+  const { bulan, jenisReten } = req.query;
+
+  const isBulanValid = pilihanBulan.find(
+    (item) => item === bulanReturner(bulan)
+  );
+  if (!isBulanValid) {
+    return res.status(400).json({ msg: 'Invalid bulan' });
+  }
+
+  const isJenisRetenValid = monthlyCount.find(
+    (item) => item.name === jenisReten
+  );
+  if (!isJenisRetenValid) {
+    return res.status(400).json({ msg: 'Invalid jenisReten' });
+  }
+
+  let currentPilihanBulan = `${moment().format('YYYY')}-${bulanReturner(
+    bulan
+  )}-01`;
+  let currentSingleETL = monthlyCount.find((item) => item.name === jenisReten);
+
+  ETLLogger.info(
+    `[ETL] Custom single ETL ${jenisReten} initiated for bulan ${bulan} at ${moment().format(
+      'YYYY-MM-DD HH:mm:ss'
+    )}`
+  );
+
+  try {
+    const negeri = await initialDataNegeri();
+    const daerah = await initialDataDaerah(negeri);
+    const klinik = await initialDataKlinik(daerah);
+    const individu = await initialDataIndividual(klinik);
+
+    // negeri data
+    // monthly count
+    const countNegeri = [];
+    const countDaerah = [];
+    const countKlinik = [];
+    const countIndividu = [];
+
+    negeri.forEach((negeri) => {
+      const payload = {
+        jenisReten: jenisReten,
+        negeri: negeri,
+        daerah: 'all',
+        klinik: 'all',
+        bulan: currentPilihanBulan,
+      };
+      const dataObj = {
+        createdByNegeri: negeri,
+        createdByDaerah: 'all',
+        createdByKodFasiliti: 'all',
+        dataType: jenisReten,
+        dataFormat: 'Monthly',
+        dataDate: moment(currentPilihanBulan)
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        dateCreated: moment().format(),
+      };
+      const promise = currentSingleETL.func(payload).then(async (data) => {
+        dataObj.data = data;
+        await Reservoir.create(dataObj);
+        ETLLogger.info(
+          `[ETL] Custom single ETL ${jenisReten} generated for ${negeri}`
+        );
+      });
+      countNegeri.push(promise);
+    });
+
+    await Promise.all([Promise.all(countNegeri)]).then(() => {
+      ETLLogger.info(
+        `[ETL] Custom single ETL for ${jenisReten} generated for all negeri`
+      );
+    });
+
+    daerah.forEach((daerah) => {
+      let payload = {
+        jenisReten: jenisReten,
+        negeri: daerah.negeri,
+        daerah: daerah.daerah,
+        klinik: 'all',
+        bulan: currentPilihanBulan,
+      };
+      const promise = currentSingleETL.func(payload).then(async (data) => {
+        const dataObj = {
+          createdByNegeri: daerah.negeri,
+          createdByDaerah: daerah.daerah,
+          createdByKodFasiliti: 'all',
+          dataType: jenisReten,
+          dataFormat: 'Monthly',
+          dataDate: moment(currentPilihanBulan)
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          dateCreated: moment().format(),
+          data: data,
+        };
+        await Reservoir.create(dataObj);
+        ETLLogger.info(
+          `[ETL] Custom single ETL ${jenisReten} generated for ${daerah.daerah}`
+        );
+      });
+      countDaerah.push(promise);
+    });
+
+    await Promise.all([Promise.all(countDaerah)]).then(() => {
+      ETLLogger.info(
+        `[ETL] Custom single ETL for ${jenisReten} generated for all daerah`
+      );
+    });
+
+    klinik.forEach((klinik) => {
+      let payload = {
+        jenisReten: jenisReten,
+        negeri: 'ETL',
+        daerah: 'ETL',
+        klinik: klinik.kodFasiliti,
+        bulan: currentPilihanBulan,
+      };
+      const promise = currentSingleETL.func(payload).then(async (data) => {
+        const dataObj = {
+          createdByNegeri: klinik.negeri,
+          createdByDaerah: klinik.daerah,
+          createdByKodFasiliti: klinik.kodFasiliti,
+          dataType: jenisReten,
+          dataFormat: 'Monthly',
+          dataDate: moment(currentPilihanBulan)
+            .endOf('month')
+            .format('YYYY-MM-DD'),
+          dateCreated: moment().format(),
+          data: data,
+        };
+        await Reservoir.create(dataObj);
+        ETLLogger.info(
+          `[ETL] Custom single ETL ${jenisReten} generated for ${klinik.kp}`
+        );
+      });
+      countKlinik.push(promise);
+    });
+
+    await Promise.all([Promise.all(countKlinik)]).then(() => {
+      ETLLogger.info(
+        `[ETL] Custom single ETL for ${jenisReten} generated for all klinik`
+      );
+    });
+
+    // it is time
+    individu.forEach((individu) => {
+      const mdcOrMdtb = individu.mdcNumber || individu.mdtbNumber;
+      const payload = {
+        jenisReten: jenisReten,
+        negeri: 'ETL',
+        daerah: 'ETL',
+        klinik: individu.kodFasiliti,
+        pilihanIndividu: mdcOrMdtb,
+        bulan: currentPilihanBulan,
+      };
+      const dataObj = {
+        createdByNegeri: individu.createdByNegeri,
+        createdByDaerah: individu.createdByDaerah,
+        createdByKodFasiliti: individu.kodFasiliti,
+        createdByMdcMdtb: mdcOrMdtb,
+        dataType: jenisReten,
+        dataFormat: 'Monthly',
+        dataDate: moment(currentPilihanBulan)
+          .endOf('month')
+          .format('YYYY-MM-DD'),
+        dateCreated: moment().format(),
+      };
+      switch (jenisReten) {
+        case 'PG206':
+          const promise206 = currentSingleETL
+            .func(payload)
+            .then(async (data) => {
+              dataObj.data = data;
+              await Reservoir.create(dataObj);
+              ETLLogger.info(
+                `[ETL] monthly data ${jenisReten} generated for ${
+                  individu.nama
+                } | ${individu.mdcNumber ? 'MDC' : 'MDTB'}: ${mdcOrMdtb}`
+              );
+            });
+          countIndividu.push(promise206);
+          break;
+        case 'PG207':
+          const promise207 = currentSingleETL
+            .func(payload)
+            .then(async (data) => {
+              dataObj.data = data;
+              await Reservoir.create(dataObj);
+              ETLLogger.info(
+                `[ETL] monthly data ${jenisReten} generated for ${
+                  individu.nama
+                } | ${individu.mdcNumber ? 'MDC' : 'MDTB'}: ${mdcOrMdtb}`
+              );
+            });
+          countIndividu.push(promise207);
+          break;
+        case 'PGPRO01':
+          const promisePGPRO01 = currentSingleETL
+            .func(payload)
+            .then(async (data) => {
+              dataObj.data = data;
+              await Reservoir.create(dataObj);
+              ETLLogger.info(
+                `[ETL] monthly data ${jenisReten} generated for ${
+                  individu.nama
+                } | ${individu.mdcNumber ? 'MDC' : 'MDTB'}: ${mdcOrMdtb}`
+              );
+            });
+          countIndividu.push(promisePGPRO01);
+          break;
+        case 'PGPRO01Combined':
+          const promisePGPRO01Combined = currentSingleETL
+            .func(payload)
+            .then(async (data) => {
+              dataObj.data = data;
+              await Reservoir.create(dataObj);
+              ETLLogger.info(
+                `[ETL] monthly data ${jenisReten} generated for ${
+                  individu.nama
+                } | ${individu.mdcNumber ? 'MDC' : 'MDTB'}: ${mdcOrMdtb}`
+              );
+            });
+          countIndividu.push(promisePGPRO01Combined);
+          break;
+        default:
+          break;
+      }
+    });
+
+    await Promise.all([Promise.all(countIndividu)]).then(() => {
+      ETLLogger.info(
+        `[ETL] Custom single ETL for ${jenisReten} data generated for all individu`
+      );
+    });
+
+    ETLLogger.info(
+      `Custom ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+    );
+    res
+      .status(200)
+      .json({ msg: 'Custom ETL done. May the server is not on fire now' });
+  } catch (error) {
+    ETLLogger.error(
+      `[ETL] Error running custom single ETL ${jenisReten}. Cause: ${error}`
+    );
+    res
+      .status(error.statusCode || 500)
+      .json({ msg: error.message } || { msg: 'Internal Server Error' });
+  }
+};
+
+module.exports = { initiateETL, initiateCustomETL, initiateCustomSingleETL };
