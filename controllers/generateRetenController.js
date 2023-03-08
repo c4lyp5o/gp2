@@ -1564,7 +1564,6 @@ const makePG206 = async (payload) => {
     for (let i = 0; i < data[1].length; i++) {
       let row = worksheet.getRow(17 + j);
       if (data[1][i].queryRawatan[0]) {
-        console.table(data[1][i].queryRawatan[0]);
         // rawatan
         row.getCell(3).value =
           data[1][i].queryRawatan[0].kedatanganTahunSemasaUlangan;
