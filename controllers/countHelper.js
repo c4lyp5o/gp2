@@ -959,7 +959,9 @@ const countPG211A = async (payload) => {
     }
     return data;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -1769,7 +1771,9 @@ const countPG211C = async (payload) => {
     }
     return data;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -3448,7 +3452,9 @@ const countPG206 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -5322,7 +5328,6 @@ const countPG207 = async (payload) => {
           project,
         ];
         const queryOperatorLain = await Umum.aggregate(pipeline);
-        console.log(queryOperatorLain);
         dataOperatorLain.push({ queryOperatorLain });
       }
     }
@@ -5334,7 +5339,9 @@ const countPG207 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -5949,7 +5956,9 @@ const countPGPR201Baru = async (payload) => {
     }
     return data;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -7108,7 +7117,9 @@ const countPG201 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -7911,7 +7922,9 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -9018,7 +9031,9 @@ const countPG201A = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -10065,7 +10080,9 @@ const countPG201PindSatu2022 = async (payload) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -11993,7 +12010,9 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -12509,7 +12528,9 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -12613,7 +12634,9 @@ const countAdHocQuery = async (
     }
     return query;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -12784,7 +12807,9 @@ const countPGPro01 = async (payload) => {
     const data = await Promosi.aggregate(pipeline);
     return data;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -13365,7 +13390,9 @@ const countPGPro01Combined = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -13612,7 +13639,9 @@ const countGender = async (payload) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -13975,7 +14004,9 @@ const countMasa = async (payload) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -14297,7 +14328,9 @@ const countBp = async (payload) => {
 
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
@@ -14714,13 +14747,15 @@ const countBPE = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
 
 // new lagi
-const countPG307 = async (payload, reten) => {
+const countPG307 = async (payload) => {
   let match_stage = [];
   let project_stage = [];
   let sort_stage = [];
@@ -15693,7 +15728,9 @@ const countPG201P2 = async (payload) => {
     }
     return bigData;
   } catch (error) {
-    errorRetenLogger.error(error);
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
     return 'Error counting data';
   }
 };
