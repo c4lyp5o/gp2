@@ -5725,7 +5725,19 @@ const countPG207 = async (payload) => {
                 {
                   $gte: [
                     {
-                      $toInt: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                      $cond: [
+                        {
+                          $eq: [
+                            '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                            '',
+                          ],
+                        },
+                        0,
+                        {
+                          $toInt:
+                            '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                        },
+                      ],
                     },
                     1,
                   ],
@@ -5738,7 +5750,17 @@ const countPG207 = async (payload) => {
         },
       },
       jumlahGigiPrrJenis1: {
-        $sum: { $toInt: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+            },
+          ],
+        },
       },
       jumlahPesakitDiBuatFs: {
         $sum: {
@@ -5747,7 +5769,17 @@ const countPG207 = async (payload) => {
               $and: [
                 {
                   $gte: [
-                    { $toInt: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+                    {
+                      $cond: [
+                        {
+                          $eq: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', ''],
+                        },
+                        0,
+                        {
+                          $toInt: '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                        },
+                      ],
+                    },
                     1,
                   ],
                 },
@@ -5759,93 +5791,300 @@ const countPG207 = async (payload) => {
         },
       },
       jumlahGigiDibuatFs: {
-        $sum: { $toInt: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+            },
+          ],
+        },
       },
       tampalanAntGdBaru: {
         $sum: {
-          $toInt: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanAntGdSemula: {
         $sum: {
-          $toInt: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanAntGkBaru: {
         $sum: {
-          $toInt: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanAntGkSemula: {
         $sum: {
-          $toInt: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostGdBaru: {
         $sum: {
-          $toInt: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostGdSemula: {
         $sum: {
-          $toInt: '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt:
+                '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostGkBaru: {
         $sum: {
-          $toInt: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostGkSemula: {
         $sum: {
-          $toInt: '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt:
+                '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostAmgGdBaru: {
         $sum: {
-          $toInt: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostAmgGdSemula: {
         $sum: {
-          $toInt: '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt:
+                '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostAmgGkBaru: {
         $sum: {
-          $toInt: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       tampalanPostAmgGkSemula: {
         $sum: {
-          $toInt: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt:
+                '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
       inlayOnlayBaru: {
-        $sum: { $toInt: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruInlayOnlayJumlahTampalanDibuatRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
+        },
       }, //data sudah dpt dari form umum
       inlayOnlaySemula: {
-        $sum: { $toInt: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
+        },
       }, //data sudah dpt dari form umum
       tampalanSementara: {
         $sum: {
-          $toInt: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
+          $cond: [
+            {
+              $eq: [
+                '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
+            },
+            0,
+            {
+              $toInt: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
+            },
+          ],
         },
       },
-      cabutanGd: { $sum: { $toInt: '$cabutDesidusRawatanUmum' } },
-      cabutanGk: { $sum: { $toInt: '$cabutKekalRawatanUmum' } },
+      cabutanGd: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$cabutDesidusRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$cabutDesidusRawatanUmum',
+            },
+          ],
+        },
+      },
+      cabutanGk: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$cabutKekalRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$cabutKekalRawatanUmum',
+            },
+          ],
+        },
+      },
       komplikasiSelepasCabutan: {
-        $sum: { $toInt: '$komplikasiSelepasCabutanRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$komplikasiSelepasCabutanRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$komplikasiSelepasCabutanRawatanUmum',
+            },
+          ],
+        },
       },
       penskaleran: {
         $sum: {
           $cond: [
             {
-              $and: [
-                {
-                  $eq: ['$penskaleranRawatanUmum', true],
-                },
-              ],
+              $eq: ['$penskaleranRawatanUmum', true],
             },
             1,
             0,
@@ -5853,16 +6092,54 @@ const countPG207 = async (payload) => {
         },
       },
       rawatanPerioLain: {
-        $sum: { $toInt: '$rawatanLainPeriodontikRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$rawatanLainPeriodontikRawatanUmum', true],
+            },
+            1,
+            0,
+          ],
+        },
       },
       rawatanEndoAnterior: {
-        $sum: { $toInt: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jumlahAnteriorKesEndodontikSelesaiRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
+            },
+          ],
+        },
       },
       rawatanEndoPremolar: {
-        $sum: { $toInt: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jumlahPremolarKesEndodontikSelesaiRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
+            },
+          ],
+        },
       },
       rawatanEndoMolar: {
-        $sum: { $toInt: '$jumlahMolarKesEndodontikSelesaiRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$jumlahMolarKesEndodontikSelesaiRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
+            },
+          ],
+        },
       },
       rawatanOrtho: {
         $sum: {
@@ -5956,7 +6233,17 @@ const countPG207 = async (payload) => {
         },
       },
       cabutanSurgical: {
-        $sum: { $toInt: '$cabutanSurgikalPembedahanMulutRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$cabutanSurgikalPembedahanMulutRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$cabutanSurgikalPembedahanMulutRawatanUmum',
+            },
+          ],
+        },
       },
       pembedahanKecilMulut: {
         $sum: {
@@ -5973,53 +6260,209 @@ const countPG207 = async (payload) => {
         },
       },
       crownBridgeBaru: {
-        $sum: { $toInt: '$baruJumlahCrownBridgeRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruJumlahCrownBridgeRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruJumlahCrownBridgeRawatanUmum',
+            },
+          ],
+        },
       },
       crownBridgeSemula: {
-        $sum: { $toInt: '$semulaJumlahCrownBridgeRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$semulaJumlahCrownBridgeRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$semulaJumlahCrownBridgeRawatanUmum',
+            },
+          ],
+        },
       },
-      postCoreBaru: { $sum: { $toInt: '$baruJumlahPostCoreRawatanUmum' } },
-      postCoreSemula: { $sum: { $toInt: '$semulaJumlahPostCoreRawatanUmum' } },
+      postCoreBaru: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruJumlahPostCoreRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruJumlahPostCoreRawatanUmum',
+            },
+          ],
+        },
+      },
+      postCoreSemula: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$semulaJumlahPostCoreRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$semulaJumlahPostCoreRawatanUmum',
+            },
+          ],
+        },
+      },
       prosthodontikPenuhDenturBaru: {
-        $sum: { $toInt: '$baruPenuhJumlahDenturProstodontikRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruPenuhJumlahDenturProstodontikRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
+            },
+          ],
+        },
       },
       prosthodontikPenuhDenturSemula: {
-        $sum: { $toInt: '$semulaPenuhJumlahDenturProstodontikRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$semulaPenuhJumlahDenturProstodontikRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+            },
+          ],
+        },
       },
       jumlahPesakitBuatDenturPenuh: {
         $sum: {
           $add: [
-            { $toInt: '$baruPenuhJumlahDenturProstodontikRawatanUmum' },
-            { $toInt: '$semulaPenuhJumlahDenturProstodontikRawatanUmum' },
+            {
+              $cond: [
+                {
+                  $eq: ['$baruPenuhJumlahDenturProstodontikRawatanUmum', ''],
+                },
+                0,
+                {
+                  $toInt: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
+                },
+              ],
+            },
+            {
+              $cond: [
+                {
+                  $eq: ['$semulaPenuhJumlahDenturProstodontikRawatanUmum', ''],
+                },
+                0,
+                {
+                  $toInt: '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+                },
+              ],
+            },
           ],
         },
       },
       prosthodontikSeparaDenturBaru: {
-        $sum: { $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruSeparaJumlahDenturProstodontikRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+            },
+          ],
+        },
       },
       prosthodontikSeparaDenturSemula: {
-        $sum: { $toInt: '$semulaSeparaJumlahDenturProstodontikRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$baruSeparaJumlahDenturProstodontikRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+            },
+          ],
+        },
       },
       jumlahPesakitBuatDenturSepara: {
         $sum: {
           $add: [
-            { $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum' },
-            { $toInt: '$semulaSeparaJumlahDenturProstodontikRawatanUmum' },
+            {
+              $cond: [
+                {
+                  $eq: ['$baruSeparaJumlahDenturProstodontikRawatanUmum', ''],
+                },
+                0,
+                {
+                  $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+                },
+              ],
+            },
+            {
+              $cond: [
+                {
+                  $eq: ['$semulaSeparaJumlahDenturProstodontikRawatanUmum', ''],
+                },
+                0,
+                {
+                  $toInt: '$semulaSeparaJumlahDenturProstodontikRawatanUmum',
+                },
+              ],
+            },
           ],
         },
       },
       immediateDenture: {
-        $sum: { $toInt: '$immediateDenturProstodontikRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$immediateDenturProstodontikRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$immediateDenturProstodontikRawatanUmum',
+            },
+          ],
+        },
       },
       pembaikanDenture: {
-        $sum: { $toInt: '$pembaikanDenturProstodontikRawatanUmum' },
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$pembaikanDenturProstodontikRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$pembaikanDenturProstodontikRawatanUmum',
+            },
+          ],
+        },
       },
       kesSelesai: {
         $sum: {
           $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
         },
       },
-      xrayDiambil: { $sum: { $toInt: '$bilanganXrayYangDiambilRawatanUmum' } },
+      xrayDiambil: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$bilanganXrayYangDiambilRawatanUmum', ''],
+            },
+            0,
+            {
+              $toInt: '$bilanganXrayYangDiambilRawatanUmum',
+            },
+          ],
+        },
+      },
       pesakitDisaringOC: {
         $sum: {
           $cond: [
