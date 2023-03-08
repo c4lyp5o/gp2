@@ -9,6 +9,21 @@ const User = require('../models/User');
 const Operator = require('../models/Operator');
 const Reservoir = require('../models/Reservoir');
 
+const pilihanBulan = [
+  '01',
+  '02',
+  '03',
+  '04',
+  '05',
+  '06',
+  '07',
+  '08',
+  '09',
+  '10',
+  '11',
+  '12',
+]; // enumerate bulan yang ada
+
 const dailyCount = [
   { name: 'PG101A', func: Helper.countPG101A },
   { name: 'PG101C', func: Helper.countPG101C },
@@ -28,6 +43,31 @@ const monthlyCount = [
   { name: 'BP', func: Helper.countBp },
   { name: 'BPE', func: Helper.countBPE },
 ];
+
+const bulanReturner = (bulan) => {
+  switch (bulan) {
+    case '1':
+      return '01';
+    case '2':
+      return '02';
+    case '3':
+      return '03';
+    case '4':
+      return '04';
+    case '5':
+      return '05';
+    case '6':
+      return '06';
+    case '7':
+      return '07';
+    case '8':
+      return '08';
+    case '9':
+      return '09';
+    default:
+      return bulan.toString();
+  }
+};
 
 const initialDataNegeri = async () => {
   const all = await Superadmin.find({ accountType: 'negeriSuperadmin' })
