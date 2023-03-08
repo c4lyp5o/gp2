@@ -23,6 +23,7 @@ function UserSekolahList() {
   const [enrolmen, setEnrolmen] = useState([]);
   const [kedatanganBaru, setKedatanganBaru] = useState([]);
   const [kesSelesai, setKesSelesai] = useState([]);
+  const [percentage, setPercentage] = useState([]);
 
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
@@ -99,6 +100,14 @@ function UserSekolahList() {
     fetchFasilitiSekolahs();
   }, [reloadState]);
 
+  const percentageCalc = (kesSelesai, kedatanganBaru) => {
+    if (kesSelesai === 0 && kedatanganBaru === 0) {
+      return 0;
+    }
+    // one decimal place
+    return Math.round((kesSelesai / kedatanganBaru) * 1000) / 10;
+  };
+
   const handleSelesaiSekolah = async (idSekolah) => {
     if (!modalSelesaiSekolah) {
       setModalSelesaiSekolah(true);
@@ -171,6 +180,9 @@ function UserSekolahList() {
                   KES SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  PERATUS SELESAI
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   STATUS
                 </th>
                 {userinfo.role === 'admin' && (
@@ -194,6 +206,9 @@ function UserSekolahList() {
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
@@ -229,6 +244,15 @@ function UserSekolahList() {
                         {kesSelesai[index]}
                       </td>
                       <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                        <span>
+                          {percentageCalc(
+                            kesSelesai[index],
+                            kedatanganBaru[index]
+                          )}
+                          %
+                        </span>
+                      </td>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                         {singleNamaSekolah.sekolahSelesaiReten ? (
                           <span className='text-userBlack px-2 whitespace-nowrap flex items-center justify-center'>
                             SELESAI{' '}
@@ -241,15 +265,6 @@ function UserSekolahList() {
                           </span>
                         )}
                       </td>
-                      {/* <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                        <Link
-                          target='_blank'
-                          to={`/sekolah/${singleNamaSekolah._id}`}
-                          className='bg-user3 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'
-                        >
-                          Lihat
-                        </Link>
-                      </td> */}
                       {userinfo.role === 'admin' && (
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <button
