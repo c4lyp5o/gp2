@@ -38,10 +38,12 @@ const monthlyCount = [
   { name: 'PGPR201', func: Helper.countPGPR201Baru },
   { name: 'PGPRO01', func: Helper.countPGPro01 },
   { name: 'PGPRO01Combined', func: Helper.countPGPro01Combined },
-  { name: 'GENDER', func: Helper.countGender },
+  { name: 'PG201', func: Helper.countPG201P2 },
+  { name: 'PGS203', func: Helper.countPGS203 },
   { name: 'MASA', func: Helper.countMasa },
   { name: 'BP', func: Helper.countBp },
   { name: 'BPE', func: Helper.countBPE },
+  { name: 'GENDER', func: Helper.countGender },
 ];
 
 const bulanReturner = (bulan) => {
