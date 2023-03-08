@@ -2365,9 +2365,44 @@ const countPG206 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    //add in kedatangan baru
+                    { $lt: ['$umur', 1] },
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'tidak-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
                     { $gte: ['$umur', 1] },
-                    { $lte: ['$umur', 59] },
+                    { $lte: ['$umur', 17] },
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'tidak-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $lte: ['$umur', 17] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $lte: ['$umur', 17] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -2377,27 +2412,6 @@ const countPG206 = async (payload) => {
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                   ],
                 },
-                // {
-                //   $and: [
-                //     //kedatangan baru
-                //     { $lte: ['$umur', 6] },
-                //     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                //     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                //     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                //     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                //     { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                //     { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                //     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                //   ],
-                // },
-                // {
-                //   $and: [
-                //     { $lte: ['$umur', 6] },
-                //     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                //     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                //     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                //   ],
-                // },
               ],
             },
             1,
@@ -2413,8 +2427,8 @@ const countPG206 = async (payload) => {
               $or: [
                 {
                   $and: [
-                    { $gte: ['$umur', 1] },
-                    { $lte: ['$umur', 59] },
+                    { $gte: ['$umur', 5] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
@@ -2434,8 +2448,66 @@ const countPG206 = async (payload) => {
           $cond: [
             {
               $or: [
+                // baby punya kira
                 {
                   $and: [
+                    { $lt: ['$umur', 1] },
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'tidak-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    { $lt: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  ],
+                },
+                // 1 tahun
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 5] },
+                    { $lte: ['$umur', 14] },
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
@@ -2451,16 +2523,37 @@ const countPG206 = async (payload) => {
                         },
                       ],
                     },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 15] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                     {
                       $or: [
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] },
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                        },
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                        },
+                        {
+                          $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                        },
                       ],
                     },
                   ],
                 },
                 {
-                  $eq: ['$tidakPerluRawatanPemeriksaanUmum', true],
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                  ],
                 },
               ],
             },
@@ -3745,8 +3838,44 @@ const countPG207 = async (payload) => {
               $or: [
                 {
                   $and: [
+                    { $lt: ['$umur', 1] },
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'tidak-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
                     { $gte: ['$umur', 1] },
-                    { $lte: ['$umur', 59] },
+                    { $lte: ['$umur', 17] },
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'tidak-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $lte: ['$umur', 17] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $lte: ['$umur', 17] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -3756,14 +3885,6 @@ const countPG207 = async (payload) => {
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                   ],
                 },
-                // {
-                //   $and: [
-                //     { $lte: ['$umur', 6] },
-                //     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                //     { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
-                //     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                //   ],
-                // },
               ],
             },
             1,
@@ -3776,13 +3897,17 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $gte: ['$umur', 1] },
-                { $lte: ['$umur', 59] },
-                { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
-                { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+              $or: [
+                {
+                  $and: [
+                    { $gte: ['$umur', 5] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$fAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                  ],
+                },
               ],
             },
             1,
@@ -3791,16 +3916,76 @@ const countPG207 = async (payload) => {
         },
       },
       TPR: {
+        //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
         $sum: {
           $cond: [
             {
               $or: [
+                // baby punya kira
                 {
                   $and: [
+                    { $lt: ['$umur', 1] },
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'tidak-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    { $lt: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  ],
+                },
+                // 1 tahun
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 5] },
+                    { $lte: ['$umur', 14] },
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                     {
                       $or: [
                         {
@@ -3814,7 +3999,34 @@ const countPG207 = async (payload) => {
                   ],
                 },
                 {
-                  $eq: ['$tidakPerluRawatanPemeriksaanUmum', true],
+                  $and: [
+                    { $gte: ['$umur', 15] },
+                    { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                    { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $or: [
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                        },
+                        {
+                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                        },
+                        {
+                          $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                        },
+                      ],
+                    },
+                  ],
+                },
+                {
+                  $and: [
+                    { $gte: ['$umur', 1] },
+                    { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                    { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                  ],
                 },
               ],
             },
