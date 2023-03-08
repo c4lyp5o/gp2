@@ -4920,18 +4920,6 @@ exports.refreshTokens = async function (req, res) {
 };
 // kill the tokens
 exports.killTokens = async function (req, res) {
-  const hqTokens = await GenerateToken.find({
-    accountType: 'hqSuperadmin',
-  });
-
-  if (hqTokens) {
-    hqTokens.forEach(async (token) => {
-      token.jumlahToken = 0;
-      await token.save();
-    });
-    logger.info('[generateRetenController] dah kill token hq');
-  }
-
   const negeriTokens = await GenerateToken.find({
     accountType: 'negeriSuperadmin',
   });
