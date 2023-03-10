@@ -235,6 +235,7 @@ function KaunterLogin() {
                 <Link
                   to='/'
                   className='order-last lg:order-first capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                  data-cy='kembali-halaman-utama'
                 >
                   kembali ke halaman utama
                 </Link>

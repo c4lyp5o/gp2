@@ -138,6 +138,7 @@ export const ConfirmModalForLogOut = ({ children }) => {
                     type='button'
                     className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user9 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-admin2 focus:outline-none focus:border-kaunter1 focus:shadow-outline-red active:bg-admin3'
                     onClick={hide}
+                    data-cy='tidak-yakin-logout'
                   >
                     Batal
                   </button>
@@ -147,6 +148,7 @@ export const ConfirmModalForLogOut = ({ children }) => {
                     type='button'
                     className='inline-flex justify-center w-16 rounded-md border border-transparent px-4 py-1 bg-user7 text-base leading-6 font-medium text-adminWhite shadow-sm hover:bg-user8 focus:outline-none focus:border-user8 focus:shadow-outline-green active:bg-user7'
                     onClick={confirm}
+                    data-cy='ya-yakin-logout'
                   >
                     YA
                   </button>

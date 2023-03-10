@@ -228,7 +228,7 @@ const deletePersonKaunter = async (req, res) => {
 };
 
 // check from db if ic is same
-// GET /check
+// GET /check/:personKaunterId
 const getPersonFromCache = async (req, res) => {
   const { personKaunterId } = req.params;
   try {

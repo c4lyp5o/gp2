@@ -1,4 +1,4 @@
-// whole test suite for pendaftaran kkiakd
+// whole test suite for pendaftaran submodul kkiakd
 
 Cypress.Commands.add('registerGeneralPtKkiaKd', () => {
   // do something..

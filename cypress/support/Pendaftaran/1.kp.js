@@ -1,9 +1,10 @@
-// whole test suite for pendaftaran kp
+// whole test suite for pendaftaran submodul kp
 
 Cypress.Commands.add('registerGeneralPtKp', () => {
   // register patient for kp -----
   cy.get('[data-cy="navbar-button-pendaftaran"]').click();
   cy.get('[data-cy="navbar-kp"]').click();
+  cy.wait('@queryPersonKaunter');
   cy.get('[data-cy="jenis-fasiliti"]').should('contain', 'Klinik Pergigian');
   cy.get('[data-cy="daftar-pesakit"]').click();
   cy.get('[data-cy="fillable-form-header"]').should(
@@ -63,6 +64,7 @@ Cypress.Commands.add('registerGeneralPtKp', () => {
         '2'; // haha lol bantai dlu cmni untuk perempuan, ensure jugak dia mesti boleh mengandung
       cy.get('[data-cy="ic-mykad-mykid"]').type(randomIcPerempuan);
     });
+  cy.wait('@getPersonFromCache');
   // select option
   cy.get('[data-cy="jantina"]').should('contain.value', 'perempuan'); // assert jantina
   cy.get('[data-cy="kumpulan-etnik"]').select('melayu');
@@ -93,16 +95,16 @@ Cypress.Commands.add('registerGeneralPtKp', () => {
   cy.get('[data-cy="no-oku"]').type('123OKU');
   // submit
   cy.get('[data-cy="submit-pendaftaran"]').click();
+  cy.wait('@queryPersonKaunter');
   cy.get('[data-cy="submit-confirm-1"]').click();
   cy.get('[data-cy="submit-confirm-2"]').click();
   cy.visit(Cypress.env('GIRETCY_BASE_URL') + '/pendaftaran/daftar/kp'); // preventDefault() workaround bantai dlu lah sementara
 });
 
 Cypress.Commands.add('validateRegisteredGeneralPtKp', () => {
-  cy.intercept(
-    'GET',
-    Cypress.env('GIRETCY_BASE_URL') + '/api/v1/kaunter/**'
-  ).as('getSinglePersonKaunter');
+  cy.get('[data-cy="navbar-button-pendaftaran"]').click();
+  cy.get('[data-cy="navbar-kp"]').click();
+  cy.wait('@queryPersonKaunter');
   cy.get('[data-cy="pengenalan-diri"]')
     .eq(-1)
     .then(($pd) => {
@@ -171,5 +173,17 @@ Cypress.Commands.add('validateRegisteredGeneralPtKp', () => {
       cy.get('[data-cy="no-oku"]').should('contain.value', '123OKU');
       // done and return to main page
       cy.get('[data-cy="kembali-pendaftaran"]').click();
+    });
+});
+
+Cypress.Commands.add('registerPtKpUlangan', () => {
+  cy.intercept(
+    'GET',
+    Cypress.env('GIRETCY_BASE_URL') + '/api/v1/kaunter/**'
+  ).as('getSinglePersonKaunter');
+  cy.get('[data-cy="pengenalan-diri"]')
+    .eq(-1)
+    .then(($pd) => {
+      const randomIcPerempuan = $pd.text();
     });
 });
