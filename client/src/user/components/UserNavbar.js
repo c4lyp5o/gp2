@@ -94,6 +94,7 @@ function UserNavbar() {
                   showRetenSubMenu ? 'bg-user3' : 'bg-user4'
                 } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
                 onClick={toggleRetenSubMenu}
+                data-cy='navbar-pengisian-data'
               >
                 <span>PENGISIAN DATA</span>
                 <span className='ml-10'>
@@ -120,6 +121,7 @@ function UserNavbar() {
                       ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                       : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                   }
+                  data-cy='navbar-umum'
                 >
                   UMUM
                 </NavLink>
@@ -296,6 +298,7 @@ function UserNavbar() {
           <button
             className='text-2xl bg-userWhite text-userBlack mt-8 mb-8 px-3 rounded-md shadow-xl hover:rotate-90 transition-all'
             onClick={toggleLinks}
+            data-cy='navbar-button-pengguna'
           >
             <FaBars />
           </button>
