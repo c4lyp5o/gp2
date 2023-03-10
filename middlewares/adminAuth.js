@@ -50,4 +50,12 @@ const refreshAuth = (req, res, next) => {
   next();
 };
 
-module.exports = { adminAuth, adminAuthInt, etlAuth, refreshAuth };
+const debugAuth = (req, res, next) => {
+  const { 'x-api-key': apiKey } = req.headers;
+  if (!apiKey || apiKey !== process.env.DEBUG_SECRET) {
+    return res.status(401).json({ msg: 'Nice try, but no cigar' });
+  }
+  next();
+};
+
+module.exports = { adminAuth, adminAuthInt, etlAuth, refreshAuth, debugAuth };
