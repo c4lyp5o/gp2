@@ -939,7 +939,7 @@ const countPG211A = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$rujukDaripada', 'laoin-lain'],
+              $eq: ['$rujukDaripada', 'lain-lain'],
             },
             1,
             0,
