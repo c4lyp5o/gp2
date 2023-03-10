@@ -149,6 +149,7 @@ function UserHeaderLoggedIn() {
                     type='button'
                     className='p-1 text-user2 flex items-center justify-center bg-user3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-user4 transition-all'
                     onClick={confirm(logout)}
+                    data-cy='logout-pengguna'
                   >
                     <FaUnlockAlt className='inline-flex mr-1' />
                     LOG KELUAR
