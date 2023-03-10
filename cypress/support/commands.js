@@ -77,11 +77,9 @@ Cypress.Commands.add(
   'loginPendaftaran',
   ({ negeri, daerah, kodFasiliti, password }) => {
     // load /pendaftaran
-    cy.visit(Cypress.env('GIRETCY_BASE_URL'));
     cy.get('[data-cy="klinik"]').click();
     cy.get('[data-cy="pendaftaran"]').click();
     cy.url().should('contain', '/pendaftaran');
-
     // login Pendaftaran
     cy.get('[data-cy="negeri"]').select(negeri);
     cy.get('[data-cy="daerah"]').select(daerah);
@@ -92,15 +90,22 @@ Cypress.Commands.add(
   }
 );
 
+Cypress.Commands.add('logoutPendaftaran', () => {
+  cy.get('[data-cy="logout-pendaftaran"]').click();
+  cy.get('[data-cy="ya-yakin-logout"]').click();
+  cy.url().should('not.contain', '/daftar');
+  // back to base
+  cy.get('[data-cy="kembali-halaman-utama"]').click();
+  cy.url().should('not.contain', '/pendaftaran');
+});
+
 Cypress.Commands.add(
   'loginPengguna',
   ({ negeri, daerah, kodFasiliti, password, operator, mdcMdtb }) => {
     // load /pengguna
-    cy.visit(Cypress.env('GIRETCY_BASE_URL'));
     cy.get('[data-cy="klinik"]').click();
     cy.get('[data-cy="pengguna"]').click();
     cy.url().should('contain', '/pengguna');
-
     // login Pengguna
     cy.get('[data-cy="negeri"]').select(negeri);
     cy.get('[data-cy="daerah"]').select(daerah);
@@ -113,3 +118,12 @@ Cypress.Commands.add(
     cy.url().should('contain', '/landing');
   }
 );
+
+Cypress.Commands.add('logoutPengguna', () => {
+  cy.get('[data-cy="logout-pengguna"]').click();
+  cy.get('[data-cy="ya-yakin-logout"]').click();
+  cy.url().should('not.contain', '/landing');
+  // back to base
+  cy.get('[data-cy="kembali-halaman-utama"]').click();
+  cy.url().should('not.contain', '/pengguna');
+});
