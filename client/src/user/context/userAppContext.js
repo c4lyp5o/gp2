@@ -115,6 +115,15 @@ function masterDatePicker({
   );
 }
 
+// percentageCalculation
+const percentageCalc = (numerator, denominator) => {
+  if (numerator === 0 && denominator === 0) {
+    return 0;
+  }
+  // one decimal place
+  return Math.round((numerator / denominator) * 1000) / 10;
+};
+
 // wip ----------
 function masterDatetime({ value, initialValue, onChange, inputProps }) {
   return (
@@ -498,6 +507,7 @@ function UserAppProvider({ children }) {
         formatTime,
         noPendaftaranSplitter,
         statusPesakit,
+        percentageCalc,
         masterDatePicker,
         Dictionary,
         dictionaryDaerah,
