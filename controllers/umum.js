@@ -220,7 +220,7 @@ const updatePersonUmum = async (req, res) => {
           tahunDaftar: new Date().getFullYear(),
           deleted: false,
         },
-        { $push: { rawatanOperatorLain: summary } },
+        { $push: { rawatanOperatorLain: req.body } },
         { new: true }
       );
 
