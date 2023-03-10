@@ -4806,25 +4806,210 @@ const makeKEPP = async (payload) => {
     return err;
   }
 };
+const makeTOD = async (payload) => {
+  logger.info('[generateRetenController] makeTOD');
+  try {
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanIndividu,
+      username,
+      // fromEtl,
+    } = payload;
+    let data;
+    let fromEtl = 'false';
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countTOD(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'TOD 2022.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('TOD');
+    //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
+    worksheet.getCell('C9').value = moment(new Date()).format('YYYY');
+    worksheet.getCell('C10').value = moment(bulan).format('MMMM');
+
+    // if (pilihanIndividu) {
+    //   const currentIndividu = await Operator.findOne({
+    //     mdtbNumber: pilihanIndividu,
+    //   })
+    //     .select('nama')
+    //     .lean();
+    //   worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
+    // }
+
+    worksheet.getCell('C7').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell(
+      'C6'
+    ).value = `${daerah.toUpperCase()} / ${negeri.toUpperCase()}`;
+
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    let j = 0;
+    for (let i = 0; i < data[0].length; i++) {
+      let row = worksheet.getRow(19 + j);
+      if (data[0][i].queryBaru[0]) {
+        row.getCell(3).value =
+          data[0][i].queryBaru[0].kedatanganTahunSemasaBaru;
+        row.getCell(5).value = data[0][i].queryBaru[0].jumlahd;
+        row.getCell(7).value = data[0][i].queryBaru[0].jumlahf;
+        row.getCell(8).value = data[0][i].queryBaru[0].jumlahx;
+        // row.getCell(10).value = data[0][i].queryBaru[0].jumlahdfx;
+        row.getCell(11).value = data[0][i].queryBaru[0].dfxEqualToZero;
+        row.getCell(12).value = data[0][i].queryBaru[0].skorPlakA;
+        row.getCell(13).value = data[0][i].queryBaru[0].skorPlakC;
+        row.getCell(14).value = data[0][i].queryBaru[0].skorPlakE;
+        row.getCell(15).value = data[0][i].queryBaru[0].TPR;
+        row.getCell(16).value =
+          data[0][i].queryBaru[0].jumlahKecederaanTisuLembut;
+        row.getCell(17).value =
+          data[0][i].queryBaru[0].jumlahKecederaanTisuKeras;
+        row.getCell(19).value = data[0][i].queryBaru[0].perluSapuanFluorida;
+        row.getCell(20).value = data[0][i].queryBaru[0].sudahSapuanFluorida;
+        row.getCell(21).value =
+          data[0][i].queryBaru[0].jumlahTampalanAnteriorBaru;
+        row.getCell(22).value =
+          data[0][i].queryBaru[0].jumlahTampalanPosteriorBaru;
+        j += 2;
+      }
+    }
+
+    j = 0;
+    for (let i = 0; i < data[1].length; i++) {
+      let row = worksheet.getRow(20 + j);
+      if (data[1][i].queryBu[0]) {
+        row.getCell(4).value =
+          data[1][i].queryBu[0].kedatanganTahunSemasaUlangan;
+        row.getCell(19).value = data[1][i].queryBu[0].perluSapuanFluoridaBu;
+        row.getCell(20).value = data[1][i].queryBu[0].sudahSapuanFluoridaBu;
+        row.getCell(21).value = data[1][i].queryBu[0].jumlahTampalanAnteriorBu;
+        row.getCell(22).value = data[1][i].queryBu[0].jumlahTampalanPosteriorBu;
+        row.getCell(24).value = data[1][i].queryBu[0].jumlahCabutan;
+        row.getCell(25).value = data[1][i].queryBu[0].jumlahAbses;
+        row.getCell(26).value = data[1][i].queryBu[0].jumlahPulpotomi;
+        row.getCell(27).value = data[1][i].queryBu[0].rujukanAgensiLuar;
+        row.getCell(30).value = data[1][i].queryBu[0].craRendah;
+        row.getCell(31).value = data[1][i].queryBu[0].craSederhana;
+        row.getCell(32).value = data[1][i].queryBu[0].craTinggi;
+        j += 2;
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'AF7'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('AF8').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'AF9'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell('AF10').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AF7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AF8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AF9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AF10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    worksheet.name = 'TOD';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(`[generateRetenController] writing file ${newfile}`);
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(`[generateRetenController] deleting file ${newfile}`);
+    }, 1000);
+    // read file for returning
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+
+    return file;
+  } catch (err) {
+    logger.error(err);
+    return err;
+  }
+};
 
 // debug
 exports.debug = async (req, res) => {
   logger.info('[generateRetenController] debug test');
   let payload = {
-    negeri: 'Selangor',
+    negeri: 'Perak',
     // daerah: 'Arau',
-    daerah: 'Petaling',
+    daerah: 'all',
     // klinik: 'Klinik Pergigian Kaki Bukit',
-    klinik: 'B07-006-02',
+    klinik: 'all',
     bulan: '2023-02-01',
   };
-  const data = await makePG214(payload);
+  console.table(payload);
+  const data = await makeTOD(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
-  // res.setHeader('Content-Type', 'application/vnd.ms-excel');
-  // res.status(200).send(data);
-  res.status(200).json(data);
+  res.setHeader('Content-Type', 'application/vnd.ms-excel');
+  res.status(200).send(data);
+  // res.status(200).json(data);
 };
 
 // helper

@@ -235,6 +235,7 @@ function UserLoginForm() {
           <Link
             to='/'
             className='order-last lg:order-first capitalize bg-user6 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
+            data-cy='kembali-halaman-utama'
           >
             kembali ke halaman utama
           </Link>
