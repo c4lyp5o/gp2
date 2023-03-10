@@ -14382,10 +14382,10 @@ const countPGPro01Combined = async (payload) => {
         $sum: '$bilanganPesertaUlangLatihanMemberusGigiBahagianA',
       },
       jumlahAktivitiPerananKempen: {
-        $sum: '$bilanganAktivitiMainPerananBahagianB',
+        $sum: '$bilanganAktivitiPameranKempenBahagianB',
       },
       jumlahPesertaPerananKempen: {
-        $sum: '$bilanganPesertaMainPerananBahagianB',
+        $sum: '$bilanganPesertaPameranKempenBahagianB',
       },
       jumlahAktivitiBoneka: {
         $sum: '$bilanganAktivitiPertunjukanBonekaBahagianB',
@@ -14409,7 +14409,7 @@ const countPGPro01Combined = async (payload) => {
         $sum: '$bilanganAktivitiPertandinganBahagianB',
       },
       jumlahPesertaPertandingan: {
-        $sum: 'bilanganPesertaPertandinganBahagianB',
+        $sum: '$bilanganPesertaPertandinganBahagianB',
       },
       jumlahAktivitiInteraktif: {
         $sum: '$bilanganAktivitiPermainanInteraktifBahagianB',
