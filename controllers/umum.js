@@ -415,11 +415,7 @@ const queryPersonUmum = async (req, res) => {
     queryObject.jenisProgram = jenisProgram;
   }
 
-  const umumResultQuery = await Umum.find(queryObject)
-    // .select(
-    //   '_id noPendaftaranBaru noPendaftaranUlangan waktuSampai tarikhKedatangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan statusKehadiran createdByUsername statusReten noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram rawatanDibuatOperatorLain'
-    // )
-    .lean();
+  const umumResultQuery = await Umum.find(queryObject).lean();
 
   res.status(200).json({ umumResultQuery });
 };

@@ -94,7 +94,7 @@ function Kaunter({
           const { data } = await axios.get(
             `/api/v1/query/kaunter?tarikhKedatangan=${moment(dateToday).format(
               'YYYY-MM-DD'
-            )}&namaProgram=${namaProgram}`,
+            )}&jenisFasiliti=${jenisFasiliti}&jenisProgram=${jenisProgram}&namaProgram=${namaProgram}`,
             { headers: { Authorization: `Bearer ${kaunterToken}` } }
           );
           setData(data);

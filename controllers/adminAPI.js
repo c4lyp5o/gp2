@@ -1352,8 +1352,8 @@ const deleteRoute = async (req, res) => {
     case 'program':
       data = await Event.findOne({ _id: Id });
       exists = await Umum.find({
-        namaProgram: program.nama,
         jenisProgram: program.jenisEvent,
+        namaProgram: program.nama,
         createdByKodFasiliti: program.createdByKodFasiliti,
         tahunDaftar: program.tahunDibuat,
         deleted: false,
@@ -1417,8 +1417,8 @@ const deleteKpRoute = async (req, res) => {
     case 'program':
       const program = await Event.findOne({ _id: Id });
       const exists = await Umum.find({
-        namaProgram: program.nama,
         jenisProgram: program.jenisEvent,
+        namaProgram: program.nama,
         createdByKodFasiliti: program.createdByKodFasiliti,
         tahunDaftar: program.tahunDibuat,
         deleted: false,
@@ -1882,8 +1882,8 @@ const getData = async (req, res) => {
           if (theType === 'program') {
             const program = await Event.findOne({ _id: Id });
             const exists = await Umum.find({
-              namaProgram: program.nama,
               jenisProgram: program.jenisEvent,
+              namaProgram: program.nama,
               createdByKodFasiliti: program.createdByKodFasiliti,
               tahunDaftar: program.tahunDibuat,
               deleted: false,
@@ -2067,8 +2067,8 @@ const getData = async (req, res) => {
             case 'program':
               const program = await Event.findOne({ _id: Id });
               const exists = await Umum.find({
-                namaProgram: program.nama,
                 jenisProgram: program.jenisEvent,
+                namaProgram: program.nama,
                 createdByKodFasiliti: program.createdByKodFasiliti,
                 tahunDaftar: program.tahunDibuat,
                 deleted: false,
