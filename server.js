@@ -126,10 +126,10 @@ app.use('/api/v1/kaunter', authCheck, kaunter);
 // admin route
 app.use('/api/v1/superadmin', adminAPI);
 
-// generate route
+// generate HQ, Negeri, Daerah route
 app.use('/api/v1/generate', genRouter);
 
-// generate kp route (5 minutes lifehack)
+// generate kp route
 app.use('/api/v1/generatekp', genRouterKp);
 
 // ETL
