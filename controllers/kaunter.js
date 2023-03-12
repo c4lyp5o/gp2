@@ -232,9 +232,11 @@ const deletePersonKaunter = async (req, res) => {
 const getPersonFromCache = async (req, res) => {
   const { personKaunterId } = req.params;
   try {
-    const person = await Umum.findOne({ ic: personKaunterId }, null, {
-      sort: { _id: -1 },
-    });
+    const person = await Umum.findOne({
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+      ic: personKaunterId,
+    }).sort({ createdAt: -1 });
     return res.status(200).json({ person });
   } catch (error) {
     res.status(404).json({ msg: 'No person found' });
@@ -251,9 +253,9 @@ const queryPersonKaunter = async (req, res) => {
     user: { kp, kodFasiliti, daerah, negeri },
     query: {
       nama,
+      ic,
       tarikhKedatangan,
       jenisFasiliti,
-      ic,
       jenisProgram,
       namaProgram,
     },
@@ -271,16 +273,16 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.nama = { $regex: nama, $options: 'i' };
   }
 
+  if (ic) {
+    queryObject.ic = { $regex: ic, $options: 'i' };
+  }
+
   if (tarikhKedatangan) {
     queryObject.tarikhKedatangan = tarikhKedatangan;
   }
 
   if (jenisFasiliti) {
     queryObject.jenisFasiliti = jenisFasiliti;
-  }
-
-  if (ic) {
-    queryObject.ic = { $regex: ic, $options: 'i' };
   }
 
   if (jenisProgram) {
@@ -291,7 +293,7 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.namaProgram = namaProgram;
   }
 
-  const kaunterResultQuery = await Umum.find(queryObject);
+  const kaunterResultQuery = await Umum.find(queryObject).lean();
 
   res.status(200).json({ kaunterResultQuery });
 };
