@@ -25,7 +25,6 @@ jobs:
         with:
           node-version: 18
       - run: npm run install-prod
-      - run: npm run install-client
       - run: CI=false npm run build-client
       # ---
       - name: Cypress run test

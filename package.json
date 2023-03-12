@@ -6,7 +6,7 @@
   "scripts": {
     "install-server": "npm install",
     "install-client": "cd client && npm install",
-    "install-prod": "npm install --omit dev",
+    "install-prod": "npm install --omit dev && cd client && npm install --omit dev",
     "server": "nodemon server.js",
     "client": "cd client && npm start",
     "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
