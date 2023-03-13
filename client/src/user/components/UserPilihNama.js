@@ -61,7 +61,10 @@ function UserPilihNama() {
       if (checkboxRelief.current.checked === false) {
         localStorage.setItem('username', pilihanOperator.current.value);
         setUsername(pilihanOperator.current.value);
-        localStorage.setItem('userinfo', JSON.stringify(userinfo));
+        localStorage.setItem(
+          'userinfo',
+          JSON.stringify(userinfo).replace(/</g, '\\u003c')
+        );
         setUserinfo(userinfo);
         setDisplayLoginForm(true);
         setDisplayPilihNama(false);
@@ -70,7 +73,10 @@ function UserPilihNama() {
       if (checkboxRelief.current.checked === true) {
         localStorage.setItem('username', pilihanOperator.current.value);
         setUsername(pilihanOperator.current.value);
-        localStorage.setItem('userinfo', JSON.stringify(userinfo));
+        localStorage.setItem(
+          'userinfo',
+          JSON.stringify(userinfo).replace(/</g, '\\u003c')
+        );
         setUserinfo(userinfo);
         setDisplayPilihNama(false);
         setDisplayPilihFasiliti(true);
