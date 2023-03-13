@@ -194,20 +194,20 @@ function UserSekolahList() {
                   ENROLMEN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
-                  KEDATANGAN BARU
+                  BIL. MURID BARU
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
-                  KES SELESAI
+                  BIL. KES SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
                   PERATUS SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
-                  STATUS
+                  STATUS SEKOLAH
                 </th>
                 {userinfo.role === 'admin' && (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                    TUTUP RETEN
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-32'>
+                    TUTUP RETEN SEKOLAH
                   </th>
                 )}
               </tr>
