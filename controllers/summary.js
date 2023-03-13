@@ -2,6 +2,8 @@ const { Types } = require('mongoose');
 const Operator = require('../models/Operator');
 const { logger } = require('../logs/logger');
 
+// not used
+// GET
 const getSinglePersonOperator = async (req, res) => {
   logger.info(`[summaryController] getSinglePersonOperator called`);
 
@@ -22,6 +24,7 @@ const getSinglePersonOperator = async (req, res) => {
   res.status(201).json(singlePersonOperator);
 };
 
+// GET /
 const getSinglePersonOperatorSummary = async (req, res) => {
   logger.info(`[summaryController] getSinglePersonOperatorSummarycalled`);
 
@@ -53,7 +56,7 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   }
 
   const filteredSummary = await Operator.aggregate([
-    { $match: { _id: Types.ObjectId(id) } },
+    { $match: { _id: new Types.ObjectId(id) } },
     {
       $project: {
         _id: 0,

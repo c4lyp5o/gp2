@@ -7,7 +7,8 @@ import { MdSupervisedUserCircle, MdOutlineSmartToy } from 'react-icons/md';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserSummary() {
-  const { userToken, userinfo, toast } = useGlobalUserAppContext();
+  const { userToken, userinfo, reliefUserToken, toast } =
+    useGlobalUserAppContext();
   const [bulan, setBulan] = useState('');
   const [waitForData, setWaitForData] = useState(false);
   const [data, setData] = useState([]);
@@ -78,7 +79,11 @@ export default function UserSummary() {
           userinfo._id
         }&bulan=${pilihanBulan}&tahun=${moment().format('YYYY')}`,
         {
-          headers: { Authorization: `Bearer ${userToken}` },
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
         }
       );
       if (res.data[0].filteredSummary.length === 0) {
@@ -95,27 +100,27 @@ export default function UserSummary() {
       });
   };
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const res = await axios.get(`/api/v1/operator/${userinfo._id}`, {
-        headers: { Authorization: `Bearer ${userToken}` },
-      });
-      setProfileImage(res.data.singlePersonOperator.image);
-      if (res.data.singlePersonOperator.summary.length === 0) {
-        return setData([]);
-      }
-      setData(res.data.singlePersonOperator.summary);
-    };
-    // fetchData().catch((err) => {
-    //   console.log(err.response.data.msg);
-    // toast.error(
-    //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-summary-fetchData'
-    // );
-    // });
-    return () => {
-      setData([]);
-    };
-  }, [userToken]);
+  // useEffect(() => {
+  //   const fetchData = async () => {
+  //     const res = await axios.get(`/api/v1/operator/${userinfo._id}`, {
+  //       headers: { Authorization: `Bearer ${userToken}` },
+  //     });
+  //     setProfileImage(res.data.singlePersonOperator.image);
+  //     if (res.data.singlePersonOperator.summary.length === 0) {
+  //       return setData([]);
+  //     }
+  //     setData(res.data.singlePersonOperator.summary);
+  //   };
+  //   fetchData().catch((err) => {
+  //     console.log(err.response.data.msg);
+  //   toast.error(
+  //     'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-summary-fetchData'
+  //   );
+  //   });
+  //   return () => {
+  //     setData([]);
+  //   };
+  // }, [userToken]);
 
   // if (!data) {
   //   return (
