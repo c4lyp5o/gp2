@@ -53,7 +53,7 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   }
 
   const filteredSummary = await Operator.aggregate([
-    { $match: { _id: Types.ObjectId(id) } },
+    { $match: { _id: new Types.ObjectId(id) } },
     {
       $project: {
         _id: 0,
