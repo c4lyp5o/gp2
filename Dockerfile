@@ -15,7 +15,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # install node_modules
-RUN npm run install-prod && npm run install-client
+RUN npm run install-prod
 
 # build client React JS
 RUN npm run build-client
