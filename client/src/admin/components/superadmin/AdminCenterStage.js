@@ -189,14 +189,18 @@ export default function AdminCenterStage(props) {
                     </div>
                     {daerah.klinik.map((klinik, index) => {
                       return (
-                        <a
+                        <div
                           key={index}
-                          href={`./landing/klinik?id=${klinik.kodFasiliti}`}
+                          onClick={() => {
+                            navigate(
+                              `/pentadbir/landing/klinik?id=${klinik.kodFasiliti}`
+                            );
+                          }}
                         >
-                          <p className='text-user1 hover:bg-admin4 hover:rounded-md hover:text-adminWhite'>
+                          <p className='text-user1 hover:bg-admin4 hover:rounded-md hover:text-adminWhite hover:cursor-pointer'>
                             {klinik.namaKlinik}
                           </p>
-                        </a>
+                        </div>
                       );
                     })}
                   </div>
