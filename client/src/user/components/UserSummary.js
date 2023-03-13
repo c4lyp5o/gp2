@@ -7,7 +7,8 @@ import { MdSupervisedUserCircle, MdOutlineSmartToy } from 'react-icons/md';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 export default function UserSummary() {
-  const { userToken, userinfo, toast } = useGlobalUserAppContext();
+  const { userToken, userinfo, reliefUserToken, toast } =
+    useGlobalUserAppContext();
   const [bulan, setBulan] = useState('');
   const [waitForData, setWaitForData] = useState(false);
   const [data, setData] = useState([]);
@@ -78,7 +79,11 @@ export default function UserSummary() {
           userinfo._id
         }&bulan=${pilihanBulan}&tahun=${moment().format('YYYY')}`,
         {
-          headers: { Authorization: `Bearer ${userToken}` },
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
         }
       );
       if (res.data[0].filteredSummary.length === 0) {
