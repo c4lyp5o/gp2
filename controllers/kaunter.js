@@ -156,6 +156,17 @@ const createPersonKaunter = async (req, res) => {
       req.body.kedatangan = 'ulangan-kedatangan';
       req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
     }
+    if (
+      personExist.kedatangan === 'ulangan-kedatangan' &&
+      personExist.deleted &&
+      !personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] IC telah wujud dan kedatangan ulangan. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
+    }
   }
 
   if (!personExist) {
