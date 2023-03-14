@@ -3766,18 +3766,14 @@ const makeMasa = async (payload) => {
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
     worksheet.getCell('H4').value = `Maklumat dari ${
       bulan
-        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
-            bulan
-          )
-            .endOf('month')
-            .format('DD-MM-YYYY')}`
-        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
-            tarikhAkhir
-          ).format('DD-MM-YYYY')}`
+        ? `01-01-${new Date().getFullYear()} - ${moment().format('DD-MM-YYYY')}`
+        : `01-01-${new Date().getFullYear()} - ${moment().format('DD-MM-YYYY')}`
     }`;
-    worksheet.getCell('H5').value = `Dijana oleh: ${username} (${moment(
-      new Date()
-    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+    worksheet.getCell(
+      'H5'
+    ).value = `Dijana oleh: ${username} (${moment().format(
+      'DD-MM-YYYY'
+    )} - ${moment().format('HH:mm:ss')})`;
     worksheet.getCell('H6').value = ' ';
 
     worksheet.getCell('H3').alignment = {
