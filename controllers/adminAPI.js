@@ -171,7 +171,7 @@ const initialDataAdmins = async (req, res) => {
   const all = await Operator.find({
     kodFasiliti: kodFasiliti,
     role: 'admin',
-  });
+  }).select('nama email mdcNumber mdtbNumber');
   let admins = [];
   all.forEach((item) => {
     let regNum = {};
