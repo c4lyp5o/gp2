@@ -3436,17 +3436,17 @@ const countPG206 = async (payload) => {
     $group: {
       _id: placeModifier(payload),
       retenSalah: { $sum: '$retenSalah' },
-      kedatanganTahunSemasaUlangan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
-            },
-            1,
-            0,
-          ],
-        },
-      },
+      // kedatanganTahunSemasaUlangan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
       // dibuat rawatan
       sapuanFluorida: {
         //fvMuridB
@@ -5692,17 +5692,17 @@ const countPG207 = async (payload) => {
   const group_operatorLain = {
     $group: {
       _id: placeModifier(payload),
-      kedatanganTahunSemasaUlangan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
-            },
-            1,
-            0,
-          ],
-        },
-      },
+      // kedatanganTahunSemasaUlangan: {
+      //   $sum: {
+      //     $cond: [
+      //       {
+      //         $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+      //       },
+      //       1,
+      //       0,
+      //     ],
+      //   },
+      // },
       // dibuat rawatan
       sapuanFluorida: {
         //fvMuridB
