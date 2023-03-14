@@ -3952,28 +3952,33 @@ const makeBp = async (payload) => {
         retenSalah += data[0].melayu[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].jumlahReten;
-        cellNumber = cellNumber + 3;
+        if (j < 5) {
+          cellNumber += 2;
+        } else {
+          cellNumber += 3;
+        }
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
+        worksheet.getRow(rowNumber).getCell(cellNumber).value +=
           data[0].melayu[j][0].jumlahDirujukKeKk;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value;
       }
       rowNumber++;
-      if (j < 5) {
+      if (j < 4) {
         cellNumber = 3;
-      }
-      if (j >= 4) {
-        cellNumber = 4;
       }
       if (j === 4) {
         rowNumber = 11;
+        cellNumber = 4;
+      }
+      if (j > 4) {
+        cellNumber = 4;
       }
     }
+
     cellNumber = 3;
     rowNumber = 17;
     for (let j = 0; j < data[1].cina.length; j++) {
@@ -3982,28 +3987,33 @@ const makeBp = async (payload) => {
         retenSalah += data[1].cina[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[1].cina[j][0].jumlahReten;
-        cellNumber = cellNumber + 3;
+        if (j < 5) {
+          cellNumber += 2;
+        } else {
+          cellNumber += 3;
+        }
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[1].cina[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[1].cina[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[1].cina[j][0].jumlahDirujukKeKk +
-          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value +=
+          data[1].cina[j][0].jumlahDirujukKeKk;
       }
       rowNumber++;
-      if (j < 5) {
+      if (j < 4) {
         cellNumber = 3;
-      }
-      if (j >= 4) {
-        cellNumber = 4;
       }
       if (j === 4) {
         rowNumber = 17;
+        cellNumber = 4;
+      }
+      if (j > 4) {
+        cellNumber = 4;
       }
     }
+
     cellNumber = 3;
     rowNumber = 23;
     for (let j = 0; j < data[2].india.length; j++) {
@@ -4012,28 +4022,33 @@ const makeBp = async (payload) => {
         retenSalah += data[2].india[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[2].india[j][0].jumlahReten;
-        cellNumber = cellNumber + 3;
+        if (j < 5) {
+          cellNumber += 2;
+        } else {
+          cellNumber += 3;
+        }
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[2].india[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[2].india[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[2].india[j][0].jumlahDirujukKeKk +
-          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value +=
+          data[2].india[j][0].jumlahDirujukKeKk;
       }
       rowNumber++;
-      if (j < 5) {
+      if (j < 4) {
         cellNumber = 3;
-      }
-      if (j >= 4) {
-        cellNumber = 4;
       }
       if (j === 4) {
         rowNumber = 23;
+        cellNumber = 4;
+      }
+      if (j > 4) {
+        cellNumber = 4;
       }
     }
+
     cellNumber = 3;
     rowNumber = 29;
     for (let j = 0; j < data[3].bumiputeraSabah.length; j++) {
@@ -4042,28 +4057,33 @@ const makeBp = async (payload) => {
         retenSalah += data[3].bumiputeraSabah[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[3].bumiputeraSabah[j][0].jumlahReten;
-        cellNumber = cellNumber + 3;
+        if (j < 5) {
+          cellNumber += 2;
+        } else {
+          cellNumber += 3;
+        }
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[3].bumiputeraSabah[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[3].bumiputeraSabah[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[3].bumiputeraSabah[j][0].jumlahDirujukKeKk +
-          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value +=
+          data[3].bumiputeraSabah[j][0].jumlahDirujukKeKk;
       }
       rowNumber++;
-      if (j < 5) {
+      if (j < 4) {
         cellNumber = 3;
-      }
-      if (j >= 4) {
-        cellNumber = 4;
       }
       if (j === 4) {
         rowNumber = 29;
+        cellNumber = 4;
+      }
+      if (j > 4) {
+        cellNumber = 4;
       }
     }
+
     cellNumber = 3;
     rowNumber = 35;
     for (let j = 0; j < data[4].bumiputeraSarawak.length; j++) {
@@ -4072,28 +4092,33 @@ const makeBp = async (payload) => {
         retenSalah += data[4].bumiputeraSarawak[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[4].bumiputeraSarawak[j][0].jumlahReten;
-        cellNumber = cellNumber + 3;
+        if (j < 5) {
+          cellNumber += 2;
+        } else {
+          cellNumber += 3;
+        }
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[4].bumiputeraSarawak[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[4].bumiputeraSarawak[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[4].bumiputeraSarawak[j][0].jumlahDirujukKeKk +
-          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value +=
+          data[4].bumiputeraSarawak[j][0].jumlahDirujukKeKk;
       }
       rowNumber++;
-      if (j < 5) {
+      if (j < 4) {
         cellNumber = 3;
-      }
-      if (j >= 4) {
-        cellNumber = 4;
       }
       if (j === 4) {
         rowNumber = 35;
+        cellNumber = 4;
+      }
+      if (j > 4) {
+        cellNumber = 4;
       }
     }
+
     cellNumber = 3;
     rowNumber = 41;
     for (let j = 0; j < data[5].orangAsliSemenanjung.length; j++) {
@@ -4102,28 +4127,33 @@ const makeBp = async (payload) => {
         retenSalah += data[5].orangAsliSemenanjung[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[5].orangAsliSemenanjung[j][0].jumlahReten;
-        cellNumber = cellNumber + 3;
+        if (j < 5) {
+          cellNumber += 2;
+        } else {
+          cellNumber += 3;
+        }
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[5].orangAsliSemenanjung[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[5].orangAsliSemenanjung[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[5].orangAsliSemenanjung[j][0].jumlahDirujukKeKk +
-          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value +=
+          data[5].orangAsliSemenanjung[j][0].jumlahDirujukKeKk;
       }
       rowNumber++;
-      if (j < 5) {
+      if (j < 4) {
         cellNumber = 3;
-      }
-      if (j >= 4) {
-        cellNumber = 4;
       }
       if (j === 4) {
         rowNumber = 41;
+        cellNumber = 4;
+      }
+      if (j > 4) {
+        cellNumber = 4;
       }
     }
+
     cellNumber = 3;
     rowNumber = 47;
     for (let j = 0; j < data[6].lain2.length; j++) {
@@ -4132,26 +4162,30 @@ const makeBp = async (payload) => {
         retenSalah += data[6].lain2[j][0].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[6].lain2[j][0].jumlahReten;
-        cellNumber = cellNumber + 3;
+        if (j < 5) {
+          cellNumber += 2;
+        } else {
+          cellNumber += 3;
+        }
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[6].lain2[j][0].adaSejarahDarahTinggi;
         cellNumber++;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[6].lain2[j][0].tiadaSejarahDarahTinggi;
         cellNumber = 13;
-        worksheet.getRow(rowNumber).getCell(cellNumber).value =
-          data[6].lain2[j][0].jumlahDirujukKeKk +
-          worksheet.getRow(rowNumber).getCell(cellNumber).value;
+        worksheet.getRow(rowNumber).getCell(cellNumber).value +=
+          data[6].lain2[j][0].jumlahDirujukKeKk;
       }
       rowNumber++;
-      if (j < 5) {
+      if (j < 4) {
         cellNumber = 3;
-      }
-      if (j >= 4) {
-        cellNumber = 4;
       }
       if (j === 4) {
         rowNumber = 47;
+        cellNumber = 4;
+      }
+      if (j > 4) {
+        cellNumber = 4;
       }
     }
 
