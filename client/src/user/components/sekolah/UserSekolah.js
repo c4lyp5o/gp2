@@ -256,7 +256,7 @@ function UserSekolah() {
                 </span>
               </p>
               <span
-                className='text-xs text-userBlack font-mono uppercase bg-user3 rounded-md shadow-xl p-1 mx-4 mb-3 hover:bg-user1 hover:text-userWhite transition-all cursor-pointer col-span-2 flex items-center justify-center'
+                className='text-xs text-userBlack font-semibold uppercase bg-user3 rounded-md shadow-xl p-1 mx-4 mb-3 hover:bg-user1 hover:text-userWhite transition-all cursor-pointer col-span-2 flex items-center justify-center'
                 onClick={() => {
                   setIsFiltering(!isFiltering);
                 }}
@@ -440,17 +440,26 @@ function UserSekolah() {
                                 }/${
                                   singlePersonSekolah.pemeriksaanSekolah
                                     ? singlePersonSekolah.pemeriksaanSekolah._id
-                                    : 'tambah-pemeriksaan'
+                                    : filteredFasilitiSekolah[0]
+                                        .sekolahSelesaiReten === true
+                                    ? 'Pemeriksaan Ditutup'
+                                    : 'Tambah Pemeriksaan'
                                 }`}
                                 className={`${
                                   singlePersonSekolah.pemeriksaanSekolah
-                                    ? 'bg-user7'
-                                    : 'bg-user6'
-                                } hover:bg-user8 text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
+                                    ? 'bg-user7 shadow-md'
+                                    : filteredFasilitiSekolah[0]
+                                        .sekolahSelesaiReten === true
+                                    ? 'pointer-events-none bg-user4 shadow-none'
+                                    : 'bg-user6 shadow-md'
+                                } hover:bg-user8 text-userWhite rounded-sm p-1 m-1 transition-all`}
                               >
                                 {singlePersonSekolah.pemeriksaanSekolah
                                   ? 'lihat pemeriksaan'
-                                  : 'tambah pemeriksaan'}
+                                  : filteredFasilitiSekolah[0]
+                                      .sekolahSelesaiReten === true
+                                  ? 'Pemeriksaan Ditutup'
+                                  : 'Tambah Pemeriksaan'}
                               </Link>
                             </td>
                             <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
@@ -783,7 +792,7 @@ function UserSekolah() {
               )}
             </table>
           ) : (
-            <p className='text-xl font-mono text-center h-full w-full'>
+            <p className='text-xl font-bold text-center h-full w-full'>
               Sila Pilih Sekolah Terlebih Dahulu
             </p>
           )}
