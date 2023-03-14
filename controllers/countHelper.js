@@ -11381,10 +11381,11 @@ const countPGS203 = async (payload) => {
     {
       $group: {
         _id: placeModifier(payload),
-        total: { $sum: 1 },
-
+        jumlahReten: { $sum: 1 },
+        jumlahRetenSalah: {
+          $sum: { $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0] },
+        },
         //enrolment - dpt dari fasiliti?
-
         //kedatangan
         kedatanganTahunSemasaBaru: {
           $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
@@ -16156,7 +16157,10 @@ const countPG201P2 = async (payload) => {
     {
       $group: {
         _id: placeModifier(payload),
-        total: { $sum: 1 },
+        jumlahReten: { $sum: 1 },
+        jumlahRetenSalah: {
+          $sum: { $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0] },
+        },
 
         //enrolment - dpt dari fasiliti?
 
