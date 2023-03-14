@@ -13672,113 +13672,6 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
   }
 };
 
-// Ad Hoc Query
-const countAdHocQuery = async (
-  negeri,
-  daerah,
-  x,
-  y,
-  mengandung,
-  oku,
-  bersekolah,
-  pesara
-) => {
-  const Dictionary = {
-    '': false,
-    Pegawai: '$createdByUsername',
-    Masa: '$tarikhKedatangan',
-    Klinik: '$createdByKp',
-    'Jumlah Semua Pesakit': '',
-    'Jumlah Pesakit Baru': 'baru-kedatangan',
-    'Jumlah Pesakit Ulangan': 'ulangan-kedatangan',
-    'Jumlah Ibu Mengandung': true,
-    'Jumlah OKU': true,
-    'Jumlah Bersekolah': true,
-    'Jumlah Pesara': true,
-  };
-
-  let match_stage = [
-    {
-      $match: {
-        $and: [
-          { createdByNegeri: negeri },
-          { createdByDaerah: daerah },
-          // { createdByKp: klinik },
-          { createdByUsername: { $not: { $eq: 'kaunter' } } },
-          { kedatangan: Dictionary[y] },
-          // { ibuMengandung: Dictionary[mengandung] },
-          // { orangKurangUpaya: Dictionary[oku] },
-          // { bersekolah: Dictionary[bersekolah] },
-          // { statusPesara: Dictionary[pesara] },
-        ],
-      },
-    },
-  ];
-
-  if (y === 'Jumlah Semua Pesakit') {
-    match_stage = [
-      {
-        $match: {
-          $and: [
-            { createdByNegeri: negeri },
-            { createdByDaerah: daerah },
-            // { createdByKp: klinik },
-            { createdByUsername: { $not: { $eq: 'kaunter' } } },
-            // { kedatangan: Dictionary[y] },
-            // { ibuMengandung: Dictionary[mengandung] },
-            // { orangKurangUpaya: Dictionary[oku] },
-            // { bersekolah: Dictionary[bersekolah] },
-            // { statusPesara: Dictionary[pesara] },
-          ],
-        },
-      },
-    ];
-  }
-
-  let project_stage = {
-    $project: {
-      _id: 0,
-      negeri: '$_id.negeri',
-      daerah: '$_id.daerah',
-      klinik: '$_id.klinik',
-      pegawai: '$_id.pegawai',
-      tahun: '$_id.tahun',
-      jumlah: 1,
-    },
-  };
-  let group_stage = {
-    $group: {
-      // _id:
-      // negeri: '$createdByNegeri',
-      // daerah: '$createdByDaerah',
-      // klinik: '$createdByKp',
-      // pegawai: '$createdByUsername'
-      // tahun: '$tahun',
-      // ,
-      _id: Dictionary[x],
-      jumlah: { $sum: 1 },
-    },
-  };
-
-  try {
-    const pipeline = [match_stage[0], group_stage];
-    const query = await Umum.aggregate(pipeline);
-    // sort by date
-    if (x === 'Masa') {
-      query.sort((a, b) => {
-        return new Date(a._id) - new Date(b._id);
-      });
-    }
-    return query;
-  } catch (error) {
-    errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
-    );
-    return 'Error counting data';
-  }
-};
-
-// new tambahan
 const countPGPro01 = async (payload) => {
   //PGPRO01 Pind.2 - 2022 - FFR
   const match_stage = {
@@ -14533,255 +14426,6 @@ const countPGPro01Combined = async (payload) => {
     return 'Error counting data';
   }
 };
-const countGender = async (payload) => {
-  //
-  let match_stage_lelaki = [];
-  let match_stage_perempuan = [];
-  //
-  const pesakitLelakiPrimer1859 = {
-    $match: {
-      jenisFasiliti: { $eq: 'kp' },
-      jantina: 'lelaki',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanPrimer1859 = {
-    $match: {
-      jenisFasiliti: { $in: ['kp'] },
-      jantina: 'perempuan',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiPakar1859 = {
-    $match: {
-      jenisFasiliti: { $eq: 'kepakaran' },
-      jantina: 'lelaki',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanPakar1859 = {
-    $match: {
-      jenisFasiliti: { $in: ['kepakaran'] },
-      jantina: 'perempuan',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiOutreach1859 = {
-    $match: {
-      createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
-      jantina: 'lelaki',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanOutreach1859 = {
-    $match: {
-      createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
-      jantina: 'perempuan',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiUtc1859 = {
-    $match: {
-      createdByKp: { $regex: /utc/i },
-      jenisFasiliti: { $in: ['kp'] },
-      jantina: 'lelaki',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanUtc1859 = {
-    $match: {
-      createdByKp: { $regex: /utc/i },
-      jenisFasiliti: { $in: ['kp'] },
-      jantina: 'perempuan',
-      umur: { $gte: 18, $lte: 59 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiPrimer60above = {
-    $match: {
-      jenisFasiliti: { $in: ['kp'] },
-      jantina: 'lelaki',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanPrimer60above = {
-    $match: {
-      jenisFasiliti: { $in: ['kp'] },
-      jantina: 'perempuan',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiPakar60above = {
-    $match: {
-      jenisFasiliti: { $in: ['kepakaran'] },
-      jantina: 'lelaki',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanPakar60above = {
-    $match: {
-      jenisFasiliti: { $in: ['kepakaran'] },
-      jantina: 'perempuan',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiOutreach60above = {
-    $match: {
-      createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
-      jantina: 'lelaki',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanOutreach60above = {
-    $match: {
-      createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
-      jantina: 'perempuan',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitLelakiUtc60above = {
-    $match: {
-      createdByKp: { $regex: /utc/, $options: 'i' },
-      jenisFasiliti: { $in: ['kp'] },
-      jantina: 'lelaki',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  const pesakitPerempuanUtc60above = {
-    $match: {
-      createdByKp: { $regex: /utc/, $options: 'i' },
-      jenisFasiliti: { $in: ['kp'] },
-      jantina: 'perempuan',
-      umur: { $gte: 60 },
-      ...getParamsGender(payload),
-    },
-  };
-
-  match_stage_lelaki.push(pesakitLelakiPrimer1859);
-  match_stage_lelaki.push(pesakitLelakiPakar1859);
-  match_stage_lelaki.push(pesakitLelakiOutreach1859);
-  match_stage_lelaki.push(pesakitLelakiUtc1859);
-
-  match_stage_lelaki.push(pesakitLelakiPrimer60above);
-  match_stage_lelaki.push(pesakitLelakiPakar60above);
-  match_stage_lelaki.push(pesakitLelakiOutreach60above);
-  match_stage_lelaki.push(pesakitLelakiUtc60above);
-
-  match_stage_perempuan.push(pesakitPerempuanPrimer1859);
-  match_stage_perempuan.push(pesakitPerempuanPakar1859);
-  match_stage_perempuan.push(pesakitPerempuanOutreach1859);
-  match_stage_perempuan.push(pesakitPerempuanUtc1859);
-
-  match_stage_perempuan.push(pesakitPerempuanPrimer60above);
-  match_stage_perempuan.push(pesakitPerempuanPakar60above);
-  match_stage_perempuan.push(pesakitPerempuanOutreach60above);
-  match_stage_perempuan.push(pesakitPerempuanUtc60above);
-  //
-  const group_stage = {
-    $group: {
-      _id: placeModifier(payload),
-      // stats
-      jumlahReten: { $sum: 1 },
-      statusReten: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$statusReten', 'reten salah'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      //
-      pesakitBaru: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kedatangan', 'baru-kedatangan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      pesakitUlangan: {
-        $sum: {
-          $cond: [
-            {
-              $eq: ['$kedatangan', 'ulangan-kedatangan'],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-    },
-  };
-
-  //bismillah
-  let dataLelaki = [];
-  let dataPerempuan = [];
-  let bigData = [];
-
-  try {
-    for (let i = 0; i < match_stage_lelaki.length; i++) {
-      const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
-      dataLelaki.push(result[0]);
-    }
-
-    for (let i = 0; i < match_stage_perempuan.length; i++) {
-      const result = await Umum.aggregate([
-        match_stage_perempuan[i],
-        group_stage,
-      ]);
-      dataPerempuan.push(result[0]);
-    }
-
-    bigData.push({ dataLelaki });
-    bigData.push({ dataPerempuan });
-
-    return bigData;
-  } catch (error) {
-    errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
-    );
-    return 'Error counting data';
-  }
-};
 const countMasa = async (payload) => {
   let match_stage_op = [];
   let match_stage_temujanji = [];
@@ -15462,6 +15106,255 @@ const countBp = async (payload) => {
     bigData.push({ bumiputeraSarawak });
     bigData.push({ orangAsliSemenanjung });
     bigData.push({ lain2 });
+
+    return bigData;
+  } catch (error) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
+    return 'Error counting data';
+  }
+};
+const countGender = async (payload) => {
+  //
+  let match_stage_lelaki = [];
+  let match_stage_perempuan = [];
+  //
+  const pesakitLelakiPrimer1859 = {
+    $match: {
+      jenisFasiliti: { $eq: 'kp' },
+      jantina: 'lelaki',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPrimer1859 = {
+    $match: {
+      jenisFasiliti: { $in: ['kp'] },
+      jantina: 'perempuan',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiPakar1859 = {
+    $match: {
+      jenisFasiliti: { $eq: 'kepakaran' },
+      jantina: 'lelaki',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPakar1859 = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'perempuan',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiOutreach1859 = {
+    $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jantina: 'lelaki',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanOutreach1859 = {
+    $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jantina: 'perempuan',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiUtc1859 = {
+    $match: {
+      createdByKp: { $regex: /utc/i },
+      jenisFasiliti: { $in: ['kp'] },
+      jantina: 'lelaki',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanUtc1859 = {
+    $match: {
+      createdByKp: { $regex: /utc/i },
+      jenisFasiliti: { $in: ['kp'] },
+      jantina: 'perempuan',
+      umur: { $gte: 18, $lte: 59 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiPrimer60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kp'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPrimer60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kp'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiPakar60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanPakar60above = {
+    $match: {
+      jenisFasiliti: { $in: ['kepakaran'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiOutreach60above = {
+    $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanOutreach60above = {
+    $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitLelakiUtc60above = {
+    $match: {
+      createdByKp: { $regex: /utc/, $options: 'i' },
+      jenisFasiliti: { $in: ['kp'] },
+      jantina: 'lelaki',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  const pesakitPerempuanUtc60above = {
+    $match: {
+      createdByKp: { $regex: /utc/, $options: 'i' },
+      jenisFasiliti: { $in: ['kp'] },
+      jantina: 'perempuan',
+      umur: { $gte: 60 },
+      ...getParamsGender(payload),
+    },
+  };
+
+  match_stage_lelaki.push(pesakitLelakiPrimer1859);
+  match_stage_lelaki.push(pesakitLelakiPakar1859);
+  match_stage_lelaki.push(pesakitLelakiOutreach1859);
+  match_stage_lelaki.push(pesakitLelakiUtc1859);
+
+  match_stage_lelaki.push(pesakitLelakiPrimer60above);
+  match_stage_lelaki.push(pesakitLelakiPakar60above);
+  match_stage_lelaki.push(pesakitLelakiOutreach60above);
+  match_stage_lelaki.push(pesakitLelakiUtc60above);
+
+  match_stage_perempuan.push(pesakitPerempuanPrimer1859);
+  match_stage_perempuan.push(pesakitPerempuanPakar1859);
+  match_stage_perempuan.push(pesakitPerempuanOutreach1859);
+  match_stage_perempuan.push(pesakitPerempuanUtc1859);
+
+  match_stage_perempuan.push(pesakitPerempuanPrimer60above);
+  match_stage_perempuan.push(pesakitPerempuanPakar60above);
+  match_stage_perempuan.push(pesakitPerempuanOutreach60above);
+  match_stage_perempuan.push(pesakitPerempuanUtc60above);
+  //
+  const group_stage = {
+    $group: {
+      _id: placeModifier(payload),
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      pesakitBaru: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kedatangan', 'baru-kedatangan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      pesakitUlangan: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$kedatangan', 'ulangan-kedatangan'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
+  //bismillah
+  let dataLelaki = [];
+  let dataPerempuan = [];
+  let bigData = [];
+
+  try {
+    for (let i = 0; i < match_stage_lelaki.length; i++) {
+      const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
+      dataLelaki.push(result[0]);
+    }
+
+    for (let i = 0; i < match_stage_perempuan.length; i++) {
+      const result = await Umum.aggregate([
+        match_stage_perempuan[i],
+        group_stage,
+      ]);
+      dataPerempuan.push(result[0]);
+    }
+
+    bigData.push({ dataLelaki });
+    bigData.push({ dataPerempuan });
 
     return bigData;
   } catch (error) {
@@ -17736,6 +17629,112 @@ const countTOD = async (payload) => {
     bigData.push(dataBu);
 
     return bigData;
+  } catch (error) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+    );
+    return 'Error counting data';
+  }
+};
+
+// Ad Hoc Query
+const countAdHocQuery = async (
+  negeri,
+  daerah,
+  x,
+  y,
+  mengandung,
+  oku,
+  bersekolah,
+  pesara
+) => {
+  const Dictionary = {
+    '': false,
+    Pegawai: '$createdByUsername',
+    Masa: '$tarikhKedatangan',
+    Klinik: '$createdByKp',
+    'Jumlah Semua Pesakit': '',
+    'Jumlah Pesakit Baru': 'baru-kedatangan',
+    'Jumlah Pesakit Ulangan': 'ulangan-kedatangan',
+    'Jumlah Ibu Mengandung': true,
+    'Jumlah OKU': true,
+    'Jumlah Bersekolah': true,
+    'Jumlah Pesara': true,
+  };
+
+  let match_stage = [
+    {
+      $match: {
+        $and: [
+          { createdByNegeri: negeri },
+          { createdByDaerah: daerah },
+          // { createdByKp: klinik },
+          { createdByUsername: { $not: { $eq: 'kaunter' } } },
+          { kedatangan: Dictionary[y] },
+          // { ibuMengandung: Dictionary[mengandung] },
+          // { orangKurangUpaya: Dictionary[oku] },
+          // { bersekolah: Dictionary[bersekolah] },
+          // { statusPesara: Dictionary[pesara] },
+        ],
+      },
+    },
+  ];
+
+  if (y === 'Jumlah Semua Pesakit') {
+    match_stage = [
+      {
+        $match: {
+          $and: [
+            { createdByNegeri: negeri },
+            { createdByDaerah: daerah },
+            // { createdByKp: klinik },
+            { createdByUsername: { $not: { $eq: 'kaunter' } } },
+            // { kedatangan: Dictionary[y] },
+            // { ibuMengandung: Dictionary[mengandung] },
+            // { orangKurangUpaya: Dictionary[oku] },
+            // { bersekolah: Dictionary[bersekolah] },
+            // { statusPesara: Dictionary[pesara] },
+          ],
+        },
+      },
+    ];
+  }
+
+  let project_stage = {
+    $project: {
+      _id: 0,
+      negeri: '$_id.negeri',
+      daerah: '$_id.daerah',
+      klinik: '$_id.klinik',
+      pegawai: '$_id.pegawai',
+      tahun: '$_id.tahun',
+      jumlah: 1,
+    },
+  };
+  let group_stage = {
+    $group: {
+      // _id:
+      // negeri: '$createdByNegeri',
+      // daerah: '$createdByDaerah',
+      // klinik: '$createdByKp',
+      // pegawai: '$createdByUsername'
+      // tahun: '$tahun',
+      // ,
+      _id: Dictionary[x],
+      jumlah: { $sum: 1 },
+    },
+  };
+
+  try {
+    const pipeline = [match_stage[0], group_stage];
+    const query = await Umum.aggregate(pipeline);
+    // sort by date
+    if (x === 'Masa') {
+      query.sort((a, b) => {
+        return new Date(a._id) - new Date(b._id);
+      });
+    }
+    return query;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
