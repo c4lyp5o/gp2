@@ -2134,6 +2134,18 @@ const countPG214 = async (payload) => {
           },
         ],
       },
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
       jumlahMelayu: { $sum: '$jumlahMelayu' },
       jumlahCina: { $sum: '$jumlahCina' },
       jumlahIndia: { $sum: '$jumlahIndia' },
