@@ -353,14 +353,8 @@ const downloader = async (req, res, callback) => {
     case 'PGPRO01Combined':
       excelFile = await makePgPro01Combined(payload);
       break;
-    case 'PG201':
-      excelFile = await makePG201(payload);
-      break;
     case 'PG201P2':
       excelFile = await makePG201P2(payload);
-      break;
-    case 'PGS203P1':
-      excelFile = await makePGS203P1(payload);
       break;
     case 'PGS203P2':
       excelFile = await makePGS203P2(payload);
