@@ -1,5 +1,7 @@
 describe('Login Pengguna and start testing', () => {
   it('Test everything at Pengguna', () => {
+    // visit url and commencing test
+    cy.visit(Cypress.env('GIRETCY_BASE_URL'));
     cy.loginPengguna({
       negeri: Cypress.env('NEGERI'),
       daerah: Cypress.env('DAERAH'),
@@ -8,5 +10,7 @@ describe('Login Pengguna and start testing', () => {
       operator: Cypress.env('NAMA_OPERATOR'),
       mdcMdtb: Cypress.env('MDC_MDTB_OPERATOR'),
     });
+
+    cy.logoutPengguna();
   });
 });

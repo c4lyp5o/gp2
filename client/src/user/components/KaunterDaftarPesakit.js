@@ -48,10 +48,11 @@ export default function DaftarPesakit({ createdByKp }) {
   );
 
   const [sort, setSort] = useState({
+    tarikhKedatangan: false,
     masaDaftar: false,
     nama: false,
     noPid: false,
-    statusReten: false,
+    jenisFasiliti: false,
   });
 
   // state untuk kemaskini resit pt bagi 3 hari yang lepas

@@ -108,25 +108,15 @@ const createPersonKaunter = async (req, res) => {
     namaProgram: req.body.namaProgram,
   }).sort({ createdAt: -1 });
 
-  console.log(personExist);
-
   // tagging person according to their status
   if (personExist) {
-    // req.body.kedatangan = 'ulangan-kedatangan';
-    // logger.info(
-    //   `${req.method} ${req.url} [kaunterController] ic telah wujud. tagging ulangan`
-    // );
-    // req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    // logger.info(
-    //   `${req.method} ${req.url} [kaunterController] no pendaftaran ulangan: ${req.body.noPendaftaranUlangan}`
-    // );
     logger.info(
-      `[kaunterController] ic telah wujud. check status hapus dan status ulangan`
+      `[kaunterController] IC telah wujud. check status hapus dan status ulangan`
     );
     // see if it is deleted beforehand
     if (personExist.kedatangan === 'baru-kedatangan' && personExist.deleted) {
       logger.info(
-        `[kaunterController] ic telah wujud tetapi telah dihapuskan pada kedatangan pertama. tagging baru`
+        `[kaunterController] IC telah wujud tetapi dihapuskan pada kedatangan pertama. TAG: baru`
       );
       req.body.kedatangan = 'baru-kedatangan';
       req.body.noPendaftaranBaru = personExist.noPendaftaranBaru;
@@ -138,11 +128,22 @@ const createPersonKaunter = async (req, res) => {
       personExist.statusKehadiran
     ) {
       logger.info(
-        `[kaunterController] ic telah wujud tetapi tidak mendapatkan rawatan pada kedatangan pertama. tagging ulangan`
+        `[kaunterController] IC telah wujud tetapi tidak mendapatkan pemeriksaan pada kedatangan pertama. TAG: ulangan`
       );
       req.body.kedatangan = 'ulangan-kedatangan';
       req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
       req.body.checkupEnabled = true;
+    }
+    if (
+      personExist.kedatangan === 'baru-kedatangan' &&
+      !personExist.deleted &&
+      !personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] IC telah wujud dan telah mendapatkan pemeriksaan pada kedatangan pertama. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
     }
     if (
       personExist.kedatangan === 'ulangan-kedatangan' &&
@@ -150,16 +151,26 @@ const createPersonKaunter = async (req, res) => {
       !personExist.statusKehadiran
     ) {
       logger.info(
-        `[kaunterController] ic telah wujud dan kedatangan lama ulangan. tagging ulangan`
+        `[kaunterController] IC telah wujud dan kedatangan ulangan. TAG: ulangan`
       );
       req.body.kedatangan = 'ulangan-kedatangan';
       req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
-      req.body.checkupEnabled = false;
+    }
+    if (
+      personExist.kedatangan === 'ulangan-kedatangan' &&
+      personExist.deleted &&
+      !personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] IC telah wujud dan kedatangan ulangan. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
     }
   }
 
   if (!personExist) {
-    logger.info(`[kaunterController] ic tidak wujud. tagging baru`);
+    logger.info(`[kaunterController] IC tidak wujud. TAG: baru`);
     req.body.kedatangan = 'baru-kedatangan';
   }
 
@@ -228,13 +239,15 @@ const deletePersonKaunter = async (req, res) => {
 };
 
 // check from db if ic is same
-// GET /check
+// GET /check/:personKaunterId
 const getPersonFromCache = async (req, res) => {
   const { personKaunterId } = req.params;
   try {
-    const person = await Umum.findOne({ ic: personKaunterId }, null, {
-      sort: { _id: -1 },
-    });
+    const person = await Umum.findOne({
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+      ic: personKaunterId,
+    }).sort({ createdAt: -1 });
     return res.status(200).json({ person });
   } catch (error) {
     res.status(404).json({ msg: 'No person found' });
@@ -251,25 +264,28 @@ const queryPersonKaunter = async (req, res) => {
     user: { kp, kodFasiliti, daerah, negeri },
     query: {
       nama,
+      ic,
       tarikhKedatangan,
       jenisFasiliti,
-      ic,
       jenisProgram,
       namaProgram,
     },
   } = req;
 
-  const queryObject = {
-    createdByNegeri: negeri,
-    createdByDaerah: daerah,
-    createdByKp: kp,
-    createdByKodFasiliti: kodFasiliti,
-    tahunDaftar: new Date().getFullYear(),
-    deleted: false,
-  };
+  const queryObject = {};
+  queryObject.createdByNegeri = negeri;
+  queryObject.createdByDaerah = daerah;
+  queryObject.createdByKp = kp;
+  queryObject.createdByKodFasiliti = kodFasiliti;
+  queryObject.tahunDaftar = new Date().getFullYear();
+  queryObject.deleted = false;
 
   if (nama) {
     queryObject.nama = { $regex: nama, $options: 'i' };
+  }
+
+  if (ic) {
+    queryObject.ic = { $regex: ic, $options: 'i' };
   }
 
   if (tarikhKedatangan) {
@@ -280,10 +296,6 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.jenisFasiliti = jenisFasiliti;
   }
 
-  if (ic) {
-    queryObject.ic = { $regex: ic, $options: 'i' };
-  }
-
   if (jenisProgram) {
     queryObject.jenisProgram = jenisProgram;
   }
@@ -292,11 +304,7 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.namaProgram = namaProgram;
   }
 
-  const kaunterResultQuery = await Umum.find(queryObject)
-    .select(
-      'tarikhKedatangan createdByUsername waktuSampai noPendaftaranBaru noPendaftaranUlangan nama ic umur bersekolah kumpulanEtnik ibuMengandung orangKurangUpaya statusPesara kakitanganKerajaan noTelefon noTelefon2 emel noBayaran noResit noBayaran2 noResit2 noBayaran3 noResit3 catatan statusReten jenisFasiliti namaFasilitiKkKd namaFasilitiTaskaTadika jenisProgram namaProgram'
-    )
-    .lean();
+  const kaunterResultQuery = await Umum.find(queryObject).lean();
 
   res.status(200).json({ kaunterResultQuery });
 };

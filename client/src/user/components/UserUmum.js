@@ -226,7 +226,9 @@ function UserUmum({ sekolahIdc }) {
                 CARIAN PESAKIT PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
               </span>
             ) : (
-              <span className='mr-2'>CARIAN PESAKIT UMUM</span>
+              <span className='mr-2' data-cy='carian-pesakit-umum'>
+                CARIAN PESAKIT UMUM
+              </span>
             )}
           </h2>
           <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
