@@ -4357,7 +4357,17 @@ const makeBPE = async (payload) => {
 const makePGS203P2 = async (payload) => {
   logger.info('[generateRetenController] PGS203P2');
   try {
-    let { klinik, daerah, negeri, bulan, pegawai, username, fromEtl } = payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      bulan,
+      tarikhMula,
+      tarikhAkhir,
+      pegawai,
+      username,
+      fromEtl,
+    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -4382,14 +4392,16 @@ const makePGS203P2 = async (payload) => {
       'PGS203P2.xlsx'
     );
     //
+    if (!bulan) {
+      bulan = tarikhMula;
+    }
+    //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
     //get worksheet
     let worksheet = workbook.getWorksheet('PGS203P2');
-    //Find Month and Year at the moment
-    const monthName = moment(new Date()).format('MMMM');
+    const monthName = moment(bulan).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
-    //write bulan and sesi at the moment
     let details = worksheet.getRow(5);
     details.getCell(
       2
