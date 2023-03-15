@@ -23,7 +23,7 @@ export default function EnvrironmentWarning({ setShowEnvironmentWarning }) {
           <a
             target='_blank'
             className='underline text-user3'
-            href='http://giret.moh.gov.my'
+            href='https://giret.moh.gov.my'
           >
             Gi-Ret 2.0
           </a>
