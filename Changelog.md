@@ -4,9 +4,22 @@
 
 #### Reverted
 
-- Pesakit yang dihapuskan sekiranya didaftarkan semula akan mendapat nombor pendaftaran yang asal tetapi kedatangan adalah baru - https://github.com/nocturnalmc/gp2/commit/1e3ba1a44aa1731a49083a562e9a5257d95d7698
-- Pesakit ulangan yg tidak mendapatkan pemeriksaan pada kedatangan baru kini boleh diisi pemeriksaan pada kedatangan ulangan - https://github.com/nocturnalmc/gp2/commit/1e3ba1a44aa1731a49083a562e9a5257d95d7698
 - _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum - https://github.com/nocturnalmc/gp2/commit/22d04e51a3b747baa7ddeb795b1dcb18115bc461
+
+### 15/3/2023 (v2.0.15)
+
+#### Changed
+
+- Pesakit baru yang dihapuskan sekiranya didaftarkan semula akan mendapat nombor pendaftaran yang asal tetapi kedatangan adalah baru
+- Pesakit ulangan yg tidak mendapatkan pemeriksaan pada kedatangan baru kini boleh diisi pemeriksaan pada kedatangan ulangan
+
+#### Security
+
+- Menambahbaik sekuriti di dalam sistem
+
+#### e-Reporting
+
+- Memperbetulkan pelbagai formula bagi semua reten-reten di setiap peringkat pentadbir
 
 ### 6/3/2023 (v2.0.14)
 
