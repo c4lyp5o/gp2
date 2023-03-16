@@ -1,9 +1,15 @@
 const jwt = require('jsonwebtoken');
+const { unauthorizedLogger } = require('../logs/logger');
 
 const authCheck = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
-    return res.status(401).json({ msg: 'Unauthorized' });
+    unauthorizedLogger.warn(
+      ` ${req.method} [authCheck] Unauthorized headers.authorization is ${req.headers.authorization} from ${req.ip}`
+    );
+    return res
+      .status(401)
+      .json({ msg: 'Unauthorized. This behaviour will be reported' });
   }
   const userToken = authHeader.split(' ')[1];
   try {
@@ -19,7 +25,12 @@ const authCheck = async (req, res, next) => {
     };
     next();
   } catch (error) {
-    return res.status(401).json({ msg: 'Unauthorized' });
+    unauthorizedLogger.warn(
+      ` ${req.method} [authCheck] Unauthorized jwt.verify ${userToken} from ${req.ip}`
+    );
+    return res
+      .status(401)
+      .json({ msg: 'Unauthorized. This behaviour will be reported' });
   }
 };
 
