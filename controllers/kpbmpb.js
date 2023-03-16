@@ -14,7 +14,7 @@ const getAllKPBMPBForNegeri = async (req, res) => {
     deleted: false,
   });
 
-  console.log(singlePersonUmum.jenisFasiliti);
+  // console.log(singlePersonUmum.jenisFasiliti);
 
   let penggunaanKPBMPBForPt = [];
 
@@ -70,7 +70,7 @@ const getAllKPBMPBForNegeri = async (req, res) => {
       }
     });
 
-    console.log(penggunaanKPBMPBForPt);
+    // console.log(penggunaanKPBMPBForPt);
   }
   // -----------------------------------------------------------------------------
 
@@ -108,7 +108,7 @@ const getAllKPBMPBForNegeri = async (req, res) => {
       }
     });
 
-    console.log(penggunaanKPBMPBForPt);
+    // console.log(penggunaanKPBMPBForPt);
   }
   // -----------------------------------------------------------------------------
 

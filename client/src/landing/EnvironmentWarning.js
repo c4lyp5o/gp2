@@ -22,6 +22,7 @@ export default function EnvrironmentWarning({ setShowEnvironmentWarning }) {
           <div>SILA KE LAMAN SEBENAR</div>
           <a
             target='_blank'
+            rel='noreferrer'
             className='underline text-user3'
             href='https://giret.moh.gov.my'
           >
