@@ -120,7 +120,7 @@ const createPersonKaunter = async (req, res) => {
       );
       req.body.kedatangan = 'baru-kedatangan';
       req.body.noPendaftaranBaru = personExist.noPendaftaranBaru;
-      req.body.deleted = true;
+      req.body.deleted = true; // mula2 set true supaya tak increment no pendaftaran
     }
     if (
       personExist.kedatangan === 'baru-kedatangan' &&
