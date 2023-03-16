@@ -1,5 +1,6 @@
 const UserModel = require('../models/User');
 const jwt = require('jsonwebtoken');
+const { unauthorizedLogger } = require('../logs/logger');
 
 // GET /find
 const authFind = async (req, res) => {
@@ -36,29 +37,43 @@ const authLogin = async (req, res) => {
     const { userToken } = req.body;
 
     if (!userToken) {
-      return res.status(401).json({ msg: 'Unauthorized' });
+      unauthorizedLogger.warn(
+        `[authLogin] Unauthorized userToken for relief is ${userToken} from ${req.ip}`
+      );
+      return res
+        .status(401)
+        .json({ msg: 'Unauthorized. This behaviour will be reported' });
     }
 
     const oldUserToken = userToken;
 
-    const oldUserTokenVerified = jwt.verify(
-      oldUserToken,
-      process.env.JWT_SECRET
-    );
-    user = await UserModel.findOne({
-      username: oldUserTokenVerified.username,
-    });
+    try {
+      const oldUserTokenVerified = jwt.verify(
+        oldUserToken,
+        process.env.JWT_SECRET
+      );
+      user = await UserModel.findOne({
+        username: oldUserTokenVerified.username,
+      });
 
-    // replacing...
-    user.kp = pilihanFasiliti;
-    user.kodFasiliti = pilihanKodFasiliti;
-    user.daerah = pilihanDaerah;
+      // replacing...
+      user.kp = pilihanFasiliti;
+      user.kodFasiliti = pilihanKodFasiliti;
+      user.daerah = pilihanDaerah;
 
-    const reliefUserToken = user.createJWT();
+      const reliefUserToken = user.createJWT();
 
-    user = '';
+      user = '';
 
-    return res.status(200).json({ reliefUserToken });
+      return res.status(200).json({ reliefUserToken });
+    } catch (error) {
+      unauthorizedLogger.warn(
+        `[authLogin] Unauthorized jwt.verify oldUserToken for relief is ${oldUserToken} from ${req.ip}`
+      );
+      return res
+        .status(401)
+        .json({ msg: 'Unauthorized. This behaviour will be reported' });
+    }
   }
 
   if (!username || !password) {
