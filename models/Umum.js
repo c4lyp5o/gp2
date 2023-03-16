@@ -854,11 +854,6 @@ UmumSchema.pre('save', async function () {
     // no siri punya hal
 
     // kedatangan baru ulangan punya hal
-    if (this.kedatangan === 'baru-kedatangan' && this.deleted) {
-      this.deleted = false;
-      logger.info(`[UmumModel] ${this.nama} | Pasien baru tapi di delete`);
-    }
-
     if (this.kedatangan === 'baru-kedatangan' && !this.deleted) {
       // create acronym
       let acronym = '';
@@ -910,6 +905,12 @@ UmumSchema.pre('save', async function () {
           `[UmumModel] ${this.nama} | No. pendafataran baru: ${newReg}`
         );
       }
+    }
+
+    if (this.kedatangan === 'baru-kedatangan' && this.deleted) {
+      // block ni kena ddk bawah untuk pastikan no pendaftaran pt yang dah delete kekal sama
+      this.deleted = false; // lepastu set false supaya patient ni muncul
+      logger.info(`[UmumModel] ${this.nama} | Pasien baru tapi di delete`);
     }
 
     if (this.kedatangan === 'ulangan-kedatangan' && this.checkupEnabled) {
