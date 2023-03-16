@@ -745,6 +745,7 @@ function UserPromosi({ individuOrKlinik }) {
                     ) : a.statusReten === 'belum diisi' ? (
                       <Link
                         target='_blank'
+                        rel='noreferrer'
                         to={`form-promosi/${a._id}`}
                         className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
@@ -753,6 +754,7 @@ function UserPromosi({ individuOrKlinik }) {
                     ) : a.statusReten === 'telah diisi' ? (
                       <Link
                         target='_blank'
+                        rel='noreferrer'
                         to={`form-promosi/${a._id}`}
                         className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
