@@ -435,6 +435,7 @@ function UserSekolah() {
                             <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <Link
                                 target='_blank'
+                                rel='noreferrer'
                                 to={`form-sekolah/pemeriksaan/${
                                   singlePersonSekolah._id
                                 }/${
@@ -458,6 +459,7 @@ function UserSekolah() {
                                 .sekolahSelesaiReten === false ? (
                                 <Link
                                   target='_blank'
+                                  rel='noreferrer'
                                   to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
                                   className={`${
                                     !singlePersonSekolah.pemeriksaanSekolah ||
@@ -685,6 +687,7 @@ function UserSekolah() {
                             <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <Link
                                 target='_blank'
+                                rel='noreferrer'
                                 to={`form-sekolah/kotak/${
                                   singlePersonSekolah._id
                                 }/${

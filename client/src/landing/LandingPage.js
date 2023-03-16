@@ -202,6 +202,7 @@ function LandingPage() {
               <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3 lowercase'>
                 <a
                   target='_blank'
+                  rel='noreferrer'
                   className='underline'
                   href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
                 >
@@ -211,6 +212,7 @@ function LandingPage() {
               <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
                 <a
                   target='_blank'
+                  rel='noreferrer'
                   className='underline'
                   href='https://forms.gle/v9P7w9qweTX86Nxn8'
                 >
@@ -218,7 +220,12 @@ function LandingPage() {
                 </a>
               </p>
               <p className='text-right mr-1 my-1 text-xs whitespace-nowrap overflow-x-auto'>
-                <Link target='_blank' to='/faq' className='underline'>
+                <Link
+                  target='_blank'
+                  rel='noreferrer'
+                  to='/faq'
+                  className='underline'
+                >
                   soalan lazim
                 </Link>
               </p>
@@ -248,6 +255,7 @@ function LandingPage() {
               <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50 lowercase'>
                 <a
                   target='_blank'
+                  rel='noreferrer'
                   className='underline'
                   href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
                 >
@@ -257,6 +265,7 @@ function LandingPage() {
               <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
                 <a
                   target='_blank'
+                  rel='noreferrer'
                   className='underline'
                   href='https://forms.gle/v9P7w9qweTX86Nxn8'
                 >
@@ -264,7 +273,12 @@ function LandingPage() {
                 </a>
               </p>
               <p className='text-center text-xs whitespace-nowrap overflow-x-auto py-1'>
-                <Link target='_blank' to='/faq' className='underline'>
+                <Link
+                  target='_blank'
+                  rel='noreferrer'
+                  to='/faq'
+                  className='underline'
+                >
                   soalan lazim
                 </Link>
               </p>

@@ -1794,12 +1794,6 @@ function Faq() {
           >
             borang maklumbalas
           </a>
-          <a
-            href='https://www.flaticon.com/free-icons/dashboard'
-            title='dashboard icons'
-          >
-            Dashboard icons created by Andrean Prabowo - Flaticon
-          </a>
         </p>
       </div>
     </>
