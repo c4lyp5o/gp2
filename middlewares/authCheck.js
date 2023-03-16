@@ -5,7 +5,7 @@ const authCheck = async (req, res, next) => {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith('Bearer ')) {
     unauthorizedLogger.warn(
-      ` ${req.method} [authCheck] Unauthorized headers.authorization is ${req.headers.authorization} from ${req.ip}`
+      `${req.method} [authCheck] Unauthorized headers.authorization is ${req.headers.authorization} from ${req.ip}`
     );
     return res
       .status(401)
@@ -26,7 +26,7 @@ const authCheck = async (req, res, next) => {
     next();
   } catch (error) {
     unauthorizedLogger.warn(
-      ` ${req.method} [authCheck] Unauthorized jwt.verify ${userToken} from ${req.ip}`
+      `${req.method} [authCheck] Unauthorized jwt.verify ${userToken} from ${req.ip}`
     );
     return res
       .status(401)
