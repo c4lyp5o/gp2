@@ -4878,22 +4878,16 @@ const createQuery = ({
   negeri,
   bulan,
 }) => {
-  let query = {};
-  if (pilihanIndividu) {
-    query.createdByMdcMdtb = pilihanIndividu;
-  }
-  if (!pilihanIndividu || klinik !== 'all') {
-    query.createdByKodFasiliti = klinik;
-  }
-  if (daerah !== 'all') {
-    query.createdByDaerah = daerah;
-  }
-  if (negeri !== 'all') {
-    query.createdByNegeri = negeri;
-  }
-  query.dataType = jenisReten;
-  query.dataFormat = 'Monthly';
-  query.dataDate = moment(bulan).endOf('month').format('YYYY-MM-DD');
+  const query = {
+    dataType: jenisReten,
+    dataFormat: 'Monthly',
+    dataDate: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKodFasiliti: klinik === 'all' ? 'all' : klinik,
+    ...(pilihanIndividu && { createdByMdcMdtb: pilihanIndividu }),
+  };
+
   return query;
 };
 
