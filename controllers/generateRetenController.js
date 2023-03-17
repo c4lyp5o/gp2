@@ -4548,7 +4548,9 @@ const makeGender = async (payload) => {
     if (bulan) {
       rowNew.getCell(1).value = `${moment(bulan)
         .startOf('month')
-        .format('DD-MM-YYYY')} - ${moment(bulan).format('DD-MM-YYYY')}`;
+        .format('DD-MM-YYYY')} - ${moment(bulan)
+        .endOf('month')
+        .format('DD-MM-YYYY')}`;
     } else {
       rowNew.getCell(1).value = `${moment(tarikhMula).format(
         'DD-MM-YYYY'
