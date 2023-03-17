@@ -6,7 +6,7 @@ Cypress.Commands.add('validateSenaraiDaftarPesakit', () => {
   cy.get('[data-cy="navbar-kp"]').click();
   cy.wait('@queryPersonKaunter');
   cy.get('[data-cy="pengenalan-diri"]')
-    .eq(-1)
+    .eq(0)
     .then(($pd) => {
       const randomIcPerempuan = $pd.text();
       cy.get('[data-cy="navbar-button-pendaftaran"]').click();
@@ -14,7 +14,7 @@ Cypress.Commands.add('validateSenaraiDaftarPesakit', () => {
       cy.wait('@queryPersonKaunter');
       // assert exist carian by tarikh
       cy.get('[data-cy="pengenalan-diri"]')
-        .eq(-1)
+        .eq(0)
         .should('contain.text', randomIcPerempuan);
       // assert exist carian by ic
       cy.get('[data-cy="carian-tanpa-tarikh"]').click();
@@ -23,15 +23,15 @@ Cypress.Commands.add('validateSenaraiDaftarPesakit', () => {
       cy.get('[data-cy="cari"]').click();
       cy.wait('@queryPersonKaunter');
       cy.get('[data-cy="pengenalan-diri"]')
-        .eq(-1)
+        .eq(0)
         .should('contain.text', randomIcPerempuan);
-      // // assert exist carian by nama
-      // cy.get('[data-cy="pilih-query"]').select('nama');
-      // cy.get('[data-cy="name-query"]').type('Siti Aminah binti Abu Salam');
-      // cy.get('[data-cy="cari"]').click();
-      // cy.wait('@queryPersonKaunter');
-      // cy.get('[data-cy="pengenalan-diri"]')
-      //   .eq(-1)
-      //   .should('contain.text', randomIcPerempuan);
+      // assert exist carian by nama
+      cy.get('[data-cy="pilih-query"]').select('nama');
+      cy.get('[data-cy="name-query"]').type('Siti Aminah binti Abu Salam');
+      cy.get('[data-cy="cari"]').click();
+      cy.wait('@queryPersonKaunter');
+      cy.get('[data-cy="pengenalan-diri"]')
+        .eq(0)
+        .should('contain.text', randomIcPerempuan);
     });
 });

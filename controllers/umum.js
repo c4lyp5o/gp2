@@ -3,6 +3,7 @@ const Runningnumber = require('../models/Runningnumber');
 const Operator = require('../models/Operator');
 const Fasiliti = require('../models/Fasiliti');
 const Event = require('../models/Event');
+const { logger, unauthorizedLogger } = require('../logs/logger');
 
 // GET /
 const getAllPersonUmum = async (req, res) => {
@@ -84,18 +85,30 @@ const updatePersonUmum = async (req, res) => {
     params: { id: personUmumId },
   } = req;
 
-  // associate negeri, daerah & kp to each person umum for every update
-  req.body.createdByNegeri = req.user.negeri;
-  req.body.createdByDaerah = req.user.daerah;
-  req.body.createdByKp = req.user.kp;
-  req.body.createdByKodFasiliti = req.user.kodFasiliti;
-
   // apa-apa cari dulu singlePersonUmum ni
   const singlePersonUmum = await Umum.findOne({
     _id: personUmumId,
     tahunDaftar: new Date().getFullYear(),
     deleted: false,
   });
+
+  if (
+    singlePersonUmum.statusReten === 'telah diisi' ||
+    singlePersonUmum.statusReten === 'reten salah'
+  ) {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [umumController] Unauthorized singlePersonUmum tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+    );
+    return res
+      .status(401)
+      .json({ msg: 'Unauthorized tampering. This behaviour will be reported' });
+  }
+
+  // associate negeri, daerah & kp to each person umum for every update
+  req.body.createdByNegeri = req.user.negeri;
+  req.body.createdByDaerah = req.user.daerah;
+  req.body.createdByKp = req.user.kp;
+  req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
   // handling penggunaanKPBMPB, kedatanganKPBMPB & noPendaftaranKPBMPB
   if (
