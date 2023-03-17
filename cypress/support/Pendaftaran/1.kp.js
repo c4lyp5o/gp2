@@ -106,10 +106,10 @@ Cypress.Commands.add('validateRegisteredGeneralPtKp', () => {
   cy.get('[data-cy="navbar-kp"]').click();
   cy.wait('@queryPersonKaunter');
   cy.get('[data-cy="pengenalan-diri"]')
-    .eq(-1)
+    .eq(0)
     .then(($pd) => {
       const randomIcPerempuan = $pd.text();
-      cy.get('[data-cy="kemaskini"]').eq(-1).click();
+      cy.get('[data-cy="kemaskini"]').eq(0).click();
       cy.wait('@getSinglePersonKaunter');
       // the assertion for registered patient kp -----
       cy.get('[data-cy="fillable-form-header"]').should(
