@@ -4427,6 +4427,12 @@ const makeGender = async (payload) => {
         worksheet.getCell('B5').value = `${monthMula} - ${monthAkhir}`;
       }
     }
+
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
+
     worksheet.getCell('B6').value = `${
       klinik ? `${klinik.toUpperCase()} / ` : ''
     } ${daerah ? `${daerah.toUpperCase()}` : ''}`;
