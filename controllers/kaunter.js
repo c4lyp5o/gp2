@@ -320,7 +320,9 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.namaProgram = namaProgram;
   }
 
-  const kaunterResultQuery = await Umum.find(queryObject).lean();
+  const kaunterResultQuery = await Umum.find(queryObject)
+    .sort({ createdAt: -1 })
+    .lean();
 
   res.status(200).json({ kaunterResultQuery });
 };
