@@ -226,7 +226,9 @@ function UserUmum({ sekolahIdc }) {
                 CARIAN PESAKIT PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
               </span>
             ) : (
-              <span className='mr-2'>CARIAN PESAKIT UMUM</span>
+              <span className='mr-2' data-cy='carian-pesakit-umum'>
+                CARIAN PESAKIT UMUM
+              </span>
             )}
           </h2>
           <div className='relative flex flex-col lg:col-span-3 ml-2 py-2'>
@@ -791,6 +793,7 @@ function UserUmum({ sekolahIdc }) {
                       singlePersonUmum.rawatanDibuatOperatorLain === true ? (
                       <Link
                         target='_blank'
+                        rel='noreferrer'
                         to={`form-umum/${singlePersonUmum._id}`}
                         className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
@@ -800,6 +803,7 @@ function UserUmum({ sekolahIdc }) {
                       singlePersonUmum.rawatanDibuatOperatorLain === true ? (
                       <Link
                         target='_blank'
+                        rel='noreferrer'
                         to={`form-umum/${singlePersonUmum._id}`}
                         className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
@@ -808,6 +812,7 @@ function UserUmum({ sekolahIdc }) {
                     ) : singlePersonUmum.statusReten === 'belum diisi' ? (
                       <Link
                         target='_blank'
+                        rel='noreferrer'
                         to={`form-umum/${singlePersonUmum._id}`}
                         className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                       >
@@ -818,6 +823,7 @@ function UserUmum({ sekolahIdc }) {
                       singlePersonUmum.rawatanDibuatOperatorLain === true && (
                         <Link
                           target='_blank'
+                          rel='noreferrer'
                           to={`form-umum/${singlePersonUmum._id}/rawatan-operator-lain`}
                           className='float-right m-2 p-2 uppercase bg-user3 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                         >

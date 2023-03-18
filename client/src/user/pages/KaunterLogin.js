@@ -25,8 +25,8 @@ function KaunterLogin() {
   const [listDaerah, setListDaerah] = useState([]);
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [listKlinik, setListKlinik] = useState([]);
-  const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPasswordBox, setShowPasswordBox] = useState(false);
@@ -43,6 +43,8 @@ function KaunterLogin() {
   // fetch klinik base on negeri & daerah
   useEffect(() => {
     const fetchKlinik = async () => {
+      setListKlinik([]);
+      setIsLoading(true);
       try {
         const { data } = await axios.get(
           `https://gpass.nocturnal.quest/api/getfs?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
@@ -54,6 +56,7 @@ function KaunterLogin() {
         //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kaunter-login-fetchKlinik'
         // );
       }
+      setIsLoading(false);
     };
     fetchKlinik();
     setPilihanKlinik('');
@@ -235,6 +238,7 @@ function KaunterLogin() {
                 <Link
                   to='/'
                   className='order-last lg:order-first capitalize bg-kaunter3 text-userWhite rounded-md shadow-xl p-2 hover:bg-kaunter1 transition-all'
+                  data-cy='kembali-halaman-utama'
                 >
                   kembali ke halaman utama
                 </Link>

@@ -106,24 +106,87 @@ const createPersonKaunter = async (req, res) => {
     kodFasilitiTaskaTadika: req.body.kodFasilitiTaskaTadika,
     jenisProgram: req.body.jenisProgram,
     namaProgram: req.body.namaProgram,
-  });
+  }).sort({ createdAt: -1 });
 
   // tagging person according to their status
   if (personExist) {
-    req.body.kedatangan = 'ulangan-kedatangan';
     logger.info(
-      `${req.method} ${req.url} [kaunterController] ic telah wujud. tagging ulangan`
+      `[kaunterController] IC telah wujud. check status hapus dan status ulangan`
     );
-    req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
-    logger.info(
-      `${req.method} ${req.url} [kaunterController] no pendaftaran ulangan: ${req.body.noPendaftaranUlangan}`
-    );
+    // baru & deleted
+    if (personExist.kedatangan === 'baru-kedatangan' && personExist.deleted) {
+      logger.info(
+        `[kaunterController] 1. IC telah wujud tetapi dihapuskan pada kedatangan pertama. TAG: baru`
+      );
+      req.body.kedatangan = 'baru-kedatangan';
+      req.body.noPendaftaranBaru = personExist.noPendaftaranBaru;
+      req.body.deleted = true; // mula2 set true supaya tak increment no pendaftaran.. then continue line 912 Umum.js models
+    }
+    // baru & tak deleted & tak periksa
+    if (
+      personExist.kedatangan === 'baru-kedatangan' &&
+      !personExist.deleted &&
+      personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] 2. IC telah wujud tetapi tidak mendapatkan pemeriksaan pada kedatangan pertama. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+      req.body.checkupEnabled = true;
+    }
+    // baru & tak deleted & periksa // normal expect for baru
+    if (
+      personExist.kedatangan === 'baru-kedatangan' &&
+      !personExist.deleted &&
+      !personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] 3. IC telah wujud dan telah mendapatkan pemeriksaan pada kedatangan pertama. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranBaru;
+    }
+    // ulangan & deleted
+    if (
+      personExist.kedatangan === 'ulangan-kedatangan' &&
+      personExist.deleted
+    ) {
+      logger.info(
+        `[kaunterController] 4. IC telah wujud dan kedatangan ulangan pernah delete ulangan. TAG: ulangan`
+      ); // the one edge case not covered here is when personExist with deleted true & statusKehadiran true, to crazy to cover
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
+    }
+    // ulangan & tak deleted & tak periksa
+    if (
+      personExist.kedatangan === 'ulangan-kedatangan' &&
+      !personExist.deleted &&
+      personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] 5. IC telah wujud dan kedatangan ulangan tetapi tidak mendapatkan pemeriksaan pada kedatangan ulangan. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
+      req.body.checkupEnabled = true;
+    }
+    // ulangan & tak deleted & periksa // normal expect for ulangan
+    if (
+      personExist.kedatangan === 'ulangan-kedatangan' &&
+      !personExist.deleted &&
+      !personExist.statusKehadiran
+    ) {
+      logger.info(
+        `[kaunterController] 6. IC telah wujud dan kedatangan ulangan tak pernah delete ulangan. TAG: ulangan`
+      );
+      req.body.kedatangan = 'ulangan-kedatangan';
+      req.body.noPendaftaranUlangan = personExist.noPendaftaranUlangan;
+    }
   }
 
   if (!personExist) {
-    logger.info(
-      `${req.method} ${req.url} [kaunterController] ic tidak wujud. tagging baru`
-    );
+    logger.info(`[kaunterController] IC tidak wujud. TAG: baru`);
     req.body.kedatangan = 'baru-kedatangan';
   }
 
@@ -192,13 +255,15 @@ const deletePersonKaunter = async (req, res) => {
 };
 
 // check from db if ic is same
-// GET /check
+// GET /check/:personKaunterId
 const getPersonFromCache = async (req, res) => {
   const { personKaunterId } = req.params;
   try {
-    const person = await Umum.findOne({ ic: personKaunterId }, null, {
-      sort: { _id: -1 },
-    });
+    const person = await Umum.findOne({
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+      ic: personKaunterId,
+    }).sort({ createdAt: -1 });
     return res.status(200).json({ person });
   } catch (error) {
     res.status(404).json({ msg: 'No person found' });
@@ -215,9 +280,9 @@ const queryPersonKaunter = async (req, res) => {
     user: { kp, kodFasiliti, daerah, negeri },
     query: {
       nama,
+      ic,
       tarikhKedatangan,
       jenisFasiliti,
-      ic,
       jenisProgram,
       namaProgram,
     },
@@ -235,16 +300,16 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.nama = { $regex: nama, $options: 'i' };
   }
 
+  if (ic) {
+    queryObject.ic = { $regex: ic, $options: 'i' };
+  }
+
   if (tarikhKedatangan) {
     queryObject.tarikhKedatangan = tarikhKedatangan;
   }
 
   if (jenisFasiliti) {
     queryObject.jenisFasiliti = jenisFasiliti;
-  }
-
-  if (ic) {
-    queryObject.ic = { $regex: ic, $options: 'i' };
   }
 
   if (jenisProgram) {
@@ -255,7 +320,9 @@ const queryPersonKaunter = async (req, res) => {
     queryObject.namaProgram = namaProgram;
   }
 
-  const kaunterResultQuery = await Umum.find(queryObject);
+  const kaunterResultQuery = await Umum.find(queryObject)
+    .sort({ createdAt: -1 })
+    .lean();
 
   res.status(200).json({ kaunterResultQuery });
 };

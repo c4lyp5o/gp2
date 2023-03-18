@@ -507,6 +507,7 @@ export default function UserCarian() {
                           singlePersonUmum.statusReten === 'reten salah' ? (
                             <Link
                               target='_blank'
+                              rel='noreferrer'
                               to={`/pengguna/landing/umum/form-umum/${singlePersonUmum._id}`}
                               className='m-2 p-2 uppercase bg-user3 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 transition-all'
                             >

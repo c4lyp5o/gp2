@@ -5,24 +5,14 @@ describe('Testing Pentadbir login page', () => {
       Cypress.env('GIRETCY_BASE_URL') + '/api/v1/superadmin/getnegeri'
     ).as('getNegeri');
     cy.intercept(
-      Cypress.env('GIRETCY_BASE_URL') +
-        '/api/v1/superadmin/getdaerah?negeri=' +
-        Cypress.env('NEGERI_PENTADBIR_USERNAME')
+      Cypress.env('GIRETCY_BASE_URL') + '/api/v1/superadmin/getdaerah?negeri=*'
     ).as('getDaerah');
     cy.intercept(
-      Cypress.env('GIRETCY_BASE_URL') +
-        '/api/v1/superadmin/getdaerah?negeri=' +
-        Cypress.env('RESET_NEGERI_PENTADBIR_USERNAME')
-    ).as('getDaerahReset');
-    cy.intercept(
-      Cypress.env('GIRETCY_BASE_URL') +
-        '/api/v1/superadmin/getklinik?daerah=' +
-        encodeURI(Cypress.env('DAERAH'))
+      Cypress.env('GIRETCY_BASE_URL') + '/api/v1/superadmin/getklinik?daerah=*'
     ).as('getKlinik');
     cy.intercept(
       Cypress.env('GIRETCY_BASE_URL') +
-        '/api/v1/superadmin/getadmins?kodFasiliti=' +
-        Cypress.env('KOD_FASILITI')
+        '/api/v1/superadmin/getadmins?kodFasiliti=*'
     ).as('getAdmins');
 
     // load /pentadbir
@@ -52,7 +42,7 @@ describe('Testing Pentadbir login page', () => {
     cy.get('[data-cy="negeri"').select(
       Cypress.env('RESET_NEGERI_PENTADBIR_USERNAME')
     ); // reset
-    cy.wait('@getDaerahReset');
+    cy.wait('@getDaerah');
     cy.get('[data-cy="negeri"').select(
       Cypress.env('NEGERI_PENTADBIR_USERNAME')
     );
@@ -67,7 +57,7 @@ describe('Testing Pentadbir login page', () => {
     cy.get('[data-cy="negeri"').select(
       Cypress.env('RESET_NEGERI_PENTADBIR_USERNAME')
     ); // reset
-    cy.wait('@getDaerahReset');
+    cy.wait('@getDaerah');
     cy.get('[data-cy="negeri"').select(
       Cypress.env('NEGERI_PENTADBIR_USERNAME')
     );

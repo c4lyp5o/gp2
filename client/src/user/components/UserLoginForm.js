@@ -22,8 +22,8 @@ function UserLoginForm() {
   const [listDaerah, setListDaerah] = useState([]);
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [listKlinik, setListKlinik] = useState([]);
-  const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [isLoading, setIsLoading] = useState(false);
+  const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
   const [showPasswordBox, setShowPasswordBox] = useState(false);
@@ -42,6 +42,8 @@ function UserLoginForm() {
   // fetch klinik base on negeri & daerah
   useEffect(() => {
     const fetchKlinik = async () => {
+      setListKlinik([]);
+      setIsLoading(true);
       try {
         const { data } = await axios.get(
           `https://gpass.nocturnal.quest/api/getfs?negeri=${pilihanNegeri}&daerah=${pilihanDaerah}`
@@ -53,6 +55,7 @@ function UserLoginForm() {
         //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-login-form-fetch-klinik'
         // );
       }
+      setIsLoading(false);
     };
     fetchKlinik();
     setPilihanKlinik('');
@@ -235,6 +238,7 @@ function UserLoginForm() {
           <Link
             to='/'
             className='order-last lg:order-first capitalize bg-user6 text-userWhite rounded-md shadow-xl p-2 hover:bg-user1 transition-all'
+            data-cy='kembali-halaman-utama'
           >
             kembali ke halaman utama
           </Link>
