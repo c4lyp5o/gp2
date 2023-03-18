@@ -4427,6 +4427,12 @@ const makeGender = async (payload) => {
         worksheet.getCell('B5').value = `${monthMula} - ${monthAkhir}`;
       }
     }
+
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      klinik = currentKlinik.kp;
+    }
+
     worksheet.getCell('B6').value = `${
       klinik ? `${klinik.toUpperCase()} / ` : ''
     } ${daerah ? `${daerah.toUpperCase()}` : ''}`;
@@ -4542,7 +4548,9 @@ const makeGender = async (payload) => {
     if (bulan) {
       rowNew.getCell(1).value = `${moment(bulan)
         .startOf('month')
-        .format('DD-MM-YYYY')} - ${moment(bulan).format('DD-MM-YYYY')}`;
+        .format('DD-MM-YYYY')} - ${moment(bulan)
+        .endOf('month')
+        .format('DD-MM-YYYY')}`;
     } else {
       rowNew.getCell(1).value = `${moment(tarikhMula).format(
         'DD-MM-YYYY'
@@ -4870,22 +4878,16 @@ const createQuery = ({
   negeri,
   bulan,
 }) => {
-  let query = {};
-  if (pilihanIndividu) {
-    query.createdByMdcMdtb = pilihanIndividu;
-  }
-  if (!pilihanIndividu || klinik !== 'all') {
-    query.createdByKodFasiliti = klinik;
-  }
-  if (daerah !== 'all') {
-    query.createdByDaerah = daerah;
-  }
-  if (negeri !== 'all') {
-    query.createdByNegeri = negeri;
-  }
-  query.dataType = jenisReten;
-  query.dataFormat = 'Monthly';
-  query.dataDate = moment(bulan).endOf('month').format('YYYY-MM-DD');
+  const query = {
+    dataType: jenisReten,
+    dataFormat: 'Monthly',
+    dataDate: moment(bulan).endOf('month').format('YYYY-MM-DD'),
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKodFasiliti: klinik === 'all' ? 'all' : klinik,
+    ...(pilihanIndividu && { createdByMdcMdtb: pilihanIndividu }),
+  };
+
   return query;
 };
 
