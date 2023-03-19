@@ -201,6 +201,13 @@ function UserFormSekolahPemeriksaan() {
     useState(null);
 
   const TarikhPemeriksaanSemasa = () => {
+    let isDisabled = false;
+    if (
+      singlePersonSekolah.statusRawatan === 'selesai' ||
+      singlePersonSekolah.statusRawatan === 'belum selesai'
+    ) {
+      isDisabled = true;
+    }
     return masterDatePicker({
       selected: tarikhPemeriksaanSemasaDP,
       onChange: (tarikhPemeriksaanSemasa) => {
@@ -211,6 +218,7 @@ function UserFormSekolahPemeriksaan() {
       filterDate: (date) => {
         return moment() > date;
       },
+      disabled: isDisabled,
       className:
         'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
     });
@@ -331,9 +339,6 @@ function UserFormSekolahPemeriksaan() {
   useEffect(() => {
     setEAdaGigiKekal(parseInt(eAdaGigiKekal));
   }, [eAdaGigiKekal]);
-  useEffect(() => {
-    setDAdaGigiDesidus(parseInt(dAdaGigiDesidus));
-  }, [dAdaGigiDesidus]);
   useEffect(() => {
     setDAdaGigiKekal(parseInt(dAdaGigiKekal));
   }, [dAdaGigiKekal]);
@@ -1196,12 +1201,12 @@ function UserFormSekolahPemeriksaan() {
                         }}
                         className='appearance-none w-60 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                       >
-                        <option value=''>Sila pilih</option>
+                        <option value=''>Sila Pilih</option>
                         <option value='klinik-pergigian-statik'>
                           Klinik Pergigian Statik
                         </option>
                         <option value='pasukan-pergigian-bergerak'>
-                          Pasukan Pergigian Bergerak
+                          Pasukan / Klinik Pergigian Bergerak
                         </option>
                       </select>
                       <span className='text-user6'>*</span>
@@ -1860,11 +1865,19 @@ function UserFormSekolahPemeriksaan() {
                     <article className=' border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         Status Gigi Desidus
+                        {adaDesidus === true || adaKekal === true ? null : (
+                          <span className='text-user6'>*</span>
+                        )}
                       </h4>
                       <div className='grid gap-1'>
                         <div className='flex items-center justify-center'>
                           <input
                             disabled={isDisabled}
+                            required={
+                              adaDesidus === true || adaKekal === true
+                                ? false
+                                : true
+                            }
                             type='checkbox'
                             name='ada-desidus'
                             id='ada-desidus'
@@ -1968,11 +1981,19 @@ function UserFormSekolahPemeriksaan() {
                     <article className='border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         Status Gigi Kekal
+                        {adaDesidus === true || adaKekal === true ? null : (
+                          <span className='text-user6'>*</span>
+                        )}
                       </h4>
                       <div className='grid grid-cols-1'>
                         <div className='flex items-center justify-center peer-active:bg-user3'>
                           <input
                             disabled={isDisabled}
+                            required={
+                              adaDesidus === true || adaKekal === true
+                                ? false
+                                : true
+                            }
                             type='checkbox'
                             name='ada-kekal'
                             id='ada-kekal'
@@ -2355,7 +2376,7 @@ function UserFormSekolahPemeriksaan() {
                     </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2 md:col-span-3'>
-                        Bilangan FS Dibuat 3 Tahun Lepas Terjadi
+                        Bilangan FS Dibuat 3 Tahun Lepas Terjadi Dibawah
                       </h4>
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>D: </p>
@@ -2426,7 +2447,7 @@ function UserFormSekolahPemeriksaan() {
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
-                      <div className='flex flex-row pl-5 items-center'>
+                      {/* <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>E: </p>
                         <input
                           disabled={isDisabled}
@@ -2448,7 +2469,7 @@ function UserFormSekolahPemeriksaan() {
                           }}
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
-                      </div>
+                      </div> */}
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>X: </p>
                         <input

@@ -198,182 +198,159 @@ function UserSekolah() {
               </div>
             </div>
             <div className='grid grid-cols-2'>
-              <p className='flex flex-row pl-8'>
-                <span className='font-bold uppercase text-xs lg:text-sm'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
                 </span>{' '}
-                <span className=' uppercase text-xs lg:text-sm ml-2'>
-                  {pilihanSekolah ? pilihanSekolah : 'Sila pilih sekolah'}
+                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  {/* {pilihanSekolah ? pilihanSekolah : 'Sila pilih sekolah'} */}
+                  <select
+                    value={pilihanSekolah}
+                    onChange={(e) => {
+                      setPilihanSekolah(e.target.value);
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>SILA PILIH</option>
+                    {namaSekolahs.map((singleNamaSekolah, index) => {
+                      return (
+                        <option
+                          value={singleNamaSekolah}
+                          key={index}
+                          className='capitalize'
+                        >
+                          {singleNamaSekolah}
+                        </option>
+                      );
+                    })}
+                  </select>
                 </span>
               </p>
-              <p className='flex flex-row pl-8'>
-                <span className='font-bold uppercase text-xs lg:text-sm'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tahun:
                 </span>{' '}
-                <span className=' uppercase text-xs lg:text-sm ml-2'>
-                  {pilihanTahun ? pilihanTahun : 'Sila pilih tahun'}
+                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  {/* {pilihanTahun ? pilihanTahun : 'Sila pilih tahun'} */}
+                  <select
+                    value={pilihanTahun}
+                    onChange={(e) => {
+                      setPilihanTahun(e.target.value);
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>SILA PILIH</option>
+                    {pilihanSekolah ? (
+                      tahun.map((singleTahun, index) => {
+                        return (
+                          <option
+                            value={singleTahun}
+                            key={index}
+                            className='capitalize'
+                          >
+                            {singleTahun}
+                          </option>
+                        );
+                      })
+                    ) : (
+                      <option value=''>SILA PILIH SEKOLAH</option>
+                    )}
+                  </select>
                 </span>
               </p>
-              <p className='flex flex-row pl-8'>
-                <span className='font-bold uppercase text-xs lg:text-sm'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Kelas:
                 </span>{' '}
-                <span className=' uppercase text-xs lg:text-sm ml-2'>
-                  {pilihanNamaKelas ? pilihanNamaKelas : 'Sila pilih kelas'}
+                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  {/* {pilihanNamaKelas ? pilihanNamaKelas : 'Sila pilih kelas'} */}
+                  <select
+                    value={pilihanNamaKelas}
+                    onChange={(e) => {
+                      setPilihanNamaKelas(e.target.value);
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>SILA PILIH</option>
+                    {pilihanTahun ? (
+                      namaKelas.map((singleNamaKelas, index) => {
+                        return (
+                          <option
+                            value={singleNamaKelas}
+                            key={index}
+                            className='capitalize'
+                          >
+                            {singleNamaKelas}
+                          </option>
+                        );
+                      })
+                    ) : (
+                      <option value=''>SILA PILIH TAHUN</option>
+                    )}
+                  </select>
                 </span>
               </p>
-              <p className='flex flex-row pl-8'>
-                <span className='font-bold uppercase text-xs lg:text-sm'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Status sekolah:
                 </span>{' '}
                 {pilihanSekolah ? (
-                  <span className=' uppercase text-xs lg:text-sm ml-2'>
+                  <span className='uppercase text-xs lg:text-sm w-full'>
                     {pilihanSekolah &&
                     filteredFasilitiSekolah[0].sekolahSelesaiReten === true ? (
-                      <span className='bg-user7'>
-                        Sekolah telah selesai reten
-                      </span>
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='Sekolah sudah selesai reten'
+                        readOnly
+                      />
                     ) : (
-                      <span className='bg-user9'>
-                        Sekolah belum selesai reten
-                      </span>
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='Sekolah belum selesai reten'
+                        readOnly
+                      />
                     )}
                   </span>
                 ) : (
-                  <span className=' uppercase text-xs lg:text-sm ml-2'>
-                    Sila pilih sekolah
-                  </span>
+                  <input
+                    type='text'
+                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
+                    value='Sila Pilih Sekolah'
+                    readOnly
+                  />
                 )}
               </p>
-              <p className='flex flex-row pl-8'>
-                <span className='font-bold uppercase text-xs lg:text-sm'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tarikh Mula:
                 </span>
               </p>
-              <p className='flex flex-row pl-8'>
-                <span className='font-bold uppercase text-xs lg:text-sm'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tarikh Tamat:
                 </span>
               </p>
-              <span
-                className='text-xs text-userBlack font-mono uppercase bg-user3 rounded-md shadow-xl p-1 mx-4 mb-3 hover:bg-user1 hover:text-userWhite transition-all cursor-pointer col-span-2 flex items-center justify-center'
-                onClick={() => {
-                  setIsFiltering(!isFiltering);
-                }}
-              >
-                {isFiltering ? 'Tutup' : 'Pilihan'}{' '}
-                {isFiltering ? (
-                  <FaCaretUp className='inline' />
-                ) : (
-                  <FaCaretDown className='inline' />
-                )}
-              </span>
+              {pilihanTahun && (
+                <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                  <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                    Nama Pelajar:
+                  </span>
+                  <span className=' uppercase text-xs lg:text-sm w-full'>
+                    <input
+                      type='text'
+                      value={filterNama}
+                      onChange={(e) => {
+                        setFilterNama(e.target.value.toUpperCase());
+                      }}
+                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    />
+                  </span>
+                </p>
+              )}
             </div>
           </div>
-          {isFiltering && (
-            <div className='grid grid-cols-2 pb-3'>
-              {/* <div>
-              <label htmlFor='sekolah-menengah-rendah'>Jenis Sekolah</label>
-              <select
-                className='appearance-none w-11/12 px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                onChange={(e) => setSekMenRen(e.target.value)}
-              >
-                <option value=''>SEMUA SEKOLAH</option>
-                <option value='prasekolah'>PRASEKOLAH</option>
-                <option value='sekolah-menengah'>SEKOLAH MENENGAH</option>
-                <option value='sekolah-rendah'>SEKOLAH RENDAH</option>
-              </select>
-            </div> */}
-              <div>
-                <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Sekolah</p>
-                <select
-                  value={pilihanSekolah}
-                  onChange={(e) => {
-                    setPilihanSekolah(e.target.value);
-                  }}
-                  className='appearance-none w-11/12 px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                >
-                  <option value=''>Sila pilih..</option>
-                  {namaSekolahs.map((singleNamaSekolah, index) => {
-                    return (
-                      <option
-                        value={singleNamaSekolah}
-                        key={index}
-                        className='capitalize'
-                      >
-                        {singleNamaSekolah}
-                      </option>
-                    );
-                  })}
-                </select>
-              </div>
-              <div>
-                <p className='flex flex-row pl-5 lg:pl-12 p-2'>Tahun</p>
-                <select
-                  value={pilihanTahun}
-                  onChange={(e) => {
-                    setPilihanTahun(e.target.value);
-                  }}
-                  className='appearance-none w-11/12 px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                >
-                  <option value=''>Sila pilih..</option>
-                  {pilihanSekolah ? (
-                    tahun.map((singleTahun, index) => {
-                      return (
-                        <option
-                          value={singleTahun}
-                          key={index}
-                          className='capitalize'
-                        >
-                          {singleTahun}
-                        </option>
-                      );
-                    })
-                  ) : (
-                    <option value=''>Sila pilih sekolah..</option>
-                  )}
-                </select>
-              </div>
-              <div>
-                <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Kelas</p>
-                <select
-                  value={pilihanNamaKelas}
-                  onChange={(e) => {
-                    setPilihanNamaKelas(e.target.value);
-                  }}
-                  className='appearance-none w-11/12 px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                >
-                  <option value=''>Sila pilih..</option>
-                  {pilihanTahun ? (
-                    namaKelas.map((singleNamaKelas, index) => {
-                      return (
-                        <option
-                          value={singleNamaKelas}
-                          key={index}
-                          className='capitalize'
-                        >
-                          {singleNamaKelas}
-                        </option>
-                      );
-                    })
-                  ) : (
-                    <option value=''>Sila pilih tahun..</option>
-                  )}
-                </select>
-              </div>
-              <div>
-                <p className='flex flex-row pl-5 lg:pl-12 p-2'>Nama Pelajar</p>
-                <input
-                  type='text'
-                  value={filterNama}
-                  onChange={(e) => {
-                    setFilterNama(e.target.value.toUpperCase());
-                  }}
-                  className='appearance-none w-11/12 px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                />
-              </div>
-            </div>
-          )}
         </div>
         <div className='m-auto text-xs lg:text-sm rounded-md h-min max-w-max overflow-x-auto'>
           {pilihanSekolah ? (
@@ -387,7 +364,7 @@ function UserSekolah() {
                     NAMA
                   </th>
                   <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
-                    OPERATOR TERAKHIR
+                    OPERATOR PEMERIKSAAN
                   </th>
                   <th className='outline outline-1 outline-offset-1 px-5 py-1'>
                     STATUS RAWATAN
@@ -398,9 +375,9 @@ function UserSekolah() {
                   <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                     RAWATAN
                   </th>
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  {/* <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                     KOTAK
-                  </th>
+                  </th> */}
                 </tr>
               </thead>
               {!isLoading &&
@@ -425,9 +402,10 @@ function UserSekolah() {
                               {singlePersonSekolah.nama}
                             </td>
                             <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                              {singlePersonSekolah.rawatanSekolah.length >= 1 &&
-                                singlePersonSekolah.rawatanSekolah.at(-1)
-                                  .createdByUsername}
+                              {singlePersonSekolah.pemeriksaanSekolah
+                                ? singlePersonSekolah.pemeriksaanSekolah
+                                    .createdByUsername
+                                : null}
                             </td>
                             <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                               {singlePersonSekolah.statusRawatan}
@@ -441,17 +419,26 @@ function UserSekolah() {
                                 }/${
                                   singlePersonSekolah.pemeriksaanSekolah
                                     ? singlePersonSekolah.pemeriksaanSekolah._id
-                                    : 'tambah-pemeriksaan'
+                                    : filteredFasilitiSekolah[0]
+                                        .sekolahSelesaiReten === true
+                                    ? 'Pemeriksaan Ditutup'
+                                    : 'Tambah Pemeriksaan'
                                 }`}
                                 className={`${
                                   singlePersonSekolah.pemeriksaanSekolah
-                                    ? 'bg-user7'
-                                    : 'bg-user6'
-                                } hover:bg-user8 text-userWhite rounded-sm shadow-md p-1 m-1 transition-all`}
+                                    ? 'bg-user7 shadow-md'
+                                    : filteredFasilitiSekolah[0]
+                                        .sekolahSelesaiReten === true
+                                    ? 'pointer-events-none bg-user4 shadow-none'
+                                    : 'bg-user6 shadow-md'
+                                } hover:bg-user8 text-userWhite rounded-sm p-1 m-1 transition-all`}
                               >
                                 {singlePersonSekolah.pemeriksaanSekolah
                                   ? 'lihat pemeriksaan'
-                                  : 'tambah pemeriksaan'}
+                                  : filteredFasilitiSekolah[0]
+                                      .sekolahSelesaiReten === true
+                                  ? 'Pemeriksaan Ditutup'
+                                  : 'Tambah Pemeriksaan'}
                               </Link>
                             </td>
                             <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
@@ -684,7 +671,7 @@ function UserSekolah() {
                                 </div>
                               )}
                             </td>
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <Link
                                 target='_blank'
                                 rel='noreferrer'
@@ -725,7 +712,7 @@ function UserSekolah() {
                                   ? 'ubah KOTAK'
                                   : 'tidak perlu KOTAK'}
                               </Link>
-                            </td>
+                            </td> */}
                           </tr>
                         </tbody>
                       </>
@@ -755,9 +742,9 @@ function UserSekolah() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
+                    </td> */}
                   </tr>
                   <tr>
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -778,15 +765,15 @@ function UserSekolah() {
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
+                    </td> */}
                   </tr>
                 </tbody>
               )}
             </table>
           ) : (
-            <p className='text-xl font-mono text-center h-full w-full'>
+            <p className='text-xl font-bold text-center h-full w-full'>
               Sila Pilih Sekolah Terlebih Dahulu
             </p>
           )}
