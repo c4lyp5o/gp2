@@ -138,7 +138,6 @@ app.use('/api/v1/etl', etlAuth, ETL);
 
 // identify client ip
 app.get('/api/v1/ip', async (req, res) => {
-  console.log(req.ip);
   return res.status(200).json({ yourIP: req.ip });
 });
 

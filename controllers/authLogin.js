@@ -38,7 +38,7 @@ const authLogin = async (req, res) => {
 
     if (!userToken) {
       unauthorizedLogger.warn(
-        `[authLogin] Unauthorized userToken for relief is ${userToken} from ${req.ip}`
+        `${req.method} [authLogin] Unauthorized userToken for relief is ${userToken} from ${req.ip}`
       );
       return res
         .status(401)
@@ -68,7 +68,7 @@ const authLogin = async (req, res) => {
       return res.status(200).json({ reliefUserToken });
     } catch (error) {
       unauthorizedLogger.warn(
-        `[authLogin] Unauthorized jwt.verify oldUserToken for relief is ${oldUserToken} from ${req.ip}`
+        `${req.method} [authLogin] Unauthorized jwt.verify oldUserToken for relief is ${oldUserToken} from ${req.ip}`
       );
       return res
         .status(401)
