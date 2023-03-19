@@ -60,6 +60,7 @@ const connectDB = require('./database/connect');
 
 // USE MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'build');
+app.set('trust proxy', 1);
 app.use(express.static(root));
 app.use(express.json({ limit: '50mb' }));
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
@@ -137,8 +138,8 @@ app.use('/api/v1/etl', etlAuth, ETL);
 
 // identify client ip
 app.get('/api/v1/ip', async (req, res) => {
-  console.log(req.get('X-Forwarded-For'));
-  return res.status(200).json({ yourIP: req.get('X-Forwarded-For') });
+  console.log(req.ip);
+  return res.status(200).json({ yourIP: req.ip });
 });
 
 // for use in deployment
