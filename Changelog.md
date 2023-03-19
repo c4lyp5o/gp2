@@ -12,6 +12,7 @@
 
 - Pesakit baru yang dihapuskan sekiranya didaftarkan semula akan mendapat nombor pendaftaran yang asal tetapi kedatangan adalah baru
 - Pesakit ulangan yg tidak mendapatkan pemeriksaan pada kedatangan baru kini boleh diisi pemeriksaan pada kedatangan ulangan
+- Turutan senarai pesakit di modul Pendaftaran akan dipaparkan bermula mengikut pesakit yang terakhir sekali didaftarkan
 
 #### Security
 

@@ -135,8 +135,11 @@ app.use('/api/v1/generatekp', genRouterKp);
 // ETL
 app.use('/api/v1/etl', etlAuth, ETL);
 
-// test ip
-// app.get('/api/v1/ip', (request, response) => response.send(request.ip));
+// identify client ip
+app.get('/api/v1/ip', async (req, res) => {
+  console.log(req.get('X-Forwarded-For'));
+  return res.status(200).json({ yourIP: req.get('X-Forwarded-For') });
+});
 
 // for use in deployment
 app.get('*', (req, res) => {
