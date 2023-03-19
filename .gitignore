@@ -11,9 +11,12 @@ graphql.config.json
 /logs/*.log
 
 # cypress test
-/cypress.env.json
+cypress.env.json
 /cypress/screenshots
 /cypress/videos
+
+# k6 test
+k6-load-test.js
 
 # postman like test
 /thunder-tests
