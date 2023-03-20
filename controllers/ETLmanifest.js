@@ -393,7 +393,7 @@ const initiateETL = async (req, res) => {
 };
 
 const initiateCustomETL = async (req, res) => {
-  const { bulan } = req.query;
+  const { bulan } = req.query; // pass whole number 1, 2, 3, ... 11, ...etc
 
   const isBulanValid = pilihanBulan.find(
     (item) => item === bulanReturner(bulan)
@@ -638,7 +638,7 @@ const initiateCustomETL = async (req, res) => {
 };
 
 const initiateCustomSingleETL = async (req, res) => {
-  const { bulan, jenisReten } = req.query;
+  const { bulan, jenisReten } = req.query; // bulan => pass whole number 1, 2, 3, ... 11, ...etc, jenisReten => pass like monthCount.name
 
   const isBulanValid = pilihanBulan.find(
     (item) => item === bulanReturner(bulan)
