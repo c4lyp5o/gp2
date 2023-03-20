@@ -354,6 +354,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
+  kesSelesai: {
+    type: String,
+    default: '',
+  },
 });
 
 module.exports = mongoose.model('Pemeriksaansekolah', PemeriksaansekolahSchema);

@@ -419,10 +419,7 @@ function UserSekolah() {
                                 }/${
                                   singlePersonSekolah.pemeriksaanSekolah
                                     ? singlePersonSekolah.pemeriksaanSekolah._id
-                                    : filteredFasilitiSekolah[0]
-                                        .sekolahSelesaiReten === true
-                                    ? 'Pemeriksaan Ditutup'
-                                    : 'Tambah Pemeriksaan'
+                                    : 'tambah-pemeriksaan'
                                 }`}
                                 className={`${
                                   singlePersonSekolah.pemeriksaanSekolah

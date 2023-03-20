@@ -195,6 +195,8 @@ function UserFormSekolahPemeriksaan() {
   const [sumGigiDesidus, setSumGigiDesidus] = useState(0);
   const [sumGigiKekal, setSumGigiKekal] = useState(0);
   const [sumGigiKekalE, setSumGigiKekalE] = useState(0);
+  //kes selesai
+  const [kesSelesai, setKesSelesai] = useState('');
 
   // datepicker issue
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
@@ -655,6 +657,9 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
           );
+          setKesSelesai(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesai
+          );
           // datepicker issue
           setTarikhPemeriksaanSemasaDP(
             new Date(
@@ -724,15 +729,15 @@ function UserFormSekolahPemeriksaan() {
       });
       return;
     }
-    // if (dAdaGigiKekal <= sumGigiKekal) {
-    //   toast.error(
-    //     'Jumlah tampalan diperlukan gigi kekal kurang dengan jumlah D gigi kekal',
-    //     {
-    //       autoClose: 3000,
-    //     }
-    //   );
-    //   return;
-    // }
+    if (dAdaGigiKekal > sumGigiKekal) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi kekal kurang dengan jumlah D gigi kekal',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
     if (sumGigiKekalE !== eAdaGigiKekal) {
       toast.error(
         'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
@@ -742,6 +747,13 @@ function UserFormSekolahPemeriksaan() {
       );
       return;
     }
+    let statusRawatan = '';
+    if (kesSelesai === 'ya-kes-selesai') {
+      statusRawatan = 'selesai';
+    }
+    if (kesSelesai === 'tidak-kes-selesai') {
+      statusRawatan = 'belum selesai';
+    }
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
       await toast
         .promise(
@@ -749,6 +761,7 @@ function UserFormSekolahPemeriksaan() {
             `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
             {
               createdByUsername,
+              statusRawatan,
               tarikhPemeriksaanSemasa,
               engganKedatanganPendaftaran,
               tidakHadirKedatanganPendaftaran,
@@ -818,6 +831,7 @@ function UserFormSekolahPemeriksaan() {
               semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
               baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+              kesSelesai,
             },
             {
               headers: {
@@ -854,6 +868,7 @@ function UserFormSekolahPemeriksaan() {
             `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
             {
               createdByUsername,
+              statusRawatan,
               tarikhPemeriksaanSemasa,
               engganKedatanganPendaftaran,
               tidakHadirKedatanganPendaftaran,
@@ -923,6 +938,7 @@ function UserFormSekolahPemeriksaan() {
               semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
               baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+              kesSelesai,
             },
             {
               headers: {
@@ -3299,6 +3315,61 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       </article>
                     </div>
+                  </section>
+                )}
+                {adaTiadaPemeriksaanPendaftaran ===
+                'tiada-pemeriksaan' ? null : (
+                  <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
+                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold'>
+                        Kes Selesai<span className='text-user6'>*</span>
+                      </h4>
+                      <div>
+                        <input
+                          disabled={isDisabled}
+                          required
+                          type='radio'
+                          name='kes-selesai'
+                          id='kes-selesai'
+                          value='ya-kes-selesai'
+                          checked={
+                            kesSelesai === 'ya-kes-selesai' ? true : false
+                          }
+                          onChange={(e) => {
+                            setKesSelesai(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              kesSelesai: e.target.value,
+                            });
+                          }}
+                        />
+                        <label htmlFor='kes-selesai' className='ml-2'>
+                          Ya
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          required
+                          type='radio'
+                          name='kes-selesai'
+                          id='kes-selesai'
+                          value='tidak-kes-selesai'
+                          checked={
+                            kesSelesai === 'tidak-kes-selesai' ? true : false
+                          }
+                          onChange={(e) => {
+                            setKesSelesai(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              kesSelesai: e.target.value,
+                            });
+                          }}
+                          className='ml-2'
+                        />
+                        <label htmlFor='kes-selesai' className='ml-2'>
+                          Tidak
+                        </label>
+                      </div>
+                    </article>
                   </section>
                 )}
                 <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2'>
