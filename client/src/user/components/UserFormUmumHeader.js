@@ -14,7 +14,7 @@ import Confirmation from './UserFormUmumConfirmation';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-function UserFormUmumHeader({ sekolahIdc }) {
+function UserFormUmumHeader(/*{ sekolahIdc }*/) {
   const {
     userToken,
     reliefUserToken,
@@ -37,54 +37,54 @@ function UserFormUmumHeader({ sekolahIdc }) {
   const [showKemaskini, setShowKemasKini] = useState(false);
 
   const theCheckTPRShow = () => {
-    if (singlePersonUmum.jenisProgram === 'incremental') {
-      if (skorGisMulutOralHygienePemeriksaanUmum === '') {
-        return toast.info('Sila isi skor GIS');
-      }
-      if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
-        setTidakPerluRawatanPemeriksaanUmum(false);
-        return toast.info(
-          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai d'
-        );
-      }
-      if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
-        setTidakPerluRawatanPemeriksaanUmum(false);
-        return toast.info(
-          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai D'
-        );
-      }
-      if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
-        setTidakPerluRawatanPemeriksaanUmum(false);
-        return toast.info(
-          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai x'
-        );
-      }
-      if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
-        setTidakPerluRawatanPemeriksaanUmum(false);
-        return toast.info(
-          'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai X'
-        );
-      }
-      if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
-        setTidakPerluRawatanPemeriksaanUmum(false);
-        return toast.info(
-          'Tidak layak Tidak Perlu Rawatan (TPR) kerana GIS Skor 1'
-        );
-      }
-      if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
-        setTidakPerluRawatanPemeriksaanUmum(false);
-        return toast.info(
-          'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 3'
-        );
-      }
-      if (perluPenskaleranPemeriksaanUmum) {
-        setTidakPerluRawatanPemeriksaanUmum(false);
-        return toast.info(
-          'Tidak layak Tidak Perlu Rawatan(TPR) kerana perlu penskaleran'
-        );
-      }
-      setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
-    }
+    // if (singlePersonUmum.jenisProgram === 'incremental') {
+    //   if (skorGisMulutOralHygienePemeriksaanUmum === '') {
+    //     return toast.info('Sila isi skor GIS');
+    //   }
+    //   if (parseInt(dAdaGigiDesidusPemeriksaanUmum) > 0) {
+    //     setTidakPerluRawatanPemeriksaanUmum(false);
+    //     return toast.info(
+    //       'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai d'
+    //     );
+    //   }
+    //   if (parseInt(dAdaGigiKekalPemeriksaanUmum) > 0) {
+    //     setTidakPerluRawatanPemeriksaanUmum(false);
+    //     return toast.info(
+    //       'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai D'
+    //     );
+    //   }
+    //   if (parseInt(xAdaGigiDesidusPemeriksaanUmum) > 0) {
+    //     setTidakPerluRawatanPemeriksaanUmum(false);
+    //     return toast.info(
+    //       'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai x'
+    //     );
+    //   }
+    //   if (parseInt(xAdaGigiKekalPemeriksaanUmum) > 0) {
+    //     setTidakPerluRawatanPemeriksaanUmum(false);
+    //     return toast.info(
+    //       'Tidak layak Tidak Perlu Rawatan (TPR) kerana mempunyai X'
+    //     );
+    //   }
+    //   if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 1) {
+    //     setTidakPerluRawatanPemeriksaanUmum(false);
+    //     return toast.info(
+    //       'Tidak layak Tidak Perlu Rawatan (TPR) kerana GIS Skor 1'
+    //     );
+    //   }
+    //   if (parseInt(skorGisMulutOralHygienePemeriksaanUmum) === 3) {
+    //     setTidakPerluRawatanPemeriksaanUmum(false);
+    //     return toast.info(
+    //       'Tidak layak Tidak Perlu Rawatan(TPR) kerana GIS Skor 3'
+    //     );
+    //   }
+    //   if (perluPenskaleranPemeriksaanUmum) {
+    //     setTidakPerluRawatanPemeriksaanUmum(false);
+    //     return toast.info(
+    //       'Tidak layak Tidak Perlu Rawatan(TPR) kerana perlu penskaleran'
+    //     );
+    //   }
+    //   setTidakPerluRawatanPemeriksaanUmum(!tidakPerluRawatanPemeriksaanUmum);
+    // }
     if (singlePersonUmum.jenisProgram !== 'incremental') {
       if (
         parseInt(singlePersonUmum.umur) > 14 &&
@@ -2571,7 +2571,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                                   ).format('DD/MM/YYYY')}
                                 </p>
                               </div>
-                              {singlePersonUmum.jenisProgram ===
+                              {/* {singlePersonUmum.jenisProgram ===
                                 'incremental' && (
                                 <div className='text-sm flex flex-row whitespace-nowrap'>
                                   <h2 className='font-semibold'>
@@ -2581,7 +2581,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                                     {singlePersonUmum.namaProgram}
                                   </p>
                                 </div>
-                              )}
+                              )} */}
                             </div>
                           )}
                           <span
@@ -2649,7 +2649,7 @@ function UserFormUmumHeader({ sekolahIdc }) {
                     <Pemeriksaan
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
-                      sekolahIdc={sekolahIdc}
+                      // sekolahIdc={sekolahIdc}
                       allUsedKPBMPB={allUsedKPBMPB}
                       theCheckTPRShow={theCheckTPRShow}
                     />
