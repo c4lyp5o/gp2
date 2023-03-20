@@ -292,9 +292,9 @@ export default function UserCarian() {
                     {userinfo.createdByNegeri === 'Kelantan' && (
                       <option value='rtc'>RTC (Kelantan)</option>
                     )}
-                    <option value='incremental'>
+                    {/* <option value='incremental'>
                       Program Pergigian Sekolah sesi 2022/2023
-                    </option>
+                    </option> */}
                   </select>
                   <span>
                     <BsFillCaretDownFill className='absolute top-3 right-2 text-user3' />
