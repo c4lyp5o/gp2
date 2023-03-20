@@ -51,13 +51,21 @@ import { LoadingSuperDark } from '../components/Screens';
 import { toast, ToastContainer } from 'react-toastify';
 
 export default function AdminAfterLogin() {
-  const { getCurrentUser, adminToken, logOutUser } = useGlobalAdminAppContext();
+  const {
+    getAdminToken,
+    adminToken,
+    setAdminToken,
+    getCurrentUser,
+    logOutUser,
+  } = useGlobalAdminAppContext();
 
   const [loginInfo, setLoginInfo] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
+
+  const [refetchState, setRefetchState] = useState(false);
 
   // const init = useRef(false);
 
@@ -122,13 +130,31 @@ export default function AdminAfterLogin() {
     };
     getUser().catch((err) => {
       console.log(err);
-      // toast.error(
-      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: admin-login'
-      // );
       logOutUser();
     });
     logOutNotiSystem();
-  }, [adminToken, getCurrentUser]);
+  }, [adminToken]);
+
+  // refetch identity
+  useEffect(() => {
+    const refetchIdentity = () => {
+      setAdminToken(getAdminToken());
+      {
+        process.env.REACT_APP_ENV === 'DEV' &&
+          console.log('refetch identity admin');
+      }
+    };
+    refetchIdentity();
+  }, [refetchState]);
+
+  // refetch indentity on tab focus
+  useEffect(() => {
+    window.addEventListener('focus', setRefetchState);
+    setRefetchState(!refetchState);
+    return () => {
+      window.removeEventListener('focus', setRefetchState);
+    };
+  }, []);
 
   if (!loginInfo) {
     return <LoadingSuperDark />;

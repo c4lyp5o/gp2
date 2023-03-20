@@ -125,7 +125,6 @@ export default function AdminCenterStage(props) {
     if (init.current === false) {
       fetchData().catch((err) => {
         toast.error(err.response.data.message);
-        navigate('/pentadbir');
       });
       init.current = true;
     }
