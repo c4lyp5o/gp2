@@ -354,6 +354,18 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
+  statusM: {
+    type: String,
+    default: '',
+  },
+  menerimaNasihatRingkas: {
+    type: String,
+    default: '',
+  },
+  melaksanakanSaringanMerokok: {
+    type: String,
+    default: '',
+  },
   kesSelesai: {
     type: String,
     default: '',
