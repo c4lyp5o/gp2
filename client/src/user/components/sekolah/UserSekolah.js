@@ -301,14 +301,14 @@ function UserSekolah() {
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='Sekolah sudah selesai reten'
+                        value='SEKOLAH SUDAH SELESAI RETEN'
                         readOnly
                       />
                     ) : (
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='Sekolah belum selesai reten'
+                        value='SEKOLAH BELUM SELESAI RETEN'
                         readOnly
                       />
                     )}
@@ -317,7 +317,7 @@ function UserSekolah() {
                   <input
                     type='text'
                     className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='Sila Pilih Sekolah'
+                    value='SILA PILIH SEKOLAH'
                     readOnly
                   />
                 )}
@@ -326,6 +326,33 @@ function UserSekolah() {
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tarikh Mula:
                 </span>
+                {pilihanSekolah ? (
+                  <span className='uppercase text-xs lg:text-sm w-full'>
+                    {pilihanSekolah &&
+                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
+                        readOnly
+                      />
+                    ) : (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='BELUM MULA'
+                        readOnly
+                      />
+                    )}
+                  </span>
+                ) : (
+                  <input
+                    type='text'
+                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
+                    value='SILA PILIH SEKOLAH'
+                    readOnly
+                  />
+                )}
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
