@@ -5,7 +5,7 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserNavbar() {
-  const { userinfo, reliefUserToken } = useGlobalUserAppContext();
+  const { userinfo } = useGlobalUserAppContext();
 
   const [showLinks, setShowLinks] = useState(false);
   const [showRetenSubMenu, setShowRetenSubMenu] = useState(false);
@@ -174,7 +174,7 @@ function UserNavbar() {
                   </NavLink>
                 )}
                 {/* use till mac 22/23 navlink to PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023 */}
-                <NavLink
+                {/* <NavLink
                   to='umum-sekolah'
                   onClick={() => {
                     setShowLinks(!showLinks);
@@ -187,7 +187,7 @@ function UserNavbar() {
                   }
                 >
                   PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
-                </NavLink>
+                </NavLink> */}
                 {process.env.REACT_APP_ENV === 'UNSTABLE' ||
                 process.env.REACT_APP_ENV === 'DEV' ? (
                   <NavLink
