@@ -6,7 +6,7 @@ import { FaSort, FaSortUp, FaSortDown, FaInfoCircle } from 'react-icons/fa';
 import moment from 'moment';
 
 import KemaskiniResit from './pt-registration/KemaskiniResit';
-import PrintPatientDetails from './pt-registration/PrintPatientDetails';
+// import PrintPatientDetails from './pt-registration/PrintPatientDetails';
 
 import 'react-datepicker/dist/react-datepicker.css';
 
