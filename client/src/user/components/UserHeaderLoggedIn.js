@@ -54,21 +54,6 @@ function UserHeaderLoggedIn() {
     };
   });
 
-  // useEffect(() => {
-  //   const fetchIdentity = async () => {
-  //     try {
-  //       const { data } = await axios.get('/api/v1/identity', {
-  //         headers: { Authorization: `Bearer ${userToken}` },
-  //       });
-  //       setNamaKlinik(data.kp);
-  //     } catch (error) {
-  //       catchAxiosErrorAndLogout();
-  //       navigate('/pengguna');
-  //     }
-  //   };
-  //   fetchIdentity();
-  // }, []);
-
   // refetch identity & datetime
   useEffect(() => {
     const refetchIdentityDatetime = () => {

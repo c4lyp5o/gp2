@@ -21,7 +21,6 @@ export default function KpCenterStage(props) {
       })
       .catch((err) => {
         toast.error(err.response.data.message);
-        // navigate('/pentadbir');
       });
   }, []);
 
