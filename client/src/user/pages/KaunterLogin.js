@@ -1,7 +1,7 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { AiFillEyeInvisible, AiFillEye } from 'react-icons/ai';
-import { Spinner } from 'react-awesome-spinners';
+import { Ellipsis } from 'react-awesome-spinners';
 import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
@@ -196,7 +196,7 @@ function KaunterLogin() {
                 )}
                 {isLoading && (
                   <p className='text-xs font-semibold flex justify-center'>
-                    <Spinner />
+                    <Ellipsis />
                   </p>
                 )}
                 {showPasswordBox && pilihanKlinik !== '' && (
