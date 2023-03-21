@@ -21,6 +21,8 @@ import Datetime from 'react-datetime';
 
 import Confirmation from './Confirmation';
 
+import MyVas from './MyVas';
+
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function FillableForm({
@@ -55,6 +57,9 @@ export default function FillableForm({
 
   // for confirmation modal
   const [confirmData, setConfirmData] = useState({});
+
+  //for MyVas modal
+  const [showMyVas, setShowMyVas] = useState(false);
 
   // core
   const [kedatangan, setKedatangan] = useState('');
@@ -1518,6 +1523,17 @@ export default function FillableForm({
                       <span>
                         <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
                       </span>
+                      {process.env.REACT_APP_ENV === 'UNSTABLE' ||
+                      process.env.REACT_APP_ENV === 'DEV' ? (
+                        <span
+                          onClick={() => {
+                            setShowMyVas(true);
+                          }}
+                          className='absolute -right-16 top-2 bg-user1 text-userWhite rounded-lg text-sm p-1.5 hover:bg-user3 hover:text-userBlack cursor-pointer'
+                        >
+                          MyVas
+                        </span>
+                      ) : null}
                     </div>
                     {jenisIc === 'mykad-mykid' && (
                       <input
@@ -3438,6 +3454,7 @@ export default function FillableForm({
               </button>
               {addingData ? <BusyButton /> : <SubmitButtton />}
             </form>
+            {showMyVas && <MyVas setShowMyVas={setShowMyVas} />}
           </>
         )}
       </Confirmation>
