@@ -83,7 +83,7 @@ function UserAfterLogin() {
           ) : null}
 
           {/* sampai mac2023 je */}
-          <Route
+          {/* <Route
             path='umum-sekolah'
             element={<UserUmum sekolahIdc='umum-sekolah' />}
           />
@@ -94,7 +94,7 @@ function UserAfterLogin() {
           <Route
             path='umum-sekolah/form-umum/:personUmumId/:operatorLain'
             element={<UserFormUmumHeader sekolahIdc='umum-sekolah' />}
-          />
+          /> */}
 
           <Route
             path='promosi-individu'
