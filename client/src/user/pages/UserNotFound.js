@@ -1,12 +1,12 @@
 import { Link } from 'react-router-dom';
 
-import UserFooter from '../components/UserFooter';
+// import UserFooter from '../components/UserFooter';
 
 function UserNotFound() {
   return (
     <>
       {/* header */}
-      <div className='absolute top-0 left-0 right-0 grid grid-cols-1 md:grid-cols-2 grid-rows-1 items-center h-28 bg-user2 text-userWhite font-sans capitalize justify-evenly'>
+      {/* <div className='absolute top-0 left-0 right-0 grid grid-cols-1 md:grid-cols-2 grid-rows-1 items-center h-28 bg-user2 text-userWhite font-sans capitalize justify-evenly'>
         <div className='grid grid-cols-1 md:grid-cols-2'>
           <div className='grid grid-rows-[50px_10px_10px] md:gap-1 text-center col-start-1 md:col-start-2 md:justify-end'>
             <img
@@ -32,15 +32,16 @@ function UserNotFound() {
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
           <span className='ml-10 text-user6'>{process.env.REACT_APP_ENV}</span>
         </div>
-      </div>
+      </div> */}
       {/* content */}
-      <div className='absolute inset-0 -z-10 flex bg-user4 text-center justify-center items-center capitalize'>
+      {/* <div className='absolute inset-0 -z-10 flex bg-user4 text-center justify-center items-center capitalize'>
         <div className='w-1/2 h-[25rem] mt-20 mb-5 bg-userWhite outline outline-1 outline-userBlack rounded-md shadow-xl'>
           <div>Page not found</div>
           <Link to='/'>Back to home</Link>
         </div>
       </div>
-      <UserFooter />
+      <UserFooter /> */}
+      <div className='bg-userWhite'></div>
     </>
   );
 }
