@@ -11,7 +11,7 @@ import { toast } from 'react-toastify';
 import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
-import PrintPatientDetails from './PrintPatientDetails';
+// import PrintPatientDetails from './PrintPatientDetails';
 
 const PilihanBulan = (props) => {
   const noWayBack = () => {
