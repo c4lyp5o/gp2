@@ -561,6 +561,51 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
+                      {data.statusM ||
+                      data.menerimaNasihatRingkas ||
+                      data.melaksanakanSaringanMerokok ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            KOTAK
+                          </p>
+                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.statusM ? (
+                              <p className='flex flex-row items-center'>
+                                Status M :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />{' '}
+                                {data.statusM}
+                              </p>
+                            ) : null}
+                            {data.menerimaNasihatRingkas ? (
+                              <p className='flex flex-row items-center'>
+                                Menerima Nasihat Ringkas :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </p>
+                            ) : null}
+                            {data.melaksanakanSaringanMerokok ? (
+                              <p className='flex flex-row items-center'>
+                                Melaksanakan Saringan Merokok :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.kesSelesai ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Kes Selesai:
+                          </p>
+                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.kesSelesai === 'ya-kes-selesai' ? (
+                              <p className='flex flex-row'>Ya, Kes Selesai</p>
+                            ) : null}
+                            {data.kesSelesai === 'tidak-kes-selesai' ? (
+                              <p className='flex flex-row'>Tidak Kes Selesai</p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
                     </div>
                   </div>
                 )}
