@@ -18,7 +18,9 @@ export default function UserKohort() {
         >
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2 w-full whitespace-pre-wrap'>
-            <h1 className='font-semibold text-xl text-left'>KOTAK</h1>
+            <h1 className='font-semibold text-xl text-left'>
+              Program Kesihatan Oral Tanpa Asap Rokok (KOTAK)
+            </h1>
             {kotak && (
               <p className='font-light text-left'>
                 Menjalani program intevensi merokok bdjbk kjhdflkj hd hfdglk df
@@ -37,7 +39,9 @@ export default function UserKohort() {
         >
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2'>
-            <h1 className='font-semibold text-xl text-left'>Sapuan Florida</h1>
+            <h1 className='font-semibold text-xl text-left'>
+              Program Kumuran Berfluorida
+            </h1>
             {sapuanFv && (
               <p className='font-light text-left'>Sapuan florida empat kali</p>
             )}
@@ -52,7 +56,9 @@ export default function UserKohort() {
         >
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2 w-full whitespace-pre-wrap'>
-            <h1 className='font-semibold text-xl text-left'>Pengapan Fisur</h1>
+            <h1 className='font-semibold text-xl text-left'>
+              Program Sapuan Florida Untuk <i>Toddler</i>
+            </h1>
             {pengapanFisur && (
               <p className='font-light text-left'>
                 Menjalani program intevensi merokok bdjbk kjhdflkj hd hfdglk df
@@ -91,7 +97,7 @@ export default function UserKohort() {
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2 w-full whitespace-pre-wrap'>
             <h1 className='font-semibold text-xl text-left'>
-              <i>Oral Cancer Screening</i>
+              <i>Program Kanser Mulut</i>
             </h1>
             {ocs && (
               <p className='font-light text-left'>
@@ -103,21 +109,21 @@ export default function UserKohort() {
           </div>
         </div>
       </article>
-      {/* <article className='p-2'>
+      <article className='p-2'>
         <div className='flex justify-start items-center p-2 bg-[#D7E2E9] text-userBlack hover:bg-user4 cursor-pointer shadow-md rounded-xl w-full h-full'>
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2 w-full whitespace-pre-wrap'>
             <h1 className='font-semibold text-xl text-left'>
-              Dalam Pembangunan
+              Program <i>Fissure Sealant</i>
             </h1>
-            <p className='font-light text-left'>
+            {/* <p className='font-light text-left'>
               Menjalani program intevensi merokok bdjbk kjhdflkj hd hfdglk df
               ljgh llksjfgh ljkhfg jhgljhg slkjfhg lkjhf lgkjshf lgkjshf lkjh
               fjh lkjhf lkjh
-            </p>
+            </p> */}
           </div>
         </div>
-      </article> */}
+      </article>
     </div>
   );
 }
