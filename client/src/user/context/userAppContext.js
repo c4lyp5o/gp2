@@ -154,7 +154,7 @@ const Dictionary = {
   'projek-komuniti': 'Projek Komuniti',
   ppkps: 'Program Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah',
   oap: 'Program Orang Asli dan Penan',
-  incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
+  // incremental: 'Program Pergigian Sekolah Sesi 2022/2023', //{206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
   // 'rtc-kelantan': 'RTC (Kelantan Sahaja)',
 };
 
