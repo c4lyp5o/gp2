@@ -91,8 +91,8 @@ export default function UserModalSelesaiSekolah({
           <div>
             {otpQuestion ? (
               <>
-                <div>
-                  Sila masukkan OTP yang telah dihantar ke emel {userinfo.email}
+                <div className='normal-case'>
+                  Sila Masukkan OTP Yang Telah Dihantar Ke Emel {userinfo.email}
                 </div>
                 <div className='flex flex-col items-center justify-center'>
                   <label htmlFor='otpInput' className='sr-only'>
