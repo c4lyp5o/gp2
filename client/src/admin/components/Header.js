@@ -11,17 +11,10 @@ export default function Header(props) {
   const [showProfile, setShowProfile] = useState(false);
 
   // dropdown profil
-  const hilang = () => {
-    setShowProfile(!showProfile);
-  };
-
   let profilRef = useRef();
 
-  const handleLogout = () => {
-    clearTimeout(props.kicker);
-    clearTimeout(props.kickerNoti);
-    removeAdminToken();
-    navigate('/pentadbir');
+  const dropdownProfile = () => {
+    setShowProfile(!showProfile);
   };
 
   useEffect(() => {
@@ -35,6 +28,13 @@ export default function Header(props) {
       document.removeEventListener('mousedown', tutupProfil);
     };
   });
+
+  const handleLogout = () => {
+    clearTimeout(props.kicker);
+    clearTimeout(props.kickerNoti);
+    removeAdminToken();
+    navigate('/pentadbir');
+  };
 
   return (
     <ConfirmModalForLogOut callbackFunction={handleLogout}>
@@ -88,7 +88,7 @@ export default function Header(props) {
                   <button
                     type='button'
                     className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-                    onClick={hilang}
+                    onClick={dropdownProfile}
                   >
                     <FaAddressCard className='m-1' />
                     PROFIL ANDA
@@ -108,18 +108,7 @@ export default function Header(props) {
                   </div>
                 </div>
                 {showProfile && (
-                  <div className='absolute z-50 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
-                    {props.loginInfo.accountType !== 'kpUser' ? (
-                      <div className='flex items-center justify-center'>
-                        <img
-                          className='rounded-full shadow-md'
-                          src={props.loginInfo.image}
-                          alt='profile'
-                          width='70'
-                          height='70'
-                        />
-                      </div>
-                    ) : null}
+                  <div className='absolute z-0 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
                     <p className='w-auto text-sm leading-3 flex flex-col py-2 border-b-2 border-user1'>
                       <span className='uppercase pt-2'>
                         {props.loginInfo.username}

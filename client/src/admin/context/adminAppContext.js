@@ -9,12 +9,16 @@ const AdminAppContext = createContext();
 
 function AdminAppProvider({ children }) {
   const {
+    getAdminToken,
+    getTotpToken,
     saveAdminToken,
     saveTotpToken,
     removeAdminToken,
     removeTotpToken,
     adminToken,
+    setAdminToken,
     totpToken,
+    setTotpToken,
   } = useToken();
   const navigate = useNavigate();
 
@@ -830,12 +834,16 @@ function AdminAppProvider({ children }) {
     <AdminAppContext.Provider
       value={{
         // tokens
-        adminToken,
-        totpToken,
+        getAdminToken,
+        getTotpToken,
         saveAdminToken,
         saveTotpToken,
         removeAdminToken,
         removeTotpToken,
+        adminToken,
+        setAdminToken,
+        totpToken,
+        setTotpToken,
         // start
         readSuperadminData,
         readNegeri,

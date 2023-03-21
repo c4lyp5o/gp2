@@ -34,11 +34,15 @@ export function useToken() {
   };
 
   return {
+    getAdminToken,
+    getTotpToken,
     saveAdminToken,
     saveTotpToken,
     removeAdminToken,
     removeTotpToken,
     adminToken,
+    setAdminToken,
     totpToken,
+    setTotpToken,
   };
 }

@@ -22,8 +22,8 @@ import UserFormPromosi from '../components/form-promosi/UserFormPromosi';
 
 import UserKohort from '../components/kohort/UserKohortPage';
 
-import UserGenerateIndividu from '../components/UserGenerateIndividu';
-import UserGenerateKlinik from '../components/UserGenerateKlinik';
+// import UserGenerateIndividu from '../components/UserGenerateIndividu';
+// import UserGenerateKlinik from '../components/UserGenerateKlinik';
 
 import UserCarian from '../components/UserCarian';
 
@@ -36,8 +36,7 @@ import UserFooter from '../components/UserFooter';
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
 function UserAfterLogin() {
-  const { userinfo, reliefUserToken, ToastContainer } =
-    useGlobalUserAppContext();
+  const { userinfo, ToastContainer } = useGlobalUserAppContext();
 
   return (
     <>
