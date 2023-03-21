@@ -142,15 +142,15 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
         }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
           props.pilihanFasiliti === 'kkiakd'
-            ? `&pilihanKkia=${props.pilihanKkia}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
             : ''
         }${
           props.pilihanFasiliti === 'program'
-            ? `&pilihanProgram=${props.pilihanProgram}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
             : ''
         }${
           props.pilihanFasiliti === 'kpbmpb'
-            ? `&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
             : ''
         }${
           props.pilihanFasiliti === 'individu'
@@ -890,15 +890,15 @@ const ModalGenerateBulanan = (props) => {
             : props.loginInfo.negeri
         }&daerah=${props.pilihanDaerah}&klinik=${props.pilihanKlinik}${
           props.pilihanFasiliti === 'kkiakd'
-            ? `&pilihanKkia=${props.pilihanKkia}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
             : ''
         }${
           props.pilihanFasiliti === 'program'
-            ? `&pilihanProgram=${props.pilihanProgram}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
             : ''
         }${
           props.pilihanFasiliti === 'kpbmpb'
-            ? `&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
             : ''
         }${
           props.pilihanFasiliti === 'individu'
@@ -1828,7 +1828,6 @@ const Generate = (props) => {
     setPilihanKpbMpb('');
     setPilihanIndividu('');
   };
-
 
   // reset stuff
   useEffect(() => {
