@@ -195,6 +195,13 @@ function UserFormSekolahPemeriksaan() {
   const [sumGigiDesidus, setSumGigiDesidus] = useState(0);
   const [sumGigiKekal, setSumGigiKekal] = useState(0);
   const [sumGigiKekalE, setSumGigiKekalE] = useState(0);
+  //kes selesai
+  const [kesSelesai, setKesSelesai] = useState('');
+  //kotak
+  const [statusM, setStatusM] = useState('');
+  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
+  const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
+    useState('');
 
   // datepicker issue
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
@@ -655,6 +662,18 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
           );
+          setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
+          setMenerimaNasihatRingkas(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .menerimaNasihatRingkas
+          );
+          setMelaksanakanSaringanMerokok(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .melaksanakanSaringanMerokok
+          );
+          setKesSelesai(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesai
+          );
           // datepicker issue
           setTarikhPemeriksaanSemasaDP(
             new Date(
@@ -724,15 +743,15 @@ function UserFormSekolahPemeriksaan() {
       });
       return;
     }
-    // if (dAdaGigiKekal <= sumGigiKekal) {
-    //   toast.error(
-    //     'Jumlah tampalan diperlukan gigi kekal kurang dengan jumlah D gigi kekal',
-    //     {
-    //       autoClose: 3000,
-    //     }
-    //   );
-    //   return;
-    // }
+    if (dAdaGigiKekal > sumGigiKekal) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi kekal kurang dengan jumlah D gigi kekal',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
     if (sumGigiKekalE !== eAdaGigiKekal) {
       toast.error(
         'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
@@ -742,6 +761,13 @@ function UserFormSekolahPemeriksaan() {
       );
       return;
     }
+    let statusRawatan = '';
+    if (kesSelesai === 'ya-kes-selesai') {
+      statusRawatan = 'selesai';
+    }
+    if (kesSelesai === 'tidak-kes-selesai') {
+      statusRawatan = 'belum selesai';
+    }
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
       await toast
         .promise(
@@ -749,6 +775,7 @@ function UserFormSekolahPemeriksaan() {
             `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
             {
               createdByUsername,
+              statusRawatan,
               tarikhPemeriksaanSemasa,
               engganKedatanganPendaftaran,
               tidakHadirKedatanganPendaftaran,
@@ -818,6 +845,10 @@ function UserFormSekolahPemeriksaan() {
               semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
               baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+              statusM,
+              menerimaNasihatRingkas,
+              melaksanakanSaringanMerokok,
+              kesSelesai,
             },
             {
               headers: {
@@ -854,6 +885,7 @@ function UserFormSekolahPemeriksaan() {
             `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
             {
               createdByUsername,
+              statusRawatan,
               tarikhPemeriksaanSemasa,
               engganKedatanganPendaftaran,
               tidakHadirKedatanganPendaftaran,
@@ -923,6 +955,10 @@ function UserFormSekolahPemeriksaan() {
               semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
               baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
               semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+              statusM,
+              menerimaNasihatRingkas,
+              melaksanakanSaringanMerokok,
+              kesSelesai,
             },
             {
               headers: {
@@ -3301,6 +3337,234 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </section>
                 )}
+                {adaTiadaPemeriksaanPendaftaran ===
+                'tiada-pemeriksaan' ? null : (
+                  <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
+                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <div className='flex flex-col pl-5 col-span-2'>
+                        <h4 className='font-bold flex flex-row'>
+                          KOTAK<span className='text-user6'>*</span>
+                        </h4>
+                        <div className='text-sm flex flex-row place-items-center'>
+                          <label htmlFor='statusM'>
+                            Status Merokok<span className='text-user6'>*</span>
+                          </label>
+                          <select
+                            disabled={isDisabled}
+                            required
+                            name='statusM'
+                            id='statusM'
+                            value={statusM}
+                            onChange={(e) => {
+                              setStatusM(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                statusM: e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-32 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          >
+                            <option value=''></option>
+                            <option value='perokok-semasa'>
+                              Perokok Semasa
+                            </option>
+                            <option value='bekas-perokok'>Bekas Perokok</option>
+                            <option value='perokok-pasif'>Perokok Pasif</option>
+                            <option value='bukan-perokok'>Bukan Perokok</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className='col-span-2 flex flex-row'>
+                        <p className='flex items-center lg:pl-5 text-sm col-span-2'>
+                          adakah pesakit menerima nasihat ringkas?
+                          <span className='text-user6'>*</span>
+                        </p>
+                        <div className='flex items-center pl-5'>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='menerima-nasihat-ringkas'
+                            id='ya-menerima-nasihat-ringkas'
+                            value='ya-menerima-nasihat-ringkas'
+                            checked={
+                              menerimaNasihatRingkas ===
+                              'ya-menerima-nasihat-ringkas'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setMenerimaNasihatRingkas(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                menerimaNasihatRingkas: e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ya-menerima-nasihat-ringkas'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='menerima-nasihat-ringkas'
+                            id='tidak-menerima-nasihat-ringkas'
+                            value='tidak-menerima-nasihat-ringkas'
+                            checked={
+                              menerimaNasihatRingkas ===
+                              'tidak-menerima-nasihat-ringkas'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setMenerimaNasihatRingkas(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                menerimaNasihatRingkas: e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-menerima-nasihat-ringkas'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                      </div>
+                      <div className='col-span-2 flex flex-col'>
+                        <p className='flex items-center lg:pl-5 text-sm'>
+                          Melaksanakan Saringan Merokok Melalui Program
+                          Kesihatan Oral Tanpa Asap Rokok(KOTAK)
+                          <span className='text-user6'>*</span>
+                        </p>
+                        <div className='flex justify-center items-center pl-5'>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='melaksanakan-saringan-merokok'
+                            id='ya-melaksanakan-saringan-merokok'
+                            value='ya-melaksanakan-saringan-merokok'
+                            checked={
+                              melaksanakanSaringanMerokok ===
+                              'ya-melaksanakan-saringan-merokok'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setMelaksanakanSaringanMerokok(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                melaksanakanSaringanMerokok: e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ya-melaksanakan-saringan-merokok'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='melaksanakan-saringan-merokok'
+                            id='tidak-melaksanakan-saringan-merokok'
+                            value='tidak-melaksanakan-saringan-merokok'
+                            checked={
+                              melaksanakanSaringanMerokok ===
+                              'tidak-melaksanakan-saringan-merokok'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setMelaksanakanSaringanMerokok(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                melaksanakanSaringanMerokok: e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-melaksanakan-saringan-merokok'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                      </div>
+                    </article>
+                    <div className='auto-rows-min'>
+                      <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <h4 className='font-bold col-span-2 flex pl-5'>
+                          Kes Selesai<span className='text-user6'>*</span>
+                        </h4>
+                        <div className='flex pl-5 items-center'>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='kes-selesai'
+                            id='ya-kes-selesai'
+                            value='ya-kes-selesai'
+                            checked={
+                              kesSelesai === 'ya-kes-selesai' ? true : false
+                            }
+                            onChange={(e) => {
+                              setKesSelesai(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                kesSelesai: e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ya-kes-selesai'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='kes-selesai'
+                            id='tidak-kes-selesai'
+                            value='tidak-kes-selesai'
+                            checked={
+                              kesSelesai === 'tidak-kes-selesai' ? true : false
+                            }
+                            onChange={(e) => {
+                              setKesSelesai(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                kesSelesai: e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-kes-selesai'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                      </article>
+                    </div>
+                  </section>
+                )}
                 <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2'>
                   <span
                     onClick={() => {
@@ -3312,17 +3576,21 @@ function UserFormSekolahPemeriksaan() {
                   >
                     tutup
                   </span>
-                  <input
-                    type='reset'
-                    value='reset'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                  />
-                  <button
-                    type='submit'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
-                  >
-                    hantar
-                  </button>
+                  {!isDisabled && (
+                    <input
+                      type='reset'
+                      value='reset'
+                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                    />
+                  )}
+                  {!isDisabled && (
+                    <button
+                      type='submit'
+                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                    >
+                      hantar
+                    </button>
+                  )}
                 </div>
               </form>
             </div>
