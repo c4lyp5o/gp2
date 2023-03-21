@@ -7,6 +7,7 @@ import KaunterHeaderLoggedIn from '../components/KaunterHeaderLoggedIn';
 import KaunterLanding from '../components/KaunterLanding';
 import Kaunter from '../components/Kaunter';
 import KaunterDaftarPesakit from '../components/KaunterDaftarPesakit';
+import KaunterLoggedInNotFound from './KaunterLoggedInNotFound';
 import KaunterFooter from '../components/KaunterFooter';
 
 import { useState, useEffect, useRef } from 'react';
@@ -184,6 +185,7 @@ function KaunterAfterLogin() {
               />
             }
           />
+          <Route path='*' element={<KaunterLoggedInNotFound />} />
         </Routes>
       </div>
       <KaunterFooter />

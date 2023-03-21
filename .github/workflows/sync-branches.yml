@@ -90,20 +90,20 @@ jobs:
           FROM_BRANCH: 'unstable-nightly'
           TO_BRANCH: 't4qi'
           LABELS: '["automerge"]'
-  # sync-branch-hadigit01:
-  #   runs-on: ubuntu-latest
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Set up Node
-  #       uses: actions/setup-node@v3
-  #       with:
-  #         node-version: 18
-  #     - name: Opening pull request
-  #       id: pull
-  #       uses: nocturnalmc/sync-branches@v1.5.0
-  #       with:
-  #         GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
-  #         FROM_BRANCH: 'unstable-nightly'
-  #         TO_BRANCH: 'hadigit01'
-  #         LABELS: '["automerge"]'
+  sync-branch-syaz87:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v3
+      - name: Set up Node
+        uses: actions/setup-node@v3
+        with:
+          node-version: 18
+      - name: Opening pull request
+        id: pull
+        uses: nocturnalmc/sync-branches@v1.5.0
+        with:
+          GITHUB_TOKEN: ${{secrets.GITHUB_TOKEN}}
+          FROM_BRANCH: 'unstable-nightly'
+          TO_BRANCH: 'syaz87'
+          LABELS: '["automerge"]'
