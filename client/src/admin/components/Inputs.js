@@ -2148,10 +2148,10 @@ export function InputKpAddEvent(props) {
                       {loginInfo.negeri === 'Kelantan' && (
                         <option value='rtc'>RTC Kelantan , Tunjung</option>
                       )}
-                      {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211 */}
+                      {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
                       <option value='incremental'>
                         Program Pergigian Sekolah Sesi 2022/2023
-                      </option>
+                      </option> */}
                     </select>
                   </div>
                   {/* <p>
@@ -2837,7 +2837,7 @@ export function InputKpEditEvent(props) {
                         />
                       </div>
                     </div>
-                    {props.editedEntity.jenisEvent === 'incremental' ? (
+                    {/* {props.editedEntity.jenisEvent === 'incremental' ? (
                       <div className='grid grid-cols-2 py-1'>
                         <div className='grid grid-cols-[3fr_1fr]'>
                           <label htmlFor='modStatik'>
@@ -2861,7 +2861,7 @@ export function InputKpEditEvent(props) {
                           />
                         </div>
                       </div>
-                    ) : null}
+                    ) : null} */}
                     <div className='grid grid-cols-2 py-1'>
                       <div className='grid grid-cols-[3fr_1fr]'>
                         <label htmlFor='modKpb'>

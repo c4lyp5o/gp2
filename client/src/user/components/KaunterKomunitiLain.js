@@ -73,9 +73,9 @@ export default function KaunterKomunitiLain({
             {negeri === 'Kelantan' && (
               <option value='rtc'>RTC Kelantan, Tunjung</option>
             )}
-            <option value='incremental'>
+            {/* <option value='incremental'>
               Program Pergigian Sekolah sesi 2022/2023
-            </option>
+            </option> */}
           </select>
         </div>
         <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
