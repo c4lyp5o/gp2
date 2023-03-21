@@ -1,33 +1,54 @@
-import { useState } from 'react';
+import { useState, lazy, Suspense } from 'react';
 import { BrowserRouter, Routes, Route } from 'react-router-dom';
-
-// environment warning import
-import EnvironmentWarning from './landing/EnvironmentWarning';
+import { Default } from 'react-awesome-spinners';
 
 // landing page import
 import LandingPage from './landing/LandingPage';
-import Faq from './landing/faq';
 
-// kaunter import ----------------------------------------
-import KaunterLogin from './user/pages/KaunterLogin';
-import KaunterAfterLogin from './user/pages/KaunterAfterLogin';
-import KaunterProtectedRoute from './user/pages/KaunterProtectedRoute';
-
-// user import ------------------------------------------
+// user provider import ------------------------------------------
 import { UserAppProvider } from './user/context/userAppContext';
 
-import UserLogin from './user/pages/UserLogin';
-import UserProtectedRoute from './user/pages/UserProtectedRoute';
-import UserAfterLogin from './user/pages/UserAfterLogin';
-
-import UserNotFound from './user/pages/UserNotFound';
-
-// admin import ------------------------------------------
+// admin provider import ------------------------------------------
 import { AdminAppProvider } from './admin/context/adminAppContext';
 
-import AdminLoginForm from './admin/pages/AdminLoginForm';
-import AdminProtectedRoute from './admin/pages/AdminProtectedRoute';
-import AdminAfterLogin from './admin/pages/AdminAfterLogin';
+// environment warning import
+const EnvironmentWarning = lazy(() => import('./landing/EnvironmentWarning'));
+
+// faq
+const Faq = lazy(() => import('./landing/Faq'));
+
+// kaunter import ----------------------------------------
+const KaunterLogin = lazy(() => import('./user/pages/KaunterLogin'));
+const KaunterProtectedRoute = lazy(() =>
+  import('./user/pages/KaunterProtectedRoute')
+);
+const KaunterAfterLogin = lazy(() => import('./user/pages/KaunterAfterLogin'));
+
+// pengguna import ---------------------------------------
+const UserLogin = lazy(() => import('./user/pages/UserLogin'));
+const UserProtectedRoute = lazy(() =>
+  import('./user/pages/UserProtectedRoute')
+);
+const UserAfterLogin = lazy(() => import('./user/pages/UserAfterLogin'));
+
+// pentadbir import --------------------------------------
+const AdminLoginForm = lazy(() => import('./admin/pages/AdminLoginForm'));
+const AdminProtectedRoute = lazy(() =>
+  import('./admin/pages/AdminProtectedRoute')
+);
+const AdminAfterLogin = lazy(() => import('./admin/pages/AdminAfterLogin'));
+
+const UserNotFound = lazy(() => import('./user/pages/UserNotFound'));
+
+function Loading() {
+  return (
+    <div className='bg-userWhite text-center'>
+      <div className='absolute top-[50%] inset-x-10'>
+        <Default />
+      </div>
+    </div>
+  );
+}
 
 function App() {
   const [showEnvironmentWarning, setShowEnvironmentWarning] = useState(true);
@@ -35,50 +56,94 @@ function App() {
   return (
     <>
       {process.env.REACT_APP_ENV === 'TRAINING' && showEnvironmentWarning && (
-        <EnvironmentWarning
-          showEnvironmentWarning={showEnvironmentWarning}
-          setShowEnvironmentWarning={setShowEnvironmentWarning}
-        />
+        <Suspense fallback={<Loading />}>
+          <EnvironmentWarning
+            showEnvironmentWarning={showEnvironmentWarning}
+            setShowEnvironmentWarning={setShowEnvironmentWarning}
+          />
+        </Suspense>
       )}
       <BrowserRouter>
         <UserAppProvider>
           <Routes>
             {/* landing page selection */}
             <Route path='/' element={<LandingPage />} />
-            <Route path='/faq' element={<Faq />} />
+            <Route
+              path='/faq'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <Faq />
+                </Suspense>
+              }
+            />
             {/* pendaftaran */}
-            <Route path='/pendaftaran' element={<KaunterLogin />} />
+            <Route
+              path='/pendaftaran'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <KaunterLogin />
+                </Suspense>
+              }
+            />
             <Route
               path='/pendaftaran/daftar/*'
               element={
-                <KaunterProtectedRoute>
-                  <KaunterAfterLogin />
-                </KaunterProtectedRoute>
+                <Suspense fallback={<Loading />}>
+                  <KaunterProtectedRoute>
+                    <KaunterAfterLogin />
+                  </KaunterProtectedRoute>
+                </Suspense>
               }
             />
             {/* pengguna */}
-            <Route path='/pengguna' element={<UserLogin />} />
+            <Route
+              path='/pengguna'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <UserLogin />
+                </Suspense>
+              }
+            />
             <Route
               path='/pengguna/landing/*'
               element={
-                <UserProtectedRoute>
-                  <UserAfterLogin />
-                </UserProtectedRoute>
+                <Suspense fallback={<Loading />}>
+                  <UserProtectedRoute>
+                    <UserAfterLogin />
+                  </UserProtectedRoute>
+                </Suspense>
               }
             />
-            <Route path='*' element={<UserNotFound />} />
+            {/* not found */}
+            <Route
+              path='*'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <UserNotFound />
+                </Suspense>
+              }
+            />
           </Routes>
         </UserAppProvider>
         <AdminAppProvider>
           <Routes>
             {/* admin */}
-            <Route path='/pentadbir' element={<AdminLoginForm />} />
+            <Route
+              path='/pentadbir'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <AdminLoginForm />{' '}
+                </Suspense>
+              }
+            />
             <Route
               path='/pentadbir/landing/*'
               element={
-                <AdminProtectedRoute>
-                  <AdminAfterLogin />
-                </AdminProtectedRoute>
+                <Suspense fallback={<Loading />}>
+                  <AdminProtectedRoute>
+                    <AdminAfterLogin />
+                  </AdminProtectedRoute>
+                </Suspense>
               }
             />
           </Routes>
