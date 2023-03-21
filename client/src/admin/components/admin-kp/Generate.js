@@ -107,13 +107,21 @@ const ModalGenerateAdHoc = (props) => {
           props.loginInfo.negeri
         }&daerah=${props.loginInfo.daerah}&klinik=${
           props.loginInfo.kodFasiliti
-        }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
-          props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
-          props.pilihanKpbMpb
+        }${
+          props.pilihanFasiliti === 'kkiakd'
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'program'
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'kpbmpb'
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            : ''
         }${
           props.pilihanFasiliti === 'individu'
-            ? `&pilihanIndividu=${props.pilihanIndividu}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
             : ''
         }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
         {
@@ -702,13 +710,21 @@ const ModalGenerateBulanan = (props) => {
           props.loginInfo.negeri
         }&daerah=${props.loginInfo.daerah}&klinik=${
           props.loginInfo.kodFasiliti
-        }&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${
-          props.pilihanKkia
-        }&pilihanProgram=${props.pilihanProgram}&pilihanKpbMpb=${
-          props.pilihanKpbMpb
+        }${
+          props.pilihanFasiliti === 'kkiakd'
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'program'
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
+            : ''
+        }${
+          props.pilihanFasiliti === 'kpbmpb'
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
+            : ''
         }${
           props.pilihanFasiliti === 'individu'
-            ? `&pilihanIndividu=${props.pilihanIndividu}`
+            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
             : ''
         }&bulan=${new Date().getFullYear()}-${bulan}&fromEtl=true`,
         {
