@@ -11,8 +11,6 @@ import Datetime from 'react-datetime';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-// import styles from '../../Zazz.module.css';
-
 export default function Pemeriksaan(props) {
   const { dateToday, formatTime, dictionaryJenisFasiliti } =
     useGlobalUserAppContext();
