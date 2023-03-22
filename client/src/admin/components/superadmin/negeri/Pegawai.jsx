@@ -2,8 +2,6 @@ import { useState } from 'react';
 
 import { FaInfoCircle } from 'react-icons/fa';
 
-import styles from '../../../../user/Zazz.module.css';
-
 export default function Pegawai(props) {
   const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [pilihanRole, setPilihanRole] = useState('');
