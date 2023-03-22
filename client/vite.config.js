@@ -24,5 +24,6 @@ export default defineConfig({
         return 'auto';
       },
     },
+    target: ['es2015'],
   },
 });
