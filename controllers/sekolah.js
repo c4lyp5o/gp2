@@ -148,11 +148,27 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     {
       $set: {
         pemeriksaanSekolah: pemeriksaanSekolah._id,
-        statusRawatan: 'belum selesai',
+        statusRawatan: req.body.statusRawatan,
       },
     },
     { new: true }
   );
+
+  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest
+  if (req.body.tarikhPemeriksaanSemasa > 0) {
+    await Fasiliti.findOneAndUpdate(
+      {
+        nama: personSekolah.namaSekolah,
+        kodSekolah: personSekolah.kodSekolah,
+      },
+      {
+        $set: {
+          tarikhMulaSekolah: req.body.tarikhPemeriksaanSemasa,
+        },
+      },
+      { new: true }
+    );
+  }
 
   res.status(201).json({ personSekolah });
 };
