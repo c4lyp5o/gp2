@@ -125,9 +125,9 @@ function UserNavbar() {
                 >
                   UMUM
                 </NavLink>
-                {process.env.REACT_APP_ENV === 'TRAINING' ||
-                process.env.REACT_APP_ENV === 'UNSTABLE' ||
-                process.env.REACT_APP_ENV === 'DEV' ? (
+                {import.meta.env.VITE_ENV === 'TRAINING' ||
+                import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                import.meta.env.VITE_ENV === 'DEV' ? (
                   <NavLink
                     to='senarai-sekolah'
                     onClick={() => {
@@ -188,8 +188,8 @@ function UserNavbar() {
                 >
                   PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
                 </NavLink> */}
-                {process.env.REACT_APP_ENV === 'UNSTABLE' ||
-                process.env.REACT_APP_ENV === 'DEV' ? (
+                {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                import.meta.env.VITE_ENV === 'DEV' ? (
                   <NavLink
                     to='kohort'
                     onClick={() => {

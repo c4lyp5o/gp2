@@ -64,7 +64,7 @@ function UserHeaderLoggedIn() {
       setFasilitiRelief(localStorage.getItem('fasilitiRelief'));
       setRefetchDateTime(!refetchDateTime);
       {
-        process.env.REACT_APP_ENV === 'DEV' &&
+        import.meta.env.VITE_ENV === 'DEV' &&
           console.log('refetch identity pengguna');
       }
     };
