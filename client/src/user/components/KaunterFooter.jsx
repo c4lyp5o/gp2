@@ -2,7 +2,7 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowAltCircleUp } from 'react-icons/fa';
 
-export default function Footer() {
+function UserFooter() {
   const [showFooter, setShowFooter] = useState(false);
 
   let footerRef = useRef();
@@ -21,7 +21,7 @@ export default function Footer() {
 
   return (
     <div ref={footerRef}>
-      <div className='absolute bottom-0 left-0 right-0 grid bg-admin4 uppercase'>
+      <div className='absolute bottom-0 left-0 right-0 grid bg-kaunter1 uppercase'>
         <div className='hidden lg:grid grid-cols-2 justify-start'>
           <p className='text-left ml-1 my-1 text-xs pl-2 whitespace-nowrap overflow-x-auto'>
             hak cipta kementerian kesihatan malaysia
@@ -34,7 +34,7 @@ export default function Footer() {
                 className='underline'
                 href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
               >
-                v{process.env.REACT_APP_VERSION}
+                v{import.meta.env.VITE_VERSION}
               </a>
             </p>
             <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
@@ -74,7 +74,7 @@ export default function Footer() {
             />
           </div>
           <div
-            className={`absolute z-10 bg-admin4 bg-opacity-50 bottom-5 right-0 w-full flex flex-col justify-center items-center text-center text-xs rounded-t-lg space-y-1 transition-all duration-500 ${
+            className={`absolute z-10 bg-kaunter1 bg-opacity-50 bottom-5 right-0 w-full flex flex-col justify-center items-center text-center text-xs rounded-t-lg space-y-1  transition-all duration-500 ${
               showFooter
                 ? 'max-h-min -translate-y-1'
                 : 'max-h-0 overflow-hidden'
@@ -87,7 +87,7 @@ export default function Footer() {
                 className='underline'
                 href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
               >
-                v{process.env.REACT_APP_VERSION}
+                v{import.meta.env.VITE_VERSION}
               </a>
             </p>
             <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
@@ -116,3 +116,5 @@ export default function Footer() {
     </div>
   );
 }
+
+export default UserFooter;

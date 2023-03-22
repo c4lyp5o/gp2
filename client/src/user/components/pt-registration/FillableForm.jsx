@@ -1523,8 +1523,8 @@ export default function FillableForm({
                       <span>
                         <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
                       </span>
-                      {process.env.REACT_APP_ENV === 'UNSTABLE' ||
-                      process.env.REACT_APP_ENV === 'DEV' ? (
+                      {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                      import.meta.env.VITE_ENV === 'DEV' ? (
                         <span
                           onClick={() => {
                             setShowMyVas(true);

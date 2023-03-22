@@ -164,7 +164,7 @@ const initialDataIndividual = async (allKlinik) => {
 
 const initiateETL = async (req, res) => {
   ETLLogger.info(
-    `[ETL] initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+    `[ETL] ETL initiated at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
   );
   try {
     // first launch
@@ -379,7 +379,7 @@ const initiateETL = async (req, res) => {
     // });
 
     ETLLogger.info(
-      `ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+      `[ETL] ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
     );
     res
       .status(200)
@@ -624,7 +624,9 @@ const initiateCustomETL = async (req, res) => {
     // });
 
     ETLLogger.info(
-      `Custom ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+      `[ETL] Custom ETL for bulan ${bulan} completed at ${moment().format(
+        'YYYY-MM-DD HH:mm:ss'
+      )}`
     );
     res
       .status(200)
@@ -875,7 +877,9 @@ const initiateCustomSingleETL = async (req, res) => {
     // });
 
     ETLLogger.info(
-      `Custom ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+      `[ETL] Custom single ETL ${jenisReten} for bulan ${bulan} completed at ${moment().format(
+        'YYYY-MM-DD HH:mm:ss'
+      )}`
     );
     res
       .status(200)

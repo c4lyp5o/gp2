@@ -61,9 +61,9 @@ function UserAfterLogin() {
             element={<UserFormUmumHeader />}
           />
 
-          {process.env.REACT_APP_ENV === 'TRAINING' ||
-          process.env.REACT_APP_ENV === 'UNSTABLE' ||
-          process.env.REACT_APP_ENV === 'DEV' ? (
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
             <>
               <Route path='senarai-sekolah' element={<UserSenaraiSekolah />} />
               <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
@@ -117,8 +117,8 @@ function UserAfterLogin() {
             </>
           )}
 
-          {process.env.REACT_APP_ENV === 'UNSTABLE' ||
-          process.env.REACT_APP_ENV === 'DEV' ? (
+          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
             <>
               <Route path='kohort' element={<UserKohort />} />
             </>

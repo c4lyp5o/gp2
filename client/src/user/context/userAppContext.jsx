@@ -353,7 +353,7 @@ function UserAppProvider({ children }) {
     };
     fetchDate();
     {
-      process.env.REACT_APP_ENV === 'DEV' && console.log('refetch datetime');
+      import.meta.env.VITE_ENV === 'DEV' && console.log('refetch datetime');
     }
   }, [refetchDateTime]);
 
@@ -366,8 +366,7 @@ function UserAppProvider({ children }) {
         dismissLogOut();
       }
 
-      const logOutTime =
-        parseInt(process.env.REACT_APP_LOGOUT_TIME) * 60 * 1000;
+      const logOutTime = parseInt(import.meta.env.VITE_LOGOUT_TIME) * 60 * 1000;
       const nowMinutes = new Date().getTime();
 
       // waktu skrg + env minutes
@@ -376,11 +375,11 @@ function UserAppProvider({ children }) {
 
       const kickerNotiNumber = setTimeout(() => {
         notifyLogOut();
-      }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2));
+      }, 1000 * 60 * (parseInt(import.meta.env.VITE_LOGOUT_TIME) / 2));
 
       const kickerNumber = setTimeout(() => {
         logoutUser();
-      }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME));
+      }, 1000 * 60 * parseInt(import.meta.env.VITE_LOGOUT_TIME));
 
       setKickerNoti(kickerNotiNumber);
       setKicker(kickerNumber);
@@ -390,11 +389,10 @@ function UserAppProvider({ children }) {
   const notifyLogOut = () =>
     (kickerNotiId.current = toast.warning(
       `Log keluar dalam masa ${
-        parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2
+        parseInt(import.meta.env.VITE_LOGOUT_TIME) / 2
       } minit lagi. KLIK NOTIFIKASI INI SEKIRANYA INGIN KEKAL DI DALAM SISTEM`,
       {
-        autoClose:
-          1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME) / 2),
+        autoClose: 1000 * 60 * (parseInt(import.meta.env.VITE_LOGOUT_TIME) / 2),
         pauseOnHover: false,
         onClick: () => {
           window.location.reload();

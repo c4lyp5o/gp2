@@ -69,7 +69,7 @@ export default function AdminAfterLogin() {
 
   // const init = useRef(false);
 
-  const LOGOUT_TIME = parseInt(process.env.REACT_APP_LOGOUT_TIME);
+  const LOGOUT_TIME = parseInt(import.meta.env.VITE_LOGOUT_TIME);
   const HALF_LOGOUT_TIME = LOGOUT_TIME / 2;
   const WARNING_DURATION = 1000 * 60 * HALF_LOGOUT_TIME;
   const LOGOUT_DURATION = 1000 * 60 * LOGOUT_TIME;
@@ -140,7 +140,7 @@ export default function AdminAfterLogin() {
     const refetchIdentity = () => {
       setAdminToken(getAdminToken());
       {
-        process.env.REACT_APP_ENV === 'DEV' &&
+        import.meta.env.VITE_ENV === 'DEV' &&
           console.log('refetch identity admin');
       }
     };

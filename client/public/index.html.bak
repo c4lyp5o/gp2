@@ -27,7 +27,7 @@
     <title>Gi-Ret 2.0</title>
   </head>
   <body>
-    <noscript>You need to enable JavaScript to run this website.</noscript>
+    <noscript>You need to enable JavaScript to run this website</noscript>
     <div id="root"></div>
     <!--
       This HTML file is a template.
