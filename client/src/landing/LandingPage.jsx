@@ -59,13 +59,13 @@ function LandingPage() {
               sistem gi-Ret 2.0
             </h1>
             <span className='lg:hidden text-xs text-user6 font-bold'>
-              {process.env.REACT_APP_ENV}
+              {import.meta.env.VITE_ENV}
             </span>
           </div>
         </div>
         <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
-          <span className='ml-10 text-user6'>{process.env.REACT_APP_ENV}</span>
+          <span className='ml-10 text-user6'>{import.meta.env.VITE_ENV}</span>
         </div>
       </div>
       {/* <div ref={notificationRef}>
@@ -206,7 +206,7 @@ function LandingPage() {
                   className='underline'
                   href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
                 >
-                  v{process.env.REACT_APP_VERSION}
+                  v{import.meta.env.VITE_VERSION}
                 </a>
               </p>
               <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
@@ -259,7 +259,7 @@ function LandingPage() {
                   className='underline'
                   href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
                 >
-                  v{process.env.REACT_APP_VERSION}
+                  v{import.meta.env.VITE_VERSION}
                 </a>
               </p>
               <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>

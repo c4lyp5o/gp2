@@ -34,7 +34,7 @@ function UserFooter() {
                 className='underline'
                 href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
               >
-                v{process.env.REACT_APP_VERSION}
+                v{import.meta.env.VITE_VERSION}
               </a>
             </p>
             <p className='flex justify-center text-center my-1 text-xs whitespace-nowrap overflow-x-auto pr-3'>
@@ -87,7 +87,7 @@ function UserFooter() {
                 className='underline'
                 href='https://docs.google.com/document/d/1XxsCBJEyahOG7HGPZHC3OYBJ6nuhNH9yv5nHUmTp8Bw/edit'
               >
-                v{process.env.REACT_APP_VERSION}
+                v{import.meta.env.VITE_VERSION}
               </a>
             </p>
             <p className='flex justify-center text-center my-1 pb-2 py-1 text-xs whitespace-nowrap overflow-x-auto w-full border-b border-b-user1 border-opacity-50'>
