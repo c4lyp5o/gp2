@@ -39,10 +39,10 @@ function KaunterAfterLogin() {
     const notifyLogOut = () =>
       (kickerNotiId.current = toast.warning(
         `Log keluar dalam masa ${
-          process.env.REACT_APP_LOGOUT_TIME / 2
+          import.meta.env.VITE_LOGOUT_TIME / 2
         } minit lagi. KLIK NOTIFIKASI INI SEKIRANYA INGIN KEKAL DI DALAM SISTEM`,
         {
-          autoClose: 1000 * 60 * (process.env.REACT_APP_LOGOUT_TIME / 2),
+          autoClose: 1000 * 60 * (import.meta.env.VITE_LOGOUT_TIME / 2),
           pauseOnHover: false,
           onClick: () => {
             window.location.reload();
@@ -60,17 +60,17 @@ function KaunterAfterLogin() {
 
     const kickerNotiNumber = setTimeout(() => {
       notifyLogOut();
-    }, 1000 * 60 * (parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) / 2));
+    }, 1000 * 60 * (parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN) / 2));
 
     const kickerNumber = setTimeout(() => {
       logout();
-    }, 1000 * 60 * parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN));
+    }, 1000 * 60 * parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN));
 
     setKickerNoti(kickerNotiNumber);
     setKicker(kickerNumber);
 
     const logOutTime =
-      parseInt(process.env.REACT_APP_LOGOUT_TIME_PENDAFTARAN) * 60 * 1000;
+      parseInt(import.meta.env.VITE_LOGOUT_TIME_PENDAFTARAN) * 60 * 1000;
     const nowMinutes = new Date().getTime();
 
     // waktu skrg + env minutes

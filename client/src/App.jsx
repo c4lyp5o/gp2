@@ -55,7 +55,7 @@ function App() {
 
   return (
     <>
-      {process.env.REACT_APP_ENV === 'TRAINING' && showEnvironmentWarning && (
+      {import.meta.env.VITE_ENV === 'TRAINING' && showEnvironmentWarning && (
         <Suspense fallback={<Loading />}>
           <EnvironmentWarning
             showEnvironmentWarning={showEnvironmentWarning}
