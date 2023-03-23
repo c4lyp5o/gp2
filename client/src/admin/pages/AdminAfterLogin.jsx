@@ -14,7 +14,7 @@ import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
 // screen
-import { LoadingSuperDark } from '../components/Screens';
+import { Loading, LoadingSuperDark } from '../components/Screens';
 
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
@@ -53,16 +53,6 @@ const GenerateKp = lazy(() => import('../components/admin-kp/Generate'));
 
 //ad hoc query
 // import AdHocQuery from '../components/superadmin/AdHocQuery';
-
-function Loading() {
-  return (
-    <div className='absolute inset-0 bg-admin5 text-center rounded-md'>
-      <div className='absolute top-[40%] inset-x-10'>
-        <Default />
-      </div>
-    </div>
-  );
-}
 
 function AdminAfterLogin() {
   const {
