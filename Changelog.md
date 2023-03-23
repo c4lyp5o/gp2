@@ -11,7 +11,7 @@
 #### Fixed
 
 - Memperbetulkan pemilihan di tetingkap penjanaan reten bagi yang mempunyai pilihan fasiliti KKIA/KD, Program Komuniti, KPB/MPB atau individu di semua peringkat pentadbir
-- Menambahbaik prestasi aplikasi secara keseluruhan
+- Menambah baik prestasi aplikasi secara keseluruhan
 
 #### Removed
 
