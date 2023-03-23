@@ -2,7 +2,7 @@ import { useState } from 'react';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function UserRetenSalahModal({
   handleRetenSalah,

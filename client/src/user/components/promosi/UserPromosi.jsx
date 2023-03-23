@@ -10,10 +10,10 @@ import {
 } from 'react-icons/bs';
 import { FaSort, FaSortUp } from 'react-icons/fa';
 
-import UserModalPromosi from './form-promosi/UserModalPromosi';
-import UserDeleteModal from './UserDeleteModal';
+import UserModalPromosi from './UserModalPromosi';
+import UserDeleteModal from '../UserDeleteModal';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserPromosi({ individuOrKlinik }) {
   const {
