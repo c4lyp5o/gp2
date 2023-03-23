@@ -3,9 +3,9 @@ import axios from 'axios';
 import Select from 'react-select';
 import moment from 'moment';
 
-import { useGlobalUserAppContext } from '../../context/userAppContext';
+import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
-import UserFormPromosiConfirmation from '../UserFormPromosiConfirmation';
+import UserFormPromosiConfirmation from './UserFormPromosiConfirmation';
 
 const optionsBahagianB = [
   { value: 'lihat-semua', label: 'Lihat Semua' },

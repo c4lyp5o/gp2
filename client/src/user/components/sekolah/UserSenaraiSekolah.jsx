@@ -8,9 +8,9 @@ import {
   BsChevronDoubleLeft,
 } from 'react-icons/bs';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import UserModalSelesaiSekolah from './sekolah/UserModalSelesaiSekolah';
+import UserModalSelesaiSekolah from './UserModalSelesaiSekolah';
 
 function UserSekolahList() {
   const {

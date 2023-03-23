@@ -4,7 +4,7 @@ import moment from 'moment';
 import { Spinner } from 'react-awesome-spinners';
 import { MdSupervisedUserCircle, MdOutlineSmartToy } from 'react-icons/md';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function UserSummary() {
   const { userToken, userinfo, reliefUserToken, toast } =
