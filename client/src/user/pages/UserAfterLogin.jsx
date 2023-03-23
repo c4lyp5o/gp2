@@ -1,4 +1,6 @@
+import { lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { Default } from 'react-awesome-spinners';
 
 import UserHeader from '../components/UserHeader';
 import UserNavbar from '../components/UserNavbar';
@@ -6,34 +8,56 @@ import UserHeaderLoggedIn from '../components/UserHeaderLoggedIn';
 
 import UserDashboard from '../components/UserDashboard';
 
-import UserStatusHarian from '../components/UserStatusHarian';
-
-import UserUmum from '../components/UserUmum';
-import UserFormUmumHeader from '../components/UserFormUmumHeader';
-
-import UserSenaraiSekolah from '../components/UserSenaraiSekolah';
-import UserSekolah from '../components/sekolah/UserSekolah';
-import UserFormSekolahPemeriksaan from '../components/sekolah/form-sekolah/UserFormSekolahPemeriksaan';
-import UserFormSekolahRawatan from '../components/sekolah/form-sekolah/UserFormSekolahRawatan';
-import UserFormSekolahKOTAK from '../components/sekolah/form-sekolah/UserFormSekolahKOTAK';
-
-import UserPromosi from '../components/UserPromosi';
-import UserFormPromosi from '../components/form-promosi/UserFormPromosi';
-
-import UserKohort from '../components/kohort/UserKohortPage';
-
-// import UserGenerateIndividu from '../components/UserGenerateIndividu';
-// import UserGenerateKlinik from '../components/UserGenerateKlinik';
-
-import UserCarian from '../components/UserCarian';
-
-import UserSummary from '../components/UserSummary';
-
 import UserLoggedInNotFound from './UserLoggedInNotFound';
 
 import UserFooter from '../components/UserFooter';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
+
+// status harian, umum, sekolah, promosi, kohort, carian, summary
+const UserStatusHarian = lazy(() =>
+  import('../components/status-harian/UserStatusHarian')
+);
+
+const UserUmum = lazy(() => import('../components/umum/UserUmum'));
+const UserFormUmumHeader = lazy(() =>
+  import('../components/umum/form-umum/UserFormUmumHeader')
+);
+
+const UserSenaraiSekolah = lazy(() =>
+  import('../components/sekolah/UserSenaraiSekolah')
+);
+const UserSekolah = lazy(() => import('../components/sekolah/UserSekolah'));
+const UserFormSekolahPemeriksaan = lazy(() =>
+  import('../components/sekolah/form-sekolah/UserFormSekolahPemeriksaan')
+);
+const UserFormSekolahRawatan = lazy(() =>
+  import('../components/sekolah/form-sekolah/UserFormSekolahRawatan')
+);
+const UserFormSekolahKOTAK = lazy(() =>
+  import('../components/sekolah/form-sekolah/UserFormSekolahKOTAK')
+);
+
+const UserPromosi = lazy(() => import('../components/promosi/UserPromosi'));
+const UserFormPromosi = lazy(() =>
+  import('../components/promosi/form-promosi/UserFormPromosi')
+);
+
+const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
+
+const UserCarian = lazy(() => import('../components/carian/UserCarian'));
+
+const UserSummary = lazy(() => import('../components/summary/UserSummary'));
+
+function Loading() {
+  return (
+    <div className='absolute inset-0 bg-user5 text-center rounded-md'>
+      <div className='absolute top-[45%] inset-x-10'>
+        <Default />
+      </div>
+    </div>
+  );
+}
 
 function UserAfterLogin() {
   const { userinfo, ToastContainer } = useGlobalUserAppContext();
@@ -49,35 +73,83 @@ function UserAfterLogin() {
         <Routes>
           <Route index element={<UserDashboard />} />
 
-          <Route path='status-harian' element={<UserStatusHarian />} />
+          <Route
+            path='status-harian'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserStatusHarian />
+              </Suspense>
+            }
+          />
 
-          <Route path='umum' element={<UserUmum />} />
+          <Route
+            path='umum'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserUmum />{' '}
+              </Suspense>
+            }
+          />
           <Route
             path='umum/form-umum/:personUmumId'
-            element={<UserFormUmumHeader />}
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserFormUmumHeader />{' '}
+              </Suspense>
+            }
           />
           <Route
             path='umum/form-umum/:personUmumId/:operatorLain'
-            element={<UserFormUmumHeader />}
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserFormUmumHeader />{' '}
+              </Suspense>
+            }
           />
 
           {import.meta.env.VITE_ENV === 'TRAINING' ||
           import.meta.env.VITE_ENV === 'UNSTABLE' ||
           import.meta.env.VITE_ENV === 'DEV' ? (
             <>
-              <Route path='senarai-sekolah' element={<UserSenaraiSekolah />} />
-              <Route path='senarai-sekolah/sekolah' element={<UserSekolah />} />
+              <Route
+                path='senarai-sekolah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserSenaraiSekolah />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='senarai-sekolah/sekolah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserSekolah />{' '}
+                  </Suspense>
+                }
+              />
               <Route
                 path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
-                element={<UserFormSekolahPemeriksaan />}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSekolahPemeriksaan />{' '}
+                  </Suspense>
+                }
               />
               <Route
                 path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
-                element={<UserFormSekolahRawatan />}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSekolahRawatan />{' '}
+                  </Suspense>
+                }
               />
               <Route
                 path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
-                element={<UserFormSekolahKOTAK />}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSekolahKOTAK />{' '}
+                  </Suspense>
+                }
               />
             </>
           ) : null}
@@ -98,21 +170,37 @@ function UserAfterLogin() {
 
           <Route
             path='promosi-individu'
-            element={<UserPromosi individuOrKlinik='promosi-individu' />}
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserPromosi individuOrKlinik='promosi-individu' />{' '}
+              </Suspense>
+            }
           />
           <Route
             path='promosi-individu/form-promosi/:aktivitiId'
-            element={<UserFormPromosi individuOrKlinik='promosi-individu' />}
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserFormPromosi individuOrKlinik='promosi-individu' />{' '}
+              </Suspense>
+            }
           />
           {userinfo.rolePromosiKlinik === true && (
             <>
               <Route
                 path='promosi-klinik'
-                element={<UserPromosi individuOrKlinik='promosi-klinik' />}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserPromosi individuOrKlinik='promosi-klinik' />{' '}
+                  </Suspense>
+                }
               />
               <Route
                 path='promosi-klinik/form-promosi/:aktivitiId'
-                element={<UserFormPromosi individuOrKlinik='promosi-klinik' />}
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormPromosi individuOrKlinik='promosi-klinik' />{' '}
+                  </Suspense>
+                }
               />
             </>
           )}
@@ -120,7 +208,14 @@ function UserAfterLogin() {
           {import.meta.env.VITE_ENV === 'UNSTABLE' ||
           import.meta.env.VITE_ENV === 'DEV' ? (
             <>
-              <Route path='kohort' element={<UserKohort />} />
+              <Route
+                path='kohort'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohort />{' '}
+                  </Suspense>
+                }
+              />
             </>
           ) : null}
 
@@ -134,9 +229,23 @@ function UserAfterLogin() {
             </>
           )} */}
 
-          <Route path='carian' element={<UserCarian />} />
+          <Route
+            path='carian'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserCarian />{' '}
+              </Suspense>
+            }
+          />
 
-          <Route path='summary' element={<UserSummary />} />
+          <Route
+            path='summary'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserSummary />{' '}
+              </Suspense>
+            }
+          />
 
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>
