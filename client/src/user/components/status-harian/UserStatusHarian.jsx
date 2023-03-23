@@ -8,7 +8,7 @@ import {
   BsFillCheckCircleFill,
 } from 'react-icons/bs';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function UserStatusHarian() {
   const {

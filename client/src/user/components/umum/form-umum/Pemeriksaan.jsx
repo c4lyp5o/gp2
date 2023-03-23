@@ -9,11 +9,10 @@ import {
 import moment from 'moment';
 import Datetime from 'react-datetime';
 
-import { useGlobalUserAppContext } from '../../context/userAppContext';
+import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
 export default function Pemeriksaan(props) {
-  const { dateToday, formatTime, dictionaryJenisFasiliti } =
-    useGlobalUserAppContext();
+  const { formatTime, dictionaryJenisFasiliti } = useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
 
