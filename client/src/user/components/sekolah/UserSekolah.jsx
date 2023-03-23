@@ -8,7 +8,6 @@ import {
   FaCaretUp,
   FaCaretDown,
 } from 'react-icons/fa';
-import { Spinner } from 'react-awesome-spinners';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
