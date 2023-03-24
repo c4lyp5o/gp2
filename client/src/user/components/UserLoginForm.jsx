@@ -6,7 +6,7 @@ import axios from 'axios';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-import UserForgotPassword from './UserForgotPassword';
+// import UserForgotPassword from './UserForgotPassword';
 
 function UserLoginForm() {
   const {
@@ -29,7 +29,7 @@ function UserLoginForm() {
   const [showPasswordBox, setShowPasswordBox] = useState(false);
   const [showPassword, setShowPassword] = useState(false);
 
-  const [isForgotPassword, setIsForgotPassword] = useState(false);
+  // const [isForgotPassword, setIsForgotPassword] = useState(false);
 
   // fetch dictionary daerah
   useEffect(() => {
@@ -95,9 +95,9 @@ function UserLoginForm() {
     }, 1000);
   };
 
-  if (isForgotPassword === true) {
-    return <UserForgotPassword setIsForgotPassword={setIsForgotPassword} />;
-  }
+  // if (isForgotPassword === true) {
+  //   return <UserForgotPassword setIsForgotPassword={setIsForgotPassword} />;
+  // }
 
   return (
     <>

@@ -15,9 +15,9 @@ import {
 } from 'react-icons/bs';
 import moment from 'moment';
 
-import UserDeleteModal from './UserDeleteModal';
+import UserDeleteModal from '../UserDeleteModal';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 function UserUmum(/*{ sekolahIdc }*/) {
   const {

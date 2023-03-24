@@ -2,17 +2,17 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 
-import Kemaskini from './form-umum/Kemaskini';
+// import Kemaskini from './form-umum/Kemaskini';
 // import FasilitiPerkhidmatan from './form-umum/FasilitiPerkhidmatan';
 // import MaklumatLanjut from './form-umum/MaklumatLanjut';
-import Pemeriksaan from './form-umum/Pemeriksaan';
-import Rawatan from './form-umum/Rawatan';
-import Promosi from './form-umum/Promosi';
+import Pemeriksaan from './Pemeriksaan';
+import Rawatan from './Rawatan';
+import Promosi from './Promosi';
 // import Kotak from './form-umum/Kotak';
 
 import Confirmation from './UserFormUmumConfirmation';
 
-import { useGlobalUserAppContext } from '../context/userAppContext';
+import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
 function UserFormUmumHeader(/*{ sekolahIdc }*/) {
   const {
@@ -2028,9 +2028,9 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
     getAllKPBMPBForNegeri();
   }, [reliefUserToken, userToken]);
 
-  const kemaskini = () => {
-    setShowKemasKini(true);
-  };
+  // const kemaskini = () => {
+  //   setShowKemasKini(true);
+  // };
 
   const handleSubmit = async (e) => {
     let mdcMdtbNum = '';
@@ -2773,13 +2773,13 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
                 </div>
               </form>
             </div>
-            {showKemaskini && (
+            {/* {showKemaskini && (
               <Kemaskini
                 showKemaskini={showKemaskini}
                 setShowKemaskini={setShowKemasKini}
                 toast={toast}
               />
-            )}
+            )} */}
           </div>
         </>
       )}

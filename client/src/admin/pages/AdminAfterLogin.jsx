@@ -1,56 +1,60 @@
-import { useEffect, useState, useRef } from 'react';
-
+import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
+import { toast, ToastContainer } from 'react-toastify';
+import { Default } from 'react-awesome-spinners';
 
-import { DndProvider } from 'react-dnd';
-import { HTML5Backend } from 'react-dnd-html5-backend';
+// import { DndProvider } from 'react-dnd';
+// import { HTML5Backend } from 'react-dnd-html5-backend';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 
-// -----------------------------------------------------------
-
-// logged in
+// component -----------------------------------------------------------
+// header & navbar
 import Header from '../components/Header';
 import Navbar from '../components/Navbar';
 
-// paparan utama
-import AdminCenterStage from '../components/superadmin/AdminCenterStage';
-import KpCenterStage from '../components/admin-kp/KpCenterStage';
-
-// negeri details
-import Negeri from '../components/superadmin/NegeriDetails';
-
-// daerah details
-import Daerah from '../components/superadmin/DaerahDetails';
-
-// klinik details
-import Klinik from '../components/superadmin/KlinikDetails';
+// screen
+import { Loading, LoadingSuperDark } from '../components/Screens';
 
 // logged in not found
 import AdminLoggedInNotFound from './AdminLoggedInNotFound';
 
+// footer
 import Footer from '../components/Footer';
-// -----------------------------------------------------------
 
-import Data from '../components/superadmin/Data';
-import DataNegeri from '../components/superadmin/negeri/Data';
-import DataKp from '../components/admin-kp/Data';
+// paparan utama
+const AdminCenterStage = lazy(() =>
+  import('../components/superadmin/AdminCenterStage')
+);
+const KpCenterStage = lazy(() =>
+  import('../components/admin-kp/KpCenterStage')
+);
+
+// negeri details
+const Negeri = lazy(() => import('../components/superadmin/NegeriDetails'));
+
+// daerah details
+const Daerah = lazy(() => import('../components/superadmin/DaerahDetails'));
+
+// klinik details
+const Klinik = lazy(() => import('../components/superadmin/KlinikDetails'));
+
+// data -----------------------------------------------------------
+const DataNegeri = lazy(() => import('../components/superadmin/negeri/Data'));
+const Data = lazy(() => import('../components/superadmin/Data'));
+const DataKp = lazy(() => import('../components/admin-kp/Data'));
 
 // settings
-import Settings from '../components/superadmin/Settings';
+const Settings = lazy(() => import('../components/superadmin/Settings'));
 
 // generate
-import Generate from '../components/superadmin/Generate';
-import GenerateKp from '../components/admin-kp/Generate';
+const Generate = lazy(() => import('../components/superadmin/Generate'));
+const GenerateKp = lazy(() => import('../components/admin-kp/Generate'));
 
 //ad hoc query
-import AdHocQuery from '../components/superadmin/AdHocQuery';
+// import AdHocQuery from '../components/superadmin/AdHocQuery';
 
-import { LoadingSuperDark } from '../components/Screens';
-
-import { toast, ToastContainer } from 'react-toastify';
-
-export default function AdminAfterLogin() {
+function AdminAfterLogin() {
   const {
     getAdminToken,
     adminToken,
@@ -165,56 +169,259 @@ export default function AdminAfterLogin() {
       <Header {...props} />
       <div className='absolute inset-0 -z-10 bg-admin5'></div>
       <Navbar {...props} />
-      <div className='absolute inset-10 top-[8rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pt-2 pb-2 px-3'>
+      <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pt-2 pb-2 px-3'>
         <Routes>
-          <Route path='followers' element={<DataKp FType='followers' />} />
-          <Route path='sosmed' element={<DataKp FType='sosmed' />} />
-          {/* daerah, negeri, hq superadmin */}
+          <Route
+            path='followers'
+            element={
+              <Suspense fallback={<Loading />}>
+                <DataKp FType='followers' />{' '}
+              </Suspense>
+            }
+          />
+          <Route
+            path='sosmed'
+            element={
+              <Suspense fallback={<Loading />}>
+                <DataKp FType='sosmed' />{' '}
+              </Suspense>
+            }
+          />
+          {/* hq, negeri & daerah superadmin */}
           {loginInfo.accountType !== 'kpUser' ? (
             <>
-              <Route index element={<AdminCenterStage {...props} />} />
-              <Route path='negeri' element={<Negeri />} />
-              {/* Data untuk negeri */}
-              <Route path='negeri/pp' element={<DataNegeri DType='ppspn' />} />
-              <Route path='negeri/jp' element={<DataNegeri DType='jpspn' />} />
-              {/* Data untuk negeri */}
-              <Route path='daerah' element={<Daerah />} />
-              <Route path='klinik' element={<Klinik />} />
-              <Route path='kkiakd' element={<Data FType='kkiakd' />} />
-              <Route path='kp' element={<Data FType='kp' />} />
-              <Route path='pp' element={<Data FType='pp' />} />
-              <Route path='jp' element={<Data FType='jp' />} />
-              <Route path='taska' element={<Data FType='taska' />} />
-              <Route path='tadika' element={<Data FType='tadika' />} />
-              <Route path='sr' element={<Data FType='sr' />} />
-              <Route path='sm' element={<Data FType='sm' />} />
-              <Route path='program' element={<Data FType='program' />} />
-              <Route path='kpb' element={<Data FType='kpb' />} />
-              <Route path='mpb' element={<Data FType='mpb' />} />
-              <Route path='tetapan' element={<Settings />} />
-              <Route path='generate' element={<Generate {...props} />} />
-              {/* AdHoc Query thanks myhdw! */}
               <Route
+                index
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <AdminCenterStage {...props} />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='negeri'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Negeri />{' '}
+                  </Suspense>
+                }
+              />
+              {/* Data untuk negeri */}
+              <Route
+                path='negeri/pp'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataNegeri DType='ppspn' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='negeri/jp'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataNegeri DType='jpspn' />{' '}
+                  </Suspense>
+                }
+              />
+              {/* Data untuk negeri */}
+              <Route
+                path='daerah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Daerah />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='klinik'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Klinik />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kkiakd'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='kkiakd' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='kp' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='pp'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='pp' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='jp'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='jp' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='taska'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='taska' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='tadika'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='tadika' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='sr'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='sr' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='sm'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='sm' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='program'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='program' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kpb'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='kpb' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='mpb'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Data FType='mpb' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='tetapan'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Settings />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='generate'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Generate {...props} />
+                  </Suspense>
+                }
+              />
+              {/* AdHoc Query thanks myhdw! */}
+              {/* <Route
                 path='aq'
                 element={
                   <DndProvider backend={HTML5Backend}>
                     <AdHocQuery />
                   </DndProvider>
                 }
-              />
+              /> */}
             </>
           ) : null}
           {/* KP superadmin */}
           {loginInfo.accountType === 'kpUser' ? (
             <>
-              <Route index element={<KpCenterStage {...props} />} />
-              <Route path='kp/pp' element={<DataKp FType='pp' />} />
-              <Route path='kp/jp' element={<DataKp FType='jp' />} />
-              <Route path='kp/tastad' element={<DataKp FType='tastad' />} />
-              <Route path='kp/program' element={<DataKp FType='program' />} />
-              <Route path='kp/kpb' element={<DataKp FType='kpb' />} />
-              <Route path='kp/mpb' element={<DataKp FType='mpb' />} />
-              <Route path='kp/generate' element={<GenerateKp {...props} />} />
+              <Route
+                index
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <KpCenterStage {...props} />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp/pp'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataKp FType='pp' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp/jp'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataKp FType='jp' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp/tastad'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataKp FType='tastad' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp/program'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataKp FType='program' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp/kpb'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataKp FType='kpb' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp/mpb'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <DataKp FType='mpb' />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kp/generate'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <GenerateKp {...props} />{' '}
+                  </Suspense>
+                }
+              />
             </>
           ) : null}
           <Route path='*' element={<AdminLoggedInNotFound />} />
@@ -225,3 +432,5 @@ export default function AdminAfterLogin() {
     </>
   );
 }
+
+export default AdminAfterLogin;

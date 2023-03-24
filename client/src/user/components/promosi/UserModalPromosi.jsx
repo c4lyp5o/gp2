@@ -6,7 +6,7 @@ import moment from 'moment';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import UserModalPromosiConfirmation from '../UserModalPromosiConfirmation';
+import UserModalPromosiConfirmation from './UserModalPromosiConfirmation';
 
 function UserModalPromosi({
   individuOrKlinik,
