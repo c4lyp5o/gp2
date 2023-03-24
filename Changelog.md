@@ -6,6 +6,17 @@
 
 - _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum - https://github.com/nocturnalmc/gp2/commit/22d04e51a3b747baa7ddeb795b1dcb18115bc461
 
+### 22/3/2023 (v2.0.16)
+
+#### Fixed
+
+- Memperbetulkan pemilihan di tetingkap penjanaan reten bagi yang mempunyai pilihan fasiliti KKIA/KD, Program Komuniti, KPB/MPB atau individu di semua peringkat pentadbir
+- Menambah baik prestasi aplikasi secara keseluruhan
+
+#### Removed
+
+- Membuang pilihan Program Pergigian Sekolah Sesi 2022/2023 kerana sesi telah tamat dan telah bermula sesi yang baru
+
 ### 15/3/2023 (v2.0.15)
 
 #### Changed

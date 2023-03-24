@@ -49,6 +49,10 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  tarikhMulaSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   // kkia
   kodKkiaKd: {
     type: String,

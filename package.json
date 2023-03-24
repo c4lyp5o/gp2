@@ -1,14 +1,14 @@
 {
   "name": "giret-2.0",
-  "version": "2.0.15",
+  "version": "2.0.16",
   "description": "An attempt at a mountain.",
   "main": "server.js",
   "scripts": {
     "install-server": "npm install",
     "install-client": "cd client && npm install",
-    "install-prod": "npm install --omit dev && cd client && npm install --omit dev",
+    "install-prod": "npm ci && cd client && npm ci",
     "server": "nodemon server.js",
-    "client": "cd client && npm start",
+    "client": "cd client && npm run dev",
     "dev": "concurrently --kill-others-on-fail \" npm run server\" \" npm run client\"",
     "cypress:open": "cypress open",
     "cypress:run": "cypress run",

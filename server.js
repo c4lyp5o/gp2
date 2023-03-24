@@ -59,9 +59,12 @@ const notFound = require('./middlewares/notFound');
 const connectDB = require('./database/connect');
 
 // USE MIDDLEWARES ---------------------------------------------
-const root = path.join(__dirname, 'client', 'build');
+const root = path.join(__dirname, 'client', 'dist');
 app.set('trust proxy', 1);
+
+// for use in deployment
 app.use(express.static(root));
+
 app.use(express.json({ limit: '50mb' }));
 app.use(helmet.crossOriginResourcePolicy({ policy: 'cross-origin' }));
 app.use(
@@ -130,7 +133,7 @@ app.use('/api/v1/superadmin', adminAPI);
 // generate HQ, Negeri, Daerah route
 app.use('/api/v1/generate', genRouter);
 
-// generate kp route
+// generate KP route
 app.use('/api/v1/generatekp', genRouterKp);
 
 // ETL
@@ -146,7 +149,7 @@ app.get('/api/v1/ip', async (req, res) => {
 
 // for use in deployment
 app.get('*', (req, res) => {
-  res.sendFile(path.join(__dirname, 'client', 'build', 'index.html'));
+  res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
 // error handler & not found
