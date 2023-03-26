@@ -20,6 +20,9 @@ RUN npm run install-prod
 # build client React JS
 RUN npm run build-client
 
+# prune image for production
+RUN npm run prune-prod
+
 # app run on port 5000
 EXPOSE 5000
 
