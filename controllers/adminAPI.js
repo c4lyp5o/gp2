@@ -171,6 +171,7 @@ const initialDataAdmins = async (req, res) => {
   const all = await Operator.find({
     kodFasiliti: kodFasiliti,
     role: 'admin',
+    activationStatus: true,
   }).select('nama email mdcNumber mdtbNumber');
   let admins = [];
   all.forEach((item) => {
@@ -476,7 +477,7 @@ const getDataRoute = async (req, res) => {
         .lean();
       break;
     case 'pegawai-spesifik':
-      data = await Operator.find({ kodFasiliti: kp })
+      data = await Operator.find({ kodFasiliti: kp, activationStatus: true })
         .select('nama mdcNumber mdtbNumber statusPegawai')
         .lean();
       break;
