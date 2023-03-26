@@ -33,21 +33,15 @@ const getAllPersonUmumStatus = async (req, res) => {
 
   const { negeri, daerah, kp, kodFasiliti } = req.user;
 
-  const allPersonUmum = await Umum.find({
+  // just query statusReten & tarikhKedatangan to save network bandwith because UserStatusHarian will pull umum on calendar for one whole year
+  const allPersonUmumStatus = await Umum.find({
     createdByNegeri: negeri,
     createdByDaerah: daerah,
     createdByKp: kp,
     createdByKodFasiliti: kodFasiliti,
     tahunDaftar: new Date().getFullYear(),
     deleted: false,
-  });
-
-  // just sending statusReten & tarikhKedatangan to save network bandwith because UserStatusHarian will pull umum on calendar for one whole year
-  const allPersonUmumStatus = allPersonUmum.map(
-    ({ statusReten, tarikhKedatangan }) => {
-      return { statusReten, tarikhKedatangan };
-    }
-  );
+  }).select('statusReten tarikhKedatangan');
 
   res.status(200).json({ allPersonUmumStatus });
 };
