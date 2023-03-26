@@ -1,7 +1,6 @@
 import { useEffect, useState, useRef, lazy, Suspense } from 'react';
 import { Routes, Route } from 'react-router-dom';
 import { toast, ToastContainer } from 'react-toastify';
-import { Default } from 'react-awesome-spinners';
 
 // import { DndProvider } from 'react-dnd';
 // import { HTML5Backend } from 'react-dnd-html5-backend';
