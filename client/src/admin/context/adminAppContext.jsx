@@ -45,10 +45,10 @@ function AdminAppProvider({ children }) {
     );
     return response;
   };
-  const readSuperadminData = async () => {
-    const response = await axios.get('/api/v1/superadmin/initialdata');
-    return response;
-  };
+  // const readSuperadminData = async () => {
+  //   const response = await axios.get('/api/v1/superadmin/initialdata');
+  //   return response;
+  // };
 
   // adhoc query
   const adhocQuery = async (y, x) => {
@@ -845,7 +845,7 @@ function AdminAppProvider({ children }) {
         totpToken,
         setTotpToken,
         // start
-        readSuperadminData,
+        // readSuperadminData,
         readNegeri,
         readDaerah,
         readKlinik,

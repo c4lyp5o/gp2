@@ -7,7 +7,7 @@ const { adminAuth, adminAuthInt } = require('../middlewares/adminAuth');
 
 // Controller
 const {
-  initialData,
+  // initialData,
   initialDataNegeri,
   initialDataDaerah,
   initialDataKlinik,
@@ -26,7 +26,7 @@ const {
 } = require('../controllers/adminAPI');
 
 // Initial Data
-router.get('/initialdata', initialData);
+// router.get('/initialdata', initialData);
 router.get('/getnegeri', initialDataNegeri);
 router.get('/getdaerah', initialDataDaerah);
 router.get('/getklinik', initialDataKlinik);
