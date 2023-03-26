@@ -171,6 +171,7 @@ const initialDataAdmins = async (req, res) => {
   const all = await Operator.find({
     kodFasiliti: kodFasiliti,
     role: 'admin',
+    activationStatus: true,
   }).select('nama email mdcNumber mdtbNumber');
   let admins = [];
   all.forEach((item) => {
@@ -193,83 +194,83 @@ const initialDataAdmins = async (req, res) => {
   }
 };
 
-const initialData = async (req, res) => {
-  const all = await Superadmin.find({});
-  const allKlinik = await User.find({
-    role: 'klinik',
-  });
-  let allData = [];
-  let cleanData = [];
-  for (let i = 0; i < all.length; i++) {
-    let location = {
-      daerah: all[i].daerah,
-      negeri: all[i].negeri,
-      username: all[i].user_name,
-    };
-    allData.push(location);
-  }
-  const num = _.findIndex(allData, { negeri: '-' });
-  allData.splice(num, 1);
-  const negeri = _.uniqBy(allData, 'negeri');
-  const daerah = _.uniqBy(allData, 'daerah');
-  const username = _.uniqBy(allData, 'username');
-  for (let i = 0; i < negeri.length; i++) {
-    let temp = [];
-    let usernames = [];
-    for (let j = 0; j < daerah.length; j++) {
-      if (negeri[i].negeri === daerah[j].negeri && daerah[j].daerah !== '-') {
-        let tempDaerah = {
-          daerah: daerah[j].daerah,
-          username: daerah[j].username,
-          klinik: [],
-        };
-        for (let k = 0; k < allKlinik.length; k++) {
-          if (
-            daerah[j].daerah === allKlinik[k].daerah &&
-            allKlinik[k].accountType !== 'kaunterUser'
-          ) {
-            let tempKlinik = {
-              username: allKlinik[k].username,
-              nama: allKlinik[k].kp,
-              admins: [],
-            };
-            const admins = await Operator.find({
-              kodFasiliti: allKlinik[k].kodFasiliti,
-              role: 'admin',
-            });
-            for (let l = 0; l < admins.length; l++) {
-              let tempAdmin = {};
-              tempAdmin.nama = admins[l].nama;
-              if (admins[l].mdcNumber)
-                tempAdmin.mdcNumber = admins[l].mdcNumber;
-              if (admins[l].mdtbNumber)
-                tempAdmin.mdtbNumber = admins[l].mdtbNumber;
-              tempKlinik.admins.push(tempAdmin);
-            }
-            tempDaerah.klinik.push(tempKlinik);
-          }
-        }
-        temp.push(tempDaerah);
-      }
-    }
-    for (let j = 0; j < username.length; j++) {
-      if (
-        negeri[i].negeri === username[j].negeri &&
-        username[j].daerah === '-'
-      ) {
-        let tempUser = { username: username[j].username };
-        usernames.push(tempUser);
-      }
-    }
-    let temp2 = {
-      negeri: negeri[i].negeri,
-      usernames: usernames,
-      daerah: temp,
-    };
-    cleanData.push(temp2);
-  }
-  res.status(200).json(cleanData);
-};
+// const initialData = async (req, res) => {
+//   const all = await Superadmin.find({});
+//   const allKlinik = await User.find({
+//     role: 'klinik',
+//   });
+//   let allData = [];
+//   let cleanData = [];
+//   for (let i = 0; i < all.length; i++) {
+//     let location = {
+//       daerah: all[i].daerah,
+//       negeri: all[i].negeri,
+//       username: all[i].user_name,
+//     };
+//     allData.push(location);
+//   }
+//   const num = _.findIndex(allData, { negeri: '-' });
+//   allData.splice(num, 1);
+//   const negeri = _.uniqBy(allData, 'negeri');
+//   const daerah = _.uniqBy(allData, 'daerah');
+//   const username = _.uniqBy(allData, 'username');
+//   for (let i = 0; i < negeri.length; i++) {
+//     let temp = [];
+//     let usernames = [];
+//     for (let j = 0; j < daerah.length; j++) {
+//       if (negeri[i].negeri === daerah[j].negeri && daerah[j].daerah !== '-') {
+//         let tempDaerah = {
+//           daerah: daerah[j].daerah,
+//           username: daerah[j].username,
+//           klinik: [],
+//         };
+//         for (let k = 0; k < allKlinik.length; k++) {
+//           if (
+//             daerah[j].daerah === allKlinik[k].daerah &&
+//             allKlinik[k].accountType !== 'kaunterUser'
+//           ) {
+//             let tempKlinik = {
+//               username: allKlinik[k].username,
+//               nama: allKlinik[k].kp,
+//               admins: [],
+//             };
+//             const admins = await Operator.find({
+//               kodFasiliti: allKlinik[k].kodFasiliti,
+//               role: 'admin',
+//             });
+//             for (let l = 0; l < admins.length; l++) {
+//               let tempAdmin = {};
+//               tempAdmin.nama = admins[l].nama;
+//               if (admins[l].mdcNumber)
+//                 tempAdmin.mdcNumber = admins[l].mdcNumber;
+//               if (admins[l].mdtbNumber)
+//                 tempAdmin.mdtbNumber = admins[l].mdtbNumber;
+//               tempKlinik.admins.push(tempAdmin);
+//             }
+//             tempDaerah.klinik.push(tempKlinik);
+//           }
+//         }
+//         temp.push(tempDaerah);
+//       }
+//     }
+//     for (let j = 0; j < username.length; j++) {
+//       if (
+//         negeri[i].negeri === username[j].negeri &&
+//         username[j].daerah === '-'
+//       ) {
+//         let tempUser = { username: username[j].username };
+//         usernames.push(tempUser);
+//       }
+//     }
+//     let temp2 = {
+//       negeri: negeri[i].negeri,
+//       usernames: usernames,
+//       daerah: temp,
+//     };
+//     cleanData.push(temp2);
+//   }
+//   res.status(200).json(cleanData);
+// };
 
 const checkUser = async (req, res) => {
   const { username } = req.query;
@@ -283,7 +284,7 @@ const checkUser = async (req, res) => {
     } else {
       regNumber.mdcNumber = username;
     }
-    const admins = await Operator.find(regNumber);
+    const admins = await Operator.find(regNumber).select('-summary');
     if (!admins) {
       return res.status(401).json({
         status: 'error',
@@ -326,7 +327,7 @@ const loginUser = async (req, res) => {
     } else {
       regNumber.mdcNumber = username;
     }
-    const superOperator = await Operator.findOne(regNumber);
+    const superOperator = await Operator.findOne(regNumber).select('-summary');
     const kpUser = await User.findOne({
       kodFasiliti: superOperator.kodFasiliti,
     });
@@ -461,7 +462,9 @@ const getDataRoute = async (req, res) => {
       data = await Operator.find({
         statusPegawai: 'pp',
         activationStatus: true,
-      }).lean();
+      })
+        .select('-summary')
+        .lean();
       break;
     case 'pegawai':
       data = await Operator.find({
@@ -469,10 +472,12 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      }).lean();
+      })
+        .select('-summary')
+        .lean();
       break;
     case 'pegawai-spesifik':
-      data = await Operator.find({ kodFasiliti: kp })
+      data = await Operator.find({ kodFasiliti: kp, activationStatus: true })
         .select('nama mdcNumber mdtbNumber statusPegawai')
         .lean();
       break;
@@ -490,7 +495,9 @@ const getDataRoute = async (req, res) => {
       data = await Operator.find({
         statusPegawai: 'jp',
         activationStatus: true,
-      }).lean();
+      })
+        .select('-summary')
+        .lean();
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -498,7 +505,9 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      }).lean();
+      })
+        .select('-summary')
+        .lean();
       break;
     case 'jp-spesifik-negeri':
       data = await Operator.find({
@@ -701,7 +710,9 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      }).lean();
+      })
+        .select('-summary')
+        .lean();
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -709,7 +720,9 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      }).lean();
+      })
+        .select('-summary')
+        .lean();
       break;
     case 'institusi':
       data = await Fasiliti.find({
@@ -807,7 +820,7 @@ const getOneDataRoute = async (req, res) => {
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id).lean();
+      data = await Operator.findById(Id).select('-summary').lean();
       break;
     case 'klinik':
       data = await User.findById(Id).lean();
@@ -840,7 +853,7 @@ const getOneDataKpRoute = async (req, res) => {
       break;
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id).lean();
+      data = await Operator.findById(Id).select('-summary').lean();
       break;
     default:
       data = await Fasiliti.findById(Id).lean();
@@ -864,7 +877,7 @@ const postRoute = async (req, res) => {
     case 'pegawai':
       exists = await Operator.findOne({
         mdcNumber: Data.mdcNumber,
-      });
+      }).select('-summary');
       if (exists) {
         exists.createdByNegeri = negeri;
         exists.createdByDaerah = daerah;
@@ -896,7 +909,7 @@ const postRoute = async (req, res) => {
     case 'juruterapi pergigian':
       exists = await Operator.findOne({
         mdtbNumber: Data.mdtbNumber,
-      });
+      }).select('-summary');
       if (exists) {
         exists.createdByNegeri = negeri;
         exists.createdByDaerah = daerah;
@@ -1170,7 +1183,7 @@ const patchRoute = async (req, res) => {
         { _id: Id },
         { $set: Data },
         { new: true }
-      );
+      ).select('-summary');
       logger.info(
         `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.nama}`
       );
@@ -1234,7 +1247,7 @@ const patchRouteKp = async (req, res) => {
         { _id: Id },
         { $set: Data },
         { new: true }
-      );
+      ).select('-summary');
       logger.info(
         `[adminAPI/patchRouteKp] ${kp} updated CSCSP ${type} - ${data.nama}`
       );
@@ -1280,7 +1293,7 @@ const deleteRoute = async (req, res) => {
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById({ _id: Id });
+      data = await Operator.findById({ _id: Id }).select('-summary');
       data.activationStatus = false;
       data.tempatBertugasSebelumIni.push(data.kpSkrg);
       await data.save();
@@ -1298,7 +1311,7 @@ const deleteRoute = async (req, res) => {
         kpSkrg: klinik.kp,
         kodFasiliti: klinik.kodFasiliti,
         activationStatus: true,
-      });
+      }).select('-summary');
       if (fasilitiUnderKlinik.length > 0 || operatorUnderKlinik.length > 0) {
         let mustDelete = '';
         if (fasilitiUnderKlinik.length > 0) {
@@ -1505,7 +1518,7 @@ const getData = async (req, res) => {
           if (theType === 'pegawai') {
             const exists = await Operator.findOne({
               mdcNumber: Data.mdcNumber,
-            });
+            }).select('-summary');
             if (exists) {
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
@@ -1538,7 +1551,7 @@ const getData = async (req, res) => {
           if (theType === 'juruterapi pergigian') {
             const exists = await Operator.findOne({
               mdtbNumber: Data.mdtbNumber,
-            });
+            }).select('-summary');
             if (exists) {
               exists.createdByNegeri = negeri;
               exists.createdByDaerah = daerah;
@@ -1755,7 +1768,7 @@ const getData = async (req, res) => {
               { _id: Id },
               { $set: Data },
               { new: true }
-            );
+            ).select('-summary');
             logger.info(
               `[adminAPI/DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.nama}`
             );
@@ -1803,7 +1816,9 @@ const getData = async (req, res) => {
             return res.status(200).json(data);
           }
           if (theType === 'pegawai' || theType === 'juruterapi pergigian') {
-            const data = await Operator.findById({ _id: Id });
+            const data = await Operator.findById({ _id: Id }).select(
+              '-summary'
+            );
             data.activationStatus = false;
             data.tempatBertugasSebelumIni.push(data.kpSkrg);
             await data.save();
@@ -1822,7 +1837,7 @@ const getData = async (req, res) => {
               kpSkrg: klinik.kp,
               kodFasiliti: klinik.kodFasiliti,
               activationStatus: true,
-            });
+            }).select('-summary');
             if (
               fasilitiUnderKlinik.length > 0 ||
               operatorUnderKlinik.length > 0
@@ -2027,7 +2042,7 @@ const getData = async (req, res) => {
                 { _id: Id },
                 { $set: Data },
                 { new: true }
-              );
+              ).select('-summary');
               logger.info(
                 `[adminAPI/KpCenter] ${kp} updated CSCSP ${theType} - ${updatePP.nama}`
               );
@@ -2852,7 +2867,7 @@ const sendVerificationEmail = async (userId) => {
       userId,
       { tempKey: key },
       { new: true }
-    );
+    ).select('-summary');
     const e_mail = await transporter.sendMail(mailOptions(superoperator, key));
     return e_mail.accepted[0];
   }
@@ -3065,6 +3080,29 @@ const sosmedDataCompactor = (data) => {
   return countedData;
 };
 
+const processFasilitiQuery = async (req, res) => {
+  const { negeri, daerah } = req.query;
+  if (!negeri || !daerah) {
+    return res.status(400).json({ message: 'Invalid query' });
+  }
+  const { data: allMatchingFS } = await axios.get(
+    `https://gpass.nocturnal.quest/api/getfs?negeri=${negeri}&daerah=${daerah}`
+  );
+  let kodFasiliti = await User.find({
+    accountType: 'kpUser',
+    negeri,
+    daerah,
+  }).select('kodFasiliti');
+  kodFasiliti = kodFasiliti.map((kod) => kod.kodFasiliti);
+  const filteredFS = allMatchingFS.filter(
+    (item) => !kodFasiliti.includes(item.kodFasilitiGiret)
+  );
+  if (filteredFS.length === 0) {
+    return res.status(404).json({ message: 'No data found' });
+  }
+  res.status(200).json(filteredFS);
+};
+
 const processOperatorQuery = async (req, res) => {
   const { nama, type } = req.query;
   switch (type) {
@@ -3093,7 +3131,7 @@ const processOperatorQuery = async (req, res) => {
         statusPegawai: 'jp',
         activationStatus: true,
       }).select('mdtbNumber');
-      mdtbNumber = mdtbNumber.map((mdc) => mdc.mdtbNumber);
+      mdtbNumber = mdtbNumber.map((mdtb) => mdtb.mdtbNumber);
       const filteredJP = allMatchingJP.filter(
         (item) => !mdtbNumber.includes(item.mdtbNumber)
       );
@@ -3105,29 +3143,6 @@ const processOperatorQuery = async (req, res) => {
     default:
       res.status(400).json({ message: 'Invalid query' });
   }
-};
-
-const processFasilitiQuery = async (req, res) => {
-  const { negeri, daerah } = req.query;
-  if (!negeri || !daerah) {
-    return res.status(400).json({ message: 'Invalid query' });
-  }
-  const { data: allMatchingFS } = await axios.get(
-    `https://gpass.nocturnal.quest/api/getfs?negeri=${negeri}&daerah=${daerah}`
-  );
-  let kodFasiliti = await User.find({
-    accountType: 'kpUser',
-    negeri,
-    daerah,
-  }).select('kodFasiliti');
-  kodFasiliti = kodFasiliti.map((kod) => kod.kodFasiliti);
-  const filteredFS = allMatchingFS.filter(
-    (item) => !kodFasiliti.includes(item.kodFasilitiGiret)
-  );
-  if (filteredFS.length === 0) {
-    return res.status(404).json({ message: 'No data found' });
-  }
-  res.status(200).json(filteredFS);
 };
 
 const processKkiakdQuery = async (req, res) => {
@@ -3352,7 +3367,7 @@ const html = (nama, key) =>
 
 module.exports = {
   generateRandomString,
-  initialData,
+  // initialData,
   initialDataNegeri,
   initialDataDaerah,
   initialDataKlinik,
@@ -3372,7 +3387,7 @@ module.exports = {
   deleteRoute,
   deleteKpRoute,
   getStatisticsData,
-  processOperatorQuery,
   processFasilitiQuery,
+  processOperatorQuery,
   processKkiakdQuery,
 };
