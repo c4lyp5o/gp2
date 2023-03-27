@@ -1898,280 +1898,282 @@ function UserFormSekolahPemeriksaan() {
                         </label>
                       </div>
                     </article>
-                    <article className=' border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        Status Gigi Desidus
-                        {adaDesidus === true || adaKekal === true ? null : (
-                          <span className='text-user6'>*</span>
-                        )}
-                      </h4>
-                      <div className='grid gap-1'>
-                        <div className='flex items-center justify-center'>
-                          <input
-                            disabled={isDisabled}
-                            required={
-                              adaDesidus === true || adaKekal === true
-                                ? false
-                                : true
-                            }
-                            type='checkbox'
-                            name='ada-desidus'
-                            id='ada-desidus'
-                            checked={adaDesidus}
-                            onChange={() => {
-                              setAdaDesidus(!adaDesidus);
-                              setConfirmData({
-                                ...confirmData,
-                                adaDesidus: !adaDesidus,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='ada-desidus'
-                            className='m-2 text-sm font-m'
+                    <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-2 gap-2'>
+                      <div className='shadow-lg shadow-user4 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          Status Gigi Desidus
+                          {adaDesidus === true || adaKekal === true ? null : (
+                            <span className='text-user6'>*</span>
+                          )}
+                        </h4>
+                        <div className='grid gap-1'>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              disabled={isDisabled}
+                              required={
+                                adaDesidus === true || adaKekal === true
+                                  ? false
+                                  : true
+                              }
+                              type='checkbox'
+                              name='ada-desidus'
+                              id='ada-desidus'
+                              checked={adaDesidus}
+                              onChange={() => {
+                                setAdaDesidus(!adaDesidus);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaDesidus: !adaDesidus,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='ada-desidus'
+                              className='m-2 text-sm font-m'
+                            >
+                              ada gigi desidus
+                            </label>
+                          </div>
+                          <div
+                            className={`${
+                              !adaDesidus && 'hidden'
+                            } grid grid-cols-1`}
                           >
-                            ada gigi desidus
-                          </label>
-                        </div>
-                        <div
-                          className={`${
-                            !adaDesidus && 'hidden'
-                          } grid grid-cols-2`}
-                        >
-                          <div className='flex flex-row items-center pl-5'>
-                            <p className='text-sm font-m lowercase'>d: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='20'
-                              type='number'
-                              name='d-ada-status-gigi-desidus'
-                              id='d-ada-status-gigi-desidus'
-                              value={dAdaGigiDesidus}
-                              onChange={(e) => {
-                                setDAdaGigiDesidus(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  dAdaGigiDesidus: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='flex flex-row items-center pl-5'>
-                            <p className='text-sm font-m lowercase'>f: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='20'
-                              type='number'
-                              name='f-ada-status-gigi-desidus'
-                              id='f-ada-status-gigi-desidus'
-                              value={fAdaGigiDesidus}
-                              onChange={(e) => {
-                                setFAdaGigiDesidus(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  fAdaGigiDesidus: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='flex flex-row items-center pl-5'>
-                            <p className='text-sm font-m lowercase'>x: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='20'
-                              type='number'
-                              name='x-ada-status-gigi-desidus'
-                              id='x-ada-status-gigi-desidus'
-                              value={xAdaGigiDesidus}
-                              onChange={(e) => {
-                                setXAdaGigiDesidus(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  xAdaGigiDesidus: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m lowercase'>d: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='d-ada-status-gigi-desidus'
+                                id='d-ada-status-gigi-desidus'
+                                value={dAdaGigiDesidus}
+                                onChange={(e) => {
+                                  setDAdaGigiDesidus(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    dAdaGigiDesidus: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m lowercase'>f: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='f-ada-status-gigi-desidus'
+                                id='f-ada-status-gigi-desidus'
+                                value={fAdaGigiDesidus}
+                                onChange={(e) => {
+                                  setFAdaGigiDesidus(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    fAdaGigiDesidus: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m lowercase'>x: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='x-ada-status-gigi-desidus'
+                                id='x-ada-status-gigi-desidus'
+                                value={xAdaGigiDesidus}
+                                onChange={(e) => {
+                                  setXAdaGigiDesidus(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    xAdaGigiDesidus: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      {sumDMFXDesidus > 20 && (
-                        <p className='text-user6 font-semibold'>
-                          jumlah <span className='lowercase'>dmfx</span>
-                          tidak boleh melebihi 20
-                        </p>
-                      )}
-                    </article>
-                    <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        Status Gigi Kekal
-                        {adaDesidus === true || adaKekal === true ? null : (
-                          <span className='text-user6'>*</span>
+                        {sumDMFXDesidus > 20 && (
+                          <p className='text-user6 font-semibold'>
+                            jumlah <span className='lowercase'>dmfx</span>
+                            tidak boleh melebihi 20
+                          </p>
                         )}
-                      </h4>
-                      <div className='grid grid-cols-1'>
-                        <div className='flex items-center justify-center peer-active:bg-user3'>
-                          <input
-                            disabled={isDisabled}
-                            required={
-                              adaDesidus === true || adaKekal === true
-                                ? false
-                                : true
-                            }
-                            type='checkbox'
-                            name='ada-kekal'
-                            id='ada-kekal'
-                            checked={adaKekal}
-                            onChange={() => {
-                              setAdaKekal(!adaKekal);
-                              setConfirmData({
-                                ...confirmData,
-                                adaKekal: !adaKekal,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2'
-                          />
-                          <label
-                            htmlFor='ada-kekal'
-                            className='m-2 text-sm font-m'
-                          >
-                            ada gigi kekal
-                          </label>
-                        </div>
-                        <div
-                          className={`${
-                            !adaKekal && 'hidden'
-                          } grid grid-cols-2 gap-2`}
-                        >
-                          <div className='flex flex-row items-center  pl-5'>
-                            <p className='text-sm font-m '>D: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='32'
-                              type='number'
-                              name='d-ada-status-gigi-kekal'
-                              id='d-ada-status-gigi-kekal'
-                              value={dAdaGigiKekal}
-                              onChange={(e) => {
-                                setDAdaGigiKekal(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  dAdaGigiKekal: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='flex flex-row items-center pl-5'>
-                            <p className='text-sm font-m '>M: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='32'
-                              type='number'
-                              name='m-ada-status-gigi-kekal'
-                              id='m-ada-status-gigi-kekal'
-                              value={mAdaGigiKekal}
-                              onChange={(e) => {
-                                setMAdaGigiKekal(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  mAdaGigiKekal: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='flex flex-row items-center pl-5'>
-                            <p className='text-sm font-m '>F: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='32'
-                              type='number'
-                              name='f-ada-status-gigi-kekal'
-                              id='f-ada-status-gigi-kekal'
-                              value={fAdaGigiKekal}
-                              onChange={(e) => {
-                                setFAdaGigiKekal(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  fAdaGigiKekal: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='flex flex-row items-center pl-5'>
-                            <p className='text-sm font-m '>E: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='32'
-                              type='number'
-                              name='e-ada-status-gigi-kekal'
-                              id='e-ada-status-gigi-kekal'
-                              value={eAdaGigiKekal}
-                              onChange={(e) => {
-                                setEAdaGigiKekal(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  eAdaGigiKekal: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                          <div className='flex flex-row items-center pl-5'>
-                            <p className='text-sm font-m '>X: </p>
-                            <span className='text-user6'>*</span>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              min='0'
-                              max='32'
-                              type='number'
-                              name='x-ada-status-gigi-kekal'
-                              id='x-ada-status-gigi-kekal'
-                              value={xAdaGigiKekal}
-                              onChange={(e) => {
-                                setXAdaGigiKekal(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  xAdaGigiKekal: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            />
-                          </div>
-                        </div>
                       </div>
-                      {sumDMFXKekal > 32 && (
-                        <p className='text-user6 font-semibold'>
-                          jumlah DMFX tidak boleh melebihi 32
-                        </p>
-                      )}
+                      <div className='shadow-lg shadow-user4 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          Status Gigi Kekal
+                          {adaDesidus === true || adaKekal === true ? null : (
+                            <span className='text-user6'>*</span>
+                          )}
+                        </h4>
+                        <div className='grid grid-cols-1'>
+                          <div className='flex items-center justify-center peer-active:bg-user3'>
+                            <input
+                              disabled={isDisabled}
+                              required={
+                                adaDesidus === true || adaKekal === true
+                                  ? false
+                                  : true
+                              }
+                              type='checkbox'
+                              name='ada-kekal'
+                              id='ada-kekal'
+                              checked={adaKekal}
+                              onChange={() => {
+                                setAdaKekal(!adaKekal);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaKekal: !adaKekal,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2'
+                            />
+                            <label
+                              htmlFor='ada-kekal'
+                              className='m-2 text-sm font-m'
+                            >
+                              ada gigi kekal
+                            </label>
+                          </div>
+                          <div
+                            className={`${
+                              !adaKekal && 'hidden'
+                            } grid grid-cols-1 gap-2`}
+                          >
+                            <div className='flex flex-row items-center  pl-5'>
+                              <p className='text-sm font-m '>D: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='d-ada-status-gigi-kekal'
+                                id='d-ada-status-gigi-kekal'
+                                value={dAdaGigiKekal}
+                                onChange={(e) => {
+                                  setDAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    dAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>M: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='m-ada-status-gigi-kekal'
+                                id='m-ada-status-gigi-kekal'
+                                value={mAdaGigiKekal}
+                                onChange={(e) => {
+                                  setMAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    mAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>F: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='f-ada-status-gigi-kekal'
+                                id='f-ada-status-gigi-kekal'
+                                value={fAdaGigiKekal}
+                                onChange={(e) => {
+                                  setFAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    fAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>X: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='x-ada-status-gigi-kekal'
+                                id='x-ada-status-gigi-kekal'
+                                value={xAdaGigiKekal}
+                                onChange={(e) => {
+                                  setXAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    xAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>E: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='e-ada-status-gigi-kekal'
+                                id='e-ada-status-gigi-kekal'
+                                value={eAdaGigiKekal}
+                                onChange={(e) => {
+                                  setEAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    eAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                          </div>
+                        </div>
+                        {sumDMFXKekal > 32 && (
+                          <p className='text-user6 font-semibold'>
+                            jumlah DMFX tidak boleh melebihi 32
+                          </p>
+                        )}
+                      </div>
                     </article>
                     <article className='border border-userBlack pl-3 p-2 rounded-md'>
                       <div className='grid grid-cols-1'>
@@ -3441,7 +3443,7 @@ function UserFormSekolahPemeriksaan() {
                       <div className='col-span-2 flex flex-col'>
                         <p className='flex items-center lg:pl-5 text-sm'>
                           Melaksanakan Saringan Merokok Melalui Program
-                          Kesihatan Oral Tanpa Asap Rokok(KOTAK)
+                          Kesihatan Oral Tanpa Asap Rokok (KOTAK)
                           <span className='text-user6'>*</span>
                         </p>
                         <div className='flex justify-center items-center pl-5'>
