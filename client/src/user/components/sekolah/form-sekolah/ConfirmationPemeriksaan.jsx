@@ -5,10 +5,13 @@ import {
   FaTimesCircle,
   FaMinus,
   FaPlus,
+  FaRegPaperPlane,
+  FaUserCheck,
 } from 'react-icons/fa';
 
 const ConfirmModal = ({ children, data }) => {
   const [open, setOpen] = useState(false);
+  const [openSelesai, setOpenSelesai] = useState(false);
   const [callback, setCallback] = useState(null);
 
   const show = (callback) => (event) => {
@@ -34,6 +37,15 @@ const ConfirmModal = ({ children, data }) => {
   const confirm = () => {
     callback.run();
     closeModal();
+    setOpenSelesai(false);
+  };
+
+  const showSelesai = () => {
+    setOpenSelesai(true);
+  };
+
+  const closeSelesai = () => {
+    setOpenSelesai(false);
   };
 
   return (
@@ -41,7 +53,7 @@ const ConfirmModal = ({ children, data }) => {
       {children(show)}
       {open && (
         <>
-          <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
             <FaWindowClose
               onClick={closeModal}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -51,7 +63,11 @@ const ConfirmModal = ({ children, data }) => {
                 PERHATIAN
               </h5>
               <div className='mt-1 py-1'>
-                <p className='px-1 text-xs font-semibold'>
+                <span className='relative flex items-center justify-center'>
+                  <FaUserCheck className='text-4xl text-user9 mx-auto absolute animate-ping' />
+                  <FaUserCheck className='text-4xl text-user9 mx-auto absolute' />
+                </span>
+                <p className='px-1 text-xs font-semibold mt-5'>
                   Anda YAKIN untuk menghantar maklumat?
                 </p>
                 {data.adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? (
@@ -612,10 +628,17 @@ const ConfirmModal = ({ children, data }) => {
               </div>
               <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
                 <button
-                  className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all'
-                  onClick={confirm}
+                  className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
+                  onClick={() => {
+                    if (data.kesSelesai === 'ya-kes-selesai') {
+                      setOpenSelesai(true);
+                    } else {
+                      confirm();
+                    }
+                  }}
                 >
                   YA
+                  <FaRegPaperPlane className='inline-flex ml-1' />
                 </button>
                 <button
                   className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
@@ -628,7 +651,58 @@ const ConfirmModal = ({ children, data }) => {
           </div>
           <div
             onClick={closeModal}
-            className='fixed inset-0 bg-userBlack opacity-50 z-10'
+            className='fixed inset-0 bg-userBlack opacity-50 z-0'
+          />
+        </>
+      )}
+      {openSelesai && (
+        <>
+          <form
+            onSubmit={confirm}
+            className='absolute inset-x-10 inset-y-5 lg:inset-x-60 lg:inset-y-14 2xl:inset-x-1/3 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+          >
+            <FaWindowClose
+              onClick={closeSelesai}
+              className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
+            />
+            <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7'>
+              PERHATIAN
+            </h5>
+            <div className='rounded-md p-5'>
+              <div className='flex flex-col justify-center mb-3 2xl:mb-10'>
+                <span className='relative flex justify-center items-center mt-8'>
+                  <FaUserCheck className='text-7xl text-user9 mx-auto absolute animate-ping' />
+                  <FaUserCheck className='text-7xl text-user9 mx-auto absolute' />
+                </span>
+                <p className='text-center text-xl font-bold mt-14'>
+                  Apakah anda yakin?
+                </p>
+                <p className='text-center text-sm'>
+                  Anda tidak dapat mengubah data ini setelah anda menekan butang
+                  "Ya"
+                </p>
+              </div>
+              <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
+                <button
+                  type='submit'
+                  className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all flex items-center justify-center'
+                  data-cy='submit-confirm-2'
+                >
+                  YA
+                  <FaRegPaperPlane className='inline-flex ml-1' />
+                </button>
+                <button
+                  className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
+                  onClick={closeSelesai}
+                >
+                  Tidak
+                </button>
+              </div>
+            </div>
+          </form>
+          <div
+            onClick={closeSelesai}
+            className='absolute inset-0 bg-user1 z-40 opacity-75'
           />
         </>
       )}
