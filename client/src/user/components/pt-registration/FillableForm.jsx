@@ -22,6 +22,7 @@ import Datetime from 'react-datetime';
 import Confirmation from './Confirmation';
 
 import MyVas from './MyVas';
+import MySejahtera from '../../../admin/assets/MySejahtera.png';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -1523,15 +1524,21 @@ export default function FillableForm({
                       <span>
                         <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
                       </span>
-                      {import.meta.env.VITE_ENV === 'UNSTABLE' ||
-                      import.meta.env.VITE_ENV === 'DEV' ? (
+                      {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                        import.meta.env.VITE_ENV === 'DEV') &&
+                      jenisFasiliti === 'kp' ? (
                         <span
                           onClick={() => {
                             setShowMyVas(true);
                           }}
-                          className='absolute -right-16 top-2 bg-user1 text-userWhite rounded-lg text-sm p-1.5 hover:bg-user3 hover:text-userBlack cursor-pointer'
+                          className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
                         >
-                          MyVas
+                          <img
+                            src={MySejahtera}
+                            alt='MySejahtera Logo'
+                            className='w-6 h-6 inline-block mr-1'
+                          />
+                          MyVAS
                         </span>
                       ) : null}
                     </div>
