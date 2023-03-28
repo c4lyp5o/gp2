@@ -37,6 +37,14 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  jenisPerkhidmatanSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  statusFMRSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   sekolahSelesaiReten: {
     type: Boolean,
     default: false,
