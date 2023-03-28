@@ -202,6 +202,7 @@ function UserFormSekolahPemeriksaan() {
   const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
   const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
     useState('');
+  const [bersediaDirujuk, setBersediaDirujuk] = useState('');
 
   // datepicker issue
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
@@ -1813,6 +1814,7 @@ function UserFormSekolahPemeriksaan() {
                           <option value='2'>2</option>
                           <option value='3'>3</option>
                           <option value='4'>4</option>
+                          <option value='tidak-disaring'>Tidak Disaring</option>
                         </select>
                       </div>
                       <div
@@ -1899,6 +1901,62 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                     </article>
                     <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-2 gap-2'>
+                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                        <h4 className='font-bold'>
+                          Pesakit Mempunyai Gigi Desidus/Kekal?
+                          <span className='text-user6'>*</span>
+                        </h4>
+                        <div className='flex items-center justify-center ml-2'>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            // name='pesakit-mempunyai-gigi'
+                            // id='ya-pesakit-mempunyai-gigi'
+                            // value='ya-pesakit-mempunyai-gigi'
+                            // checked={
+                            //   yaTidakPesakitMempunyaiGigi ===
+                            //   'ya-pesakit-mempunyai-gigi'
+                            //     ? true
+                            //     : false
+                            // }
+                            // onChange={(e) => {
+                            //   setYaTidakPesakitMempunyaiGigi(e.target.value);
+                            // }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ya-pesakit-mempunyai-gigi'
+                            className='m-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            // name='pesakit-mempunyai-gigi'
+                            // id='tidak-pesakit-mempunyai-gigi'
+                            // value='tidak-pesakit-mempunyai-gigi'
+                            // checked={
+                            //   yaTidakPesakitMempunyaiGigi ===
+                            //   'tidak-pesakit-mempunyai-gigi'
+                            //     ? true
+                            //     : false
+                            // }
+                            // onChange={(e) => {
+                            //   setYaTidakPesakitMempunyaiGigi(e.target.value);
+                            // }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-pesakit-mempunyai-gigi'
+                            className='m-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                      </div>
                       <div className='shadow-lg shadow-user4 rounded-md auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5'>
                           Status Gigi Desidus
@@ -1907,7 +1965,7 @@ function UserFormSekolahPemeriksaan() {
                           )}
                         </h4>
                         <div className='grid gap-1'>
-                          <div className='flex items-center justify-center'>
+                          <div className='flex items-center pl-5'>
                             <input
                               disabled={isDisabled}
                               required={
@@ -2023,7 +2081,7 @@ function UserFormSekolahPemeriksaan() {
                           )}
                         </h4>
                         <div className='grid grid-cols-1'>
-                          <div className='flex items-center justify-center peer-active:bg-user3'>
+                          <div className='flex items-center pl-5 peer-active:bg-user3'>
                             <input
                               disabled={isDisabled}
                               required={
@@ -2293,7 +2351,7 @@ function UserFormSekolahPemeriksaan() {
                             htmlFor='kecederaan-gigi-anterior'
                             className='m-2 text-sm font-m'
                           >
-                            Kecederaan Gigi Anterior
+                            Kecederaan Gigi
                           </label>
                         </div>
                         <div className='flex items-center flex-row pl-5'>
@@ -2316,7 +2374,7 @@ function UserFormSekolahPemeriksaan() {
                             htmlFor='tisu-lembut'
                             className='m-2 text-sm font-m'
                           >
-                            Tisu Lembut
+                            Kecederaan Tisu Lembut
                           </label>
                         </div>
                         <div className='flex items-center flex-row pl-5'>
@@ -2339,14 +2397,14 @@ function UserFormSekolahPemeriksaan() {
                             htmlFor='tisu-keras'
                             className='m-2 text-sm font-m'
                           >
-                            Tisu Keras
+                            kecederaan tulang muka
                           </label>
                         </div>
                       </div>
                     </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Bilangan FS Dibuat 3 Tahun Lepas
+                        Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
                       </h4>
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>GIC: </p>
@@ -2414,7 +2472,8 @@ function UserFormSekolahPemeriksaan() {
                     </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2 md:col-span-3'>
-                        Bilangan FS Dibuat 3 Tahun Lepas Terjadi Dibawah
+                        Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
+                        Berubah Menjadi Seperti Di Bawah
                       </h4>
                       <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>D: </p>
@@ -2754,6 +2813,18 @@ function UserFormSekolahPemeriksaan() {
                             murid perlu Sapuan Fluorida(FV)
                           </label>
                         </div>
+                        <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='16'
+                            type='number'
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          />
+                          <label className='text-sm font-m'>
+                            jumlah gigi kekal perlu Sapuan Fluorida(FV)
+                          </label>
+                        </div>
                         {sumPerluFv > 16 && (
                           <p className='col-span-2 text-user6 font-semibold'>
                             jumlah baru & semula FV tidak boleh melebihi 16
@@ -2763,7 +2834,7 @@ function UserFormSekolahPemeriksaan() {
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                         <div className='flex flex-row items-center font-bold md:pl-5 col-span-2'>
                           <h4 className='text-sm md:text-base'>
-                            Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
+                            Resin Pencegahan Jenis 1 (PRR Type I)
                           </h4>
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 whitespace-nowrap ${
@@ -2800,8 +2871,7 @@ function UserFormSekolahPemeriksaan() {
                             htmlFor='baru-jumlah-murid-perlu-prr-jenis-1'
                             className='text-sm font-m'
                           >
-                            murid perlu Tampalan Resin Pencegahan Jenis 1 (PRR
-                            Type I)
+                            murid perlu resin Pencegahan Jenis 1 (PRR Type I)
                           </label>
                         </div>
                         <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
@@ -2829,8 +2899,8 @@ function UserFormSekolahPemeriksaan() {
                             htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
                             className='text-sm font-m'
                           >
-                            jumlah gigi kekal perlu Tampalan Resin Pencegahan
-                            Jenis 1 (PRR Type I)
+                            jumlah gigi kekal perlu Resin Pencegahan Jenis 1
+                            (PRR Type I)
                           </label>
                         </div>
                         {sumPerluPrr > 16 && (
@@ -3341,12 +3411,83 @@ function UserFormSekolahPemeriksaan() {
                 )}
                 {adaTiadaPemeriksaanPendaftaran ===
                 'tiada-pemeriksaan' ? null : (
+                  <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2'>
+                    <p className='ml-3 text-xl font-semibold'>Lain-Lain</p>
+                  </span>
+                )}
+                {adaTiadaPemeriksaanPendaftaran ===
+                'tiada-pemeriksaan' ? null : (
                   <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <div className='flex flex-col pl-5 col-span-2'>
                         <h4 className='font-bold flex flex-row'>
-                          KOTAK<span className='text-user6'>*</span>
+                          Program Kesihatan Oral Tanpa Amalan Merokok (KOTAK)
+                          <span className='text-user6'>*</span>
                         </h4>
+                        <div className='col-span-2 flex flex-col'>
+                          <p className='flex items-center lg:pl-5 text-sm normal-case'>
+                            Melaksanakan saringan merokok melalui Program KOTAK
+                            <span className='text-user6'>*</span>
+                          </p>
+                          <div className='flex justify-center items-center pl-5'>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='melaksanakan-saringan-merokok'
+                              id='ya-melaksanakan-saringan-merokok'
+                              value='ya-melaksanakan-saringan-merokok'
+                              checked={
+                                melaksanakanSaringanMerokok ===
+                                'ya-melaksanakan-saringan-merokok'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMelaksanakanSaringanMerokok(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  melaksanakanSaringanMerokok: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='ya-melaksanakan-saringan-merokok'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='melaksanakan-saringan-merokok'
+                              id='tidak-melaksanakan-saringan-merokok'
+                              value='tidak-melaksanakan-saringan-merokok'
+                              checked={
+                                melaksanakanSaringanMerokok ===
+                                'tidak-melaksanakan-saringan-merokok'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMelaksanakanSaringanMerokok(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  melaksanakanSaringanMerokok: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tidak-melaksanakan-saringan-merokok'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                          </div>
+                        </div>
                         <div className='text-sm flex flex-row place-items-center'>
                           <label htmlFor='statusM'>
                             Status Merokok<span className='text-user6'>*</span>
@@ -3373,12 +3514,15 @@ function UserFormSekolahPemeriksaan() {
                             <option value='bekas-perokok'>Bekas Perokok</option>
                             <option value='perokok-pasif'>Perokok Pasif</option>
                             <option value='bukan-perokok'>Bukan Perokok</option>
+                            <option value='dalam-intervensi'>
+                              Dalam Intervensi
+                            </option>
                           </select>
                         </div>
                       </div>
                       <div className='col-span-2 flex flex-row'>
-                        <p className='flex items-center lg:pl-5 text-sm col-span-2'>
-                          adakah pesakit menerima nasihat ringkas?
+                        <p className='flex items-center lg:pl-5 text-sm col-span-2 normal-case'>
+                          Pesakit menerima nasihat ringkas?
                           <span className='text-user6'>*</span>
                         </p>
                         <div className='flex items-center pl-5'>
@@ -3440,71 +3584,71 @@ function UserFormSekolahPemeriksaan() {
                           </label>
                         </div>
                       </div>
-                      <div className='col-span-2 flex flex-col'>
-                        <p className='flex items-center lg:pl-5 text-sm'>
-                          Melaksanakan Saringan Merokok Melalui Program
-                          Kesihatan Oral Tanpa Asap Rokok (KOTAK)
-                          <span className='text-user6'>*</span>
-                        </p>
-                        <div className='flex justify-center items-center pl-5'>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='melaksanakan-saringan-merokok'
-                            id='ya-melaksanakan-saringan-merokok'
-                            value='ya-melaksanakan-saringan-merokok'
-                            checked={
-                              melaksanakanSaringanMerokok ===
-                              'ya-melaksanakan-saringan-merokok'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMelaksanakanSaringanMerokok(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                melaksanakanSaringanMerokok: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-melaksanakan-saringan-merokok'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='melaksanakan-saringan-merokok'
-                            id='tidak-melaksanakan-saringan-merokok'
-                            value='tidak-melaksanakan-saringan-merokok'
-                            checked={
-                              melaksanakanSaringanMerokok ===
-                              'tidak-melaksanakan-saringan-merokok'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMelaksanakanSaringanMerokok(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                melaksanakanSaringanMerokok: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-melaksanakan-saringan-merokok'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
+                      {statusM === 'perokok-semasa' && (
+                        <div className='col-span-2 flex flex-row'>
+                          <p className='flex items-center lg:pl-5 text-sm col-span-2 normal-case'>
+                            Pesakit BERSETUJU untuk dirujuk menjalani
+                            intervensi?
+                            <span className='text-user6'>*</span>
+                          </p>
+                          <div className='flex items-center pl-5'>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='bersedia-dirujuk'
+                              id='ya-bersedia-dirujuk'
+                              value='ya-bersedia-dirujuk'
+                              checked={
+                                bersediaDirujuk === 'ya-bersedia-dirujuk'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setBersediaDirujuk(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  bersediaDirujuk: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='ya-bersedia-dirujuk'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='bersedia-dirujuk'
+                              id='tidak-bersedia-dirujuk'
+                              value='tidak-bersedia-dirujuk'
+                              checked={
+                                bersediaDirujuk === 'tidak-bersedia-dirujuk'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setBersediaDirujuk(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  bersediaDirujuk: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tidak-menerima-nasihat-ringkas'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                          </div>
                         </div>
-                      </div>
+                      )}
                     </article>
                     <div className='auto-rows-min'>
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>

@@ -675,7 +675,7 @@ const ConfirmModal = ({ children, data }) => {
                   <FaUserCheck className='text-7xl text-user9 mx-auto absolute' />
                 </span>
                 <p className='text-center text-xl font-bold mt-14'>
-                  Apakah anda yakin?
+                  Adakah anda yakin?
                 </p>
                 <p className='text-center text-sm'>
                   Anda tidak dapat mengubah data ini setelah anda menekan butang
