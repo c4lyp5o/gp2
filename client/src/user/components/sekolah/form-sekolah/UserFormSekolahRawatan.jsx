@@ -453,7 +453,7 @@ function UserFormSekolahRawatan() {
                         Pengapan Fisur{' '}
                         <FaInfoCircle title='Fissure Sealant' className='m-2' />
                       </h4>
-                      <div className='flex flex-row items-center pl-11 col-span-2'>
+                      {/* <div className='flex flex-row items-center pl-11 col-span-2'>
                         <input
                           type='checkbox'
                           name='baru-jumlah-murid-dibuat-fs'
@@ -474,34 +474,32 @@ function UserFormSekolahRawatan() {
                         >
                           murid dibuat pengapan fisur
                         </label>
+                      </div> */}
+                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                        <label
+                          htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
+                          className='text-sm font-m'
+                        >
+                          Jumlah gigi kekal dibuat pengapan fisur
+                        </label>
+                        <input
+                          type='number'
+                          name='baru-jumlah-gigi-kekal-dibuat-fs'
+                          id='baru-jumlah-gigi-kekal-dibuat-fs'
+                          value={baruJumlahGigiKekalDibuatFs}
+                          onChange={(e) => {
+                            setBaruJumlahGigiKekalDibuatFs(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              baruJumlahGigiKekalDibuatFs: e.target.value,
+                            });
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          min='0'
+                          max='16'
+                          required
+                        />
                       </div>
-                      {muridDibuatFs && (
-                        <div className='flex flex-row items-center pl-5 col-span-2'>
-                          <label
-                            htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
-                            className='text-sm font-m'
-                          >
-                            Jumlah gigi kekal dibuat pengapan fisur
-                          </label>
-                          <input
-                            type='number'
-                            name='baru-jumlah-gigi-kekal-dibuat-fs'
-                            id='baru-jumlah-gigi-kekal-dibuat-fs'
-                            value={baruJumlahGigiKekalDibuatFs}
-                            onChange={(e) => {
-                              setBaruJumlahGigiKekalDibuatFs(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahGigiKekalDibuatFs: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            min='0'
-                            max='16'
-                            required
-                          />
-                        </div>
-                      )}
                     </article>
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -511,7 +509,7 @@ function UserFormSekolahRawatan() {
                           className='m-2'
                         />
                       </h4>
-                      <div className='flex flex-row items-center pl-11 col-span-2'>
+                      {/* <div className='flex flex-row items-center pl-11 col-span-2'>
                         <input
                           type='checkbox'
                           name='murid-diberi-fv'
@@ -532,13 +530,38 @@ function UserFormSekolahRawatan() {
                         >
                           murid diberi Sapuan Florida(FV)
                         </label>
+                      </div> */}
+                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                        <label
+                          htmlFor='baru-jumlah-murid-diberi-fv'
+                          className='text-sm font-m'
+                        >
+                          Jumlah gigi kekal diberi Sapuan Florida(FV)
+                        </label>
+                        <input
+                          type='number'
+                          name='baru-jumlah-murid-diberi-fv'
+                          id='baru-jumlah-murid-diberi-fv'
+                          value={baruJumlahGigiKekalDiberiFv}
+                          onChange={(e) => {
+                            setBaruJumlahGigiKekalDiberiFv(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              baruJumlahGigiKekalDiberiFv: e.target.value,
+                            });
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          min='0'
+                          max='16'
+                          required
+                        />
                       </div>
                     </article>
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Tampalan Resin Pencegahan Jenis 1 (PRR Type I)
+                        Resin Pencegahan Jenis 1 (PRR Type I)
                       </h4>
-                      <div className='flex flex-row items-center pl-11 col-span-2'>
+                      {/* <div className='flex flex-row items-center pl-11 col-span-2'>
                         <input
                           type='checkbox'
                           name='baru-jumlah-murid-diberi-prr-jenis-1'
@@ -557,41 +580,38 @@ function UserFormSekolahRawatan() {
                           htmlFor='baru-jumlah-murid-diberi-prr-jenis-1'
                           className='text-sm font-m'
                         >
-                          murid diberi Tampalan Resin Pencegahan Jenis 1 (PRR
+                          murid dibuat Resin Pencegahan Jenis 1 (PRR Type I)
+                        </label>
+                      </div> */}
+                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                        <label
+                          htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                          className='text-sm font-m'
+                        >
+                          jumlah gigi kekal dibuat Resin Pencegahan Jenis 1 (PRR
                           Type I)
                         </label>
+                        <input
+                          type='number'
+                          name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                          id='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
+                          value={baruJumlahGigiKekalDiberiPrrJenis1}
+                          onChange={(e) => {
+                            setBaruJumlahGigiKekalDiberiPrrJenis1(
+                              e.target.value
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              baruJumlahGigiKekalDiberiPrrJenis1:
+                                e.target.value,
+                            });
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          min='0'
+                          max='16'
+                          required
+                        />
                       </div>
-                      {muridDiberiPrrJenis1 && (
-                        <div className='flex flex-row items-center pl-5 col-span-2'>
-                          <label
-                            htmlFor='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                            className='text-sm font-m'
-                          >
-                            jumlah gigi kekal perlu Tampalan Resin Pencegahan
-                            Jenis 1 (PRR Type I)
-                          </label>
-                          <input
-                            type='number'
-                            name='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                            id='baru-jumlah-gigi-kekal-diberi-prr-jenis-1'
-                            value={baruJumlahGigiKekalDiberiPrrJenis1}
-                            onChange={(e) => {
-                              setBaruJumlahGigiKekalDiberiPrrJenis1(
-                                e.target.value
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahGigiKekalDiberiPrrJenis1:
-                                  e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            min='0'
-                            max='16'
-                            required
-                          />
-                        </div>
-                      )}
                     </article>
                   </div>
                   <div className='grid gap-1 auto-rows-min'>
@@ -1237,7 +1257,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='kes-selesai-icdas-penyata-akhir-2'
                           className='mx-2 text-sm font-m'
                         >
-                          kes selesai ICDAS
+                          kes selesai MMI
                         </label>
                       </div>
                       <div className='flex flex-row items-center pl-5 m-2'>

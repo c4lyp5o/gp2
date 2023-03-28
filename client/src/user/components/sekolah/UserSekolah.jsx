@@ -694,7 +694,7 @@ function UserSekolah() {
                                 </div>
                               )}
                             </td>
-                            {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <Link
                                 target='_blank'
                                 rel='noreferrer'
@@ -735,7 +735,7 @@ function UserSekolah() {
                                   ? 'ubah KOTAK'
                                   : 'tidak perlu KOTAK'}
                               </Link>
-                            </td> */}
+                            </td>
                           </tr>
                         </tbody>
                       </>

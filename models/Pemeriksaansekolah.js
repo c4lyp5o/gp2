@@ -366,6 +366,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  bersediaDirujuk: {
+    type: String,
+    default: '',
+  },
   kesSelesai: {
     type: String,
     default: '',
