@@ -518,10 +518,10 @@ function UserFormSekolahKOTAK() {
                   className='flex bg-user3 p-2 w-full capitalize col-span-2'
                   title='Program Kesihatan Oral Tanpa Amalan Merokok'
                 >
-                  <p className='ml-3 text-xl font-semibold'>KOTAK</p>
+                  <p className='ml-3 text-xl font-semibold'>Program KOTAK</p>
                 </span>
                 <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
-                  <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  {/* <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       Program KOTAK<span className='text-user6'>*</span>
                     </h4>
@@ -743,111 +743,12 @@ function UserFormSekolahKOTAK() {
                         </label>
                       </div>
                     </div>
-                  </article>
-                  {dalamPemantauanKohort !== 'ya-dalam-pemantauan-kohort' ? (
-                    <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold text-base flex flex-row pl-5'>
-                        jenis rokok<span className='text-user6'>*</span>
-                      </h4>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='rokok-biasa-kotak'
-                          id='rokok-biasa-kotak'
-                          required={isJenisRokokRequired}
-                          checked={rokokBiasaKotak}
-                          onChange={() => {
-                            setRokokBiasaKotak(!rokokBiasaKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              rokokBiasaKotak: !rokokBiasaKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='rokok-biasa-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          rokok biasa
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='elektronik-vape-kotak'
-                          id='elektronik-vape-kotak'
-                          required={isJenisRokokRequired}
-                          checked={elektronikVapeKotak}
-                          onChange={() => {
-                            setElektronikVapeKotak(!elektronikVapeKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              elektronikVapeKotak: !elektronikVapeKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='elektronik-vape-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          peranti rokok elektronik
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='shisha-kotak'
-                          id='shisha-kotak'
-                          required={isJenisRokokRequired}
-                          checked={shishaKotak}
-                          onChange={() => {
-                            setShishaKotak(!shishaKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              shishaKotak: !shishaKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='shisha-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          shisha
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='lain-lain-kotak'
-                          id='lain-lain-kotak'
-                          required={isJenisRokokRequired}
-                          checked={lainLainKotak}
-                          onChange={() => {
-                            setLainLainKotak(!lainLainKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              lainLainKotak: !lainLainKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='lain-lain-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          lain-lain
-                        </label>
-                      </div>
-                    </article>
-                  ) : null}
+                  </article> */}
                   {dalamPemantauanKohort !== 'ya-dalam-pemantauan-kohort' ? (
                     <div className='col-span-2'>
                       <article className='flex flex-col gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                         <h4 className='font-bold flex flex-row pl-5 col-span-3'>
-                          tarikh intervensi merokok
+                          tarikh intervensi dilaksanakan
                         </h4>
                         <div className='flex pl-5 justify-center'>
                           <div className='flex items-center flex-col lg:flex-row '>
@@ -1156,11 +1057,110 @@ function UserFormSekolahKOTAK() {
                       </article>
                     </div>
                   ) : null}
+                  {/* {dalamPemantauanKohort !== 'ya-dalam-pemantauan-kohort' ? (
+                    <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold text-base flex flex-row pl-5'>
+                        jenis rokok<span className='text-user6'>*</span>
+                      </h4>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='rokok-biasa-kotak'
+                          id='rokok-biasa-kotak'
+                          required={isJenisRokokRequired}
+                          checked={rokokBiasaKotak}
+                          onChange={() => {
+                            setRokokBiasaKotak(!rokokBiasaKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              rokokBiasaKotak: !rokokBiasaKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='rokok-biasa-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          rokok biasa
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='elektronik-vape-kotak'
+                          id='elektronik-vape-kotak'
+                          required={isJenisRokokRequired}
+                          checked={elektronikVapeKotak}
+                          onChange={() => {
+                            setElektronikVapeKotak(!elektronikVapeKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              elektronikVapeKotak: !elektronikVapeKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='elektronik-vape-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          peranti rokok elektronik
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='shisha-kotak'
+                          id='shisha-kotak'
+                          required={isJenisRokokRequired}
+                          checked={shishaKotak}
+                          onChange={() => {
+                            setShishaKotak(!shishaKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              shishaKotak: !shishaKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='shisha-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          shisha
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='lain-lain-kotak'
+                          id='lain-lain-kotak'
+                          required={isJenisRokokRequired}
+                          checked={lainLainKotak}
+                          onChange={() => {
+                            setLainLainKotak(!lainLainKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              lainLainKotak: !lainLainKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='lain-lain-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          lain-lain
+                        </label>
+                      </div>
+                    </article>
+                  ) : null} */}
                   {adaTiadaQTarikh4 === 'tiada-q-tarikh4' ||
                   adaTiadaQTarikh3 === 'tiada-q-tarikh3' ? (
                     <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
-                        status selepas intervensi
+                        tindakan selepas intervensi sesi 3
                       </h4>
                       <p className='flex flex-row pl-5 text-sm font-m'>
                         dirujuk kepada guru kaunseling
@@ -1245,7 +1245,8 @@ function UserFormSekolahKOTAK() {
                   adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1 auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        status selepas 6 bulan
+                        status selepas 6 bulan daripada tarikh kehadiran
+                        intervensi sesi 1
                       </h4>
                       <select
                         name='status-selepas-6-bulan-kotak'
@@ -1261,9 +1262,9 @@ function UserFormSekolahKOTAK() {
                         className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
                       >
                         <option value=''></option>
-                        <option value='berhenti'>berhenti merokok</option>
+                        <option value='berhenti'>Berhenti Merokok</option>
                         <option value='tidakberhenti'>
-                          tidak berhenti merokok
+                          Tidak Berhenti Merokok
                         </option>
                       </select>
                     </article>
