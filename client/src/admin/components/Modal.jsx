@@ -39,7 +39,7 @@ const AddModal = ({
     toast,
     createData,
     readData,
-    pingApdmServer,
+    pingMOEISServer,
     readSekolahData,
     readFasilitiData,
     readKkiaData,
@@ -78,8 +78,8 @@ const AddModal = ({
     moment(new Date()).format('YYYY-MM-DD')
   );
   const [tempat, setTempat] = useState('');
-  // APDM
-  const [statusApdm, setStatusApdm] = useState(false);
+  // MOEIS
+  const [statusMOEIS, setStatusMOEIS] = useState(false);
   // data
   const [klinik, setKlinik] = useState([]);
   const [kkia, setKkia] = useState([]);
@@ -230,11 +230,11 @@ const AddModal = ({
 
   useEffect(() => {
     if (FType === 'sr' || FType === 'sm') {
-      pingApdmServer().then((res) => {
+      pingMOEISServer().then((res) => {
         if (res.status === 200) {
-          setStatusApdm(true);
+          setStatusMOEIS(true);
         } else {
-          setStatusApdm(false);
+          setStatusMOEIS(false);
         }
       });
       readSekolahData(FType).then((res) => {
@@ -322,7 +322,7 @@ const AddModal = ({
     setTempat,
     tempat,
     // misc
-    statusApdm,
+    statusMOEIS,
     setAddingData,
     addingData,
     klinik,

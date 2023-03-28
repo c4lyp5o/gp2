@@ -816,11 +816,11 @@ export function InputFacility(props) {
               <div className='admin-pegawai-handler-container'>
                 <div className='mb-3'>
                   {(props.FType === 'sm' || props.FType === 'sr') &&
-                    (props.statusApdm === true ? (
+                    (props.statusMOEIS === true ? (
                       <>
                         <div>
                           <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                            APDM Aktif
+                            MOEIS Aktif
                           </span>
                         </div>
                         <div>
@@ -832,7 +832,7 @@ export function InputFacility(props) {
                       </>
                     ) : (
                       <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                        APDM Tidak Aktif
+                        MOEIS Tidak Aktif
                       </span>
                     ))}
                   {props.FType === 'kpb' || props.FType === 'mpb' ? (
