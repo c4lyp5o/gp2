@@ -789,6 +789,18 @@ const getDataKpRoute = async (req, res) => {
         .select('nama mdcNumber mdtbNumber statusPegawai')
         .lean();
       break;
+    case 'sekolah-rendah':
+      data = await Fasiliti.find({
+        createdByNegeri: negeri,
+        jenisFasiliti: 'sekolah-rendah',
+      }).lean();
+      break;
+    case 'sekolah-menengah':
+      data = await Fasiliti.find({
+        createdByNegeri: negeri,
+        jenisFasiliti: 'sekolah-menengah',
+      }).lean();
+      break;
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: username,
