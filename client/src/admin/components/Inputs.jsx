@@ -3821,16 +3821,19 @@ export function InputKpEditKPBMPB(props) {
                 Nombor Plat:{' '}
                 <p className='capitalize'>{props.editedEntity.nama}</p>{' '}
               </p>
-              <div className='grid grid-gap-1'>
-                <p>
-                  Tarikh Beroperasi:{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </p>
-                <div className='flex flex-row justify-center items-center px-5'>
-                  <StartDate {...props} />
-                  <EndDate {...props} />
+              {props.tempatPenggunaan !== 'sekolah-rendah' &&
+              props.tempatPenggunaan !== 'sekolah-menengah' ? (
+                <div className='grid grid-gap-1'>
+                  <p>
+                    Tarikh Beroperasi:{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <div className='flex flex-row justify-center items-center px-5'>
+                    <StartDate {...props} />
+                    <EndDate {...props} />
+                  </div>
                 </div>
-              </div>
+              ) : null}
               <p>
                 Digunakan di:{' '}
                 <span className='font-semibold text-lg text-user6'>*</span>
@@ -3849,10 +3852,12 @@ export function InputKpEditKPBMPB(props) {
                 }}
                 className='border-2'
               >
-                <option value=''>Pilih tempat penggunaan</option>
+                <option value=''>Pilih fasiliti</option>
                 <option value='kp'>Klinik Pergigian</option>
                 <option value='kkiakd'>KKIA / KD</option>
                 <option value='tastad'>Taska / Tadika</option>
+                <option value='sekolah-rendah'>Sekolah Rendah</option>
+                <option value='sekolah-menengah'>Sekolah Menengah</option>
               </select>
               {props.tempatPenggunaan === 'kp' ? (
                 <div className='grid gap-1'>
@@ -3941,6 +3946,65 @@ export function InputKpEditKPBMPB(props) {
                   </select>
                 </div>
               ) : null}
+              {props.tempatPenggunaan === 'sekolah-rendah' && (
+                <div className='grid gap-1'>
+                  <p>
+                    Nama Sekolah Rendah{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    onChange={(e) => {
+                      const selectedSR = props.allSR.find(
+                        (sr) => sr.kodSekolah === e.target.value
+                      );
+                      console.log(selectedSR);
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerSR: selectedSR.nama,
+                        kodSekolahHandler: selectedSR.kodSekolah,
+                      });
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>Pilih Sekolah Rendah</option>
+                    {props.allSR.map((sr) => (
+                      <option className='capitalize' value={sr.kodSekolah}>
+                        {sr.nama} | {sr.kodSekolah}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
+              {props.tempatPenggunaan === 'sekolah-menengah' && (
+                <div className='grid gap-1'>
+                  <p>
+                    Nama Sekolah Menengah{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </p>
+                  <select
+                    required
+                    onChange={(e) => {
+                      const selectedSM = props.allSM.find(
+                        (sm) => sm.kodSekolah === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerSM: selectedSM.nama,
+                        kodSekolahHandler: selectedSM.kodSekolah,
+                      });
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>Pilih Sekolah Menengah</option>
+                    {props.allSM.map((sm) => (
+                      <option className='capitalize' value={sm.kodSekolah}>
+                        {sm.nama} | {sm.kodSekolah}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+              )}
             </div>
           </div>
           <div className={styles.modalActions}>
