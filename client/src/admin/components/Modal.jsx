@@ -49,7 +49,6 @@ const AddModal = ({
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [statusPerkhidmatan, setStatusPerkhidmatan] = useState('');
-  const [kodSekolah, setKodSekolah] = useState('');
   const [kp, setKp] = useState('');
   const [kodFasiliti, setKodFasiliti] = useState('');
   const [kodKkiaKd, setKodKkiaKd] = useState('');
@@ -510,6 +509,8 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
         ...Data,
         risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
+        jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
+        statusFMRSekolah: editedEntity.statusFMRSekolah,
       };
     }
     if (FType === 'program') {
@@ -589,6 +590,8 @@ const EditModalForKp = ({
   const [allKlinik, setAllKlinik] = useState([]);
   const [allKkiaKd, setAllKkiaKd] = useState([]);
   const [allTastad, setAllTastad] = useState([]);
+  const [allSR, setAllSR] = useState([]);
+  const [allSM, setAllSM] = useState([]);
   const [editedEntity, setEditedEntity] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -596,61 +599,72 @@ const EditModalForKp = ({
   const [startDateDP, setStartDateDP] = useState(null);
   const [endDateDP, setEndDateDP] = useState(null);
 
+  const init = useRef(false);
+
   useEffect(() => {
-    if (FType === 'kpb' || FType === 'mpb') {
-      readDataForKp('kpallnegeri').then((res) => {
-        setAllKlinik(res.data);
-      });
-      readDataForKp('kkiakdallnegeri').then((res) => {
-        setAllKkiaKd(res.data);
-      });
-      readDataForKp('tastadallnegeri').then((res) => {
-        setAllTastad(res.data);
-      });
-    }
-    readOneDataForKp(FType, id).then((res) => {
-      if (FType === 'tastad') {
-        // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
-        if (
-          res.data.enrolmenTastad === 'NOT APPLICABLE' ||
-          res.data.enrolmenTastad === null ||
-          res.data.enrolmenTastad === undefined
-        ) {
-          res.data.enrolmenTastad = 0;
-        }
-        if (
-          res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmenKurang4Tahun === null ||
-          res.data.enrolmenKurang4Tahun === undefined
-        ) {
-          res.data.enrolmenKurang4Tahun = 0;
-        }
-        if (
-          res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen5Tahun === null ||
-          res.data.enrolmen5Tahun === undefined
-        ) {
-          res.data.enrolmen5Tahun = 0;
-        }
-        if (
-          res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen6Tahun === null ||
-          res.data.enrolmen6Tahun === undefined
-        ) {
-          res.data.enrolmen6Tahun = 0;
-        }
+    if (init.current === false) {
+      if (FType === 'kpb' || FType === 'mpb') {
+        readDataForKp('kpallnegeri').then((res) => {
+          setAllKlinik(res.data);
+        });
+        readDataForKp('kkiakdallnegeri').then((res) => {
+          setAllKkiaKd(res.data);
+        });
+        readDataForKp('tastadallnegeri').then((res) => {
+          setAllTastad(res.data);
+        });
+        readDataForKp('sr').then((res) => {
+          setAllSR(res.data);
+        });
+        readDataForKp('sm').then((res) => {
+          setAllSM(res.data);
+        });
       }
-      setEditedEntity(res.data);
-      res.data.tarikhStart
-        ? setStartDateDP(new Date(res.data.tarikhStart))
-        : setStartDateDP(null);
-      res.data.tarikhEnd
-        ? setEndDateDP(new Date(res.data.tarikhEnd))
-        : setEndDateDP(null);
-    });
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+      readOneDataForKp(FType, id).then((res) => {
+        if (FType === 'tastad') {
+          // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
+          if (
+            res.data.enrolmenTastad === 'NOT APPLICABLE' ||
+            res.data.enrolmenTastad === null ||
+            res.data.enrolmenTastad === undefined
+          ) {
+            res.data.enrolmenTastad = 0;
+          }
+          if (
+            res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
+            res.data.enrolmenKurang4Tahun === null ||
+            res.data.enrolmenKurang4Tahun === undefined
+          ) {
+            res.data.enrolmenKurang4Tahun = 0;
+          }
+          if (
+            res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
+            res.data.enrolmen5Tahun === null ||
+            res.data.enrolmen5Tahun === undefined
+          ) {
+            res.data.enrolmen5Tahun = 0;
+          }
+          if (
+            res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
+            res.data.enrolmen6Tahun === null ||
+            res.data.enrolmen6Tahun === undefined
+          ) {
+            res.data.enrolmen6Tahun = 0;
+          }
+        }
+        setEditedEntity(res.data);
+        res.data.tarikhStart
+          ? setStartDateDP(new Date(res.data.tarikhStart))
+          : setStartDateDP(null);
+        res.data.tarikhEnd
+          ? setEndDateDP(new Date(res.data.tarikhEnd))
+          : setEndDateDP(null);
+      });
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+      init.current = true;
+    }
   }, []);
 
   // resetting tarikhEnd kalau ubah tarikh start. A MUST TO NOT LET USER PICK tarikhStart LATER THAN tarikhEnd. Yup currently kalau buka kemaskini tarikhEnd tu akan reset kat display. Tapi ni lah cara buat masa ni untuk guard daripada user yang salah masuk tarikhStart terlebih dari tarikhEnd
@@ -733,6 +747,9 @@ const EditModalForKp = ({
         kodKkiaKdBertanggungjawab: editedEntity.kodKkiaKdHandler,
         tastadBertanggungjawab: editedEntity.handlerTastad,
         kodTastadBertanggungjawab: editedEntity.kodTastadHandler,
+        SRbertanggungjawab: editedEntity.handlerSR,
+        SMbertanggungjawab: editedEntity.handlerSM,
+        kodSekolahBertanggungjawab: editedEntity.kodSekolahHandler,
       };
     }
     updateDataForKp(FType, id, Data).then(() => {
@@ -788,6 +805,8 @@ const EditModalForKp = ({
     allKlinik,
     allKkiaKd,
     allTastad,
+    allSR,
+    allSM,
     FType,
     eventModeChecker,
     handleSubmit,
