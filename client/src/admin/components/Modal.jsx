@@ -66,6 +66,9 @@ const AddModal = ({
   const [alamatTastad, setAlamatTastad] = useState('');
   const [enrolmenTastad, setEnrolmenTastad] = useState('');
   const [govKe, setGovKe] = useState('');
+  // sekolah
+  const [kodSekolah, setKodSekolah] = useState('');
+  const [jenisPerkhidmatanSekolah, setJenisPerkhidmatanSekolah] = useState('');
   // kpb mpb
   const [subJenisKPBMPB, setSubJenisKPBMPB] = useState('');
   // event
@@ -119,7 +122,7 @@ const AddModal = ({
       nama: name,
       handler: kp,
       kodFasilitiHandler: kodFasiliti,
-      statusPerkhidmatan: statusPerkhidmatan,
+      statusPerkhidmatan: 'active',
     };
     if (FType === 'kp') {
       Data = {
@@ -181,6 +184,7 @@ const AddModal = ({
         ...Data,
         kodSekolah: kodSekolah,
         risikoSekolahPersis: risiko,
+        jenisPerkhidmatanSekolah,
       };
     }
     if (FType === 'kpb' || FType === 'mpb') {
@@ -296,6 +300,8 @@ const AddModal = ({
     // facility
     setKodSekolah,
     kodSekolah,
+    setJenisPerkhidmatanSekolah,
+    jenisPerkhidmatanSekolah,
     setKodTastad,
     kodTastad,
     setAlamatTastad,
