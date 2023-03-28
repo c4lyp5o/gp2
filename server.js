@@ -61,6 +61,7 @@ const connectDB = require('./database/connect');
 // USE MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'dist');
 app.set('trust proxy', 1);
+app.disable('x-powered-by');
 
 // for use in deployment
 app.use(express.static(root));
@@ -152,9 +153,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
-// error handler & not found
-app.use(errorHandler);
+// not found & error handler
 app.use(notFound);
+app.use(errorHandler);
 
 // SERVER ------------------------------------------------------
 const port = process.env.PORT || 5000;
