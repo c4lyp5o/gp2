@@ -378,40 +378,55 @@ function AdminAppProvider({ children }) {
   // MOEIS
   // ping MOEIS
   const pingMOEISServer = async () => {
-    const response = await axios.get(`https://erkm.calypsocloud.one/`);
+    // const response = await axios.get(`https://erkm.calypsocloud.one/`);
+    const response = await axios.get(`/api/v1/superadmin/getsekolahMOEIS`, {
+      headers: {
+        Authorization: adminToken,
+      },
+    });
     return response;
   };
   // read MOEIS data
   const readSekolahData = async (FType) => {
-    const response = await axios.get(
-      'https://erkm.calypsocloud.one/listsekolah'
+    // const response = await axios.get(
+    //   'https://erkm.calypsocloud.one/listsekolah'
+    // );
+    const responseMOIES = await axios.get(
+      `/api/v1/superadmin/getsekolahMOEIS?FType=${FType}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
     );
-    switch (FType) {
-      case 'sr':
-        const currentSr = await readData('sr-sm-all');
-        if (currentSr.data.length === 0) {
-          return response.data[1].sekolahRendah;
-        }
-        for (let j = 0; j < currentSr.data.length; j++) {
-          const deleteSr = response.data[1].sekolahRendah
-            .map((e) => e.kodSekolah)
-            .indexOf(currentSr.data[j].kodSekolah);
-          response.data[1].sekolahRendah.splice(deleteSr, 1);
-        }
-        return response.data[1].sekolahRendah;
-      default:
-        const currentSm = await readData('sr-sm-all');
-        if (currentSm.data.length === 0) {
-          return response.data[2].sekolahMenengah;
-        }
-        for (let j = 0; j < currentSm.data.length; j++) {
-          const deleteSm = response.data[2].sekolahMenengah
-            .map((e) => e.kodSekolah)
-            .indexOf(currentSm.data[j].kodSekolah);
-          response.data[2].sekolahMenengah.splice(deleteSm, 1);
-        }
-        return response.data[2].sekolahMenengah;
-    }
+    return responseMOIES.data.SENARAI_INSTITUSI;
+
+    // switch (FType) {
+    //   case 'sr':
+    //     const currentSr = await readData('sr-sm-all');
+    //     if (currentSr.data.length === 0) {
+    //       return response.data[1].sekolahRendah;
+    //     }
+    //     for (let j = 0; j < currentSr.data.length; j++) {
+    //       const deleteSr = response.data[1].sekolahRendah
+    //         .map((e) => e.kodSekolah)
+    //         .indexOf(currentSr.data[j].kodSekolah);
+    //       response.data[1].sekolahRendah.splice(deleteSr, 1);
+    //     }
+    //     return response.data[1].sekolahRendah;
+    //   default:
+    //     const currentSm = await readData('sr-sm-all');
+    //     if (currentSm.data.length === 0) {
+    //       return response.data[2].sekolahMenengah;
+    //     }
+    //     for (let j = 0; j < currentSm.data.length; j++) {
+    //       const deleteSm = response.data[2].sekolahMenengah
+    //         .map((e) => e.kodSekolah)
+    //         .indexOf(currentSm.data[j].kodSekolah);
+    //       response.data[2].sekolahMenengah.splice(deleteSm, 1);
+    //     }
+    //     return response.data[2].sekolahMenengah;
+    // }
   };
 
   // read kod program data
