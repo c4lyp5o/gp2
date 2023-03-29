@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
@@ -3196,8 +3197,34 @@ const processKkiakdQuery = async (req, res) => {
 };
 
 const processSekolahQuery = async (req, res) => {
-  // TODO sekolah query
-  res.status(200).json({ msg: 'sekolah query good' });
+  const authKey = req.headers.authorization;
+  const { FType } = req.query;
+  const { negeri, user_name } = await Superadmin.findById(
+    jwt.verify(authKey, process.env.JWT_SECRET).userId
+  );
+  const type = Dictionary[FType];
+  const JPNKod = convertToJPNKod[negeri];
+  logger.info(
+    `[adminAPI/processSekolahQuery] ${user_name} requested ${type} data`
+  );
+  try {
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    const { data } = await axios.get(
+      process.env.MOEIS_INTEGRATION_URL_SEKOLAH + `?jkod=${JPNKod}`,
+      {
+        httpsAgent: agent,
+        headers: {
+          APIKEY: process.env.MOEIS_APIKEY,
+        },
+      }
+    );
+    return res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    return res.json({ msg: error.message });
+  }
 };
 
 const html = (nama, key) =>

@@ -66,6 +66,7 @@ const AddModal = ({
   const [enrolmenTastad, setEnrolmenTastad] = useState('');
   const [govKe, setGovKe] = useState('');
   // sekolah
+  const [idInstitusi, setIdInstitusi] = useState('');
   const [kodSekolah, setKodSekolah] = useState('');
   const [jenisPerkhidmatanSekolah, setJenisPerkhidmatanSekolah] = useState('');
   // kpb mpb
@@ -181,6 +182,7 @@ const AddModal = ({
     if (FType === 'sr' || FType === 'sm') {
       Data = {
         ...Data,
+        idInstitusi: idInstitusi,
         kodSekolah: kodSekolah,
         risikoSekolahPersis: risiko,
         jenisPerkhidmatanSekolah,
@@ -297,6 +299,8 @@ const AddModal = ({
     setKodKkiaKd,
     kodKkiaKd,
     // facility
+    setIdInstitusi,
+    idInstitusi,
     setKodSekolah,
     kodSekolah,
     setJenisPerkhidmatanSekolah,
