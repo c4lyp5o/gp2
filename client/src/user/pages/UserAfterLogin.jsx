@@ -13,6 +13,7 @@ import UserLoggedInNotFound from './UserLoggedInNotFound';
 import UserFooter from '../components/UserFooter';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
+import KohortKotak from '../components/kohort/KOTAK/Kotak';
 
 // status harian, umum, sekolah, promosi, kohort, carian, summary
 const UserStatusHarian = lazy(() =>
@@ -44,6 +45,11 @@ const UserFormPromosi = lazy(() =>
 );
 
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
+
+const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
+const UserKohortKotakForm = lazy(() =>
+  import('../components/kohort/KOTAK/FormKOTAK')
+);
 
 const UserCarian = lazy(() => import('../components/carian/UserCarian'));
 
@@ -213,6 +219,23 @@ function UserAfterLogin() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserKohort />{' '}
+                  </Suspense>
+                }
+              />
+              {/* kotak */}
+              <Route
+                path='kohort/kotak'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <KohortKotak />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/kotak/:personKotakId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotakForm />{' '}
                   </Suspense>
                 }
               />
