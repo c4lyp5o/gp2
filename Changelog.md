@@ -6,6 +6,14 @@
 
 - _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum - https://github.com/nocturnalmc/gp2/commit/22d04e51a3b747baa7ddeb795b1dcb18115bc461
 
+### 26/3/2023 (v2.0.17)
+
+#### Fixed
+
+- Operator yang mempunyai peranan sebagai pentadbir yang telah dihapuskan tidak akan ada di dalam pilihan semasa ingin log masuk di modul Pentadbir bagi Pentadbir Klinik
+- Pembetulan supaya tidak mengeluarkan operator yang telah dihapuskan di pemilihan operator semasa penjanaan reten PG206 & PG207 bagi peringkat Pentadbir Daerah & Pentadbir Negeri
+- Menambah baik prestasi aplikasi yang melibatkan apa-apa operasi bagi pegawai & juruterapi pergigian di setiap peringkat pentadbir
+
 ### 22/3/2023 (v2.0.16)
 
 #### Fixed
