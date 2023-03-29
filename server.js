@@ -116,7 +116,7 @@ app.use('/api/v1/getdate', getdate);
 // }, 5000);
 
 // moeis route
-app.use('/api/v1/moeis/sekolah', authCheck, meois);
+app.use('/api/v1/moeis', authCheck, meois);
 
 // user route
 app.use('/api/v1/auth', authLogin);
