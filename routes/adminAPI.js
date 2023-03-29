@@ -50,7 +50,7 @@ router.get('/getstats', adminAuth, getStatisticsData);
 router.get('/getfasiliti', adminAuth, processFasilitiQuery);
 router.get('/getoperator', adminAuth, processOperatorQuery);
 router.get('/getkkiakd', adminAuth, processKkiakdQuery);
-router.get('/getsekolah', adminAuth, processSekolahQuery);
+router.get('/getsekolahMOEIS', adminAuth, processSekolahQuery);
 
 // Legacy
 router.post('/newroute', adminAuthInt, getData);
