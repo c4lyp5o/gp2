@@ -861,19 +861,25 @@ export function InputFacility(props) {
                     <div className='grid gap-1'>
                       <select
                         required
-                        name='kp'
+                        id='institusi'
+                        name='institusi'
                         onChange={(e) => {
                           props.setName(e.target.value);
                           const index = e.target.selectedIndex;
                           const el = e.target.childNodes[index];
-                          props.setKodSekolah(el.getAttribute('id'));
+                          props.setIdInstitusi(el.getAttribute('id'));
+                          props.setKodSekolah(el.getAttribute('data-kod'));
                         }}
                         className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       >
                         <option value=''>Pilih Sekolah</option>
                         {props.sekolah.map((s) => (
-                          <option value={s.namaSekolah} id={s.kodSekolah}>
-                            {s.namaSekolah}
+                          <option
+                            value={s.NAMA_INSTITUSI}
+                            id={s.ID_INSTITUSI}
+                            data-kod={s.KOD_INSTITUSI}
+                          >
+                            {s.NAMA_INSTITUSI}
                           </option>
                         ))}
                       </select>

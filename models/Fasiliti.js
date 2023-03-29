@@ -33,6 +33,10 @@ const fasilitiSchema = new Schema({
     default: 'NOT APPLICABLE',
   },
   // sr sm
+  idInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   kodSekolah: {
     type: String,
     default: 'NOT APPLICABLE',
