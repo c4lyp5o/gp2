@@ -1784,19 +1784,26 @@ function UserFormSekolahPemeriksaan() {
                           <option value='E'>E</option>
                         </select>
                       </div>
-                      {singlePersonSekolah.umur < 15 && (
+                      {singlePersonSekolah.umur >= 15 && (
                         <div className=' flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>
                             Skor BPE
                             {skorGisMulutOralHygiene ||
-                            skorBpeOralHygiene ? null : (
+                            skorBpeOralHygiene === '1' ||
+                            skorBpeOralHygiene === '2' ||
+                            skorBpeOralHygiene === '3' ||
+                            skorBpeOralHygiene === '4' ? null : (
                               <span className='text-user6'>*</span>
                             )}
                           </p>
                           <select
                             disabled={isDisabled}
                             required={
-                              skorGisMulutOralHygiene || skorBpeOralHygiene
+                              skorGisMulutOralHygiene ||
+                              skorBpeOralHygiene === '1' ||
+                              skorBpeOralHygiene === '2' ||
+                              skorBpeOralHygiene === '3' ||
+                              skorBpeOralHygiene === '4'
                                 ? false
                                 : true
                             }
@@ -1810,7 +1817,7 @@ function UserFormSekolahPemeriksaan() {
                                 skorBpeOralHygiene: e.target.value,
                               });
                             }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            className='appearance-none w-32 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           >
                             <option value=''></option>
                             <option value='0'>0</option>
@@ -1818,9 +1825,9 @@ function UserFormSekolahPemeriksaan() {
                             <option value='2'>2</option>
                             <option value='3'>3</option>
                             <option value='4'>4</option>
-                            {/* <option value='tidak-disaring'>
+                            <option value='tidak-disaring'>
                               Tidak Disaring
-                            </option> */}
+                            </option>
                           </select>
                         </div>
                       )}
@@ -1858,14 +1865,21 @@ function UserFormSekolahPemeriksaan() {
                         <p className='flex text-sm font-m'>
                           Skor GIS
                           {skorGisMulutOralHygiene ||
-                          skorBpeOralHygiene ? null : (
+                          skorBpeOralHygiene === '1' ||
+                          skorBpeOralHygiene === '2' ||
+                          skorBpeOralHygiene === '3' ||
+                          skorBpeOralHygiene === '4' ? null : (
                             <span className='text-user6'>*</span>
                           )}
                         </p>
                         <select
                           disabled={isDisabled}
                           required={
-                            skorGisMulutOralHygiene || skorBpeOralHygiene
+                            skorGisMulutOralHygiene ||
+                            skorBpeOralHygiene === '1' ||
+                            skorBpeOralHygiene === '2' ||
+                            skorBpeOralHygiene === '3' ||
+                            skorBpeOralHygiene === '4'
                               ? false
                               : true
                           }
