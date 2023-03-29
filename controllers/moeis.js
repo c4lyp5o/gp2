@@ -25,7 +25,7 @@ const getSekolahMOEIS = async (req, res) => {
     );
     return res.status(200).json(data);
   } catch (error) {
-    return res.json({ msg: error });
+    return res.json({ msg: error.message });
   }
 };
 
@@ -52,7 +52,7 @@ const getPelajarMOEIS = async (req, res) => {
     );
     return res.status(200).json(data);
   } catch (error) {
-    return res.json({ msg: error });
+    return res.json({ msg: error.message });
   }
 };
 
