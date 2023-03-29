@@ -4,11 +4,10 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 const path = require('path');
-// const axios = require('axios');
 const { logger } = require('./logs/logger');
 
 // cron job
-const startETL = require('./jobs/ETL');
+// const startETL = require('./jobs/ETL');
 
 // security package
 const helmet = require('helmet');
@@ -23,6 +22,9 @@ const getdate = require('./routes/getdate');
 
 // erkm import
 // const erkm = require('./routes/erkm');
+
+// MOEIS import
+const meois = require('./routes/moeis');
 
 // user import
 const authLogin = require('./routes/authLogin');
@@ -112,6 +114,9 @@ app.use('/api/v1/getdate', getdate);
 //   }
 //   // }, 600000);
 // }, 5000);
+
+// moeis route
+app.use('/api/v1/moeis/sekolah', authCheck, meois);
 
 // user route
 app.use('/api/v1/auth', authLogin);
