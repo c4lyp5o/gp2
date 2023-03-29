@@ -80,6 +80,25 @@ const Dictionary = {
   negeriilk: 'ILK',
 };
 
+// for MOEIS integration
+const convertToJPNKod = {
+  Johor: 'JPA1001',
+  Kedah: 'KPA2001',
+  Kelantan: 'DPA1001',
+  Melaka: 'MPA2001',
+  'Negeri Sembilan': 'NPA4001',
+  Pahang: 'CPA4001',
+  'Pulau Pinang': 'PPA0170',
+  Perak: 'APA2242',
+  Perlis: 'RPA0001',
+  Selangor: 'BPA8002',
+  Terengganu: 'TPA3001',
+  Sabah: 'XPA4001',
+  Sarawak: 'YPA1201',
+  'WP Kuala Lumpur': 'WPA0002',
+  'WP Putrajaya': 'WPA2001',
+};
+
 const socmed = [
   'Facebook',
   'Instagram',
@@ -3176,6 +3195,11 @@ const processKkiakdQuery = async (req, res) => {
   res.status(200).json(filteredKKIAKD);
 };
 
+const processSekolahQuery = async (req, res) => {
+  // TODO sekolah query
+  res.status(200).json({ msg: 'sekolah query good' });
+};
+
 const html = (nama, key) =>
   `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -3402,4 +3426,5 @@ module.exports = {
   processFasilitiQuery,
   processOperatorQuery,
   processKkiakdQuery,
+  processSekolahQuery,
 };
