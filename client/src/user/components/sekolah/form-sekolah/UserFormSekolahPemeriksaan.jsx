@@ -770,6 +770,8 @@ function UserFormSekolahPemeriksaan() {
     if (kesSelesai === 'tidak-kes-selesai') {
       statusRawatan = 'belum selesai';
     }
+    const { nama, namaKelas, namaSekolah, kodSekolah } = singlePersonSekolah;
+    // return;
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
       await toast
         .promise(
@@ -777,6 +779,10 @@ function UserFormSekolahPemeriksaan() {
             `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
             {
               createdByUsername,
+              nama,
+              namaKelas,
+              namaSekolah,
+              kodSekolah,
               statusRawatan,
               tarikhPemeriksaanSemasa,
               engganKedatanganPendaftaran,
@@ -850,6 +856,7 @@ function UserFormSekolahPemeriksaan() {
               statusM,
               menerimaNasihatRingkas,
               melaksanakanSaringanMerokok,
+              bersediaDirujuk,
               kesSelesai,
             },
             {
