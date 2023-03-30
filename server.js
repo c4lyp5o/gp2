@@ -24,7 +24,7 @@ const getdate = require('./routes/getdate');
 // const erkm = require('./routes/erkm');
 
 // MOEIS import
-const meois = require('./routes/moeis');
+const moeis = require('./routes/moeis');
 
 // user import
 const authLogin = require('./routes/authLogin');
@@ -54,6 +54,7 @@ const ETL = require('./routes/ETL');
 
 // IMPORT MIDDLEWARES ------------------------------------------
 const authCheck = require('./middlewares/authCheck');
+const moeisAuth = require('./middlewares/moeisAuth');
 const { etlAuth } = require('./middlewares/adminAuth');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
@@ -117,7 +118,7 @@ app.use('/api/v1/getdate', getdate);
 // }, 5000);
 
 // moeis route
-app.use('/api/v1/moeis', authCheck, meois);
+app.use('/api/v1/moeis', moeisAuth, moeis);
 
 // user route
 app.use('/api/v1/auth', authLogin);
