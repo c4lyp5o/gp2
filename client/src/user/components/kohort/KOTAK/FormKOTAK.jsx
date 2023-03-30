@@ -21,7 +21,7 @@ function UserFormKohortKOTAK() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
-  const [singlePersonKotak, setSinglePersonKotak] = useState([]);
+  const [singlePersonKohortKotak, setSinglePersonKohortKotak] = useState([]);
   const [isJenisRokokRequired, setIsJenisRokokRequired] = useState(true);
 
   //confirm data
@@ -204,9 +204,9 @@ function UserFormKohortKOTAK() {
     }
   }, [rokokBiasaKotak, elektronikVapeKotak, shishaKotak, lainLainKotak]);
 
-  // fetch singlePersonKotak
+  // fetch singlePersonKohortKotak
   useEffect(() => {
-    const fetchSinglePersonKotak = async () => {
+    const fetchSinglePersonKohortKotak = async () => {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
@@ -219,7 +219,7 @@ function UserFormKohortKOTAK() {
             },
           }
         );
-        setSinglePersonKotak(data.singlePersonKohort);
+        setSinglePersonKohortKotak(data.singlePersonKohortKotak);
         // // map to form if kotakSekolahId exist
         // if (kotakSekolahId !== 'tambah-kotak') {
         //   setDalamPemantauanKohort(
@@ -299,11 +299,11 @@ function UserFormKohortKOTAK() {
       } catch (error) {
         console.log(error);
         // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-sekolah-kotak-fetchsinglePersonKotak'
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-sekolah-kotak-fetchsinglePersonKohortKotak'
         // );
       }
     };
-    fetchSinglePersonKotak();
+    fetchSinglePersonKohortKotak();
   }, []);
 
   const handleSubmit = async (e) => {
@@ -441,31 +441,37 @@ function UserFormKohortKOTAK() {
                     <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack left-64 p-5 bg-userWhite '>
                       <div className='text-xs flex flex-row'>
                         <h2 className='font-semibold'>NAMA :</h2>
-                        <p className='ml-1'>{singlePersonKotak.nama}</p>
+                        <p className='ml-1'>{singlePersonKohortKotak.nama}</p>
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
-                        <p className='ml-1'>{singlePersonKotak.ic}</p>
+                        <p className='ml-1'>{singlePersonKohortKotak.ic}</p>
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
-                        <p className='ml-1'>{singlePersonKotak.jantina}</p>
+                        <p className='ml-1'>
+                          {singlePersonKohortKotak.jantina}
+                        </p>
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>TARIKH LAHIR :</h2>
-                        <p className='ml-1'>{singlePersonKotak.tarikhLahir}</p>
+                        <p className='ml-1'>
+                          {singlePersonKohortKotak.tarikhLahir}
+                        </p>
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>BANGSA :</h2>
                         <p className='ml-1'>
-                          {singlePersonKotak.kumpulanEtnik}
+                          {singlePersonKohortKotak.kumpulanEtnik}
                         </p>
                       </div>
                     </div>
                   )}
                   <div className='flex flex-row pl-5'>
                     <h2 className='font-semibold text-xs'>NAMA :</h2>
-                    <p className='ml-1 text-xs'>{singlePersonKotak.nama}</p>
+                    <p className='ml-1 text-xs'>
+                      {singlePersonKohortKotak.nama}
+                    </p>
                   </div>
                 </div>
               )}
@@ -475,14 +481,16 @@ function UserFormKohortKOTAK() {
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonKotak.namaSekolah}
+                        {singlePersonKohortKotak.namaSekolah}
                       </p>
                     </div>
                   </div>
                   <div className='lg:pt-10'>
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
-                      <p className='ml-1 text-xs'>{singlePersonKotak.kelas}</p>
+                      <p className='ml-1 text-xs'>
+                        {singlePersonKohortKotak.kelas}
+                      </p>
                     </div>
                   </div>
                 </>
