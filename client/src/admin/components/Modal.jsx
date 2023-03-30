@@ -43,6 +43,7 @@ const AddModal = ({
     readSekolahData,
     readFasilitiData,
     readKkiaData,
+    DictionaryHurufNegeri,
     EmailValidator,
   } = useGlobalAdminAppContext();
 
@@ -61,7 +62,8 @@ const AddModal = ({
   // institusi
   const [kategoriInstitusi, setKategoriInstitusi] = useState('');
   // taska
-  const [kodTastad, setKodTastad] = useState('');
+  const [kodTastadTengah, setKodTastadTengah] = useState('');
+  const [kodTastadHujung, setKodTastadHujung] = useState('');
   const [alamatTastad, setAlamatTastad] = useState('');
   const [enrolmenTastad, setEnrolmenTastad] = useState('');
   const [govKe, setGovKe] = useState('');
@@ -171,9 +173,14 @@ const AddModal = ({
       };
     }
     if (FType === 'taska' || FType === 'tadika') {
+      const kodTastadSebenar = `${FType.substring(0, 3).toUpperCase()}-${
+        DictionaryHurufNegeri[negeri]
+      }${kodTastadTengah}-${
+        govKe === 'kerajaan' ? 'K' : 'S'
+      }${kodTastadHujung}`;
       Data = {
         ...Data,
-        kodTastad: kodTastad,
+        kodTastad: kodTastadSebenar,
         alamatTastad: alamatTastad,
         // enrolmenTastad: enrolmenTastad, //enrolmentTastad ditetapkan di Pentadbir Klinik
         govKe: govKe,
@@ -305,8 +312,10 @@ const AddModal = ({
     kodSekolah,
     setJenisPerkhidmatanSekolah,
     jenisPerkhidmatanSekolah,
-    setKodTastad,
-    kodTastad,
+    setKodTastadTengah,
+    kodTastadTengah,
+    setKodTastadHujung,
+    kodTastadHujung,
     setAlamatTastad,
     alamatTastad,
     setEnrolmenTastad,
@@ -337,6 +346,7 @@ const AddModal = ({
     klinik,
     kkia,
     sekolah,
+    negeri,
     handleSubmit,
   };
 
