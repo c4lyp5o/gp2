@@ -13,7 +13,6 @@ import UserLoggedInNotFound from './UserLoggedInNotFound';
 import UserFooter from '../components/UserFooter';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
-import KohortKotak from '../components/kohort/KOTAK/Kotak';
 
 // status harian, umum, sekolah, promosi, kohort, carian, summary
 const UserStatusHarian = lazy(() =>
@@ -227,12 +226,12 @@ function UserAfterLogin() {
                 path='kohort/kotak'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <KohortKotak />{' '}
+                    <UserKohortKotak />{' '}
                   </Suspense>
                 }
               />
               <Route
-                path='kohort/kotak/:personKotakId'
+                path='kohort/kotak/:personKohortKotakId'
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserKohortKotakForm />{' '}
