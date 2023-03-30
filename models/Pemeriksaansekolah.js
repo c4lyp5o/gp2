@@ -19,10 +19,6 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     required: true,
   },
   // pemeriksaan -----------------------------------------------------------
-  tarikhPemeriksaanSemasa: {
-    type: String,
-    default: '',
-  },
   engganTidakHadirPemeriksaan: {
     type: String,
     default: '',
@@ -36,6 +32,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     default: '',
   },
   tidakHadirPemeriksaan: {
+    type: String,
+    default: '',
+  },
+  tarikhPemeriksaanSemasa: {
     type: String,
     default: '',
   },
@@ -210,6 +210,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     default: 0,
+  },
+  toothSurfaceLoss: {
+    type: Boolean,
+    default: false,
   },
   classID: {
     type: Number,
