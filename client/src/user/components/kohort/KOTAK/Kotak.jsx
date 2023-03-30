@@ -17,12 +17,10 @@ function KohortKotak() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
-  const [allPersonKohorts, setAllPersonKohorts] = useState([]);
+  const [allPersonKohortKotak, setAllPersonKohortKotak] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahun, setPilihanTahun] = useState('');
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
-
-  const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -33,26 +31,14 @@ function KohortKotak() {
     const fetchAllPersonKohort = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get('/api/v1/kohort?jenisKohort=kotak', {
+        const { data } = await axios.get('/api/v1/kohort/kotak', {
           headers: {
             Authorization: `Bearer ${
               reliefUserToken ? reliefUserToken : userToken
             }`,
           },
         });
-        // const allPersonKohorts = data.allPersonSekolahs;
-        // const namaSekolahs = allPersonSekolahs.reduce(
-        //   (arrNamaSekolahs, singlePersonSekolah) => {
-        //     if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-        //       arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-        //     }
-        //     return arrNamaSekolahs.filter((valid) => valid);
-        //   },
-        //   ['']
-        // );
-        setAllPersonKohorts(data.kohortResultQuery);
-        // setNamaSekolahs(namaSekolahs);
-        // setRefreshTimer(!refreshTimer);
+        setAllPersonKohortKotak(data.kohortKotakResultQuery);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -63,85 +49,6 @@ function KohortKotak() {
     };
     fetchAllPersonKohort();
   }, [reloadState]);
-
-  //   useEffect(() => {
-  //     const filteredSekolahs = allPersonSekolahs.filter((person) =>
-  //       person.namaSekolah.includes(pilihanSekolah)
-  //     );
-  //     const tahun = filteredSekolahs.reduce(
-  //       (arrTahun, singlePersonSekolah) => {
-  //         if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-  //           arrTahun.push(singlePersonSekolah.tahun);
-  //         }
-  //         return arrTahun.filter((valid) => valid);
-  //       },
-  //       ['']
-  //     );
-  //     setTahun(tahun);
-  //     setDahFilterSekolahs(filteredSekolahs);
-  //   }, [pilihanSekolah]);
-
-  //   useEffect(() => {
-  //     const filteredTahun = dahFilterSekolahs.filter((person) =>
-  //       person.tahun.includes(pilihanTahun)
-  //     );
-  //     const namaKelas = filteredTahun.reduce(
-  //       (arrNamaKelas, singlePersonSekolah) => {
-  //         if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-  //           arrNamaKelas.push(singlePersonSekolah.namaKelas);
-  //         }
-  //         return arrNamaKelas.filter((valid) => valid);
-  //       },
-  //       ['']
-  //     );
-  //     setNamaKelas(namaKelas);
-  //     setDahFilterTahun(filteredTahun);
-  //   }, [pilihanTahun]);
-
-  //   // reset value
-  //   useEffect(() => {
-  //     setPilihanTahun('');
-  //     setPilihanNamaKelas('');
-  //     setFilterNama('');
-  //   }, [pilihanSekolah]);
-
-  //   useEffect(() => {
-  //     setPilihanNamaKelas('');
-  //     setFilterNama('');
-  //   }, [pilihanTahun]);
-
-  //   useEffect(() => {
-  //     setFilterNama('');
-  //   }, [pilihanNamaKelas]);
-
-  // fetch fasiliti sekolah to determine selesai reten
-  useEffect(() => {
-    const fetchFasilitiSekolahs = async () => {
-      try {
-        const { data } = await axios.get('/api/v1/sekolah', {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        });
-        setFasilitiSekolah(data.fasilitiSekolahs);
-        setFilteredFasilitiSekolah(data.fasilitiSekolahs);
-      } catch (error) {
-        console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchFasilitiSekolahs'
-        // );
-      }
-    };
-    fetchFasilitiSekolahs();
-  }, []);
-
-  useEffect(() => {
-    setFilteredFasilitiSekolah(
-      fasilitiSekolah.filter((f) => f.nama.includes(pilihanSekolah))
-    );
-  }, [pilihanSekolah]);
 
   // on tab focus reload data
   useEffect(() => {
@@ -311,39 +218,41 @@ function KohortKotak() {
             </thead>
             {!isLoading ? (
               <tbody className='text-user1'>
-                {allPersonKohorts.map((singlePersonKohort, index) => {
+                {allPersonKohortKotak.map((singlePersonKohortKotak, index) => {
                   return (
                     <tr key={index}>
                       <td className='outline outline-1 outline-offset-1 px-2 py-1'>
                         {index + 1}
                       </td>
                       <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                        {singlePersonKohort.nama}
+                        {singlePersonKohortKotak.nama}
                       </td>
                       <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                        {singlePersonKohort.kelas}
+                        {singlePersonKohortKotak.kelas}
                       </td>
                       <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                        {singlePersonKohort.noTelefon}
+                        {singlePersonKohortKotak.noTelefon}
                       </td>
                       <td className='outline outline-1 outline-offset-1 px-2 py-1'>
                         <Link
                           target='_blank'
                           rel='noreferrer'
-                          to={`${singlePersonKohort._id}`}
+                          to={`${singlePersonKohortKotak._id}`}
                         >
                           tambah KOTAK
                         </Link>
                       </td>
                       <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                        {!singlePersonKohort.tarikhIntervensi1 ? (
+                        {!singlePersonKohortKotak.tarikhIntervensi1 ? (
                           <span className='text-red-500'>BELUM DITETAPKAN</span>
                         ) : (
-                          <span>{singlePersonKohort.tarikhIntervensi1}</span>
+                          <span>
+                            {singlePersonKohortKotak.tarikhIntervensi1}
+                          </span>
                         )}
                       </td>
                       <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                        {singlePersonKohort.statusSelepas6Bulan}
+                        {singlePersonKohortKotak.statusSelepas6Bulan}
                       </td>
                     </tr>
                   );
