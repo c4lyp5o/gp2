@@ -31,13 +31,14 @@ function UserFormSekolahPemeriksaan() {
   const [showTrauma, setShowTrauma] = useState(false);
 
   const createdByUsername = username;
-  const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
-  const [engganKedatanganPendaftaran, setEngganKedatanganPendaftaran] =
-    useState(false);
-  const [tidakHadirKedatanganPendaftaran, setTidakHadirKedatanganPendaftaran] =
-    useState(false);
-  const [adaTiadaPemeriksaanPendaftaran, setAdaTiadaPemeriksaanPendaftaran] =
+  const [engganTidakHadirPemeriksaan, setEngganTidakHadirPemeriksaan] =
     useState('');
+  const [modalEnggan, setModalEnggan] = useState(false);
+  const [modalTidakHadir, setModalTidakHadir] = useState(false);
+  const [engganPemeriksaan, setEngganPemeriksaan] = useState('');
+  const [kebenaranPemeriksaan, setKebenaranPemeriksaan] = useState('');
+  const [tidakHadirPemeriksaan, setTidakHadirPemeriksaan] = useState('');
+  const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
   const [statikBergerak, setStatikBergerak] = useState('');
   const [kpBergerak, setKpBergerak] = useState(false);
   const [plateNo, setPlateNo] = useState('');
@@ -386,17 +387,17 @@ function UserFormSekolahPemeriksaan() {
     adaKekal,
   ]);
 
-  useEffect(() => {
-    if (!engganKedatanganPendaftaran) {
-      setAdaTiadaPemeriksaanPendaftaran('');
-    }
-  }, [engganKedatanganPendaftaran]);
+  // useEffect(() => {
+  //   if (!engganKedatanganPendaftaran) {
+  //     setAdaTiadaPemeriksaanPendaftaran('');
+  //   }
+  // }, [engganKedatanganPendaftaran]);
 
-  useEffect(() => {
-    if (!tidakHadirKedatanganPendaftaran) {
-      setAdaTiadaPemeriksaanPendaftaran('');
-    }
-  }, [tidakHadirKedatanganPendaftaran]);
+  // useEffect(() => {
+  //   if (!tidakHadirKedatanganPendaftaran) {
+  //     setAdaTiadaPemeriksaanPendaftaran('');
+  //   }
+  // }, [tidakHadirKedatanganPendaftaran]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -421,17 +422,13 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .tarikhPemeriksaanSemasa
           );
-          setEngganKedatanganPendaftaran(
+          setEngganTidakHadirPemeriksaan(
             data.personSekolahWithPopulate.pemeriksaanSekolah
-              .engganKedatanganPendaftaran
+              .engganTidakHadirPemeriksaan
           );
-          setTidakHadirKedatanganPendaftaran(
+          setTidakHadirPemeriksaan(
             data.personSekolahWithPopulate.pemeriksaanSekolah
-              .tidakHadirKedatanganPendaftaran
-          );
-          setAdaTiadaPemeriksaanPendaftaran(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .adaTiadaPemeriksaanPendaftaran
+              .tidakHadirPemeriksaan
           );
           setStatikBergerak(
             data.personSekolahWithPopulate.pemeriksaanSekolah.statikBergerak
@@ -779,9 +776,8 @@ function UserFormSekolahPemeriksaan() {
               createdByUsername,
               statusRawatan,
               tarikhPemeriksaanSemasa,
-              engganKedatanganPendaftaran,
-              tidakHadirKedatanganPendaftaran,
-              adaTiadaPemeriksaanPendaftaran,
+              engganTidakHadirPemeriksaan,
+              tidakHadirPemeriksaan,
               statikBergerak,
               kpBergerak,
               plateNo,
@@ -889,9 +885,8 @@ function UserFormSekolahPemeriksaan() {
               createdByUsername,
               statusRawatan,
               tarikhPemeriksaanSemasa,
-              engganKedatanganPendaftaran,
-              tidakHadirKedatanganPendaftaran,
-              adaTiadaPemeriksaanPendaftaran,
+              engganTidakHadirPemeriksaan,
+              tidakHadirPemeriksaan,
               statikBergerak,
               kpBergerak,
               plateNo,
@@ -1078,34 +1073,31 @@ function UserFormSekolahPemeriksaan() {
                     <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                       Kedatangan<span className='text-user6'>*</span>
                     </h4>
-                    <div>
-                      <p className='flex items-center flex-row pl-4 p-1 text-m font-m '>
-                        tarikh pemeriksaan:<span className='text-user6'>*</span>
-                      </p>
-                      <TarikhPemeriksaanSemasa />
-                    </div>
                     <div className='grid grid-rows-2'>
                       <div className='flex items-center flex-row pl-5'>
                         <input
                           disabled={isDisabled}
-                          type='checkbox'
-                          name='enggan-kedatangan'
-                          id='enggan-kedatangan'
-                          checked={engganKedatanganPendaftaran}
-                          onChange={() => {
-                            setEngganKedatanganPendaftaran(
-                              !engganKedatanganPendaftaran
-                            );
+                          type='radio'
+                          name='enggan-tidak-hadir-pemeriksaan'
+                          id='enggan-pemeriksaan'
+                          value='enggan-pemeriksaan'
+                          checked={
+                            engganTidakHadirPemeriksaan === 'enggan-pemeriksaan'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setEngganTidakHadirPemeriksaan(e.target.value);
                             setConfirmData({
                               ...confirmData,
-                              engganKedatanganPendaftaran:
-                                !engganKedatanganPendaftaran,
+                              engganTidakHadirPemeriksaan: e.target.value,
                             });
+                            setModalEnggan(true);
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                         <label
-                          htmlFor='enggan-kedatangan'
+                          htmlFor='enggan-pemeriksaan'
                           className='m-2 text-sm font-m'
                         >
                           Enggan
@@ -1114,31 +1106,277 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex items-center flex-row pl-5'>
                         <input
                           disabled={isDisabled}
-                          type='checkbox'
-                          name='tidak-hadir-kedatangan'
-                          id='tidak-hadir-kedatangan'
-                          checked={tidakHadirKedatanganPendaftaran}
-                          onChange={() => {
-                            setTidakHadirKedatanganPendaftaran(
-                              !tidakHadirKedatanganPendaftaran
-                            );
+                          type='radio'
+                          name='enggan-tidak-hadir-pemeriksaan'
+                          id='tidak-hadir-pemeriksaan'
+                          value='tidak-hadir-pemeriksaan'
+                          checked={
+                            engganTidakHadirPemeriksaan ===
+                            'tidak-hadir-pemeriksaan'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setEngganTidakHadirPemeriksaan(e.target.value);
                             setConfirmData({
                               ...confirmData,
-                              tidakHadirKedatanganPendaftaran:
-                                !tidakHadirKedatanganPendaftaran,
+                              engganTidakHadirPemeriksaan: e.target.value,
                             });
+                            setModalTidakHadir(true);
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                         <label
-                          htmlFor='tidak-hadir-kedatangan'
+                          htmlFor='tidak-hadir-pemeriksaan'
                           className='m-2 text-sm font-m'
                         >
                           Tidak Hadir
                         </label>
+                        {engganTidakHadirPemeriksaan ? (
+                          <span
+                            className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
+                            onClick={() => {
+                              setEngganTidakHadirPemeriksaan('');
+                            }}
+                          >
+                            X
+                          </span>
+                        ) : null}
+                      </div>
+                      <div>
+                        <div
+                          className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
+                            modalEnggan ? 'block' : 'hidden'
+                          }`}
+                        >
+                          <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
+                            PERHATIAN
+                          </h5>
+                          <h1>Enggan</h1>
+                          <p>
+                            Murid yang Enggan Pemeriksaan/Rawatan sehingga hari
+                            terakhir Pasukan Pergigian berada di Sekolah,
+                            termasuk murid yang tiada kebenaran
+                          </p>
+                          <div className='flex flex-row justify-center mt-2'>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-enggan-pemeriksaan'
+                                id='ya-enggan-pemeriksaan'
+                                value='ya-enggan-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  engganPemeriksaan === 'ya-enggan-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setEngganPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganPemeriksaan: e.target.value,
+                                  });
+                                }}
+                              />
+                              <label
+                                htmlFor='ya-enggan-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Ya
+                              </label>
+                            </div>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-enggan-pemeriksaan'
+                                id='tidak-enggan-pemeriksaan'
+                                value='tidak-enggan-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  engganPemeriksaan ===
+                                  'tidak-enggan-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setEngganPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganPemeriksaan: e.target.value,
+                                  });
+                                  setModalEnggan(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='tidak-enggan-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Tidak
+                              </label>
+                            </div>
+                          </div>
+                          {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
+                            <p>
+                              Adakah murid mempunyai kebenaran
+                              rawatan/pemeriksaan daripada ibu bapa/penjaga?
+                            </p>
+                          ) : null}
+                          {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
+                            <div className='flex flex-row justify-center mt-2'>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='ya-kebenaran-pemeriksaan'
+                                  value='ya-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                  }}
+                                />
+                                <label
+                                  htmlFor='ya-kebenaran-pemeriksaan'
+                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                >
+                                  Ya
+                                </label>
+                              </div>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='tidak-kebenaran-pemeriksaan'
+                                  value='tidak-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                    setModalEnggan(false);
+                                  }}
+                                />
+                                <label
+                                  htmlFor='tidak-kebenaran-pemeriksaan'
+                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                >
+                                  Tidak
+                                </label>
+                              </div>
+                            </div>
+                          ) : null}
+                        </div>
+                        <div
+                          className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
+                            modalTidakHadir ? 'block' : 'hidden'
+                          }`}
+                        >
+                          <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
+                            PERHATIAN
+                          </h5>
+                          <h1>Tidak Hadir</h1>
+                          <p>
+                            Murid yang TIDAK HADIR Pemeriksaan/Rawatan sehingga
+                            hari terakhir Pasukan Pergigian berada di Sekolah
+                          </p>
+                          <div className='flex flex-row justify-center mt-2'>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-kehadiran-pemeriksaan'
+                                id='ya-kehadiran-pemeriksaan'
+                                value='ya-kehadiran-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  tidakHadirPemeriksaan ===
+                                  'ya-kehadiran-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setTidakHadirPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tidakHadirPemeriksaan: e.target.value,
+                                  });
+                                  setModalTidakHadir(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='ya-kehadiran-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Ya
+                              </label>
+                            </div>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-kehadiran-pemeriksaan'
+                                id='tidak-kehadiran-pemeriksaan'
+                                value='tidak-kehadiran-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  tidakHadirPemeriksaan ===
+                                  'tidak-kehadiran-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setTidakHadirPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tidakHadirPemeriksaan: e.target.value,
+                                  });
+                                  setModalTidakHadir(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='tidak-kehadiran-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Tidak
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+                            modalTidakHadir ? 'block' : 'hidden'
+                          }`}
+                        />
+                        <div
+                          className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+                            modalEnggan ? 'block' : 'hidden'
+                          }`}
+                        />
                       </div>
                     </div>
-                    <div
+                    <div>
+                      <p className='flex items-center flex-row pl-4 p-1 text-m font-m '>
+                        tarikh pemeriksaan:<span className='text-user6'>*</span>
+                      </p>
+                      <TarikhPemeriksaanSemasa />
+                    </div>
+                    {/* <div
                       className={`${
                         engganKedatanganPendaftaran ||
                         tidakHadirKedatanganPendaftaran ||
@@ -1215,6 +1453,59 @@ function UserFormSekolahPemeriksaan() {
                           className='m-2 text-sm font-m'
                         >
                           Tiada
+                        </label>
+                      </div>
+                    </div> */}
+                  </article>
+                  <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
+                    <h4 className='font-bold flex flex-row pl-5 col-span-2 hover:cursor-pointer'>
+                      Cleft Lip/Palate
+                    </h4>
+                    <div className='grid grid-cols-2'>
+                      <div className='flex flex-row items-center pl-5 pt-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='ada-cleft-lip'
+                          id='ada-cleft-lip'
+                          checked={adaCleftLip}
+                          onChange={() => {
+                            setAdaCleftLip(!adaCleftLip);
+                            setConfirmData({
+                              ...confirmData,
+                              adaCleftLip: !adaCleftLip,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='ada-cleft-lip'
+                          className='mx-2 text-sm font-m'
+                        >
+                          Ada
+                        </label>
+                      </div>
+                      <div className='flex flex-row items-center pl-5 pt-1'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='rujuk-cleft-lip-palate'
+                          id='rujuk-cleft-lip-palate'
+                          checked={rujukCleftLip}
+                          onChange={() => {
+                            setRujukCleftLip(!rujukCleftLip);
+                            setConfirmData({
+                              ...confirmData,
+                              rujukCleftLip: !rujukCleftLip,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='rujuk-cleft-lip-palate'
+                          className='mx-2 text-sm font-m'
+                        >
+                          Rujuk
                         </label>
                       </div>
                     </div>
@@ -1299,8 +1590,7 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </article> */}
                 </section>
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ? null : (
                   <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full  '>
                     {/* <article className='border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
@@ -2417,59 +2707,6 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       </div>
                     </article>
-                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2 hover:cursor-pointer'>
-                        Cleft Lip/Palate
-                      </h4>
-                      <div className='grid grid-cols-2'>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='ada-cleft-lip'
-                            id='ada-cleft-lip'
-                            checked={adaCleftLip}
-                            onChange={() => {
-                              setAdaCleftLip(!adaCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                adaCleftLip: !adaCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
-                          <label
-                            htmlFor='ada-cleft-lip'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Ada
-                          </label>
-                        </div>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='rujuk-cleft-lip-palate'
-                            id='rujuk-cleft-lip-palate'
-                            checked={rujukCleftLip}
-                            onChange={() => {
-                              setRujukCleftLip(!rujukCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                rujukCleftLip: !rujukCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='rujuk-cleft-lip-palate'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Rujuk
-                          </label>
-                        </div>
-                      </div>
-                    </article>
                     <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                       <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -2690,29 +2927,6 @@ function UserFormSekolahPemeriksaan() {
                         />
                       </div>
                       <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>E: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={eBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setEBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              eBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>X: </p>
                         <input
                           disabled={isDisabled}
@@ -2735,17 +2949,38 @@ function UserFormSekolahPemeriksaan() {
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
+                      <div className='flex flex-row pl-5 items-center'>
+                        <p className='text-sm font-m '>E: </p>
+                        <input
+                          disabled={isDisabled}
+                          min='0'
+                          max='32'
+                          type='number'
+                          name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                          id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                          value={eBilanganFsDibuat3TahunLepasTerjadi}
+                          onChange={(e) => {
+                            setEBilanganFsDibuat3TahunLepasTerjadi(
+                              e.target.value
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              eBilanganFsDibuat3TahunLepasTerjadi:
+                                e.target.value,
+                            });
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        />
+                      </div>
                     </article>
                   </section>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ? null : (
                   <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2'>
                     <p className='ml-3 text-xl font-semibold'>Perlu Dibuat</p>
                   </span>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ? null : (
                   <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
                     <div className='grid gap-2'>
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -3478,14 +3713,12 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </section>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ? null : (
                   <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2'>
                     <p className='ml-3 text-xl font-semibold'>Lain-Lain</p>
                   </span>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ? null : (
                   <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-5 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row'>

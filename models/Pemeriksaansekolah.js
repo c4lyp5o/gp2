@@ -23,15 +23,19 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  engganKedatanganPendaftaran: {
-    type: Boolean,
-    default: false,
+  engganTidakHadirPemeriksaan: {
+    type: String,
+    default: '',
   },
-  tidakHadirKedatanganPendaftaran: {
-    type: Boolean,
-    default: false,
+  engganPemeriksaan: {
+    type: String,
+    default: '',
   },
-  adaTiadaPemeriksaanPendaftaran: {
+  kebenaranPemeriksaan: {
+    type: String,
+    default: '',
+  },
+  tidakHadirPemeriksaan: {
     type: String,
     default: '',
   },
