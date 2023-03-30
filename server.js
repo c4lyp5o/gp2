@@ -32,12 +32,14 @@ const identity = require('./routes/identity');
 const pilihOperatorFasiliti = require('./routes/pilihOperatorFasiliti');
 const umum = require('./routes/umum');
 const sekolah = require('./routes/sekolah');
-const kohort = require('./routes/kohort');
 const promosi = require('./routes/promosi');
 const getotp = require('./routes/getotp');
 const operator = require('./routes/operator');
 const summary = require('./routes/summary');
 const allQueryRoute = require('./routes/allQueryRoute');
+
+// kohort import
+const kohortKotak = require('./routes/kohortKotak');
 
 // kaunter
 const kaunter = require('./routes/kaunter');
@@ -125,12 +127,14 @@ app.use('/api/v1/identity', authCheck, identity);
 app.use('/api/v1/pilih', authCheck, pilihOperatorFasiliti);
 app.use('/api/v1/umum', authCheck, umum);
 app.use('/api/v1/sekolah', authCheck, sekolah);
-app.use('/api/v1/kohort', authCheck, kohort);
 app.use('/api/v1/promosi', authCheck, promosi);
 app.use('/api/v1/getotp', authCheck, getotp);
 app.use('/api/v1/operator', authCheck, operator);
 app.use('/api/v1/summary', authCheck, summary);
 app.use('/api/v1/query', authCheck, allQueryRoute);
+
+// kohort route
+app.use('/api/v1/kohort/kotak', authCheck, kohortKotak);
 
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
