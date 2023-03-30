@@ -45,6 +45,11 @@ const UserFormPromosi = lazy(() =>
 
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
 
+const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
+const UserKohortKotakForm = lazy(() =>
+  import('../components/kohort/KOTAK/FormKOTAK')
+);
+
 const UserCarian = lazy(() => import('../components/carian/UserCarian'));
 
 const UserSummary = lazy(() => import('../components/summary/UserSummary'));
@@ -213,6 +218,23 @@ function UserAfterLogin() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserKohort />{' '}
+                  </Suspense>
+                }
+              />
+              {/* kotak */}
+              <Route
+                path='kohort/kotak'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotak />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/kotak/:personKohortKotakId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotakForm />{' '}
                   </Suspense>
                 }
               />

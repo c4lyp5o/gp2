@@ -38,6 +38,9 @@ const operator = require('./routes/operator');
 const summary = require('./routes/summary');
 const allQueryRoute = require('./routes/allQueryRoute');
 
+// kohort import
+const kohortKotak = require('./routes/kohortKotak');
+
 // kaunter
 const kaunter = require('./routes/kaunter');
 
@@ -130,6 +133,9 @@ app.use('/api/v1/getotp', authCheck, getotp);
 app.use('/api/v1/operator', authCheck, operator);
 app.use('/api/v1/summary', authCheck, summary);
 app.use('/api/v1/query', authCheck, allQueryRoute);
+
+// kohort route
+app.use('/api/v1/kohort/kotak', authCheck, kohortKotak);
 
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
