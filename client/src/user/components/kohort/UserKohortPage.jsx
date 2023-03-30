@@ -1,7 +1,10 @@
 import { useState, useEffect, useRef } from 'react';
 import { FaGripVertical } from 'react-icons/fa';
 
+import { useGlobalUserAppContext } from '../../context/userAppContext';
+
 export default function UserKohort() {
+  const { navigate } = useGlobalUserAppContext();
   const [kotak, setKotak] = useState(false);
   const [sapuanFv, setSapuanFv] = useState(false);
   const [pengapanFisur, setPengapanFisur] = useState(false);
@@ -15,19 +18,18 @@ export default function UserKohort() {
           className='flex justify-start items-center p-2 bg-[#D7E2E9] text-userBlack hover:bg-user4 cursor-pointer shadow-md rounded-xl w-full h-full'
           onMouseEnter={() => setKotak(true)}
           onMouseLeave={() => setKotak(false)}
+          onClick={() => navigate('/pengguna/landing/kohort/kotak')}
         >
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2 w-full whitespace-pre-wrap'>
             <h1 className='font-semibold text-xl text-left'>
               Program Kesihatan Oral Tanpa Amalan Merokok (KOTAK)
             </h1>
-            {/* {kotak && (
+            {kotak && (
               <p className='font-light text-left'>
-                Menjalani program intevensi merokok bdjbk kjhdflkj hd hfdglk df
-                ljgh llksjfgh ljkhfg jhgljhg slkjfhg lkjhf lgkjshf lgkjshf lkjh
-                fjh lkjhf lkjh
+                Menjalani program intevensi merokok
               </p>
-            )} */}
+            )}
           </div>
         </div>
       </article>

@@ -2,6 +2,7 @@ const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
 const Kotaksekolah = require('../models/Kotaksekolah');
+const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 
 // GET /
@@ -142,6 +143,8 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
 
   const pemeriksaanSekolah = await Pemeriksaansekolah.create(req.body);
 
+  // console.table(req.body);
+
   // masukkan pemeriksaan ID dalam personSekolah
   const personSekolah = await Sekolah.findOneAndUpdate(
     { _id: req.params.personSekolahId },
@@ -168,6 +171,23 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       },
       { new: true }
     );
+  }
+
+  // if bersediaDirujuk, masukkan dalam kohort kotak
+  if (req.body.bersediaDirujuk === 'ya-bersedia-dirujuk') {
+    await KohortKotak.create({
+      createdByNegeri: req.user.negeri,
+      createdByDaerah: req.user.daerah,
+      createdByKodFasiliti: req.user.kodFasiliti,
+      createdByKp: req.user.kp,
+      //
+      createdByUsername: req.body.createdByUsername,
+      nama: req.body.nama,
+      namaSekolah: req.body.namaSekolah,
+      kodSekolah: req.body.kodSekolah,
+      kelas: req.body.namaKelas,
+      dalamPemantauanKohort: 'JAN - JUN 2023', // default
+    });
   }
 
   res.status(201).json({ personSekolah });
