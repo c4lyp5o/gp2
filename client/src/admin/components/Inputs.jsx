@@ -777,7 +777,7 @@ export function InputPegawai(props) {
 }
 
 export function InputFacility(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary, DictionaryHurufNegeri } = useGlobalAdminAppContext();
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -836,7 +836,7 @@ export function InputFacility(props) {
                       </div>
                     </>
                   ) : (
-                    <div>
+                    <div className='mb-2'>
                       <p>
                         Nama {Dictionary[props.FType]}
                         <span className='font-semibold text-lg text-user6'>
@@ -846,11 +846,10 @@ export function InputFacility(props) {
                     </div>
                   )}
                   {props.FType !== 'sr' && props.FType !== 'sm' ? (
-                    <div className='grid gap-1'>
+                    <div>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='text'
                         name='nama'
                         id='nama'
@@ -858,7 +857,7 @@ export function InputFacility(props) {
                       />
                     </div>
                   ) : (
-                    <div className='grid gap-1'>
+                    <div>
                       <select
                         required
                         id='institusi'
@@ -885,175 +884,272 @@ export function InputFacility(props) {
                       </select>
                     </div>
                   )}
-                </div>
-                {props.FType === 'taska' || props.FType === 'tadika' ? (
-                  <>
-                    <div>
-                      <p>
-                        Kod {Dictionary[props.FType]}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                    </div>
-                    <div className='grid gap-1'>
-                      <input
-                        required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
+                  {(props.FType === 'taska' || props.FType === 'tadika') && (
+                    <>
+                      <div className='grid gap-2'>
+                        <div>
+                          Kategori {props.FType}
+                          <span className='font-semibold text-lg text-user6'>
+                            *
+                          </span>
+                        </div>
+                        <div>
+                          <select
+                            required
+                            onChange={(e) => props.setGovKe(e.target.value)}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Pilih kategori..</option>
+                            <option value='kerajaan'>Kerajaan</option>
+                            <option value='swasta'>Swasta</option>
+                          </select>
+                        </div>
+                      </div>
+                      <div className='grid gap-2'>
+                        <div>
+                          <p>
+                            Kod {Dictionary[props.FType]}
+                            <span className='font-semibold text-lg text-user6'>
+                              *
+                            </span>
+                          </p>
+                        </div>
+                        <div className='grid grid-cols-5 gap-1'>
+                          <div>
+                            <input
+                              readOnly
+                              className='appearance-none w-full px-2 py-1 text-sm text-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                              type='text'
+                              value={props.FType.substring(0, 3).toUpperCase()}
+                            />
+                          </div>
+                          <div>-</div>
+                          <div className='grid grid-cols-2'>
+                            <div>
+                              <input
+                                readOnly
+                                className='appearance-none w-full px-2 py-1 text-sm text-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                type='text'
+                                value={DictionaryHurufNegeri[props.negeri]}
+                              />
+                            </div>
+                            <div>
+                              <input
+                                required
+                                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                type='text'
+                                value={props.kodTastadTengah}
+                                pattern='[0-9]{2}'
+                                maxLength='2'
+                                onChange={(e) => {
+                                  const re = /^[0-9\b]+$/;
+                                  if (
+                                    e.target.value === '' ||
+                                    re.test(e.target.value)
+                                  ) {
+                                    props.setKodTastadTengah(e.target.value);
+                                  }
+                                }}
+                              />
+                            </div>
+                          </div>
+                          <div>-</div>
+                          <div className='grid grid-cols-2'>
+                            <div>
+                              <input
+                                required
+                                className='appearance-none w-full px-2 py-1 text-sm text-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                type='text'
+                                value={
+                                  props.govKe === ''
+                                    ? ''
+                                    : props.govKe === 'kerajaan'
+                                    ? 'K'
+                                    : 'S'
+                                }
+                              />
+                            </div>
+                            <div>
+                              <input
+                                required
+                                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                type='text'
+                                value={props.kodTastadHujung}
+                                pattern='[0-9]{3}'
+                                maxLength='3'
+                                onChange={(e) => {
+                                  const re = /^[0-9\b]+$/;
+                                  if (
+                                    e.target.value === '' ||
+                                    re.test(e.target.value)
+                                  ) {
+                                    props.setKodTastadHujung(e.target.value);
+                                  }
+                                }}
+                              />
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div className='grid gap-2'>
+                        <div>
+                          <p>
+                            Alamat {Dictionary[props.FType]}
+                            <span className='font-semibold text-lg text-user6'>
+                              *
+                            </span>
+                          </p>
+                        </div>
+                        <div>
+                          <input
+                            required
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
 '
-                        type='text'
-                        name='kodTastad'
-                        id='kodTastad'
-                        onChange={(e) => props.setKodTastad(e.target.value)}
-                      />
-                    </div>
-                    <div>
-                      <p>
-                        Alamat {Dictionary[props.FType]}
+                            type='text'
+                            name='catatan'
+                            id='catatan'
+                            onChange={(e) =>
+                              props.setAlamatTastad(e.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {(props.FType === 'sr' || props.FType === 'sm') && (
+                    <>
+                      <div>
+                        <p>
+                          Klinik / Pusat Pergigian Sekolah{' '}
+                          <span className='font-semibold text-lg text-user6'>
+                            *
+                          </span>
+                        </p>
+                        <div className='grid grid-cols-2 mb-3'>
+                          <label htmlFor='nama'>Ya</label>
+                          <input
+                            required
+                            type='radio'
+                            id='act-stat'
+                            name='checkbox'
+                            value='kps'
+                            onChange={(e) =>
+                              props.setJenisPerkhidmatanSekolah(e.target.value)
+                            }
+                          />
+                          <label htmlFor='nama'>Tidak</label>
+                          <input
+                            required
+                            type='radio'
+                            id='act-stat'
+                            name='checkbox'
+                            value='kpb'
+                            onChange={(e) =>
+                              props.setJenisPerkhidmatanSekolah(e.target.value)
+                            }
+                          />
+                        </div>
+                      </div>
+                    </>
+                  )}
+                  {(props.FType === 'kpb' || props.FType === 'mpb') && (
+                    <>
+                      <div>
+                        <span className='font-bold uppercase'>Jenis</span>{' '}
+                        {Dictionary[props.FType]}{' '}
                         <span className='font-semibold text-lg text-user6'>
                           *
                         </span>
-                      </p>
-                    </div>
-                    <div className='grid gap-1'>
-                      <input
-                        required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
-                        type='text'
-                        name='catatan'
-                        id='catatan'
-                        onChange={(e) => props.setAlamatTastad(e.target.value)}
-                      />
-                    </div>
-                  </>
-                ) : null}
-                {props.FType === 'sr' || props.FType === 'sm' ? (
-                  <>
-                    <div>
-                      <p>
-                        Klinik / Pusat Pergigian Sekolah{' '}
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      <div className='grid grid-cols-2 mb-3'>
-                        <label htmlFor='nama'>Ya</label>
+                        <p>
+                          Contoh:{' '}
+                          <span className='font-bold'>
+                            Lori Trak, Caravan, Van, Treler, Bas, Coaster
+                          </span>
+                        </p>
+                      </div>
+                      <div className='grid gap-1 mb-3'>
                         <input
                           required
-                          type='radio'
-                          id='act-stat'
-                          name='checkbox'
-                          value='kps'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
+'
+                          type='text'
+                          name='nama'
+                          id='nama'
                           onChange={(e) =>
-                            props.setJenisPerkhidmatanSekolah(e.target.value)
-                          }
-                        />
-                        <label htmlFor='nama'>Tidak</label>
-                        <input
-                          required
-                          type='radio'
-                          id='act-stat'
-                          name='checkbox'
-                          value='kpb'
-                          onChange={(e) =>
-                            props.setJenisPerkhidmatanSekolah(e.target.value)
+                            props.setSubJenisKPBMPB(e.target.value)
                           }
                         />
                       </div>
-                    </div>
-                  </>
-                ) : null}
-                {props.FType === 'kpb' || props.FType === 'mpb' ? (
-                  <>
-                    <div>
-                      <span className='font-bold uppercase'>Jenis</span>{' '}
-                      {Dictionary[props.FType]}{' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                      <p>
-                        Contoh:{' '}
-                        <span className='font-bold'>
-                          Lori Trak, Caravan, Van, Treler, Bas, Coaster
+                    </>
+                  )}
+                  {(props.FType === 'sr' || props.FType === 'sm') && (
+                    <div className='grid gap-2'>
+                      <div>
+                        Risiko Sekolah (PERSiS){' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
                         </span>
-                      </p>
+                      </div>
+                      <div className='grid gap-1'>
+                        <select
+                          required
+                          onChange={(e) => props.setRisiko(e.target.value)}
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        >
+                          <option value=''>Pilih Risiko</option>
+                          <option value='rendah'>Rendah</option>
+                          <option value='tinggi'>Tinggi</option>
+                        </select>
+                      </div>
                     </div>
-                    <div className='grid gap-1 mb-3'>
-                      <input
-                        required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
-                        type='text'
-                        name='nama'
-                        id='nama'
-                        onChange={(e) =>
-                          props.setSubJenisKPBMPB(e.target.value)
-                        }
-                      />
-                    </div>
-                  </>
-                ) : null}
-                <p>
-                  Klinik Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </p>
-                <div className='grid gap-1'>
-                  <select
-                    required
-                    onChange={(e) => {
-                      const selectedKlinik = props.klinik.find(
-                        (k) => k.kodFasiliti === e.target.value
-                      );
-                      props.setKp(selectedKlinik.kp);
-                      props.setKodFasiliti(selectedKlinik.kodFasiliti);
-                    }}
-                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>Pilih Klinik</option>
-                    {props.klinik.map((k) => (
-                      <option className='capitalize' value={k.kodFasiliti}>
-                        {k.kp}
-                      </option>
-                    ))}
-                  </select>
-                </div>
-                {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
-                  <>
-                    <p>
-                      Risiko Sekolah (PERSiS){' '}
+                  )}
+                  <div className='grid gap-2'>
+                    <div>
+                      Klinik Bertanggungjawab
                       <span className='font-semibold text-lg text-user6'>
                         *
                       </span>
-                    </p>
-                    <div className='grid gap-1'>
+                    </div>
+                    <div>
                       <select
                         required
-                        onChange={(e) => props.setRisiko(e.target.value)}
+                        onChange={(e) => {
+                          const selectedKlinik = props.klinik.find(
+                            (k) => k.kodFasiliti === e.target.value
+                          );
+                          props.setKp(selectedKlinik.kp);
+                          props.setKodFasiliti(selectedKlinik.kodFasiliti);
+                        }}
                         className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       >
-                        <option value=''>Pilih Risiko</option>
-                        <option value='rendah'>Rendah</option>
-                        <option value='tinggi'>Tinggi</option>
+                        <option value=''>Pilih Klinik</option>
+                        {props.klinik.map((k) => (
+                          <option className='capitalize' value={k.kodFasiliti}>
+                            {k.kp}
+                          </option>
+                        ))}
                       </select>
                     </div>
-                  </>
-                )}
+                  </div>
+                </div>
               </div>
             </div>
             <div className={styles.modalActions}>
-              <div className={styles.actionsContainer}>
+              <div className='grid grid-cols-2 gap-3 px-3'>
                 {props.addingData ? (
                   <BusyButton func='add' />
                 ) : (
                   <SubmitButton func='add' />
                 )}
-                <span
-                  className={styles.cancelBtn}
-                  onClick={() => props.setShowAddModal(false)}
-                >
-                  Kembali
-                </span>
+                <div>
+                  <button
+                    type='button'
+                    onClick={() => props.setShowAddModal(false)}
+                    className='capitalize rounded-md shadow-xl p-2 transition-all duration-300 ease-in-out border-adminBlack border-2 text-adminBlack hover:text-admin3'
+                  >
+                    Batal
+                  </button>
+                </div>
               </div>
             </div>
           </div>
