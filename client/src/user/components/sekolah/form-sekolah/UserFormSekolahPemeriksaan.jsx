@@ -31,13 +31,14 @@ function UserFormSekolahPemeriksaan() {
   const [showTrauma, setShowTrauma] = useState(false);
 
   const createdByUsername = username;
-  const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
-  const [engganKedatanganPendaftaran, setEngganKedatanganPendaftaran] =
-    useState(false);
-  const [tidakHadirKedatanganPendaftaran, setTidakHadirKedatanganPendaftaran] =
-    useState(false);
-  const [adaTiadaPemeriksaanPendaftaran, setAdaTiadaPemeriksaanPendaftaran] =
+  const [engganTidakHadirPemeriksaan, setEngganTidakHadirPemeriksaan] =
     useState('');
+  const [modalEnggan, setModalEnggan] = useState(false);
+  const [modalTidakHadir, setModalTidakHadir] = useState(false);
+  const [engganPemeriksaan, setEngganPemeriksaan] = useState('');
+  const [kebenaranPemeriksaan, setKebenaranPemeriksaan] = useState('');
+  const [tidakHadirPemeriksaan, setTidakHadirPemeriksaan] = useState('');
+  const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
   const [statikBergerak, setStatikBergerak] = useState('');
   const [kpBergerak, setKpBergerak] = useState(false);
   const [plateNo, setPlateNo] = useState('');
@@ -112,6 +113,7 @@ function UserFormSekolahPemeriksaan() {
     xBilanganFsDibuat3TahunLepasTerjadi,
     setXBilanganFsDibuat3TahunLepasTerjadi,
   ] = useState(0);
+  const [toothSurfaceLoss, setToothSurfaceLoss] = useState(false);
   const [classID, setClassID] = useState(0);
   const [classIID, setClassIID] = useState(0);
   const [sumClassD, setSumClassD] = useState(0);
@@ -386,17 +388,16 @@ function UserFormSekolahPemeriksaan() {
     adaKekal,
   ]);
 
+  //reset modal
   useEffect(() => {
-    if (!engganKedatanganPendaftaran) {
-      setAdaTiadaPemeriksaanPendaftaran('');
+    if (engganTidakHadirPemeriksaan === 'tidak-hadir-pemeriksaan') {
+      setEngganPemeriksaan('');
+      setKebenaranPemeriksaan('');
     }
-  }, [engganKedatanganPendaftaran]);
-
-  useEffect(() => {
-    if (!tidakHadirKedatanganPendaftaran) {
-      setAdaTiadaPemeriksaanPendaftaran('');
+    if (engganTidakHadirPemeriksaan === 'enggan-pemeriksaan') {
+      setTidakHadirPemeriksaan('');
     }
-  }, [tidakHadirKedatanganPendaftaran]);
+  }, [engganTidakHadirPemeriksaan]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -417,21 +418,24 @@ function UserFormSekolahPemeriksaan() {
 
         // map to form if pemeriksaanSekolahId exist
         if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
+          setEngganTidakHadirPemeriksaan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .engganTidakHadirPemeriksaan
+          );
+          setEngganPemeriksaan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.engganPemeriksaan
+          );
+          setKebenaranPemeriksaan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .kebenaranPemeriksaan
+          );
+          setTidakHadirPemeriksaan(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .tidakHadirPemeriksaan
+          );
           setTarikhPemeriksaanSemasa(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .tarikhPemeriksaanSemasa
-          );
-          setEngganKedatanganPendaftaran(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .engganKedatanganPendaftaran
-          );
-          setTidakHadirKedatanganPendaftaran(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .tidakHadirKedatanganPendaftaran
-          );
-          setAdaTiadaPemeriksaanPendaftaran(
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .adaTiadaPemeriksaanPendaftaran
           );
           setStatikBergerak(
             data.personSekolahWithPopulate.pemeriksaanSekolah.statikBergerak
@@ -563,6 +567,9 @@ function UserFormSekolahPemeriksaan() {
           setXBilanganFsDibuat3TahunLepasTerjadi(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .xBilanganFsDibuat3TahunLepasTerjadi
+          );
+          setToothSurfaceLoss(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.toothSurfaceLoss
           );
           setClassID(data.personSekolahWithPopulate.pemeriksaanSekolah.classID);
           setClassIID(
@@ -784,10 +791,11 @@ function UserFormSekolahPemeriksaan() {
               namaSekolah,
               kodSekolah,
               statusRawatan,
+              engganTidakHadirPemeriksaan,
+              engganPemeriksaan,
+              kebenaranPemeriksaan,
+              tidakHadirPemeriksaan,
               tarikhPemeriksaanSemasa,
-              engganKedatanganPendaftaran,
-              tidakHadirKedatanganPendaftaran,
-              adaTiadaPemeriksaanPendaftaran,
               statikBergerak,
               kpBergerak,
               plateNo,
@@ -826,6 +834,7 @@ function UserFormSekolahPemeriksaan() {
               fBilanganFsDibuat3TahunLepasTerjadi,
               eBilanganFsDibuat3TahunLepasTerjadi,
               xBilanganFsDibuat3TahunLepasTerjadi,
+              toothSurfaceLoss,
               classID,
               classIID,
               classIF,
@@ -895,10 +904,11 @@ function UserFormSekolahPemeriksaan() {
             {
               createdByUsername,
               statusRawatan,
+              engganTidakHadirPemeriksaan,
+              engganPemeriksaan,
+              kebenaranPemeriksaan,
+              tidakHadirPemeriksaan,
               tarikhPemeriksaanSemasa,
-              engganKedatanganPendaftaran,
-              tidakHadirKedatanganPendaftaran,
-              adaTiadaPemeriksaanPendaftaran,
               statikBergerak,
               kpBergerak,
               plateNo,
@@ -937,6 +947,7 @@ function UserFormSekolahPemeriksaan() {
               fBilanganFsDibuat3TahunLepasTerjadi,
               eBilanganFsDibuat3TahunLepasTerjadi,
               xBilanganFsDibuat3TahunLepasTerjadi,
+              toothSurfaceLoss,
               classID,
               classIID,
               classIF,
@@ -1085,34 +1096,31 @@ function UserFormSekolahPemeriksaan() {
                     <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                       Kedatangan<span className='text-user6'>*</span>
                     </h4>
-                    <div>
-                      <p className='flex items-center flex-row pl-4 p-1 text-m font-m '>
-                        tarikh pemeriksaan:<span className='text-user6'>*</span>
-                      </p>
-                      <TarikhPemeriksaanSemasa />
-                    </div>
                     <div className='grid grid-rows-2'>
                       <div className='flex items-center flex-row pl-5'>
                         <input
                           disabled={isDisabled}
-                          type='checkbox'
-                          name='enggan-kedatangan'
-                          id='enggan-kedatangan'
-                          checked={engganKedatanganPendaftaran}
-                          onChange={() => {
-                            setEngganKedatanganPendaftaran(
-                              !engganKedatanganPendaftaran
-                            );
+                          type='radio'
+                          name='enggan-tidak-hadir-pemeriksaan'
+                          id='enggan-pemeriksaan'
+                          value='enggan-pemeriksaan'
+                          checked={
+                            engganTidakHadirPemeriksaan === 'enggan-pemeriksaan'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setEngganTidakHadirPemeriksaan(e.target.value);
                             setConfirmData({
                               ...confirmData,
-                              engganKedatanganPendaftaran:
-                                !engganKedatanganPendaftaran,
+                              engganTidakHadirPemeriksaan: e.target.value,
                             });
+                            setModalEnggan(true);
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                         <label
-                          htmlFor='enggan-kedatangan'
+                          htmlFor='enggan-pemeriksaan'
                           className='m-2 text-sm font-m'
                         >
                           Enggan
@@ -1121,31 +1129,317 @@ function UserFormSekolahPemeriksaan() {
                       <div className='flex items-center flex-row pl-5'>
                         <input
                           disabled={isDisabled}
-                          type='checkbox'
-                          name='tidak-hadir-kedatangan'
-                          id='tidak-hadir-kedatangan'
-                          checked={tidakHadirKedatanganPendaftaran}
-                          onChange={() => {
-                            setTidakHadirKedatanganPendaftaran(
-                              !tidakHadirKedatanganPendaftaran
-                            );
+                          type='radio'
+                          name='enggan-tidak-hadir-pemeriksaan'
+                          id='tidak-hadir-pemeriksaan'
+                          value='tidak-hadir-pemeriksaan'
+                          checked={
+                            engganTidakHadirPemeriksaan ===
+                            'tidak-hadir-pemeriksaan'
+                              ? true
+                              : false
+                          }
+                          onChange={(e) => {
+                            setEngganTidakHadirPemeriksaan(e.target.value);
                             setConfirmData({
                               ...confirmData,
-                              tidakHadirKedatanganPendaftaran:
-                                !tidakHadirKedatanganPendaftaran,
+                              engganTidakHadirPemeriksaan: e.target.value,
                             });
+                            setModalTidakHadir(true);
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
                         <label
-                          htmlFor='tidak-hadir-kedatangan'
+                          htmlFor='tidak-hadir-pemeriksaan'
                           className='m-2 text-sm font-m'
                         >
                           Tidak Hadir
                         </label>
+                        {engganTidakHadirPemeriksaan ? (
+                          <span
+                            className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
+                            onClick={() => {
+                              setEngganTidakHadirPemeriksaan('');
+                              setEngganPemeriksaan('');
+                              setKebenaranPemeriksaan('');
+                              setTidakHadirPemeriksaan('');
+                            }}
+                          >
+                            X
+                          </span>
+                        ) : null}
+                      </div>
+                      <div>
+                        <div
+                          className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
+                            modalEnggan ? 'block' : 'hidden'
+                          }`}
+                        >
+                          <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
+                            PERHATIAN
+                          </h5>
+                          <h1 className='font-bold text-lg'>Enggan</h1>
+                          <p>
+                            Murid yang Enggan Pemeriksaan/Rawatan sehingga hari
+                            terakhir Pasukan Pergigian berada di Sekolah,
+                            termasuk murid yang tiada kebenaran
+                          </p>
+                          <div className='flex flex-row justify-center mt-2'>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-enggan-pemeriksaan'
+                                id='ya-enggan-pemeriksaan'
+                                value='ya-enggan-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  engganPemeriksaan === 'ya-enggan-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setEngganPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganPemeriksaan: e.target.value,
+                                  });
+                                }}
+                              />
+                              <label
+                                htmlFor='ya-enggan-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Ya
+                              </label>
+                            </div>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-enggan-pemeriksaan'
+                                id='tidak-enggan-pemeriksaan'
+                                value='tidak-enggan-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  engganPemeriksaan ===
+                                  'tidak-enggan-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setEngganPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganPemeriksaan: e.target.value,
+                                  });
+                                  setModalEnggan(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='tidak-enggan-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Tidak
+                              </label>
+                            </div>
+                          </div>
+                          {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
+                            <p className='mt-2'>
+                              Adakah murid mempunyai kebenaran
+                              rawatan/pemeriksaan daripada ibu bapa/penjaga?
+                            </p>
+                          ) : null}
+                          {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
+                            <div className='flex flex-row justify-center mt-2'>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='ya-kebenaran-pemeriksaan'
+                                  value='ya-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                    setModalEnggan(false);
+                                  }}
+                                />
+                                <label
+                                  htmlFor='ya-kebenaran-pemeriksaan'
+                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                >
+                                  Ya
+                                </label>
+                              </div>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='tidak-kebenaran-pemeriksaan'
+                                  value='tidak-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                    setModalEnggan(false);
+                                  }}
+                                />
+                                <label
+                                  htmlFor='tidak-kebenaran-pemeriksaan'
+                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                >
+                                  Tidak
+                                </label>
+                              </div>
+                            </div>
+                          ) : null}
+                        </div>
+                        <div
+                          className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
+                            modalTidakHadir ? 'block' : 'hidden'
+                          }`}
+                        >
+                          <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
+                            PERHATIAN
+                          </h5>
+                          <h1 className='font-bold text-lg'>Tidak Hadir</h1>
+                          <p>
+                            Murid yang TIDAK HADIR Pemeriksaan/Rawatan sehingga
+                            hari terakhir Pasukan Pergigian berada di Sekolah
+                          </p>
+                          <div className='flex flex-row justify-center mt-2'>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-kehadiran-pemeriksaan'
+                                id='ya-kehadiran-pemeriksaan'
+                                value='ya-kehadiran-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  tidakHadirPemeriksaan ===
+                                  'ya-kehadiran-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setTidakHadirPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tidakHadirPemeriksaan: e.target.value,
+                                  });
+                                  setModalTidakHadir(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='ya-kehadiran-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Ya
+                              </label>
+                            </div>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-kehadiran-pemeriksaan'
+                                id='tidak-kehadiran-pemeriksaan'
+                                value='tidak-kehadiran-pemeriksaan'
+                                className='peer hidden'
+                                checked={
+                                  tidakHadirPemeriksaan ===
+                                  'tidak-kehadiran-pemeriksaan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setTidakHadirPemeriksaan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tidakHadirPemeriksaan: e.target.value,
+                                  });
+                                  setModalTidakHadir(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='tidak-kehadiran-pemeriksaan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Tidak
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                        <div
+                          className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+                            modalTidakHadir ? 'block' : 'hidden'
+                          }`}
+                        />
+                        <div
+                          className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+                            modalEnggan ? 'block' : 'hidden'
+                          }`}
+                        />
                       </div>
                     </div>
-                    <div
+                    {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                    engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
+                      <div>
+                        <p className='flex text-left flex-row pl-4 p-1 text-sm'>
+                          {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
+                            <p>
+                              Enggan Pemeriksaan/Rawatan
+                              {kebenaranPemeriksaan ===
+                              'ya-kebenaran-pemeriksaan' ? (
+                                <p>
+                                  <span className='text-user7 font-bold'>
+                                    DENGAN
+                                  </span>{' '}
+                                  kebenaran rawatan/pemeriksaan daripada ibu
+                                  bapa/penjaga
+                                </p>
+                              ) : (
+                                <p>
+                                  <span className='text-user6 font-bold'>
+                                    TANPA
+                                  </span>{' '}
+                                  kebenaran rawatan/pemeriksaan daripada ibu
+                                  bapa/penjaga
+                                </p>
+                              )}
+                            </p>
+                          ) : null}
+                          {tidakHadirPemeriksaan ===
+                          'ya-kehadiran-pemeriksaan' ? (
+                            <p>Tidak Hadir Pemeriksaan/Rawatan</p>
+                          ) : null}
+                        </p>
+                      </div>
+                    ) : (
+                      <div>
+                        <p className='flex items-center flex-row pl-4 p-1 text-m font-m '>
+                          tarikh pemeriksaan:
+                          <span className='text-user6'>*</span>
+                        </p>
+                        <TarikhPemeriksaanSemasa />
+                      </div>
+                    )}
+                    {/* <div
                       className={`${
                         engganKedatanganPendaftaran ||
                         tidakHadirKedatanganPendaftaran ||
@@ -1224,8 +1518,64 @@ function UserFormSekolahPemeriksaan() {
                           Tiada
                         </label>
                       </div>
-                    </div>
+                    </div> */}
                   </article>
+                  {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                  engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
+                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
+                      <h4 className='font-bold flex flex-row pl-5 col-span-2 hover:cursor-pointer'>
+                        Cleft Lip/Palate
+                      </h4>
+                      <div className='grid grid-cols-2'>
+                        <div className='flex flex-row items-center pl-5 pt-1'>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='ada-cleft-lip'
+                            id='ada-cleft-lip'
+                            checked={adaCleftLip}
+                            onChange={() => {
+                              setAdaCleftLip(!adaCleftLip);
+                              setConfirmData({
+                                ...confirmData,
+                                adaCleftLip: !adaCleftLip,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='ada-cleft-lip'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Ada
+                          </label>
+                        </div>
+                        <div className='flex flex-row items-center pl-5 pt-1'>
+                          <input
+                            disabled={isDisabled}
+                            type='checkbox'
+                            name='rujuk-cleft-lip-palate'
+                            id='rujuk-cleft-lip-palate'
+                            checked={rujukCleftLip}
+                            onChange={() => {
+                              setRujukCleftLip(!rujukCleftLip);
+                              setConfirmData({
+                                ...confirmData,
+                                rujukCleftLip: !rujukCleftLip,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='rujuk-cleft-lip-palate'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujuk
+                          </label>
+                        </div>
+                      </div>
+                    </article>
+                  )}
                   {/* <article className='grid grid-cols-2 gap-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                       Penyampaian Perkhidmatan Sekolah
@@ -1306,8 +1656,8 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </article> */}
                 </section>
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
                   <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full  '>
                     {/* <article className='border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
@@ -1791,19 +2141,26 @@ function UserFormSekolahPemeriksaan() {
                           <option value='E'>E</option>
                         </select>
                       </div>
-                      {singlePersonSekolah.umur < 15 && (
+                      {singlePersonSekolah.umur >= 15 && (
                         <div className=' flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>
                             Skor BPE
                             {skorGisMulutOralHygiene ||
-                            skorBpeOralHygiene ? null : (
+                            skorBpeOralHygiene === '1' ||
+                            skorBpeOralHygiene === '2' ||
+                            skorBpeOralHygiene === '3' ||
+                            skorBpeOralHygiene === '4' ? null : (
                               <span className='text-user6'>*</span>
                             )}
                           </p>
                           <select
                             disabled={isDisabled}
                             required={
-                              skorGisMulutOralHygiene || skorBpeOralHygiene
+                              skorGisMulutOralHygiene ||
+                              skorBpeOralHygiene === '1' ||
+                              skorBpeOralHygiene === '2' ||
+                              skorBpeOralHygiene === '3' ||
+                              skorBpeOralHygiene === '4'
                                 ? false
                                 : true
                             }
@@ -1817,7 +2174,7 @@ function UserFormSekolahPemeriksaan() {
                                 skorBpeOralHygiene: e.target.value,
                               });
                             }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            className='appearance-none w-32 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           >
                             <option value=''></option>
                             <option value='0'>0</option>
@@ -1825,9 +2182,9 @@ function UserFormSekolahPemeriksaan() {
                             <option value='2'>2</option>
                             <option value='3'>3</option>
                             <option value='4'>4</option>
-                            {/* <option value='tidak-disaring'>
+                            <option value='tidak-disaring'>
                               Tidak Disaring
-                            </option> */}
+                            </option>
                           </select>
                         </div>
                       )}
@@ -1865,14 +2222,21 @@ function UserFormSekolahPemeriksaan() {
                         <p className='flex text-sm font-m'>
                           Skor GIS
                           {skorGisMulutOralHygiene ||
-                          skorBpeOralHygiene ? null : (
+                          skorBpeOralHygiene === '1' ||
+                          skorBpeOralHygiene === '2' ||
+                          skorBpeOralHygiene === '3' ||
+                          skorBpeOralHygiene === '4' ? null : (
                             <span className='text-user6'>*</span>
                           )}
                         </p>
                         <select
                           disabled={isDisabled}
                           required={
-                            skorGisMulutOralHygiene || skorBpeOralHygiene
+                            skorGisMulutOralHygiene ||
+                            skorBpeOralHygiene === '1' ||
+                            skorBpeOralHygiene === '2' ||
+                            skorBpeOralHygiene === '3' ||
+                            skorBpeOralHygiene === '4'
                               ? false
                               : true
                           }
@@ -2410,59 +2774,6 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       </div>
                     </article>
-                    <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2 hover:cursor-pointer'>
-                        Cleft Lip/Palate
-                      </h4>
-                      <div className='grid grid-cols-2'>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='ada-cleft-lip'
-                            id='ada-cleft-lip'
-                            checked={adaCleftLip}
-                            onChange={() => {
-                              setAdaCleftLip(!adaCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                adaCleftLip: !adaCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
-                          <label
-                            htmlFor='ada-cleft-lip'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Ada
-                          </label>
-                        </div>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='rujuk-cleft-lip-palate'
-                            id='rujuk-cleft-lip-palate'
-                            checked={rujukCleftLip}
-                            onChange={() => {
-                              setRujukCleftLip(!rujukCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                rujukCleftLip: !rujukCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='rujuk-cleft-lip-palate'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Rujuk
-                          </label>
-                        </div>
-                      </div>
-                    </article>
                     <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                       <div className='grid grid-cols-1 lg:grid-cols-2'>
@@ -2609,7 +2920,7 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                     </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2 md:col-span-3'>
+                      <h4 className='font-bold flex flex-row col-span-2 md:col-span-3'>
                         Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
                         Berubah Menjadi Seperti Di Bawah
                       </h4>
@@ -2683,29 +2994,6 @@ function UserFormSekolahPemeriksaan() {
                         />
                       </div>
                       <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>E: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={eBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setEBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              eBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
-                      </div>
-                      <div className='flex flex-row pl-5 items-center'>
                         <p className='text-sm font-m '>X: </p>
                         <input
                           disabled={isDisabled}
@@ -2728,17 +3016,68 @@ function UserFormSekolahPemeriksaan() {
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
                       </div>
+                      <div className='flex flex-row pl-5 items-center'>
+                        <p className='text-sm font-m '>E: </p>
+                        <input
+                          disabled={isDisabled}
+                          min='0'
+                          max='32'
+                          type='number'
+                          name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                          id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                          value={eBilanganFsDibuat3TahunLepasTerjadi}
+                          onChange={(e) => {
+                            setEBilanganFsDibuat3TahunLepasTerjadi(
+                              e.target.value
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              eBilanganFsDibuat3TahunLepasTerjadi:
+                                e.target.value,
+                            });
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        />
+                      </div>
+                    </article>
+                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold flex flex-row col-span-2  pb-2 pl-5'>
+                        Kehilangan Permukaan Gigi (TSL)
+                      </h4>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='tooth-surface-loss'
+                          id='tooth-surface-loss'
+                          checked={toothSurfaceLoss}
+                          onChange={(e) => {
+                            setToothSurfaceLoss(!toothSurfaceLoss);
+                            setConfirmData({
+                              ...confirmData,
+                              toothSurfaceLoss: !toothSurfaceLoss,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='tooth-surface-loss'
+                          className='text-sm font-m ml-2'
+                        >
+                          Kehilangan Permukaan Gigi
+                        </label>
+                      </div>
                     </article>
                   </section>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
                   <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2'>
                     <p className='ml-3 text-xl font-semibold'>Perlu Dibuat</p>
                   </span>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
                   <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
                     <div className='grid gap-2'>
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -2792,7 +3131,7 @@ function UserFormSekolahPemeriksaan() {
                             htmlFor='baru-jumlah-gigi-kekal-perlu-fs'
                             className='text-sm font-m'
                           >
-                            jumlah gigi kekal perlu Pengapan Fisur
+                            jumlah gigi kekal perlu Pengapan Fisur (E10)
                           </label>
                           <input
                             disabled={isDisabled}
@@ -2867,7 +3206,7 @@ function UserFormSekolahPemeriksaan() {
                             className='text-sm font-m'
                             htmlFor='baru-jumlah-gigi-kekal-perlu-fv'
                           >
-                            jumlah gigi kekal perlu Sapuan Fluorida(FV)
+                            jumlah gigi kekal perlu Sapuan Fluorida(FV) (E13)
                           </label>
                           <input
                             disabled={isDisabled}
@@ -2896,7 +3235,7 @@ function UserFormSekolahPemeriksaan() {
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                         <div className='flex flex-row items-center font-bold md:pl-5 col-span-2'>
                           <h4 className='text-sm md:text-base'>
-                            Resin Pencegahan Jenis 1 (PRR Type I)(E12)
+                            Resin Pencegahan Jenis 1 (PRR Type I) (E12)
                           </h4>
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 whitespace-nowrap ${
@@ -2942,7 +3281,7 @@ function UserFormSekolahPemeriksaan() {
                             className='text-sm font-m'
                           >
                             jumlah gigi kekal perlu Resin Pencegahan Jenis 1
-                            (PRR Type I)
+                            (PRR Type I) (E12)
                           </label>
                           <input
                             disabled={isDisabled}
@@ -3471,14 +3810,14 @@ function UserFormSekolahPemeriksaan() {
                     </div>
                   </section>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
                   <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2'>
                     <p className='ml-3 text-xl font-semibold'>Lain-Lain</p>
                   </span>
                 )}
-                {adaTiadaPemeriksaanPendaftaran ===
-                'tiada-pemeriksaan' ? null : (
+                {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
                   <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-1 sm:col-span-2'>
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-5 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row'>
@@ -3781,13 +4120,6 @@ function UserFormSekolahPemeriksaan() {
                   >
                     tutup
                   </span>
-                  {!isDisabled && (
-                    <input
-                      type='reset'
-                      value='reset'
-                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                    />
-                  )}
                   {!isDisabled && (
                     <button
                       type='submit'

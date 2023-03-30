@@ -19,19 +19,23 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     required: true,
   },
   // pemeriksaan -----------------------------------------------------------
-  tarikhPemeriksaanSemasa: {
+  engganTidakHadirPemeriksaan: {
     type: String,
     default: '',
   },
-  engganKedatanganPendaftaran: {
-    type: Boolean,
-    default: false,
+  engganPemeriksaan: {
+    type: String,
+    default: '',
   },
-  tidakHadirKedatanganPendaftaran: {
-    type: Boolean,
-    default: false,
+  kebenaranPemeriksaan: {
+    type: String,
+    default: '',
   },
-  adaTiadaPemeriksaanPendaftaran: {
+  tidakHadirPemeriksaan: {
+    type: String,
+    default: '',
+  },
+  tarikhPemeriksaanSemasa: {
     type: String,
     default: '',
   },
@@ -206,6 +210,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: Number,
     min: 0,
     default: 0,
+  },
+  toothSurfaceLoss: {
+    type: Boolean,
+    default: false,
   },
   classID: {
     type: Number,
