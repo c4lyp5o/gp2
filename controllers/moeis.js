@@ -1,6 +1,23 @@
 const https = require('https');
 const axios = require('axios');
 
+const getJPNMOEIS = async (req, res) => {
+  try {
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    const { data } = await axios.get(process.env.MOEIS_INTEGRATION_URL_JPN, {
+      httpsAgent: agent,
+      headers: {
+        APIKEY: process.env.MOEIS_APIKEY,
+      },
+    });
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.json({ msg: error.message });
+  }
+};
+
 const getSekolahMOEIS = async (req, res) => {
   const { jkod, katkod, pkod, opskod, stpm, jnskod, special } = req.query;
 
@@ -16,6 +33,31 @@ const getSekolahMOEIS = async (req, res) => {
         }${stpm ? `&stpm=${stpm}` : ''}${jnskod ? `&jnskod=${jnskod}` : ''}${
           special ? `&special=${special}` : ''
         }`,
+      {
+        httpsAgent: agent,
+        headers: {
+          APIKEY: process.env.MOEIS_APIKEY,
+        },
+      }
+    );
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.json({ msg: error.message });
+  }
+};
+
+// GET /singleSekolah
+const getSingleSekolahMOEIS = async (req, res) => {
+  const { inkod, inid } = req.query;
+
+  try {
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    const { data } = await axios.get(
+      process.env.MOEIS_INTEGRATION_URL_SINGLE_SEKOLAH +
+        `?inkod=${inkod}
+          ${inid ? `&inid=${inid}` : ''}`,
       {
         httpsAgent: agent,
         headers: {
@@ -56,4 +98,34 @@ const getPelajarMOEIS = async (req, res) => {
   }
 };
 
-module.exports = { getSekolahMOEIS, getPelajarMOEIS };
+// GET /singlePelajar
+const getSinglePelajarMOEIS = async (req, res) => {
+  const { id_individu } = req.query;
+
+  try {
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    const { data } = await axios.get(
+      process.env.MOEIS_INTEGRATION_URL_SINGLE_PELAJAR +
+        `?id_individu=${id_individu}`,
+      {
+        httpsAgent: agent,
+        headers: {
+          APIKEY: process.env.MOEIS_APIKEY,
+        },
+      }
+    );
+    return res.status(200).json(data);
+  } catch (error) {
+    return res.json({ msg: error.message });
+  }
+};
+
+module.exports = {
+  getJPNMOEIS,
+  getSekolahMOEIS,
+  getSingleSekolahMOEIS,
+  getPelajarMOEIS,
+  getSinglePelajarMOEIS,
+};
