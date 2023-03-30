@@ -736,6 +736,25 @@ function AdminAppProvider({ children }) {
     negeriwplabuan: 'WP Labuan',
     negeriilk: 'ILK',
   };
+  const DictionaryHurufNegeri = {
+    Johor: 'J',
+    Kedah: 'K',
+    Kelantan: 'D',
+    Melaka: 'M',
+    'Negeri Sembilan': 'N',
+    Pahang: 'C',
+    'Pulau Pinang': 'P',
+    Perak: 'A',
+    Perlis: 'R',
+    Selangor: 'B',
+    Terengganu: 'T',
+    Sabah: 'S',
+    Sarawak: 'Q',
+    'WP Kuala Lumpur': 'W',
+    'WP Putrajaya': 'F',
+    'WP Labuan': 'L',
+    ILK: 'ILK',
+  };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {
       return 'Bilangan aktiviti share kurang 10';
@@ -902,6 +921,7 @@ function AdminAppProvider({ children }) {
         saveCurrentUser,
         logOutUser,
         Dictionary,
+        DictionaryHurufNegeri,
         DictionarySosMedParam,
         DictionarySosMedAcronym,
         InfoDecoder,
