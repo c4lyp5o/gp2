@@ -3,6 +3,7 @@ import { FaInfoCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
+import Select from 'react-select';
 
 import ConfirmCheck from './ConfirmationRawatan';
 
@@ -18,6 +19,18 @@ function UserFormSekolahRawatan() {
     masterDatePicker,
     toast,
   } = useGlobalUserAppContext();
+
+  const OptionRawatan = [
+    { value: 'lihat-semua', label: 'Lihat Semua' },
+    { value: 'pengapan-fisur', label: 'Pengapan Fisur' },
+    { value: 'sapuan-florida', label: 'Sapuan Florida' },
+    { value: 'prr-jenis-1', label: 'PRR Jenis 1' },
+    { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
+    { value: 'cabutan', label: 'Cabutan' },
+    { value: 'rawatan-lain', label: 'Rawatan Lain' },
+    { value: 'rujukan', label: 'Rujukan' },
+  ];
+  const [pilihanRawatan, setPilihanRawatan] = useState([]);
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -447,7 +460,24 @@ function UserFormSekolahRawatan() {
                       ) : null}
                     </div>
                   </article>
-                  <div className='grid gap-1 auto-rows-min'>
+                  <article className='border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
+                    <h1 className='text-lg font-bold flex pl-4'>
+                      Sila Pilih Rawatan
+                    </h1>
+                    <Select
+                      isMulti
+                      name='promosi'
+                      options={OptionRawatan}
+                      placeholder='Sila Pilih Rawatan'
+                      className='basic-multi-select'
+                      classNamePrefix='select'
+                      onChange={(e) => {
+                        setPilihanRawatan(e.map((item) => item.value));
+                      }}
+                    />
+                  </article>
+                  {pilihanRawatan.includes('pengapan-fisur') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Pengapan Fisur{' '}
@@ -501,6 +531,9 @@ function UserFormSekolahRawatan() {
                         />
                       </div>
                     </article>
+                  ) : null}
+                  {pilihanRawatan.includes('sapuan-florida') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Sapuan Fluorida(FV)
@@ -557,6 +590,9 @@ function UserFormSekolahRawatan() {
                         />
                       </div>
                     </article>
+                  ) : null}
+                  {pilihanRawatan.includes('prr-jenis-1') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Resin Pencegahan Jenis 1 (PRR Type I)
@@ -613,9 +649,8 @@ function UserFormSekolahRawatan() {
                         />
                       </div>
                     </article>
-                  </div>
-                  <div className='grid gap-1 auto-rows-min'>
-                    {/* <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  ) : null}
+                  {/* <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                   <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                     Silver Diamine Fluoride
                   </h4>
@@ -673,6 +708,57 @@ function UserFormSekolahRawatan() {
                     />
                   </div>
                 </article> */}
+                  {pilihanRawatan.includes('cabutan') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
+                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                        cabutan
+                      </h4>
+                      <p className='flex items-center flex-row pl-5 text-m font-m col-span-2'>
+                        gigi telah dicabut
+                      </p>
+                      <div className='flex items-center justify-center'>
+                        <p className='text-sm font-m'>Desidus: </p>
+                        <input
+                          type='number'
+                          name='cabut-desidus-sekolah-rawatan'
+                          id='cabut-desidus-sekolah-rawatan'
+                          value={cabutDesidusSekolahRawatan}
+                          onChange={(e) => {
+                            setCabutDesidusSekolahRawatan(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              cabutDesidusSekolahRawatan: e.target.value,
+                            });
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          min='0'
+                          max='20'
+                        />
+                      </div>
+                      <div className='flex items-center justify-center'>
+                        <p className='text-sm font-m'>Kekal: </p>
+                        <input
+                          type='number'
+                          name='cabut-kekal-penyata-akhir-2'
+                          id='cabut-kekal-penyata-akhir-2'
+                          value={cabutKekalSekolahRawatan}
+                          onChange={(e) => {
+                            setCabutKekalSekolahRawatan(e.target.value);
+                            setConfirmData({
+                              ...confirmData,
+                              cabutKekalSekolahRawatan: e.target.value,
+                            });
+                          }}
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          min='0'
+                          max='32'
+                        />
+                      </div>
+                    </article>
+                  ) : null}
+                  {pilihanRawatan.includes('tampalan') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         Jumlah Tampalan Dibuat
@@ -1030,58 +1116,6 @@ function UserFormSekolahRawatan() {
                           </div>
                         </article>
                       </div>
-                    </article>
-                  </div>
-                </section>
-                <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
-                  <div className='grid gap-2 auto-rows-min'>
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        cabutan
-                      </h4>
-                      <p className='flex items-center flex-row pl-5 text-m font-m col-span-2'>
-                        gigi telah dicabut
-                      </p>
-                      <div className='flex items-center justify-center'>
-                        <p className='text-sm font-m'>Desidus: </p>
-                        <input
-                          type='number'
-                          name='cabut-desidus-sekolah-rawatan'
-                          id='cabut-desidus-sekolah-rawatan'
-                          value={cabutDesidusSekolahRawatan}
-                          onChange={(e) => {
-                            setCabutDesidusSekolahRawatan(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              cabutDesidusSekolahRawatan: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          min='0'
-                          max='20'
-                        />
-                      </div>
-                      <div className='flex items-center justify-center'>
-                        <p className='text-sm font-m'>Kekal: </p>
-                        <input
-                          type='number'
-                          name='cabut-kekal-penyata-akhir-2'
-                          id='cabut-kekal-penyata-akhir-2'
-                          value={cabutKekalSekolahRawatan}
-                          onChange={(e) => {
-                            setCabutKekalSekolahRawatan(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              cabutKekalSekolahRawatan: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          min='0'
-                          max='32'
-                        />
-                      </div>
-                    </article>
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         tampalan sementara
                       </h4>
@@ -1110,7 +1144,10 @@ function UserFormSekolahRawatan() {
                         />
                       </div>
                     </article>
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                  ) : null}
+                  {pilihanRawatan.includes('rawatan-lain') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
+                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                         rawatan lain yang telah dilakukan
                       </h4>
@@ -1202,64 +1239,10 @@ function UserFormSekolahRawatan() {
                         </label>
                       </div>
                     </article>
+                  ) : null}
+                  {pilihanRawatan.includes('rujukan') ||
+                  pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        status rawatan
-                      </h4>
-                      <div className='flex flex-row items-center pl-5 m-2'>
-                        <input
-                          type='checkbox'
-                          name='kes-selesai-penyata-akhir-2'
-                          id='kes-selesai-penyata-akhir-2'
-                          checked={kesSelesaiSekolahRawatan}
-                          onChange={() => {
-                            setKesSelesaiSekolahRawatan(
-                              !kesSelesaiSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              kesSelesaiSekolahRawatan:
-                                !kesSelesaiSekolahRawatan,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='kes-selesai-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
-                        >
-                          kes selesai
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !kesSelesaiSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='kes-selesai-icdas-penyata-akhir-2'
-                          id='kes-selesai-icdas-penyata-akhir-2'
-                          checked={kesSelesaiIcdasSekolahRawatan}
-                          onChange={() => {
-                            setKesSelesaiIcdasSekolahRawatan(
-                              !kesSelesaiIcdasSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              kesSelesaiIcdasSekolahRawatan:
-                                !kesSelesaiIcdasSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='kes-selesai-icdas-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
-                        >
-                          kes selesai MMI
-                        </label>
-                      </div>
                       <div className='flex flex-row items-center pl-5 m-2'>
                         <input
                           type='checkbox'
@@ -1451,201 +1434,264 @@ function UserFormSekolahRawatan() {
                         </div>
                       </div>
                     </article>
-                  </div>
-                  <div className='grid gap-2 auto-rows-min'>
-                    <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        promosi & pendidikan kesihatan pergigian
-                      </h4>
-                      <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          melaksanakan aktiviti
-                        </h4>
-                        <div className='flex items-center flex-row pl-5'>
-                          <p className='text-sm font-semibold flex items-center justify-center pr-3'>
-                            BEGIN:{' '}
-                          </p>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              type='radio'
-                              name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              id='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              value='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              checked={
-                                yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
-                                'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan(
-                                  e.target.value
-                                );
-                                setConfirmData({
-                                  ...confirmData,
-                                  yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan:
-                                    e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              className='m-2 text-sm font-m'
-                            >
-                              Ya
-                            </label>
-
-                            <input
-                              type='radio'
-                              name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              id='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              value='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              checked={
-                                yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
-                                'tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan(
-                                  e.target.value
-                                );
-                                setConfirmData({
-                                  ...confirmData,
-                                  yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan:
-                                    e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-                              className='m-2 text-sm font-m'
-                            >
-                              Tidak
-                            </label>
-                          </div>
-                        </div>
-                      </article>
-                      <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          menerima aktiviti nasihat pergigian individu
-                        </h4>
-                        <div className='grid grid-cols-1'>
-                          <div className='flex items-center flex-row pl-5'>
-                            <input
-                              type='checkbox'
-                              name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              checked={
-                                plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                              }
-                              onChange={() => {
-                                setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
-                                  !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                                );
-                                setConfirmData({
-                                  ...confirmData,
-                                  plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
-                                    !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              className='m-2 text-sm font-m'
-                            >
-                              nasihat berkaitan plak gigi
-                            </label>
-                          </div>
-                          <div className='flex items-center flex-row pl-5'>
-                            <input
-                              type='checkbox'
-                              name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              checked={
-                                dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                              }
-                              onChange={() => {
-                                setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
-                                  !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                                );
-                                setConfirmData({
-                                  ...confirmData,
-                                  dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
-                                    !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              className='m-2 text-sm font-m'
-                            >
-                              nasihat berkaitan diet pemakanan
-                            </label>
-                          </div>
-                          <div className='flex items-center flex-row pl-5'>
-                            <input
-                              type='checkbox'
-                              name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              checked={
-                                penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                              }
-                              onChange={() => {
-                                setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                  !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                                );
-                                setConfirmData({
-                                  ...confirmData,
-                                  penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                    !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              className='m-2 text-sm font-m'
-                            >
-                              nasihat berkaitan penjagaan kesihatan oral
-                            </label>
-                          </div>
-                          <div className='flex items-center flex-row pl-5'>
-                            <input
-                              type='checkbox'
-                              name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              checked={
-                                kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                              }
-                              onChange={() => {
-                                setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                  !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                                );
-                                setConfirmData({
-                                  ...confirmData,
-                                  kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                    !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                              className='m-2 text-sm font-m'
-                            >
-                              nasihat berkaitan kanser mulut
-                            </label>
-                          </div>
-                        </div>
-                      </article>
-                    </article>
-                  </div>
+                  ) : null}
+                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-bold flex flex-row pl-5'>
+                      Kes Selesai
+                    </h4>
+                    <div className='flex flex-row items-center pl-5 m-2'>
+                      <input
+                        type='checkbox'
+                        name='kes-selesai-penyata-akhir-2'
+                        id='kes-selesai-penyata-akhir-2'
+                        checked={kesSelesaiSekolahRawatan}
+                        onChange={() => {
+                          setKesSelesaiSekolahRawatan(
+                            !kesSelesaiSekolahRawatan
+                          );
+                          setConfirmData({
+                            ...confirmData,
+                            kesSelesaiSekolahRawatan: !kesSelesaiSekolahRawatan,
+                          });
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                      />
+                      <label
+                        htmlFor='kes-selesai-penyata-akhir-2'
+                        className='mx-2 text-sm font-m'
+                      >
+                        kes selesai
+                      </label>
+                    </div>
+                    <div
+                      className={`${
+                        !kesSelesaiSekolahRawatan && 'hidden'
+                      } flex flex-row items-center pl-5 m-2`}
+                    >
+                      <input
+                        type='checkbox'
+                        name='kes-selesai-icdas-penyata-akhir-2'
+                        id='kes-selesai-icdas-penyata-akhir-2'
+                        checked={kesSelesaiIcdasSekolahRawatan}
+                        onChange={() => {
+                          setKesSelesaiIcdasSekolahRawatan(
+                            !kesSelesaiIcdasSekolahRawatan
+                          );
+                          setConfirmData({
+                            ...confirmData,
+                            kesSelesaiIcdasSekolahRawatan:
+                              !kesSelesaiIcdasSekolahRawatan,
+                          });
+                        }}
+                        className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                      />
+                      <label
+                        htmlFor='kes-selesai-icdas-penyata-akhir-2'
+                        className='mx-2 text-sm font-m'
+                      >
+                        kes selesai MMI
+                      </label>
+                    </div>
+                  </article>
                 </section>
+                <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2 mb-2'>
+                  <p className='ml-3 text-xl font-semibold'>
+                    promosi & pendidikan kesihatan pergigian
+                  </p>
+                </span>
+                <div className='grid grid-cols-2 gap-2 auto-rows-min mb-2'>
+                  <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-bold flex flex-row pl-5'>
+                      promosi & pendidikan kesihatan pergigian
+                    </h4>
+                    {/* <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold flex flex-row pl-5'>
+                        melaksanakan aktiviti
+                      </h4>
+                      <div className='flex items-center flex-row pl-5'>
+                        <p className='text-sm font-semibold flex items-center justify-center pr-3'>
+                          BEGIN:{' '}
+                        </p>
+                        <div className='flex items-center justify-center'>
+                          <input
+                            type='radio'
+                            name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            id='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            value='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            checked={
+                              yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
+                              'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan:
+                                  e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            className='m-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+
+                          <input
+                            type='radio'
+                            name='melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            id='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            value='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            checked={
+                              yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
+                              'tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan:
+                                  e.target.value,
+                              });
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+                            className='m-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                      </div>
+                    </article> */}
+                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold flex flex-row pl-5'>
+                        menerima aktiviti nasihat pergigian individu
+                      </h4>
+                      <div className='grid grid-cols-1'>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            checked={
+                              plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                            }
+                            onChange={() => {
+                              setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
+                                !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
+                                  !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            className='m-2 text-sm font-m'
+                          >
+                            nasihat berkaitan plak gigi
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            checked={
+                              dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                            }
+                            onChange={() => {
+                              setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
+                                !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
+                                  !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            className='m-2 text-sm font-m'
+                          >
+                            nasihat berkaitan diet pemakanan
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            checked={
+                              penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                            }
+                            onChange={() => {
+                              setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                                !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                  !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            className='m-2 text-sm font-m'
+                          >
+                            nasihat berkaitan penjagaan kesihatan oral
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            checked={
+                              kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                            }
+                            onChange={() => {
+                              setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                                !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                  !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                            className='m-2 text-sm font-m'
+                          >
+                            nasihat berkaitan kanser mulut
+                          </label>
+                        </div>
+                      </div>
+                    </article>
+                  </article>
+                </div>
                 <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2 '>
                   <span
                     onClick={() => {
