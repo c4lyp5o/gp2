@@ -26,10 +26,10 @@ function UserSekolah() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
-  const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
-  const [dahFilterTahun, setDahFilterTahun] = useState([]);
+  // const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
+  // const [dahFilterTahun, setDahFilterTahun] = useState([]);
   const [sekMenRen, setSekMenRen] = useState('');
-  const [isFiltering, setIsFiltering] = useState(false);
+  // const [isFiltering, setIsFiltering] = useState(false);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [tahun, setTahun] = useState([]);
   const [namaKelas, setNamaKelas] = useState([]);
@@ -38,7 +38,7 @@ function UserSekolah() {
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
   const [filterNama, setFilterNama] = useState('');
 
-  const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
+  // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
@@ -71,10 +71,10 @@ function UserSekolah() {
         //   },
         //   ['']
         // );
-        // setPilihanSekolah(data.fasilitiSekolahs[0].nama);
+        setPilihanSekolah(data.fasilitiSekolahs[0].nama);
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs([...namaSekolahs, data.fasilitiSekolahs[0].nama]);
-        setFasilitiSekolah(data.fasilitiSekolahs);
+        // setFasilitiSekolah(data.fasilitiSekolahs);
         setFilteredFasilitiSekolah(data.fasilitiSekolahs);
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
@@ -93,10 +93,10 @@ function UserSekolah() {
   }, [reloadState]);
 
   useEffect(() => {
-    const filteredSekolahs = allPersonSekolahs.filter((person) =>
-      person.namaSekolah.includes(pilihanSekolah)
-    );
-    const tahun = filteredSekolahs.reduce(
+    // const filteredSekolahs = allPersonSekolahs.filter((person) =>
+    //   person.namaSekolah.includes(pilihanSekolah)
+    // );
+    const tahun = allPersonSekolahs.reduce(
       (arrTahun, singlePersonSekolah) => {
         if (!arrTahun.includes(singlePersonSekolah.tahun)) {
           arrTahun.push(singlePersonSekolah.tahun);
@@ -107,11 +107,11 @@ function UserSekolah() {
     );
     // console.log(tahun);
     setTahun(tahun);
-    setDahFilterSekolahs(filteredSekolahs);
+    // setDahFilterSekolahs(filteredSekolahs);
   }, [pilihanSekolah]);
 
   useEffect(() => {
-    const filteredTahun = dahFilterSekolahs.filter((person) =>
+    const filteredTahun = allPersonSekolahs.filter((person) =>
       person.tahun.includes(pilihanTahun)
     );
     const namaKelas = filteredTahun.reduce(
@@ -123,9 +123,8 @@ function UserSekolah() {
       },
       ['']
     );
-    // console.log(namaKelas)
     setNamaKelas(namaKelas);
-    setDahFilterTahun(filteredTahun);
+    // setDahFilterTahun(filteredTahun);
   }, [pilihanTahun]);
 
   // reset value
