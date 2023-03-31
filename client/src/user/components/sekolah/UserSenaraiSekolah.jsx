@@ -96,6 +96,7 @@ function UserSekolahList() {
           });
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
+        // console.log(data);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -169,7 +170,7 @@ function UserSekolahList() {
               <option value='sekolah-menengah'>SEKOLAH MENENGAH</option>
               <option value='sekolah-rendah'>SEKOLAH RENDAH</option>
             </select>
-            <Link
+            {/* <Link
               to='sekolah'
               className='uppercase w-72 bg-[#c0392b] text-base text-userWhite rounded-md shadow-md p-2 hover:bg-user1 transition-all flex flex-row justify-center items-center'
             >
@@ -177,7 +178,7 @@ function UserSekolahList() {
               <BsChevronDoubleRight /> Masuk Reten Sekolah{' '}
               <BsChevronDoubleLeft />
               <BsChevronDoubleLeft className='animate-ping' />
-            </Link>
+            </Link> */}
           </div>
         </div>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
@@ -205,6 +206,9 @@ function UserSekolahList() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                   STATUS SEKOLAH
                 </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
+                  ISI RETEN
+                </th>
                 {userinfo.role === 'admin' && (
                   <th className='outline outline-1 outline-offset-1 px-2 py-1 w-32'>
                     TUTUP RETEN SEKOLAH
@@ -226,6 +230,9 @@ function UserSekolahList() {
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
@@ -302,6 +309,13 @@ function UserSekolahList() {
                               <BsFillCircleFill className='text-user9 text-lg my-1 ml-2 inline-flex' />
                             </span>
                           )}
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                          <Link to={`sekolah/${singleNamaSekolah.kodSekolah}`}>
+                            <button className='bg-user3 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'>
+                              PILIH
+                            </button>
+                          </Link>
                         </td>
                         {userinfo.role === 'admin' && (
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
