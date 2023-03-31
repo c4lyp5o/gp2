@@ -202,7 +202,7 @@ function UserSekolah() {
           <div className=''>
             <div className='flex justify-between'>
               <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
-                CARIAN MURID SEKOLAH
+                CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
                 <button
@@ -214,6 +214,9 @@ function UserSekolah() {
                   kembali ke senarai sekolah
                 </button>
               </div>
+            </div>
+            <div className='grid mb-3'>
+              <span className='font-bold'>{pilihanSekolah}</span>
             </div>
             <div className='grid grid-cols-2'>
               {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
@@ -439,10 +442,10 @@ function UserSekolah() {
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                             {index + 1}
                           </td>
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.nama}
                           </td>
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.pemeriksaanSekolah
                               ? singlePersonSekolah.pemeriksaanSekolah
                                   .createdByUsername
