@@ -250,6 +250,11 @@ const getAllPersonSekolah = async (req, res) => {
                 as: 'rawatanSekolah',
               },
             },
+            {
+              $sort: {
+                nama: 1,
+              },
+            },
           ],
         },
       },
