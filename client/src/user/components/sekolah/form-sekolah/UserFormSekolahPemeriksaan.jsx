@@ -1074,7 +1074,8 @@ function UserFormSekolahPemeriksaan() {
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonSekolah.kelas}
+                        {singlePersonSekolah.tahun}{' '}
+                        {singlePersonSekolah.namaKelas}
                       </p>
                     </div>
                   </div>
