@@ -99,8 +99,196 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
+// GET /faceted/:singleSekolahId
+const getAllPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { kodFasiliti } = req.user;
+
+  const { singleSekolahId } = req.params;
+
+  try {
+    const data = await Fasiliti.aggregate([
+      {
+        $match: {
+          kodFasilitiHandler: kodFasiliti,
+          kodSekolah: singleSekolahId,
+          // jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        },
+      },
+      {
+        $facet: {
+          fasilitiSekolahs: [
+            // {
+            //   $lookup: {
+            //     from: 'sekolahs',
+            //     let: {
+            //       kodSekolah: '$kodSekolah',
+            //     },
+            //     pipeline: [
+            //       {
+            //         $match: {
+            //           $expr: {
+            //             $and: [
+            //               {
+            //                 $eq: ['$kodSekolah', '$$kodSekolah'],
+            //               },
+            //             ],
+            //           },
+            //         },
+            //       },
+            //       {
+            //         $group: {
+            //           _id: null,
+            //           semuaTahun: {
+            //             $addToSet: '$tahun',
+            //           },
+            //           // semuaKelas: {
+            //           //   $addToSet: "$namaKelas"
+            //           // },
+            //         },
+            //       },
+            //       {
+            //         $project: {
+            //           _id: 0,
+            //           semuaTahun: 1,
+            //           // semuaKelas: 1,
+            //         },
+            //       },
+            //     ],
+            //     as: 'sedikitDetail',
+            //   },
+            // },
+            // {
+            //   $project: {
+            //     _id: 0,
+            //     idInstitusi: 1,
+            //     nama: 1,
+            //     kodSekolah: 1,
+            //     sekolahSelesaiReten: 1,
+            //     tarikhMulaSekolah: 1,
+            //     // tahunSekolah: '$sedikitDetail.semuaTahun',
+            //     // kelasSekolah: '$sedikitDetail.semuaKelas',
+            //   },
+            // },
+          ],
+          allPersonSekolahs: [
+            {
+              $lookup: {
+                from: 'sekolahs',
+                let: {
+                  kodSekolah: '$kodSekolah',
+                },
+                pipeline: [
+                  {
+                    $match: {
+                      $expr: {
+                        $and: [
+                          {
+                            $eq: ['$kodSekolah', '$$kodSekolah'],
+                          },
+                        ],
+                      },
+                    },
+                  },
+                  {
+                    $project: {
+                      _id: 1,
+                      nama: 1,
+                      noKp: 1,
+                      kodJantina: 1,
+                      kaum: 1,
+                      tahun: 1,
+                      namaKelas: 1,
+                      pemeriksaanSekolah: 1,
+                      rawatanSekolah: 1,
+                    },
+                  },
+                ],
+                as: 'sekolah',
+              },
+            },
+            {
+              $unwind: '$sekolah',
+            },
+            {
+              $project: {
+                _id: '$sekolah._id',
+                namaSekolah: '$nama',
+                kodSekolah: '$kodSekolah',
+                nama: '$sekolah.nama',
+                noKp: '$sekolah.noKp',
+                kodJantina: '$sekolah.kodJantina',
+                kaum: '$sekolah.kaum',
+                tahun: '$sekolah.tahun',
+                namaKelas: '$sekolah.namaKelas',
+                pemeriksaanSekolah: '$sekolah.pemeriksaanSekolah',
+                rawatanSekolah: '$sekolah.rawatanSekolah',
+              },
+            },
+            {
+              $lookup: {
+                from: 'pemeriksaansekolahs',
+                localField: 'pemeriksaanSekolah',
+                foreignField: '_id',
+                as: 'pemeriksaanSekolah',
+              },
+            },
+            {
+              $unwind: {
+                path: '$pemeriksaanSekolah',
+                preserveNullAndEmptyArrays: true,
+              },
+            },
+            {
+              $lookup: {
+                from: 'rawatansekolahs',
+                localField: 'rawatanSekolah',
+                foreignField: '_id',
+                as: 'rawatanSekolah',
+              },
+            },
+          ],
+        },
+      },
+    ]);
+
+    res.status(200).json({
+      allPersonSekolahs: data[0].allPersonSekolahs,
+      fasilitiSekolahs: data[0].fasilitiSekolahs,
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: 'Server Error' });
+  }
+};
+
 // GET /populate/:personSekolahId
 const getSinglePersonSekolahWithPopulate = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const personSekolahWithPopulate = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+  })
+    .populate('pemeriksaanSekolah')
+    .populate('rawatanSekolah')
+    .populate('kotakSekolah');
+
+  if (!personSekolahWithPopulate) {
+    return res
+      .status(404)
+      .json({ msg: `No person with id ${req.params.personSekolahId}` });
+  }
+
+  res.status(201).json({ personSekolahWithPopulate });
+};
+
+// GET /populate/:personSekolahId? - due to further discussion
+const getSinglePersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -383,6 +571,7 @@ module.exports = {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
+  getAllPersonSekolah, // initiate discussion
   getSinglePersonSekolahWithPopulate,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
