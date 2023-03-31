@@ -276,7 +276,7 @@ function UserSekolahList() {
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           {index + 1}
                         </td>
-                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 px-2'>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 px-2 text-left'>
                           {singleNamaSekolah.nama}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
