@@ -8,7 +8,7 @@ const {
 
 router.route('/').get(queryPersonKohortKotak);
 router
-  .route('/:personKohortId')
+  .route('/:personKohortKotakId')
   .get(getSinglePersonKohortKotak)
   .patch(updatePersonKohortKotak);
 
