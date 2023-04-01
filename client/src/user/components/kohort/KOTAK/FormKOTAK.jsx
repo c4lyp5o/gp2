@@ -17,7 +17,7 @@ function UserFormKohortKOTAK() {
     toast,
   } = useGlobalUserAppContext();
 
-  const { personKotakId } = useParams();
+  const { personKohortKotakId } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -210,7 +210,7 @@ function UserFormKohortKOTAK() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/kohort/kotak/${personKotakId}`,
+          `/api/v1/kohort/kotak/${personKohortKotakId}`,
           {
             headers: {
               Authorization: `Bearer ${
