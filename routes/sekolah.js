@@ -4,6 +4,7 @@ const {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
+  getAllPersonSekolah,
   getSinglePersonSekolahWithPopulate,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
@@ -24,6 +25,10 @@ router.route('/populate').get(getAllPersonSekolahsWithPopulate);
 router
   .route('/populate/:personSekolahId')
   .get(getSinglePersonSekolahWithPopulate);
+
+// expertimental
+// GET
+router.route('/faceted/:singleSekolahId').get(getAllPersonSekolah);
 
 // POST
 router
