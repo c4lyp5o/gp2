@@ -70,11 +70,18 @@ const ConfirmModal = ({ children, data }) => {
                 <p className='px-1 text-xs font-semibold mt-5'>
                   Anda YAKIN untuk menghantar maklumat?
                 </p>
-                {data.adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? (
-                  <p className='px-1 text-xs'>
-                    <span className='font-semibold'>Catatan:</span> Anda tidak
-                    perlu menghantar maklumat jika tidak ada pemeriksaan yang
-                    dilakukan.
+                {data.engganTidakHadirPemeriksaan ? (
+                  <p>
+                    Pesakit
+                    {data.engganTidakHadirPemeriksaan ===
+                    'enggan-pemeriksaan' ? (
+                      <span className='text-user9'>ENGGAN</span>
+                    ) : null}
+                    {data.engganTidakHadirPemeriksaan ===
+                    'tidak-hadir-pemeriksaan' ? (
+                      <span className='text-user9'>TIDAK HADIR</span>
+                    ) : null}
+                    untuk Pemeriksaan
                   </p>
                 ) : (
                   <div className='h-full overflow-y-auto'>
