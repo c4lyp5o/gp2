@@ -490,201 +490,210 @@ function UserSekolah() {
                               </span>
                             )}
                             {/* keluar berapa rawatan & rawatan apa */}
-                            {singlePersonSekolah.rawatanSekolah.length >= 1 && (
-                              <div className='relative inline-flex'>
-                                <span
-                                  className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
-                                  onMouseEnter={() => {
-                                    setIsShown({
-                                      ...isShown,
-                                      [singlePersonSekolah._id]: true,
-                                    });
-                                  }}
-                                  onMouseLeave={() => {
-                                    setIsShown({
-                                      ...isShown,
-                                      [singlePersonSekolah._id]: false,
-                                    });
-                                  }}
-                                >
-                                  {singlePersonSekolah.rawatanSekolah.length}
-                                </span>
-                                <div
-                                  className={`${
-                                    isShown[singlePersonSekolah._id]
-                                      ? 'block p-2'
-                                      : 'hidden '
-                                  } absolute z-10 right-4 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60`}
-                                >
-                                  {singlePersonSekolah.rawatanSekolah.map(
-                                    (rawatan) => {
-                                      // sum rawatan
-                                      const semuaGD = [
-                                        rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat,
-                                        rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
-                                      ];
-                                      const semuaGK = [
-                                        rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat,
-                                        rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
-                                      ];
-                                      const semuaICDAS = [
-                                        rawatan.baruJumlahGigiKekalDibuatFs,
-                                        rawatan.baruJumlahGigiKekalDiberiFv,
-                                        rawatan.baruJumlahGigiKekalDiberiPrrJenis1,
-                                      ];
-                                      let sumGigiDesidus = 0;
-                                      semuaGD.forEach((rawatan) => {
-                                        sumGigiDesidus += rawatan;
+                            {singlePersonSekolah.rawatanSekolah.length >= 1 &&
+                              singlePersonSekolah.statusRawatan ===
+                                'belum selesai' && (
+                                <div className='relative inline-flex'>
+                                  <span
+                                    className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                    onMouseEnter={() => {
+                                      setIsShown({
+                                        ...isShown,
+                                        [singlePersonSekolah._id]: true,
                                       });
-                                      let sumGigiKekal = 0;
-                                      semuaGK.forEach((rawatan) => {
-                                        sumGigiKekal += rawatan;
+                                    }}
+                                    onMouseLeave={() => {
+                                      setIsShown({
+                                        ...isShown,
+                                        [singlePersonSekolah._id]: false,
                                       });
-                                      let sumICDAS = 0;
-                                      semuaICDAS.forEach((rawatan) => {
-                                        sumICDAS += rawatan;
-                                      });
-                                      return (
-                                        <div
-                                          key={rawatan._id}
-                                          className='flex flex-col'
-                                        >
-                                          <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
-                                            {moment(
-                                              rawatan.tarikhRawatanSemasa
-                                            ).format('DD/MM/YYYY')}
-                                          </span>
-                                          <span className='text-xs font-semibold text-start'>
-                                            {rawatan.createdByUsername}
-                                          </span>
-                                          {rawatan.cabutDesidusSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              cabut desidus :
-                                              {
-                                                rawatan.cabutDesidusSekolahRawatan
-                                              }
+                                    }}
+                                  >
+                                    {singlePersonSekolah.rawatanSekolah.length}
+                                  </span>
+                                  <div
+                                    className={`${
+                                      isShown[singlePersonSekolah._id]
+                                        ? 'block p-2'
+                                        : 'hidden '
+                                    } absolute z-10 right-4 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60`}
+                                  >
+                                    {singlePersonSekolah.rawatanSekolah.map(
+                                      (rawatan) => {
+                                        // sum rawatan
+                                        const semuaGD = [
+                                          rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+                                          rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+                                        ];
+                                        const semuaGK = [
+                                          rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+                                          rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+                                        ];
+                                        const semuaICDAS = [
+                                          rawatan.baruJumlahGigiKekalDibuatFs,
+                                          rawatan.baruJumlahGigiKekalDiberiFv,
+                                          rawatan.baruJumlahGigiKekalDiberiPrrJenis1,
+                                        ];
+                                        let sumGigiDesidus = 0;
+                                        semuaGD.forEach((rawatan) => {
+                                          sumGigiDesidus += rawatan;
+                                        });
+                                        let sumGigiKekal = 0;
+                                        semuaGK.forEach((rawatan) => {
+                                          sumGigiKekal += rawatan;
+                                        });
+                                        let sumICDAS = 0;
+                                        semuaICDAS.forEach((rawatan) => {
+                                          sumICDAS += rawatan;
+                                        });
+                                        return (
+                                          <div
+                                            key={rawatan._id}
+                                            className='flex flex-col'
+                                          >
+                                            <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
+                                              {moment(
+                                                rawatan.tarikhRawatanSemasa
+                                              ).format('DD/MM/YYYY')}
                                             </span>
-                                          )}
-                                          {rawatan.cabutKekalSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              cabut desidus :
-                                              {rawatan.cabutKekalSekolahRawatan}
+                                            <span className='text-xs font-semibold text-start'>
+                                              {rawatan.createdByUsername}
                                             </span>
-                                          )}
-                                          {sumGigiDesidus >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              tampalan gigi desidus :{' '}
-                                              {sumGigiDesidus}
-                                            </span>
-                                          )}
-                                          {sumGigiKekal >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              tampalan gigi kekal :{' '}
-                                              {sumGigiKekal}
-                                            </span>
-                                          )}
-                                          {sumICDAS >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              ICDAS : {sumICDAS}
-                                            </span>
-                                          )}
-                                          {rawatan.jumlahTampalanSementaraSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              tampalan sementara :{' '}
-                                              {
-                                                rawatan.jumlahTampalanSementaraSekolahRawatan
-                                              }
-                                            </span>
-                                          )}
-                                          {rawatan.pulpotomiSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              pulpotomi :{' '}
-                                              {rawatan.pulpotomiSekolahRawatan}
-                                            </span>
-                                          )}
-                                          {rawatan.endodontikSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              endodontik :{' '}
-                                              {rawatan.endodontikSekolahRawatan}
-                                            </span>
-                                          )}
-                                          {rawatan.absesSekolahRawatan >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              abses :{' '}
-                                              {rawatan.absesSekolahRawatan}
-                                            </span>
-                                          )}
-                                          {rawatan.penskaleranSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              penskaleran :{' '}
-                                              {
-                                                rawatan.penskaleranSekolahRawatan
-                                              }
-                                            </span>
-                                          )}
-                                          {rawatan.rujukSekolahRawatan ===
-                                            true && (
-                                            <span className='text-xs font-medium text-start flex items-center flex-wrap'>
-                                              Dirujuk{' '}
-                                              <FaCheckCircle className='text-user7 text-center mx-1' />
-                                              untuk{' '}
-                                              {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
-                                              true
-                                                ? 'cabutan ,'
-                                                : ''}
-                                              {rawatan.rujukRawatanEndodontikSekolahRawatan ===
-                                              true
-                                                ? 'rawatan endodontik ,'
-                                                : ''}
-                                              {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                                              true
-                                                ? 'rawatan penskaleran ,'
-                                                : ''}
-                                              {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
-                                              true
-                                                ? 'rawatan periodontik ,'
-                                                : ''}
-                                              {rawatan.rujukLainLainSekolahRawatan ===
-                                              true
-                                                ? rawatan.rujukLainLainTulisSekolahRawatan
-                                                : ''}
-                                            </span>
-                                          )}
-                                          {rawatan.kesSelesaiSekolahRawatan ===
-                                            true && (
-                                            <span className='text-xs font-medium text-start flex items-center'>
-                                              kes selesai{' '}
-                                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                            </span>
-                                          )}
-                                          {rawatan.kesSelesaiIcdasSekolahRawatan ===
-                                            true && (
-                                            <span className='text-xs font-medium text-start flex items-center'>
-                                              kes selesai ICDAS{' '}
-                                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                            </span>
-                                          )}
-                                        </div>
-                                      );
-                                    }
-                                  )}
+                                            {rawatan.cabutDesidusSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                cabut desidus :
+                                                {
+                                                  rawatan.cabutDesidusSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.cabutKekalSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                cabut desidus :
+                                                {
+                                                  rawatan.cabutKekalSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {sumGigiDesidus >= 1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                tampalan gigi desidus :{' '}
+                                                {sumGigiDesidus}
+                                              </span>
+                                            )}
+                                            {sumGigiKekal >= 1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                tampalan gigi kekal :{' '}
+                                                {sumGigiKekal}
+                                              </span>
+                                            )}
+                                            {sumICDAS >= 1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                ICDAS : {sumICDAS}
+                                              </span>
+                                            )}
+                                            {rawatan.jumlahTampalanSementaraSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                tampalan sementara :{' '}
+                                                {
+                                                  rawatan.jumlahTampalanSementaraSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.pulpotomiSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                pulpotomi :{' '}
+                                                {
+                                                  rawatan.pulpotomiSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.endodontikSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                endodontik :{' '}
+                                                {
+                                                  rawatan.endodontikSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.absesSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                abses :{' '}
+                                                {rawatan.absesSekolahRawatan}
+                                              </span>
+                                            )}
+                                            {rawatan.penskaleranSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                penskaleran :{' '}
+                                                {
+                                                  rawatan.penskaleranSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.rujukSekolahRawatan ===
+                                              true && (
+                                              <span className='text-xs font-medium text-start flex items-center flex-wrap'>
+                                                Dirujuk{' '}
+                                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                untuk{' '}
+                                                {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
+                                                true
+                                                  ? 'cabutan ,'
+                                                  : ''}
+                                                {rawatan.rujukRawatanEndodontikSekolahRawatan ===
+                                                true
+                                                  ? 'rawatan endodontik ,'
+                                                  : ''}
+                                                {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                                                true
+                                                  ? 'rawatan penskaleran ,'
+                                                  : ''}
+                                                {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
+                                                true
+                                                  ? 'rawatan periodontik ,'
+                                                  : ''}
+                                                {rawatan.rujukLainLainSekolahRawatan ===
+                                                true
+                                                  ? rawatan.rujukLainLainTulisSekolahRawatan
+                                                  : ''}
+                                              </span>
+                                            )}
+                                            {rawatan.kesSelesaiSekolahRawatan ===
+                                              true && (
+                                              <span className='text-xs font-medium text-start flex items-center'>
+                                                kes selesai{' '}
+                                                <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                              </span>
+                                            )}
+                                            {rawatan.kesSelesaiIcdasSekolahRawatan ===
+                                              true && (
+                                              <span className='text-xs font-medium text-start flex items-center'>
+                                                kes selesai ICDAS{' '}
+                                                <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                              </span>
+                                            )}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
                           </td>
                           {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <Link
