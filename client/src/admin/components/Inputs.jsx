@@ -802,7 +802,7 @@ export function InputFacility(props) {
               <div className='px-3 py-1'>
                 <div className='mb-3'>
                   {(props.FType === 'sm' || props.FType === 'sr') &&
-                    (props.statusMOEIS === true ? (
+                    props.statusMOEIS === true && (
                       <>
                         <div>
                           <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
@@ -816,11 +816,22 @@ export function InputFacility(props) {
                           </span>
                         </div>
                       </>
-                    ) : (
+                    )}
+                  {(props.FType === 'sm' || props.FType === 'sr') &&
+                    props.statusMOEIS === false &&
+                    props.isLoadingMOEIS === false && (
                       <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
                         MOEIS Tidak Aktif
                       </span>
-                    ))}
+                    )}
+                  {(props.FType === 'sm' || props.FType === 'sr') &&
+                    props.isLoadingMOEIS === true && (
+                      <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                        <span className='animate-pulse'>
+                          Menyemak status MOEIS
+                        </span>
+                      </span>
+                    )}
                   {props.FType === 'kpb' || props.FType === 'mpb' ? (
                     <>
                       <div>

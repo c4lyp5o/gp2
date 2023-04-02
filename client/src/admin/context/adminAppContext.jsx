@@ -375,22 +375,8 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // MOEIS
-  // ping MOEIS
-  const pingMOEISServer = async () => {
-    // const response = await axios.get(`https://erkm.calypsocloud.one/`);
-    const response = await axios.get(`/api/v1/superadmin/getsekolahMOEIS`, {
-      headers: {
-        Authorization: adminToken,
-      },
-    });
-    return response;
-  };
   // read MOEIS data
   const readSekolahData = async (FType) => {
-    // const response = await axios.get(
-    //   'https://erkm.calypsocloud.one/listsekolah'
-    // );
     const responseMOIES = await axios.get(
       `/api/v1/superadmin/getsekolahMOEIS?FType=${FType}`,
       {
@@ -401,7 +387,7 @@ function AdminAppProvider({ children }) {
     );
     return responseMOIES.data.SENARAI_INSTITUSI;
 
-    // switch (FType) {
+    // switch (FType) { // will be used later
     //   case 'sr':
     //     const currentSr = await readData('sr-sm-all');
     //     if (currentSr.data.length === 0) {
@@ -751,8 +737,8 @@ function AdminAppProvider({ children }) {
     Sabah: 'S',
     Sarawak: 'Q',
     'WP Kuala Lumpur': 'W',
-    'WP Putrajaya': 'F',
     'WP Labuan': 'L',
+    'WP Putrajaya': 'F',
     ILK: 'ILK',
   };
   const DictionarySosMedParam = (data) => {
@@ -900,7 +886,6 @@ function AdminAppProvider({ children }) {
         readFasilitiData,
         readOperatorData,
         readKkiaData,
-        pingMOEISServer,
         readSekolahData,
         readKodProgramData,
         readGenerateTokenData,
