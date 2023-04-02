@@ -91,9 +91,13 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
-  perluPenskaleran: {
+  perluPenskaleranOralHygiene: {
     type: Boolean,
     default: false,
+  },
+  yaTidakPesakitMempunyaiGigi: {
+    type: String,
+    default: '',
   },
   adaDesidus: {
     type: Boolean,

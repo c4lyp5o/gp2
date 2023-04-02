@@ -215,37 +215,22 @@ function UserSekolah() {
                 </button>
               </div>
             </div>
-            <div className='grid mb-3'>
-              <span className='font-bold'>{pilihanSekolah}</span>
-            </div>
             <div className='grid grid-cols-2'>
-              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
                 </span>
                 <span className=' uppercase text-xs lg:text-sm w-full'>
-                  <select
+                  <input
+                    disabled
+                    type='text'
+                    name='pilihan-sekolah'
+                    id='pilihan-sekolah'
                     value={pilihanSekolah}
-                    onChange={(e) => {
-                      setPilihanSekolah(e.target.value);
-                    }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>SILA PILIH</option>
-                    {namaSekolahs.map((singleNamaSekolah, index) => {
-                      return (
-                        <option
-                          value={singleNamaSekolah}
-                          key={index}
-                          className='capitalize'
-                        >
-                          {singleNamaSekolah}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  />
                 </span>
-              </p> */}
+              </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tahun:
@@ -308,6 +293,58 @@ function UserSekolah() {
                   </select>
                 </span>
               </p>
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Tarikh Mula:
+                </span>
+                {pilihanSekolah ? (
+                  <span className='uppercase text-xs lg:text-sm w-full'>
+                    {pilihanSekolah &&
+                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
+                        readOnly
+                      />
+                    ) : (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='BELUM MULA'
+                        readOnly
+                      />
+                    )}
+                  </span>
+                ) : (
+                  <input
+                    type='text'
+                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
+                    value='SILA PILIH SEKOLAH'
+                    readOnly
+                  />
+                )}
+              </p> */}
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Tarikh Tamat:
+                </span>
+              </p> */}
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Nama Pelajar:
+                </span>
+                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  <input
+                    type='text'
+                    value={filterNama}
+                    onChange={(e) => {
+                      setFilterNama(e.target.value.toUpperCase());
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  />
+                </span>
+              </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Status sekolah:
@@ -340,60 +377,6 @@ function UserSekolah() {
                   />
                 )}
               </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Mula:
-                </span>
-                {pilihanSekolah ? (
-                  <span className='uppercase text-xs lg:text-sm w-full'>
-                    {pilihanSekolah &&
-                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
-                        readOnly
-                      />
-                    ) : (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='BELUM MULA'
-                        readOnly
-                      />
-                    )}
-                  </span>
-                ) : (
-                  <input
-                    type='text'
-                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='SILA PILIH SEKOLAH'
-                    readOnly
-                  />
-                )}
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Tamat:
-                </span>
-              </p>
-              {pilihanTahun && (
-                <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                  <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                    Nama Pelajar:
-                  </span>
-                  <span className=' uppercase text-xs lg:text-sm w-full'>
-                    <input
-                      type='text'
-                      value={filterNama}
-                      onChange={(e) => {
-                        setFilterNama(e.target.value.toUpperCase());
-                      }}
-                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    />
-                  </span>
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -410,8 +393,8 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
                   OPERATOR PEMERIKSAAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-5 py-1'>
-                  STATUS RAWATAN
+                <th className='outline outline-1 outline-offset-1 px-5 py-1 w-28'>
+                  STATUS
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   PEMERIKSAAN
@@ -507,201 +490,210 @@ function UserSekolah() {
                               </span>
                             )}
                             {/* keluar berapa rawatan & rawatan apa */}
-                            {singlePersonSekolah.rawatanSekolah.length >= 1 && (
-                              <div className='relative inline-flex'>
-                                <span
-                                  className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
-                                  onMouseEnter={() => {
-                                    setIsShown({
-                                      ...isShown,
-                                      [singlePersonSekolah._id]: true,
-                                    });
-                                  }}
-                                  onMouseLeave={() => {
-                                    setIsShown({
-                                      ...isShown,
-                                      [singlePersonSekolah._id]: false,
-                                    });
-                                  }}
-                                >
-                                  {singlePersonSekolah.rawatanSekolah.length}
-                                </span>
-                                <div
-                                  className={`${
-                                    isShown[singlePersonSekolah._id]
-                                      ? 'block p-2'
-                                      : 'hidden '
-                                  } absolute z-10 right-4 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60`}
-                                >
-                                  {singlePersonSekolah.rawatanSekolah.map(
-                                    (rawatan) => {
-                                      // sum rawatan
-                                      const semuaGD = [
-                                        rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat,
-                                        rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
-                                      ];
-                                      const semuaGK = [
-                                        rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
-                                        rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat,
-                                        rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
-                                      ];
-                                      const semuaICDAS = [
-                                        rawatan.baruJumlahGigiKekalDibuatFs,
-                                        rawatan.baruJumlahGigiKekalDiberiFv,
-                                        rawatan.baruJumlahGigiKekalDiberiPrrJenis1,
-                                      ];
-                                      let sumGigiDesidus = 0;
-                                      semuaGD.forEach((rawatan) => {
-                                        sumGigiDesidus += rawatan;
+                            {singlePersonSekolah.rawatanSekolah.length >= 1 &&
+                              singlePersonSekolah.statusRawatan ===
+                                'belum selesai' && (
+                                <div className='relative inline-flex'>
+                                  <span
+                                    className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                    onMouseEnter={() => {
+                                      setIsShown({
+                                        ...isShown,
+                                        [singlePersonSekolah._id]: true,
                                       });
-                                      let sumGigiKekal = 0;
-                                      semuaGK.forEach((rawatan) => {
-                                        sumGigiKekal += rawatan;
+                                    }}
+                                    onMouseLeave={() => {
+                                      setIsShown({
+                                        ...isShown,
+                                        [singlePersonSekolah._id]: false,
                                       });
-                                      let sumICDAS = 0;
-                                      semuaICDAS.forEach((rawatan) => {
-                                        sumICDAS += rawatan;
-                                      });
-                                      return (
-                                        <div
-                                          key={rawatan._id}
-                                          className='flex flex-col'
-                                        >
-                                          <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
-                                            {moment(
-                                              rawatan.tarikhRawatanSemasa
-                                            ).format('DD/MM/YYYY')}
-                                          </span>
-                                          <span className='text-xs font-semibold text-start'>
-                                            {rawatan.createdByUsername}
-                                          </span>
-                                          {rawatan.cabutDesidusSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              cabut desidus :
-                                              {
-                                                rawatan.cabutDesidusSekolahRawatan
-                                              }
+                                    }}
+                                  >
+                                    {singlePersonSekolah.rawatanSekolah.length}
+                                  </span>
+                                  <div
+                                    className={`${
+                                      isShown[singlePersonSekolah._id]
+                                        ? 'block p-2'
+                                        : 'hidden '
+                                    } absolute z-10 right-4 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60`}
+                                  >
+                                    {singlePersonSekolah.rawatanSekolah.map(
+                                      (rawatan) => {
+                                        // sum rawatan
+                                        const semuaGD = [
+                                          rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdSemulaAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdBaruPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdSemulaPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gdBaruPosteriorAmalgamJumlahTampalanDibuat,
+                                          rawatan.gdSemulaPosteriorAmalgamJumlahTampalanDibuat,
+                                        ];
+                                        const semuaGK = [
+                                          rawatan.gkBaruAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkSemulaAnteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkBaruPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkSemulaPosteriorSewarnaJumlahTampalanDibuat,
+                                          rawatan.gkBaruPosteriorAmalgamJumlahTampalanDibuat,
+                                          rawatan.gkSemulaPosteriorAmalgamJumlahTampalanDibuat,
+                                        ];
+                                        const semuaICDAS = [
+                                          rawatan.baruJumlahGigiKekalDibuatFs,
+                                          rawatan.baruJumlahGigiKekalDiberiFv,
+                                          rawatan.baruJumlahGigiKekalDiberiPrrJenis1,
+                                        ];
+                                        let sumGigiDesidus = 0;
+                                        semuaGD.forEach((rawatan) => {
+                                          sumGigiDesidus += rawatan;
+                                        });
+                                        let sumGigiKekal = 0;
+                                        semuaGK.forEach((rawatan) => {
+                                          sumGigiKekal += rawatan;
+                                        });
+                                        let sumICDAS = 0;
+                                        semuaICDAS.forEach((rawatan) => {
+                                          sumICDAS += rawatan;
+                                        });
+                                        return (
+                                          <div
+                                            key={rawatan._id}
+                                            className='flex flex-col'
+                                          >
+                                            <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
+                                              {moment(
+                                                rawatan.tarikhRawatanSemasa
+                                              ).format('DD/MM/YYYY')}
                                             </span>
-                                          )}
-                                          {rawatan.cabutKekalSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              cabut desidus :
-                                              {rawatan.cabutKekalSekolahRawatan}
+                                            <span className='text-xs font-semibold text-start'>
+                                              {rawatan.createdByUsername}
                                             </span>
-                                          )}
-                                          {sumGigiDesidus >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              tampalan gigi desidus :{' '}
-                                              {sumGigiDesidus}
-                                            </span>
-                                          )}
-                                          {sumGigiKekal >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              tampalan gigi kekal :{' '}
-                                              {sumGigiKekal}
-                                            </span>
-                                          )}
-                                          {sumICDAS >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              ICDAS : {sumICDAS}
-                                            </span>
-                                          )}
-                                          {rawatan.jumlahTampalanSementaraSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              tampalan sementara :{' '}
-                                              {
-                                                rawatan.jumlahTampalanSementaraSekolahRawatan
-                                              }
-                                            </span>
-                                          )}
-                                          {rawatan.pulpotomiSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              pulpotomi :{' '}
-                                              {rawatan.pulpotomiSekolahRawatan}
-                                            </span>
-                                          )}
-                                          {rawatan.endodontikSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              endodontik :{' '}
-                                              {rawatan.endodontikSekolahRawatan}
-                                            </span>
-                                          )}
-                                          {rawatan.absesSekolahRawatan >= 1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              abses :{' '}
-                                              {rawatan.absesSekolahRawatan}
-                                            </span>
-                                          )}
-                                          {rawatan.penskaleranSekolahRawatan >=
-                                            1 && (
-                                            <span className='text-xs font-medium text-start'>
-                                              penskaleran :{' '}
-                                              {
-                                                rawatan.penskaleranSekolahRawatan
-                                              }
-                                            </span>
-                                          )}
-                                          {rawatan.rujukSekolahRawatan ===
-                                            true && (
-                                            <span className='text-xs font-medium text-start flex items-center flex-wrap'>
-                                              Dirujuk{' '}
-                                              <FaCheckCircle className='text-user7 text-center mx-1' />
-                                              untuk{' '}
-                                              {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
-                                              true
-                                                ? 'cabutan ,'
-                                                : ''}
-                                              {rawatan.rujukRawatanEndodontikSekolahRawatan ===
-                                              true
-                                                ? 'rawatan endodontik ,'
-                                                : ''}
-                                              {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                                              true
-                                                ? 'rawatan penskaleran ,'
-                                                : ''}
-                                              {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
-                                              true
-                                                ? 'rawatan periodontik ,'
-                                                : ''}
-                                              {rawatan.rujukLainLainSekolahRawatan ===
-                                              true
-                                                ? rawatan.rujukLainLainTulisSekolahRawatan
-                                                : ''}
-                                            </span>
-                                          )}
-                                          {rawatan.kesSelesaiSekolahRawatan ===
-                                            true && (
-                                            <span className='text-xs font-medium text-start flex items-center'>
-                                              kes selesai{' '}
-                                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                            </span>
-                                          )}
-                                          {rawatan.kesSelesaiIcdasSekolahRawatan ===
-                                            true && (
-                                            <span className='text-xs font-medium text-start flex items-center'>
-                                              kes selesai ICDAS{' '}
-                                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                            </span>
-                                          )}
-                                        </div>
-                                      );
-                                    }
-                                  )}
+                                            {rawatan.cabutDesidusSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                cabut desidus :
+                                                {
+                                                  rawatan.cabutDesidusSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.cabutKekalSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                cabut desidus :
+                                                {
+                                                  rawatan.cabutKekalSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {sumGigiDesidus >= 1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                tampalan gigi desidus :{' '}
+                                                {sumGigiDesidus}
+                                              </span>
+                                            )}
+                                            {sumGigiKekal >= 1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                tampalan gigi kekal :{' '}
+                                                {sumGigiKekal}
+                                              </span>
+                                            )}
+                                            {sumICDAS >= 1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                ICDAS : {sumICDAS}
+                                              </span>
+                                            )}
+                                            {rawatan.jumlahTampalanSementaraSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                tampalan sementara :{' '}
+                                                {
+                                                  rawatan.jumlahTampalanSementaraSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.pulpotomiSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                pulpotomi :{' '}
+                                                {
+                                                  rawatan.pulpotomiSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.endodontikSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                endodontik :{' '}
+                                                {
+                                                  rawatan.endodontikSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.absesSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                abses :{' '}
+                                                {rawatan.absesSekolahRawatan}
+                                              </span>
+                                            )}
+                                            {rawatan.penskaleranSekolahRawatan >=
+                                              1 && (
+                                              <span className='text-xs font-medium text-start'>
+                                                penskaleran :{' '}
+                                                {
+                                                  rawatan.penskaleranSekolahRawatan
+                                                }
+                                              </span>
+                                            )}
+                                            {rawatan.rujukSekolahRawatan ===
+                                              true && (
+                                              <span className='text-xs font-medium text-start flex items-center flex-wrap'>
+                                                Dirujuk{' '}
+                                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                untuk{' '}
+                                                {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
+                                                true
+                                                  ? 'cabutan ,'
+                                                  : ''}
+                                                {rawatan.rujukRawatanEndodontikSekolahRawatan ===
+                                                true
+                                                  ? 'rawatan endodontik ,'
+                                                  : ''}
+                                                {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                                                true
+                                                  ? 'rawatan penskaleran ,'
+                                                  : ''}
+                                                {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
+                                                true
+                                                  ? 'rawatan periodontik ,'
+                                                  : ''}
+                                                {rawatan.rujukLainLainSekolahRawatan ===
+                                                true
+                                                  ? rawatan.rujukLainLainTulisSekolahRawatan
+                                                  : ''}
+                                              </span>
+                                            )}
+                                            {rawatan.kesSelesaiSekolahRawatan ===
+                                              true && (
+                                              <span className='text-xs font-medium text-start flex items-center'>
+                                                kes selesai{' '}
+                                                <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                              </span>
+                                            )}
+                                            {rawatan.kesSelesaiIcdasSekolahRawatan ===
+                                              true && (
+                                              <span className='text-xs font-medium text-start flex items-center'>
+                                                kes selesai ICDAS{' '}
+                                                <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                              </span>
+                                            )}
+                                          </div>
+                                        );
+                                      }
+                                    )}
+                                  </div>
                                 </div>
-                              </div>
-                            )}
+                              )}
                           </td>
                           {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <Link

@@ -487,6 +487,10 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .perluPenskaleranOralHygiene
           );
+          setYaTidakPesakitMempunyaiGigi(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .yaTidakPesakitMempunyaiGigi
+          );
           setAdaDesidus(
             data.personSekolahWithPopulate.pemeriksaanSekolah.adaDesidus
           );
@@ -680,6 +684,9 @@ function UserFormSekolahPemeriksaan() {
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .melaksanakanSaringanMerokok
           );
+          setBersediaDirujuk(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.bersediaDirujuk
+          );
           setKesSelesai(
             data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesai
           );
@@ -702,10 +709,7 @@ function UserFormSekolahPemeriksaan() {
   }, []);
 
   let isDisabled = false;
-  if (
-    singlePersonSekolah.statusRawatan === 'selesai' ||
-    singlePersonSekolah.statusRawatan === 'belum selesai'
-  ) {
+  if (singlePersonSekolah.statusRawatan !== 'belum mula') {
     isDisabled = true;
   }
 
@@ -771,11 +775,21 @@ function UserFormSekolahPemeriksaan() {
       return;
     }
     let statusRawatan = '';
+    if (
+      kesSelesai !== 'ya-kes-selesai' ||
+      engganPemeriksaan !== 'ya-enggan-pemeriksaan' ||
+      tidakHadirPemeriksaan !== 'ya-kehadiran-pemeriksaan'
+    ) {
+      statusRawatan = 'belum selesai';
+    }
     if (kesSelesai === 'ya-kes-selesai') {
       statusRawatan = 'selesai';
     }
-    if (kesSelesai === 'tidak-kes-selesai') {
-      statusRawatan = 'belum selesai';
+    if (engganPemeriksaan === 'ya-enggan-pemeriksaan') {
+      statusRawatan = 'enggan';
+    }
+    if (tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan') {
+      statusRawatan = 'tidak hadir';
     }
     const { nama, namaKelas, namaSekolah, kodSekolah } = singlePersonSekolah;
     // return;
@@ -810,6 +824,7 @@ function UserFormSekolahPemeriksaan() {
               saringanKanserMulutOralHygiene,
               skorGisMulutOralHygiene,
               perluPenskaleranOralHygiene,
+              yaTidakPesakitMempunyaiGigi,
               adaDesidus,
               dAdaGigiDesidus,
               fAdaGigiDesidus,
@@ -923,6 +938,7 @@ function UserFormSekolahPemeriksaan() {
               saringanKanserMulutOralHygiene,
               skorGisMulutOralHygiene,
               perluPenskaleranOralHygiene,
+              yaTidakPesakitMempunyaiGigi,
               adaDesidus,
               dAdaGigiDesidus,
               fAdaGigiDesidus,
@@ -978,6 +994,7 @@ function UserFormSekolahPemeriksaan() {
               statusM,
               menerimaNasihatRingkas,
               melaksanakanSaringanMerokok,
+              bersediaDirujuk,
               kesSelesai,
             },
             {
@@ -1156,7 +1173,7 @@ function UserFormSekolahPemeriksaan() {
                         >
                           Tidak Hadir
                         </label>
-                        {engganTidakHadirPemeriksaan ? (
+                        {!isDisabled && engganTidakHadirPemeriksaan ? (
                           <span
                             className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                             onClick={() => {
@@ -2113,7 +2130,7 @@ function UserFormSekolahPemeriksaan() {
                         </article>
                       </div>
                     </article> */}
-                    <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md'>
+                    <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         Kebersihan Mulut
                       </h4>
@@ -3988,8 +4005,7 @@ function UserFormSekolahPemeriksaan() {
                       {statusM === 'perokok-semasa' && (
                         <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
                           <p className='flex items-center text-sm normal-case'>
-                            Pesakit BERSETUJU untuk dirujuk menjalani
-                            intervensi?
+                            Murid BERSETUJU untuk dirujuk menjalani intervensi?
                             <span className='text-user6'>*</span>
                           </p>
                           <div className='flex items-center'>

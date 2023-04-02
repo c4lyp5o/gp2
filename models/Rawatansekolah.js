@@ -23,6 +23,22 @@ const RawatansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  engganTidakHadirRawatan: {
+    type: String,
+    default: '',
+  },
+  engganRawatan: {
+    type: String,
+    default: '',
+  },
+  kebenaranRawatan: {
+    type: String,
+    default: '',
+  },
+  tidakHadirRawatan: {
+    type: String,
+    default: '',
+  },
   muridDibuatFs: {
     type: Boolean,
     default: false,
@@ -32,21 +48,6 @@ const RawatansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
-  // semulaJumlahGigiKekalDibuatFs: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
-  // baruJumlahMuridDibuatFs: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
-  // semulaJumlahMuridDibuatFs: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
   muridDiberiFv: {
     type: Boolean,
     default: false,
@@ -56,21 +57,6 @@ const RawatansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
-  // semulaJumlahGigiKekalDiberiFv: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
-  // baruJumlahMuridDiberiFv: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
-  // semulaJumlahMuridDiberiFv: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
   muridDiberiPrrJenis1: {
     type: Boolean,
     default: false,
@@ -80,21 +66,6 @@ const RawatansekolahSchema = new mongoose.Schema({
     min: 0,
     default: 0,
   },
-  // semulaJumlahGigiKekalDiberiPrrJenis1: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
-  // baruJumlahMuridDiberiPrrJenis1: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
-  // semulaJumlahMuridDiberiPrrJenis1: {
-  //   type: Number,
-  //   min: 0,
-  //   default: 0,
-  // },
   baruJumlahGigiYangDiberiSdf: {
     type: Number,
     min: 0,
@@ -210,38 +181,30 @@ const RawatansekolahSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
-  rujukCabutanGigiKekalSekolahRawatan: {
-    type: Boolean,
-    default: false,
-  },
-  rujukRawatanEndodontikSekolahRawatan: {
-    type: Boolean,
-    default: false,
-  },
   rujukRawatanOrtodontikSekolahRawatan: {
     type: Boolean,
     default: false,
   },
-  rujukRawatanPeriodontikSekolahRawatan: {
+  rujukPakarPatologiSekolahRawatan: {
     type: Boolean,
     default: false,
   },
-  rujukLainLainSekolahRawatan: {
+  rujukPakarRestoratifSekolahRawatan: {
     type: Boolean,
     default: false,
   },
-  rujukLainLainTulisSekolahRawatan: {
-    type: String,
-    default: '',
+  rujukPakarBedahMulutSekolahRawatan: {
+    type: Boolean,
+    default: false,
   },
-  // ceramahPromosiSekolahRawatan: {
-  //   type: String,
-  //   default: '',
-  // },
-  // lmgPromosiSekolahRawatan: {
-  //   type: String,
-  //   default: '',
-  // },
+  rujukPakarPediatrikSekolahRawatan: {
+    type: Boolean,
+    default: false,
+  },
+  rujukKlinikSekolahRawatan: {
+    type: Boolean,
+    default: false,
+  },
   yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan: {
     type: String,
     default: '',
