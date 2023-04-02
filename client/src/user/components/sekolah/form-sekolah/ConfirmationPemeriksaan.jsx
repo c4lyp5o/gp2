@@ -63,7 +63,7 @@ const ConfirmModal = ({ children, data }) => {
                 PERHATIAN
               </h5>
               <div className='mt-1 py-1'>
-                <span className='relative flex items-center justify-center'>
+                <span className='relative flex items-center justify-center mt-4'>
                   <FaUserCheck className='text-4xl text-user9 mx-auto absolute animate-ping' />
                   <FaUserCheck className='text-4xl text-user9 mx-auto absolute' />
                 </span>
@@ -83,7 +83,7 @@ const ConfirmModal = ({ children, data }) => {
                       <span className='font-semibold'>Pemeriksaan</span>
                     </span>
                     <div className='text-xs overflow-hidden transition-all duration-500'>
-                      {data.yaTidakSediaAdaStatusDenture ? (
+                      {/* {data.yaTidakSediaAdaStatusDenture ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Status Dentur:
@@ -170,7 +170,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                           </p>
                         </div>
-                      ) : null}
+                      ) : null} */}
                       {data.kebersihanMulutOralHygiene ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
@@ -178,6 +178,16 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                           <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.kebersihanMulutOralHygiene}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.skorBpeOralHygiene ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            BPE Skor:
+                          </p>
+                          <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.skorBpeOralHygiene}
                           </p>
                         </div>
                       ) : null}
@@ -282,7 +292,7 @@ const ConfirmModal = ({ children, data }) => {
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.kecederaanGigiAnteriorTrauma ? (
                               <p className='flex flex-row'>
-                                Kecederaan Gigi Anterior:{' '}
+                                Kecederaan Gigi :{' '}
                                 {data.kecederaanGigiAnteriorTrauma ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1' />
                                 ) : (
@@ -292,7 +302,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                             {data.tisuLembutTrauma ? (
                               <p className='flex flex-row'>
-                                Tisu Lembut:{' '}
+                                Kecederaan Tisu Lembut:{' '}
                                 {data.tisuLembutTrauma ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1' />
                                 ) : (
@@ -302,7 +312,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                             {data.tisuKerasTrauma ? (
                               <p className='flex flex-row'>
-                                Tisu Keras:{' '}
+                                kecederaan tulang muka:{' '}
                                 {data.tisuKerasTrauma ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1' />
                                 ) : (
@@ -318,7 +328,8 @@ const ConfirmModal = ({ children, data }) => {
                       data.lainLainBilanganFsDibuat3TahunLepas ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Bilangan FS Dibuat 3 Tahun Lepas:
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas:
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.gicBilanganFsDibuat3TahunLepas ? (
@@ -345,7 +356,8 @@ const ConfirmModal = ({ children, data }) => {
                       data.eBilanganFsDibuat3TahunLepasTerjadi ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Bilangan FS Dibuat 3 Tahun Lepas Terjadi:
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas Berubah Menjadi :
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.dBilanganFsDibuat3TahunLepasTerjadi ? (
@@ -382,7 +394,7 @@ const ConfirmModal = ({ children, data }) => {
                       data.classIIF ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            ICDAS:
+                            MMI:
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.classID ? (
@@ -400,62 +412,80 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
-                      {data.baruJumlahMuridPerluFs ? (
+                      {data.toothSurfaceLoss ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Murid Perlu Pengapan Fisur:
+                            Kehilangan Permukaan Gigi :
+                          </p>
+                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.toothSurfaceLoss ? (
+                              <p>
+                                TSL :
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.baruJumlahGigiKekalPerluFs ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Murid Perlu Pengapan Fisur (E10):
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             <p className='flex flex-row'>
                               Perlu :
-                              {data.baruJumlahMuridPerluFs ? (
+                              {data.baruJumlahGigiKekalPerluFs > 0 ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1' />
                               )}
                             </p>
                             <p>
-                              jumlah gigi kekal perlu Pengapan Fisur :
+                              jumlah gigi kekal :
                               {data.baruJumlahGigiKekalPerluFs}
                             </p>
                           </p>
                         </div>
                       ) : null}
-                      {data.baruJumlahMuridPerluFv ? (
+                      {data.baruJumlahGigiKekalPerluFv ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Murid Perlu Sapuan Fluorida(FV):
+                            Murid Perlu Sapuan Fluorida (FV) (E13):
                           </p>
                           <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                             <p className='flex flex-row'>
                               Perlu :
-                              {data.baruJumlahMuridPerluFv ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1' />
-                              )}
-                            </p>
-                          </p>
-                        </div>
-                      ) : null}
-                      {data.baruJumlahMuridPerluPrrJenis1 ? (
-                        <div className='grid grid-cols-[1fr_2fr]'>
-                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            murid perlu Tampalan Resin Pencegahan Jenis 1 (PRR
-                            Type I)
-                          </p>
-                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            <p className='flex flex-row'>
-                              Perlu :
-                              {data.baruJumlahMuridPerluPrrJenis1 ? (
+                              {data.baruJumlahGigiKekalPerluFv > 0 ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1' />
                               )}
                             </p>
                             <p>
-                              jumlah gigi kekal perlu Tampalan Resin Pencegahan
-                              Jenis 1 (PRR Type I) :
+                              jumlah gigi kekal :
+                              {data.baruJumlahGigiKekalPerluFv}
+                            </p>
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.baruJumlahGigiKekalPerluPrrJenis1 ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            murid perlu Resin Pencegahan Jenis 1 (PRR Type I)
+                            (E12)
+                          </p>
+                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            <p className='flex flex-row'>
+                              Perlu :
+                              {data.baruJumlahGigiKekalPerluPrrJenis1 > 0 ? (
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              ) : (
+                                <FaTimesCircle className='text-user9 text-center mx-1' />
+                              )}
+                            </p>
+                            <p>
+                              jumlah gigi kekal :
                               {data.baruJumlahGigiKekalPerluPrrJenis1}
                             </p>
                           </p>
@@ -604,6 +634,12 @@ const ConfirmModal = ({ children, data }) => {
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               </p>
                             ) : null}
+                            {data.bersediaDirujuk === 'ya-bersedia-dirujuk' ? (
+                              <p className='flex flex-row items-center'>
+                                Bersedia Dirujuk menjalani intervensi:{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </p>
+                            ) : null}
                           </p>
                         </div>
                       ) : null}
@@ -678,8 +714,8 @@ const ConfirmModal = ({ children, data }) => {
                   Adakah anda yakin?
                 </p>
                 <p className='text-center text-sm'>
-                  Anda tidak dapat mengubah data ini setelah anda menekan butang
-                  "Ya"
+                  Anda tidak dapat mengubah data ini dan murid ini bertukar ke
+                  status SELESAI setelah anda menekan butang "Ya"
                 </p>
               </div>
               <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>

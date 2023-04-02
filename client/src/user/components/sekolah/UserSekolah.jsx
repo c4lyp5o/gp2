@@ -215,37 +215,22 @@ function UserSekolah() {
                 </button>
               </div>
             </div>
-            <div className='grid mb-3'>
-              <span className='font-bold'>{pilihanSekolah}</span>
-            </div>
             <div className='grid grid-cols-2'>
-              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
                 </span>
                 <span className=' uppercase text-xs lg:text-sm w-full'>
-                  <select
+                  <input
+                    disabled
+                    type='text'
+                    name='pilihan-sekolah'
+                    id='pilihan-sekolah'
                     value={pilihanSekolah}
-                    onChange={(e) => {
-                      setPilihanSekolah(e.target.value);
-                    }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>SILA PILIH</option>
-                    {namaSekolahs.map((singleNamaSekolah, index) => {
-                      return (
-                        <option
-                          value={singleNamaSekolah}
-                          key={index}
-                          className='capitalize'
-                        >
-                          {singleNamaSekolah}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  />
                 </span>
-              </p> */}
+              </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tahun:
@@ -308,6 +293,58 @@ function UserSekolah() {
                   </select>
                 </span>
               </p>
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Tarikh Mula:
+                </span>
+                {pilihanSekolah ? (
+                  <span className='uppercase text-xs lg:text-sm w-full'>
+                    {pilihanSekolah &&
+                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
+                        readOnly
+                      />
+                    ) : (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='BELUM MULA'
+                        readOnly
+                      />
+                    )}
+                  </span>
+                ) : (
+                  <input
+                    type='text'
+                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
+                    value='SILA PILIH SEKOLAH'
+                    readOnly
+                  />
+                )}
+              </p> */}
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Tarikh Tamat:
+                </span>
+              </p> */}
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Nama Pelajar:
+                </span>
+                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  <input
+                    type='text'
+                    value={filterNama}
+                    onChange={(e) => {
+                      setFilterNama(e.target.value.toUpperCase());
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  />
+                </span>
+              </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Status sekolah:
@@ -340,60 +377,6 @@ function UserSekolah() {
                   />
                 )}
               </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Mula:
-                </span>
-                {pilihanSekolah ? (
-                  <span className='uppercase text-xs lg:text-sm w-full'>
-                    {pilihanSekolah &&
-                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
-                        readOnly
-                      />
-                    ) : (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='BELUM MULA'
-                        readOnly
-                      />
-                    )}
-                  </span>
-                ) : (
-                  <input
-                    type='text'
-                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='SILA PILIH SEKOLAH'
-                    readOnly
-                  />
-                )}
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Tamat:
-                </span>
-              </p>
-              {pilihanTahun && (
-                <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                  <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                    Nama Pelajar:
-                  </span>
-                  <span className=' uppercase text-xs lg:text-sm w-full'>
-                    <input
-                      type='text'
-                      value={filterNama}
-                      onChange={(e) => {
-                        setFilterNama(e.target.value.toUpperCase());
-                      }}
-                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    />
-                  </span>
-                </p>
-              )}
             </div>
           </div>
         </div>
@@ -410,8 +393,8 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
                   OPERATOR PEMERIKSAAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-5 py-1'>
-                  STATUS RAWATAN
+                <th className='outline outline-1 outline-offset-1 px-5 py-1 w-28'>
+                  STATUS
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   PEMERIKSAAN
