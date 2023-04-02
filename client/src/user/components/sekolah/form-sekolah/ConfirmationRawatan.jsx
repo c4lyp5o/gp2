@@ -71,16 +71,16 @@ const ConfirmModal = ({ children, data }) => {
                   </p>
                 ) : (
                   <div className='text-xs overflow-y-auto'>
-                    {data.muridDibuatFs ? (
+                    {data.baruJumlahGigiKekalDibuatFs ? (
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                          Pengapan Fisur:
+                          Pengapan Fisur (FS) (E10):
                         </p>
                         <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.muridDibuatFs ? (
+                          {data.baruJumlahGigiKekalDibuatFs > 0 ? (
                             <p>
                               Pesakit Dibuat:
-                              {data.muridDibuatFs ? (
+                              {data.baruJumlahGigiKekalDibuatFs > 0 ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
@@ -96,35 +96,41 @@ const ConfirmModal = ({ children, data }) => {
                         </p>
                       </div>
                     ) : null}
-                    {data.muridDiberiFv ? (
+                    {data.baruJumlahGigiKekalDiberiFv ? (
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                          Sapuan Florida (FV):
+                          Sapuan Florida (FV) (E13):
                         </p>
                         <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.muridDiberiFv ? (
+                          {data.baruJumlahGigiKekalDiberiFv ? (
                             <p>
                               Pesakit Diberi:
-                              {data.muridDiberiFv ? (
+                              {data.baruJumlahGigiKekalDiberiFv > 0 ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
                               )}
                             </p>
                           ) : null}
+                          {data.baruJumlahGigiKekalDiberiFv ? (
+                            <p>
+                              Jumlah Gigi Kekal Diberi:
+                              {data.baruJumlahGigiKekalDiberiFv}
+                            </p>
+                          ) : null}
                         </p>
                       </div>
                     ) : null}
-                    {data.muridDiberiPrrJenis1 ? (
+                    {data.baruJumlahGigiKekalDiberiPrrJenis1 ? (
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                          Pengapian Resin (PRR):
+                          Resin Pencegahan Jenis 1 (PRR Type I) (E12):
                         </p>
                         <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.muridDiberiPrrJenis1 ? (
+                          {data.baruJumlahGigiKekalDiberiPrrJenis1 > 0 ? (
                             <p>
                               Pesakit Diberi:
-                              {data.muridDiberiPrrJenis1 ? (
+                              {data.baruJumlahGigiKekalDiberiPrrJenis1 > 0 ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
@@ -306,8 +312,7 @@ const ConfirmModal = ({ children, data }) => {
                         </p>
                       </div>
                     ) : null}
-                    {data.kesSelesaiSekolahRawatan ||
-                    data.rujukSekolahRawatan ? (
+                    {data.kesSelesaiSekolahRawatan ? (
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                           Status Rawatan :
@@ -333,6 +338,15 @@ const ConfirmModal = ({ children, data }) => {
                               )}
                             </p>
                           ) : null}
+                        </p>
+                      </div>
+                    ) : null}
+                    {data.rujukSekolahRawatan ? (
+                      <div className='grid grid-cols-[1fr_2fr]'>
+                        <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                          Rujukan :
+                        </p>
+                        <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                           {data.rujukSekolahRawatan ? (
                             <p>
                               Rujuk:
@@ -342,23 +356,24 @@ const ConfirmModal = ({ children, data }) => {
                                 <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
                               )}
                               untuk{' '}
-                              {data.rujukCabutanGigiKekalSekolahRawatan === true
-                                ? 'cabutan ,'
-                                : ''}
-                              {data.rujukRawatanEndodontikSekolahRawatan ===
-                              true
-                                ? 'rawatan endodontik ,'
-                                : ''}
                               {data.rujukRawatanOrtodontikSekolahRawatan ===
                               true
-                                ? 'rawatan penskaleran ,'
+                                ? 'Rujukan Ke Pakar ortodontik'
                                 : ''}
-                              {data.rujukRawatanPeriodontikSekolahRawatan ===
-                              true
-                                ? 'rawatan periodontik ,'
+                              {data.rujukPakarPatologiSekolahRawatan === true
+                                ? 'Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut'
                                 : ''}
-                              {data.rujukLainLainSekolahRawatan === true
-                                ? data.rujukLainLainTulisSekolahRawatan
+                              {data.rujukPakarRestoratifSekolahRawatan === true
+                                ? 'Rujukan Ke Pakar Restoratif'
+                                : ''}
+                              {data.rujukPakarBedahMulutSekolahRawatan === true
+                                ? 'Rujukan Ke Pakar Bedah Mulut Dan Maksilofasial'
+                                : ''}
+                              {data.rujukPakarPediatrikSekolahRawatan === true
+                                ? 'Rujukan Ke Pakar Pergigian Pediatrik'
+                                : ''}
+                              {data.rujukKlinikSekolahRawatan === true
+                                ? 'Rujukan Ke Klinik'
                                 : ''}
                             </p>
                           ) : null}
