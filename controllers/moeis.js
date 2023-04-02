@@ -14,7 +14,7 @@ const getJPNMOEIS = async (req, res) => {
     });
     return res.status(200).json(data);
   } catch (error) {
-    return res.json({ msg: error.message });
+    return res.status(503).json({ msg: error.message });
   }
 };
 
@@ -42,7 +42,7 @@ const getSekolahMOEIS = async (req, res) => {
     );
     return res.status(200).json(data);
   } catch (error) {
-    return res.json({ msg: error.message });
+    return res.status(503).json({ msg: error.message });
   }
 };
 
@@ -67,7 +67,7 @@ const getSingleSekolahMOEIS = async (req, res) => {
     );
     return res.status(200).json(data);
   } catch (error) {
-    return res.json({ msg: error.message });
+    return res.status(503).json({ msg: error.message });
   }
 };
 
@@ -94,7 +94,7 @@ const getPelajarMOEIS = async (req, res) => {
     );
     return res.status(200).json(data);
   } catch (error) {
-    return res.json({ msg: error.message });
+    return res.status(503).json({ msg: error.message });
   }
 };
 
@@ -118,7 +118,7 @@ const getSinglePelajarMOEIS = async (req, res) => {
     );
     return res.status(200).json(data);
   } catch (error) {
-    return res.json({ msg: error.message });
+    return res.status(503).json({ msg: error.message });
   }
 };
 
