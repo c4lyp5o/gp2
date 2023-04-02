@@ -44,6 +44,11 @@ function UserFormSekolahRawatan() {
   const createdByUsername = username;
   const [tarikhRawatanSemasa, setTarikhRawatanSemasa] = useState('');
   const [engganTidakHadirRawatan, setEngganTidakHadirRawatan] = useState('');
+  const [modalEnggan, setModalEnggan] = useState(false);
+  const [modalTidakHadir, setModalTidakHadir] = useState(false);
+  const [engganRawatan, setEngganRawatan] = useState('');
+  const [kebenaranRawatan, setKebenaranRawatan] = useState('');
+  const [tidakHadirRawatan, setTidakHadirRawatan] = useState('');
   const [muridDibuatFs, setMuridDibuatFs] = useState(false);
   const [baruJumlahGigiKekalDibuatFs, setBaruJumlahGigiKekalDibuatFs] =
     useState(0);
@@ -125,27 +130,27 @@ function UserFormSekolahRawatan() {
     useState(false);
   const [rujukSekolahRawatan, setRujukSekolahRawatan] = useState(false);
   const [
-    rujukCabutanGigiKekalSekolahRawatan,
-    setRujukCabutanGigiKekalSekolahRawatan,
-  ] = useState(false);
-  const [
-    rujukRawatanEndodontikSekolahRawatan,
-    setRujukRawatanEndodontikSekolahRawatan,
-  ] = useState(false);
-  const [
     rujukRawatanOrtodontikSekolahRawatan,
     setRujukRawatanOrtodontikSekolahRawatan,
   ] = useState(false);
   const [
-    rujukRawatanPeriodontikSekolahRawatan,
-    setRujukRawatanPeriodontikSekolahRawatan,
+    rujukPakarPatologiSekolahRawatan,
+    setRujukPakarPatologiSekolahRawatan,
   ] = useState(false);
-  const [rujukLainLainSekolahRawatan, setRujukLainLainSekolahRawatan] =
-    useState(false);
   const [
-    rujukLainLainTulisSekolahRawatan,
-    setRujukLainLainTulisSekolahRawatan,
-  ] = useState('');
+    rujukPakarRestoratifSekolahRawatan,
+    setRujukPakarRestoratifSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukPakarBedahMulutSekolahRawatan,
+    setRujukPakarBedahMulutSekolahRawatan,
+  ] = useState(false);
+  const [
+    rujukPakarPediatrikSekolahRawatan,
+    setRujukPakarPediatrikSekolahRawatan,
+  ] = useState(false);
+  const [rujukKlinikSekolahRawatan, setRujukKlinikSekolahRawatan] =
+    useState(false);
   const [
     yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
     setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
@@ -219,11 +224,21 @@ function UserFormSekolahRawatan() {
 
   const handleSubmit = async (e) => {
     let statusRawatan = '';
+    if (
+      kesSelesaiSekolahRawatan === false ||
+      tidakHadirRawatan !== 'ya-kehadiran-rawatan' ||
+      engganRawatan !== 'ya-enggan-rawatan'
+    ) {
+      statusRawatan = 'belum selesai';
+    }
+    if (engganRawatan === 'ya-enggan-rawatan') {
+      statusRawatan = 'enggan rawatan';
+    }
+    if (tidakHadirRawatan === 'ya-kehadiran-rawatan') {
+      statusRawatan = 'tidak hadir rawatan';
+    }
     if (kesSelesaiSekolahRawatan === true) {
       statusRawatan = 'selesai';
-    }
-    if (kesSelesaiSekolahRawatan === false) {
-      statusRawatan = 'belum selesai';
     }
     await toast
       .promise(
@@ -233,6 +248,10 @@ function UserFormSekolahRawatan() {
             createdByUsername,
             statusRawatan,
             tarikhRawatanSemasa,
+            engganTidakHadirRawatan,
+            engganRawatan,
+            kebenaranRawatan,
+            tidakHadirRawatan,
             baruJumlahGigiKekalDibuatFs,
             muridDibuatFs,
             muridDiberiFv,
@@ -263,12 +282,12 @@ function UserFormSekolahRawatan() {
             kesSelesaiSekolahRawatan,
             kesSelesaiIcdasSekolahRawatan,
             rujukSekolahRawatan,
-            rujukCabutanGigiKekalSekolahRawatan,
-            rujukRawatanEndodontikSekolahRawatan,
             rujukRawatanOrtodontikSekolahRawatan,
-            rujukRawatanPeriodontikSekolahRawatan,
-            rujukLainLainSekolahRawatan,
-            rujukLainLainTulisSekolahRawatan,
+            rujukPakarPatologiSekolahRawatan,
+            rujukPakarRestoratifSekolahRawatan,
+            rujukPakarBedahMulutSekolahRawatan,
+            rujukPakarPediatrikSekolahRawatan,
+            rujukKlinikSekolahRawatan,
             yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
             yaTidakLawatanKeRumahPromosiSekolahRawatan,
             plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
@@ -309,7 +328,7 @@ function UserFormSekolahRawatan() {
     <ConfirmCheck callbackFx={handleSubmit} data={confirmData}>
       {(confirm) => (
         <>
-          <div className='h-full p-1 px-2 md:px-10 grid gap-2'>
+          <div className='h-full p-1 px-2 md:px-10 grid grid-rows-[1fr_7fr] gap-2'>
             <article className='outline outline-1 outline-userBlack grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 pb-2'>
               {!isLoading && (
                 <div>
@@ -388,16 +407,10 @@ function UserFormSekolahRawatan() {
                   <p className='ml-3 text-xl font-semibold'>Rawatan</p>
                 </span>
                 <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
-                  <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2 pb-2'>
+                  <article className='grid grid-cols-1 lg:grid-cols-2 border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
+                    <h4 className='font-bold flex flex-row pl-5 col-span-1 lg:col-span-2 pb-2'>
                       kedatangan
                     </h4>
-                    <div className='flex flex-row'>
-                      <p className='flex items-center flex-row text-m font-m px-5 '>
-                        tarikh:<span className='text-user6'>*</span>
-                      </p>
-                      <TarikhRawatanSemasa />
-                    </div>
                     <div className='flex items-center flex-row pl-5'>
                       <input
                         type='radio'
@@ -415,6 +428,7 @@ function UserFormSekolahRawatan() {
                             ...confirmData,
                             engganTidakHadirRawatan: e.target.value,
                           });
+                          setModalEnggan(true);
                         }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
@@ -440,6 +454,7 @@ function UserFormSekolahRawatan() {
                             ...confirmData,
                             engganTidakHadirRawatan: e.target.value,
                           });
+                          setModalTidakHadir(true);
                         }}
                         className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                       />
@@ -454,34 +469,271 @@ function UserFormSekolahRawatan() {
                           className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                           onClick={() => {
                             setEngganTidakHadirRawatan('');
+                            setEngganRawatan('');
+                            setKebenaranRawatan('');
+                            setTidakHadirRawatan('');
                           }}
                         >
                           X
                         </span>
                       ) : null}
                     </div>
+                    {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
+                    engganRawatan === 'ya-enggan-rawatan' ? null : (
+                      <div className='flex flex-row'>
+                        <p className='flex items-center flex-row text-m font-m px-5 '>
+                          tarikh:<span className='text-user6'>*</span>
+                        </p>
+                        <TarikhRawatanSemasa />
+                      </div>
+                    )}
+                    <div>
+                      <div
+                        className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
+                          modalEnggan ? 'block' : 'hidden'
+                        }`}
+                      >
+                        <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
+                          PERHATIAN
+                        </h5>
+                        <h1 className='font-bold text-lg'>Enggan</h1>
+                        <p>
+                          Murid yang Enggan Rawatan sehingga hari terakhir
+                          Pasukan Pergigian berada di Sekolah, termasuk murid
+                          yang tiada kebenaran
+                        </p>
+                        <div className='flex flex-row justify-center mt-2'>
+                          <div>
+                            <input
+                              type='radio'
+                              name='ya-tidak-enggan-rawatan'
+                              id='ya-enggan-rawatan'
+                              value='ya-enggan-rawatan'
+                              className='peer hidden'
+                              checked={
+                                engganRawatan === 'ya-enggan-rawatan'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setEngganRawatan(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  engganRawatan: e.target.value,
+                                });
+                              }}
+                            />
+                            <label
+                              htmlFor='ya-enggan-rawatan'
+                              className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                            >
+                              Ya
+                            </label>
+                          </div>
+                          <div>
+                            <input
+                              type='radio'
+                              name='ya-tidak-enggan-rawatan'
+                              id='tidak-enggan-rawatan'
+                              value='tidak-enggan-rawatan'
+                              className='peer hidden'
+                              checked={
+                                engganRawatan === 'tidak-enggan-rawatan'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setEngganRawatan(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  engganRawatan: e.target.value,
+                                });
+                                setModalEnggan(false);
+                              }}
+                            />
+                            <label
+                              htmlFor='tidak-enggan-rawatan'
+                              className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                            >
+                              Tidak
+                            </label>
+                          </div>
+                        </div>
+                        {engganRawatan === 'ya-enggan-rawatan' ? (
+                          <p className='mt-2'>
+                            Adakah murid mempunyai kebenaran rawatan/rawatan
+                            daripada ibu bapa/penjaga?
+                          </p>
+                        ) : null}
+                        {engganRawatan === 'ya-enggan-rawatan' ? (
+                          <div className='flex flex-row justify-center mt-2'>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-kebenaran-rawatan'
+                                id='ya-kebenaran-rawatan'
+                                value='ya-kebenaran-rawatan'
+                                className='peer hidden'
+                                checked={
+                                  kebenaranRawatan === 'ya-kebenaran-rawatan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setKebenaranRawatan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    kebenaranRawatan: e.target.value,
+                                  });
+                                  setModalEnggan(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='ya-kebenaran-rawatan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Ya
+                              </label>
+                            </div>
+                            <div>
+                              <input
+                                type='radio'
+                                name='ya-tidak-kebenaran-rawatan'
+                                id='tidak-kebenaran-rawatan'
+                                value='tidak-kebenaran-rawatan'
+                                className='peer hidden'
+                                checked={
+                                  kebenaranRawatan === 'tidak-kebenaran-rawatan'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setKebenaranRawatan(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    kebenaranRawatan: e.target.value,
+                                  });
+                                  setModalEnggan(false);
+                                }}
+                              />
+                              <label
+                                htmlFor='tidak-kebenaran-rawatan'
+                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                              >
+                                Tidak
+                              </label>
+                            </div>
+                          </div>
+                        ) : null}
+                      </div>
+                      <div
+                        className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
+                          modalTidakHadir ? 'block' : 'hidden'
+                        }`}
+                      >
+                        <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
+                          PERHATIAN
+                        </h5>
+                        <h1 className='font-bold text-lg'>Tidak Hadir</h1>
+                        <p>
+                          Murid yang TIDAK HADIR Rawatan sehingga hari terakhir
+                          Pasukan Pergigian berada di Sekolah
+                        </p>
+                        <div className='flex flex-row justify-center mt-2'>
+                          <div>
+                            <input
+                              type='radio'
+                              name='ya-tidak-kehadiran-rawatan'
+                              id='ya-kehadiran-rawatan'
+                              value='ya-kehadiran-rawatan'
+                              className='peer hidden'
+                              checked={
+                                tidakHadirRawatan === 'ya-kehadiran-rawatan'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setTidakHadirRawatan(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  tidakHadirRawatan: e.target.value,
+                                });
+                                setModalTidakHadir(false);
+                              }}
+                            />
+                            <label
+                              htmlFor='ya-kehadiran-rawatan'
+                              className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                            >
+                              Ya
+                            </label>
+                          </div>
+                          <div>
+                            <input
+                              type='radio'
+                              name='ya-tidak-kehadiran-rawatan'
+                              id='tidak-kehadiran-rawatan'
+                              value='tidak-kehadiran-rawatan'
+                              className='peer hidden'
+                              checked={
+                                tidakHadirRawatan === 'tidak-kehadiran-rawatan'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setTidakHadirRawatan(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  tidakHadirRawatan: e.target.value,
+                                });
+                                setModalTidakHadir(false);
+                              }}
+                            />
+                            <label
+                              htmlFor='tidak-kehadiran-rawatan'
+                              className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                            >
+                              Tidak
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div
+                        className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+                          modalTidakHadir ? 'block' : 'hidden'
+                        }`}
+                      />
+                      <div
+                        className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+                          modalEnggan ? 'block' : 'hidden'
+                        }`}
+                      />
+                    </div>
                   </article>
-                  <article className='border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
-                    <h1 className='text-lg font-bold flex pl-4'>
-                      Sila Pilih Rawatan
-                    </h1>
-                    <Select
-                      isMulti
-                      name='promosi'
-                      options={OptionRawatan}
-                      placeholder='Sila Pilih Rawatan'
-                      className='basic-multi-select'
-                      classNamePrefix='select'
-                      onChange={(e) => {
-                        setPilihanRawatan(e.map((item) => item.value));
-                      }}
-                    />
-                  </article>
+                  {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
+                  engganRawatan === 'ya-enggan-rawatan' ? null : (
+                    <article className='border border-userBlack pl-3 p-2 rounded-md col-span-1 md:col-span-2'>
+                      <h1 className='text-lg font-bold flex pl-4'>
+                        Sila Pilih Rawatan
+                      </h1>
+                      <Select
+                        isMulti
+                        name='promosi'
+                        options={OptionRawatan}
+                        placeholder='Sila Pilih Rawatan'
+                        className='basic-multi-select'
+                        classNamePrefix='select'
+                        onChange={(e) => {
+                          setPilihanRawatan(e.map((item) => item.value));
+                        }}
+                      />
+                    </article>
+                  )}
                   {pilihanRawatan.includes('pengapan-fisur') ||
                   pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Pengapan Fisur{' '}
+                        Pengapan Fisur (E10)
                         <FaInfoCircle title='Fissure Sealant' className='m-2' />
                       </h4>
                       {/* <div className='flex flex-row items-center pl-11 col-span-2'>
@@ -511,7 +763,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
                           className='text-sm font-m'
                         >
-                          Jumlah gigi kekal dibuat pengapan fisur
+                          Jumlah gigi kekal dibuat pengapan fisur (E10)
                         </label>
                         <input
                           type='number'
@@ -537,7 +789,7 @@ function UserFormSekolahRawatan() {
                   pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Sapuan Fluorida(FV)
+                        Sapuan Fluorida (FV) (E13)
                         <FaInfoCircle
                           title='Fluoride Varnish Application'
                           className='m-2'
@@ -570,7 +822,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='baru-jumlah-murid-diberi-fv'
                           className='text-sm font-m'
                         >
-                          Jumlah gigi kekal diberi Sapuan Florida(FV)
+                          Jumlah gigi kekal diberi Sapuan Florida (FV) (E13)
                         </label>
                         <input
                           type='number'
@@ -596,7 +848,7 @@ function UserFormSekolahRawatan() {
                   pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Resin Pencegahan Jenis 1 (PRR Type I)
+                        Resin Pencegahan Jenis 1 (PRR Type I) (E12)
                       </h4>
                       {/* <div className='flex flex-row items-center pl-11 col-span-2'>
                         <input
@@ -626,7 +878,7 @@ function UserFormSekolahRawatan() {
                           className='text-sm font-m'
                         >
                           jumlah gigi kekal dibuat Resin Pencegahan Jenis 1 (PRR
-                          Type I)
+                          Type I) (E12)
                         </label>
                         <input
                           type='number'
@@ -1261,67 +1513,9 @@ function UserFormSekolahRawatan() {
                         />
                         <label
                           htmlFor='rujuk-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
+                          className='mx-2 font-bold'
                         >
-                          rujuk
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
-                          id='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
-                          checked={rujukCabutanGigiKekalSekolahRawatan}
-                          onChange={() => {
-                            setRujukCabutanGigiKekalSekolahRawatan(
-                              !rujukCabutanGigiKekalSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukCabutanGigiKekalSekolahRawatan:
-                                !rujukCabutanGigiKekalSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujuk-cabutan-gigi-kekal-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
-                        >
-                          cabutan gigi kekal
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rujuk-rawatan-endodontik-penyata-akhir-2'
-                          id='rujuk-rawatan-endodontik-penyata-akhir-2'
-                          checked={rujukRawatanEndodontikSekolahRawatan}
-                          onChange={() => {
-                            setRujukRawatanEndodontikSekolahRawatan(
-                              !rujukRawatanEndodontikSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukRawatanEndodontikSekolahRawatan:
-                                !rujukRawatanEndodontikSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujuk-rawatan-endodontik-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
-                        >
-                          rawatan endodontik
+                          rujukan
                         </label>
                       </div>
                       <div
@@ -1350,7 +1544,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='rawatan-ortodontik-penyata-akhir-2'
                           className='mx-2 text-sm font-m'
                         >
-                          rawatan ortodontik
+                          Rujukan Ke Pakar ortodontik
                         </label>
                       </div>
                       <div
@@ -1360,26 +1554,26 @@ function UserFormSekolahRawatan() {
                       >
                         <input
                           type='checkbox'
-                          name='rujuk-rawatan-periodontik-penyata-akhir-2'
-                          id='rujuk-rawatan-periodontik-penyata-akhir-2'
-                          checked={rujukRawatanPeriodontikSekolahRawatan}
+                          name='rujukan-pakar-patologi'
+                          id='rujukan-pakar-patologi'
+                          checked={rujukPakarPatologiSekolahRawatan}
                           onChange={() => {
-                            setRujukRawatanPeriodontikSekolahRawatan(
-                              !rujukRawatanPeriodontikSekolahRawatan
+                            setRujukPakarPatologiSekolahRawatan(
+                              !rujukPakarPatologiSekolahRawatan
                             );
                             setConfirmData({
                               ...confirmData,
-                              rujukRawatanPeriodontikSekolahRawatan:
-                                !rujukRawatanPeriodontikSekolahRawatan,
+                              rujukPakarPatologiSekolahRawatan:
+                                !rujukPakarPatologiSekolahRawatan,
                             });
                           }}
                           className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
                         <label
-                          htmlFor='rujuk-rawatan-periodontik-penyata-akhir-2'
+                          htmlFor='rujukan-pakar-patologi'
                           className='mx-2 text-sm font-m'
                         >
-                          rawatan periodontik
+                          Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut
                         </label>
                       </div>
                       <div
@@ -1389,123 +1583,196 @@ function UserFormSekolahRawatan() {
                       >
                         <input
                           type='checkbox'
-                          name='rujuk-lain-lain-penyata-akhir-2'
-                          id='rujuk-lain-lain-penyata-akhir-2'
-                          checked={rujukLainLainSekolahRawatan}
+                          name='rujukan-pakar-restoratif'
+                          id='rujukan-pakar-restoratif'
+                          checked={rujukPakarRestoratifSekolahRawatan}
                           onChange={() => {
-                            setRujukLainLainSekolahRawatan(
-                              !rujukLainLainSekolahRawatan
+                            setRujukPakarRestoratifSekolahRawatan(
+                              !rujukPakarRestoratifSekolahRawatan
                             );
                             setConfirmData({
                               ...confirmData,
-                              rujukLainLainSekolahRawatan:
-                                !rujukLainLainSekolahRawatan,
+                              rujukPakarRestoratifSekolahRawatan:
+                                !rujukPakarRestoratifSekolahRawatan,
                             });
                           }}
                           className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                         />
                         <label
-                          htmlFor='rujuk-lain-lain-penyata-akhir-2'
+                          htmlFor='rujukan-pakar-restoratif'
                           className='mx-2 text-sm font-m'
                         >
-                          lain-lain
+                          Rujukan Ke Pakar Restoratif
                         </label>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center`}
+                      </div>
+                      <div
+                        className={`${
+                          !rujukSekolahRawatan && 'hidden'
+                        } flex flex-row items-center pl-5 m-2`}
+                      >
+                        <input
+                          type='checkbox'
+                          name='rujukan-pakar-bedah-mulut'
+                          id='rujukan-pakar-bedah-mulut'
+                          checked={rujukPakarBedahMulutSekolahRawatan}
+                          onChange={() => {
+                            setRujukPakarBedahMulutSekolahRawatan(
+                              !rujukPakarBedahMulutSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              rujukPakarBedahMulutSekolahRawatan:
+                                !rujukPakarBedahMulutSekolahRawatan,
+                            });
+                          }}
+                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='rujukan-pakar-bedah-mulut'
+                          className='mx-2 text-sm font-m'
                         >
-                          <input
-                            type='text'
-                            name='rujuk-lain-lain-tulis-rawatan'
-                            id='rujuk-lain-lain-tulis-rawatan'
-                            value={rujukLainLainTulisSekolahRawatan}
-                            onChange={(e) => {
-                              setRujukLainLainTulisSekolahRawatan(
-                                e.target.value
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                rujukLainLainTulisSekolahRawatan:
-                                  e.target.value,
-                              });
-                            }}
-                            className='ml-4 px-2 py-1 ring-1 ring-user3 rounded-md focus:ring-2 focus:ring-user3 focus:outline-none'
-                          />
-                        </div>
+                          Rujukan Ke Pakar bedah mulut dan maksilofasial
+                        </label>
+                      </div>
+                      <div
+                        className={`${
+                          !rujukSekolahRawatan && 'hidden'
+                        } flex flex-row items-center pl-5 m-2`}
+                      >
+                        <input
+                          type='checkbox'
+                          name='rujukan-pakar-pediatrik'
+                          id='rujukan-pakar-pediatrik'
+                          checked={rujukPakarPediatrikSekolahRawatan}
+                          onChange={() => {
+                            setRujukPakarPediatrikSekolahRawatan(
+                              !rujukPakarPediatrikSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              rujukPakarPediatrikSekolahRawatan:
+                                !rujukPakarPediatrikSekolahRawatan,
+                            });
+                          }}
+                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='rujukan-pakar-pediatrik'
+                          className='mx-2 text-sm font-m'
+                        >
+                          Rujukan Ke Pakar Pergigian Pediatrik
+                        </label>
+                      </div>
+                      <div
+                        className={`${
+                          !rujukSekolahRawatan && 'hidden'
+                        } flex flex-row items-center pl-5 m-2`}
+                      >
+                        <input
+                          type='checkbox'
+                          name='rujukan-ke-klinik'
+                          id='rujukan-ke-klinik'
+                          checked={rujukKlinikSekolahRawatan}
+                          onChange={() => {
+                            setRujukKlinikSekolahRawatan(
+                              !rujukKlinikSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              rujukKlinikSekolahRawatan:
+                                !rujukKlinikSekolahRawatan,
+                            });
+                          }}
+                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='rujukan-ke-klinik'
+                          className='mx-2 text-sm font-m'
+                        >
+                          Rujukan Ke Klinik
+                        </label>
                       </div>
                     </article>
                   ) : null}
-                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5'>
-                      Kes Selesai
-                    </h4>
-                    <div className='flex flex-row items-center pl-5 m-2'>
-                      <input
-                        type='checkbox'
-                        name='kes-selesai-penyata-akhir-2'
-                        id='kes-selesai-penyata-akhir-2'
-                        checked={kesSelesaiSekolahRawatan}
-                        onChange={() => {
-                          setKesSelesaiSekolahRawatan(
-                            !kesSelesaiSekolahRawatan
-                          );
-                          setConfirmData({
-                            ...confirmData,
-                            kesSelesaiSekolahRawatan: !kesSelesaiSekolahRawatan,
-                          });
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                      />
-                      <label
-                        htmlFor='kes-selesai-penyata-akhir-2'
-                        className='mx-2 text-sm font-m'
+                  {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
+                  engganRawatan === 'ya-enggan-rawatan' ? null : (
+                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                      <h4 className='font-bold flex flex-row pl-5'>
+                        Kes Selesai
+                      </h4>
+                      <div className='flex flex-row items-center pl-5 m-2'>
+                        <input
+                          type='checkbox'
+                          name='kes-selesai-penyata-akhir-2'
+                          id='kes-selesai-penyata-akhir-2'
+                          checked={kesSelesaiSekolahRawatan}
+                          onChange={() => {
+                            setKesSelesaiSekolahRawatan(
+                              !kesSelesaiSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              kesSelesaiSekolahRawatan:
+                                !kesSelesaiSekolahRawatan,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='kes-selesai-penyata-akhir-2'
+                          className='mx-2 text-sm font-m'
+                        >
+                          kes selesai
+                        </label>
+                      </div>
+                      <div
+                        className={`${
+                          !kesSelesaiSekolahRawatan && 'hidden'
+                        } flex flex-row items-center pl-5 m-2`}
                       >
-                        kes selesai
-                      </label>
-                    </div>
-                    <div
-                      className={`${
-                        !kesSelesaiSekolahRawatan && 'hidden'
-                      } flex flex-row items-center pl-5 m-2`}
-                    >
-                      <input
-                        type='checkbox'
-                        name='kes-selesai-icdas-penyata-akhir-2'
-                        id='kes-selesai-icdas-penyata-akhir-2'
-                        checked={kesSelesaiIcdasSekolahRawatan}
-                        onChange={() => {
-                          setKesSelesaiIcdasSekolahRawatan(
-                            !kesSelesaiIcdasSekolahRawatan
-                          );
-                          setConfirmData({
-                            ...confirmData,
-                            kesSelesaiIcdasSekolahRawatan:
-                              !kesSelesaiIcdasSekolahRawatan,
-                          });
-                        }}
-                        className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                      />
-                      <label
-                        htmlFor='kes-selesai-icdas-penyata-akhir-2'
-                        className='mx-2 text-sm font-m'
-                      >
-                        kes selesai MMI
-                      </label>
-                    </div>
-                  </article>
+                        <input
+                          type='checkbox'
+                          name='kes-selesai-icdas-penyata-akhir-2'
+                          id='kes-selesai-icdas-penyata-akhir-2'
+                          checked={kesSelesaiIcdasSekolahRawatan}
+                          onChange={() => {
+                            setKesSelesaiIcdasSekolahRawatan(
+                              !kesSelesaiIcdasSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              kesSelesaiIcdasSekolahRawatan:
+                                !kesSelesaiIcdasSekolahRawatan,
+                            });
+                          }}
+                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                        />
+                        <label
+                          htmlFor='kes-selesai-icdas-penyata-akhir-2'
+                          className='mx-2 text-sm font-m'
+                        >
+                          kes selesai MMI
+                        </label>
+                      </div>
+                    </article>
+                  )}
                 </section>
-                <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2 mb-2'>
-                  <p className='ml-3 text-xl font-semibold'>
-                    promosi & pendidikan kesihatan pergigian
-                  </p>
-                </span>
-                <div className='grid grid-cols-2 gap-2 auto-rows-min mb-2'>
-                  <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5'>
+                {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
+                engganRawatan === 'ya-enggan-rawatan' ? null : (
+                  <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2 mb-2'>
+                    <p className='ml-3 text-xl font-semibold'>
                       promosi & pendidikan kesihatan pergigian
-                    </h4>
-                    {/* <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    </p>
+                  </span>
+                )}
+                {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
+                engganRawatan === 'ya-enggan-rawatan' ? null : (
+                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min mb-2'>
+                    <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold flex flex-row pl-5'>
+                        promosi & pendidikan kesihatan pergigian
+                      </h4>
+                      {/* <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         melaksanakan aktiviti
                       </h4>
@@ -1576,124 +1843,125 @@ function UserFormSekolahRawatan() {
                         </div>
                       </div>
                     </article> */}
-                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        menerima aktiviti nasihat pergigian individu
-                      </h4>
-                      <div className='grid grid-cols-1'>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan plak gigi
-                          </label>
+                      <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          menerima aktiviti nasihat pergigian individu
+                        </h4>
+                        <div className='grid grid-cols-1'>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              checked={
+                                plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                              }
+                              onChange={() => {
+                                setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
+                                  !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
+                                    !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              className='m-2 text-sm font-m'
+                            >
+                              nasihat berkaitan plak gigi
+                            </label>
+                          </div>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              checked={
+                                dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                              }
+                              onChange={() => {
+                                setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
+                                  !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
+                                    !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              className='m-2 text-sm font-m'
+                            >
+                              nasihat berkaitan diet pemakanan
+                            </label>
+                          </div>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              checked={
+                                penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                              }
+                              onChange={() => {
+                                setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                                  !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                    !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              className='m-2 text-sm font-m'
+                            >
+                              nasihat berkaitan penjagaan kesihatan oral
+                            </label>
+                          </div>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              checked={
+                                kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                              }
+                              onChange={() => {
+                                setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                                  !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                    !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                              className='m-2 text-sm font-m'
+                            >
+                              nasihat berkaitan kanser mulut
+                            </label>
+                          </div>
                         </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan diet pemakanan
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan penjagaan kesihatan oral
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan kanser mulut
-                          </label>
-                        </div>
-                      </div>
+                      </article>
                     </article>
-                  </article>
-                </div>
-                <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2 '>
+                  </div>
+                )}
+                <div className='grid grid-cols-1 md:grid-cols-2 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2 '>
                   <span
                     onClick={() => {
                       window.opener = null;
@@ -1704,11 +1972,11 @@ function UserFormSekolahRawatan() {
                   >
                     tutup
                   </span>
-                  <input
+                  {/* <input
                     type='reset'
                     value='reset'
                     className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                  />
+                  /> */}
                   <button
                     type='submit'
                     className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
