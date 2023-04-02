@@ -77,6 +77,7 @@ function UserFormSekolahPemeriksaan() {
   const [xAdaGigiKekal, setXAdaGigiKekal] = useState(0);
   const [sumDMFXKekal, setSumDMFXKekal] = useState(0);
   const [jumlahFaktorRisiko, setJumlahFaktorRisiko] = useState('');
+  const [penandaRisikoKaries, setPenandaRisikoKaries] = useState('');
   const [adaCleftLip, setAdaCleftLip] = useState(false);
   const [rujukCleftLip, setRujukCleftLip] = useState(false);
   const [kecederaanGigiAnteriorTrauma, setKecederaanGigiAnteriorTrauma] =
@@ -235,6 +236,38 @@ function UserFormSekolahPemeriksaan() {
         'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
     });
   };
+
+  //cek risiko karies
+  useEffect(() => {
+    if (parseInt(jumlahFaktorRisiko) >= 3 && parseInt(eAdaGigiKekal) >= 1) {
+      setPenandaRisikoKaries('tinggi');
+    } else if (
+      parseInt(jumlahFaktorRisiko) >= 1 &&
+      (parseInt(dAdaGigiDesidus) >= 1 || parseInt(dAdaGigiKekal) >= 1)
+    ) {
+      setPenandaRisikoKaries('tinggi');
+    } else if (
+      parseInt(jumlahFaktorRisiko) <= 2 &&
+      parseInt(eAdaGigiKekal) >= 1
+    ) {
+      setPenandaRisikoKaries('sederhana');
+    } else if (
+      parseInt(jumlahFaktorRisiko) >= 3 &&
+      (parseInt(dAdaGigiDesidus) === 0 || parseInt(dAdaGigiKekal) === 0)
+    ) {
+      setPenandaRisikoKaries('sederhana');
+    } else if (
+      parseInt(jumlahFaktorRisiko) === 0 &&
+      (parseInt(dAdaGigiDesidus) >= 1 || parseInt(dAdaGigiKekal) >= 1)
+    ) {
+      setPenandaRisikoKaries('sederhana');
+    } else if (
+      parseInt(jumlahFaktorRisiko) <= 2 &&
+      (parseInt(dAdaGigiDesidus) === 0 || parseInt(dAdaGigiKekal) === 0)
+    ) {
+      setPenandaRisikoKaries('rendah');
+    }
+  });
 
   // calculate total dmfx + sm desidus
   useEffect(() => {
@@ -2759,12 +2792,16 @@ function UserFormSekolahPemeriksaan() {
                           Risiko Karies{' '}
                           <span className='text-user6 text-xl'>*</span>
                         </h4>
-                        <div className='flex flex-row'>
+                        <div className='flex flex-row items-center'>
                           <p className='flex items-center flex-row pl-5'>
                             Jumlah Faktor Risiko:
                           </p>
                           <select
-                            disabled={isDisabled}
+                            disabled={
+                              yaTidakPesakitMempunyaiGigi === ''
+                                ? true
+                                : isDisabled
+                            }
                             required
                             name='jumlah-faktor-risiko'
                             id='jumlah-faktor-risiko'
@@ -2789,6 +2826,26 @@ function UserFormSekolahPemeriksaan() {
                             <option value='7'>7</option>
                             <option value='8'>8</option>
                           </select>
+                          <input
+                            disabled
+                            type='text'
+                            name='penanda-risiko-karies'
+                            id='penanda-risiko-karies'
+                            value={
+                              penandaRisikoKaries
+                                ? penandaRisikoKaries
+                                : 'Sila Isi Jumlah Faktor Risiko'
+                            }
+                            className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
+                              penandaRisikoKaries === 'rendah'
+                                ? 'bg-user7 w-24 px-2 '
+                                : penandaRisikoKaries === 'sederhana'
+                                ? 'bg-user8 w-24 px-2 '
+                                : penandaRisikoKaries === 'tinggi'
+                                ? 'bg-user9 w-24 px-2 '
+                                : 'w-40 text-xs px-1'
+                            }`}
+                          />
                         </div>
                       </div>
                     </article>

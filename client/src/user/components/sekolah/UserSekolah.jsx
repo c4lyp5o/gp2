@@ -493,19 +493,13 @@ function UserSekolah() {
                             {singlePersonSekolah.rawatanSekolah.length >= 1 &&
                               singlePersonSekolah.statusRawatan ===
                                 'belum selesai' && (
-                                <div className='relative inline-flex'>
+                                <div className='inline-flex'>
                                   <span
                                     className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
-                                    onMouseEnter={() => {
+                                    onClick={() => {
                                       setIsShown({
                                         ...isShown,
                                         [singlePersonSekolah._id]: true,
-                                      });
-                                    }}
-                                    onMouseLeave={() => {
-                                      setIsShown({
-                                        ...isShown,
-                                        [singlePersonSekolah._id]: false,
                                       });
                                     }}
                                   >
@@ -514,12 +508,17 @@ function UserSekolah() {
                                   <div
                                     className={`${
                                       isShown[singlePersonSekolah._id]
-                                        ? 'block p-2'
+                                        ? 'block p-2 px-8 overflow-y-auto'
                                         : 'hidden '
-                                    } absolute z-10 right-4 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60`}
+                                    } absolute z-30 inset-x-1 lg:inset-x-96 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                                   >
+                                    <div className='flex justify-between'>
+                                      <h1 className='text-lg font-medium'>
+                                        Rawatan
+                                      </h1>
+                                    </div>
                                     {singlePersonSekolah.rawatanSekolah.map(
-                                      (rawatan) => {
+                                      (rawatan, index) => {
                                         // sum rawatan
                                         const semuaGD = [
                                           rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
@@ -559,6 +558,9 @@ function UserSekolah() {
                                             key={rawatan._id}
                                             className='flex flex-col'
                                           >
+                                            <h1 className='text-sm text-start font-semibold bg-user1 bg-opacity-5'>
+                                              Rumusan Kedatangan {index + 1}
+                                            </h1>
                                             <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
                                               {moment(
                                                 rawatan.tarikhRawatanSemasa
@@ -793,6 +795,12 @@ function UserSekolah() {
               </tbody>
             )}
           </table>
+          <div
+            className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+              isShown ? 'block' : 'hidden'
+            }`}
+            onClick={() => setIsShown(false)}
+          />
         </div>
       </div>
     </>
