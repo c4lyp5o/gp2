@@ -39,7 +39,7 @@ const AddModal = ({
     toast,
     createData,
     readData,
-    pingMOEISServer,
+    // pingMOEISServer,
     readSekolahData,
     readFasilitiData,
     readKkiaData,
@@ -84,6 +84,7 @@ const AddModal = ({
   );
   const [tempat, setTempat] = useState('');
   // MOEIS
+  const [isLoadingMOEIS, setIsLoadingMOEIS] = useState(true);
   const [statusMOEIS, setStatusMOEIS] = useState(false);
   // data
   const [klinik, setKlinik] = useState([]);
@@ -242,16 +243,17 @@ const AddModal = ({
 
   useEffect(() => {
     if (FType === 'sr' || FType === 'sm') {
-      pingMOEISServer().then((res) => {
-        if (res.status === 200) {
+      readSekolahData(FType)
+        .then((res) => {
           setStatusMOEIS(true);
-        } else {
+          setIsLoadingMOEIS(false);
+          setSekolah(res);
+        })
+        .catch((err) => {
           setStatusMOEIS(false);
-        }
-      });
-      readSekolahData(FType).then((res) => {
-        setSekolah(res);
-      });
+          setIsLoadingMOEIS(false);
+          console.log(err);
+        });
     }
     if (FType === 'kp') {
       readFasilitiData({ negeri, daerah }).then((res) => {
@@ -340,6 +342,7 @@ const AddModal = ({
     setTempat,
     tempat,
     // misc
+    isLoadingMOEIS,
     statusMOEIS,
     setAddingData,
     addingData,

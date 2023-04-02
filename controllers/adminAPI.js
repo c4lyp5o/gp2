@@ -97,6 +97,7 @@ const convertToJPNKod = {
   Sabah: 'XPA4001',
   Sarawak: 'YPA1201',
   'WP Kuala Lumpur': 'WPA0002',
+  'WP Labuan': 'WPA1001',
   'WP Putrajaya': 'WPA2001',
 };
 
@@ -3222,8 +3223,7 @@ const processSekolahQuery = async (req, res) => {
     );
     return res.status(200).json(data);
   } catch (error) {
-    console.log(error);
-    return res.json({ msg: error.message });
+    return res.status(503).json({ msg: error.message });
   }
 };
 
