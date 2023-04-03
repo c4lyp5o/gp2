@@ -193,47 +193,47 @@ function KohortKotak() {
           <table className='table-auto'>
             <thead className='text-userWhite bg-user2'>
               <tr>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   BIL.
                 </th>
-                <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 py-1 px-10 lg:px-20'>
                   NAMA
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 whitespace-nowrap'>
                   KELAS
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-5 py-1'>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-5 py-1'>
                   NO. TELEFON
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   INTERVENSI KOTAK
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   TARIKH KEHADIRAN INTERVENSI 1
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   STATUS SELEPAS 6 BULAN
                 </th>
               </tr>
             </thead>
             {!isLoading ? (
-              <tbody className='text-user1'>
+              <tbody className='bg-user4'>
                 {allPersonKohortKotak.map((singlePersonKohortKotak, index) => {
                   return (
                     <tr key={index}>
-                      <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         {index + 1}
                       </td>
-                      <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         {singlePersonKohortKotak.nama}
                       </td>
-                      <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         {singlePersonKohortKotak.kelas}
                       </td>
-                      <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         {singlePersonKohortKotak.noTelefon}
                       </td>
-                      <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         <Link
                           target='_blank'
                           rel='noreferrer'
@@ -242,7 +242,7 @@ function KohortKotak() {
                           tambah KOTAK
                         </Link>
                       </td>
-                      <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         {!singlePersonKohortKotak.tarikhIntervensi1 ? (
                           <span className='text-red-500'>BELUM DITETAPKAN</span>
                         ) : (
@@ -251,7 +251,7 @@ function KohortKotak() {
                           </span>
                         )}
                       </td>
-                      <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         {singlePersonKohortKotak.statusSelepas6Bulan}
                       </td>
                     </tr>
