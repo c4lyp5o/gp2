@@ -546,6 +546,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
+        // sesiTahunSekolah: new Date().getFullYear(), // activate this later when full integration happen
       });
       break;
     case 'sekolah-menengah':
@@ -553,6 +554,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
+        // sesiTahunSekolah: new Date().getFullYear(), // activate this later when full integration happen
       });
       break;
     case 'sr-sm-all':
@@ -1526,15 +1528,17 @@ const getData = async (req, res) => {
           );
           if (
             theType !== 'pegawai' &&
-            theType !== 'klinik' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'sosmed' &&
-            theType !== 'followers' &&
-            theType !== 'program' &&
+            theType !== 'klinik' &&
             theType !== 'taska' &&
             theType !== 'tadika' &&
+            theType !== 'sekolah-rendah' &&
+            theType !== 'sekolah-menengah' &&
+            theType !== 'program' &&
             theType !== 'kp-bergerak' &&
-            theType !== 'makmal-pergigian'
+            theType !== 'makmal-pergigian' &&
+            theType !== 'sosmed' &&
+            theType !== 'followers'
           ) {
             Data = {
               ...Data,
@@ -1693,6 +1697,33 @@ const getData = async (req, res) => {
               res.status(200).json(data);
             }
           }
+          if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
+            Data = {
+              ...Data,
+              jenisFasiliti: theType,
+              createdByDaerah: daerah,
+              createdByNegeri: negeri,
+              sesiTahunSekolah: new Date().getFullYear(),
+            };
+            const data = await Fasiliti.create(Data);
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+            );
+            res.status(200).json(data);
+          }
+          if (theType === 'program') {
+            if (negeri) {
+              Data.createdByNegeri = negeri;
+            }
+            if (daerah) {
+              Data.createdByDaerah = daerah;
+            }
+            const createProgramData = await Event.create(Data);
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
+            );
+            res.status(200).json(createProgramData);
+          }
           if (theType === 'kp-bergerak' || theType === 'makmal-pergigian') {
             const exists = await Fasiliti.findOne({
               nama: Data.nama,
@@ -1761,19 +1792,6 @@ const getData = async (req, res) => {
               `${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
             );
             res.status(200).json(createFollowerData);
-          }
-          if (theType === 'program') {
-            if (negeri) {
-              Data.createdByNegeri = negeri;
-            }
-            if (daerah) {
-              Data.createdByDaerah = daerah;
-            }
-            const createProgramData = await Event.create(Data);
-            logger.info(
-              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
-            );
-            res.status(200).json(createProgramData);
           }
           break;
         case 'update':

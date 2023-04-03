@@ -41,6 +41,10 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  sesiTahunSekolah: {
+    type: Number,
+    default: 'NOT APPLICABLE',
+  },
   jenisPerkhidmatanSekolah: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -49,21 +53,21 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  sekolahSelesaiReten: {
-    type: Boolean,
-    default: false,
+  risikoSekolahPersis: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
   melaksanakanBegin: {
     type: Boolean,
     default: false,
   },
-  risikoSekolahPersis: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
   tarikhMulaSekolah: {
     type: String,
     default: 'NOT APPLICABLE',
+  },
+  sekolahSelesaiReten: {
+    type: Boolean,
+    default: false,
   },
   // kkia
   kodKkiaKd: {
