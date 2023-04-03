@@ -9,7 +9,6 @@ const mailer = require('nodemailer');
 const moment = require('moment');
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
-// const sharp = require('sharp');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
@@ -21,6 +20,7 @@ const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
+const sesiTahunSekolahToQuery = require('../lib/sesiTahunSekolahToQuery');
 const { logger } = require('../logs/logger');
 
 // helper
@@ -526,7 +526,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-        // sesiTahunSekolah: new Date().getFullYear(), // activate this later when full integration happen
+        // sesiTahunSekolah: sesiTahunSekolahToQuery(), // activate this later when full integration happen
       });
       break;
     case 'sekolah-menengah':
@@ -534,7 +534,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-        // sesiTahunSekolah: new Date().getFullYear(), // activate this later when full integration happen
+        // sesiTahunSekolah: sesiTahunSekolahToQuery(), // activate this later when full integration happen
       });
       break;
     case 'sr-sm-all':
@@ -1685,11 +1685,28 @@ const getData = async (req, res) => {
               createdByNegeri: negeri,
               sesiTahunSekolah: new Date().getFullYear(),
             };
-            const data = await Fasiliti.create(Data);
-            logger.info(
-              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
-            );
-            res.status(200).json(data);
+            try {
+              const agent = new https.Agent({
+                rejectUnauthorized: false,
+              });
+              const { data } = await axios.get(
+                process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+                  `?inid=${Data.idInstitusi}`,
+                {
+                  httpsAgent: agent,
+                  headers: {
+                    APIKEY: process.env.MOEIS_APIKEY,
+                  },
+                }
+              );
+              const dataCreatedSRSM = await Fasiliti.create(Data);
+              logger.info(
+                `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+              );
+              return res.status(200).json(dataCreatedSRSM);
+            } catch (error) {
+              return res.status(503).json({ msg: error.message });
+            }
           }
           if (theType === 'program') {
             if (negeri) {
@@ -3215,15 +3232,10 @@ const convertToJPNKod = {
   'WP Putrajaya': 'WPA2001',
 };
 
-const jnskodPRA = {
+const jnskodPRA = [
   // for pra ada 6
-  1: 10,
-  2: 19,
-  3: 105,
-  4: 24,
-  5: 102,
-  6: 106,
-};
+  10, 19, 105, 24, 102, 106,
+];
 
 const jnskodSR = [
   // for sr ada 18
