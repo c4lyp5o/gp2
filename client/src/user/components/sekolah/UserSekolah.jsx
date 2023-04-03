@@ -37,6 +37,8 @@ function UserSekolah() {
   const [pilihanTahun, setPilihanTahun] = useState('');
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
   const [filterNama, setFilterNama] = useState('');
+  const [modalBegin, setModalBegin] = useState(false);
+  const [melaksanakanBegin, setMelaksanakanBegin] = useState('');
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
@@ -91,6 +93,32 @@ function UserSekolah() {
       fetchAllPersonSekolahs();
     }
   }, [reloadState]);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    await axios
+      .post(
+        `/api/v1/sekolah/faceted/${singleSekolahId}`,
+        {
+          melaksanakanBegin,
+        },
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }
+      )
+      .then((res) => {
+        // console.log(res);
+        setReloadState(!reloadState);
+        toast.success('Berjaya mengemaskini maklumat sekolah');
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   useEffect(() => {
     // const filteredSekolahs = allPersonSekolahs.filter((person) =>
@@ -473,9 +501,10 @@ function UserSekolah() {
                                 rel='noreferrer'
                                 to={`/pengguna/landing/senarai-sekolah/sekolah/form-sekolah/rawatan/${singlePersonSekolah._id}`}
                                 className={`${
-                                  !singlePersonSekolah.pemeriksaanSekolah ||
                                   singlePersonSekolah.statusRawatan ===
-                                    'selesai'
+                                  'selesai'
+                                    ? ' bg-user7 shadow-md'
+                                    : !singlePersonSekolah.pemeriksaanSekolah
                                     ? 'pointer-events-none bg-user4 shadow-none'
                                     : 'bg-user3 hover:bg-user2 shadow-md'
                                 } text-userWhite rounded-sm  p-1 m-1 transition-all`}
@@ -491,8 +520,10 @@ function UserSekolah() {
                             )}
                             {/* keluar berapa rawatan & rawatan apa */}
                             {singlePersonSekolah.rawatanSekolah.length >= 1 &&
-                              singlePersonSekolah.statusRawatan ===
-                                'belum selesai' && (
+                              (singlePersonSekolah.statusRawatan ===
+                                'belum selesai' ||
+                                singlePersonSekolah.statusRawatan ===
+                                  'selesai') && (
                                 <div className='inline-flex'>
                                   <span
                                     className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
@@ -510,7 +541,7 @@ function UserSekolah() {
                                       isShown[singlePersonSekolah._id]
                                         ? 'block p-2 px-8 overflow-y-auto'
                                         : 'hidden '
-                                    } absolute z-30 inset-x-1 lg:inset-x-96 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                                    } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                                   >
                                     <div className='flex justify-between'>
                                       <h1 className='text-lg font-medium'>
@@ -739,6 +770,101 @@ function UserSekolah() {
                                   : 'tidak perlu KOTAK'}
                               </Link>
                             </td> */}
+                          {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            <button
+                              onClick={() => {
+                                setModalBegin({
+                                  ...modalBegin,
+                                  [singlePersonSekolah._id]: true,
+                                });
+                              }}
+                              className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                            >
+                              BEGIN
+                            </button>
+                            <div
+                              className={`${
+                                modalBegin[singlePersonSekolah._id]
+                                  ? 'block p-2 px-8 overflow-y-auto'
+                                  : 'hidden '
+                              } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                            >
+                              <form onSubmit={handleSubmit}>
+                                <p>
+                                  Adakah {singlePersonSekolah.nama} melaksanakan
+                                  Aktiviti BEGIN ?
+                                </p>
+                                <div className='flex flex-row justify-center mt-2'>
+                                  <div>
+                                    <input
+                                      type='radio'
+                                      name='melaksanakan-aktiviti-begin'
+                                      id='ya-melaksanakan-aktiviti-begin'
+                                      value='ya-melaksanakan-aktiviti-begin'
+                                      className='peer hidden'
+                                      checked={
+                                        singlePersonSekolah.melaksanakanBegin ===
+                                        'ya-melaksanakan-aktiviti-begin'
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(e) => {
+                                        singlePersonSekolah.setMelaksanakanBegin(
+                                          {
+                                            ...singlePersonSekolah.melaksanakanBegin,
+                                            [e.target.id]: true,
+                                          }
+                                        );
+                                      }}
+                                    />
+                                    <label
+                                      htmlFor='ya-melaksanakan-aktiviti-begin'
+                                      className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                    >
+                                      Ya
+                                    </label>
+                                  </div>
+                                  <div>
+                                    <input
+                                      type='radio'
+                                      name='melaksanakan-aktiviti-begin'
+                                      id='tidak-melaksanakan-aktiviti-begin'
+                                      value='tidak-melaksanakan-aktiviti-begin'
+                                      className='peer hidden'
+                                      checked={
+                                        singlePersonSekolah.melaksanakanBegin ===
+                                        'tidak-melaksanakan-aktiviti-begin'
+                                          ? true
+                                          : false
+                                      }
+                                      onChange={(e) => {
+                                        singlePersonSekolah.setMelaksanakanBegin(
+                                          {
+                                            ...singlePersonSekolah.melaksanakanBegin,
+                                            [e.target.id]: true,
+                                          }
+                                        );
+                                      }}
+                                    />
+                                    <label
+                                      htmlFor='tidak-melaksanakan-aktiviti-begin'
+                                      className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                    >
+                                      Tidak
+                                    </label>
+                                  </div>
+                                </div>
+                                <div className='flex flex-row justify-center mt-2'>
+                                  <button
+                                    type='submit'
+                                    className='text-sm text-userWhite bg-user2 py-2 px-7 rounded-md cursor-pointer focus:outline-none'
+                                  >
+                                    Simpan
+                                  </button>
+                                </div>
+                              </form>
+                            </div>
+                          </td> */}
                         </tr>
                       </tbody>
                     </>
@@ -800,6 +926,12 @@ function UserSekolah() {
               isShown ? 'block' : 'hidden'
             }`}
             onClick={() => setIsShown(false)}
+          />
+          <div
+            className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+              modalBegin ? 'block' : 'hidden'
+            }`}
+            onClick={() => setModalBegin(false)}
           />
         </div>
       </div>

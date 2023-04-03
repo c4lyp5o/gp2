@@ -73,6 +73,10 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide kaum'],
   },
+  melaksanakanBegin: {
+    type: String,
+    default: '',
+  },
   // pemeriksaan -------------------------------------------------------
   pemeriksaanSekolah: {
     type: mongoose.Schema.Types.ObjectId,
