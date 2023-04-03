@@ -18289,6 +18289,7 @@ const getParamsPgPro = (payload) => {
       tarikhMula: dateModifier(payload),
       promosiIndividu: true,
       createdByMdcMdtb: pilihanIndividu,
+      deleted: false,
     };
     return param;
   };
@@ -18298,6 +18299,7 @@ const getParamsPgPro = (payload) => {
       tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByKodFasiliti: klinik,
+      deleted: false,
     };
     return param;
   };
@@ -18308,6 +18310,7 @@ const getParamsPgPro = (payload) => {
       promosiKlinik: true,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      deleted: false,
     };
   };
 
@@ -18316,6 +18319,7 @@ const getParamsPgPro = (payload) => {
       tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByNegeri: negeri,
+      deleted: false,
     };
   };
 
@@ -18323,6 +18327,7 @@ const getParamsPgPro = (payload) => {
     return {
       tarikhMula: dateModifier(payload),
       promosiKlinik: true,
+      deleted: false,
     };
   };
 
