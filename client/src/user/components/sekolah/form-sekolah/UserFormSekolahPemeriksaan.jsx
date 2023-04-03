@@ -1283,6 +1283,7 @@ function UserFormSekolahPemeriksaan() {
                                     engganPemeriksaan: e.target.value,
                                   });
                                   setModalEnggan(false);
+                                  setEngganTidakHadirPemeriksaan('');
                                 }}
                               />
                               <label
@@ -1425,6 +1426,7 @@ function UserFormSekolahPemeriksaan() {
                                     tidakHadirPemeriksaan: e.target.value,
                                   });
                                   setModalTidakHadir(false);
+                                  setEngganTidakHadirPemeriksaan('');
                                 }}
                               />
                               <label

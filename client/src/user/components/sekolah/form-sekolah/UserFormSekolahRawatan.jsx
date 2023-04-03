@@ -549,6 +549,7 @@ function UserFormSekolahRawatan() {
                                   engganRawatan: e.target.value,
                                 });
                                 setModalEnggan(false);
+                                setEngganTidakHadirRawatan('');
                               }}
                             />
                             <label
@@ -687,6 +688,7 @@ function UserFormSekolahRawatan() {
                                   tidakHadirRawatan: e.target.value,
                                 });
                                 setModalTidakHadir(false);
+                                setEngganTidakHadirRawatan('');
                               }}
                             />
                             <label
