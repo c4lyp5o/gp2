@@ -104,7 +104,13 @@ function UserPromosi({ individuOrKlinik }) {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/promosi?tarikhAkhir=${bulanPilih}&individuOrKlinik=${individuOrKlinik}`,
+          `/api/v1/query/promosi?tarikhAkhir=${bulanPilih}&individuOrKlinik=${individuOrKlinik}${
+            individuOrKlinik === 'promosi-individu'
+              ? `&idOperator=${
+                  userinfo.mdcNumber ? userinfo.mdcNumber : userinfo.mdtbNumber
+                }`
+              : ''
+          }`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -118,6 +124,7 @@ function UserPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
         // toast.error(
         //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-query'
         // );
