@@ -38,6 +38,7 @@ function UserSekolah() {
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
   const [filterNama, setFilterNama] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
+  const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
   const [melaksanakanBegin, setMelaksanakanBegin] = useState('');
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
@@ -97,8 +98,8 @@ function UserSekolah() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     await axios
-      .post(
-        `/api/v1/sekolah/faceted/${singleSekolahId}`,
+      .patch(
+        `/api/v1/sekolah/ubah/${muridBeginCurrentId}`,
         {
           melaksanakanBegin,
         },
@@ -111,7 +112,7 @@ function UserSekolah() {
         }
       )
       .then((res) => {
-        // console.log(res);
+        console.log(res);
         setReloadState(!reloadState);
         toast.success('Berjaya mengemaskini maklumat sekolah');
       })
@@ -770,7 +771,7 @@ function UserSekolah() {
                                   : 'tidak perlu KOTAK'}
                               </Link>
                             </td> */}
-                          {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                             <button
                               onClick={() => {
                                 setModalBegin({
@@ -809,12 +810,10 @@ function UserSekolah() {
                                           : false
                                       }
                                       onChange={(e) => {
-                                        singlePersonSekolah.setMelaksanakanBegin(
-                                          {
-                                            ...singlePersonSekolah.melaksanakanBegin,
-                                            [e.target.id]: true,
-                                          }
+                                        setMuridBeginCurrentId(
+                                          singlePersonSekolah._id
                                         );
+                                        setMelaksanakanBegin(e.target.value);
                                       }}
                                     />
                                     <label
@@ -838,12 +837,10 @@ function UserSekolah() {
                                           : false
                                       }
                                       onChange={(e) => {
-                                        singlePersonSekolah.setMelaksanakanBegin(
-                                          {
-                                            ...singlePersonSekolah.melaksanakanBegin,
-                                            [e.target.id]: true,
-                                          }
+                                        setMuridBeginCurrentId(
+                                          singlePersonSekolah._id
                                         );
+                                        setMelaksanakanBegin(e.target.value);
                                       }}
                                     />
                                     <label
@@ -864,7 +861,7 @@ function UserSekolah() {
                                 </div>
                               </form>
                             </div>
-                          </td> */}
+                          </td>
                         </tr>
                       </tbody>
                     </>

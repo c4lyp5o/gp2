@@ -472,6 +472,27 @@ const updateFasiliti = async (req, res) => {
   res.status(201).json({ updatedFasiliti });
 };
 
+// PATCH /ubah/:personSekolahId
+const updatePersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
+    { _id: req.params.personSekolahId },
+    { $set: req.body },
+    { new: true }
+  );
+
+  if (!updatedPersonSekolah) {
+    return res
+      .status(404)
+      .json({ msg: `No document with id ${req.params.personSekolahId}` });
+  }
+
+  res.status(200).json({ updatedPersonSekolah });
+};
+
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
 // reset statusRawatan to 'belum selesai'
 const updatePemeriksaanSekolah = async (req, res) => {
@@ -578,13 +599,14 @@ module.exports = {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
-  getAllPersonSekolah, // initiate discussion
+  getAllPersonSekolah,
   getSinglePersonSekolahWithPopulate,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
   createKotakWithSetPersonSekolah,
   updateFasiliti,
+  updatePersonSekolah,
   updatePemeriksaanSekolah,
   updateKotakSekolah,
   queryPersonSekolah,
