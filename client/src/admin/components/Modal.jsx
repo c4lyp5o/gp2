@@ -101,6 +101,7 @@ const AddModal = ({
   const [noPpJp, setNoPpJp] = useState('');
 
   const handleSubmit = async () => {
+    setAddingData(true);
     if (FType === 'pp' || FType === 'jp') {
       if (
         !carianNama ||
