@@ -951,6 +951,7 @@ export function InputFacility(props) {
                                 type='text'
                                 value={props.kodTastadTengah}
                                 pattern='[0-9]{2}'
+                                minLength='2'
                                 maxLength='2'
                                 onChange={(e) => {
                                   const re = /^[0-9\b]+$/;
@@ -978,6 +979,7 @@ export function InputFacility(props) {
                                     ? 'K'
                                     : 'S'
                                 }
+                                disabled={true}
                               />
                             </div>
                             <div>
@@ -987,6 +989,7 @@ export function InputFacility(props) {
                                 type='text'
                                 value={props.kodTastadHujung}
                                 pattern='[0-9]{3}'
+                                minLength='3'
                                 maxLength='3'
                                 onChange={(e) => {
                                   const re = /^[0-9\b]+$/;
