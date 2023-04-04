@@ -2067,7 +2067,7 @@ const Generate = (props) => {
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button
                           type='button'
-                          className='px-2 py-1 bg-admin1 text-adminWhite rounded-md'
+                          className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
                           onClick={() => {
                             setJenisReten(jenis.kodRingkas);
                             setOpenModalGenerateAdHoc(false);
