@@ -2,19 +2,9 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-import {
-  BsFilePerson,
-  BsFillFilePersonFill,
-  BsFillCircleFill,
-  BsFillBookmarkXFill,
-  BsFillCheckCircleFill,
-  BsPersonCircle,
-  BsCalendarPlusFill,
-  BsFillCaretDownFill,
-  BsExclamationCircleFill,
-} from 'react-icons/bs';
+import { BsExclamationCircleFill } from 'react-icons/bs';
 
-import UserRetenSalahModal from './UserRetenSalahModal';
+import UserDeleteModal from '../UserDeleteModal';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -26,11 +16,7 @@ export default function UserCarianPromosi() {
     dateToday,
     masterDatePicker,
     toast,
-    refreshTimer,
-    setRefreshTimer,
   } = useGlobalUserAppContext();
-
-  const [namaKlinik, setNamaKlinik] = useState('');
 
   const [isLoading, setIsLoading] = useState(true);
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
@@ -45,8 +31,10 @@ export default function UserCarianPromosi() {
   const [queryResult, setQueryResult] = useState('');
   const [pilihanId, setPilihanId] = useState('');
   const [pilihanNama, setPilihanNama] = useState('');
-  const [pilihanStatusReten, setPilihanStatusReten] = useState('');
-  const [modalRetenSalah, setModalRetenSalah] = useState(false);
+  const [modalHapusPromosi, setModalHapusPromosi] = useState(false);
+
+  const [searchUrl, setSearchUrl] = useState('');
+  const [refetch, setRefetch] = useState(false);
 
   // for datepicker
   const [tarikhMulaAcaraDP, setTarikhMulaAcaraDP] = useState(
@@ -65,7 +53,7 @@ export default function UserCarianPromosi() {
         setTarikhMulaAcaraDP(tarikhMula);
       },
       className:
-        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+        'appearance-none w-full lg:w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
     });
   };
 
@@ -78,28 +66,36 @@ export default function UserCarianPromosi() {
         setTarikhAkhirAcaraDP(tarikhAkhir);
       },
       className:
-        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+        'appearance-none w-full lg:w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
     });
   };
 
   useEffect(() => {
-    const fetchIdentity = async () => {
+    const refetchDataOnDelete = async () => {
       try {
-        const { data } = await axios.get('/api/v1/identity', {
+        const { data } = await axios.get(searchUrl, {
           headers: {
             Authorization: `Bearer ${
               reliefUserToken ? reliefUserToken : userToken
             }`,
           },
         });
-        setNamaKlinik(data.kp);
+        const desc = data.aktivitiPromosiResultQuery.sort((a, b) =>
+          a.tarikhMula > b.tarikhMula ? -1 : 1
+        );
+        setQueryResult(desc);
+        setIsLoading(false);
       } catch (error) {
         console.log(error);
         // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-carian-identity'
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-refetchDataOnDelete'
         // );
       }
     };
+    refetchDataOnDelete();
+  }, [refetch]);
+
+  useEffect(() => {
     const fetchAllProgramPromosi = async () => {
       try {
         setIsLoading(true);
@@ -124,15 +120,8 @@ export default function UserCarianPromosi() {
         // );
       }
     };
-    fetchIdentity().then(() => {
-      fetchAllProgramPromosi();
-    });
+    fetchAllProgramPromosi();
   }, [reliefUserToken, userToken]);
-
-  // clear program if change jenisFasiliti
-  // useEffect(() => {
-  //   setJenisProgram('');
-  // }, [jenisFasiliti]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -151,6 +140,7 @@ export default function UserCarianPromosi() {
       }${idOperator ? `idOperator=${idOperator}&` : ''}${
         individuOrKlinik ? `individuOrKlinik=${individuOrKlinik}&` : ''
       }`;
+      setSearchUrl(params);
       const { data } = await axios.get(params, {
         headers: {
           Authorization: `Bearer ${
@@ -162,13 +152,12 @@ export default function UserCarianPromosi() {
         a.tarikhMula > b.tarikhMula ? -1 : 1
       );
       setQueryResult(desc);
-      setRefreshTimer(!refreshTimer);
       setIsLoading(false);
     } catch (error) {
       console.log(error);
-      // toast.error(
-      //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-cr-single'
-      // );
+      setQueryResult([]);
+      setIsLoading(false);
+      toast.error('Tiada data promosi yang dijumpai');
     }
   };
 
@@ -183,12 +172,12 @@ export default function UserCarianPromosi() {
     setQueryResult([]);
   };
 
-  const handleRetenSalah = async (singleAktiviti, reason) => {
-    if (!modalRetenSalah) {
-      setModalRetenSalah(true);
+  const handleDelete = async (singlePromosi, reason) => {
+    if (!modalHapusPromosi) {
+      setModalHapusPromosi(true);
       return;
     }
-    if (modalRetenSalah) {
+    if (modalHapusPromosi) {
       let mdcMdtbNum = '';
       if (!userinfo.mdtbNumber) {
         mdcMdtbNum = userinfo.mdcNumber;
@@ -198,9 +187,9 @@ export default function UserCarianPromosi() {
       }
       await toast.promise(
         axios.patch(
-          `/api/v1/aktiviti/delete/${singleAktiviti}`,
+          `/api/v1/promosi/aktiviti/delete/${singlePromosi}`,
           {
-            retenSalahReason: reason,
+            deleteReason: reason,
             createdByMdcMdtb: mdcMdtbNum,
           },
           {
@@ -212,15 +201,16 @@ export default function UserCarianPromosi() {
           }
         ),
         {
-          pending: 'Menanda reten pesakit...',
-          success: 'Reten pesakit berjaya ditanda',
-          error: 'Reten pesakit gagal ditanda',
+          pending: 'Menghapus acara...',
+          success: 'Acara berjaya dihapus',
+          error: 'Acara gagal dihapus',
         },
         {
           autoClose: 5000,
         }
       );
-      setModalRetenSalah(false);
+      setModalHapusPromosi(false);
+      setRefetch(!refetch);
     }
   };
 
@@ -229,12 +219,12 @@ export default function UserCarianPromosi() {
       <div className='h-full p-3 lg:p-5 overflow-y-auto'>
         <div className='text-lg font-bold uppercase'>
           SENARAI ACARA BAGI AKTIVITI PROMOSI / PENDIDIKAN KESIHATAN PERGIGIAN
-          BAGI {namaKlinik}
+          BAGI {userinfo.kpSkrg}
         </div>
         <form onSubmit={handleSubmit}>
-          <div className='grid grid-cols-1 lg:grid-cols-2 justify-center my-5'>
+          <div className='grid lg:grid-cols-2 gap-2'>
             <div>
-              <div className='m-auto w-96 lg:flex lg:flex-row py-3'>
+              <div className='m-auto w-full lg:flex lg:flex-row lg:py-2 lg:w-96'>
                 <label
                   htmlFor='pilihanTarikh'
                   className='whitespace-nowrap flex items-center mb-1'
@@ -243,7 +233,7 @@ export default function UserCarianPromosi() {
                 </label>
                 <TarikhMula />
               </div>
-              <div className='m-auto w-96 lg:flex lg:flex-row py-3'>
+              <div className='m-auto w-full lg:flex lg:flex-row lg:py-2 lg:w-96'>
                 <label
                   htmlFor='pilihanTarikh'
                   className='whitespace-nowrap flex items-center mb-1'
@@ -252,7 +242,7 @@ export default function UserCarianPromosi() {
                 </label>
                 <TarikhAkhir />
               </div>
-              <div className='m-auto w-full lg:w-96 lg:flex lg:flex-row py-3'>
+              <div className='m-auto w-full lg:flex lg:flex-row lg:py-2 lg:w-96'>
                 <label
                   htmlFor='pilihanNama'
                   className='whitespace-nowrap flex items-center mb-1'
@@ -273,10 +263,10 @@ export default function UserCarianPromosi() {
                   }}
                 />
               </div>
-              <div className='m-auto w-96 lg:flex lg:flex-row py-3'>
+              <div className='m-auto w-96 lg:flex lg:flex-row mt-3'>
                 <label
                   htmlFor='pilihanIndividuAtauKlinik'
-                  className='whitespace-nowrap flex items-center mb-1'
+                  className='whitespace-nowrap mr-7 mx-5'
                 >
                   Individu/Klinik :{' '}
                 </label>
@@ -295,7 +285,7 @@ export default function UserCarianPromosi() {
               </div>
             </div>
             <div>
-              <div className='w-full flex flex-col lg:flex-row items-center'>
+              <div className='m-auto w-96 lg:flex lg:flex-row'>
                 <label
                   htmlFor='jenis-program'
                   className='whitespace-nowrap mr-7 mx-5'
@@ -318,7 +308,7 @@ export default function UserCarianPromosi() {
                   ))}
                 </select>
               </div>
-              <div className='w-full flex flex-col lg:flex-row items-center'>
+              <div className='m-auto w-96 lg:flex lg:flex-row'>
                 <label
                   htmlFor='kod-program'
                   className='whitespace-nowrap mr-8 mx-5'
@@ -345,7 +335,7 @@ export default function UserCarianPromosi() {
                     })}
                 </select>
               </div>
-              <div className='w-full flex flex-col lg:flex-row items-center'>
+              <div className='m-auto w-96 lg:flex lg:flex-row'>
                 <label
                   htmlFor='nama-program'
                   className='whitespace-nowrap mx-5 text-left'
@@ -366,7 +356,7 @@ export default function UserCarianPromosi() {
               </div>
             </div>
           </div>
-          <div className='grid grid-cols-2'>
+          <div className='grid grid-cols-2 gap-3'>
             <div>
               <button
                 type='submit'
@@ -396,7 +386,7 @@ export default function UserCarianPromosi() {
                 onClick={handleResetAllFilter}
                 className='w-full lg:w-96 mx-auto my-5 py-2 px-4 bg-user2 text-userWhite rounded-md shadow-md'
               >
-                Reset
+                Tetap Semula
               </button>
             </div>
           </div>
@@ -449,7 +439,7 @@ export default function UserCarianPromosi() {
                       <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
                         {hasilQueryPromosi.kodProgram}
                       </td>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-left pl-3'>
                         {hasilQueryPromosi.namaAcara}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
@@ -488,16 +478,16 @@ export default function UserCarianPromosi() {
                           hasilQueryPromosi.statusReten === 'reten salah' ? (
                             <span
                               onClick={() => {
-                                setModalRetenSalah(true);
+                                setModalHapusPromosi(true);
                                 setPilihanId(hasilQueryPromosi._id);
                                 setPilihanNama(hasilQueryPromosi.namaAcara);
-                                setPilihanStatusReten(
-                                  hasilQueryPromosi.statusReten
-                                );
+                                // setPilihanStatusReten(
+                                //   hasilQueryPromosi.statusReten
+                                // );
                               }}
                               className='m-2 p-2 uppercase bg-user9 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 hover:cursor-pointer transition-all'
                             >
-                              RETEN SALAH
+                              HAPUS RETEN
                             </span>
                           ) : null)}
                       </td>
@@ -589,13 +579,12 @@ export default function UserCarianPromosi() {
             )}
           </table>
         </div>
-        {modalRetenSalah && (
-          <UserRetenSalahModal
-            handleRetenSalah={handleRetenSalah}
-            setModalRetenSalah={setModalRetenSalah}
+        {modalHapusPromosi && (
+          <UserDeleteModal
+            handleDelete={handleDelete}
+            setModalHapus={setModalHapusPromosi}
             id={pilihanId}
             nama={pilihanNama}
-            statusReten={pilihanStatusReten}
           />
         )}
       </div>
