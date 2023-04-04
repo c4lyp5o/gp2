@@ -167,7 +167,7 @@ const queryAktivitiPromosi = async (req, res) => {
       tarikhMulaAcara,
       tarikhAkhirAcara,
       individuOrKlinik,
-      idOperator,
+      mdcMdtbNumber,
       kodProgram,
       namaAcara,
     },
@@ -199,15 +199,15 @@ const queryAktivitiPromosi = async (req, res) => {
     queryObject.promosiKlinik = true;
   }
 
-  if (individuOrKlinik === 'promosi-individu' && !idOperator) {
+  if (individuOrKlinik === 'promosi-individu' && !mdcMdtbNumber) {
     queryObject.promosiIndividu = true;
     queryObject.promosiKlinik = false;
   }
 
-  if (individuOrKlinik === 'promosi-individu' && idOperator) {
+  if (individuOrKlinik === 'promosi-individu' && mdcMdtbNumber) {
     queryObject.promosiIndividu = true;
     queryObject.promosiKlinik = false;
-    queryObject.createdByMdcMdtb = idOperator;
+    queryObject.createdByMdcMdtb = mdcMdtbNumber;
   }
 
   if (kodProgram) {

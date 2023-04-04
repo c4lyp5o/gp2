@@ -106,7 +106,7 @@ function UserPromosi({ individuOrKlinik }) {
         const { data } = await axios.get(
           `/api/v1/query/promosi?tarikhAkhir=${bulanPilih}&individuOrKlinik=${individuOrKlinik}${
             individuOrKlinik === 'promosi-individu'
-              ? `&idOperator=${
+              ? `&mdcMdtbNumber=${
                   userinfo.mdcNumber ? userinfo.mdcNumber : userinfo.mdtbNumber
                 }`
               : ''

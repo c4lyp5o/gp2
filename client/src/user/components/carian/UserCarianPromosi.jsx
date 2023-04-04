@@ -2,7 +2,6 @@ import { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-import { BsExclamationCircleFill } from 'react-icons/bs';
 
 import UserDeleteModal from '../UserDeleteModal';
 
@@ -26,7 +25,7 @@ export default function UserCarianPromosi() {
   const [tarikhAkhirAcara, setTarikhAkhirAcara] = useState('');
   const [kodProgram, setKodProgram] = useState('');
   const [namaAcara, setNamaAcara] = useState('');
-  const [idOperator, setIdOperator] = useState('');
+  const [mdcMdtbNumber, setMdcMdtbNumber] = useState('');
   const [individuOrKlinik, setIndividuOrKlinik] = useState('');
   const [queryResult, setQueryResult] = useState('');
   const [pilihanId, setPilihanId] = useState('');
@@ -37,16 +36,12 @@ export default function UserCarianPromosi() {
   const [refetch, setRefetch] = useState(false);
 
   // for datepicker
-  const [tarikhMulaAcaraDP, setTarikhMulaAcaraDP] = useState(
-    moment(dateToday, moment.ISO_8601).toDate()
-  );
-  const [tarikhAkhirAcaraDP, setTarikhAkhirAcaraDP] = useState(
-    moment(dateToday, moment.ISO_8601).toDate()
-  );
+  const [tarikhMulaAcaraDP, setTarikhMulaAcaraDP] = useState(null);
+  const [tarikhAkhirAcaraDP, setTarikhAkhirAcaraDP] = useState(null);
 
   const TarikhMula = () => {
     return masterDatePicker({
-      // selected: tarikhMulaAcaraDP,
+      selected: tarikhMulaAcaraDP,
       onChange: (tarikhMula) => {
         const tempDate = moment(tarikhMula).format('YYYY-MM-DD');
         setTarikhMulaAcara(tempDate);
@@ -59,7 +54,7 @@ export default function UserCarianPromosi() {
 
   const TarikhAkhir = () => {
     return masterDatePicker({
-      // selected: tarikhAkhirAcaraDP,
+      selected: tarikhAkhirAcaraDP,
       onChange: (tarikhAkhir) => {
         const tempDate = moment(tarikhAkhir).format('YYYY-MM-DD');
         setTarikhAkhirAcara(tempDate);
@@ -128,18 +123,12 @@ export default function UserCarianPromosi() {
     try {
       setIsLoading(true);
       const params = `/api/v1/query/promosi?${
-        tarikhMulaAcara
-          ? `tarikhMulaAcara=${moment(tarikhMulaAcara).format('YYYY-MM-DD')}&`
-          : ''
-      }${
-        tarikhAkhirAcara
-          ? `tarikhAkhirAcara=${moment(tarikhAkhirAcara).format('YYYY-MM-DD')}&`
-          : ''
-      }${kodProgram ? `kodProgram=${kodProgram}&` : ''}${
-        namaAcara ? `namaAcara=${namaAcara}&` : ''
-      }${idOperator ? `idOperator=${idOperator}&` : ''}${
-        individuOrKlinik ? `individuOrKlinik=${individuOrKlinik}&` : ''
-      }`;
+        tarikhMulaAcara ? `tarikhMulaAcara=${tarikhMulaAcara}&` : ''
+      }${tarikhAkhirAcara ? `tarikhAkhirAcara=${tarikhAkhirAcara}&` : ''}${
+        kodProgram ? `kodProgram=${kodProgram}&` : ''
+      }${namaAcara ? `namaAcara=${namaAcara}&` : ''}${
+        mdcMdtbNumber ? `mdcMdtbNumber=${mdcMdtbNumber}&` : ''
+      }${individuOrKlinik ? `individuOrKlinik=${individuOrKlinik}&` : ''}`;
       setSearchUrl(params);
       const { data } = await axios.get(params, {
         headers: {
@@ -163,11 +152,13 @@ export default function UserCarianPromosi() {
 
   const handleResetAllFilter = () => {
     setTarikhMulaAcara('');
+    setTarikhMulaAcaraDP(null);
     setTarikhAkhirAcara('');
+    setTarikhAkhirAcaraDP(null);
     setJenisProgramResult('');
     setKodProgram('');
     setNamaAcara('');
-    setIdOperator('');
+    setMdcMdtbNumber('');
     setIndividuOrKlinik('');
     setQueryResult([]);
   };
@@ -247,11 +238,7 @@ export default function UserCarianPromosi() {
                   htmlFor='pilihanNama'
                   className='whitespace-nowrap flex items-center mb-1'
                 >
-                  Carian{' '}
-                  <BsExclamationCircleFill
-                    className='ml-2 text-lg text-user3'
-                    title='Carian untuk Nama, Pengenalan Diri dan Operator'
-                  />
+                  Carian nama acara :{' '}
                 </label>
                 <input
                   type='search'
