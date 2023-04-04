@@ -3984,6 +3984,9 @@ export function InputKpEditKPBMPB(props) {
                   delete props.editedEntity.kodKkiaKdHandler;
                   delete props.editedEntity.handlerTastad;
                   delete props.editedEntity.kodTastadHandler;
+                  delete props.editedEntity.handlerSR;
+                  delete props.editedEntity.handlerSM;
+                  delete props.editedEntity.kodSekolahHandler;
                 }}
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >
