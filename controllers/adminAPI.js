@@ -3233,8 +3233,8 @@ const convertToJPNKod = {
 };
 
 const jnskodPRA = [
-  // for pra ada 6
-  10, 19, 105, 24, 102, 106,
+  // for pra ada 9
+  10, 19, 105, 24, 102, 106, 417, 412, 212,
 ];
 
 const jnskodSR = [

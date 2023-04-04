@@ -509,7 +509,7 @@ function UserSekolah() {
                                     className={`${
                                       isShown[singlePersonSekolah._id]
                                         ? 'block p-2 px-8 overflow-y-auto'
-                                        : 'hidden '
+                                        : 'hidden'
                                     } absolute z-30 inset-x-1 lg:inset-x-96 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                                   >
                                     <div className='flex justify-between'>
