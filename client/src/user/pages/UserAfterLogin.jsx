@@ -50,7 +50,12 @@ const UserKohortKotakForm = lazy(() =>
   import('../components/kohort/KOTAK/FormKOTAK')
 );
 
-const UserCarian = lazy(() => import('../components/carian/UserCarian'));
+const UserCarianPesakit = lazy(() =>
+  import('../components/carian/UserCarianPesakit')
+);
+const UserCarianPromosi = lazy(() =>
+  import('../components/carian/UserCarianPromosi')
+);
 
 const UserSummary = lazy(() => import('../components/summary/UserSummary'));
 
@@ -252,10 +257,19 @@ function UserAfterLogin() {
           )} */}
 
           <Route
-            path='carian'
+            path='carian/pesakit'
             element={
               <Suspense fallback={<Loading />}>
-                <UserCarian />{' '}
+                <UserCarianPesakit />{' '}
+              </Suspense>
+            }
+          />
+
+          <Route
+            path='carian/promosi'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserCarianPromosi />{' '}
               </Suspense>
             }
           />
