@@ -453,12 +453,12 @@ function UserPromosi({ individuOrKlinik }) {
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       AKTIFKAN
                     </th>
-                    {(userinfo.role === 'admin' ||
+                    {/* {(userinfo.role === 'admin' ||
                       userinfo.rolePromosiKlinik === true) && (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                         HAPUS
                       </th>
-                    )}
+                    )} */}
                   </tr>
                 </thead>
                 {!isLoading &&
@@ -526,7 +526,7 @@ function UserPromosi({ individuOrKlinik }) {
                             <td
                               className={`${
                                 pilih === a._id && 'bg-user3'
-                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-left pl-3`}
                             >
                               {a.namaAcara}
                             </td>
@@ -580,7 +580,7 @@ function UserPromosi({ individuOrKlinik }) {
                             >
                               <u>PILIH</u>
                             </td>
-                            {(userinfo.role === 'admin' ||
+                            {/* {(userinfo.role === 'admin' ||
                               userinfo.rolePromosiKlinik === true) && (
                               <td
                                 onClick={() => {
@@ -594,7 +594,7 @@ function UserPromosi({ individuOrKlinik }) {
                               >
                                 <u>HAPUS</u>
                               </td>
-                            )}
+                            )} */}
                           </tr>
                         </tbody>
                       );
