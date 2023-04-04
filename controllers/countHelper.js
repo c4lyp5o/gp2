@@ -13710,10 +13710,10 @@ const countPGPro01 = async (payload) => {
         $sum: '$bilanganPesertaUlangLatihanMemberusGigiBahagianA',
       },
       jumlahAktivitiPerananKempen: {
-        $sum: '$bilanganAktivitiMainPerananBahagianB',
+        $sum: '$bilanganAktivitiPameranKempenBahagianB',
       },
       jumlahPesertaPerananKempen: {
-        $sum: '$bilanganPesertaMainPerananBahagianB',
+        $sum: '$bilanganPesertaPameranKempenBahagianB',
       },
       jumlahAktivitiBoneka: {
         $sum: '$bilanganAktivitiPertunjukanBonekaBahagianB',
