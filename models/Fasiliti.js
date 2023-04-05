@@ -43,7 +43,7 @@ const fasilitiSchema = new Schema({
   },
   sesiTahunSekolah: {
     type: Number,
-    default: 'NOT APPLICABLE',
+    default: 0,
   },
   jenisPerkhidmatanSekolah: {
     type: String,
