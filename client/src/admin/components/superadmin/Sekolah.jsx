@@ -111,7 +111,7 @@ export default function Sekolah(props) {
                       )}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {f.statusFMRSekolah === 'active' ? (
+                      {f.statusFMRSekolah === 'ya' ? (
                         <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
                           Ya
                         </span>
