@@ -13827,9 +13827,9 @@ const countPGPro01 = async (payload) => {
         $sum: '$bilanganAktivitiTelevisyen',
       },
       jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
-      jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
-      jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
-      jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
+      jumlahAktivitiRadio: { $sum: '$bilanganAktivitiRadio' },
+      jumlahPesertaRadio: { $sum: '$bilanganPesertaRadio' },
+      jumlahAktivitiCetak: { $sum: '$bilanganAktivitiCetak' },
     },
   };
 
@@ -14407,9 +14407,9 @@ const countPGPro01Combined = async (payload) => {
         $sum: '$bilanganAktivitiTelevisyen',
       },
       jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
-      jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
-      jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
-      jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
+      jumlahAktivitiRadio: { $sum: '$bilanganAktivitiRadio' },
+      jumlahPesertaRadio: { $sum: '$bilanganPesertaRadio' },
+      jumlahAktivitiCetak: { $sum: '$bilanganAktivitiCetak' },
     },
   };
 
