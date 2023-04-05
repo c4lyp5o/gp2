@@ -33,25 +33,41 @@ const fasilitiSchema = new Schema({
     default: 'NOT APPLICABLE',
   },
   // sr sm
+  idInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   kodSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  sesiTahunSekolah: {
+    type: Number,
+    default: 0,
+  },
+  jenisPerkhidmatanSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  statusFMRSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  risikoSekolahPersis: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  melaksanakanBegin: {
+    type: Boolean,
+    default: false,
+  },
+  tarikhMulaSekolah: {
     type: String,
     default: 'NOT APPLICABLE',
   },
   sekolahSelesaiReten: {
     type: Boolean,
     default: false,
-  },
-  melaksanakanBegin: {
-    type: Boolean,
-    default: false,
-  },
-  risikoSekolahPersis: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  tarikhMulaSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
   },
   // kkia
   kodKkiaKd: {

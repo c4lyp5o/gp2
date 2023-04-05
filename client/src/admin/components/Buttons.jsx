@@ -11,12 +11,14 @@ export function BusyButton({ func }) {
           : null
       }
       ${
-        func === 'pentadbir'
+        func === 'pentadbir' ||
+        func === 'add' ||
+        func === 'edit' ||
+        func === 'del'
           ? 'bg-admin3 text-adminWhite hover:bg-admin1'
           : null
       }
       `}
-        disabled=''
       >
         <svg
           className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'

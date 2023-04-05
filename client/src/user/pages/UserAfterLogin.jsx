@@ -45,7 +45,17 @@ const UserFormPromosi = lazy(() =>
 
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
 
-const UserCarian = lazy(() => import('../components/carian/UserCarian'));
+const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
+const UserKohortKotakForm = lazy(() =>
+  import('../components/kohort/KOTAK/FormKOTAK')
+);
+
+const UserCarianPesakit = lazy(() =>
+  import('../components/carian/UserCarianPesakit')
+);
+const UserCarianPromosi = lazy(() =>
+  import('../components/carian/UserCarianPromosi')
+);
 
 const UserSummary = lazy(() => import('../components/summary/UserSummary'));
 
@@ -120,7 +130,7 @@ function UserAfterLogin() {
                 }
               />
               <Route
-                path='senarai-sekolah/sekolah'
+                path='senarai-sekolah/sekolah/:singleSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserSekolah />{' '}
@@ -216,6 +226,23 @@ function UserAfterLogin() {
                   </Suspense>
                 }
               />
+              {/* kotak */}
+              <Route
+                path='kohort/kotak'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotak />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/kotak/:personKohortKotakId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotakForm />{' '}
+                  </Suspense>
+                }
+              />
             </>
           ) : null}
 
@@ -230,10 +257,19 @@ function UserAfterLogin() {
           )} */}
 
           <Route
-            path='carian'
+            path='carian/pesakit'
             element={
               <Suspense fallback={<Loading />}>
-                <UserCarian />{' '}
+                <UserCarianPesakit />{' '}
+              </Suspense>
+            }
+          />
+
+          <Route
+            path='carian/promosi'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserCarianPromosi />{' '}
               </Suspense>
             }
           />

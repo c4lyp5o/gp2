@@ -59,7 +59,7 @@ export default function KlinikPergigianBergerak(props) {
                     Tarikh
                   </th>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                    Fasiliti Bertanggungjawab
+                    Fasiliti Dilawati
                   </th>
                   {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     Tindakan
@@ -72,14 +72,22 @@ export default function KlinikPergigianBergerak(props) {
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {index + 1}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {moment(kpb.tarikhStart).format('DD/MM/YYYY')} -{' '}
-                      {moment(kpb.tarikhEnd).format('DD/MM/YYYY')}
-                    </td>
+                    {!kpb.SRbertanggungjawab && !kpb.SMbertanggungjawab ? (
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {moment(kpb.tarikhStart).format('DD/MM/YYYY')} -{' '}
+                        {moment(kpb.tarikhEnd).format('DD/MM/YYYY')}
+                      </td>
+                    ) : (
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        Tidak Berkenaan
+                      </td>
+                    )}
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
                       {kpb.klinikBertanggungjawab ||
                         kpb.kkiaKdBertanggungjawab ||
-                        kpb.tastadBertanggungjawab}
+                        kpb.tastadBertanggungjawab ||
+                        kpb.SRbertanggungjawab ||
+                        kpb.SMbertanggungjawab}
                     </td>
                     {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button
