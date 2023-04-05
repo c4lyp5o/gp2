@@ -1620,10 +1620,13 @@ export default function FillableForm({
                           <input
                             value={nomborTelefon}
                             type='text'
+                            pattern='[0-9]+'
+                            title='Nombor telefon'
                             name='nombor-telefon'
                             id='nombor-telefon'
                             maxLength={15}
                             className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                            placeholder='0123456678'
                             onChange={(e) => {
                               setNomborTelefon(e.target.value);
                               setConfirmData({
@@ -1669,10 +1672,13 @@ export default function FillableForm({
                           <input
                             value={nomborTelefon2}
                             type='text'
+                            pattern='[0-9]+'
+                            title='Nombor telefon'
                             name='nombor-telefon2'
                             id='nombor-telefon2'
                             maxLength={15}
                             className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                            placeholder='0123456678'
                             onChange={(e) => {
                               setNomborTelefon2(e.target.value);
                               setConfirmData({

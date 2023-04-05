@@ -752,6 +752,8 @@ function UserFormKohortKOTAK() {
                           <input
                             required
                             type='text'
+                            pattern='[0-9]+'
+                            title='Nombor telefon'
                             name='no-tel-1'
                             id='no-tel-1'
                             value={noTel1}
@@ -762,13 +764,8 @@ function UserFormKohortKOTAK() {
                                 noTel1: e.target.value,
                               });
                             }}
-                            // only allow number
-                            onKeyPress={(e) => {
-                              if (!/[0-9]/.test(e.key)) {
-                                e.preventDefault();
-                              }
-                            }}
                             className='w-40 h-10 border border-userBlack rounded-md pl-2'
+                            placeholder='0123456678'
                           />
                         </div>
                         <div className='flex items-center flex-col lg:flex-row '>
@@ -781,6 +778,8 @@ function UserFormKohortKOTAK() {
                           <input
                             required
                             type='text'
+                            pattern='[0-9]+'
+                            title='Nombor telefon'
                             name='no-tel-2'
                             id='no-tel-2'
                             value={noTel2}
@@ -791,13 +790,8 @@ function UserFormKohortKOTAK() {
                                 noTel2: e.target.value,
                               });
                             }}
-                            // only allow number
-                            onKeyPress={(e) => {
-                              if (!/[0-9]/.test(e.key)) {
-                                e.preventDefault();
-                              }
-                            }}
                             className='w-40 h-10 border border-userBlack rounded-md pl-2'
+                            placeholder='0123456678'
                           />
                         </div>
                         <div className='flex items-center flex-col lg:flex-row '>
@@ -810,6 +804,8 @@ function UserFormKohortKOTAK() {
                           <input
                             required
                             type='text'
+                            pattern='[0-9]+'
+                            title='Nombor telefon'
                             name='no-tel-3'
                             id='no-tel-3'
                             value={noTel3}
@@ -820,13 +816,8 @@ function UserFormKohortKOTAK() {
                                 noTel3: e.target.value,
                               });
                             }}
-                            // only allow number
-                            onKeyPress={(e) => {
-                              if (!/[0-9]/.test(e.key)) {
-                                e.preventDefault();
-                              }
-                            }}
                             className='w-40 h-10 border border-userBlack rounded-md pl-2'
+                            placeholder='0123456678'
                           />
                         </div>
                       </div>
