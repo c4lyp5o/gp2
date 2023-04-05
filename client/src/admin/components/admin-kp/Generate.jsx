@@ -584,7 +584,7 @@ const ModalGenerateAdHoc = (props) => {
                 <div className={styles.actionsContainer}>
                   {props.generating ? (
                     <button
-                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
+                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3 cursor-not-allowed'
                       type='button'
                     >
                       <div className='flex flex-row items-center'>
@@ -1202,7 +1202,7 @@ const ModalGenerateBulanan = (props) => {
                 <div className={styles.actionsContainer}>
                   {props.generating ? (
                     <button
-                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
+                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3 cursor-not-allowed'
                       type='button'
                     >
                       <div className='flex flex-row items-center'>
