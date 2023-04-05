@@ -584,7 +584,7 @@ const ModalGenerateAdHoc = (props) => {
                 <div className={styles.actionsContainer}>
                   {props.generating ? (
                     <button
-                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
+                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3 cursor-not-allowed'
                       type='button'
                     >
                       <div className='flex flex-row items-center'>
@@ -1202,7 +1202,7 @@ const ModalGenerateBulanan = (props) => {
                 <div className={styles.actionsContainer}>
                   {props.generating ? (
                     <button
-                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
+                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3 cursor-not-allowed'
                       type='button'
                     >
                       <div className='flex flex-row items-center'>
@@ -1639,7 +1639,7 @@ const Generate = (props) => {
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <button
                           type='button'
-                          className='px-2 py-1 bg-admin1 text-adminWhite rounded-md'
+                          className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
                           onClick={() => {
                             setJenisReten(jenis.kodRingkas);
                             setOpenModalGenerateAdHoc(false);
