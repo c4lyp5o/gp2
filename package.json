@@ -51,8 +51,8 @@
     "speakeasy": "^2.0.0"
   },
   "devDependencies": {
-    "concurrently": "^7.6.0",
-    "cypress": "^12.8.1",
+    "concurrently": "^8.0.1",
+    "cypress": "^12.9.0",
     "nodemon": "^2.0.22"
   }
 }
