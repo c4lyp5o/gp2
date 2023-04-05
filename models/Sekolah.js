@@ -73,7 +73,7 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     required: [true, 'Please provide kaum'],
   },
-  melaksanakanBegin: {
+  tarikhMelaksanakanBegin: {
     type: String,
     default: '',
   },

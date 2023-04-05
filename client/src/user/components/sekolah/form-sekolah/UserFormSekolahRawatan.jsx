@@ -182,6 +182,7 @@ function UserFormSekolahRawatan() {
   const TarikhRawatanSemasa = () => {
     return masterDatePicker({
       selected: tarikhRawatanSemasaDatePicker,
+      required: true,
       onChange: (tarikhRawatanSemasa) => {
         const tempDate = moment(tarikhRawatanSemasa).format('YYYY-MM-DD');
         setTarikhRawatanSemasa(tempDate);
@@ -562,8 +563,8 @@ function UserFormSekolahRawatan() {
                         </div>
                         {engganRawatan === 'ya-enggan-rawatan' ? (
                           <p className='mt-2'>
-                            Adakah murid mempunyai kebenaran rawatan/rawatan
-                            daripada ibu bapa/penjaga?
+                            Adakah murid <strong>DIBERI</strong> kebenaran
+                            rawatan/rawatan daripada ibu bapa/penjaga?
                           </p>
                         ) : null}
                         {engganRawatan === 'ya-enggan-rawatan' ? (
@@ -1400,14 +1401,15 @@ function UserFormSekolahRawatan() {
                       </div>
                     </article>
                   ) : null}
-                  {pilihanRawatan.includes('rawatan-lain') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        rawatan lain yang telah dilakukan
-                      </h4>
-                      <div className='grid grid-cols-1 lg:grid-cols-2 col-span-2'>
-                        <div className='flex items-center flex-row pl-5'>
+                  <div className='grid gap-2'>
+                    {pilihanRawatan.includes('rawatan-lain') ||
+                    pilihanRawatan.includes('lihat-semua') ? (
+                      <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                          rawatan lain yang telah dilakukan
+                        </h4>
+                        <div className='grid grid-cols-1 lg:grid-cols-2 col-span-2'>
+                          {/* <div className='flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>pulpotomi: </p>
                           <input
                             type='number'
@@ -1425,8 +1427,8 @@ function UserFormSekolahRawatan() {
                             min='0'
                             max='20'
                           />
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
+                        </div> */}
+                          {/* <div className='flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>endodontik: </p>
                           <input
                             type='number'
@@ -1444,261 +1446,262 @@ function UserFormSekolahRawatan() {
                             min='0'
                             max='32'
                           />
+                        </div> */}
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='abses-penyata-akhir-2'
+                              id='abses-penyata-akhir-2'
+                              checked={absesSekolahRawatan}
+                              onChange={(e) => {
+                                setAbsesSekolahRawatan(!absesSekolahRawatan);
+                                setConfirmData({
+                                  ...confirmData,
+                                  absesSekolahRawatan: !absesSekolahRawatan,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='abses-penyata-akhir-2'
+                              className='text-sm font-m mx-2'
+                            >
+                              abses
+                            </label>
+                          </div>
                         </div>
-                        <div className='flex items-center flex-row pl-5'>
+                        <div className='flex flex-row items-center pl-5 col-start-1'>
                           <input
                             type='checkbox'
-                            name='abses-penyata-akhir-2'
-                            id='abses-penyata-akhir-2'
-                            checked={absesSekolahRawatan}
+                            name='penskaleran-penyata-akhir-2'
+                            id='penskaleran-penyata-akhir-2'
+                            checked={penskaleranSekolahRawatan}
                             onChange={(e) => {
-                              setAbsesSekolahRawatan(!absesSekolahRawatan);
+                              setPenskaleranSekolahRawatan(
+                                !penskaleranSekolahRawatan
+                              );
                               setConfirmData({
                                 ...confirmData,
-                                absesSekolahRawatan: !absesSekolahRawatan,
+                                penskaleranSekolahRawatan:
+                                  !penskaleranSekolahRawatan,
                               });
                             }}
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label
-                            htmlFor='abses-penyata-akhir-2'
+                            htmlFor='penskaleran-penyata-akhir-2'
                             className='text-sm font-m mx-2'
                           >
-                            abses
+                            Penskaleran
                           </label>
                         </div>
-                      </div>
-                      <div className='flex flex-row items-center pl-5 col-start-1'>
-                        <input
-                          type='checkbox'
-                          name='penskaleran-penyata-akhir-2'
-                          id='penskaleran-penyata-akhir-2'
-                          checked={penskaleranSekolahRawatan}
-                          onChange={(e) => {
-                            setPenskaleranSekolahRawatan(
-                              !penskaleranSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              penskaleranSekolahRawatan:
-                                !penskaleranSekolahRawatan,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='penskaleran-penyata-akhir-2'
-                          className='text-sm font-m mx-2'
+                      </article>
+                    ) : null}
+                    {pilihanRawatan.includes('rujukan') ||
+                    pilihanRawatan.includes('lihat-semua') ? (
+                      <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <div className='flex flex-row items-center pl-5 m-2'>
+                          <input
+                            type='checkbox'
+                            name='rujuk-penyata-akhir-2'
+                            id='rujuk-penyata-akhir-2'
+                            checked={rujukSekolahRawatan}
+                            onChange={() => {
+                              setRujukSekolahRawatan(!rujukSekolahRawatan);
+                              setConfirmData({
+                                ...confirmData,
+                                rujukSekolahRawatan: !rujukSekolahRawatan,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rujuk-penyata-akhir-2'
+                            className='mx-2 font-bold'
+                          >
+                            rujukan
+                          </label>
+                        </div>
+                        <div
+                          className={`${
+                            !rujukSekolahRawatan && 'hidden'
+                          } flex flex-row items-center pl-5 m-2`}
                         >
-                          Penskaleran
-                        </label>
-                      </div>
-                    </article>
-                  ) : null}
-                  {pilihanRawatan.includes('rujukan') ||
-                  pilihanRawatan.includes('lihat-semua') ? (
-                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <div className='flex flex-row items-center pl-5 m-2'>
-                        <input
-                          type='checkbox'
-                          name='rujuk-penyata-akhir-2'
-                          id='rujuk-penyata-akhir-2'
-                          checked={rujukSekolahRawatan}
-                          onChange={() => {
-                            setRujukSekolahRawatan(!rujukSekolahRawatan);
-                            setConfirmData({
-                              ...confirmData,
-                              rujukSekolahRawatan: !rujukSekolahRawatan,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujuk-penyata-akhir-2'
-                          className='mx-2 font-bold'
+                          <input
+                            type='checkbox'
+                            name='rawatan-ortodontik-penyata-akhir-2'
+                            id='rawatan-ortodontik-penyata-akhir-2'
+                            checked={rujukRawatanOrtodontikSekolahRawatan}
+                            onChange={() => {
+                              setRujukRawatanOrtodontikSekolahRawatan(
+                                !rujukRawatanOrtodontikSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                rujukRawatanOrtodontikSekolahRawatan:
+                                  !rujukRawatanOrtodontikSekolahRawatan,
+                              });
+                            }}
+                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rawatan-ortodontik-penyata-akhir-2'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujukan Ke Pakar ortodontik
+                          </label>
+                        </div>
+                        <div
+                          className={`${
+                            !rujukSekolahRawatan && 'hidden'
+                          } flex flex-row items-center pl-5 m-2`}
                         >
-                          rujukan
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rawatan-ortodontik-penyata-akhir-2'
-                          id='rawatan-ortodontik-penyata-akhir-2'
-                          checked={rujukRawatanOrtodontikSekolahRawatan}
-                          onChange={() => {
-                            setRujukRawatanOrtodontikSekolahRawatan(
-                              !rujukRawatanOrtodontikSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukRawatanOrtodontikSekolahRawatan:
-                                !rujukRawatanOrtodontikSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rawatan-ortodontik-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
+                          <input
+                            type='checkbox'
+                            name='rujukan-pakar-patologi'
+                            id='rujukan-pakar-patologi'
+                            checked={rujukPakarPatologiSekolahRawatan}
+                            onChange={() => {
+                              setRujukPakarPatologiSekolahRawatan(
+                                !rujukPakarPatologiSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                rujukPakarPatologiSekolahRawatan:
+                                  !rujukPakarPatologiSekolahRawatan,
+                              });
+                            }}
+                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rujukan-pakar-patologi'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut
+                          </label>
+                        </div>
+                        <div
+                          className={`${
+                            !rujukSekolahRawatan && 'hidden'
+                          } flex flex-row items-center pl-5 m-2`}
                         >
-                          Rujukan Ke Pakar ortodontik
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rujukan-pakar-patologi'
-                          id='rujukan-pakar-patologi'
-                          checked={rujukPakarPatologiSekolahRawatan}
-                          onChange={() => {
-                            setRujukPakarPatologiSekolahRawatan(
-                              !rujukPakarPatologiSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukPakarPatologiSekolahRawatan:
-                                !rujukPakarPatologiSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujukan-pakar-patologi'
-                          className='mx-2 text-sm font-m'
+                          <input
+                            type='checkbox'
+                            name='rujukan-pakar-restoratif'
+                            id='rujukan-pakar-restoratif'
+                            checked={rujukPakarRestoratifSekolahRawatan}
+                            onChange={() => {
+                              setRujukPakarRestoratifSekolahRawatan(
+                                !rujukPakarRestoratifSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                rujukPakarRestoratifSekolahRawatan:
+                                  !rujukPakarRestoratifSekolahRawatan,
+                              });
+                            }}
+                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rujukan-pakar-restoratif'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujukan Ke Pakar Restoratif
+                          </label>
+                        </div>
+                        <div
+                          className={`${
+                            !rujukSekolahRawatan && 'hidden'
+                          } flex flex-row items-center pl-5 m-2`}
                         >
-                          Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rujukan-pakar-restoratif'
-                          id='rujukan-pakar-restoratif'
-                          checked={rujukPakarRestoratifSekolahRawatan}
-                          onChange={() => {
-                            setRujukPakarRestoratifSekolahRawatan(
-                              !rujukPakarRestoratifSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukPakarRestoratifSekolahRawatan:
-                                !rujukPakarRestoratifSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujukan-pakar-restoratif'
-                          className='mx-2 text-sm font-m'
+                          <input
+                            type='checkbox'
+                            name='rujukan-pakar-bedah-mulut'
+                            id='rujukan-pakar-bedah-mulut'
+                            checked={rujukPakarBedahMulutSekolahRawatan}
+                            onChange={() => {
+                              setRujukPakarBedahMulutSekolahRawatan(
+                                !rujukPakarBedahMulutSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                rujukPakarBedahMulutSekolahRawatan:
+                                  !rujukPakarBedahMulutSekolahRawatan,
+                              });
+                            }}
+                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rujukan-pakar-bedah-mulut'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujukan Ke Pakar bedah mulut dan maksilofasial
+                          </label>
+                        </div>
+                        <div
+                          className={`${
+                            !rujukSekolahRawatan && 'hidden'
+                          } flex flex-row items-center pl-5 m-2`}
                         >
-                          Rujukan Ke Pakar Restoratif
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rujukan-pakar-bedah-mulut'
-                          id='rujukan-pakar-bedah-mulut'
-                          checked={rujukPakarBedahMulutSekolahRawatan}
-                          onChange={() => {
-                            setRujukPakarBedahMulutSekolahRawatan(
-                              !rujukPakarBedahMulutSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukPakarBedahMulutSekolahRawatan:
-                                !rujukPakarBedahMulutSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujukan-pakar-bedah-mulut'
-                          className='mx-2 text-sm font-m'
+                          <input
+                            type='checkbox'
+                            name='rujukan-pakar-pediatrik'
+                            id='rujukan-pakar-pediatrik'
+                            checked={rujukPakarPediatrikSekolahRawatan}
+                            onChange={() => {
+                              setRujukPakarPediatrikSekolahRawatan(
+                                !rujukPakarPediatrikSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                rujukPakarPediatrikSekolahRawatan:
+                                  !rujukPakarPediatrikSekolahRawatan,
+                              });
+                            }}
+                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rujukan-pakar-pediatrik'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujukan Ke Pakar Pergigian Pediatrik
+                          </label>
+                        </div>
+                        <div
+                          className={`${
+                            !rujukSekolahRawatan && 'hidden'
+                          } flex flex-row items-center pl-5 m-2`}
                         >
-                          Rujukan Ke Pakar bedah mulut dan maksilofasial
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rujukan-pakar-pediatrik'
-                          id='rujukan-pakar-pediatrik'
-                          checked={rujukPakarPediatrikSekolahRawatan}
-                          onChange={() => {
-                            setRujukPakarPediatrikSekolahRawatan(
-                              !rujukPakarPediatrikSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukPakarPediatrikSekolahRawatan:
-                                !rujukPakarPediatrikSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujukan-pakar-pediatrik'
-                          className='mx-2 text-sm font-m'
-                        >
-                          Rujukan Ke Pakar Pergigian Pediatrik
-                        </label>
-                      </div>
-                      <div
-                        className={`${
-                          !rujukSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
-                        <input
-                          type='checkbox'
-                          name='rujukan-ke-klinik'
-                          id='rujukan-ke-klinik'
-                          checked={rujukKlinikSekolahRawatan}
-                          onChange={() => {
-                            setRujukKlinikSekolahRawatan(
-                              !rujukKlinikSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              rujukKlinikSekolahRawatan:
-                                !rujukKlinikSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
-                        <label
-                          htmlFor='rujukan-ke-klinik'
-                          className='mx-2 text-sm font-m'
-                        >
-                          Rujukan Ke Klinik
-                        </label>
-                      </div>
-                    </article>
-                  ) : null}
+                          <input
+                            type='checkbox'
+                            name='rujukan-ke-klinik'
+                            id='rujukan-ke-klinik'
+                            checked={rujukKlinikSekolahRawatan}
+                            onChange={() => {
+                              setRujukKlinikSekolahRawatan(
+                                !rujukKlinikSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                rujukKlinikSekolahRawatan:
+                                  !rujukKlinikSekolahRawatan,
+                              });
+                            }}
+                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rujukan-ke-klinik'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujukan Ke Klinik Pergigian
+                          </label>
+                        </div>
+                      </article>
+                    ) : null}
+                  </div>
                   {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
                   engganRawatan === 'ya-enggan-rawatan' ? null : (
-                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-start-1'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         Kes Selesai
                       </h4>
@@ -1727,11 +1730,7 @@ function UserFormSekolahRawatan() {
                           kes selesai
                         </label>
                       </div>
-                      <div
-                        className={`${
-                          !kesSelesaiSekolahRawatan && 'hidden'
-                        } flex flex-row items-center pl-5 m-2`}
-                      >
+                      <div className='flex flex-row items-center'>
                         <input
                           type='checkbox'
                           name='kes-selesai-icdas-penyata-akhir-2'

@@ -7,6 +7,8 @@ import {
   FaTimesCircle,
   FaCaretUp,
   FaCaretDown,
+  FaMinus,
+  FaPlus,
 } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -18,6 +20,7 @@ function UserSekolah() {
     navigate,
     refreshTimer,
     setRefreshTimer,
+    masterDatePicker,
     toast,
   } = useGlobalUserAppContext();
 
@@ -39,14 +42,36 @@ function UserSekolah() {
   const [filterNama, setFilterNama] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
-  const [melaksanakanBegin, setMelaksanakanBegin] = useState('');
+  const [tarikhMelaksanakanBegin, setTarikhMelaksanakanBegin] = useState('');
+  const [tarikhMelaksanakanBeginDP, setTarikhMelaksanakanBeginDP] =
+    useState(null);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
 
+  //accordian
+  const [accordian, setAccordian] = useState(false);
+
   const [reloadState, setReloadState] = useState(false);
 
   const init = useRef(false);
+
+  const TarikhBegin = () => {
+    return masterDatePicker({
+      selected: tarikhMelaksanakanBeginDP,
+      onChange: (tarikhMelaksanakanBegin) => {
+        const tempDate = moment(tarikhMelaksanakanBegin).format('YYYY-MM-DD');
+        setTarikhMelaksanakanBeginDP(tarikhMelaksanakanBegin);
+        setTarikhMelaksanakanBegin(tempDate);
+        setMuridBeginCurrentId(singlePersonSekolah._id);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+    });
+  };
 
   // init fetch allPersonSekolahs
   useEffect(() => {
@@ -101,7 +126,7 @@ function UserSekolah() {
       .patch(
         `/api/v1/sekolah/ubah/${muridBeginCurrentId}`,
         {
-          melaksanakanBegin,
+          tarikhMelaksanakanBegin,
         },
         {
           headers: {
@@ -211,18 +236,26 @@ function UserSekolah() {
   // }, [fasilitiSekolah]);
 
   // on tab focus reload data
-  useEffect(() => {
-    window.addEventListener('focus', setReloadState);
-    setReloadState(!reloadState);
-    return () => {
-      window.removeEventListener('focus', setReloadState);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener('focus', setReloadState);
+  //   setReloadState(!reloadState);
+  //   return () => {
+  //     window.removeEventListener('focus', setReloadState);
+  //   };
+  // }, []);
 
   // specific refreshTimer for this UserSekolah special case
   useEffect(() => {
     setRefreshTimer(!refreshTimer);
   }, [pilihanSekolah, pilihanTahun, pilihanNamaKelas, filterNama]);
+
+  const handleAccordian = (e) => {
+    if (accordian === e) {
+      setAccordian('');
+    } else {
+      setAccordian(e);
+    }
+  };
 
   return (
     <>
@@ -431,9 +464,9 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   RAWATAN
                 </th>
-                {/* <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                    KOTAK
-                  </th> */}
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  Aktiviti BEGIN
+                </th>
               </tr>
             </thead>
             {!isLoading &&
@@ -540,7 +573,7 @@ function UserSekolah() {
                                   <div
                                     className={`${
                                       isShown[singlePersonSekolah._id]
-                                        ? 'block p-2 px-8 overflow-y-auto'
+                                        ? 'block p-2 px-5 overflow-y-auto'
                                         : 'hidden '
                                     } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                                   >
@@ -590,136 +623,150 @@ function UserSekolah() {
                                             key={rawatan._id}
                                             className='flex flex-col'
                                           >
-                                            <h1 className='text-sm text-start font-semibold bg-user1 bg-opacity-5'>
-                                              Rumusan Kedatangan {index + 1}
-                                            </h1>
-                                            <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
+                                            <h1
+                                              onClick={() =>
+                                                handleAccordian(index)
+                                              }
+                                              className='text-sm text-start font-semibold bg-user1 bg-opacity-5 flex flex-row items-center rounded-md p-1 m-1 cursor-pointer'
+                                            >
+                                              {accordian === index ? (
+                                                <FaMinus className='m-1' />
+                                              ) : (
+                                                <FaPlus className='m-1' />
+                                              )}
+                                              Kedatangan {index + 1} -{' '}
                                               {moment(
                                                 rawatan.tarikhRawatanSemasa
                                               ).format('DD/MM/YYYY')}
-                                            </span>
-                                            <span className='text-xs font-semibold text-start'>
-                                              {rawatan.createdByUsername}
-                                            </span>
-                                            {rawatan.cabutDesidusSekolahRawatan >=
-                                              1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                cabut desidus :
-                                                {
-                                                  rawatan.cabutDesidusSekolahRawatan
-                                                }
-                                              </span>
-                                            )}
-                                            {rawatan.cabutKekalSekolahRawatan >=
-                                              1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                cabut desidus :
-                                                {
-                                                  rawatan.cabutKekalSekolahRawatan
-                                                }
-                                              </span>
-                                            )}
-                                            {sumGigiDesidus >= 1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                tampalan gigi desidus :{' '}
-                                                {sumGigiDesidus}
-                                              </span>
-                                            )}
-                                            {sumGigiKekal >= 1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                tampalan gigi kekal :{' '}
-                                                {sumGigiKekal}
-                                              </span>
-                                            )}
-                                            {sumICDAS >= 1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                ICDAS : {sumICDAS}
-                                              </span>
-                                            )}
-                                            {rawatan.jumlahTampalanSementaraSekolahRawatan >=
-                                              1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                tampalan sementara :{' '}
-                                                {
-                                                  rawatan.jumlahTampalanSementaraSekolahRawatan
-                                                }
-                                              </span>
-                                            )}
-                                            {rawatan.pulpotomiSekolahRawatan >=
-                                              1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                pulpotomi :{' '}
-                                                {
-                                                  rawatan.pulpotomiSekolahRawatan
-                                                }
-                                              </span>
-                                            )}
-                                            {rawatan.endodontikSekolahRawatan >=
-                                              1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                endodontik :{' '}
-                                                {
-                                                  rawatan.endodontikSekolahRawatan
-                                                }
-                                              </span>
-                                            )}
-                                            {rawatan.absesSekolahRawatan >=
-                                              1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                abses :{' '}
-                                                {rawatan.absesSekolahRawatan}
-                                              </span>
-                                            )}
-                                            {rawatan.penskaleranSekolahRawatan >=
-                                              1 && (
-                                              <span className='text-xs font-medium text-start'>
-                                                penskaleran :{' '}
-                                                {
-                                                  rawatan.penskaleranSekolahRawatan
-                                                }
-                                              </span>
-                                            )}
-                                            {rawatan.rujukSekolahRawatan ===
-                                              true && (
-                                              <span className='text-xs font-medium text-start flex items-center flex-wrap'>
-                                                Dirujuk{' '}
-                                                <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                untuk{' '}
-                                                {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
-                                                true
-                                                  ? 'cabutan ,'
-                                                  : ''}
-                                                {rawatan.rujukRawatanEndodontikSekolahRawatan ===
-                                                true
-                                                  ? 'rawatan endodontik ,'
-                                                  : ''}
-                                                {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                                                true
-                                                  ? 'rawatan penskaleran ,'
-                                                  : ''}
-                                                {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
-                                                true
-                                                  ? 'rawatan periodontik ,'
-                                                  : ''}
-                                                {rawatan.rujukLainLainSekolahRawatan ===
-                                                true
-                                                  ? rawatan.rujukLainLainTulisSekolahRawatan
-                                                  : ''}
-                                              </span>
-                                            )}
-                                            {rawatan.kesSelesaiSekolahRawatan ===
-                                              true && (
-                                              <span className='text-xs font-medium text-start flex items-center'>
-                                                kes selesai{' '}
-                                                <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                              </span>
-                                            )}
-                                            {rawatan.kesSelesaiIcdasSekolahRawatan ===
-                                              true && (
-                                              <span className='text-xs font-medium text-start flex items-center'>
-                                                kes selesai ICDAS{' '}
-                                                <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                              </span>
+                                            </h1>
+                                            {accordian === index && (
+                                              <div className='flex flex-col mx-1 px-1'>
+                                                <span className='text-xs font-semibold text-start'>
+                                                  {rawatan.createdByUsername}
+                                                </span>
+                                                {rawatan.cabutDesidusSekolahRawatan >=
+                                                  1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    cabut desidus :
+                                                    {
+                                                      rawatan.cabutDesidusSekolahRawatan
+                                                    }
+                                                  </span>
+                                                )}
+                                                {rawatan.cabutKekalSekolahRawatan >=
+                                                  1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    cabut desidus :
+                                                    {
+                                                      rawatan.cabutKekalSekolahRawatan
+                                                    }
+                                                  </span>
+                                                )}
+                                                {sumGigiDesidus >= 1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    tampalan gigi desidus :{' '}
+                                                    {sumGigiDesidus}
+                                                  </span>
+                                                )}
+                                                {sumGigiKekal >= 1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    tampalan gigi kekal :{' '}
+                                                    {sumGigiKekal}
+                                                  </span>
+                                                )}
+                                                {sumICDAS >= 1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    ICDAS : {sumICDAS}
+                                                  </span>
+                                                )}
+                                                {rawatan.jumlahTampalanSementaraSekolahRawatan >=
+                                                  1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    tampalan sementara :{' '}
+                                                    {
+                                                      rawatan.jumlahTampalanSementaraSekolahRawatan
+                                                    }
+                                                  </span>
+                                                )}
+                                                {rawatan.pulpotomiSekolahRawatan >=
+                                                  1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    pulpotomi :{' '}
+                                                    {
+                                                      rawatan.pulpotomiSekolahRawatan
+                                                    }
+                                                  </span>
+                                                )}
+                                                {rawatan.endodontikSekolahRawatan >=
+                                                  1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    endodontik :{' '}
+                                                    {
+                                                      rawatan.endodontikSekolahRawatan
+                                                    }
+                                                  </span>
+                                                )}
+                                                {rawatan.absesSekolahRawatan >=
+                                                  1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    abses :{' '}
+                                                    {
+                                                      rawatan.absesSekolahRawatan
+                                                    }
+                                                  </span>
+                                                )}
+                                                {rawatan.penskaleranSekolahRawatan >=
+                                                  1 && (
+                                                  <span className='text-xs font-medium text-start'>
+                                                    penskaleran :{' '}
+                                                    {
+                                                      rawatan.penskaleranSekolahRawatan
+                                                    }
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukSekolahRawatan ===
+                                                  true && (
+                                                  <span className='text-xs font-medium text-start flex items-center flex-wrap'>
+                                                    Dirujuk{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                    untuk{' '}
+                                                    {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
+                                                    true
+                                                      ? 'cabutan ,'
+                                                      : ''}
+                                                    {rawatan.rujukRawatanEndodontikSekolahRawatan ===
+                                                    true
+                                                      ? 'rawatan endodontik ,'
+                                                      : ''}
+                                                    {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                                                    true
+                                                      ? 'rawatan penskaleran ,'
+                                                      : ''}
+                                                    {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
+                                                    true
+                                                      ? 'rawatan periodontik ,'
+                                                      : ''}
+                                                    {rawatan.rujukLainLainSekolahRawatan ===
+                                                    true
+                                                      ? rawatan.rujukLainLainTulisSekolahRawatan
+                                                      : ''}
+                                                  </span>
+                                                )}
+                                                {rawatan.kesSelesaiSekolahRawatan ===
+                                                  true && (
+                                                  <span className='text-xs font-medium text-start flex items-center'>
+                                                    kes selesai{' '}
+                                                    <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.kesSelesaiIcdasSekolahRawatan ===
+                                                  true && (
+                                                  <span className='text-xs font-medium text-start flex items-center'>
+                                                    kes selesai ICDAS{' '}
+                                                    <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                                  </span>
+                                                )}
+                                              </div>
                                             )}
                                           </div>
                                         );
@@ -781,82 +828,32 @@ function UserSekolah() {
                               }}
                               className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
                             >
-                              BEGIN
+                              tarikh pelaksanaan
                             </button>
                             <div
                               className={`${
                                 modalBegin[singlePersonSekolah._id]
                                   ? 'block p-2 px-8 overflow-y-auto'
                                   : 'hidden '
-                              } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                              } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                             >
                               <form onSubmit={handleSubmit}>
-                                <p>
-                                  Adakah {singlePersonSekolah.nama} melaksanakan
+                                <p className='flex justify-center text-lg font-bold border-b border-b-user1 py-3'>
+                                  Program BEGIN
+                                </p>
+                                <p className='flex whitespace-pre-wrap pt-3'>
+                                  Tarikh {singlePersonSekolah.nama} melaksanakan
                                   Aktiviti BEGIN ?
                                 </p>
-                                <div className='flex flex-row justify-center mt-2'>
-                                  <div>
-                                    <input
-                                      type='radio'
-                                      name='melaksanakan-aktiviti-begin'
-                                      id='ya-melaksanakan-aktiviti-begin'
-                                      value='ya-melaksanakan-aktiviti-begin'
-                                      className='peer hidden'
-                                      checked={
-                                        singlePersonSekolah.melaksanakanBegin ===
-                                        'ya-melaksanakan-aktiviti-begin'
-                                          ? true
-                                          : false
-                                      }
-                                      onChange={(e) => {
-                                        setMuridBeginCurrentId(
-                                          singlePersonSekolah._id
-                                        );
-                                        setMelaksanakanBegin(e.target.value);
-                                      }}
-                                    />
-                                    <label
-                                      htmlFor='ya-melaksanakan-aktiviti-begin'
-                                      className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
-                                    >
-                                      Ya
-                                    </label>
-                                  </div>
-                                  <div>
-                                    <input
-                                      type='radio'
-                                      name='melaksanakan-aktiviti-begin'
-                                      id='tidak-melaksanakan-aktiviti-begin'
-                                      value='tidak-melaksanakan-aktiviti-begin'
-                                      className='peer hidden'
-                                      checked={
-                                        singlePersonSekolah.melaksanakanBegin ===
-                                        'tidak-melaksanakan-aktiviti-begin'
-                                          ? true
-                                          : false
-                                      }
-                                      onChange={(e) => {
-                                        setMuridBeginCurrentId(
-                                          singlePersonSekolah._id
-                                        );
-                                        setMelaksanakanBegin(e.target.value);
-                                      }}
-                                    />
-                                    <label
-                                      htmlFor='tidak-melaksanakan-aktiviti-begin'
-                                      className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
-                                    >
-                                      Tidak
-                                    </label>
-                                  </div>
+                                <div className='grid justify-center'>
+                                  <TarikhBegin />
                                 </div>
-                                <div className='flex flex-row justify-center mt-2'>
+                                <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
                                   <button
                                     type='submit'
-                                    className='text-sm text-userWhite bg-user2 py-2 px-7 rounded-md cursor-pointer focus:outline-none'
+                                    className='text-sm text-userWhite bg-user2 py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user1 ml-2'
                                   >
-                                    Simpan
+                                    Hantar
                                   </button>
                                 </div>
                               </form>
@@ -888,9 +885,9 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td> */}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -911,24 +908,26 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td> */}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
               </tbody>
             )}
           </table>
+          {modalBegin && (
+            <div
+              className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+                modalBegin ? 'block' : 'hidden'
+              }`}
+              onClick={() => setModalBegin(false)}
+            />
+          )}
           <div
             className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
               isShown ? 'block' : 'hidden'
             }`}
             onClick={() => setIsShown(false)}
-          />
-          <div
-            className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
-              modalBegin ? 'block' : 'hidden'
-            }`}
-            onClick={() => setModalBegin(false)}
           />
         </div>
       </div>

@@ -223,6 +223,7 @@ function UserFormSekolahPemeriksaan() {
     }
     return masterDatePicker({
       selected: tarikhPemeriksaanSemasaDP,
+      required: true,
       onChange: (tarikhPemeriksaanSemasa) => {
         const tempDate = moment(tarikhPemeriksaanSemasa).format('YYYY-MM-DD');
         setTarikhPemeriksaanSemasa(tempDate);
@@ -1296,7 +1297,7 @@ function UserFormSekolahPemeriksaan() {
                           </div>
                           {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
                             <p className='mt-2'>
-                              Adakah murid mempunyai kebenaran
+                              Adakah murid <strong>DIBERI</strong> kebenaran
                               rawatan/pemeriksaan daripada ibu bapa/penjaga?
                             </p>
                           ) : null}
@@ -2929,7 +2930,7 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                     </article>
                     <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                      <h4 className='font-bold flex flex-row pl-5 col-span-2 text-left'>
                         Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
                       </h4>
                       <div className='flex flex-row pl-5 items-center'>

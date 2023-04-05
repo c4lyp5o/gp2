@@ -140,7 +140,7 @@ function KohortKotak() {
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  No. Pengenalan:
+                  No. Kad Pengenalan:
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
