@@ -51,23 +51,27 @@ const fasilitiSchema = new Schema({
   },
   statusFMRSekolah: {
     type: String,
-    default: 'NOT APPLICABLE',
+    default: 'tidak',
   },
-  risikoSekolahPersis: {
-    type: String,
-    default: 'NOT APPLICABLE',
+  statusFMRTelahDaftarDarjahSatu: {
+    type: Boolean,
+    default: false,
+  },
+  sekolahSelesaiReten: {
+    type: Boolean,
+    default: false,
   },
   melaksanakanBegin: {
     type: Boolean,
     default: false,
   },
-  tarikhMulaSekolah: {
+  risikoSekolahPersis: {
     type: String,
     default: 'NOT APPLICABLE',
   },
-  sekolahSelesaiReten: {
-    type: Boolean,
-    default: false,
+  tarikhMulaSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
   // kkia
   kodKkiaKd: {
