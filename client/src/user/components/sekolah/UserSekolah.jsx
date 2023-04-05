@@ -56,14 +56,15 @@ function UserSekolah() {
 
   const init = useRef(false);
 
-  const TarikhBegin = () => {
+  const TarikhBegin = (singlePersonSekolah) => {
     return masterDatePicker({
       selected: tarikhMelaksanakanBeginDP,
       onChange: (tarikhMelaksanakanBegin) => {
         const tempDate = moment(tarikhMelaksanakanBegin).format('YYYY-MM-DD');
         setTarikhMelaksanakanBeginDP(tarikhMelaksanakanBegin);
         setTarikhMelaksanakanBegin(tempDate);
-        setMuridBeginCurrentId(singlePersonSekolah._id);
+        const tempId = singlePersonSekolah.singlePersonSekolah._id;
+        setMuridBeginCurrentId(tempId);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -138,11 +139,14 @@ function UserSekolah() {
       )
       .then((res) => {
         console.log(res);
+        setModalBegin(false);
         setReloadState(!reloadState);
-        toast.success('Berjaya mengemaskini maklumat sekolah');
+        toast.success('Berjaya mengemaskini maklumat BEGIN sekolah');
       })
       .catch((err) => {
         console.log(err);
+        setModalBegin(false);
+        toast.error('Gagal mengemaskini maklumat BEGIN sekolah');
       });
   };
 
@@ -846,7 +850,9 @@ function UserSekolah() {
                                   Aktiviti BEGIN ?
                                 </p>
                                 <div className='grid justify-center'>
-                                  <TarikhBegin />
+                                  <TarikhBegin
+                                    singlePersonSekolah={singlePersonSekolah}
+                                  />
                                 </div>
                                 <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
                                   <button
