@@ -114,7 +114,7 @@ const getAllPersonSekolah = async (req, res) => {
       $match: {
         kodFasilitiHandler: kodFasiliti,
         kodSekolah: singleSekolahId,
-        // jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
     {
@@ -204,6 +204,7 @@ const getAllPersonSekolah = async (req, res) => {
                     statusRawatan: 1,
                     pemeriksaanSekolah: 1,
                     rawatanSekolah: 1,
+                    tarikhMelaksanakanBegin: 1,
                   },
                 },
               ],
@@ -227,6 +228,7 @@ const getAllPersonSekolah = async (req, res) => {
               statusRawatan: '$sekolah.statusRawatan',
               pemeriksaanSekolah: '$sekolah.pemeriksaanSekolah',
               rawatanSekolah: '$sekolah.rawatanSekolah',
+              tarikhMelaksanakanBegin: '$sekolah.tarikhMelaksanakanBegin',
             },
           },
           {

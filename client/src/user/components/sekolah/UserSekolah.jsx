@@ -469,7 +469,7 @@ function UserSekolah() {
                   RAWATAN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                  Aktiviti BEGIN
+                  AKTIVITI BEGIN
                 </th>
               </tr>
             </thead>
@@ -832,7 +832,17 @@ function UserSekolah() {
                               }}
                               className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
                             >
-                              tarikh pelaksanaan
+                              {singlePersonSekolah.tarikhMelaksanakanBegin ? (
+                                <p className='text-xs text-userBlack text-center flex items-center'>
+                                  Selesai
+                                  <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                </p>
+                              ) : (
+                                <p className='text-xs text-userBlack text-center flex items-center'>
+                                  Tarikh Pelaksanaan
+                                  <FaTimesCircle className='text-user9 inline-flex text-center ml-1' />
+                                </p>
+                              )}
                             </button>
                             <div
                               className={`${
@@ -850,17 +860,40 @@ function UserSekolah() {
                                   Aktiviti BEGIN ?
                                 </p>
                                 <div className='grid justify-center'>
-                                  <TarikhBegin
-                                    singlePersonSekolah={singlePersonSekolah}
-                                  />
+                                  {singlePersonSekolah.tarikhMelaksanakanBegin ? (
+                                    <div className='flex justify-center mt-3'>
+                                      <p className='text-center text-base font-medium'>
+                                        YA , Pada Tarikh{' '}
+                                        <span className='text-user2 text-xl font-semibold'>
+                                          {moment(
+                                            singlePersonSekolah.tarikhMelaksanakanBegin
+                                          ).format('DD/MM/YYYY')}
+                                        </span>
+                                      </p>
+                                    </div>
+                                  ) : (
+                                    <TarikhBegin
+                                      singlePersonSekolah={singlePersonSekolah}
+                                    />
+                                  )}
                                 </div>
                                 <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
-                                  <button
-                                    type='submit'
-                                    className='text-sm text-userWhite bg-user2 py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user1 ml-2'
+                                  <span
+                                    onClick={() => {
+                                      setModalBegin(false);
+                                    }}
+                                    className='text-sm text-userBlack bg-userWhite py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user5 ml-2'
                                   >
-                                    Hantar
-                                  </button>
+                                    Tutup
+                                  </span>
+                                  {singlePersonSekolah.tarikhMelaksanakanBegin ? null : (
+                                    <button
+                                      type='submit'
+                                      className='text-sm text-userWhite bg-user2 py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user1 ml-2'
+                                    >
+                                      Hantar
+                                    </button>
+                                  )}
                                 </div>
                               </form>
                             </div>
