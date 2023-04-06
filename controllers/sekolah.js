@@ -219,6 +219,7 @@ const getAllPersonSekolah = async (req, res) => {
               _id: '$sekolah._id',
               namaSekolah: '$nama',
               kodSekolah: '$kodSekolah',
+              jenisFasiliti: 1,
               nama: '$sekolah.nama',
               noKp: '$sekolah.noKp',
               kodJantina: '$sekolah.kodJantina',
