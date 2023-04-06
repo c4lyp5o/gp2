@@ -822,82 +822,87 @@ function UserSekolah() {
                                   : 'tidak perlu KOTAK'}
                               </Link>
                             </td> */}
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                            <button
-                              onClick={() => {
-                                setModalBegin({
-                                  ...modalBegin,
-                                  [singlePersonSekolah._id]: true,
-                                });
-                              }}
-                              className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
-                            >
-                              {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                <p className='text-xs text-userBlack text-center flex items-center'>
-                                  Selesai
-                                  <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                </p>
-                              ) : (
-                                <p className='text-xs text-userBlack text-center flex items-center'>
-                                  Tarikh Pelaksanaan
-                                  <FaTimesCircle className='text-user9 inline-flex text-center ml-1' />
-                                </p>
-                              )}
-                            </button>
-                            <div
-                              className={`${
-                                modalBegin[singlePersonSekolah._id]
-                                  ? 'block p-2 px-8 overflow-y-auto'
-                                  : 'hidden '
-                              } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md m-2`}
-                            >
-                              <form onSubmit={handleSubmit}>
-                                <p className='flex justify-center text-lg font-bold border-b border-b-user1 py-3'>
-                                  Program BEGIN
-                                </p>
-                                <p className='flex whitespace-pre-wrap pt-3'>
-                                  Tarikh {singlePersonSekolah.nama} melaksanakan
-                                  Aktiviti BEGIN ?
-                                </p>
-                                <div className='grid justify-center'>
-                                  {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                    <div className='flex justify-center mt-3'>
-                                      <p className='text-center text-base font-medium'>
-                                        YA , Pada Tarikh{' '}
-                                        <span className='text-user2 text-xl font-semibold'>
-                                          {moment(
-                                            singlePersonSekolah.tarikhMelaksanakanBegin
-                                          ).format('DD/MM/YYYY')}
-                                        </span>
-                                      </p>
-                                    </div>
-                                  ) : (
-                                    <TarikhBegin
-                                      singlePersonSekolah={singlePersonSekolah}
-                                    />
-                                  )}
-                                </div>
-                                <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
-                                  <span
-                                    onClick={() => {
-                                      setModalBegin(false);
-                                    }}
-                                    className='text-sm text-userBlack bg-userWhite py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user5 ml-2'
-                                  >
-                                    Tutup
-                                  </span>
-                                  {singlePersonSekolah.tarikhMelaksanakanBegin ? null : (
-                                    <button
-                                      type='submit'
-                                      className='text-sm text-userWhite bg-user2 py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user1 ml-2'
+                          {singlePersonSekolah.jenisFasiliti ===
+                          'sekolah-rendah' ? (
+                            <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                              <button
+                                onClick={() => {
+                                  setModalBegin({
+                                    ...modalBegin,
+                                    [singlePersonSekolah._id]: true,
+                                  });
+                                }}
+                                className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                              >
+                                {singlePersonSekolah.tarikhMelaksanakanBegin ? (
+                                  <p className='text-xs text-userBlack text-center flex items-center'>
+                                    Selesai
+                                    <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                  </p>
+                                ) : (
+                                  <p className='text-xs text-userBlack text-center flex items-center'>
+                                    Tarikh Pelaksanaan
+                                    <FaTimesCircle className='text-user9 inline-flex text-center ml-1' />
+                                  </p>
+                                )}
+                              </button>
+                              <div
+                                className={`${
+                                  modalBegin[singlePersonSekolah._id]
+                                    ? 'block p-2 px-8 overflow-y-auto'
+                                    : 'hidden '
+                                } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                              >
+                                <form onSubmit={handleSubmit}>
+                                  <p className='flex justify-center text-lg font-bold border-b border-b-user1 py-3'>
+                                    Program BEGIN
+                                  </p>
+                                  <p className='flex whitespace-pre-wrap pt-3'>
+                                    Tarikh {singlePersonSekolah.nama}{' '}
+                                    melaksanakan Aktiviti BEGIN ?
+                                  </p>
+                                  <div className='grid justify-center'>
+                                    {singlePersonSekolah.tarikhMelaksanakanBegin ? (
+                                      <div className='flex justify-center mt-3'>
+                                        <p className='text-center text-base font-medium'>
+                                          YA , Pada Tarikh{' '}
+                                          <span className='text-user2 text-xl font-semibold'>
+                                            {moment(
+                                              singlePersonSekolah.tarikhMelaksanakanBegin
+                                            ).format('DD/MM/YYYY')}
+                                          </span>
+                                        </p>
+                                      </div>
+                                    ) : (
+                                      <TarikhBegin
+                                        singlePersonSekolah={
+                                          singlePersonSekolah
+                                        }
+                                      />
+                                    )}
+                                  </div>
+                                  <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
+                                    <span
+                                      onClick={() => {
+                                        setModalBegin(false);
+                                      }}
+                                      className='text-sm text-userBlack bg-userWhite py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user5 ml-2'
                                     >
-                                      Hantar
-                                    </button>
-                                  )}
-                                </div>
-                              </form>
-                            </div>
-                          </td>
+                                      Tutup
+                                    </span>
+                                    {singlePersonSekolah.tarikhMelaksanakanBegin ? null : (
+                                      <button
+                                        type='submit'
+                                        className='text-sm text-userWhite bg-user2 py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user1 ml-2'
+                                      >
+                                        Hantar
+                                      </button>
+                                    )}
+                                  </div>
+                                </form>
+                              </div>
+                            </td>
+                          ) : null}
                         </tr>
                       </tbody>
                     </>
