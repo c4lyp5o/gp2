@@ -21,6 +21,7 @@ const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
 const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
+const insertToSekolah = require('./helpers/insertToSekolah');
 const { logger } = require('../logs/logger');
 
 // helper
@@ -1703,10 +1704,18 @@ const getData = async (req, res) => {
               logger.info(
                 `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
               );
+              // send response registered sekolah first so that client will not wait too long on loading
               res.status(200).json(dataCreatedSRSM);
-              setTimeout(async () => {
-                console.log('lepas send sekolah berjaya run this function');
-              }, 10000);
+
+              // now we filter the pelajar to only include current sesi
+              const allSesiPelajar =
+                data['SENARAI MURID MENGIKUT KELAS / INSTITUSI'];
+              const currentSesiPelajar = allSesiPelajar.filter((sp) => {
+                return sp.SESI_TAKWIM === sesiTakwimSekolah();
+              });
+
+              // calling insertion function to collection sekolahs
+              insertToSekolah(dataCreatedSRSM, currentSesiPelajar);
               return;
             } catch (error) {
               return res.status(503).json({ msg: error.message });
