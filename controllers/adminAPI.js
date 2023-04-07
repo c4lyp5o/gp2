@@ -20,7 +20,7 @@ const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
-const sesiTahunSekolahToQuery = require('../lib/sesiTahunSekolahToQuery');
+const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const { logger } = require('../logs/logger');
 
 // helper
@@ -526,7 +526,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-        // sesiTahunSekolah: sesiTahunSekolahToQuery(), // activate this later when full integration happen
+        // sesiTakwimSekolah: sesiTakwimSekolah(), // activate this later when full integration happen
       });
       break;
     case 'sekolah-menengah':
@@ -534,7 +534,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-        // sesiTahunSekolah: sesiTahunSekolahToQuery(), // activate this later when full integration happen
+        // sesiTakwimSekolah: sesiTakwimSekolah(), // activate this later when full integration happen
       });
       break;
     case 'sr-sm-all':
@@ -1683,7 +1683,7 @@ const getData = async (req, res) => {
               jenisFasiliti: theType,
               createdByDaerah: daerah,
               createdByNegeri: negeri,
-              sesiTahunSekolah: new Date().getFullYear(),
+              sesiTakwimSekolah: sesiTakwimSekolah(),
             };
             try {
               const agent = new https.Agent({
@@ -1703,7 +1703,11 @@ const getData = async (req, res) => {
               logger.info(
                 `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
               );
-              return res.status(200).json(dataCreatedSRSM);
+              res.status(200).json(dataCreatedSRSM);
+              setTimeout(async () => {
+                console.log('lepas send sekolah berjaya run this function');
+              }, 10000);
+              return;
             } catch (error) {
               return res.status(503).json({ msg: error.message });
             }
@@ -3288,7 +3292,21 @@ const processSekolahQuery = async (req, res) => {
       }
       const queryResultSR = { SENARAI_INSTITUSI };
 
-      return res.status(200).json(queryResultSR);
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSR = {
+        SENARAI_INSTITUSI: queryResultSR.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSR);
     }
     if (type === 'sekolah-menengah') {
       let SENARAI_INSTITUSI = [];
@@ -3314,7 +3332,21 @@ const processSekolahQuery = async (req, res) => {
       }
       const queryResultSM = { SENARAI_INSTITUSI };
 
-      return res.status(200).json(queryResultSM);
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSM = {
+        SENARAI_INSTITUSI: queryResultSM.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSM);
     }
   }
   if (
@@ -3333,7 +3365,22 @@ const processSekolahQuery = async (req, res) => {
           APIKEY: process.env.MOEIS_APIKEY,
         },
       });
-      return res.status(200).json(data);
+
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSRSM = {
+        SENARAI_INSTITUSI: data.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSRSM);
     } catch (error) {
       return res.status(503).json({ msg: error.message });
     }
