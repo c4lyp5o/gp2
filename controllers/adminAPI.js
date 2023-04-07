@@ -3292,7 +3292,21 @@ const processSekolahQuery = async (req, res) => {
       }
       const queryResultSR = { SENARAI_INSTITUSI };
 
-      return res.status(200).json(queryResultSR);
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSR = {
+        SENARAI_INSTITUSI: queryResultSR.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSR);
     }
     if (type === 'sekolah-menengah') {
       let SENARAI_INSTITUSI = [];
@@ -3318,7 +3332,21 @@ const processSekolahQuery = async (req, res) => {
       }
       const queryResultSM = { SENARAI_INSTITUSI };
 
-      return res.status(200).json(queryResultSM);
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSM = {
+        SENARAI_INSTITUSI: queryResultSM.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSM);
     }
   }
   if (
@@ -3337,7 +3365,22 @@ const processSekolahQuery = async (req, res) => {
           APIKEY: process.env.MOEIS_APIKEY,
         },
       });
-      return res.status(200).json(data);
+
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSRSM = {
+        SENARAI_INSTITUSI: data.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSRSM);
     } catch (error) {
       return res.status(503).json({ msg: error.message });
     }
