@@ -124,7 +124,7 @@ function UserUmum(/*{ sekolahIdc }*/) {
     setResultPilih(resultFilter);
   }, [pilih]);
 
-  // scrollBawah if resultPilih > 1
+  // scrollBawah if resultPilih > 0
   const scrollBawah = () => {
     bawahRef.current?.scrollIntoView({ behavior: 'smooth' });
   };

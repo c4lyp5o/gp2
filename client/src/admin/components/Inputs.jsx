@@ -950,7 +950,8 @@ export function InputFacility(props) {
                                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                                 type='text'
                                 value={props.kodTastadTengah}
-                                pattern='[0-9]{2}'
+                                pattern='[0-9]+'
+                                minLength='2'
                                 maxLength='2'
                                 onChange={(e) => {
                                   const re = /^[0-9\b]+$/;
@@ -978,6 +979,7 @@ export function InputFacility(props) {
                                     ? 'K'
                                     : 'S'
                                 }
+                                disabled={true}
                               />
                             </div>
                             <div>
@@ -986,7 +988,8 @@ export function InputFacility(props) {
                                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                                 type='text'
                                 value={props.kodTastadHujung}
-                                pattern='[0-9]{3}'
+                                pattern='[0-9]+'
+                                minLength='1'
                                 maxLength='3'
                                 onChange={(e) => {
                                   const re = /^[0-9\b]+$/;
@@ -1037,17 +1040,6 @@ export function InputFacility(props) {
                           </span>
                         </p>
                         <div className='grid grid-cols-2 mb-3'>
-                          <label htmlFor='nama'>Ya</label>
-                          <input
-                            required
-                            type='radio'
-                            id='act-stat'
-                            name='checkbox'
-                            value='kps'
-                            onChange={(e) =>
-                              props.setJenisPerkhidmatanSekolah(e.target.value)
-                            }
-                          />
                           <label htmlFor='nama'>Tidak</label>
                           <input
                             required
@@ -1055,6 +1047,17 @@ export function InputFacility(props) {
                             id='act-stat'
                             name='checkbox'
                             value='kpb'
+                            onChange={(e) =>
+                              props.setJenisPerkhidmatanSekolah(e.target.value)
+                            }
+                          />
+                          <label htmlFor='nama'>Ya</label>
+                          <input
+                            required
+                            type='radio'
+                            id='act-stat'
+                            name='checkbox'
+                            value='kps'
                             onChange={(e) =>
                               props.setJenisPerkhidmatanSekolah(e.target.value)
                             }
@@ -3984,6 +3987,9 @@ export function InputKpEditKPBMPB(props) {
                   delete props.editedEntity.kodKkiaKdHandler;
                   delete props.editedEntity.handlerTastad;
                   delete props.editedEntity.kodTastadHandler;
+                  delete props.editedEntity.handlerSR;
+                  delete props.editedEntity.handlerSM;
+                  delete props.editedEntity.kodSekolahHandler;
                 }}
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               >

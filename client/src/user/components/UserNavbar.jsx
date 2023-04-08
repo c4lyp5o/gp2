@@ -10,7 +10,6 @@ function UserNavbar() {
   const [showLinks, setShowLinks] = useState(false);
   const [showRetenSubMenu, setShowRetenSubMenu] = useState(false);
   const [showCarianSubMenu, setShowCarianSubMenu] = useState(false);
-  const [showGenerateSubMenu, setShowGenerateSubMenu] = useState(false);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
@@ -19,18 +18,10 @@ function UserNavbar() {
   const toggleRetenSubMenu = () => {
     setShowRetenSubMenu(!showRetenSubMenu);
     setShowCarianSubMenu(false);
-    setShowGenerateSubMenu(false);
   };
 
   const toggleCarianSubMenu = () => {
     setShowCarianSubMenu(!showCarianSubMenu);
-    setShowRetenSubMenu(false);
-    setShowGenerateSubMenu(false);
-  };
-
-  const toggleGenerateSubMenu = () => {
-    setShowGenerateSubMenu(!showGenerateSubMenu);
-    setShowCarianSubMenu(false);
     setShowRetenSubMenu(false);
   };
 
@@ -76,7 +67,7 @@ function UserNavbar() {
               onClick={() => {
                 setShowLinks(!showLinks);
                 setShowRetenSubMenu(false);
-                setShowGenerateSubMenu(false);
+                setShowCarianSubMenu(false);
               }}
               className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
             >
@@ -87,7 +78,7 @@ function UserNavbar() {
               onClick={() => {
                 setShowLinks(!showLinks);
                 setShowRetenSubMenu(false);
-                setShowGenerateSubMenu(false);
+                setShowCarianSubMenu(false);
               }}
               className={({ isActive }) =>
                 isActive
@@ -123,7 +114,6 @@ function UserNavbar() {
                   to='umum'
                   onClick={() => {
                     setShowLinks(!showLinks);
-                    setShowGenerateSubMenu(false);
                   }}
                   className={({ isActive }) =>
                     isActive
@@ -141,7 +131,6 @@ function UserNavbar() {
                     to='senarai-sekolah'
                     onClick={() => {
                       setShowLinks(!showLinks);
-                      setShowGenerateSubMenu(false);
                     }}
                     className={({ isActive }) =>
                       isActive
@@ -156,7 +145,6 @@ function UserNavbar() {
                   to='promosi-individu'
                   onClick={() => {
                     setShowLinks(!showLinks);
-                    setShowGenerateSubMenu(false);
                   }}
                   className={({ isActive }) =>
                     isActive
@@ -171,7 +159,6 @@ function UserNavbar() {
                     to='promosi-klinik'
                     onClick={() => {
                       setShowLinks(!showLinks);
-                      setShowGenerateSubMenu(false);
                     }}
                     className={({ isActive }) =>
                       isActive
@@ -188,7 +175,6 @@ function UserNavbar() {
                     to='kohort'
                     onClick={() => {
                       setShowLinks(!showLinks);
-                      setShowGenerateSubMenu(false);
                     }}
                     className={({ isActive }) =>
                       isActive
@@ -282,9 +268,6 @@ function UserNavbar() {
                   to='carian/pesakit'
                   onClick={() => {
                     setShowLinks(!showLinks);
-                    setShowCarianSubMenu(false);
-                    setShowRetenSubMenu(false);
-                    setShowGenerateSubMenu(false);
                   }}
                   className={({ isActive }) =>
                     isActive
@@ -298,9 +281,6 @@ function UserNavbar() {
                   to='carian/promosi'
                   onClick={() => {
                     setShowLinks(!showLinks);
-                    setShowCarianSubMenu(false);
-                    setShowRetenSubMenu(false);
-                    setShowGenerateSubMenu(false);
                   }}
                   className={({ isActive }) =>
                     isActive
@@ -318,7 +298,6 @@ function UserNavbar() {
                 setShowLinks(!showLinks);
                 setShowRetenSubMenu(false);
                 setShowCarianSubMenu(false);
-                setShowGenerateSubMenu(false);
               }}
               className={({ isActive }) =>
                 isActive

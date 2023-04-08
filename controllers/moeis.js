@@ -1,6 +1,7 @@
 const https = require('https');
 const axios = require('axios');
 
+// GET /jpn
 const getJPNMOEIS = async (req, res) => {
   try {
     const agent = new https.Agent({
@@ -18,13 +19,15 @@ const getJPNMOEIS = async (req, res) => {
   }
 };
 
+// GET /sekolah
 const getSekolahMOEIS = async (req, res) => {
   const { jkod, katkod, pkod, opskod, stpm, jnskod, special } = req.query;
 
   const URLquery =
     process.env.MOEIS_INTEGRATION_URL_SEKOLAH +
     `?jkod=${jkod}` +
-    `${jnskod ? `&jnskod=${jnskod}` : ''}`;
+    `${jnskod ? `&jnskod=${jnskod}` : ''}` +
+    `${stpm ? `&stpm=${stpm}` : ''}`;
   try {
     const agent = new https.Agent({
       rejectUnauthorized: false,
@@ -70,23 +73,25 @@ const getSingleSekolahMOEIS = async (req, res) => {
 const getPelajarMOEIS = async (req, res) => {
   const { inid, pkid, statusoku } = req.query;
 
+  let URLquery = '';
+  if (inid) {
+    // query by inid
+    URLquery = process.env.MOEIS_INTEGRATION_URL_PELAJAR + `?inid=${inid}`;
+  }
+  if (pkid) {
+    // query by pkid
+    URLquery = process.env.MOEIS_INTEGRATION_URL_PELAJAR + `?pkid=${pkid}`;
+  }
   try {
     const agent = new https.Agent({
       rejectUnauthorized: false,
     });
-    const { data } = await axios.get(
-      process.env.MOEIS_INTEGRATION_URL_PELAJAR +
-        `?inid=${inid}
-        ${pkid ? `&pkid=${pkid}` : ''}${
-          statusoku ? `&statusoku=${statusoku}` : ''
-        }`,
-      {
-        httpsAgent: agent,
-        headers: {
-          APIKEY: process.env.MOEIS_APIKEY,
-        },
-      }
-    );
+    const { data } = await axios.get(URLquery, {
+      httpsAgent: agent,
+      headers: {
+        APIKEY: process.env.MOEIS_APIKEY,
+      },
+    });
     return res.status(200).json(data);
   } catch (error) {
     return res.status(503).json({ msg: error.message });
