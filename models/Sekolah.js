@@ -77,6 +77,10 @@ const SekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  kesSelesaiMmi: {
+    type: Boolean,
+    default: false,
+  },
   // pemeriksaan -------------------------------------------------------
   pemeriksaanSekolah: {
     type: mongoose.Schema.Types.ObjectId,

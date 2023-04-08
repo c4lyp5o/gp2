@@ -201,7 +201,8 @@ function UserFormSekolahPemeriksaan() {
   const [sumGigiKekal, setSumGigiKekal] = useState(0);
   const [sumGigiKekalE, setSumGigiKekalE] = useState(0);
   //kes selesai
-  const [kesSelesai, setKesSelesai] = useState('');
+  const [kesSelesai, setKesSelesai] = useState(false);
+  const [kesSelesaiIcdas, setKesSelesaiIcdas] = useState(false);
   //kotak
   const [statusM, setStatusM] = useState('');
   const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
@@ -724,6 +725,9 @@ function UserFormSekolahPemeriksaan() {
           setKesSelesai(
             data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesai
           );
+          setKesSelesaiIcdas(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesaiIcdas
+          );
           // datepicker issue
           setTarikhPemeriksaanSemasaDP(
             new Date(
@@ -810,13 +814,13 @@ function UserFormSekolahPemeriksaan() {
     }
     let statusRawatan = '';
     if (
-      kesSelesai !== 'ya-kes-selesai' ||
+      kesSelesai !== true ||
       engganPemeriksaan !== 'ya-enggan-pemeriksaan' ||
       tidakHadirPemeriksaan !== 'ya-kehadiran-pemeriksaan'
     ) {
       statusRawatan = 'belum selesai';
     }
-    if (kesSelesai === 'ya-kes-selesai') {
+    if (kesSelesai === true) {
       statusRawatan = 'selesai';
     }
     if (engganPemeriksaan === 'ya-enggan-pemeriksaan') {
@@ -824,6 +828,10 @@ function UserFormSekolahPemeriksaan() {
     }
     if (tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan') {
       statusRawatan = 'tidak hadir';
+    }
+    let kesSelesaiMmi = false;
+    if (kesSelesaiIcdas === true) {
+      kesSelesaiMmi = true;
     }
     const { nama, namaKelas, namaSekolah, kodSekolah } = singlePersonSekolah;
     // return;
@@ -839,6 +847,7 @@ function UserFormSekolahPemeriksaan() {
               namaSekolah,
               kodSekolah,
               statusRawatan,
+              kesSelesaiMmi,
               engganTidakHadirPemeriksaan,
               engganPemeriksaan,
               kebenaranPemeriksaan,
@@ -916,6 +925,7 @@ function UserFormSekolahPemeriksaan() {
               melaksanakanSaringanMerokok,
               bersediaDirujuk,
               kesSelesai,
+              kesSelesaiIcdas,
             },
             {
               headers: {
@@ -953,6 +963,7 @@ function UserFormSekolahPemeriksaan() {
             {
               createdByUsername,
               statusRawatan,
+              kesSelesaiMmi,
               engganTidakHadirPemeriksaan,
               engganPemeriksaan,
               kebenaranPemeriksaan,
@@ -1030,6 +1041,7 @@ function UserFormSekolahPemeriksaan() {
               melaksanakanSaringanMerokok,
               bersediaDirujuk,
               kesSelesai,
+              kesSelesaiIcdas,
             },
             {
               headers: {
@@ -1298,7 +1310,7 @@ function UserFormSekolahPemeriksaan() {
                           {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
                             <p className='mt-2'>
                               Adakah murid <strong>DIBERI</strong> kebenaran
-                              rawatan/pemeriksaan daripada ibu bapa/penjaga?
+                              rawatan daripada ibu bapa/penjaga?
                             </p>
                           ) : null}
                           {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
@@ -4131,7 +4143,7 @@ function UserFormSekolahPemeriksaan() {
                       <h4 className='font-bold col-span-2 flex pl-5'>
                         Kes Selesai<span className='text-user6'>*</span>
                       </h4>
-                      <div className='flex pl-5 items-center'>
+                      {/* <div className='flex pl-5 items-center'>
                         <input
                           disabled={isDisabled}
                           required
@@ -4181,6 +4193,52 @@ function UserFormSekolahPemeriksaan() {
                           className='mx-2 text-sm font-m'
                         >
                           Tidak
+                        </label>
+                      </div> */}
+                      <div className='flex pl-5 items-center'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='kes-selesai'
+                          id='kes-selesai'
+                          checked={kesSelesai}
+                          onChange={() => {
+                            setKesSelesai(!kesSelesai);
+                            setConfirmData({
+                              ...confirmData,
+                              kesSelesai: !kesSelesai,
+                            });
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='kes-selesai'
+                          className='mx-2 text-sm font-m'
+                        >
+                          kes selesai
+                        </label>
+                      </div>
+                      <div className='flex pl-5 items-center'>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='kes-selesai-mmi'
+                          id='kes-selesai-mmi'
+                          checked={kesSelesaiIcdas}
+                          onChange={() => {
+                            setKesSelesaiIcdas(!kesSelesaiIcdas);
+                            setConfirmData({
+                              ...confirmData,
+                              kesSelesaiIcdas: !kesSelesaiIcdas,
+                            });
+                          }}
+                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                        />
+                        <label
+                          htmlFor='kes-selesai-mmi'
+                          className='mx-2 text-sm font-m'
+                        >
+                          kes selesai MMI
                         </label>
                       </div>
                     </article>

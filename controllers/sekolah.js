@@ -345,6 +345,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       $set: {
         pemeriksaanSekolah: pemeriksaanSekolah._id,
         statusRawatan: req.body.statusRawatan,
+        kesSelesaiMmi: req.body.kesSelesaiMmi,
       },
     },
     { new: true }
@@ -404,7 +405,10 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
     { _id: req.params.personSekolahId },
     {
       $push: { rawatanSekolah: rawatanSekolah._id },
-      $set: { statusRawatan: req.body.statusRawatan },
+      $set: {
+        statusRawatan: req.body.statusRawatan,
+        kesSelesaiMmi: req.body.kesSelesaiMmi,
+      },
     },
     { new: true }
   );

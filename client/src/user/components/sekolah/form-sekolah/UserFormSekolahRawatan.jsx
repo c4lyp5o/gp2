@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaCheckCircle } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
@@ -241,6 +241,10 @@ function UserFormSekolahRawatan() {
     if (kesSelesaiSekolahRawatan === true) {
       statusRawatan = 'selesai';
     }
+    let kesSelesaiMmi = false;
+    if (kesSelesaiIcdasSekolahRawatan === true) {
+      kesSelesaiMmi = true;
+    }
     await toast
       .promise(
         axios.post(
@@ -248,6 +252,7 @@ function UserFormSekolahRawatan() {
           {
             createdByUsername,
             statusRawatan,
+            kesSelesaiMmi,
             tarikhRawatanSemasa,
             engganTidakHadirRawatan,
             engganRawatan,
@@ -1705,24 +1710,28 @@ function UserFormSekolahRawatan() {
                       <h4 className='font-bold flex flex-row pl-5'>
                         Kes Selesai
                       </h4>
-                      <div className='flex flex-row items-center pl-5 m-2'>
-                        <input
-                          type='checkbox'
-                          name='kes-selesai-penyata-akhir-2'
-                          id='kes-selesai-penyata-akhir-2'
-                          checked={kesSelesaiSekolahRawatan}
-                          onChange={() => {
-                            setKesSelesaiSekolahRawatan(
-                              !kesSelesaiSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              kesSelesaiSekolahRawatan:
-                                !kesSelesaiSekolahRawatan,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        {singlePersonSekolah.statusRawatan === 'selesai' ? (
+                          <FaCheckCircle className='text-user7 text-center' />
+                        ) : (
+                          <input
+                            type='checkbox'
+                            name='kes-selesai-penyata-akhir-2'
+                            id='kes-selesai-penyata-akhir-2'
+                            checked={kesSelesaiSekolahRawatan}
+                            onChange={() => {
+                              setKesSelesaiSekolahRawatan(
+                                !kesSelesaiSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                kesSelesaiSekolahRawatan:
+                                  !kesSelesaiSekolahRawatan,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                        )}
                         <label
                           htmlFor='kes-selesai-penyata-akhir-2'
                           className='mx-2 text-sm font-m'
@@ -1730,24 +1739,28 @@ function UserFormSekolahRawatan() {
                           kes selesai
                         </label>
                       </div>
-                      <div className='flex flex-row items-center'>
-                        <input
-                          type='checkbox'
-                          name='kes-selesai-icdas-penyata-akhir-2'
-                          id='kes-selesai-icdas-penyata-akhir-2'
-                          checked={kesSelesaiIcdasSekolahRawatan}
-                          onChange={() => {
-                            setKesSelesaiIcdasSekolahRawatan(
-                              !kesSelesaiIcdasSekolahRawatan
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              kesSelesaiIcdasSekolahRawatan:
-                                !kesSelesaiIcdasSekolahRawatan,
-                            });
-                          }}
-                          className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                        />
+                      <div className='flex flex-row items-center pl-5 m-1'>
+                        {singlePersonSekolah.kesSelesaiMmi === true ? (
+                          <FaCheckCircle className='text-user7 text-center' />
+                        ) : (
+                          <input
+                            type='checkbox'
+                            name='kes-selesai-icdas-penyata-akhir-2'
+                            id='kes-selesai-icdas-penyata-akhir-2'
+                            checked={kesSelesaiIcdasSekolahRawatan}
+                            onChange={() => {
+                              setKesSelesaiIcdasSekolahRawatan(
+                                !kesSelesaiIcdasSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                kesSelesaiIcdasSekolahRawatan:
+                                  !kesSelesaiIcdasSekolahRawatan,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                        )}
                         <label
                           htmlFor='kes-selesai-icdas-penyata-akhir-2'
                           className='mx-2 text-sm font-m'

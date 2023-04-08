@@ -656,11 +656,8 @@ const ConfirmModal = ({ children, data }) => {
                             Kes Selesai:
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            {data.kesSelesai === 'ya-kes-selesai' ? (
+                            {data.kesSelesai === true ? (
                               <p className='flex flex-row'>Ya, Kes Selesai</p>
-                            ) : null}
-                            {data.kesSelesai === 'tidak-kes-selesai' ? (
-                              <p className='flex flex-row'>Tidak Kes Selesai</p>
                             ) : null}
                           </p>
                         </div>
