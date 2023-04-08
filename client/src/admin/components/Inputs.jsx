@@ -1040,17 +1040,6 @@ export function InputFacility(props) {
                           </span>
                         </p>
                         <div className='grid grid-cols-2 mb-3'>
-                          <label htmlFor='nama'>Ya</label>
-                          <input
-                            required
-                            type='radio'
-                            id='act-stat'
-                            name='checkbox'
-                            value='kps'
-                            onChange={(e) =>
-                              props.setJenisPerkhidmatanSekolah(e.target.value)
-                            }
-                          />
                           <label htmlFor='nama'>Tidak</label>
                           <input
                             required
@@ -1058,6 +1047,17 @@ export function InputFacility(props) {
                             id='act-stat'
                             name='checkbox'
                             value='kpb'
+                            onChange={(e) =>
+                              props.setJenisPerkhidmatanSekolah(e.target.value)
+                            }
+                          />
+                          <label htmlFor='nama'>Ya</label>
+                          <input
+                            required
+                            type='radio'
+                            id='act-stat'
+                            name='checkbox'
+                            value='kps'
                             onChange={(e) =>
                               props.setJenisPerkhidmatanSekolah(e.target.value)
                             }

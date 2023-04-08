@@ -41,9 +41,9 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  sesiTahunSekolah: {
-    type: Number,
-    default: 0,
+  sesiTakwimSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
   jenisPerkhidmatanSekolah: {
     type: String,
