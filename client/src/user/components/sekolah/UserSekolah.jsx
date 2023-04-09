@@ -4,9 +4,10 @@ import axios from 'axios';
 import moment from 'moment';
 import {
   FaCheckCircle,
-  FaTimesCircle,
-  FaCaretUp,
-  FaCaretDown,
+  FaCircle,
+  FaAdjust,
+  FaRegCircle,
+  FaTooth,
   FaMinus,
   FaPlus,
 } from 'react-icons/fa';
@@ -240,13 +241,13 @@ function UserSekolah() {
   // }, [fasilitiSekolah]);
 
   // on tab focus reload data
-  // useEffect(() => {
-  //   window.addEventListener('focus', setReloadState);
-  //   setReloadState(!reloadState);
-  //   return () => {
-  //     window.removeEventListener('focus', setReloadState);
-  //   };
-  // }, []);
+  useEffect(() => {
+    window.addEventListener('focus', setReloadState);
+    setReloadState(!reloadState);
+    return () => {
+      window.removeEventListener('focus', setReloadState);
+    };
+  }, []);
 
   // specific refreshTimer for this UserSekolah special case
   useEffect(() => {
@@ -453,22 +454,22 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   BIL
                 </th>
-                <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
+                <th className='outline outline-1 outline-offset-1 py-1 px-2 w-96'>
                   NAMA
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap w-72'>
                   OPERATOR PEMERIKSAAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-5 py-1 w-28'>
+                <th className='outline outline-1 outline-offset-1 px-5 py-1 w-36'>
                   STATUS
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   PEMERIKSAAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   RAWATAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   AKTIVITI BEGIN
                 </th>
               </tr>
@@ -500,8 +501,19 @@ function UserSekolah() {
                                   .createdByUsername
                               : null}
                           </td>
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 whitespace-nowrap'>
                             {singlePersonSekolah.statusRawatan}
+                            {singlePersonSekolah.statusRawatan === 'selesai' ? (
+                              <FaCircle className='text-user7 ml-1 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'belum selesai' ? (
+                              <FaAdjust className='text-user8 ml-1 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'belum mula' ? (
+                              <FaRegCircle className='text-user8 ml-1 inline-flex' />
+                            ) : (
+                              <FaCircle className='text-user9 ml-1 inline-flex' />
+                            )}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                             <Link
@@ -541,14 +553,20 @@ function UserSekolah() {
                                 className={`${
                                   singlePersonSekolah.statusRawatan ===
                                   'selesai'
-                                    ? ' bg-user7 shadow-md'
+                                    ? ' bg-user7 shadow-md hover:bg-user8'
                                     : !singlePersonSekolah.pemeriksaanSekolah
                                     ? 'pointer-events-none bg-user4 shadow-none'
+                                    : singlePersonSekolah.statusRawatan !==
+                                      'belum selesai'
+                                    ? 'pointer-events-none bg-user9 shadow-none'
                                     : 'bg-user3 hover:bg-user2 shadow-md'
                                 } text-userWhite rounded-sm  p-1 m-1 transition-all`}
                               >
                                 {singlePersonSekolah.statusRawatan === 'selesai'
                                   ? 'selesai rawatan'
+                                  : singlePersonSekolah.statusRawatan !==
+                                    'belum selesai'
+                                  ? singlePersonSekolah.statusRawatan
                                   : 'tambah rawatan'}
                               </Link>
                             ) : (
@@ -645,7 +663,8 @@ function UserSekolah() {
                                             </h1>
                                             {accordian === index && (
                                               <div className='flex flex-col mx-1 px-1'>
-                                                <span className='text-xs font-semibold text-start'>
+                                                <span className='text-xs font-semibold text-start flex flex-row items-center'>
+                                                  <FaTooth className='mr-1' />{' '}
                                                   {rawatan.createdByUsername}
                                                 </span>
                                                 {rawatan.cabutDesidusSekolahRawatan >=
@@ -832,7 +851,7 @@ function UserSekolah() {
                                     [singlePersonSekolah._id]: true,
                                   });
                                 }}
-                                className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
                               >
                                 {singlePersonSekolah.tarikhMelaksanakanBegin ? (
                                   <p className='text-xs text-userBlack text-center flex items-center'>
@@ -842,7 +861,6 @@ function UserSekolah() {
                                 ) : (
                                   <p className='text-xs text-userBlack text-center flex items-center'>
                                     Tarikh Pelaksanaan
-                                    <FaTimesCircle className='text-user9 inline-flex text-center ml-1' />
                                   </p>
                                 )}
                               </button>
