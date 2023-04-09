@@ -58,7 +58,7 @@ const SekolahSchema = new mongoose.Schema({
   // previously namaKelas
   kelasPelajar: {
     type: String,
-    default: 'MSSING kelas pelajar',
+    default: 'MSSING kelas pelajar', // pending
   },
   //previously kodJantina
   jantina: {
@@ -67,19 +67,19 @@ const SekolahSchema = new mongoose.Schema({
   },
   tarikhLahir: {
     type: String,
-    default: 'MSSING tarikh lahir',
+    default: 'MSSING tarikh_lahir',
   },
   umur: {
-    type: String,
-    default: 'MSSING umur',
+    type: Number,
+    default: 0,
   },
   kaum: {
     type: String,
-    default: 'MSSING kaum',
+    default: 'MSSING keturunan',
   },
   tarafWarganegara: {
     type: String,
-    default: 'MISSING taraf warganegara',
+    default: 'MISSING taraf warganegara', // pending
   },
   // pemeriksaan -------------------------------------------------------
   pemeriksaanSekolah: {
