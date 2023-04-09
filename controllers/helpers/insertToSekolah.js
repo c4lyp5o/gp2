@@ -1,3 +1,5 @@
+const https = require('https');
+const axios = require('axios');
 const moment = require('moment');
 const Sekolah = require('../../models/Sekolah');
 const { logger } = require('../../logs/logger');
@@ -22,7 +24,7 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     kelasPelajar: '',
     jantina: '',
     tarikhLahir: '',
-    umur: '',
+    umur: 0,
     kaum: '',
     tarafWarganegara: '',
   };
@@ -47,6 +49,9 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     objPelajar.jantina = sp.JANTINA;
 
     try {
+      const agent = new https.Agent({
+        rejectUnauthorized: false,
+      });
       const { data } = await axios.get(
         process.env.MOEIS_INTEGRATION_URL_SINGLE_PELAJAR +
           `?id_individu=${sp.ID_INDIVIDU}`,
@@ -63,7 +68,8 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
       objPelajar.kaum = sp.keturunan;
       objPelajar.tarafWarganegara = sp.TBA_TARAF_WARGANEGARA; // PENDING
     } catch (error) {
-      logger.error(`[insertToSekolah] ${error}`);
+      logger.error(`[insertToSekolah] ${error.message}`);
+      return error.message;
     }
 
     allConvertedPelajar.push({ ...objPelajar });
