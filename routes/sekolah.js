@@ -11,6 +11,7 @@ const {
   createRawatanWithPushPersonSekolah,
   createKotakWithSetPersonSekolah,
   updateFasiliti,
+  updatePersonSekolah,
   updatePemeriksaanSekolah,
   updateKotakSekolah,
   queryPersonSekolah,
@@ -41,6 +42,7 @@ router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
 
 // PATCH
 router.route('/fasiliti/:fasilitiId').patch(updateFasiliti);
+router.route('/ubah/:personSekolahId').patch(updatePersonSekolah);
 router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);
