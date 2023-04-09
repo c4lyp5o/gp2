@@ -114,7 +114,7 @@ const getAllPersonSekolah = async (req, res) => {
       $match: {
         kodFasilitiHandler: kodFasiliti,
         kodSekolah: singleSekolahId,
-        // jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
     {
@@ -204,6 +204,7 @@ const getAllPersonSekolah = async (req, res) => {
                     statusRawatan: 1,
                     pemeriksaanSekolah: 1,
                     rawatanSekolah: 1,
+                    tarikhMelaksanakanBegin: 1,
                   },
                 },
               ],
@@ -218,6 +219,7 @@ const getAllPersonSekolah = async (req, res) => {
               _id: '$sekolah._id',
               namaSekolah: '$nama',
               kodSekolah: '$kodSekolah',
+              jenisFasiliti: 1,
               nama: '$sekolah.nama',
               noKp: '$sekolah.noKp',
               kodJantina: '$sekolah.kodJantina',
@@ -227,6 +229,7 @@ const getAllPersonSekolah = async (req, res) => {
               statusRawatan: '$sekolah.statusRawatan',
               pemeriksaanSekolah: '$sekolah.pemeriksaanSekolah',
               rawatanSekolah: '$sekolah.rawatanSekolah',
+              tarikhMelaksanakanBegin: '$sekolah.tarikhMelaksanakanBegin',
             },
           },
           {
@@ -342,6 +345,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       $set: {
         pemeriksaanSekolah: pemeriksaanSekolah._id,
         statusRawatan: req.body.statusRawatan,
+        kesSelesaiMmi: req.body.kesSelesaiMmi,
       },
     },
     { new: true }
@@ -401,7 +405,10 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
     { _id: req.params.personSekolahId },
     {
       $push: { rawatanSekolah: rawatanSekolah._id },
-      $set: { statusRawatan: req.body.statusRawatan },
+      $set: {
+        statusRawatan: req.body.statusRawatan,
+        kesSelesaiMmi: req.body.kesSelesaiMmi,
+      },
     },
     { new: true }
   );
@@ -465,6 +472,27 @@ const updateFasiliti = async (req, res) => {
   );
 
   res.status(201).json({ updatedFasiliti });
+};
+
+// PATCH /ubah/:personSekolahId
+const updatePersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
+    { _id: req.params.personSekolahId },
+    { $set: req.body },
+    { new: true }
+  );
+
+  if (!updatedPersonSekolah) {
+    return res
+      .status(404)
+      .json({ msg: `No document with id ${req.params.personSekolahId}` });
+  }
+
+  res.status(200).json({ updatedPersonSekolah });
 };
 
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
@@ -573,13 +601,14 @@ module.exports = {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
-  getAllPersonSekolah, // initiate discussion
+  getAllPersonSekolah,
   getSinglePersonSekolahWithPopulate,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
   createKotakWithSetPersonSekolah,
   updateFasiliti,
+  updatePersonSekolah,
   updatePemeriksaanSekolah,
   updateKotakSekolah,
   queryPersonSekolah,
