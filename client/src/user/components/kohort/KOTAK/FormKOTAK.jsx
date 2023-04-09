@@ -85,6 +85,7 @@ function UserFormKohortKOTAK() {
       filterDate: (date) => {
         return moment() > date;
       },
+      disabled: tarikh1 === '' ? true : false,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
@@ -100,6 +101,7 @@ function UserFormKohortKOTAK() {
       filterDate: (date) => {
         return moment() > date;
       },
+      disabled: tarikh2 === '' ? true : false,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
@@ -768,15 +770,11 @@ function UserFormKohortKOTAK() {
                             placeholder='0123456678'
                           />
                         </div>
-                        <div className='flex items-center flex-col lg:flex-row '>
+                        <div className='flex items-center flex-col lg:flex-row mx-2'>
                           <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
                             No. Tel 2:
-                            <span className='text-user6 text-xl font-semibold'>
-                              *
-                            </span>
                           </p>
                           <input
-                            required
                             type='text'
                             pattern='[0-9]+'
                             title='Nombor telefon'
@@ -794,15 +792,11 @@ function UserFormKohortKOTAK() {
                             placeholder='0123456678'
                           />
                         </div>
-                        <div className='flex items-center flex-col lg:flex-row '>
+                        <div className='flex items-center flex-col lg:flex-row mx-2'>
                           <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
                             No. Tel 3:
-                            <span className='text-user6 text-xl font-semibold'>
-                              *
-                            </span>
                           </p>
                           <input
-                            required
                             type='text'
                             pattern='[0-9]+'
                             title='Nombor telefon'
@@ -823,11 +817,10 @@ function UserFormKohortKOTAK() {
                       </div>
                     </article>
                   </div>
-
                   {dalamPemantauanKohort !== 'ya-dalam-pemantauan-kohort' ? (
                     <div className='col-span-2'>
-                      <article className='flex flex-col gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-bold flex flex-row pl-5 col-span-3'>
+                      <article className='grid grid-cols-[2fr_1fr] gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                        <h4 className='font-bold flex flex-row pl-5 col-span-2'>
                           tarikh intervensi dilaksanakan
                         </h4>
                         <div className='flex pl-5 justify-center'>
@@ -903,262 +896,256 @@ function UserFormKohortKOTAK() {
                             </div>
                           </div>
                         </div>
-                        {adaTiadaQTarikh1 === 'tiada-q-tarikh1' && (
-                          <div className='flex pl-5 justify-center'>
-                            <div className='flex items-center flex-col lg:flex-row'>
-                              <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                                Sesi 2:
-                                {tarikh2 && (
-                                  <span className='text-user6 text-xl font-semibold'>
-                                    *
-                                  </span>
-                                )}
-                              </p>
-                              <TarikhQ2 />
-                            </div>
-                            <div className='flex items-center flex-col lg:flex-row pl-5'>
+                        <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md row-span-3'>
+                          <h4 className='font-bold text-base flex flex-row pl-5'>
+                            jenis rokok<span className='text-user6'>*</span>
+                          </h4>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='rokok-biasa-kotak'
+                              id='rokok-biasa-kotak'
+                              required={isJenisRokokRequired}
+                              checked={rokokBiasaKotak}
+                              onChange={() => {
+                                setRokokBiasaKotak(!rokokBiasaKotak);
+                                setConfirmData({
+                                  ...confirmData,
+                                  rokokBiasaKotak: !rokokBiasaKotak,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='rokok-biasa-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              rokok biasa
+                            </label>
+                          </div>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='elektronik-vape-kotak'
+                              id='elektronik-vape-kotak'
+                              required={isJenisRokokRequired}
+                              checked={elektronikVapeKotak}
+                              onChange={() => {
+                                setElektronikVapeKotak(!elektronikVapeKotak);
+                                setConfirmData({
+                                  ...confirmData,
+                                  elektronikVapeKotak: !elektronikVapeKotak,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='elektronik-vape-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              peranti rokok elektronik
+                            </label>
+                          </div>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='shisha-kotak'
+                              id='shisha-kotak'
+                              required={isJenisRokokRequired}
+                              checked={shishaKotak}
+                              onChange={() => {
+                                setShishaKotak(!shishaKotak);
+                                setConfirmData({
+                                  ...confirmData,
+                                  shishaKotak: !shishaKotak,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='shisha-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              shisha
+                            </label>
+                          </div>
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              type='checkbox'
+                              name='lain-lain-kotak'
+                              id='lain-lain-kotak'
+                              required={isJenisRokokRequired}
+                              checked={lainLainKotak}
+                              onChange={() => {
+                                setLainLainKotak(!lainLainKotak);
+                                setConfirmData({
+                                  ...confirmData,
+                                  lainLainKotak: !lainLainKotak,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='lain-lain-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              lain-lain
+                            </label>
+                          </div>
+                        </article>
+                        <div className='flex pl-5 justify-center'>
+                          <div className='flex items-center flex-col lg:flex-row'>
+                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                              Sesi 2:
+                              {tarikh2 && (
+                                <span className='text-user6 text-xl font-semibold'>
+                                  *
+                                </span>
+                              )}
+                            </p>
+                            <TarikhQ2 />
+                          </div>
+                          <div className='flex items-center flex-col lg:flex-row pl-5'>
+                            <label
+                              htmlFor='ada-tiada-q-tarikh1'
+                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                            >
+                              tarikh rancang berhenti merokok :
+                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                required={tarikh2 ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh2'
+                                id='ada-q-tarikh2'
+                                value='ada-q-tarikh2'
+                                checked={
+                                  adaTiadaQTarikh2 === 'ada-q-tarikh2'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh2: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
                               <label
-                                htmlFor='ada-tiada-q-tarikh1'
-                                className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                                htmlFor='ada-q-tarikh2'
+                                className='m-2 text-xs sm:text-sm font-m'
                               >
-                                tarikh rancang berhenti merokok :
+                                ada
                               </label>
-                              <div className='flex items-center justify-center'>
-                                <input
-                                  required={tarikh2 ? true : false}
-                                  type='radio'
-                                  name='ada-tiada-q-tarikh2'
-                                  id='ada-q-tarikh2'
-                                  value='ada-q-tarikh2'
-                                  checked={
-                                    adaTiadaQTarikh2 === 'ada-q-tarikh2'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setAdaTiadaQTarikh2(e.target.value);
-                                    setConfirmData({
-                                      ...confirmData,
-                                      adaTiadaQTarikh2: e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='ada-q-tarikh2'
-                                  className='m-2 text-xs sm:text-sm font-m'
-                                >
-                                  ada
-                                </label>
-                                <input
-                                  required={tarikh2 ? true : false}
-                                  type='radio'
-                                  name='ada-tiada-q-tarikh2'
-                                  id='tiada-q-tarikh2'
-                                  value='tiada-q-tarikh2'
-                                  checked={
-                                    adaTiadaQTarikh2 === 'tiada-q-tarikh2'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setAdaTiadaQTarikh2(e.target.value);
-                                    setConfirmData({
-                                      ...confirmData,
-                                      adaTiadaQTarikh2: e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='tiada-q-tarikh2'
-                                  className='m-2 text-xs sm:text-sm font-m'
-                                >
-                                  tiada
-                                </label>
-                              </div>
+                              <input
+                                required={tarikh2 ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh2'
+                                id='tiada-q-tarikh2'
+                                value='tiada-q-tarikh2'
+                                checked={
+                                  adaTiadaQTarikh2 === 'tiada-q-tarikh2'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh2: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-q-tarikh2'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                tiada
+                              </label>
                             </div>
                           </div>
-                        )}
-                        {adaTiadaQTarikh2 === 'tiada-q-tarikh2' && (
-                          <div className='flex pl-5 justify-center'>
-                            <div className='flex items-center flex-col lg:flex-row'>
-                              <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                                Sesi 3:
-                                {tarikh3 && (
-                                  <span className='text-user6 text-xl font-semibold'>
-                                    *
-                                  </span>
-                                )}
-                              </p>
-                              <TarikhQ3 />
-                            </div>
-                            <div className='flex items-center flex-col lg:flex-row pl-5'>
+                        </div>
+                        <div className='flex pl-5 justify-center'>
+                          <div className='flex items-center flex-col lg:flex-row'>
+                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                              Sesi 3:
+                              {tarikh3 && (
+                                <span className='text-user6 text-xl font-semibold'>
+                                  *
+                                </span>
+                              )}
+                            </p>
+                            <TarikhQ3 />
+                          </div>
+                          <div className='flex items-center flex-col lg:flex-row pl-5'>
+                            <label
+                              htmlFor='ada-tiada-q-tarikh1'
+                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                            >
+                              tarikh rancang berhenti merokok :
+                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                required={tarikh3 ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh3'
+                                id='ada-q-tarikh3'
+                                value='ada-q-tarikh3'
+                                checked={
+                                  adaTiadaQTarikh3 === 'ada-q-tarikh3'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh3: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
                               <label
-                                htmlFor='ada-tiada-q-tarikh1'
-                                className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                                htmlFor='ada-q-tarikh3'
+                                className='m-2 text-xs sm:text-sm font-m'
                               >
-                                tarikh rancang berhenti merokok :
+                                ada
                               </label>
-                              <div className='flex items-center justify-center'>
-                                <input
-                                  required={tarikh3 ? true : false}
-                                  type='radio'
-                                  name='ada-tiada-q-tarikh3'
-                                  id='ada-q-tarikh3'
-                                  value='ada-q-tarikh3'
-                                  checked={
-                                    adaTiadaQTarikh3 === 'ada-q-tarikh3'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setAdaTiadaQTarikh3(e.target.value);
-                                    setConfirmData({
-                                      ...confirmData,
-                                      adaTiadaQTarikh3: e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='ada-q-tarikh3'
-                                  className='m-2 text-xs sm:text-sm font-m'
-                                >
-                                  ada
-                                </label>
-                                <input
-                                  required={tarikh3 ? true : false}
-                                  type='radio'
-                                  name='ada-tiada-q-tarikh3'
-                                  id='tiada-q-tarikh3'
-                                  value='tiada-q-tarikh3'
-                                  checked={
-                                    adaTiadaQTarikh3 === 'tiada-q-tarikh3'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setAdaTiadaQTarikh3(e.target.value);
-                                    setConfirmData({
-                                      ...confirmData,
-                                      adaTiadaQTarikh3: e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='tiada-q-tarikh3'
-                                  className='m-2 text-xs sm:text-sm font-m'
-                                >
-                                  tiada
-                                </label>
-                              </div>
+                              <input
+                                required={tarikh3 ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh3'
+                                id='tiada-q-tarikh3'
+                                value='tiada-q-tarikh3'
+                                checked={
+                                  adaTiadaQTarikh3 === 'tiada-q-tarikh3'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh3: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-q-tarikh3'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                tiada
+                              </label>
                             </div>
                           </div>
-                        )}
+                        </div>
                       </article>
                     </div>
                   ) : null}
-                  {/* {dalamPemantauanKohort !== 'ya-dalam-pemantauan-kohort' ? (
-                    <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold text-base flex flex-row pl-5'>
-                        jenis rokok<span className='text-user6'>*</span>
-                      </h4>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='rokok-biasa-kotak'
-                          id='rokok-biasa-kotak'
-                          required={isJenisRokokRequired}
-                          checked={rokokBiasaKotak}
-                          onChange={() => {
-                            setRokokBiasaKotak(!rokokBiasaKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              rokokBiasaKotak: !rokokBiasaKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='rokok-biasa-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          rokok biasa
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='elektronik-vape-kotak'
-                          id='elektronik-vape-kotak'
-                          required={isJenisRokokRequired}
-                          checked={elektronikVapeKotak}
-                          onChange={() => {
-                            setElektronikVapeKotak(!elektronikVapeKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              elektronikVapeKotak: !elektronikVapeKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='elektronik-vape-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          peranti rokok elektronik
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='shisha-kotak'
-                          id='shisha-kotak'
-                          required={isJenisRokokRequired}
-                          checked={shishaKotak}
-                          onChange={() => {
-                            setShishaKotak(!shishaKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              shishaKotak: !shishaKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='shisha-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          shisha
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='lain-lain-kotak'
-                          id='lain-lain-kotak'
-                          required={isJenisRokokRequired}
-                          checked={lainLainKotak}
-                          onChange={() => {
-                            setLainLainKotak(!lainLainKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              lainLainKotak: !lainLainKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='lain-lain-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          lain-lain
-                        </label>
-                      </div>
-                    </article>
-                  ) : null} */}
                   {adaTiadaQTarikh4 === 'tiada-q-tarikh4' ||
                   adaTiadaQTarikh3 === 'tiada-q-tarikh3' ? (
                     <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>

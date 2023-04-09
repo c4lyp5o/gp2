@@ -383,8 +383,12 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     default: '',
   },
   kesSelesai: {
-    type: String,
-    default: '',
+    type: Boolean,
+    default: false,
+  },
+  kesSelesaiIcdas: {
+    type: Boolean,
+    default: false,
   },
 });
 
