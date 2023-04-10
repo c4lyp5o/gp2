@@ -603,7 +603,7 @@ function UserSekolah() {
                                       isShown[singlePersonSekolah._id]
                                         ? 'block p-2 px-5 overflow-y-auto'
                                         : 'hidden '
-                                    } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                                    } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-10 lg:inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                                   >
                                     <div className='flex justify-between'>
                                       <h1 className='text-lg font-medium'>
