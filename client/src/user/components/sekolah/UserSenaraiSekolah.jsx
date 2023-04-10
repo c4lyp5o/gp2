@@ -214,6 +214,11 @@ function UserSekolahList() {
                     TUTUP RETEN SEKOLAH
                   </th>
                 )}
+                {userinfo.role === 'admin' && (
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-32'>
+                    KEMASKINI SENARAI PELAJAR
+                  </th>
+                )}
               </tr>
             </thead>
             {isLoading ? (
@@ -243,6 +248,11 @@ function UserSekolahList() {
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
+                  {userinfo.role === 'admin' && (
+                    <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    </td>
+                  )}
                   {userinfo.role === 'admin' && (
                     <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
@@ -320,7 +330,6 @@ function UserSekolahList() {
                         {userinfo.role === 'admin' && (
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                             <button
-                              // disabled={true}
                               onClick={() => {
                                 setIdSekolah(singleNamaSekolah._id);
                                 setModalSelesaiSekolah(true);
@@ -332,8 +341,28 @@ function UserSekolahList() {
                               } text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all`}
                             >
                               {singleNamaSekolah.sekolahSelesaiReten
-                                ? 'Telah Ditutup'
+                                ? 'TELAH DITUTUP'
                                 : 'TUTUP'}
+                            </button>
+                          </td>
+                        )}
+                        {userinfo.role === 'admin' && (
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                            <button
+                              onClick={() => {
+                                // setIdSekolah(singleNamaSekolah._id);
+                                // setModalSelesaiSekolah(true);
+                                // TODO refresh pelajar mark pindah or not
+                              }}
+                              className={`${
+                                singleNamaSekolah.sekolahSelesaiReten
+                                  ? 'bg-user1 pointer-events-none px-5'
+                                  : 'bg-user3 shadow-md'
+                              } text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all`}
+                            >
+                              {singleNamaSekolah.sekolahSelesaiReten
+                                ? '-'
+                                : 'KEMASKINI'}
                             </button>
                           </td>
                         )}

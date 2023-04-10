@@ -138,7 +138,7 @@ export default function UserModalSelesaiSekolah({
       </form>
       <div
         onClick={() => setModalSelesaiSekolah(false)}
-        className='fixed inset-0 bg-black opacity-50 z-10'
+        className='absolute inset-0 bg-user1 opacity-75 z-10'
       />
     </>
   );
