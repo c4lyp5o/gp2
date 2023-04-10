@@ -2050,32 +2050,42 @@ const Generate = (props) => {
                               : null}
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
-                            <button
-                              type='button'
-                              className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
-                              onClick={() => {
-                                setJenisReten(jenis.kodRingkas);
-                                setOpenModalGenerateBulanan(false);
-                                setOpenModalGenerateAdHoc(true);
-                              }}
-                            >
-                              Jana
-                            </button>
+                            {import.meta.env.VITE_JANA !== 'OFF' ? (
+                              <button
+                                type='button'
+                                className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
+                                onClick={() => {
+                                  setJenisReten(jenis.kodRingkas);
+                                  setOpenModalGenerateBulanan(false);
+                                  setOpenModalGenerateAdHoc(true);
+                                }}
+                              >
+                                Jana
+                              </button>
+                            ) : (
+                              <span>Fungsi jana ditutup sementara</span>
+                            )}
                           </div>
                         </div>
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        <button
-                          type='button'
-                          className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
-                          onClick={() => {
-                            setJenisReten(jenis.kodRingkas);
-                            setOpenModalGenerateAdHoc(false);
-                            setOpenModalGenerateBulanan(true);
-                          }}
-                        >
-                          Jana
-                        </button>
+                        {import.meta.env.VITE_JANA !== 'OFF' ? (
+                          <button
+                            type='button'
+                            className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
+                            onClick={() => {
+                              setJenisReten(jenis.kodRingkas);
+                              setOpenModalGenerateAdHoc(false);
+                              setOpenModalGenerateBulanan(true);
+                            }}
+                          >
+                            Jana
+                          </button>
+                        ) : (
+                          <span className='p-3'>
+                            Fungsi jana ditutup sementara
+                          </span>
+                        )}
                       </td>
                     </tr>
                   </>
