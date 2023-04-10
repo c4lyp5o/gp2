@@ -71,6 +71,7 @@ export default function Rawatan(props) {
                             isMulti
                             name='rawatan'
                             options={optionsRawatan}
+                            placeholder='Sila Pilih Rawatan'
                             className='basic-multi-select'
                             classNamePrefix='select'
                             onChange={(e) => {

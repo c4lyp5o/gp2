@@ -5,10 +5,13 @@ import {
   FaTimesCircle,
   FaMinus,
   FaPlus,
+  FaRegPaperPlane,
+  FaUserCheck,
 } from 'react-icons/fa';
 
 const ConfirmModal = ({ children, data }) => {
   const [open, setOpen] = useState(false);
+  const [openSelesai, setOpenSelesai] = useState(false);
   const [callback, setCallback] = useState(null);
 
   const show = (callback) => (event) => {
@@ -34,6 +37,15 @@ const ConfirmModal = ({ children, data }) => {
   const confirm = () => {
     callback.run();
     closeModal();
+    setOpenSelesai(false);
+  };
+
+  const showSelesai = () => {
+    setOpenSelesai(true);
+  };
+
+  const closeSelesai = () => {
+    setOpenSelesai(false);
   };
 
   return (
@@ -41,7 +53,7 @@ const ConfirmModal = ({ children, data }) => {
       {children(show)}
       {open && (
         <>
-          <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+          <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
             <FaWindowClose
               onClick={closeModal}
               className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -51,14 +63,25 @@ const ConfirmModal = ({ children, data }) => {
                 PERHATIAN
               </h5>
               <div className='mt-1 py-1'>
-                <p className='px-1 text-xs font-semibold'>
+                <span className='relative flex items-center justify-center mt-4'>
+                  <FaUserCheck className='text-4xl text-user9 mx-auto absolute animate-ping' />
+                  <FaUserCheck className='text-4xl text-user9 mx-auto absolute' />
+                </span>
+                <p className='px-1 text-xs font-semibold mt-5'>
                   Anda YAKIN untuk menghantar maklumat?
                 </p>
-                {data.adaTiadaPemeriksaanPendaftaran === 'tiada-pemeriksaan' ? (
-                  <p className='px-1 text-xs'>
-                    <span className='font-semibold'>Catatan:</span> Anda tidak
-                    perlu menghantar maklumat jika tidak ada pemeriksaan yang
-                    dilakukan.
+                {data.engganTidakHadirPemeriksaan ? (
+                  <p>
+                    Pesakit
+                    {data.engganTidakHadirPemeriksaan ===
+                    'enggan-pemeriksaan' ? (
+                      <span className='text-user9'>ENGGAN</span>
+                    ) : null}
+                    {data.engganTidakHadirPemeriksaan ===
+                    'tidak-hadir-pemeriksaan' ? (
+                      <span className='text-user9'>TIDAK HADIR</span>
+                    ) : null}
+                    untuk Pemeriksaan
                   </p>
                 ) : (
                   <div className='h-full overflow-y-auto'>
@@ -67,7 +90,7 @@ const ConfirmModal = ({ children, data }) => {
                       <span className='font-semibold'>Pemeriksaan</span>
                     </span>
                     <div className='text-xs overflow-hidden transition-all duration-500'>
-                      {data.yaTidakSediaAdaStatusDenture ? (
+                      {/* {data.yaTidakSediaAdaStatusDenture ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Status Dentur:
@@ -154,7 +177,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                           </p>
                         </div>
-                      ) : null}
+                      ) : null} */}
                       {data.kebersihanMulutOralHygiene ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
@@ -162,6 +185,16 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                           <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.kebersihanMulutOralHygiene}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.skorBpeOralHygiene ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            BPE Skor:
+                          </p>
+                          <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.skorBpeOralHygiene}
                           </p>
                         </div>
                       ) : null}
@@ -266,7 +299,7 @@ const ConfirmModal = ({ children, data }) => {
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.kecederaanGigiAnteriorTrauma ? (
                               <p className='flex flex-row'>
-                                Kecederaan Gigi Anterior:{' '}
+                                Kecederaan Gigi :{' '}
                                 {data.kecederaanGigiAnteriorTrauma ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1' />
                                 ) : (
@@ -276,7 +309,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                             {data.tisuLembutTrauma ? (
                               <p className='flex flex-row'>
-                                Tisu Lembut:{' '}
+                                Kecederaan Tisu Lembut:{' '}
                                 {data.tisuLembutTrauma ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1' />
                                 ) : (
@@ -286,7 +319,7 @@ const ConfirmModal = ({ children, data }) => {
                             ) : null}
                             {data.tisuKerasTrauma ? (
                               <p className='flex flex-row'>
-                                Tisu Keras:{' '}
+                                kecederaan tulang muka:{' '}
                                 {data.tisuKerasTrauma ? (
                                   <FaCheckCircle className='text-user7 text-center mx-1' />
                                 ) : (
@@ -302,7 +335,8 @@ const ConfirmModal = ({ children, data }) => {
                       data.lainLainBilanganFsDibuat3TahunLepas ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Bilangan FS Dibuat 3 Tahun Lepas:
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas:
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.gicBilanganFsDibuat3TahunLepas ? (
@@ -329,7 +363,8 @@ const ConfirmModal = ({ children, data }) => {
                       data.eBilanganFsDibuat3TahunLepasTerjadi ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Bilangan FS Dibuat 3 Tahun Lepas Terjadi:
+                            Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun
+                            Lepas Berubah Menjadi :
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.dBilanganFsDibuat3TahunLepasTerjadi ? (
@@ -366,7 +401,7 @@ const ConfirmModal = ({ children, data }) => {
                       data.classIIF ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            ICDAS:
+                            MMI:
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             {data.classID ? (
@@ -384,62 +419,80 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
-                      {data.baruJumlahMuridPerluFs ? (
+                      {data.toothSurfaceLoss ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Murid Perlu Pengapan Fisur:
+                            Kehilangan Permukaan Gigi :
+                          </p>
+                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.toothSurfaceLoss ? (
+                              <p>
+                                TSL :
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.baruJumlahGigiKekalPerluFs ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Murid Perlu Pengapan Fisur (E10):
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                             <p className='flex flex-row'>
                               Perlu :
-                              {data.baruJumlahMuridPerluFs ? (
+                              {data.baruJumlahGigiKekalPerluFs > 0 ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1' />
                               )}
                             </p>
                             <p>
-                              jumlah gigi kekal perlu Pengapan Fisur :
+                              jumlah gigi kekal :
                               {data.baruJumlahGigiKekalPerluFs}
                             </p>
                           </p>
                         </div>
                       ) : null}
-                      {data.baruJumlahMuridPerluFv ? (
+                      {data.baruJumlahGigiKekalPerluFv ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            Murid Perlu Sapuan Fluorida(FV):
+                            Murid Perlu Sapuan Fluorida (FV) (E13):
                           </p>
                           <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                             <p className='flex flex-row'>
                               Perlu :
-                              {data.baruJumlahMuridPerluFv ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1' />
-                              )}
-                            </p>
-                          </p>
-                        </div>
-                      ) : null}
-                      {data.baruJumlahMuridPerluPrrJenis1 ? (
-                        <div className='grid grid-cols-[1fr_2fr]'>
-                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                            murid perlu Tampalan Resin Pencegahan Jenis 1 (PRR
-                            Type I)
-                          </p>
-                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            <p className='flex flex-row'>
-                              Perlu :
-                              {data.baruJumlahMuridPerluPrrJenis1 ? (
+                              {data.baruJumlahGigiKekalPerluFv > 0 ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1' />
                               )}
                             </p>
                             <p>
-                              jumlah gigi kekal perlu Tampalan Resin Pencegahan
-                              Jenis 1 (PRR Type I) :
+                              jumlah gigi kekal :
+                              {data.baruJumlahGigiKekalPerluFv}
+                            </p>
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.baruJumlahGigiKekalPerluPrrJenis1 ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            murid perlu Resin Pencegahan Jenis 1 (PRR Type I)
+                            (E12)
+                          </p>
+                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            <p className='flex flex-row'>
+                              Perlu :
+                              {data.baruJumlahGigiKekalPerluPrrJenis1 > 0 ? (
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              ) : (
+                                <FaTimesCircle className='text-user9 text-center mx-1' />
+                              )}
+                            </p>
+                            <p>
+                              jumlah gigi kekal :
                               {data.baruJumlahGigiKekalPerluPrrJenis1}
                             </p>
                           </p>
@@ -588,6 +641,12 @@ const ConfirmModal = ({ children, data }) => {
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               </p>
                             ) : null}
+                            {data.bersediaDirujuk === 'ya-bersedia-dirujuk' ? (
+                              <p className='flex flex-row items-center'>
+                                Bersedia Dirujuk menjalani intervensi:{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </p>
+                            ) : null}
                           </p>
                         </div>
                       ) : null}
@@ -597,11 +656,8 @@ const ConfirmModal = ({ children, data }) => {
                             Kes Selesai:
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            {data.kesSelesai === 'ya-kes-selesai' ? (
+                            {data.kesSelesai === true ? (
                               <p className='flex flex-row'>Ya, Kes Selesai</p>
-                            ) : null}
-                            {data.kesSelesai === 'tidak-kes-selesai' ? (
-                              <p className='flex flex-row'>Tidak Kes Selesai</p>
                             ) : null}
                           </p>
                         </div>
@@ -612,10 +668,17 @@ const ConfirmModal = ({ children, data }) => {
               </div>
               <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
                 <button
-                  className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all'
-                  onClick={confirm}
+                  className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
+                  onClick={() => {
+                    if (data.kesSelesai === 'ya-kes-selesai') {
+                      setOpenSelesai(true);
+                    } else {
+                      confirm();
+                    }
+                  }}
                 >
                   YA
+                  <FaRegPaperPlane className='inline-flex ml-1' />
                 </button>
                 <button
                   className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
@@ -628,7 +691,58 @@ const ConfirmModal = ({ children, data }) => {
           </div>
           <div
             onClick={closeModal}
-            className='fixed inset-0 bg-userBlack opacity-50 z-10'
+            className='fixed inset-0 bg-userBlack opacity-50 z-0'
+          />
+        </>
+      )}
+      {openSelesai && (
+        <>
+          <form
+            onSubmit={confirm}
+            className='absolute inset-x-10 inset-y-5 lg:inset-x-60 lg:inset-y-14 2xl:inset-x-1/3 text-sm bg-userWhite z-50 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+          >
+            <FaWindowClose
+              onClick={closeSelesai}
+              className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
+            />
+            <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7'>
+              PERHATIAN
+            </h5>
+            <div className='rounded-md p-5'>
+              <div className='flex flex-col justify-center mb-3 2xl:mb-10'>
+                <span className='relative flex justify-center items-center mt-8'>
+                  <FaUserCheck className='text-7xl text-user9 mx-auto absolute animate-ping' />
+                  <FaUserCheck className='text-7xl text-user9 mx-auto absolute' />
+                </span>
+                <p className='text-center text-xl font-bold mt-14'>
+                  Adakah anda yakin?
+                </p>
+                <p className='text-center text-sm'>
+                  Anda tidak dapat mengubah data ini dan murid ini bertukar ke
+                  status SELESAI setelah anda menekan butang "Ya"
+                </p>
+              </div>
+              <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
+                <button
+                  type='submit'
+                  className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-kaunter2 transition-all flex items-center justify-center'
+                  data-cy='submit-confirm-2'
+                >
+                  YA
+                  <FaRegPaperPlane className='inline-flex ml-1' />
+                </button>
+                <button
+                  className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
+                  onClick={closeSelesai}
+                >
+                  Tidak
+                </button>
+              </div>
+            </div>
+          </form>
+          <div
+            onClick={closeSelesai}
+            className='absolute inset-0 bg-user1 z-40 opacity-75'
           />
         </>
       )}

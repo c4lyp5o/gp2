@@ -13,7 +13,7 @@ export default function Settings({ update }) {
     saveCurrentUser,
     generateSecret,
     removeTotpToken,
-    resizeImage,
+    // resizeImage,
     masterDatePicker,
     toast,
   } = useGlobalAdminAppContext();
@@ -47,34 +47,34 @@ export default function Settings({ update }) {
     });
   };
 
-  const encodeImageFileAsURL = (e) => {
-    const filesSelected = document.getElementById(uploadImage).files;
+  // const encodeImageFileAsURL = (e) => {
+  //   const filesSelected = document.getElementById(uploadImage).files;
 
-    if (filesSelected.length > 0) {
-      const fileToLoad = filesSelected[0];
-      if (fileToLoad.size > 1000000) {
-        toast.error(
-          'Gambar terlalu besar. Sila muat naik gambar yang lebih kecil. Maksimum 1MB.'
-        );
-        return;
-      }
-      const fileReader = new FileReader();
-      fileReader.onload = async function (fileLoadedEvent) {
-        const srcData = fileLoadedEvent.target.result;
-        const data = {
-          type: fileToLoad.type,
-          image: srcData,
-        };
-        try {
-          const resizedImage = await resizeImage(data);
-          setProfileImageData(resizedImage.data.imgSrc);
-        } catch (error) {
-          toast.error('Gambar tidak sah.');
-        }
-      };
-      fileReader.readAsDataURL(fileToLoad);
-    }
-  };
+  //   if (filesSelected.length > 0) {
+  //     const fileToLoad = filesSelected[0];
+  //     if (fileToLoad.size > 1000000) {
+  //       toast.error(
+  //         'Gambar terlalu besar. Sila muat naik gambar yang lebih kecil. Maksimum 1MB.'
+  //       );
+  //       return;
+  //     }
+  //     const fileReader = new FileReader();
+  //     fileReader.onload = async function (fileLoadedEvent) {
+  //       const srcData = fileLoadedEvent.target.result;
+  //       const data = {
+  //         type: fileToLoad.type,
+  //         image: srcData,
+  //       };
+  //       try {
+  //         const resizedImage = await resizeImage(data);
+  //         setProfileImageData(resizedImage.data.imgSrc);
+  //       } catch (error) {
+  //         toast.error('Gambar tidak sah.');
+  //       }
+  //     };
+  //     fileReader.readAsDataURL(fileToLoad);
+  //   }
+  // };
 
   const enableTotp = () => {
     setLoginInfo({

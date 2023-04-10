@@ -4,11 +4,10 @@ require('express-async-errors');
 const express = require('express');
 const app = express();
 const path = require('path');
-// const axios = require('axios');
 const { logger } = require('./logs/logger');
 
 // cron job
-const startETL = require('./jobs/ETL');
+// const startETL = require('./jobs/ETL');
 
 // security package
 const helmet = require('helmet');
@@ -24,6 +23,9 @@ const getdate = require('./routes/getdate');
 // erkm import
 // const erkm = require('./routes/erkm');
 
+// MOEIS import
+const moeis = require('./routes/moeis');
+
 // user import
 const authLogin = require('./routes/authLogin');
 const identity = require('./routes/identity');
@@ -35,6 +37,9 @@ const getotp = require('./routes/getotp');
 const operator = require('./routes/operator');
 const summary = require('./routes/summary');
 const allQueryRoute = require('./routes/allQueryRoute');
+
+// kohort import
+const kohortKotak = require('./routes/kohortKotak');
 
 // kaunter
 const kaunter = require('./routes/kaunter');
@@ -51,6 +56,7 @@ const ETL = require('./routes/ETL');
 
 // IMPORT MIDDLEWARES ------------------------------------------
 const authCheck = require('./middlewares/authCheck');
+const moeisAuth = require('./middlewares/moeisAuth');
 const { etlAuth } = require('./middlewares/adminAuth');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
@@ -61,6 +67,7 @@ const connectDB = require('./database/connect');
 // USE MIDDLEWARES ---------------------------------------------
 const root = path.join(__dirname, 'client', 'dist');
 app.set('trust proxy', 1);
+app.disable('x-powered-by');
 
 // for use in deployment
 app.use(express.static(root));
@@ -112,6 +119,9 @@ app.use('/api/v1/getdate', getdate);
 //   // }, 600000);
 // }, 5000);
 
+// moeis route
+app.use('/api/v1/moeis', moeisAuth, moeis);
+
 // user route
 app.use('/api/v1/auth', authLogin);
 app.use('/api/v1/identity', authCheck, identity);
@@ -123,6 +133,9 @@ app.use('/api/v1/getotp', authCheck, getotp);
 app.use('/api/v1/operator', authCheck, operator);
 app.use('/api/v1/summary', authCheck, summary);
 app.use('/api/v1/query', authCheck, allQueryRoute);
+
+// kohort route
+app.use('/api/v1/kohort/kotak', authCheck, kohortKotak);
 
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
@@ -152,9 +165,9 @@ app.get('*', (req, res) => {
   res.sendFile(path.join(__dirname, 'client', 'dist', 'index.html'));
 });
 
-// error handler & not found
-app.use(errorHandler);
+// not found & error handler
 app.use(notFound);
+app.use(errorHandler);
 
 // SERVER ------------------------------------------------------
 const port = process.env.PORT || 5000;

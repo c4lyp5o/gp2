@@ -163,9 +163,18 @@ const queryAktivitiPromosi = async (req, res) => {
 
   const {
     user: { negeri, daerah, kp, kodFasiliti },
-    query: { kodProgram, individuOrKlinik },
+    query: {
+      tarikhMulaAcara,
+      tarikhAkhirAcara,
+      individuOrKlinik,
+      mdcMdtbNumber,
+      kodProgram,
+      namaAcara,
+    },
   } = req;
+
   const queryObject = {};
+
   queryObject.createdByNegeri = negeri;
   queryObject.createdByDaerah = daerah;
   queryObject.createdByKp = kp;
@@ -173,9 +182,16 @@ const queryAktivitiPromosi = async (req, res) => {
   queryObject.tahunDibuat = new Date().getFullYear();
   queryObject.deleted = false;
 
-  if (individuOrKlinik === 'promosi-individu') {
-    queryObject.promosiIndividu = true;
-    queryObject.promosiKlinik = false;
+  if (tarikhMulaAcara) {
+    queryObject.tarikhMulaAcara = {
+      $gte: tarikhMulaAcara,
+    };
+  }
+
+  if (tarikhAkhirAcara) {
+    queryObject.tarikhAkhirAcara = {
+      $lte: tarikhAkhirAcara,
+    };
   }
 
   if (individuOrKlinik === 'promosi-klinik') {
@@ -183,14 +199,32 @@ const queryAktivitiPromosi = async (req, res) => {
     queryObject.promosiKlinik = true;
   }
 
-  // if (kodProgram) {
-  //   queryObject.kodProgram = kodProgram;
-  // }
-  // if (!kodProgram) {
-  //   return res.status(200).json({ aktivitiPromosiResultQuery: [] });
-  // }
+  if (individuOrKlinik === 'promosi-individu' && !mdcMdtbNumber) {
+    queryObject.promosiIndividu = true;
+    queryObject.promosiKlinik = false;
+  }
+
+  if (individuOrKlinik === 'promosi-individu' && mdcMdtbNumber) {
+    queryObject.promosiIndividu = true;
+    queryObject.promosiKlinik = false;
+    queryObject.createdByMdcMdtb = mdcMdtbNumber;
+  }
+
+  if (kodProgram) {
+    queryObject.kodProgram = kodProgram;
+  }
+
+  if (namaAcara) {
+    queryObject.namaAcara = {
+      $regex: new RegExp(namaAcara, 'i'),
+    };
+  }
 
   const aktivitiPromosiResultQuery = await Promosi.find(queryObject);
+
+  if (aktivitiPromosiResultQuery.length < 1) {
+    return res.status(404).json({ msg: 'No aktiviti promosi found' });
+  }
 
   res.status(200).json({ aktivitiPromosiResultQuery });
 };

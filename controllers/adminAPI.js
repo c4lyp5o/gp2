@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const fs = require('fs');
 const path = require('path');
+const https = require('https');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
 const CryptoJS = require('crypto-js');
@@ -8,7 +9,6 @@ const mailer = require('nodemailer');
 const moment = require('moment');
 const speakeasy = require('speakeasy');
 const QRCode = require('qrcode');
-// const sharp = require('sharp');
 const Superadmin = require('../models/Superadmin');
 const Fasiliti = require('../models/Fasiliti');
 const Operator = require('../models/Operator');
@@ -20,6 +20,7 @@ const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const emailGen = require('../lib/emailgen');
+const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const { logger } = require('../logs/logger');
 
 // helper
@@ -525,6 +526,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
+        // sesiTakwimSekolah: sesiTakwimSekolah(), // activate this later when full integration happen
       });
       break;
     case 'sekolah-menengah':
@@ -532,6 +534,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
+        // sesiTakwimSekolah: sesiTakwimSekolah(), // activate this later when full integration happen
       });
       break;
     case 'sr-sm-all':
@@ -788,6 +791,18 @@ const getDataKpRoute = async (req, res) => {
       })
         .select('nama mdcNumber mdtbNumber statusPegawai')
         .lean();
+      break;
+    case 'sekolah-rendah':
+      data = await Fasiliti.find({
+        createdByNegeri: negeri,
+        jenisFasiliti: 'sekolah-rendah',
+      }).lean();
+      break;
+    case 'sekolah-menengah':
+      data = await Fasiliti.find({
+        createdByNegeri: negeri,
+        jenisFasiliti: 'sekolah-menengah',
+      }).lean();
       break;
     case 'token-balance':
       data = await GenerateToken.find({
@@ -1493,15 +1508,17 @@ const getData = async (req, res) => {
           );
           if (
             theType !== 'pegawai' &&
-            theType !== 'klinik' &&
             theType !== 'juruterapi pergigian' &&
-            theType !== 'sosmed' &&
-            theType !== 'followers' &&
-            theType !== 'program' &&
+            theType !== 'klinik' &&
             theType !== 'taska' &&
             theType !== 'tadika' &&
+            theType !== 'sekolah-rendah' &&
+            theType !== 'sekolah-menengah' &&
+            theType !== 'program' &&
             theType !== 'kp-bergerak' &&
-            theType !== 'makmal-pergigian'
+            theType !== 'makmal-pergigian' &&
+            theType !== 'sosmed' &&
+            theType !== 'followers'
           ) {
             Data = {
               ...Data,
@@ -1660,6 +1677,54 @@ const getData = async (req, res) => {
               res.status(200).json(data);
             }
           }
+          if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
+            Data = {
+              ...Data,
+              jenisFasiliti: theType,
+              createdByDaerah: daerah,
+              createdByNegeri: negeri,
+              sesiTakwimSekolah: sesiTakwimSekolah(),
+            };
+            try {
+              const agent = new https.Agent({
+                rejectUnauthorized: false,
+              });
+              const { data } = await axios.get(
+                process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+                  `?inid=${Data.idInstitusi}`,
+                {
+                  httpsAgent: agent,
+                  headers: {
+                    APIKEY: process.env.MOEIS_APIKEY,
+                  },
+                }
+              );
+              const dataCreatedSRSM = await Fasiliti.create(Data);
+              logger.info(
+                `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+              );
+              res.status(200).json(dataCreatedSRSM);
+              setTimeout(async () => {
+                console.log('lepas send sekolah berjaya run this function');
+              }, 10000);
+              return;
+            } catch (error) {
+              return res.status(503).json({ msg: error.message });
+            }
+          }
+          if (theType === 'program') {
+            if (negeri) {
+              Data.createdByNegeri = negeri;
+            }
+            if (daerah) {
+              Data.createdByDaerah = daerah;
+            }
+            const createProgramData = await Event.create(Data);
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
+            );
+            res.status(200).json(createProgramData);
+          }
           if (theType === 'kp-bergerak' || theType === 'makmal-pergigian') {
             const exists = await Fasiliti.findOne({
               nama: Data.nama,
@@ -1728,19 +1793,6 @@ const getData = async (req, res) => {
               `${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
             );
             res.status(200).json(createFollowerData);
-          }
-          if (theType === 'program') {
-            if (negeri) {
-              Data.createdByNegeri = negeri;
-            }
-            if (daerah) {
-              Data.createdByDaerah = daerah;
-            }
-            const createProgramData = await Event.create(Data);
-            logger.info(
-              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.kodProgram}`
-            );
-            res.status(200).json(createProgramData);
           }
           break;
         case 'update':
@@ -3164,6 +3216,177 @@ const processKkiakdQuery = async (req, res) => {
   res.status(200).json(filteredKKIAKD);
 };
 
+// for MOEIS integration
+const convertToJPNKod = {
+  Johor: 'JPA1001',
+  Kedah: 'KPA2001',
+  Kelantan: 'DPA1001',
+  Melaka: 'MPA2001',
+  'Negeri Sembilan': 'NPA4001',
+  Pahang: 'CPA4001',
+  'Pulau Pinang': 'PPA0170',
+  Perak: 'APA2242',
+  Perlis: 'RPA0001',
+  Selangor: 'BPA8002',
+  Terengganu: 'TPA3001',
+  Sabah: 'XPA4001',
+  Sarawak: 'YPA1201',
+  'WP Kuala Lumpur': 'WPA0002',
+  'WP Labuan': 'WPA1001',
+  'WP Putrajaya': 'WPA2001',
+};
+
+const jnskodPRA = [
+  // for pra ada 10
+  10, 19, 105, 108, 24, 102, 106, 417, 412, 212,
+];
+
+const jnskodSR = [
+  // for sr ada 19
+  10, 12, 19, 101, 103, 104, 105, 107, 108, 207, 24, 414, 416, 102, 106, 417,
+  412, 212, 418,
+];
+
+const jnskodSM = [
+  // for sm ada 20
+  11, 13, 19, 403, 107, 108, 201, 203, 204, 205, 206, 207, 208, 209, 25, 415,
+  416, 417, 413, 419,
+];
+
+const processSekolahQuery = async (req, res) => {
+  const authKey = req.headers.authorization;
+  const { FType } = req.query;
+  const { negeri, user_name } = await Superadmin.findById(
+    jwt.verify(authKey, process.env.JWT_SECRET).userId
+  );
+  const type = Dictionary[FType];
+  const JPNKod = convertToJPNKod[negeri];
+  logger.info(
+    `[adminAPI/processSekolahQuery] ${user_name} requested ${type} data`
+  );
+  if (
+    process.env.BUILD_ENV === 'production' ||
+    process.env.BUILD_ENV === 'dev'
+  ) {
+    if (type === 'sekolah-rendah') {
+      let SENARAI_INSTITUSI = [];
+
+      for (let i = 0; i < jnskodSR.length; i++) {
+        const URLquerySR =
+          process.env.MOEIS_INTEGRATION_URL_SEKOLAH +
+          `?jkod=${JPNKod}&jnskod=${jnskodSR[i]}`;
+        try {
+          const agent = new https.Agent({
+            rejectUnauthorized: false,
+          });
+          const { data } = await axios.get(URLquerySR, {
+            httpsAgent: agent,
+            headers: {
+              APIKEY: process.env.MOEIS_APIKEY,
+            },
+          });
+          SENARAI_INSTITUSI = [...SENARAI_INSTITUSI, ...data.SENARAI_INSTITUSI];
+        } catch (error) {
+          return res.status(503).json({ msg: error.message });
+        }
+      }
+      const queryResultSR = { SENARAI_INSTITUSI };
+
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSR = {
+        SENARAI_INSTITUSI: queryResultSR.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSR);
+    }
+    if (type === 'sekolah-menengah') {
+      let SENARAI_INSTITUSI = [];
+
+      for (let i = 0; i < jnskodSR.length; i++) {
+        const URLquerySM =
+          process.env.MOEIS_INTEGRATION_URL_SEKOLAH +
+          `?jkod=${JPNKod}&jnskod=${jnskodSM[i]}`;
+        try {
+          const agent = new https.Agent({
+            rejectUnauthorized: false,
+          });
+          const { data } = await axios.get(URLquerySM, {
+            httpsAgent: agent,
+            headers: {
+              APIKEY: process.env.MOEIS_APIKEY,
+            },
+          });
+          SENARAI_INSTITUSI = [...SENARAI_INSTITUSI, ...data.SENARAI_INSTITUSI];
+        } catch (error) {
+          return res.status(503).json({ msg: error.message });
+        }
+      }
+      const queryResultSM = { SENARAI_INSTITUSI };
+
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSM = {
+        SENARAI_INSTITUSI: queryResultSM.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSM);
+    }
+  }
+  if (
+    process.env.BUILD_ENV === 'training' ||
+    process.env.BUILD_ENV === 'unstable'
+  ) {
+    const URLquery =
+      process.env.MOEIS_INTEGRATION_URL_SEKOLAH + `?jkod=${JPNKod}`;
+    try {
+      const agent = new https.Agent({
+        rejectUnauthorized: false,
+      });
+      const { data } = await axios.get(URLquery, {
+        httpsAgent: agent,
+        headers: {
+          APIKEY: process.env.MOEIS_APIKEY,
+        },
+      });
+
+      const currentSRSM = await Fasiliti.find({
+        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+        createdByNegeri: negeri,
+        idInstitusi: { $ne: null },
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      });
+      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+      const filteredResultSRSM = {
+        SENARAI_INSTITUSI: data.SENARAI_INSTITUSI.filter(
+          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+        ),
+      };
+
+      return res.status(200).json(filteredResultSRSM);
+    } catch (error) {
+      return res.status(503).json({ msg: error.message });
+    }
+  }
+};
+
 const html = (nama, key) =>
   `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
@@ -3390,4 +3613,5 @@ module.exports = {
   processFasilitiQuery,
   processOperatorQuery,
   processKkiakdQuery,
+  processSekolahQuery,
 };

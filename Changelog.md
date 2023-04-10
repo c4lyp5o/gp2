@@ -6,6 +6,28 @@
 
 - _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum - https://github.com/nocturnalmc/gp2/commit/22d04e51a3b747baa7ddeb795b1dcb18115bc461
 
+### 5/4/2023 (v2.0.18)
+
+#### Added
+
+- Menambah submodul Carian Promosi di modul Pengguna
+
+#### Changed
+
+- Perubahan pada cara memasukan kod taska dan tadika di modul Pentadbir bagi Pentadbir Daerah
+- Senarai promosi yang dipaparkan di submodul Promosi Individu adalah berdasarkan kepada operator yang log masuk ke dalam modul Pengguna
+- Tindakan untuk menghapuskan reten promosi klinik & promosi individu diubah kepada submodul Carian Promosi dan dibuka hanya kepada pentadbir klinik atau pegawai promosi klinik
+
+#### Removed
+
+- Membuang butang hapus bagi reten promosi klinik & promosi individu di bawah submodul Pengisian Data
+
+#### e-Reporting
+
+- Pembetulan pada reten PG206 & PG207 supaya mengambil data bagi rawatan operator lain dengan lebih tepat
+- Memperbetulkan data yang tidak dipaparkan di kolum Pameran/Kempen, Radio dan Cetak bagi reten PGPRO 01 Pind. 2/2022 FFR dan reten PGPRO 01 Pind. 2/2022 Kod Program
+- Reten promosi yang telah dihapuskan tidak akan dipaparkan di dalam reten PGPRO 01 Pind. 2/2022 FFR dan reten PGPRO 01 Pind. 2/2022 Kod Program
+
 ### 26/3/2023 (v2.0.17)
 
 #### Fixed
