@@ -9,7 +9,7 @@ function UserNavbar() {
 
   const [showLinks, setShowLinks] = useState(false);
   const [showRetenSubMenu, setShowRetenSubMenu] = useState(false);
-  const [showGenerateSubMenu, setShowGenerateSubMenu] = useState(false);
+  const [showCarianSubMenu, setShowCarianSubMenu] = useState(false);
 
   const toggleLinks = () => {
     setShowLinks(!showLinks);
@@ -17,11 +17,11 @@ function UserNavbar() {
 
   const toggleRetenSubMenu = () => {
     setShowRetenSubMenu(!showRetenSubMenu);
-    setShowGenerateSubMenu(false);
+    setShowCarianSubMenu(false);
   };
 
-  const toggleGenerateSubMenu = () => {
-    setShowGenerateSubMenu(!showGenerateSubMenu);
+  const toggleCarianSubMenu = () => {
+    setShowCarianSubMenu(!showCarianSubMenu);
     setShowRetenSubMenu(false);
   };
 
@@ -67,7 +67,7 @@ function UserNavbar() {
               onClick={() => {
                 setShowLinks(!showLinks);
                 setShowRetenSubMenu(false);
-                setShowGenerateSubMenu(false);
+                setShowCarianSubMenu(false);
               }}
               className='bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
             >
@@ -78,7 +78,7 @@ function UserNavbar() {
               onClick={() => {
                 setShowLinks(!showLinks);
                 setShowRetenSubMenu(false);
-                setShowGenerateSubMenu(false);
+                setShowCarianSubMenu(false);
               }}
               className={({ isActive }) =>
                 isActive
@@ -114,7 +114,6 @@ function UserNavbar() {
                   to='umum'
                   onClick={() => {
                     setShowLinks(!showLinks);
-                    setShowGenerateSubMenu(false);
                   }}
                   className={({ isActive }) =>
                     isActive
@@ -132,7 +131,6 @@ function UserNavbar() {
                     to='senarai-sekolah'
                     onClick={() => {
                       setShowLinks(!showLinks);
-                      setShowGenerateSubMenu(false);
                     }}
                     className={({ isActive }) =>
                       isActive
@@ -147,7 +145,6 @@ function UserNavbar() {
                   to='promosi-individu'
                   onClick={() => {
                     setShowLinks(!showLinks);
-                    setShowGenerateSubMenu(false);
                   }}
                   className={({ isActive }) =>
                     isActive
@@ -162,7 +159,6 @@ function UserNavbar() {
                     to='promosi-klinik'
                     onClick={() => {
                       setShowLinks(!showLinks);
-                      setShowGenerateSubMenu(false);
                     }}
                     className={({ isActive }) =>
                       isActive
@@ -173,28 +169,12 @@ function UserNavbar() {
                     PROMOSI KLINIK
                   </NavLink>
                 )}
-                {/* use till mac 22/23 navlink to PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023 */}
-                {/* <NavLink
-                  to='umum-sekolah'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowGenerateSubMenu(false);
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  PROGRAM PERGIGIAN SEKOLAH SESI 2022/2023
-                </NavLink> */}
                 {import.meta.env.VITE_ENV === 'UNSTABLE' ||
                 import.meta.env.VITE_ENV === 'DEV' ? (
                   <NavLink
                     to='kohort'
                     onClick={() => {
                       setShowLinks(!showLinks);
-                      setShowGenerateSubMenu(false);
                     }}
                     className={({ isActive }) =>
                       isActive
@@ -262,27 +242,62 @@ function UserNavbar() {
                 </div>
               </div>
             )} */}
-            <NavLink
-              to='carian'
-              onClick={() => {
-                setShowLinks(!showLinks);
-                setShowRetenSubMenu(false);
-                setShowGenerateSubMenu(false);
-              }}
-              className={({ isActive }) =>
-                isActive
-                  ? 'bg-user3 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-                  : 'bg-user4 rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all'
-              }
-            >
-              CARIAN
-            </NavLink>
+            <div>
+              <div
+                className={`${
+                  showCarianSubMenu ? 'bg-user3' : 'bg-user4'
+                } flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-user3 transition-all hover:cursor-pointer`}
+                onClick={toggleCarianSubMenu}
+                data-cy='navbar-pengisian-data'
+              >
+                <span>CARIAN</span>
+                <span className='ml-10'>
+                  <FaArrowAltCircleUp
+                    className={`transition-all ${
+                      showCarianSubMenu && 'rotate-180'
+                    }`}
+                  />
+                </span>
+              </div>
+              <div
+                className={`grid transition-all ${
+                  showCarianSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                }`}
+              >
+                <NavLink
+                  to='carian/pesakit'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  CARIAN PESAKIT
+                </NavLink>
+                <NavLink
+                  to='carian/promosi'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  CARIAN AKTIVITI PROMOSI
+                </NavLink>
+              </div>
+            </div>
             <NavLink
               to='summary'
               onClick={() => {
                 setShowLinks(!showLinks);
                 setShowRetenSubMenu(false);
-                setShowGenerateSubMenu(false);
+                setShowCarianSubMenu(false);
               }}
               className={({ isActive }) =>
                 isActive

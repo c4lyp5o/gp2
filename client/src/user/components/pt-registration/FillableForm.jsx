@@ -1523,15 +1523,21 @@ export default function FillableForm({
                       <span>
                         <FaCaretSquareDown className='absolute top-4 right-2 text-kaunter3' />
                       </span>
-                      {import.meta.env.VITE_ENV === 'UNSTABLE' ||
-                      import.meta.env.VITE_ENV === 'DEV' ? (
+                      {(import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                        import.meta.env.VITE_ENV === 'DEV') &&
+                      jenisFasiliti === 'kp' ? (
                         <span
                           onClick={() => {
                             setShowMyVas(true);
                           }}
-                          className='absolute -right-16 top-2 bg-user1 text-userWhite rounded-lg text-sm p-1.5 hover:bg-user3 hover:text-userBlack cursor-pointer'
+                          className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
                         >
-                          MyVas
+                          <img
+                            src='https://upload.wikimedia.org/wikipedia/commons/9/90/MySejahtera.png'
+                            alt='MySejahtera Logo'
+                            className='w-6 h-6 inline-block mr-1'
+                          />
+                          MyVAS
                         </span>
                       ) : null}
                     </div>
@@ -1614,10 +1620,13 @@ export default function FillableForm({
                           <input
                             value={nomborTelefon}
                             type='text'
+                            pattern='[0-9]+'
+                            title='Nombor telefon'
                             name='nombor-telefon'
                             id='nombor-telefon'
                             maxLength={15}
                             className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                            placeholder='0123456678'
                             onChange={(e) => {
                               setNomborTelefon(e.target.value);
                               setConfirmData({
@@ -1663,10 +1672,13 @@ export default function FillableForm({
                           <input
                             value={nomborTelefon2}
                             type='text'
+                            pattern='[0-9]+'
+                            title='Nombor telefon'
                             name='nombor-telefon2'
                             id='nombor-telefon2'
                             maxLength={15}
                             className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-1'
+                            placeholder='0123456678'
                             onChange={(e) => {
                               setNomborTelefon2(e.target.value);
                               setConfirmData({

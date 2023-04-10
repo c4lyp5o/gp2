@@ -62,12 +62,6 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
-  // ping apdm
-  const pingApdmServer = async () => {
-    const response = await axios.get(`https://erkm.calypsocloud.one/`);
-    return response;
-  };
-
   // crypter
   const encryptEmail = (email) => {
     if (!email) return 'No email provided';
@@ -381,6 +375,56 @@ function AdminAppProvider({ children }) {
     }
   };
 
+  // read MOEIS data
+  const readSekolahData = async (FType) => {
+    const responseMOIES = await axios.get(
+      `/api/v1/superadmin/getsekolahMOEIS?FType=${FType}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
+    return responseMOIES.data.SENARAI_INSTITUSI;
+
+    // switch (FType) { // will be used later
+    //   case 'sr':
+    //     const currentSr = await readData('sr-sm-all');
+    //     if (currentSr.data.length === 0) {
+    //       return response.data[1].sekolahRendah;
+    //     }
+    //     for (let j = 0; j < currentSr.data.length; j++) {
+    //       const deleteSr = response.data[1].sekolahRendah
+    //         .map((e) => e.kodSekolah)
+    //         .indexOf(currentSr.data[j].kodSekolah);
+    //       response.data[1].sekolahRendah.splice(deleteSr, 1);
+    //     }
+    //     return response.data[1].sekolahRendah;
+    //   default:
+    //     const currentSm = await readData('sr-sm-all');
+    //     if (currentSm.data.length === 0) {
+    //       return response.data[2].sekolahMenengah;
+    //     }
+    //     for (let j = 0; j < currentSm.data.length; j++) {
+    //       const deleteSm = response.data[2].sekolahMenengah
+    //         .map((e) => e.kodSekolah)
+    //         .indexOf(currentSm.data[j].kodSekolah);
+    //       response.data[2].sekolahMenengah.splice(deleteSm, 1);
+    //     }
+    //     return response.data[2].sekolahMenengah;
+    // }
+  };
+
+  // read kod program data
+  const readKodProgramData = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      main: 'PromosiManager',
+      Fn: 'read',
+      token: adminToken,
+    });
+    return response;
+  };
+
   // read token data
   const readGenerateTokenData = async () => {
     try {
@@ -537,49 +581,6 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // erkm
-  const readSekolahData = async (FType) => {
-    const response = await axios.get(
-      'https://erkm.calypsocloud.one/listsekolah'
-    );
-    switch (FType) {
-      case 'sr':
-        const currentSr = await readData('sr-sm-all');
-        if (currentSr.data.length === 0) {
-          return response.data[1].sekolahRendah;
-        }
-        for (let j = 0; j < currentSr.data.length; j++) {
-          const deleteSr = response.data[1].sekolahRendah
-            .map((e) => e.kodSekolah)
-            .indexOf(currentSr.data[j].kodSekolah);
-          response.data[1].sekolahRendah.splice(deleteSr, 1);
-        }
-        return response.data[1].sekolahRendah;
-      default:
-        const currentSm = await readData('sr-sm-all');
-        if (currentSm.data.length === 0) {
-          return response.data[2].sekolahMenengah;
-        }
-        for (let j = 0; j < currentSm.data.length; j++) {
-          const deleteSm = response.data[2].sekolahMenengah
-            .map((e) => e.kodSekolah)
-            .indexOf(currentSm.data[j].kodSekolah);
-          response.data[2].sekolahMenengah.splice(deleteSm, 1);
-        }
-        return response.data[2].sekolahMenengah;
-    }
-  };
-
-  // read kod program data
-  const readKodProgramData = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'PromosiManager',
-      Fn: 'read',
-      token: adminToken,
-    });
-    return response;
-  };
-
   // auth
   async function loginUser(credentials) {
     const response = await axios.post(`/api/v1/superadmin/login`, {
@@ -606,16 +607,16 @@ function AdminAppProvider({ children }) {
   }
 
   // image resizer
-  async function resizeImage(data) {
-    const response = await axios.post('/api/v1/superadmin/newroute', {
-      image: data.image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''),
-      type: data.type,
-      main: 'ImageResizer',
-      Fn: 'resize',
-      token: adminToken,
-    });
-    return response;
-  }
+  // async function resizeImage(data) {
+  //   const response = await axios.post('/api/v1/superadmin/newroute', {
+  //     image: data.image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''),
+  //     type: data.type,
+  //     main: 'ImageResizer',
+  //     Fn: 'resize',
+  //     token: adminToken,
+  //   });
+  //   return response;
+  // }
 
   // datepicker
   function masterDatePicker({
@@ -720,6 +721,25 @@ function AdminAppProvider({ children }) {
     negeriwpputrajaya: 'WP Putrajaya',
     negeriwplabuan: 'WP Labuan',
     negeriilk: 'ILK',
+  };
+  const DictionaryHurufNegeri = {
+    Johor: 'J',
+    Kedah: 'K',
+    Kelantan: 'D',
+    Melaka: 'M',
+    'Negeri Sembilan': 'N',
+    Pahang: 'C',
+    'Pulau Pinang': 'P',
+    Perak: 'A',
+    Perlis: 'R',
+    Selangor: 'B',
+    Terengganu: 'T',
+    Sabah: 'S',
+    Sarawak: 'Q',
+    'WP Kuala Lumpur': 'W',
+    'WP Labuan': 'L',
+    'WP Putrajaya': 'F',
+    ILK: 'ILK',
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {
@@ -863,10 +883,10 @@ function AdminAppProvider({ children }) {
         updateDataForKp,
         deleteDataForKp,
         // misc data
+        readFasilitiData,
         readOperatorData,
         readKkiaData,
         readSekolahData,
-        readFasilitiData,
         readKodProgramData,
         readGenerateTokenData,
         readGenerateTokenDataForKp,
@@ -886,16 +906,16 @@ function AdminAppProvider({ children }) {
         saveCurrentUser,
         logOutUser,
         Dictionary,
+        DictionaryHurufNegeri,
         DictionarySosMedParam,
         DictionarySosMedAcronym,
         InfoDecoder,
         navigate,
         toast,
-        pingApdmServer,
         encryptEmail,
         encryptPassword,
         formatTime,
-        resizeImage,
+        // resizeImage,
         masterDatePicker,
         EmailValidator,
         // auth

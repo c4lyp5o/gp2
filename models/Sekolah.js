@@ -5,6 +5,19 @@ const SekolahSchema = new mongoose.Schema({
   statusRawatan: {
     type: String,
     required: true,
+    enum: {
+      values: [
+        'belum mula',
+        'enggan',
+        'tidak hadir',
+        'belum selesai',
+        'enggan rawatan',
+        'tidak hadir rawatan',
+        'selesai',
+      ],
+      message:
+        '{VALUE} is not supported. Provide only "belum mula", "enggan", "tidak hadir", "belum selesai", "enggan rawatan", "tidak hadir rawatan", "selesai"',
+    },
     default: 'belum mula',
   },
   // supplied by ERKM --------------------------------------------------

@@ -3833,6 +3833,7 @@ const countPG206 = async (payload) => {
       const pipeline = [
         match_stage_operatorLain[i],
         ...getParamsOperatorLain,
+        ...hotfix206,
         group_operatorLain,
       ];
       const queryOperatorLain = await Umum.aggregate(pipeline);
@@ -6531,6 +6532,7 @@ const countPG207 = async (payload) => {
         const pipeline = [
           match_stage_operatorLain[i],
           ...getParamsOperatorLain,
+          ...hotfix207,
           group_operatorLain,
         ];
         const queryOperatorLain = await Umum.aggregate(pipeline);
@@ -13708,10 +13710,10 @@ const countPGPro01 = async (payload) => {
         $sum: '$bilanganPesertaUlangLatihanMemberusGigiBahagianA',
       },
       jumlahAktivitiPerananKempen: {
-        $sum: '$bilanganAktivitiMainPerananBahagianB',
+        $sum: '$bilanganAktivitiPameranKempenBahagianB',
       },
       jumlahPesertaPerananKempen: {
-        $sum: '$bilanganPesertaMainPerananBahagianB',
+        $sum: '$bilanganPesertaPameranKempenBahagianB',
       },
       jumlahAktivitiBoneka: {
         $sum: '$bilanganAktivitiPertunjukanBonekaBahagianB',
@@ -13825,9 +13827,9 @@ const countPGPro01 = async (payload) => {
         $sum: '$bilanganAktivitiTelevisyen',
       },
       jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
-      jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
-      jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
-      jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
+      jumlahAktivitiRadio: { $sum: '$bilanganAktivitiRadio' },
+      jumlahPesertaRadio: { $sum: '$bilanganPesertaRadio' },
+      jumlahAktivitiCetak: { $sum: '$bilanganAktivitiCetak' },
     },
   };
 
@@ -14405,9 +14407,9 @@ const countPGPro01Combined = async (payload) => {
         $sum: '$bilanganAktivitiTelevisyen',
       },
       jumlahPesertaTelevisyen: { $sum: '$bilanganPesertaTelevisyen' },
-      jumlahAktivitiRadio: { $sum: 'bilanganAktivitiRadio' },
-      jumlahPesertaRadio: { $sum: 'bilanganPesertaRadio' },
-      jumlahAktivitiCetak: { $sum: 'bilanganAktivitiCetak' },
+      jumlahAktivitiRadio: { $sum: '$bilanganAktivitiRadio' },
+      jumlahPesertaRadio: { $sum: '$bilanganPesertaRadio' },
+      jumlahAktivitiCetak: { $sum: '$bilanganAktivitiCetak' },
     },
   };
 
@@ -18006,7 +18008,7 @@ const getParams206 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /^mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18018,7 +18020,7 @@ const getParams206 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /^mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18029,7 +18031,7 @@ const getParams206 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /^mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18039,7 +18041,7 @@ const getParams206 = (payload) => {
 
   const satuMalaysia = () => {
     let param = {
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /^mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18152,7 +18154,7 @@ const getParams207 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18164,7 +18166,7 @@ const getParams207 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18185,7 +18187,7 @@ const getParams207 = (payload) => {
 
   const satuMalaysia = () => {
     let param = {
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18289,6 +18291,7 @@ const getParamsPgPro = (payload) => {
       tarikhMula: dateModifier(payload),
       promosiIndividu: true,
       createdByMdcMdtb: pilihanIndividu,
+      deleted: false,
     };
     return param;
   };
@@ -18298,6 +18301,7 @@ const getParamsPgPro = (payload) => {
       tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByKodFasiliti: klinik,
+      deleted: false,
     };
     return param;
   };
@@ -18308,6 +18312,7 @@ const getParamsPgPro = (payload) => {
       promosiKlinik: true,
       createdByDaerah: daerah,
       createdByNegeri: negeri,
+      deleted: false,
     };
   };
 
@@ -18316,6 +18321,7 @@ const getParamsPgPro = (payload) => {
       tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByNegeri: negeri,
+      deleted: false,
     };
   };
 
@@ -18323,6 +18329,7 @@ const getParamsPgPro = (payload) => {
     return {
       tarikhMula: dateModifier(payload),
       promosiKlinik: true,
+      deleted: false,
     };
   };
 
@@ -18906,6 +18913,23 @@ const getParamsOperatorLain = [
   {
     $replaceRoot: {
       newRoot: '$rawatanOperatorLain',
+    },
+  },
+];
+
+// temp fix
+const hotfix206 = [
+  {
+    $match: {
+      createdByMdcMdtb: { $regex: /^mdtb/i },
+    },
+  },
+];
+
+const hotfix207 = [
+  {
+    $match: {
+      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
     },
   },
 ];

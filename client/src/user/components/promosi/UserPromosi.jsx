@@ -11,7 +11,7 @@ import {
 import { FaSort, FaSortUp } from 'react-icons/fa';
 
 import UserModalPromosi from './UserModalPromosi';
-import UserDeleteModal from '../UserDeleteModal';
+// import UserDeleteModal from '../UserDeleteModal';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -36,8 +36,8 @@ function UserPromosi({ individuOrKlinik }) {
   const [allAktivitiPromosi, setAllAktivitiPromosi] = useState([]);
   const [pilih, setPilih] = useState('');
   const [resultPilih, setResultPilih] = useState([]);
-  const [operasiHapus, setOperasiHapus] = useState(false);
-  const [modalHapus, setModalHapus] = useState(false);
+  // const [operasiHapus, setOperasiHapus] = useState(false);
+  // const [modalHapus, setModalHapus] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -88,7 +88,7 @@ function UserPromosi({ individuOrKlinik }) {
     setShowTambahAcara(true);
   };
 
-  //scroll to bottom if resultPilih.length > 1
+  //scroll to bottom if resultPilih.length > 0
   const scrollBottom = () => {
     bawahRef.current?.scrollIntoView({ behavior: 'smooth' });
   };
@@ -104,7 +104,13 @@ function UserPromosi({ individuOrKlinik }) {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/promosi?tarikhAkhir=${bulanPilih}&individuOrKlinik=${individuOrKlinik}`,
+          `/api/v1/query/promosi?tarikhAkhir=${bulanPilih}&individuOrKlinik=${individuOrKlinik}${
+            individuOrKlinik === 'promosi-individu'
+              ? `&mdcMdtbNumber=${
+                  userinfo.mdcNumber ? userinfo.mdcNumber : userinfo.mdtbNumber
+                }`
+              : ''
+          }`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -118,6 +124,7 @@ function UserPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
+        setIsLoading(false);
         // toast.error(
         //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-query'
         // );
@@ -142,10 +149,10 @@ function UserPromosi({ individuOrKlinik }) {
 
   // clear pilihan if change individuOrKlinik, kodProgram, reloadState
   useEffect(() => {
-    if (modalHapus === false) {
-      setPilih('');
-      setResultPilih([]);
-    }
+    // if (modalHapus === false) {
+    setPilih('');
+    setResultPilih([]);
+    // }
   }, [individuOrKlinik, kodProgram, reloadState]);
 
   //clear kodProgram if change jenisProgram
@@ -175,47 +182,47 @@ function UserPromosi({ individuOrKlinik }) {
     };
   }, []);
 
-  const handleDelete = async (singleAktiviti, reason) => {
-    if (!modalHapus) {
-      setModalHapus(true);
-      return;
-    }
-    if (modalHapus) {
-      let mdcMdtbNum = '';
-      if (!userinfo.mdtbNumber) {
-        mdcMdtbNum = userinfo.mdcNumber;
-      }
-      if (!userinfo.mdcNumber) {
-        mdcMdtbNum = userinfo.mdtbNumber;
-      }
-      await toast.promise(
-        axios.patch(
-          `/api/v1/promosi/aktiviti/delete/${singleAktiviti}`,
-          {
-            deleteReason: reason,
-            createdByMdcMdtb: mdcMdtbNum,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${
-                reliefUserToken ? reliefUserToken : userToken
-              }`,
-            },
-          }
-        ),
-        {
-          pending: 'Menghapus acara...',
-          success: 'Acara berjaya dihapus',
-          error: 'Acara gagal dihapus',
-        },
-        {
-          autoClose: 5000,
-        }
-      );
-      setModalHapus(false);
-      setReloadState(!reloadState);
-    }
-  };
+  // const handleDelete = async (singleAktiviti, reason) => {
+  //   if (!modalHapus) {
+  //     setModalHapus(true);
+  //     return;
+  //   }
+  //   if (modalHapus) {
+  //     let mdcMdtbNum = '';
+  //     if (!userinfo.mdtbNumber) {
+  //       mdcMdtbNum = userinfo.mdcNumber;
+  //     }
+  //     if (!userinfo.mdcNumber) {
+  //       mdcMdtbNum = userinfo.mdtbNumber;
+  //     }
+  //     await toast.promise(
+  //       axios.patch(
+  //         `/api/v1/promosi/aktiviti/delete/${singleAktiviti}`,
+  //         {
+  //           deleteReason: reason,
+  //           createdByMdcMdtb: mdcMdtbNum,
+  //         },
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${
+  //               reliefUserToken ? reliefUserToken : userToken
+  //             }`,
+  //           },
+  //         }
+  //       ),
+  //       {
+  //         pending: 'Menghapus acara...',
+  //         success: 'Acara berjaya dihapus',
+  //         error: 'Acara gagal dihapus',
+  //       },
+  //       {
+  //         autoClose: 5000,
+  //       }
+  //     );
+  //     setModalHapus(false);
+  //     setReloadState(!reloadState);
+  //   }
+  // };
 
   return (
     <>
@@ -446,12 +453,12 @@ function UserPromosi({ individuOrKlinik }) {
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
                       AKTIFKAN
                     </th>
-                    {(userinfo.role === 'admin' ||
+                    {/* {(userinfo.role === 'admin' ||
                       userinfo.rolePromosiKlinik === true) && (
                       <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                         HAPUS
                       </th>
-                    )}
+                    )} */}
                   </tr>
                 </thead>
                 {!isLoading &&
@@ -519,7 +526,7 @@ function UserPromosi({ individuOrKlinik }) {
                             <td
                               className={`${
                                 pilih === a._id && 'bg-user3'
-                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1`}
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-left pl-3`}
                             >
                               {a.namaAcara}
                             </td>
@@ -563,7 +570,7 @@ function UserPromosi({ individuOrKlinik }) {
                             </td>
                             <td
                               onClick={() => {
-                                setOperasiHapus(false);
+                                // setOperasiHapus(false);
                                 setPilih(a._id);
                                 scrollBottom();
                               }}
@@ -573,7 +580,7 @@ function UserPromosi({ individuOrKlinik }) {
                             >
                               <u>PILIH</u>
                             </td>
-                            {(userinfo.role === 'admin' ||
+                            {/* {(userinfo.role === 'admin' ||
                               userinfo.rolePromosiKlinik === true) && (
                               <td
                                 onClick={() => {
@@ -587,7 +594,7 @@ function UserPromosi({ individuOrKlinik }) {
                               >
                                 <u>HAPUS</u>
                               </td>
-                            )}
+                            )} */}
                           </tr>
                         </tbody>
                       );
@@ -622,9 +629,9 @@ function UserPromosi({ individuOrKlinik }) {
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                       </td>
-                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
-                      </td>
+                      </td> */}
                     </tr>
                     <tr>
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -654,9 +661,9 @@ function UserPromosi({ individuOrKlinik }) {
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                       </td>
-                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
-                      </td>
+                      </td> */}
                     </tr>
                     <tr>
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -686,9 +693,9 @@ function UserPromosi({ individuOrKlinik }) {
                       <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                       </td>
-                      <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
-                      </td>
+                      </td> */}
                     </tr>
                   </tbody>
                 )}
@@ -733,7 +740,7 @@ function UserPromosi({ individuOrKlinik }) {
                         {moment(a.tarikhAkhir).format('DD/MM/YYYY')}
                       </p>
                     </div>
-                    {operasiHapus ? (
+                    {/* {operasiHapus ? (
                       <button
                         className='float-right m-2 p-2 uppercase bg-user9 text-base text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
                         onClick={() => {
@@ -741,8 +748,8 @@ function UserPromosi({ individuOrKlinik }) {
                         }}
                       >
                         hapus acara?
-                      </button>
-                    ) : a.statusReten === 'belum diisi' ? (
+                      </button> */}
+                    {a.statusReten === 'belum diisi' && (
                       <Link
                         target='_blank'
                         rel='noreferrer'
@@ -751,7 +758,8 @@ function UserPromosi({ individuOrKlinik }) {
                       >
                         masukkan reten
                       </Link>
-                    ) : a.statusReten === 'telah diisi' ? (
+                    )}
+                    {a.statusReten === 'telah diisi' && (
                       <Link
                         target='_blank'
                         rel='noreferrer'
@@ -760,16 +768,16 @@ function UserPromosi({ individuOrKlinik }) {
                       >
                         lihat reten
                       </Link>
-                    ) : null}
+                    )}
                   </div>
-                  {modalHapus && (
+                  {/* {modalHapus && (
                     <UserDeleteModal
                       handleDelete={handleDelete}
                       setModalHapus={setModalHapus}
                       id={a._id}
                       nama={a.namaAcara}
                     />
-                  )}
+                  )} */}
                 </>
               );
             })}

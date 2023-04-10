@@ -39,17 +39,17 @@ const AddModal = ({
     toast,
     createData,
     readData,
-    pingApdmServer,
+    // pingMOEISServer,
     readSekolahData,
     readFasilitiData,
     readKkiaData,
+    DictionaryHurufNegeri,
     EmailValidator,
   } = useGlobalAdminAppContext();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
   const [statusPerkhidmatan, setStatusPerkhidmatan] = useState('');
-  const [kodSekolah, setKodSekolah] = useState('');
   const [kp, setKp] = useState('');
   const [kodFasiliti, setKodFasiliti] = useState('');
   const [kodKkiaKd, setKodKkiaKd] = useState('');
@@ -62,10 +62,15 @@ const AddModal = ({
   // institusi
   const [kategoriInstitusi, setKategoriInstitusi] = useState('');
   // taska
-  const [kodTastad, setKodTastad] = useState('');
+  const [kodTastadTengah, setKodTastadTengah] = useState('');
+  const [kodTastadHujung, setKodTastadHujung] = useState('');
   const [alamatTastad, setAlamatTastad] = useState('');
   const [enrolmenTastad, setEnrolmenTastad] = useState('');
   const [govKe, setGovKe] = useState('');
+  // sekolah
+  const [idInstitusi, setIdInstitusi] = useState('');
+  const [kodSekolah, setKodSekolah] = useState('');
+  const [jenisPerkhidmatanSekolah, setJenisPerkhidmatanSekolah] = useState('');
   // kpb mpb
   const [subJenisKPBMPB, setSubJenisKPBMPB] = useState('');
   // event
@@ -78,8 +83,9 @@ const AddModal = ({
     moment(new Date()).format('YYYY-MM-DD')
   );
   const [tempat, setTempat] = useState('');
-  // APDM
-  const [statusApdm, setStatusApdm] = useState(false);
+  // MOEIS
+  const [isLoadingMOEIS, setIsLoadingMOEIS] = useState(true);
+  const [statusMOEIS, setStatusMOEIS] = useState(false);
   // data
   const [klinik, setKlinik] = useState([]);
   const [kkia, setKkia] = useState([]);
@@ -95,6 +101,7 @@ const AddModal = ({
   const [noPpJp, setNoPpJp] = useState('');
 
   const handleSubmit = async () => {
+    setAddingData(true);
     if (FType === 'pp' || FType === 'jp') {
       if (
         !carianNama ||
@@ -119,7 +126,7 @@ const AddModal = ({
       nama: name,
       handler: kp,
       kodFasilitiHandler: kodFasiliti,
-      statusPerkhidmatan: statusPerkhidmatan,
+      statusPerkhidmatan: 'active',
     };
     if (FType === 'kp') {
       Data = {
@@ -168,9 +175,14 @@ const AddModal = ({
       };
     }
     if (FType === 'taska' || FType === 'tadika') {
+      const kodTastadSebenar = `${FType.substring(0, 3).toUpperCase()}-${
+        DictionaryHurufNegeri[negeri]
+      }${kodTastadTengah}-${
+        govKe === 'kerajaan' ? 'K' : 'S'
+      }${kodTastadHujung}`;
       Data = {
         ...Data,
-        kodTastad: kodTastad,
+        kodTastad: kodTastadSebenar,
         alamatTastad: alamatTastad,
         // enrolmenTastad: enrolmenTastad, //enrolmentTastad ditetapkan di Pentadbir Klinik
         govKe: govKe,
@@ -179,8 +191,10 @@ const AddModal = ({
     if (FType === 'sr' || FType === 'sm') {
       Data = {
         ...Data,
+        idInstitusi: idInstitusi,
         kodSekolah: kodSekolah,
         risikoSekolahPersis: risiko,
+        jenisPerkhidmatanSekolah,
       };
     }
     if (FType === 'kpb' || FType === 'mpb') {
@@ -230,16 +244,17 @@ const AddModal = ({
 
   useEffect(() => {
     if (FType === 'sr' || FType === 'sm') {
-      pingApdmServer().then((res) => {
-        if (res.status === 200) {
-          setStatusApdm(true);
-        } else {
-          setStatusApdm(false);
-        }
-      });
-      readSekolahData(FType).then((res) => {
-        setSekolah(res);
-      });
+      readSekolahData(FType)
+        .then((res) => {
+          setStatusMOEIS(true);
+          setIsLoadingMOEIS(false);
+          setSekolah(res);
+        })
+        .catch((err) => {
+          setStatusMOEIS(false);
+          setIsLoadingMOEIS(false);
+          console.log(err);
+        });
     }
     if (FType === 'kp') {
       readFasilitiData({ negeri, daerah }).then((res) => {
@@ -294,10 +309,16 @@ const AddModal = ({
     setKodKkiaKd,
     kodKkiaKd,
     // facility
+    setIdInstitusi,
+    idInstitusi,
     setKodSekolah,
     kodSekolah,
-    setKodTastad,
-    kodTastad,
+    setJenisPerkhidmatanSekolah,
+    jenisPerkhidmatanSekolah,
+    setKodTastadTengah,
+    kodTastadTengah,
+    setKodTastadHujung,
+    kodTastadHujung,
     setAlamatTastad,
     alamatTastad,
     setEnrolmenTastad,
@@ -322,12 +343,14 @@ const AddModal = ({
     setTempat,
     tempat,
     // misc
-    statusApdm,
+    isLoadingMOEIS,
+    statusMOEIS,
     setAddingData,
     addingData,
     klinik,
     kkia,
     sekolah,
+    negeri,
     handleSubmit,
   };
 
@@ -504,6 +527,8 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
         ...Data,
         risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
+        jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
+        statusFMRSekolah: editedEntity.statusFMRSekolah,
       };
     }
     if (FType === 'program') {
@@ -583,6 +608,8 @@ const EditModalForKp = ({
   const [allKlinik, setAllKlinik] = useState([]);
   const [allKkiaKd, setAllKkiaKd] = useState([]);
   const [allTastad, setAllTastad] = useState([]);
+  const [allSR, setAllSR] = useState([]);
+  const [allSM, setAllSM] = useState([]);
   const [editedEntity, setEditedEntity] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -590,61 +617,72 @@ const EditModalForKp = ({
   const [startDateDP, setStartDateDP] = useState(null);
   const [endDateDP, setEndDateDP] = useState(null);
 
+  const init = useRef(false);
+
   useEffect(() => {
-    if (FType === 'kpb' || FType === 'mpb') {
-      readDataForKp('kpallnegeri').then((res) => {
-        setAllKlinik(res.data);
-      });
-      readDataForKp('kkiakdallnegeri').then((res) => {
-        setAllKkiaKd(res.data);
-      });
-      readDataForKp('tastadallnegeri').then((res) => {
-        setAllTastad(res.data);
-      });
-    }
-    readOneDataForKp(FType, id).then((res) => {
-      if (FType === 'tastad') {
-        // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
-        if (
-          res.data.enrolmenTastad === 'NOT APPLICABLE' ||
-          res.data.enrolmenTastad === null ||
-          res.data.enrolmenTastad === undefined
-        ) {
-          res.data.enrolmenTastad = 0;
-        }
-        if (
-          res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmenKurang4Tahun === null ||
-          res.data.enrolmenKurang4Tahun === undefined
-        ) {
-          res.data.enrolmenKurang4Tahun = 0;
-        }
-        if (
-          res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen5Tahun === null ||
-          res.data.enrolmen5Tahun === undefined
-        ) {
-          res.data.enrolmen5Tahun = 0;
-        }
-        if (
-          res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
-          res.data.enrolmen6Tahun === null ||
-          res.data.enrolmen6Tahun === undefined
-        ) {
-          res.data.enrolmen6Tahun = 0;
-        }
+    if (init.current === false) {
+      if (FType === 'kpb' || FType === 'mpb') {
+        readDataForKp('kpallnegeri').then((res) => {
+          setAllKlinik(res.data);
+        });
+        readDataForKp('kkiakdallnegeri').then((res) => {
+          setAllKkiaKd(res.data);
+        });
+        readDataForKp('tastadallnegeri').then((res) => {
+          setAllTastad(res.data);
+        });
+        readDataForKp('sr').then((res) => {
+          setAllSR(res.data);
+        });
+        readDataForKp('sm').then((res) => {
+          setAllSM(res.data);
+        });
       }
-      setEditedEntity(res.data);
-      res.data.tarikhStart
-        ? setStartDateDP(new Date(res.data.tarikhStart))
-        : setStartDateDP(null);
-      res.data.tarikhEnd
-        ? setEndDateDP(new Date(res.data.tarikhEnd))
-        : setEndDateDP(null);
-    });
-    setTimeout(() => {
-      setLoading(false);
-    }, 500);
+      readOneDataForKp(FType, id).then((res) => {
+        if (FType === 'tastad') {
+          // workaround to stick enrolmenTastad with type String. Data enrolmen yang sedia ada dah masuk dalam string dah...
+          if (
+            res.data.enrolmenTastad === 'NOT APPLICABLE' ||
+            res.data.enrolmenTastad === null ||
+            res.data.enrolmenTastad === undefined
+          ) {
+            res.data.enrolmenTastad = 0;
+          }
+          if (
+            res.data.enrolmenKurang4Tahun === 'NOT APPLICABLE' ||
+            res.data.enrolmenKurang4Tahun === null ||
+            res.data.enrolmenKurang4Tahun === undefined
+          ) {
+            res.data.enrolmenKurang4Tahun = 0;
+          }
+          if (
+            res.data.enrolmen5Tahun === 'NOT APPLICABLE' ||
+            res.data.enrolmen5Tahun === null ||
+            res.data.enrolmen5Tahun === undefined
+          ) {
+            res.data.enrolmen5Tahun = 0;
+          }
+          if (
+            res.data.enrolmen6Tahun === 'NOT APPLICABLE' ||
+            res.data.enrolmen6Tahun === null ||
+            res.data.enrolmen6Tahun === undefined
+          ) {
+            res.data.enrolmen6Tahun = 0;
+          }
+        }
+        setEditedEntity(res.data);
+        res.data.tarikhStart
+          ? setStartDateDP(new Date(res.data.tarikhStart))
+          : setStartDateDP(null);
+        res.data.tarikhEnd
+          ? setEndDateDP(new Date(res.data.tarikhEnd))
+          : setEndDateDP(null);
+      });
+      setTimeout(() => {
+        setLoading(false);
+      }, 500);
+      init.current = true;
+    }
   }, []);
 
   // resetting tarikhEnd kalau ubah tarikh start. A MUST TO NOT LET USER PICK tarikhStart LATER THAN tarikhEnd. Yup currently kalau buka kemaskini tarikhEnd tu akan reset kat display. Tapi ni lah cara buat masa ni untuk guard daripada user yang salah masuk tarikhStart terlebih dari tarikhEnd
@@ -727,6 +765,9 @@ const EditModalForKp = ({
         kodKkiaKdBertanggungjawab: editedEntity.kodKkiaKdHandler,
         tastadBertanggungjawab: editedEntity.handlerTastad,
         kodTastadBertanggungjawab: editedEntity.kodTastadHandler,
+        SRbertanggungjawab: editedEntity.handlerSR,
+        SMbertanggungjawab: editedEntity.handlerSM,
+        kodSekolahBertanggungjawab: editedEntity.kodSekolahHandler,
       };
     }
     updateDataForKp(FType, id, Data).then(() => {
@@ -782,6 +823,8 @@ const EditModalForKp = ({
     allKlinik,
     allKkiaKd,
     allTastad,
+    allSR,
+    allSM,
     FType,
     eventModeChecker,
     handleSubmit,

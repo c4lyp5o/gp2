@@ -20,10 +20,15 @@ export default function MyVas({ setShowMyVas }) {
           className='absolute top-0.5 right-2 text-xl cursor-pointer text-userWhite hover:text-kaunter3'
           onClick={() => setShowMyVas(false)}
         />
-        <div className='h-6 bg-user1 flex justify-center items-center text-userWhite normal-case font-semibold text-lg'>
+        <div className='h-7 bg-user1 flex justify-center items-center text-userWhite normal-case font-semibold text-lg'>
+          <img
+            src='https://upload.wikimedia.org/wikipedia/commons/9/90/MySejahtera.png'
+            alt='MySejahtera Logo'
+            className='w-6 h-6 inline-block m-1'
+          />{' '}
           MyVas
         </div>
-        <h1 className='my-2 text-lg font-bold'>Temujanji</h1>
+        <h1 className='my-2 text-lg font-bold'>Janji Temu</h1>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-kaunter2'>
@@ -41,7 +46,13 @@ export default function MyVas({ setShowMyVas }) {
                   NO. TELEFON
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                  STATUS
+                  WAKTU JANJI TEMU
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  STATUS KEHADIRAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  PILIHAN
                 </th>
               </tr>
             </thead>
@@ -58,6 +69,12 @@ export default function MyVas({ setShowMyVas }) {
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   012-3456789
+                </td>
+                <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                  12:00 PM
+                </td>
+                <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                  HADIR
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   <span className='bg-user1 text-userWhite px-2 py-1 rounded-md'>
@@ -77,6 +94,12 @@ export default function MyVas({ setShowMyVas }) {
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   012-3456789
+                </td>
+                <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                  12:00 PM
+                </td>
+                <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                  HADIR
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   <span className='bg-user1 text-userWhite px-2 py-1 rounded-md'>
@@ -90,14 +113,6 @@ export default function MyVas({ setShowMyVas }) {
         <h1 className='my-2 text-lg font-bold'>
           <i>Walk In</i>
         </h1>
-        <div className='flex justify-center items-center'>
-          {/* qrcode appeared */}
-          <img
-            src='https://api.qrserver.com/v1/create-qr-code/?size=150x150&data=Hello%20World'
-            alt='qrcode'
-            className='w-56 h-56'
-          />
-        </div>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-kaunter2'>
@@ -113,6 +128,9 @@ export default function MyVas({ setShowMyVas }) {
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   NO. TELEFON
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  STATUS KEHADIRAN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   STATUS
@@ -134,6 +152,9 @@ export default function MyVas({ setShowMyVas }) {
                   012-3456789
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                  HADIR
+                </td>
+                <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   <span className='bg-user1 text-userWhite px-2 py-1 rounded-md'>
                     PILIH
                   </span>
@@ -151,6 +172,9 @@ export default function MyVas({ setShowMyVas }) {
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   012-3456789
+                </td>
+                <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                  HADIR
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   <span className='bg-user1 text-userWhite px-2 py-1 rounded-md'>

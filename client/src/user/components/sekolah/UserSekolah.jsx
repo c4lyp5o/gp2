@@ -1,5 +1,5 @@
-import { useState, useEffect } from 'react';
-import { Link } from 'react-router-dom';
+import { useState, useEffect, useRef } from 'react';
+import { Link, useParams } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 import {
@@ -21,13 +21,15 @@ function UserSekolah() {
     toast,
   } = useGlobalUserAppContext();
 
+  const { singleSekolahId } = useParams();
+
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
-  const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
-  const [dahFilterTahun, setDahFilterTahun] = useState([]);
+  // const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
+  // const [dahFilterTahun, setDahFilterTahun] = useState([]);
   const [sekMenRen, setSekMenRen] = useState('');
-  const [isFiltering, setIsFiltering] = useState(false);
+  // const [isFiltering, setIsFiltering] = useState(false);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [tahun, setTahun] = useState([]);
   const [namaKelas, setNamaKelas] = useState([]);
@@ -36,35 +38,44 @@ function UserSekolah() {
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
   const [filterNama, setFilterNama] = useState('');
 
-  const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
+  // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
+
+  const init = useRef(false);
 
   // init fetch allPersonSekolahs
   useEffect(() => {
     const fetchAllPersonSekolahs = async () => {
       try {
         setIsLoading(true);
-        const { data } = await axios.get('/api/v1/sekolah/populate', {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        });
-        const allPersonSekolahs = data.allPersonSekolahs;
-        const namaSekolahs = allPersonSekolahs.reduce(
-          (arrNamaSekolahs, singlePersonSekolah) => {
-            if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-              arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-            }
-            return arrNamaSekolahs.filter((valid) => valid);
-          },
-          ['']
+        const { data } = await axios.get(
+          `/api/v1/sekolah/faceted/${singleSekolahId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
         );
+        // console.log(data);
+        // const allPersonSekolahs = data.allPersonSekolahs;
+        // const namaSekolahs = allPersonSekolahs.reduce(
+        //   (arrNamaSekolahs, singlePersonSekolah) => {
+        //     if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
+        //       arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
+        //     }
+        //     return arrNamaSekolahs.filter((valid) => valid);
+        //   },
+        //   ['']
+        // );
+        setPilihanSekolah(data.fasilitiSekolahs[0].nama);
         setAllPersonSekolahs(data.allPersonSekolahs);
-        setNamaSekolahs(namaSekolahs);
+        setNamaSekolahs([...namaSekolahs, data.fasilitiSekolahs[0].nama]);
+        // setFasilitiSekolah(data.fasilitiSekolahs);
+        setFilteredFasilitiSekolah(data.fasilitiSekolahs);
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
@@ -74,14 +85,18 @@ function UserSekolah() {
         // );
       }
     };
-    fetchAllPersonSekolahs();
+    init.current = false;
+    if (!init.current) {
+      init.current = true;
+      fetchAllPersonSekolahs();
+    }
   }, [reloadState]);
 
   useEffect(() => {
-    const filteredSekolahs = allPersonSekolahs.filter((person) =>
-      person.namaSekolah.includes(pilihanSekolah)
-    );
-    const tahun = filteredSekolahs.reduce(
+    // const filteredSekolahs = allPersonSekolahs.filter((person) =>
+    //   person.namaSekolah.includes(pilihanSekolah)
+    // );
+    const tahun = allPersonSekolahs.reduce(
       (arrTahun, singlePersonSekolah) => {
         if (!arrTahun.includes(singlePersonSekolah.tahun)) {
           arrTahun.push(singlePersonSekolah.tahun);
@@ -90,12 +105,13 @@ function UserSekolah() {
       },
       ['']
     );
+    // console.log(tahun);
     setTahun(tahun);
-    setDahFilterSekolahs(filteredSekolahs);
+    // setDahFilterSekolahs(filteredSekolahs);
   }, [pilihanSekolah]);
 
   useEffect(() => {
-    const filteredTahun = dahFilterSekolahs.filter((person) =>
+    const filteredTahun = allPersonSekolahs.filter((person) =>
       person.tahun.includes(pilihanTahun)
     );
     const namaKelas = filteredTahun.reduce(
@@ -108,7 +124,7 @@ function UserSekolah() {
       ['']
     );
     setNamaKelas(namaKelas);
-    setDahFilterTahun(filteredTahun);
+    // setDahFilterTahun(filteredTahun);
   }, [pilihanTahun]);
 
   // reset value
@@ -128,33 +144,36 @@ function UserSekolah() {
   }, [pilihanNamaKelas]);
 
   // fetch fasiliti sekolah to determine selesai reten
-  useEffect(() => {
-    const fetchFasilitiSekolahs = async () => {
-      try {
-        const { data } = await axios.get('/api/v1/sekolah', {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        });
-        setFasilitiSekolah(data.fasilitiSekolahs);
-        setFilteredFasilitiSekolah(data.fasilitiSekolahs);
-      } catch (error) {
-        console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchFasilitiSekolahs'
-        // );
-      }
-    };
-    fetchFasilitiSekolahs();
-  }, []);
+  // useEffect(() => {
+  //   const fetchFasilitiSekolahs = async () => {
+  //     try {
+  //       const { data } = await axios.get(
+  //         `/api/v1/sekolah/faceted/${singleSekolahId}`,
+  //         {
+  //           headers: {
+  //             Authorization: `Bearer ${
+  //               reliefUserToken ? reliefUserToken : userToken
+  //             }`,
+  //           },
+  //         }
+  //       );
+  //       setFasilitiSekolah(data.fasilitiSekolahs);
+  //       setFilteredFasilitiSekolah(data.fasilitiSekolahs);
+  //     } catch (error) {
+  //       console.log(error);
+  //       // toast.error(
+  //       //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchFasilitiSekolahs'
+  //       // );
+  //     }
+  //   };
+  //   fetchFasilitiSekolahs();
+  // }, []);
 
-  useEffect(() => {
-    setFilteredFasilitiSekolah(
-      fasilitiSekolah.filter((f) => f.nama.includes(pilihanSekolah))
-    );
-  }, [pilihanSekolah]);
+  // useEffect(() => {
+  //   setFilteredFasilitiSekolah(
+  //     fasilitiSekolah.filter((f) => f.nama.includes(pilihanSekolah))
+  //   );
+  // }, [pilihanSekolah]);
 
   // useEffect(() => {
   //   setSekMenRen(
@@ -183,7 +202,7 @@ function UserSekolah() {
           <div className=''>
             <div className='flex justify-between'>
               <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
-                CARIAN MURID SEKOLAH
+                CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
                 <button
@@ -200,29 +219,16 @@ function UserSekolah() {
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
-                </span>{' '}
+                </span>
                 <span className=' uppercase text-xs lg:text-sm w-full'>
-                  {/* {pilihanSekolah ? pilihanSekolah : 'Sila pilih sekolah'} */}
-                  <select
+                  <input
+                    disabled
+                    type='text'
+                    name='pilihan-sekolah'
+                    id='pilihan-sekolah'
                     value={pilihanSekolah}
-                    onChange={(e) => {
-                      setPilihanSekolah(e.target.value);
-                    }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>SILA PILIH</option>
-                    {namaSekolahs.map((singleNamaSekolah, index) => {
-                      return (
-                        <option
-                          value={singleNamaSekolah}
-                          key={index}
-                          className='capitalize'
-                        >
-                          {singleNamaSekolah}
-                        </option>
-                      );
-                    })}
-                  </select>
+                  />
                 </span>
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
@@ -230,7 +236,6 @@ function UserSekolah() {
                   Tahun:
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
-                  {/* {pilihanTahun ? pilihanTahun : 'Sila pilih tahun'} */}
                   <select
                     value={pilihanTahun}
                     onChange={(e) => {
@@ -262,7 +267,6 @@ function UserSekolah() {
                   Kelas:
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
-                  {/* {pilihanNamaKelas ? pilihanNamaKelas : 'Sila pilih kelas'} */}
                   <select
                     value={pilihanNamaKelas}
                     onChange={(e) => {
@@ -287,6 +291,58 @@ function UserSekolah() {
                       <option value=''>SILA PILIH TAHUN</option>
                     )}
                   </select>
+                </span>
+              </p>
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Tarikh Mula:
+                </span>
+                {pilihanSekolah ? (
+                  <span className='uppercase text-xs lg:text-sm w-full'>
+                    {pilihanSekolah &&
+                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
+                        readOnly
+                      />
+                    ) : (
+                      <input
+                        type='text'
+                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='BELUM MULA'
+                        readOnly
+                      />
+                    )}
+                  </span>
+                ) : (
+                  <input
+                    type='text'
+                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
+                    value='SILA PILIH SEKOLAH'
+                    readOnly
+                  />
+                )}
+              </p> */}
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Tarikh Tamat:
+                </span>
+              </p> */}
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
+                  Nama Pelajar:
+                </span>
+                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  <input
+                    type='text'
+                    value={filterNama}
+                    onChange={(e) => {
+                      setFilterNama(e.target.value.toUpperCase());
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  />
                 </span>
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
@@ -321,190 +377,129 @@ function UserSekolah() {
                   />
                 )}
               </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Mula:
-                </span>
-                {pilihanSekolah ? (
-                  <span className='uppercase text-xs lg:text-sm w-full'>
-                    {pilihanSekolah &&
-                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
-                        readOnly
-                      />
-                    ) : (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='BELUM MULA'
-                        readOnly
-                      />
-                    )}
-                  </span>
-                ) : (
-                  <input
-                    type='text'
-                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='SILA PILIH SEKOLAH'
-                    readOnly
-                  />
-                )}
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Tamat:
-                </span>
-              </p>
-              {pilihanTahun && (
-                <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                  <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                    Nama Pelajar:
-                  </span>
-                  <span className=' uppercase text-xs lg:text-sm w-full'>
-                    <input
-                      type='text'
-                      value={filterNama}
-                      onChange={(e) => {
-                        setFilterNama(e.target.value.toUpperCase());
-                      }}
-                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    />
-                  </span>
-                </p>
-              )}
             </div>
           </div>
         </div>
         <div className='m-auto text-xs lg:text-sm rounded-md h-min max-w-max overflow-x-auto'>
-          {pilihanSekolah ? (
-            <table className='table-auto'>
-              <thead className='text-userWhite bg-user2'>
-                <tr>
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                    BIL
-                  </th>
-                  <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
-                    NAMA
-                  </th>
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
-                    OPERATOR PEMERIKSAAN
-                  </th>
-                  <th className='outline outline-1 outline-offset-1 px-5 py-1'>
-                    STATUS RAWATAN
-                  </th>
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                    PEMERIKSAAN
-                  </th>
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                    RAWATAN
-                  </th>
-                  {/* <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+          <table className='table-auto'>
+            <thead className='text-userWhite bg-user2'>
+              <tr>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  BIL
+                </th>
+                <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
+                  NAMA
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
+                  OPERATOR PEMERIKSAAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-5 py-1 w-28'>
+                  STATUS
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  PEMERIKSAAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  RAWATAN
+                </th>
+                {/* <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                     KOTAK
                   </th> */}
-                </tr>
-              </thead>
-              {!isLoading &&
-                pilihanSekolah &&
-                allPersonSekolahs
-                  .filter(
-                    (person) =>
-                      person.namaSekolah.includes(pilihanSekolah) &&
-                      person.tahun.includes(pilihanTahun) &&
-                      person.namaKelas.includes(pilihanNamaKelas) &&
-                      person.nama.includes(filterNama)
-                  )
-                  .map((singlePersonSekolah, index) => {
-                    return (
-                      <>
-                        <tbody className='bg-user4'>
-                          <tr key={singlePersonSekolah._id}>
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                              {index + 1}
-                            </td>
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                              {singlePersonSekolah.nama}
-                            </td>
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+              </tr>
+            </thead>
+            {!isLoading &&
+              pilihanSekolah &&
+              allPersonSekolahs
+                .filter(
+                  (person) =>
+                    person.namaSekolah.includes(pilihanSekolah) &&
+                    person.tahun.includes(pilihanTahun) &&
+                    person.namaKelas.includes(pilihanNamaKelas) &&
+                    person.nama.includes(filterNama)
+                )
+                .map((singlePersonSekolah, index) => {
+                  return (
+                    <>
+                      <tbody className='bg-user4'>
+                        <tr key={singlePersonSekolah._id}>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                            {index + 1}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
+                            {singlePersonSekolah.nama}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
+                            {singlePersonSekolah.pemeriksaanSekolah
+                              ? singlePersonSekolah.pemeriksaanSekolah
+                                  .createdByUsername
+                              : null}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                            {singlePersonSekolah.statusRawatan}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            <Link
+                              target='_blank'
+                              rel='noreferrer'
+                              to={`/pengguna/landing/senarai-sekolah/sekolah/form-sekolah/pemeriksaan/${
+                                singlePersonSekolah._id
+                              }/${
+                                singlePersonSekolah.pemeriksaanSekolah
+                                  ? singlePersonSekolah.pemeriksaanSekolah._id
+                                  : 'tambah-pemeriksaan'
+                              }`}
+                              className={`${
+                                singlePersonSekolah.pemeriksaanSekolah
+                                  ? 'bg-user7 shadow-md'
+                                  : filteredFasilitiSekolah[0]
+                                      .sekolahSelesaiReten === true
+                                  ? 'pointer-events-none bg-user4 shadow-none'
+                                  : 'bg-user6 shadow-md'
+                              } hover:bg-user8 text-userWhite rounded-sm p-1 m-1 transition-all`}
+                            >
                               {singlePersonSekolah.pemeriksaanSekolah
-                                ? singlePersonSekolah.pemeriksaanSekolah
-                                    .createdByUsername
-                                : null}
-                            </td>
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                              {singlePersonSekolah.statusRawatan}
-                            </td>
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                                ? 'lihat pemeriksaan'
+                                : filteredFasilitiSekolah[0]
+                                    .sekolahSelesaiReten === true
+                                ? 'Pemeriksaan Ditutup'
+                                : 'Tambah Pemeriksaan'}
+                            </Link>
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                            {filteredFasilitiSekolah[0].sekolahSelesaiReten ===
+                            false ? (
                               <Link
                                 target='_blank'
                                 rel='noreferrer'
-                                to={`form-sekolah/pemeriksaan/${
-                                  singlePersonSekolah._id
-                                }/${
-                                  singlePersonSekolah.pemeriksaanSekolah
-                                    ? singlePersonSekolah.pemeriksaanSekolah._id
-                                    : 'tambah-pemeriksaan'
-                                }`}
+                                to={`/pengguna/landing/senarai-sekolah/sekolah/form-sekolah/rawatan/${singlePersonSekolah._id}`}
                                 className={`${
-                                  singlePersonSekolah.pemeriksaanSekolah
-                                    ? 'bg-user7 shadow-md'
-                                    : filteredFasilitiSekolah[0]
-                                        .sekolahSelesaiReten === true
+                                  !singlePersonSekolah.pemeriksaanSekolah ||
+                                  singlePersonSekolah.statusRawatan ===
+                                    'selesai'
                                     ? 'pointer-events-none bg-user4 shadow-none'
-                                    : 'bg-user6 shadow-md'
-                                } hover:bg-user8 text-userWhite rounded-sm p-1 m-1 transition-all`}
+                                    : 'bg-user3 hover:bg-user2 shadow-md'
+                                } text-userWhite rounded-sm  p-1 m-1 transition-all`}
                               >
-                                {singlePersonSekolah.pemeriksaanSekolah
-                                  ? 'lihat pemeriksaan'
-                                  : filteredFasilitiSekolah[0]
-                                      .sekolahSelesaiReten === true
-                                  ? 'Pemeriksaan Ditutup'
-                                  : 'Tambah Pemeriksaan'}
+                                {singlePersonSekolah.statusRawatan === 'selesai'
+                                  ? 'selesai rawatan'
+                                  : 'tambah rawatan'}
                               </Link>
-                            </td>
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                              {filteredFasilitiSekolah[0]
-                                .sekolahSelesaiReten === false ? (
-                                <Link
-                                  target='_blank'
-                                  rel='noreferrer'
-                                  to={`form-sekolah/rawatan/${singlePersonSekolah._id}`}
-                                  className={`${
-                                    !singlePersonSekolah.pemeriksaanSekolah ||
-                                    singlePersonSekolah.statusRawatan ===
-                                      'selesai'
-                                      ? 'pointer-events-none bg-user4 shadow-none'
-                                      : 'bg-user3 hover:bg-user2 shadow-md'
-                                  } text-userWhite rounded-sm  p-1 m-1 transition-all`}
-                                >
-                                  {singlePersonSekolah.statusRawatan ===
-                                  'selesai'
-                                    ? 'selesai rawatan'
-                                    : 'tambah rawatan'}
-                                </Link>
-                              ) : (
-                                <span className='bg-user4 text-userWhite rounded-sm  p-1 m-1 transition-all'>
-                                  rawatan ditutup
-                                </span>
-                              )}
-                              {/* keluar berapa rawatan & rawatan apa */}
-                              {singlePersonSekolah.rawatanSekolah.length >=
-                                1 && (
-                                <div className='relative inline-flex'>
+                            ) : (
+                              <span className='bg-user4 text-userWhite rounded-sm  p-1 m-1 transition-all'>
+                                rawatan ditutup
+                              </span>
+                            )}
+                            {/* keluar berapa rawatan & rawatan apa */}
+                            {singlePersonSekolah.rawatanSekolah.length >= 1 &&
+                              singlePersonSekolah.statusRawatan ===
+                                'belum selesai' && (
+                                <div className='inline-flex'>
                                   <span
                                     className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
-                                    onMouseEnter={() => {
+                                    onClick={() => {
                                       setIsShown({
                                         ...isShown,
                                         [singlePersonSekolah._id]: true,
-                                      });
-                                    }}
-                                    onMouseLeave={() => {
-                                      setIsShown({
-                                        ...isShown,
-                                        [singlePersonSekolah._id]: false,
                                       });
                                     }}
                                   >
@@ -513,12 +508,17 @@ function UserSekolah() {
                                   <div
                                     className={`${
                                       isShown[singlePersonSekolah._id]
-                                        ? 'block p-2'
-                                        : 'hidden '
-                                    } absolute z-10 right-4 bg-userWhite text-user1 rounded-md shadow-md m-2 w-60`}
+                                        ? 'block p-2 px-8 overflow-y-auto'
+                                        : 'hidden'
+                                    } absolute z-30 inset-x-1 lg:inset-x-96 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                                   >
+                                    <div className='flex justify-between'>
+                                      <h1 className='text-lg font-medium'>
+                                        Rawatan
+                                      </h1>
+                                    </div>
                                     {singlePersonSekolah.rawatanSekolah.map(
-                                      (rawatan) => {
+                                      (rawatan, index) => {
                                         // sum rawatan
                                         const semuaGD = [
                                           rawatan.gdBaruAnteriorSewarnaJumlahTampalanDibuat,
@@ -558,6 +558,9 @@ function UserSekolah() {
                                             key={rawatan._id}
                                             className='flex flex-col'
                                           >
+                                            <h1 className='text-sm text-start font-semibold bg-user1 bg-opacity-5'>
+                                              Rumusan Kedatangan {index + 1}
+                                            </h1>
                                             <span className='text-xs font-bold text-start border-t border-t-user1 border-opacity-5 pt-1 '>
                                               {moment(
                                                 rawatan.tarikhRawatanSemasa
@@ -693,8 +696,8 @@ function UserSekolah() {
                                   </div>
                                 </div>
                               )}
-                            </td>
-                            {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
+                          </td>
+                          {/* <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <Link
                                 target='_blank'
                                 rel='noreferrer'
@@ -736,70 +739,68 @@ function UserSekolah() {
                                   : 'tidak perlu KOTAK'}
                               </Link>
                             </td> */}
-                          </tr>
-                        </tbody>
-                      </>
-                    );
-                  })}
-              {isLoading && (
-                // <p className='text-xl font-semibold'>
-                //   <Spinner color='#1f315f' />
-                // </p>
-                <tbody className='bg-user4'>
-                  <tr>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                        </tr>
+                      </tbody>
+                    </>
+                  );
+                })}
+            {isLoading && (
+              <tbody className='bg-user4'>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td> */}
-                  </tr>
-                  <tr>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                    {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  {/* <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td> */}
-                  </tr>
-                </tbody>
-              )}
-            </table>
-          ) : (
-            <p className='text-xl font-bold text-center h-full w-full'>
-              Sila Pilih Sekolah Terlebih Dahulu
-            </p>
-          )}
+                </tr>
+              </tbody>
+            )}
+          </table>
+          <div
+            className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+              isShown ? 'block' : 'hidden'
+            }`}
+            onClick={() => setIsShown(false)}
+          />
         </div>
       </div>
     </>
