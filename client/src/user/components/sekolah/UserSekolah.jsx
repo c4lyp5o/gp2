@@ -40,6 +40,7 @@ function UserSekolah() {
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahun, setPilihanTahun] = useState('');
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+  const [pilihanBegin, setPilihanBegin] = useState('');
   const [filterNama, setFilterNama] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
@@ -102,6 +103,7 @@ function UserSekolah() {
         //   ['']
         // );
         setPilihanSekolah(data.fasilitiSekolahs[0].nama);
+        setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs([...namaSekolahs, data.fasilitiSekolahs[0].nama]);
         // setFasilitiSekolah(data.fasilitiSekolahs);
@@ -469,9 +471,13 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   RAWATAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
-                  AKTIVITI BEGIN
-                </th>
+                {pilihanSekolah &&
+                filteredFasilitiSekolah[0].jenisFasiliti ===
+                  'sekolah-rendah' ? (
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
+                    AKTIVITI BEGIN
+                  </th>
+                ) : null}
               </tr>
             </thead>
             {!isLoading &&
@@ -947,9 +953,13 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                  </td>
+                  {pilihanSekolah &&
+                  filteredFasilitiSekolah[0].jenisFasiliti ===
+                    'sekolah-rendah' ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  ) : null}
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -970,9 +980,13 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                  </td>
+                  {pilihanSekolah &&
+                  filteredFasilitiSekolah[0].jenisFasiliti ===
+                    'sekolah-rendah' ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  ) : null}
                 </tr>
               </tbody>
             )}

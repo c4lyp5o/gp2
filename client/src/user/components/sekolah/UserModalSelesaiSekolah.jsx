@@ -110,8 +110,8 @@ export default function UserModalSelesaiSekolah({
               </>
             ) : (
               <div className='text-center'>
-                Anda perlu memasukkan OTP untuk menutup sekolah ini untuk
-                mengesahkan kebenaran
+                sila masukkan kod OTP bagi mengesahkan bebenaran penutupan reten
+                sekolah ini
               </div>
             )}
           </div>
