@@ -23,10 +23,11 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     tahunTingkatan: '',
     kelasPelajar: '',
     jantina: '',
+    statusOku: '',
     tarikhLahir: '',
     umur: 0,
-    kaum: '',
-    tarafWarganegara: '',
+    keturunan: '',
+    warganegara: '',
   };
 
   let allConvertedPelajar = [];
@@ -47,12 +48,14 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     objPelajar.sesiTakwimPelajar = sp.SESI_TAKWIM;
     objPelajar.tahunTingkatan = sp.TAHUN_TINGKATAN;
     objPelajar.jantina = sp.JANTINA;
+    objPelajar.statusOku = sp.STATUS_OKU;
 
     if (
       process.env.BUILD_ENV === 'production' ||
       process.env.BUILD_ENV === 'dev'
     ) {
       try {
+        console.log('query single pelajar');
         const agent = new https.Agent({
           rejectUnauthorized: false,
         });
@@ -66,11 +69,12 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
             },
           }
         );
+        console.log(data);
         objPelajar.kelasPelajar = data.TBA_KELAS_PELAJAR; // PENDING
         objPelajar.tarikhLahir = data.tarikh_lahir;
         objPelajar.umur = howOldAreYouMyFriendtahunV2(data.tarikh_lahir);
-        objPelajar.kaum = data.keturunan;
-        objPelajar.tarafWarganegara = data.TBA_TARAF_WARGANEGARA; // PENDING
+        objPelajar.keturunan = data.keturunan;
+        objPelajar.warganegara = data.warganegara;
       } catch (error) {
         logger.error(`[insertToSekolah] ${error.message}`);
         return error.message;
@@ -78,6 +82,11 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     }
 
     allConvertedPelajar.push({ ...objPelajar });
+  });
+
+  const allPersonSekolah = await Sekolah.find({
+    idInstitusi: dataCreatedSRSM.idInstitusi,
+    kodSekolah: dataCreatedSRSM.kodSekolah,
   });
 
   console.log(allConvertedPelajar);

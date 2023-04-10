@@ -23,11 +23,11 @@ const SekolahSchema = new mongoose.Schema({
   // supplied by MOEIS --------------------------------------------------
   idInstitusi: {
     type: String,
-    default: 'MSSING ID_INSTITUSI',
+    default: 'MISSING ID_INSTITUSI',
   },
   kodSekolah: {
     type: String,
-    default: 'MSSING KOD_INSTITUSI',
+    default: 'MISSING KOD_INSTITUSI',
   },
   namaSekolah: {
     type: String,
@@ -40,7 +40,7 @@ const SekolahSchema = new mongoose.Schema({
   // previously noKp
   nomborId: {
     type: String,
-    default: 'MSSING NOMBOR_ID', // pengenalan diri
+    default: 'MISSING NOMBOR_ID', // pengenalan diri
   },
   nama: {
     type: String,
@@ -53,34 +53,45 @@ const SekolahSchema = new mongoose.Schema({
   // previously tahun
   tahunTingkatan: {
     type: String,
-    default: 'MSSING TAHUN_TINGKATAN',
+    default: 'MISSING TAHUN_TINGKATAN',
   },
   // previously namaKelas
   kelasPelajar: {
     type: String,
-    default: 'MSSING kelas pelajar', // pending
+    default: 'MISSING kelas pelajar', // pending
   },
   //previously kodJantina
   jantina: {
     type: String,
-    default: 'MSSING JANTINA',
+    default: 'MISSING JANTINA',
+  },
+  statusOku: {
+    type: String,
+    default: 'MISSING STATUS_OKU',
   },
   tarikhLahir: {
     type: String,
-    default: 'MSSING tarikh_lahir',
+    default: 'MISSING tarikh_lahir',
   },
   umur: {
     type: Number,
     default: 0,
   },
-  kaum: {
+  // previously kaum
+  keturunan: {
     type: String,
-    default: 'MSSING keturunan',
+    default: 'MISSING keturunan',
   },
-  tarafWarganegara: {
+  warganegara: {
     type: String,
-    default: 'MISSING taraf warganegara', // pending
+    default: 'MISSING warganegara',
   },
+  // pindah marker -----------------------------------------------------
+  berpindah: {
+    type: Boolean,
+    default: false,
+  },
+  // our own field -----------------------------------------------------
   tarikhMelaksanakanBegin: {
     type: String,
     default: '',
