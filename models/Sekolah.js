@@ -20,59 +20,78 @@ const SekolahSchema = new mongoose.Schema({
     },
     default: 'belum mula',
   },
-  // supplied by ERKM --------------------------------------------------
-  idConcat: {
+  // supplied by MOEIS --------------------------------------------------
+  idInstitusi: {
     type: String,
-    // required: [true, 'Please provide ID'],
-  },
-  daerah: {
-    type: String,
-    required: [true, 'Please provde daerah'],
-  },
-  ppd: {
-    type: String,
-    required: [true, 'Please provide PPD'],
-  },
-  namaSekolah: {
-    type: String,
-    required: [true, 'Please provide nama sekolah'],
+    default: 'MISSING ID_INSTITUSI',
   },
   kodSekolah: {
     type: String,
-    required: [true, 'Please provide kod sekolah'],
+    default: 'MISSING KOD_INSTITUSI',
   },
-  tahun: {
+  namaSekolah: {
     type: String,
-    required: [true, 'Please provide tahun'],
+    default: 'MISSING NAMA INSTITUSI',
   },
-  namaKelas: {
+  idIndividu: {
     type: String,
-    required: [true, 'Please provide nama kelas'],
+    default: 'MISSING ID_INDIVIDU',
+  },
+  // previously noKp
+  nomborId: {
+    type: String,
+    default: 'MISSING NOMBOR_ID', // pengenalan diri
   },
   nama: {
     type: String,
-    required: [true, 'Please provide nama'],
+    default: 'MISSING NAMA',
   },
-  kodJantina: {
+  sesiTakwimPelajar: {
     type: String,
-    required: [true, 'Please provide kod jantina'],
+    default: 'MISSING SESI_TAKWIM',
   },
-  umur: {
+  // previously tahun
+  tahunTingkatan: {
     type: String,
-    required: [true, 'Please provide umur'],
+    default: 'MISSING TAHUN_TINGKATAN',
   },
-  noKp: {
+  // previously namaKelas
+  kelasPelajar: {
     type: String,
-    // required: [true, 'Please provide nombor KP'],
+    default: 'MISSING kelas pelajar', // pending
+  },
+  //previously kodJantina
+  jantina: {
+    type: String,
+    default: 'MISSING JANTINA',
+  },
+  statusOku: {
+    type: String,
+    default: 'MISSING STATUS_OKU',
   },
   tarikhLahir: {
     type: String,
-    required: [true, 'Please provide tarikh lahir'],
+    default: 'MISSING tarikh_lahir',
   },
-  kaum: {
+  umur: {
+    type: Number,
+    default: 0,
+  },
+  // previously kaum
+  keturunan: {
     type: String,
-    required: [true, 'Please provide kaum'],
+    default: 'MISSING keturunan',
   },
+  warganegara: {
+    type: String,
+    default: 'MISSING warganegara',
+  },
+  // pindah marker -----------------------------------------------------
+  berpindah: {
+    type: Boolean,
+    default: false,
+  },
+  // our own field -----------------------------------------------------
   tarikhMelaksanakanBegin: {
     type: String,
     default: '',
@@ -101,3 +120,7 @@ const SekolahSchema = new mongoose.Schema({
 });
 
 module.exports = mongoose.model('Sekolah', SekolahSchema);
+
+// several field that got deleted
+// daerah
+// ppd
