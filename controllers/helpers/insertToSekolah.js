@@ -48,28 +48,33 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     objPelajar.tahunTingkatan = sp.TAHUN_TINGKATAN;
     objPelajar.jantina = sp.JANTINA;
 
-    try {
-      const agent = new https.Agent({
-        rejectUnauthorized: false,
-      });
-      const { data } = await axios.get(
-        process.env.MOEIS_INTEGRATION_URL_SINGLE_PELAJAR +
-          `?id_individu=${sp.ID_INDIVIDU}`,
-        {
-          httpsAgent: agent,
-          headers: {
-            APIKEY: process.env.MOEIS_APIKEY,
-          },
-        }
-      );
-      objPelajar.kelasPelajar = sp.TBA_KELAS_PELAJAR; // PENDING
-      objPelajar.tarikhLahir = data.tarikh_lahir;
-      objPelajar.umur = howOldAreYouMyFriendtahunV2(sp.tarikh_lahir);
-      objPelajar.kaum = sp.keturunan;
-      objPelajar.tarafWarganegara = sp.TBA_TARAF_WARGANEGARA; // PENDING
-    } catch (error) {
-      logger.error(`[insertToSekolah] ${error.message}`);
-      return error.message;
+    if (
+      process.env.BUILD_ENV === 'production' ||
+      process.env.BUILD_ENV === 'dev'
+    ) {
+      try {
+        const agent = new https.Agent({
+          rejectUnauthorized: false,
+        });
+        const { data } = await axios.get(
+          process.env.MOEIS_INTEGRATION_URL_SINGLE_PELAJAR +
+            `?id_individu=${sp.ID_INDIVIDU}`,
+          {
+            httpsAgent: agent,
+            headers: {
+              APIKEY: process.env.MOEIS_APIKEY,
+            },
+          }
+        );
+        objPelajar.kelasPelajar = data.TBA_KELAS_PELAJAR; // PENDING
+        objPelajar.tarikhLahir = data.tarikh_lahir;
+        objPelajar.umur = howOldAreYouMyFriendtahunV2(data.tarikh_lahir);
+        objPelajar.kaum = data.keturunan;
+        objPelajar.tarafWarganegara = data.TBA_TARAF_WARGANEGARA; // PENDING
+      } catch (error) {
+        logger.error(`[insertToSekolah] ${error.message}`);
+        return error.message;
+      }
     }
 
     allConvertedPelajar.push({ ...objPelajar });
