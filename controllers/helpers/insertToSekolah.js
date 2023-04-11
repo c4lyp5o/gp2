@@ -143,6 +143,7 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   const fromDbThisSekolahPelajar = await Sekolah.find({
     idInstitusi: fromDbFasilitiSRSM.idInstitusi,
     kodSekolah: fromDbFasilitiSRSM.kodSekolah,
+    sesiTakwimPelajar: sesiTakwimSekolah(),
   });
 
   // the diff between two array
