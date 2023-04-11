@@ -15172,7 +15172,7 @@ const countGender = async (payload) => {
   const pesakitLelakiOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jenisFasiliti: 'projek-komuniti-lain',
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -15182,7 +15182,7 @@ const countGender = async (payload) => {
   const pesakitPerempuanOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jenisFasiliti: 'projek-komuniti-lain',
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
