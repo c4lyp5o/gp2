@@ -117,6 +117,11 @@ const SekolahSchema = new mongoose.Schema({
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Kotaksekolah',
   },
+  // FMR ---------------------------------------------------------------
+  tarikhKumuranMurid: {
+    type: Array,
+    default: [],
+  },
 });
 
 module.exports = mongoose.model('Sekolah', SekolahSchema);
