@@ -1679,6 +1679,12 @@ const Generate = (props) => {
         'Laporan Bulanan Kesihatan Pergigian Dan Status Rawatan Murid Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
     {
+      kod: 'TOD 02 Pin. 1/2022',
+      kodRingkas: 'TODP1',
+      deskripsi:
+        'Laporan Bulanan Hasil Kerja Pegawai Pergigian dan Jururawat Pergigian Klinik/ Daerah/ Negeri bagi Toddler',
+    },
+    {
       kod: '-',
       kodRingkas: 'MASA',
       deskripsi: 'KPI Piagam Masa',
