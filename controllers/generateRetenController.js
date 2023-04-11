@@ -4770,8 +4770,8 @@ const makeTOD = async (payload) => {
           data[0][i].queryBaru[0].jumlahTampalanAnteriorBaru;
         row.getCell(22).value =
           data[0][i].queryBaru[0].jumlahTampalanPosteriorBaru;
-        j += 2;
       }
+      j += 2;
     }
 
     j = 0;
@@ -4791,8 +4791,8 @@ const makeTOD = async (payload) => {
         row.getCell(30).value = data[1][i].queryBu[0].craRendah;
         row.getCell(31).value = data[1][i].queryBu[0].craSederhana;
         row.getCell(32).value = data[1][i].queryBu[0].craTinggi;
-        j += 2;
       }
+      j += 2;
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
