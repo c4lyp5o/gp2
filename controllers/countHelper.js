@@ -18823,7 +18823,7 @@ const getParamsPG201P2 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /mdtb/i },
+      // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18835,7 +18835,7 @@ const getParamsPG201P2 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /mdtb/i },
+      // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18846,7 +18846,7 @@ const getParamsPG201P2 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /mdtb/i },
+      // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
