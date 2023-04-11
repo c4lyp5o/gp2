@@ -1738,16 +1738,16 @@ function UserFormSekolahRawatan() {
                   {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
                   engganRawatan === 'ya-enggan-rawatan' ? null : (
                     <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min col-start-1'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        Kes Selesai
-                      </h4>
                       <div className='grid grid-cols-2 lg:grid-cols-[1fr_3fr] items-center pl-5'>
                         <label
                           htmlFor='kes-selesai-penyata-akhir-2'
                           className='mr-2 text-lg font-bold flex'
                         >
                           kes selesai
-                          <span className='text-user9'>*</span>
+                          {singlePersonSekolah.statusRawatan ===
+                          'selesai' ? null : (
+                            <span className='text-user9'>*</span>
+                          )}
                         </label>
                         {singlePersonSekolah.statusRawatan === 'selesai' ? (
                           <FaCheckCircle className='text-user7 text-center text-lg' />
@@ -1833,7 +1833,10 @@ function UserFormSekolahRawatan() {
                           className='mr-2 text-lg font-bold flex'
                         >
                           kes selesai MMI
-                          <span className='text-user9'>*</span>
+                          {singlePersonSekolah.statusRawatan ===
+                          'selesai' ? null : (
+                            <span className='text-user9'>*</span>
+                          )}
                         </label>
                         {singlePersonSekolah.kesSelesaiMmi === true ? (
                           <FaCheckCircle className='text-user7 text-center text-lg' />
