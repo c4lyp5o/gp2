@@ -263,7 +263,7 @@ function UserAfterLogin() {
                 }
               />
               <Route
-                path='kohort/fmr/daftar/:singleSekolahId'
+                path='kohort/fmr/daftar'
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserListMuridFMR />{' '}
