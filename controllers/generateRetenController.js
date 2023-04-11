@@ -359,6 +359,9 @@ const downloader = async (req, res, callback) => {
     case 'PGS203P2':
       excelFile = await makePGS203P2(payload);
       break;
+    case 'TODP1':
+      excelFile = await makeTOD(payload);
+      break;
     case 'MASA':
       excelFile = await makeMasa(payload);
       break;
