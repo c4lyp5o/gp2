@@ -140,7 +140,7 @@ function UserAfterLogin() {
                 }
               />
               <Route
-                path='senarai-sekolah/sekolah/:singleSekolahId'
+                path='senarai-sekolah/sekolah/:kodSekolah'
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserSekolah />{' '}
