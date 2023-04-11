@@ -21,3 +21,6 @@ k6-load-test.js
 # postman like test
 /thunder-tests
 /.vscode
+
+# tests folder
+/tests

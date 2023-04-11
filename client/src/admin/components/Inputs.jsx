@@ -1856,7 +1856,7 @@ export function InputEditFacility(props) {
                     }}
                   />
                 </div>
-                {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
+                {props.FType !== 'sr' ? null : (
                   <>
                     <p>
                       Program Kumuran Berflourida{' '}
@@ -1865,16 +1865,16 @@ export function InputEditFacility(props) {
                       </span>
                     </p>
                     <div className='grid grid-cols-2'>
-                      <label htmlFor='ya-fmr'>Aktif</label>
+                      <label htmlFor='ya-fmr'>Ya</label>
                       <input
                         checked={
-                          props.editedEntity.statusFMRSekolah === 'active'
+                          props.editedEntity.statusFMRSekolah === 'ya'
                             ? true
                             : false
                         }
                         type='radio'
                         name='ya-fmr'
-                        value='active'
+                        value='ya'
                         onChange={(e) => {
                           props.setEditedEntity({
                             ...props.editedEntity,
@@ -1882,16 +1882,16 @@ export function InputEditFacility(props) {
                           });
                         }}
                       />
-                      <label htmlFor='tidak-fmr'>Tidak Aktif</label>
+                      <label htmlFor='tidak-fmr'>Tidak</label>
                       <input
                         checked={
-                          props.editedEntity.statusFMRSekolah === 'non-active'
+                          props.editedEntity.statusFMRSekolah === 'tidak'
                             ? true
                             : false
                         }
                         type='radio'
                         name='tidak-fmr'
-                        value='non-active'
+                        value='tidak'
                         onChange={(e) => {
                           props.setEditedEntity({
                             ...props.editedEntity,

@@ -40,6 +40,7 @@ const allQueryRoute = require('./routes/allQueryRoute');
 
 // kohort import
 const kohortKotak = require('./routes/kohortKotak');
+const kohortFMR = require('./routes/kohortFMR');
 
 // kaunter
 const kaunter = require('./routes/kaunter');
@@ -136,6 +137,7 @@ app.use('/api/v1/query', authCheck, allQueryRoute);
 
 // kohort route
 app.use('/api/v1/kohort/kotak', authCheck, kohortKotak);
+app.use('/api/v1/kohort/fmr', authCheck, kohortFMR);
 
 // kaunter route
 app.use('/api/v1/kaunter', authCheck, kaunter);
