@@ -38,7 +38,12 @@ export default function UserKohort() {
           className='flex justify-start items-center p-2 bg-[#D7E2E9] text-userBlack hover:bg-user4 cursor-pointer shadow-md rounded-xl w-full h-full'
           onMouseEnter={() => setSapuanFv(true)}
           onMouseLeave={() => setSapuanFv(false)}
-          onClick={() => navigate('/pengguna/landing/kohort/fmr')}
+          onClick={() => {
+            import.meta.env.VITE_ENV === 'UNSTABLE' ||
+            import.meta.env.VITE_ENV === 'DEV'
+              ? navigate('/pengguna/landing/kohort/fmr')
+              : null;
+          }}
         >
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2'>
