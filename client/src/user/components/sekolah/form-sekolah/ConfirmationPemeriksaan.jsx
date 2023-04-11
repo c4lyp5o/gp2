@@ -656,8 +656,31 @@ const ConfirmModal = ({ children, data }) => {
                             Kes Selesai:
                           </p>
                           <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            {data.kesSelesai === true ? (
+                            {data.kesSelesai === 'ya-kes-selesai' ? (
                               <p className='flex flex-row'>Ya, Kes Selesai</p>
+                            ) : null}
+                            {data.kesSelesai === 'tidak-kes-selesai' ? (
+                              <p className='flex flex-row'>
+                                Tidak, Kes Selesai
+                              </p>
+                            ) : null}
+                          </p>
+                        </div>
+                      ) : null}
+                      {data.kesSelesaiIcdas ? (
+                        <div className='grid grid-cols-[1fr_2fr]'>
+                          <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                            Kes Selesai MMI:
+                          </p>
+                          <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                            {data.kesSelesaiIcdas === 'ya-kes-selesai-icdas' ? (
+                              <p className='flex flex-row'>Ya, Kes Selesai</p>
+                            ) : null}
+                            {data.kesSelesaiIcdas ===
+                            'tidak-kes-selesai-icdas' ? (
+                              <p className='flex flex-row'>
+                                Tidak, Kes Selesai
+                              </p>
                             ) : null}
                           </p>
                         </div>
