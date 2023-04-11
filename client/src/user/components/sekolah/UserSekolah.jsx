@@ -507,19 +507,19 @@ function UserSekolah() {
                                   .createdByUsername
                               : null}
                           </td>
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 whitespace-nowrap'>
-                            {singlePersonSekolah.statusRawatan}
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 whitespace-nowrap text-left pl-0.5'>
                             {singlePersonSekolah.statusRawatan === 'selesai' ? (
-                              <FaCircle className='text-user7 ml-1 inline-flex' />
+                              <FaCircle className='text-user7 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'belum selesai' ? (
-                              <FaAdjust className='text-user8 ml-1 inline-flex' />
+                              <FaAdjust className='text-user8 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'belum mula' ? (
-                              <FaRegCircle className='text-user8 ml-1 inline-flex' />
+                              <FaRegCircle className='text-user8 mx-2 inline-flex' />
                             ) : (
-                              <FaCircle className='text-user9 ml-1 inline-flex' />
+                              <FaCircle className='text-user9 mx-2 inline-flex' />
                             )}
+                            {singlePersonSekolah.statusRawatan}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                             <Link
@@ -906,18 +906,21 @@ function UserSekolah() {
                               >
                                 <form onSubmit={handleSubmit}>
                                   <p className='flex justify-center text-lg font-bold border-b border-b-user1 py-3'>
-                                    Program BEGIN
+                                    Aktiviti BEGIN
                                   </p>
-                                  <p className='flex whitespace-pre-wrap pt-3'>
-                                    Tarikh {singlePersonSekolah.nama}{' '}
-                                    melaksanakan Aktiviti BEGIN ?
+                                  <p className='flex justify-center whitespace-nowrap pt-3'>
+                                    Tarikh murid ini melaksanakan Aktiviti
+                                    BEGIN?
                                   </p>
-                                  <div className='grid justify-center'>
+                                  <p className='flex justify-center whitespace-nowrap pt-3'>
+                                    <strong>{singlePersonSekolah.nama}</strong>{' '}
+                                  </p>
+                                  <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.tarikhMelaksanakanBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium'>
-                                          YA , Pada Tarikh{' '}
-                                          <span className='text-user2 text-xl font-semibold'>
+                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                          Selesai pada{' '}
+                                          <span className='text-xl font-semibold text-kaunter1'>
                                             {moment(
                                               singlePersonSekolah.tarikhMelaksanakanBegin
                                             ).format('DD/MM/YYYY')}
