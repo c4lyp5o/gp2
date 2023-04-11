@@ -1763,7 +1763,7 @@ const Generate = (props) => {
     }
   };
 
-  // handling plihan
+  // handling pilihan
   const handlePilihNegeri = (e) => {
     setPilihanNegeri(e.target.value);
     if (e.target.value === 'all') {
