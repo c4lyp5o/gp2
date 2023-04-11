@@ -386,6 +386,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  noTelMuridKotak: {
+    type: String,
+    default: '',
+  },
   kesSelesai: {
     type: String,
     default: '',

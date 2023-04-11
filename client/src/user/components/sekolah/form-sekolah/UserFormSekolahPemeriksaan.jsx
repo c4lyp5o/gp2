@@ -210,6 +210,7 @@ function UserFormSekolahPemeriksaan() {
   const [melaksanakanSaringanMerokok, setMelaksanakanSaringanMerokok] =
     useState('');
   const [bersediaDirujuk, setBersediaDirujuk] = useState('');
+  const [noTelMuridKotak, setNoTelMuridKotak] = useState('');
 
   // datepicker issue
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
@@ -742,6 +743,9 @@ function UserFormSekolahPemeriksaan() {
           setBersediaDirujuk(
             data.personSekolahWithPopulate.pemeriksaanSekolah.bersediaDirujuk
           );
+          setNoTelMuridKotak(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.noTelMuridKotak
+          );
           setKesSelesai(
             data.personSekolahWithPopulate.pemeriksaanSekolah.kesSelesai
           );
@@ -945,6 +949,7 @@ function UserFormSekolahPemeriksaan() {
               menerimaNasihatRingkas,
               melaksanakanSaringanMerokok,
               bersediaDirujuk,
+              noTelMuridKotak,
               kesSelesai,
               kesSelesaiIcdas,
             },
@@ -1062,6 +1067,7 @@ function UserFormSekolahPemeriksaan() {
               menerimaNasihatRingkas,
               melaksanakanSaringanMerokok,
               bersediaDirujuk,
+              noTelMuridKotak,
               kesSelesai,
               kesSelesaiIcdas,
             },
@@ -4284,6 +4290,35 @@ function UserFormSekolahPemeriksaan() {
                             >
                               Tidak
                             </label>
+                          </div>
+                        </div>
+                      )}
+                      {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
+                        <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
+                          <p className='flex items-center text-sm normal-case'>
+                            nombor telefon yang boleh dihubungi
+                            <span className='text-user6'>*</span>
+                          </p>
+                          <div className='flex items-center'>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='text'
+                              pattern='[0-9]+'
+                              title='Nombor telefon'
+                              name='no-tel-murid-kotak'
+                              id='no-tel-murid-kotak'
+                              value={noTelMuridKotak}
+                              onChange={(e) => {
+                                setNoTelMuridKotak(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  noTelMuridKotak: e.target.value,
+                                });
+                              }}
+                              className='w-40 h-10 border border-userBlack rounded-md pl-2'
+                              placeholder='0123456678'
+                            />
                           </div>
                         </div>
                       )}
