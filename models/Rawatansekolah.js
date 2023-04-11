@@ -170,12 +170,12 @@ const RawatansekolahSchema = new mongoose.Schema({
     default: false,
   },
   kesSelesaiSekolahRawatan: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: '',
   },
   kesSelesaiIcdasSekolahRawatan: {
-    type: Boolean,
-    default: false,
+    type: String,
+    default: '',
   },
   rujukSekolahRawatan: {
     type: Boolean,
