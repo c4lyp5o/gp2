@@ -67,7 +67,7 @@ const ConfirmModal = ({ children, data }) => {
                   <FaUserCheck className='text-4xl text-user9 mx-auto absolute animate-ping' />
                   <FaUserCheck className='text-4xl text-user9 mx-auto absolute' />
                 </span>
-                <p className='px-1 text-xs font-semibold mt-5'>
+                <p className='px-1 font-semibold mt-7'>
                   Anda YAKIN untuk menghantar maklumat?
                 </p>
                 {data.engganTidakHadirPemeriksaan ? (
@@ -75,11 +75,11 @@ const ConfirmModal = ({ children, data }) => {
                     Pesakit
                     {data.engganTidakHadirPemeriksaan ===
                     'enggan-pemeriksaan' ? (
-                      <span className='text-user9'>ENGGAN</span>
+                      <span className='text-user9 mx-1'>ENGGAN</span>
                     ) : null}
                     {data.engganTidakHadirPemeriksaan ===
                     'tidak-hadir-pemeriksaan' ? (
-                      <span className='text-user9'>TIDAK HADIR</span>
+                      <span className='text-user9 mx-1'>TIDAK HADIR</span>
                     ) : null}
                     untuk Pemeriksaan
                   </p>
@@ -740,9 +740,10 @@ const ConfirmModal = ({ children, data }) => {
                 <p className='text-center text-xl font-bold mt-14'>
                   Adakah anda yakin?
                 </p>
-                <p className='text-center text-sm'>
-                  Anda tidak dapat mengubah data ini dan murid ini bertukar ke
-                  status SELESAI setelah anda menekan butang "Ya"
+                <p className='text-center text-sm normal-case'>
+                  Data ini tidak boleh diubah lagi dan status murid adalah
+                  <strong className='text-user9 mx-1'>SELESAI</strong>setelah
+                  BUTANG YA ditekan
                 </p>
               </div>
               <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>

@@ -47,7 +47,6 @@ function UserFormKohortKOTAK() {
   const [adaTiadaQTarikh4, setAdaTiadaQTarikh4] = useState('');
   const [rujukGuruKaunseling, setRujukGuruKaunseling] = useState('');
   const [tarikhQ, setTarikhQ] = useState('');
-  const [noTel1, setNoTel1] = useState('');
   const [noTel2, setNoTel2] = useState('');
   const [noTel3, setNoTel3] = useState('');
   const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
@@ -741,38 +740,31 @@ function UserFormKohortKOTAK() {
                   <div className='col-span-2'>
                     <article className='flex flex-col gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-3'>
-                        No Telefon Untuk Dihubungi
+                        Nombor Telefon Untuk Dihubungi
                       </h4>
                       <div className='flex pl-5 justify-center'>
-                        <div className='flex items-center flex-col lg:flex-row '>
+                        <div className='flex items-center flex-col lg:flex-row mx-2'>
                           <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                            No. Tel 1:
+                            No. Telefon 1:
                             <span className='text-user6 text-xl font-semibold'>
                               *
                             </span>
                           </p>
                           <input
-                            required
+                            readOnly
                             type='text'
                             pattern='[0-9]+'
                             title='Nombor telefon'
                             name='no-tel-1'
                             id='no-tel-1'
-                            value={noTel1}
-                            onChange={(e) => {
-                              setNoTel1(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                noTel1: e.target.value,
-                              });
-                            }}
-                            className='w-40 h-10 border border-userBlack rounded-md pl-2'
+                            value={singlePersonKohortKotak.noTelefon}
+                            className='w-40 h-10 border border-userBlack rounded-md pl-2 focus:outline-none'
                             placeholder='0123456678'
                           />
                         </div>
                         <div className='flex items-center flex-col lg:flex-row mx-2'>
                           <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                            No. Tel 2:
+                            No. Telefon 2:
                           </p>
                           <input
                             type='text'
@@ -794,7 +786,7 @@ function UserFormKohortKOTAK() {
                         </div>
                         <div className='flex items-center flex-col lg:flex-row mx-2'>
                           <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                            No. Tel 3:
+                            No. Telefon 3:
                           </p>
                           <input
                             type='text'
@@ -897,8 +889,10 @@ function UserFormKohortKOTAK() {
                           </div>
                         </div>
                         <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md row-span-3'>
-                          <h4 className='font-bold text-base flex flex-row pl-5'>
-                            jenis rokok<span className='text-user6'>*</span>
+                          <h4 className='font-bold text-base flex flex-row truncate lg:whitespace-nowrap pl-3'>
+                            jenis rokok<span className='text-user6'>*</span>{' '}
+                            (hanya dilengkapkan setelah menjalani intervensi
+                            sesi 1)
                           </h4>
                           <div className='flex items-center flex-row pl-5'>
                             <input
@@ -918,7 +912,7 @@ function UserFormKohortKOTAK() {
                             />
                             <label
                               htmlFor='rokok-biasa-kotak'
-                              className='m-2 text-sm font-m'
+                              className='m-2 text-sm font-m truncate'
                             >
                               rokok biasa
                             </label>
@@ -941,9 +935,9 @@ function UserFormKohortKOTAK() {
                             />
                             <label
                               htmlFor='elektronik-vape-kotak'
-                              className='m-2 text-sm font-m'
+                              className='m-2 text-sm font-m truncate'
                             >
-                              peranti rokok elektronik
+                              peranti rokok elektronik / <i>Vape</i>
                             </label>
                           </div>
                           <div className='flex items-center flex-row pl-5'>
@@ -964,7 +958,7 @@ function UserFormKohortKOTAK() {
                             />
                             <label
                               htmlFor='shisha-kotak'
-                              className='m-2 text-sm font-m'
+                              className='m-2 text-sm font-m truncate'
                             >
                               shisha
                             </label>
@@ -987,7 +981,7 @@ function UserFormKohortKOTAK() {
                             />
                             <label
                               htmlFor='lain-lain-kotak'
-                              className='m-2 text-sm font-m'
+                              className='m-2 text-sm font-m truncate'
                             >
                               lain-lain
                             </label>
