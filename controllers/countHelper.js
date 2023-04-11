@@ -16060,7 +16060,7 @@ const countPG201P2 = async (payload) => {
         ...getParamsPG201P2(payload),
         umur: { $gte: 5, $lt: 7 },
         jenisFasiliti: { $eq: 'taska-tadika' },
-        kumpulanEtnik: 'penan',
+        kumpulanEtnik: { $in: ['penan', 'orang asli semenanjung'] },
         deleted: false,
       },
     },
