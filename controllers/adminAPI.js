@@ -1707,20 +1707,8 @@ const getData = async (req, res) => {
               // send response registered sekolah first so that client will not wait too long on loading
               res.status(200).json(dataCreatedSRSM);
 
-              // now we filter the pelajar to only include current sesi & wanted TAHUN_TINGKATAN only
-              const allSesiPelajar =
-                data['SENARAI MURID MENGIKUT KELAS / INSTITUSI'];
-              const currentSesiPelajar = allSesiPelajar.filter((sp) => {
-                return (
-                  sp.SESI_TAKWIM === sesiTakwimSekolah() &&
-                  (sp.ID_TAHUN_TINGKATAN !== '86' ||
-                    sp.ID_TAHUN_TINGKATAN !== '87' ||
-                    sp.ID_TAHUN_TINGKATAN !== '105')
-                );
-              });
-
               // calling insertion function to collection sekolahs
-              insertToSekolah(dataCreatedSRSM, currentSesiPelajar);
+              insertToSekolah(dataCreatedSRSM, data);
               return;
             } catch (error) {
               return res.status(503).json({ msg: error.message });
