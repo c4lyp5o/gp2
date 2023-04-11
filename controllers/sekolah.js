@@ -1,9 +1,13 @@
+const https = require('https');
+const axios = require('axios');
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
 const Kotaksekolah = require('../models/Kotaksekolah');
 const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
+const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
+const insertToSekolah = require('../controllers/helpers/insertToSekolah');
 
 // GET /
 const getAllPersonSekolahsVanilla = async (req, res) => {
@@ -292,26 +296,39 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
   res.status(201).json({ personSekolahWithPopulate });
 };
 
-// GET /populate/:personSekolahId? - due to further discussion
-const getSinglePersonSekolah = async (req, res) => {
+// GET /kemaskini/:idInstitusi
+const kemaskiniSenaraiPelajar = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const personSekolahWithPopulate = await Sekolah.findOne({
-    _id: req.params.personSekolahId,
-  })
-    .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah')
-    .populate('kotakSekolah');
+  const { idInstitusi } = req.params;
 
-  if (!personSekolahWithPopulate) {
+  const fasilitiSekolah = await Fasiliti.findOne({
+    idInstitusi,
+    sesiTakwimSekolah: sesiTakwimSekolah(),
+  });
+
+  try {
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    const { data } = await axios.get(
+      process.env.MOEIS_INTEGRATION_URL_PELAJAR + `?inid=${idInstitusi}`,
+      {
+        httpsAgent: agent,
+        headers: {
+          APIKEY: process.env.MOEIS_APIKEY,
+        },
+      }
+    );
+    insertToSekolah(fasilitiSekolah, data);
     return res
-      .status(404)
-      .json({ msg: `No person with id ${req.params.personSekolahId}` });
+      .status(200)
+      .json({ msg: `Successfully refreshed pelajar ${fasilitiSekolah.nama}` });
+  } catch (error) {
+    return res.status(503).json({ msg: error.message });
   }
-
-  res.status(201).json({ personSekolahWithPopulate });
 };
 
 // not used
@@ -603,6 +620,7 @@ module.exports = {
   getAllPersonSekolahsWithPopulate,
   getAllPersonSekolah,
   getSinglePersonSekolahWithPopulate,
+  kemaskiniSenaraiPelajar,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
