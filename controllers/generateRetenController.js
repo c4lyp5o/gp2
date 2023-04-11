@@ -4875,18 +4875,18 @@ const makeTOD = async (payload) => {
 exports.debug = async (req, res) => {
   logger.info('[generateRetenController] debug test');
   let payload = {
-    negeri: 'Johor',
+    negeri: 'Perlis',
     // daerah: 'Arau',
-    daerah: 'Batu Pahat',
+    daerah: 'Arau',
     // klinik: 'Klinik Pergigian Kaki Bukit',
-    klinik: 'J01-002-02',
+    klinik: 'all',
     // bulan: '2023-04-01',
-    tarikhMula: '2023-03-01',
-    tarikhAkhir: '2023-04-30',
+    tarikhMula: '2023-01-01',
+    tarikhAkhir: '2023-04-11',
     fromEtl: false,
   };
   console.table(payload);
-  const data = await makePgPro01(payload);
+  const data = await makeTOD(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
