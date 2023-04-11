@@ -124,10 +124,9 @@ function UserFormSekolahRawatan() {
   const [absesSekolahRawatan, setAbsesSekolahRawatan] = useState(false);
   const [penskaleranSekolahRawatan, setPenskaleranSekolahRawatan] =
     useState(false);
-  const [kesSelesaiSekolahRawatan, setKesSelesaiSekolahRawatan] =
-    useState(false);
+  const [kesSelesaiSekolahRawatan, setKesSelesaiSekolahRawatan] = useState('');
   const [kesSelesaiIcdasSekolahRawatan, setKesSelesaiIcdasSekolahRawatan] =
-    useState(false);
+    useState('');
   const [rujukSekolahRawatan, setRujukSekolahRawatan] = useState(false);
   const [
     rujukRawatanOrtodontikSekolahRawatan,
@@ -226,7 +225,7 @@ function UserFormSekolahRawatan() {
   const handleSubmit = async (e) => {
     let statusRawatan = '';
     if (
-      kesSelesaiSekolahRawatan === false ||
+      kesSelesaiSekolahRawatan === 'tidak-kes-selesai-penyata-akhir-2' ||
       tidakHadirRawatan !== 'ya-kehadiran-rawatan' ||
       engganRawatan !== 'ya-enggan-rawatan'
     ) {
@@ -238,11 +237,13 @@ function UserFormSekolahRawatan() {
     if (tidakHadirRawatan === 'ya-kehadiran-rawatan') {
       statusRawatan = 'tidak hadir rawatan';
     }
-    if (kesSelesaiSekolahRawatan === true) {
+    if (kesSelesaiSekolahRawatan === 'ya-kes-selesai-penyata-akhir-2') {
       statusRawatan = 'selesai';
     }
     let kesSelesaiMmi = false;
-    if (kesSelesaiIcdasSekolahRawatan === true) {
+    if (
+      kesSelesaiIcdasSekolahRawatan === 'ya-kes-selesai-icdas-penyata-akhir-2'
+    ) {
       kesSelesaiMmi = true;
     }
     await toast
@@ -440,7 +441,7 @@ function UserFormSekolahRawatan() {
                       />
                       <label
                         htmlFor='enggan-rawatan'
-                        className='m-2 text-xs sm:text-sm font-m'
+                        className='m-2 text-sm font-m'
                       >
                         enggan
                       </label>
@@ -466,7 +467,7 @@ function UserFormSekolahRawatan() {
                       />
                       <label
                         htmlFor='tidak-hadir-rawatan'
-                        className='m-2 text-xs sm:text-sm font-m'
+                        className='m-2 text-sm font-m'
                       >
                         tidak hadir
                       </label>
@@ -485,7 +486,38 @@ function UserFormSekolahRawatan() {
                       ) : null}
                     </div>
                     {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
-                    engganRawatan === 'ya-enggan-rawatan' ? null : (
+                    engganRawatan === 'ya-enggan-rawatan' ? (
+                      <div>
+                        <p className='flex text-left flex-row pl-4 p-1 text-sm'>
+                          {engganRawatan === 'ya-enggan-rawatan' ? (
+                            <p>
+                              {kebenaranRawatan === 'ya-kebenaran-rawatan' ? (
+                                <p>
+                                  Enggan Rawatan{' '}
+                                  <span className='text-user7 font-bold'>
+                                    DENGAN
+                                  </span>{' '}
+                                  kebenaran rawatan daripada ibu bapa/penjaga
+                                </p>
+                              ) : (
+                                <p>
+                                  Enggan Rawatan{' '}
+                                  <span className='text-user6 font-bold'>
+                                    TANPA
+                                  </span>{' '}
+                                  kebenaran rawatan daripada ibu bapa/penjaga
+                                </p>
+                              )}
+                            </p>
+                          ) : null}
+                          {tidakHadirRawatan === 'ya-kehadiran-rawatan' ? (
+                            <p>
+                              Murid <strong>TIDAK HADIR</strong> Rawatan
+                            </p>
+                          ) : null}
+                        </p>
+                      </div>
+                    ) : (
                       <div className='flex flex-row'>
                         <p className='flex items-center flex-row text-m font-m px-5 '>
                           tarikh:<span className='text-user6'>*</span>
@@ -495,18 +527,17 @@ function UserFormSekolahRawatan() {
                     )}
                     <div>
                       <div
-                        className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
+                        className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-6 lg:inset-y-28 bg-userWhite rounded-md pb-5 ${
                           modalEnggan ? 'block' : 'hidden'
                         }`}
                       >
                         <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
                           PERHATIAN
                         </h5>
-                        <h1 className='font-bold text-lg'>Enggan</h1>
-                        <p>
-                          Murid yang Enggan Rawatan sehingga hari terakhir
-                          Pasukan Pergigian berada di Sekolah, termasuk murid
-                          yang tiada kebenaran
+                        <h1 className='font-bold text-xl'>ENGGAN</h1>
+                        <p className='p-2'>
+                          Murid yang <strong>ENGGAN</strong> Rawatan sehingga
+                          hari terakhir Pasukan Pergigian berada di Sekolah
                         </p>
                         <div className='flex flex-row justify-center mt-2'>
                           <div>
@@ -569,7 +600,7 @@ function UserFormSekolahRawatan() {
                         {engganRawatan === 'ya-enggan-rawatan' ? (
                           <p className='mt-2'>
                             Adakah murid <strong>DIBERI</strong> kebenaran
-                            rawatan/rawatan daripada ibu bapa/penjaga?
+                            rawatan daripada ibu bapa/penjaga?
                           </p>
                         ) : null}
                         {engganRawatan === 'ya-enggan-rawatan' ? (
@@ -641,7 +672,7 @@ function UserFormSekolahRawatan() {
                         <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
                           PERHATIAN
                         </h5>
-                        <h1 className='font-bold text-lg'>Tidak Hadir</h1>
+                        <h1 className='font-bold text-xl'>TIDAK HADIR</h1>
                         <p>
                           Murid yang TIDAK HADIR Rawatan sehingga hari terakhir
                           Pasukan Pergigian berada di Sekolah
@@ -741,7 +772,7 @@ function UserFormSekolahRawatan() {
                   pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Pengapan Fisur (E10)
+                        Pengapan Fisur
                         <FaInfoCircle title='Fissure Sealant' className='m-2' />
                       </h4>
                       {/* <div className='flex flex-row items-center pl-11 col-span-2'>
@@ -771,7 +802,7 @@ function UserFormSekolahRawatan() {
                           htmlFor='baru-jumlah-gigi-kekal-dibuat-fs'
                           className='text-sm font-m'
                         >
-                          Jumlah gigi kekal dibuat pengapan fisur (E10)
+                          Jumlah gigi kekal dibuat pengapan fisur
                         </label>
                         <input
                           type='number'
@@ -795,15 +826,15 @@ function UserFormSekolahRawatan() {
                   ) : null}
                   {pilihanRawatan.includes('sapuan-florida') ||
                   pilihanRawatan.includes('lihat-semua') ? (
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Sapuan Fluorida (FV) (E13)
+                        Sapuan Fluorida (FV)
                         <FaInfoCircle
                           title='Fluoride Varnish Application'
                           className='m-2'
                         />
                       </h4>
-                      {/* <div className='flex flex-row items-center pl-11 col-span-2'>
+                      <div className='flex flex-row items-center pl-5 col-span-2'>
                         <input
                           type='checkbox'
                           name='murid-diberi-fv'
@@ -824,13 +855,13 @@ function UserFormSekolahRawatan() {
                         >
                           murid diberi Sapuan Florida(FV)
                         </label>
-                      </div> */}
-                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                      </div>
+                      {/* <div className='flex flex-row items-center pl-5 col-span-2'>
                         <label
                           htmlFor='baru-jumlah-murid-diberi-fv'
                           className='text-sm font-m'
                         >
-                          Jumlah gigi kekal diberi Sapuan Florida (FV) (E13)
+                          Jumlah gigi kekal diberi Sapuan Florida (FV)
                         </label>
                         <input
                           type='number'
@@ -849,14 +880,14 @@ function UserFormSekolahRawatan() {
                           max='16'
                           required
                         />
-                      </div>
+                      </div> */}
                     </article>
                   ) : null}
                   {pilihanRawatan.includes('prr-jenis-1') ||
                   pilihanRawatan.includes('lihat-semua') ? (
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        Resin Pencegahan Jenis 1 (PRR Type I) (E12)
+                        Resin Pencegahan Jenis 1 (PRR Type I)
                       </h4>
                       {/* <div className='flex flex-row items-center pl-11 col-span-2'>
                         <input
@@ -886,7 +917,7 @@ function UserFormSekolahRawatan() {
                           className='text-sm font-m'
                         >
                           jumlah gigi kekal dibuat Resin Pencegahan Jenis 1 (PRR
-                          Type I) (E12)
+                          Type I)
                         </label>
                         <input
                           type='number'
@@ -1534,6 +1565,35 @@ function UserFormSekolahRawatan() {
                         >
                           <input
                             type='checkbox'
+                            name='rujukan-ke-klinik'
+                            id='rujukan-ke-klinik'
+                            checked={rujukKlinikSekolahRawatan}
+                            onChange={() => {
+                              setRujukKlinikSekolahRawatan(
+                                !rujukKlinikSekolahRawatan
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                rujukKlinikSekolahRawatan:
+                                  !rujukKlinikSekolahRawatan,
+                              });
+                            }}
+                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          />
+                          <label
+                            htmlFor='rujukan-ke-klinik'
+                            className='mx-2 text-sm font-m'
+                          >
+                            Rujukan Ke Klinik Pergigian
+                          </label>
+                        </div>
+                        <div
+                          className={`${
+                            !rujukSekolahRawatan && 'hidden'
+                          } flex flex-row items-center pl-5 m-2`}
+                        >
+                          <input
+                            type='checkbox'
                             name='rawatan-ortodontik-penyata-akhir-2'
                             id='rawatan-ortodontik-penyata-akhir-2'
                             checked={rujukRawatanOrtodontikSekolahRawatan}
@@ -1672,35 +1732,6 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Pakar Pergigian Pediatrik
                           </label>
                         </div>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center pl-5 m-2`}
-                        >
-                          <input
-                            type='checkbox'
-                            name='rujukan-ke-klinik'
-                            id='rujukan-ke-klinik'
-                            checked={rujukKlinikSekolahRawatan}
-                            onChange={() => {
-                              setRujukKlinikSekolahRawatan(
-                                !rujukKlinikSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                rujukKlinikSekolahRawatan:
-                                  !rujukKlinikSekolahRawatan,
-                              });
-                            }}
-                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
-                          <label
-                            htmlFor='rujukan-ke-klinik'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Rujukan Ke Klinik Pergigian
-                          </label>
-                        </div>
                       </article>
                     ) : null}
                   </div>
@@ -1710,63 +1741,181 @@ function UserFormSekolahRawatan() {
                       <h4 className='font-bold flex flex-row pl-5'>
                         Kes Selesai
                       </h4>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        {singlePersonSekolah.statusRawatan === 'selesai' ? (
-                          <FaCheckCircle className='text-user7 text-center' />
-                        ) : (
-                          <input
-                            type='checkbox'
-                            name='kes-selesai-penyata-akhir-2'
-                            id='kes-selesai-penyata-akhir-2'
-                            checked={kesSelesaiSekolahRawatan}
-                            onChange={() => {
-                              setKesSelesaiSekolahRawatan(
-                                !kesSelesaiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiSekolahRawatan:
-                                  !kesSelesaiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
-                        )}
+                      <div className='grid grid-cols-2 lg:grid-cols-[1fr_3fr] items-center pl-5'>
                         <label
                           htmlFor='kes-selesai-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
+                          className='mr-2 text-lg font-bold flex'
                         >
                           kes selesai
+                          <span className='text-user9'>*</span>
                         </label>
-                      </div>
-                      <div className='flex flex-row items-center pl-5 m-1'>
-                        {singlePersonSekolah.kesSelesaiMmi === true ? (
-                          <FaCheckCircle className='text-user7 text-center' />
+                        {singlePersonSekolah.statusRawatan === 'selesai' ? (
+                          <FaCheckCircle className='text-user7 text-center text-lg' />
                         ) : (
-                          <input
-                            type='checkbox'
-                            name='kes-selesai-icdas-penyata-akhir-2'
-                            id='kes-selesai-icdas-penyata-akhir-2'
-                            checked={kesSelesaiIcdasSekolahRawatan}
-                            onChange={() => {
-                              setKesSelesaiIcdasSekolahRawatan(
-                                !kesSelesaiIcdasSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiIcdasSekolahRawatan:
-                                  !kesSelesaiIcdasSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
+                          // <input
+                          //   type='checkbox'
+                          //   name='kes-selesai-penyata-akhir-2'
+                          //   id='kes-selesai-penyata-akhir-2'
+                          //   checked={kesSelesaiSekolahRawatan}
+                          //   onChange={() => {
+                          //     setKesSelesaiSekolahRawatan(
+                          //       !kesSelesaiSekolahRawatan
+                          //     );
+                          //     setConfirmData({
+                          //       ...confirmData,
+                          //       kesSelesaiSekolahRawatan:
+                          //         !kesSelesaiSekolahRawatan,
+                          //     });
+                          //   }}
+                          //   className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          // />
+                          <div className='flex items-center'>
+                            <input
+                              required
+                              type='radio'
+                              name='kes-selesai-penyata-akhir-2'
+                              id='ya-kes-selesai-penyata-akhir-2'
+                              value='ya-kes-selesai-penyata-akhir-2'
+                              checked={
+                                kesSelesaiSekolahRawatan ===
+                                'ya-kes-selesai-penyata-akhir-2'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setKesSelesaiSekolahRawatan(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  kesSelesaiSekolahRawatan: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='ya-kes-selesai-penyata-akhir-2'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              required
+                              type='radio'
+                              name='kes-selesai-penyata-akhir-2'
+                              id='tidak-kes-selesai-penyata-akhir-2'
+                              value='tidak-kes-selesai-penyata-akhir-2'
+                              checked={
+                                kesSelesaiSekolahRawatan ===
+                                'tidak-kes-selesai-penyata-akhir-2'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setKesSelesaiSekolahRawatan(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  kesSelesaiSekolahRawatan: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='tidak-kes-selesai-penyata-akhir-2'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                          </div>
                         )}
+                      </div>
+                      <div className='grid grid-cols-2 lg:grid-cols-[1fr_3fr] items-center pl-5'>
                         <label
                           htmlFor='kes-selesai-icdas-penyata-akhir-2'
-                          className='mx-2 text-sm font-m'
+                          className='mr-2 text-lg font-bold flex'
                         >
                           kes selesai MMI
+                          <span className='text-user9'>*</span>
                         </label>
+                        {singlePersonSekolah.kesSelesaiMmi === true ? (
+                          <FaCheckCircle className='text-user7 text-center text-lg' />
+                        ) : (
+                          // <input
+                          //   type='checkbox'
+                          //   name='kes-selesai-icdas-penyata-akhir-2'
+                          //   id='kes-selesai-icdas-penyata-akhir-2'
+                          //   checked={kesSelesaiIcdasSekolahRawatan}
+                          //   onChange={() => {
+                          //     setKesSelesaiIcdasSekolahRawatan(
+                          //       !kesSelesaiIcdasSekolahRawatan
+                          //     );
+                          //     setConfirmData({
+                          //       ...confirmData,
+                          //       kesSelesaiIcdasSekolahRawatan:
+                          //         !kesSelesaiIcdasSekolahRawatan,
+                          //     });
+                          //   }}
+                          //   className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                          // />
+                          <div className='flex items-center'>
+                            <input
+                              required
+                              type='radio'
+                              name='kes-selesai-icdas-penyata-akhir-2'
+                              id='ya-kes-selesai-icdas-penyata-akhir-2'
+                              value='ya-kes-selesai-icdas-penyata-akhir-2'
+                              checked={
+                                kesSelesaiIcdasSekolahRawatan ===
+                                'ya-kes-selesai-icdas-penyata-akhir-2'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setKesSelesaiIcdasSekolahRawatan(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  kesSelesaiIcdasSekolahRawatan: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='ya-kes-selesai-icdas-penyata-akhir-2'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              required
+                              type='radio'
+                              name='kes-selesai-icdas-penyata-akhir-2'
+                              id='tidak-kes-selesai-icdas-penyata-akhir-2'
+                              value='tidak-kes-selesai-icdas-penyata-akhir-2'
+                              checked={
+                                kesSelesaiIcdasSekolahRawatan ===
+                                'tidak-kes-selesai-icdas-penyata-akhir-2'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setKesSelesaiIcdasSekolahRawatan(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  kesSelesaiIcdasSekolahRawatan: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='tidak-kes-selesai-icdas-penyata-akhir-2'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                          </div>
+                        )}
                       </div>
                     </article>
                   )}

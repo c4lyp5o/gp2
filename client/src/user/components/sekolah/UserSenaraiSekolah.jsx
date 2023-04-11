@@ -166,7 +166,6 @@ function UserSekolahList() {
               onChange={(e) => setSekMenRen(e.target.value)}
             >
               <option value=''>SEMUA SEKOLAH</option>
-              <option value='prasekolah'>PRASEKOLAH</option>
               <option value='sekolah-menengah'>SEKOLAH MENENGAH</option>
               <option value='sekolah-rendah'>SEKOLAH RENDAH</option>
             </select>
