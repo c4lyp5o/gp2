@@ -95,6 +95,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  statusPeriodontium: {
+    type: String,
+    default: '',
+  },
   yaTidakPesakitMempunyaiGigi: {
     type: String,
     default: '',
