@@ -503,10 +503,10 @@ const updatePemeriksaanSekolah = async (req, res) => {
       .json({ msg: `No document with id ${req.params.pemeriksaanSekolahId}` });
   }
 
-  const personSekolah = await Sekolah.findOneAndUpdate(
-    { _id: req.query.personSekolahId },
-    { $set: { statusRawatan: 'belum selesai' } }
-  );
+  // const personSekolah = await Sekolah.findOneAndUpdate(
+  //   { _id: req.query.personSekolahId },
+  //   { $set: { statusRawatan: 'belum selesai' } }
+  // );
 
   // delete KOTAK if inginMelakukanIntervensiMerokok === tidak || ''
   if (
