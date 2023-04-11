@@ -4719,6 +4719,24 @@ const makeTOD = async (payload) => {
     //   worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
     // }
 
+    const jumlahPPdanJP = await Operator.aggregate([
+      {
+        $match: {
+          kodFasiliti: klinik,
+          statusPegawai: { $in: ['pp', 'jp'] },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          jumlah: { $sum: 1 },
+        },
+      },
+    ]);
+
+    console.log(jumlahPPdanJP);
+
+    worksheet.getCell('C8').value = `${jumlahPPdanJP}`;
     worksheet.getCell('C7').value = `${klinik.toUpperCase()}`;
     worksheet.getCell(
       'C6'
@@ -4820,6 +4838,18 @@ const makeTOD = async (payload) => {
       shrinkToFit: false,
       horizontal: 'right',
     };
+
+    for (let i = 0; i < data[2].length; i++) {
+      if (data[2][i].query1836[0]) {
+        let row = worksheet.getRow(38 + i);
+        row.getCell(3).value = data[2][i].query1836[0].jumlahKedatanganBaru;
+        row.getCell(4).value = data[2][i].query1836[0].jumlahd;
+        // row.getCell(5).value = data[2][i].jumlahm;
+        row.getCell(6).value = data[2][i].query1836[0].jumlahf;
+        row.getCell(7).value = data[2][i].query1836[0].jumlahx;
+        row.getCell(10).value = data[2][i].query1836[0].dfxEqualToZero;
+      }
+    }
 
     worksheet.name = 'TOD';
 
