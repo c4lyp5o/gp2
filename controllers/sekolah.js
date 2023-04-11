@@ -103,7 +103,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
-// GET /faceted/:singleSekolahId
+// GET /faceted/:kodSekolah
 const getAllPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -111,72 +111,20 @@ const getAllPersonSekolah = async (req, res) => {
 
   const { kodFasiliti } = req.user;
 
-  const { singleSekolahId } = req.params;
+  const { kodSekolah } = req.params;
 
   const dataSekolahDenganPelajar = await Fasiliti.aggregate([
     {
       $match: {
         kodFasilitiHandler: kodFasiliti,
-        kodSekolah: singleSekolahId,
+        kodSekolah,
+        sesiTakwimSekolah: sesiTakwimSekolah(),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
     {
       $facet: {
-        fasilitiSekolahs: [
-          // {
-          //   $lookup: {
-          //     from: 'sekolahs',
-          //     let: {
-          //       kodSekolah: '$kodSekolah',
-          //     },
-          //     pipeline: [
-          //       {
-          //         $match: {
-          //           $expr: {
-          //             $and: [
-          //               {
-          //                 $eq: ['$kodSekolah', '$$kodSekolah'],
-          //               },
-          //             ],
-          //           },
-          //         },
-          //       },
-          //       {
-          //         $group: {
-          //           _id: null,
-          //           semuaTahun: {
-          //             $addToSet: '$tahun',
-          //           },
-          //           // semuaKelas: {
-          //           //   $addToSet: "$namaKelas"
-          //           // },
-          //         },
-          //       },
-          //       {
-          //         $project: {
-          //           _id: 0,
-          //           semuaTahun: 1,
-          //           // semuaKelas: 1,
-          //         },
-          //       },
-          //     ],
-          //     as: 'sedikitDetail',
-          //   },
-          // },
-          // {
-          //   $project: {
-          //     _id: 0,
-          //     idInstitusi: 1,
-          //     nama: 1,
-          //     kodSekolah: 1,
-          //     sekolahSelesaiReten: 1,
-          //     tarikhMulaSekolah: 1,
-          //     // tahunSekolah: '$sedikitDetail.semuaTahun',
-          //     // kelasSekolah: '$sedikitDetail.semuaKelas',
-          //   },
-          // },
-        ],
+        fasilitiSekolahs: [],
         allPersonSekolahs: [
           {
             $lookup: {
@@ -192,6 +140,9 @@ const getAllPersonSekolah = async (req, res) => {
                         {
                           $eq: ['$kodSekolah', '$$kodSekolah'],
                         },
+                        {
+                          $eq: ['$sesiTakwimPelajar', sesiTakwimSekolah()],
+                        },
                       ],
                     },
                   },
@@ -199,16 +150,27 @@ const getAllPersonSekolah = async (req, res) => {
                 {
                   $project: {
                     _id: 1,
-                    nama: 1,
-                    noKp: 1,
-                    kodJantina: 1,
-                    kaum: 1,
-                    tahun: 1,
-                    namaKelas: 1,
                     statusRawatan: 1,
+                    idInstitusi: 1,
+                    kodSekolah: 1,
+                    namaSekolah: 1,
+                    idIndividu: 1,
+                    nomborId: 1,
+                    nama: 1,
+                    sesiTakwimPelajar: 1,
+                    tahunTingkatan: 1,
+                    kelasPelajar: 1,
+                    jantina: 1,
+                    statusOku: 1,
+                    tarikhLahir: 1,
+                    umur: 1,
+                    keturunan: 1,
+                    warganegara: 1,
+                    berpindah: 1,
+                    tarikhMelaksanakanBegin: 1,
+                    kesSelesaiMmi: 1,
                     pemeriksaanSekolah: 1,
                     rawatanSekolah: 1,
-                    tarikhMelaksanakanBegin: 1,
                   },
                 },
               ],
@@ -221,19 +183,28 @@ const getAllPersonSekolah = async (req, res) => {
           {
             $project: {
               _id: '$sekolah._id',
-              namaSekolah: '$nama',
-              kodSekolah: '$kodSekolah',
               jenisFasiliti: 1,
-              nama: '$sekolah.nama',
-              noKp: '$sekolah.noKp',
-              kodJantina: '$sekolah.kodJantina',
-              kaum: '$sekolah.kaum',
-              tahun: '$sekolah.tahun',
-              namaKelas: '$sekolah.namaKelas',
               statusRawatan: '$sekolah.statusRawatan',
+              idInstitusi: '$sekolah.idInstitusi',
+              kodSekolah: '$sekolah.kodSekolah',
+              namaSekolah: '$sekolah.namaSekolah',
+              idIndividu: '$sekolah.idIndividu',
+              nomborId: '$sekolah.nomborId',
+              nama: '$sekolah.nama',
+              sesiTakwimPelajar: '$sekolah.sesiTakwimPelajar',
+              tahunTingkatan: '$sekolah.tahunTingkatan',
+              kelasPelajar: '$sekolah.kelasPelajar',
+              jantina: '$sekolah.jantina',
+              statusOku: '$sekolah.statusOku',
+              tarikhLahir: '$sekolah.tarikhLahir',
+              umur: '$sekolah.umur',
+              keturunan: '$sekolah.keturunan',
+              warganegara: '$sekolah.warganegara',
+              berpindah: '$sekolah.berpindah',
+              tarikhMelaksanakanBegin: '$sekolah.tarikhMelaksanakanBegin',
+              kesSelesaiMmi: '$sekolah.kesSelesaiMmi',
               pemeriksaanSekolah: '$sekolah.pemeriksaanSekolah',
               rawatanSekolah: '$sekolah.rawatanSekolah',
-              tarikhMelaksanakanBegin: '$sekolah.tarikhMelaksanakanBegin',
             },
           },
           {
@@ -269,8 +240,8 @@ const getAllPersonSekolah = async (req, res) => {
   ]);
 
   res.status(200).json({
-    allPersonSekolahs: dataSekolahDenganPelajar[0].allPersonSekolahs,
     fasilitiSekolahs: dataSekolahDenganPelajar[0].fasilitiSekolahs,
+    allPersonSekolahs: dataSekolahDenganPelajar[0].allPersonSekolahs,
   });
 };
 
@@ -500,7 +471,7 @@ const updatePersonSekolah = async (req, res) => {
 
   const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
     { _id: req.params.personSekolahId },
-    { $set: req.body },
+    req.body,
     { new: true }
   );
 

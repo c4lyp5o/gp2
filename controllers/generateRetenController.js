@@ -359,6 +359,9 @@ const downloader = async (req, res, callback) => {
     case 'PGS203P2':
       excelFile = await makePGS203P2(payload);
       break;
+    case 'TODP1':
+      excelFile = await makeTOD(payload);
+      break;
     case 'MASA':
       excelFile = await makeMasa(payload);
       break;
@@ -4716,6 +4719,24 @@ const makeTOD = async (payload) => {
     //   worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
     // }
 
+    const jumlahPPdanJP = await Operator.aggregate([
+      {
+        $match: {
+          kodFasiliti: klinik,
+          statusPegawai: { $in: ['pp', 'jp'] },
+        },
+      },
+      {
+        $group: {
+          _id: null,
+          jumlah: { $sum: 1 },
+        },
+      },
+    ]);
+
+    console.log(jumlahPPdanJP);
+
+    worksheet.getCell('C8').value = `${jumlahPPdanJP}`;
     worksheet.getCell('C7').value = `${klinik.toUpperCase()}`;
     worksheet.getCell(
       'C6'
@@ -4749,8 +4770,8 @@ const makeTOD = async (payload) => {
           data[0][i].queryBaru[0].jumlahTampalanAnteriorBaru;
         row.getCell(22).value =
           data[0][i].queryBaru[0].jumlahTampalanPosteriorBaru;
-        j += 2;
       }
+      j += 2;
     }
 
     j = 0;
@@ -4770,8 +4791,8 @@ const makeTOD = async (payload) => {
         row.getCell(30).value = data[1][i].queryBu[0].craRendah;
         row.getCell(31).value = data[1][i].queryBu[0].craSederhana;
         row.getCell(32).value = data[1][i].queryBu[0].craTinggi;
-        j += 2;
       }
+      j += 2;
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
@@ -4818,6 +4839,18 @@ const makeTOD = async (payload) => {
       horizontal: 'right',
     };
 
+    for (let i = 0; i < data[2].length; i++) {
+      if (data[2][i].query1836[0]) {
+        let row = worksheet.getRow(38 + i);
+        row.getCell(3).value = data[2][i].query1836[0].jumlahKedatanganBaru;
+        row.getCell(4).value = data[2][i].query1836[0].jumlahd;
+        // row.getCell(5).value = data[2][i].jumlahm;
+        row.getCell(6).value = data[2][i].query1836[0].jumlahf;
+        row.getCell(7).value = data[2][i].query1836[0].jumlahx;
+        row.getCell(10).value = data[2][i].query1836[0].dfxEqualToZero;
+      }
+    }
+
     worksheet.name = 'TOD';
 
     const newfile = makeFile();
@@ -4842,18 +4875,18 @@ const makeTOD = async (payload) => {
 exports.debug = async (req, res) => {
   logger.info('[generateRetenController] debug test');
   let payload = {
-    negeri: 'Johor',
+    negeri: 'Perlis',
     // daerah: 'Arau',
-    daerah: 'Batu Pahat',
+    daerah: 'Arau',
     // klinik: 'Klinik Pergigian Kaki Bukit',
-    klinik: 'J01-002-02',
+    klinik: 'all',
     // bulan: '2023-04-01',
-    tarikhMula: '2023-03-01',
-    tarikhAkhir: '2023-04-30',
+    tarikhMula: '2023-01-01',
+    tarikhAkhir: '2023-04-11',
     fromEtl: false,
   };
   console.table(payload);
-  const data = await makePgPro01(payload);
+  const data = await makeTOD(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);

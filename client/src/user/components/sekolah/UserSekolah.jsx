@@ -26,7 +26,7 @@ function UserSekolah() {
     toast,
   } = useGlobalUserAppContext();
 
-  const { singleSekolahId } = useParams();
+  const { kodSekolah } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -36,11 +36,11 @@ function UserSekolah() {
   const [sekMenRen, setSekMenRen] = useState('');
   // const [isFiltering, setIsFiltering] = useState(false);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  const [tahun, setTahun] = useState([]);
-  const [namaKelas, setNamaKelas] = useState([]);
+  const [tahunTingkatan, setTahunTingkatan] = useState([]);
+  const [kelasPelajar, setKelasPelajar] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [pilihanTahun, setPilihanTahun] = useState('');
-  const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+  const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
+  const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
   const [pilihanBegin, setPilihanBegin] = useState('');
   const [filterNama, setFilterNama] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
@@ -83,7 +83,7 @@ function UserSekolah() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/sekolah/faceted/${singleSekolahId}`,
+          `/api/v1/sekolah/faceted/${kodSekolah}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -158,59 +158,59 @@ function UserSekolah() {
     // const filteredSekolahs = allPersonSekolahs.filter((person) =>
     //   person.namaSekolah.includes(pilihanSekolah)
     // );
-    const tahun = allPersonSekolahs.reduce(
-      (arrTahun, singlePersonSekolah) => {
-        if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-          arrTahun.push(singlePersonSekolah.tahun);
+    const tahunTingkatan = allPersonSekolahs.reduce(
+      (arrTahunTingkatan, singlePersonSekolah) => {
+        if (!arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)) {
+          arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
         }
-        return arrTahun.filter((valid) => valid);
+        return arrTahunTingkatan.filter((valid) => valid);
       },
       ['']
     );
-    // console.log(tahun);
-    setTahun(tahun);
+    // console.log(tahunTingkatan);
+    setTahunTingkatan(tahunTingkatan);
     // setDahFilterSekolahs(filteredSekolahs);
   }, [pilihanSekolah]);
 
   useEffect(() => {
     const filteredTahun = allPersonSekolahs.filter((person) =>
-      person.tahun.includes(pilihanTahun)
+      person.tahunTingkatan.includes(pilihanTahunTingkatan)
     );
-    const namaKelas = filteredTahun.reduce(
-      (arrNamaKelas, singlePersonSekolah) => {
-        if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-          arrNamaKelas.push(singlePersonSekolah.namaKelas);
+    const kelasPelajar = filteredTahun.reduce(
+      (arrKelasPelajar, singlePersonSekolah) => {
+        if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
+          arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
         }
-        return arrNamaKelas.filter((valid) => valid);
+        return arrKelasPelajar.filter((valid) => valid);
       },
       ['']
     );
-    setNamaKelas(namaKelas);
+    setKelasPelajar(kelasPelajar);
     // setDahFilterTahun(filteredTahun);
-  }, [pilihanTahun]);
+  }, [pilihanTahunTingkatan]);
 
   // reset value
   useEffect(() => {
-    setPilihanTahun('');
-    setPilihanNamaKelas('');
+    setPilihanTahunTingkatan('');
+    setPilihanKelasPelajar('');
     setFilterNama('');
   }, [pilihanSekolah]);
 
   useEffect(() => {
-    setPilihanNamaKelas('');
+    setPilihanKelasPelajar('');
     setFilterNama('');
-  }, [pilihanTahun]);
+  }, [pilihanTahunTingkatan]);
 
   useEffect(() => {
     setFilterNama('');
-  }, [pilihanNamaKelas]);
+  }, [pilihanKelasPelajar]);
 
   // fetch fasiliti sekolah to determine selesai reten
   // useEffect(() => {
   //   const fetchFasilitiSekolahs = async () => {
   //     try {
   //       const { data } = await axios.get(
-  //         `/api/v1/sekolah/faceted/${singleSekolahId}`,
+  //         `/api/v1/sekolah/faceted/${kodSekolah}`,
   //         {
   //           headers: {
   //             Authorization: `Bearer ${
@@ -255,7 +255,7 @@ function UserSekolah() {
   // specific refreshTimer for this UserSekolah special case
   useEffect(() => {
     setRefreshTimer(!refreshTimer);
-  }, [pilihanSekolah, pilihanTahun, pilihanNamaKelas, filterNama]);
+  }, [pilihanSekolah, pilihanTahunTingkatan, pilihanKelasPelajar, filterNama]);
 
   const handleAccordian = (e) => {
     if (accordian === e) {
@@ -307,15 +307,15 @@ function UserSekolah() {
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
-                    value={pilihanTahun}
+                    value={pilihanTahunTingkatan}
                     onChange={(e) => {
-                      setPilihanTahun(e.target.value);
+                      setPilihanTahunTingkatan(e.target.value);
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
                     {pilihanSekolah ? (
-                      tahun.map((singleTahun, index) => {
+                      tahunTingkatan.map((singleTahun, index) => {
                         return (
                           <option
                             value={singleTahun}
@@ -338,15 +338,15 @@ function UserSekolah() {
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
-                    value={pilihanNamaKelas}
+                    value={pilihanKelasPelajar}
                     onChange={(e) => {
-                      setPilihanNamaKelas(e.target.value);
+                      setPilihanKelasPelajar(e.target.value);
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {pilihanTahun ? (
-                      namaKelas.map((singleNamaKelas, index) => {
+                    {pilihanTahunTingkatan ? (
+                      kelasPelajar.map((singleNamaKelas, index) => {
                         return (
                           <option
                             value={singleNamaKelas}
@@ -487,8 +487,8 @@ function UserSekolah() {
                 .filter(
                   (person) =>
                     person.namaSekolah.includes(pilihanSekolah) &&
-                    person.tahun.includes(pilihanTahun) &&
-                    person.namaKelas.includes(pilihanNamaKelas) &&
+                    person.tahunTingkatan.includes(pilihanTahunTingkatan) &&
+                    person.kelasPelajar.includes(pilihanKelasPelajar) &&
                     person.nama.includes(filterNama)
                 )
                 .map((singlePersonSekolah, index) => {
