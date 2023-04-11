@@ -17609,9 +17609,82 @@ const countTOD = async (payload) => {
     },
   ];
 
+  // 18 dan 36 bulan
+  let match_stage_1836 = [];
+
+  const match_stage_18 = [
+    {
+      $match: {
+        ...getParamsTOD(payload),
+        kedatangan: 'baru-kedatangan',
+        umur: { $eq: 1 },
+        umurBulan: { $eq: 6 },
+      },
+    },
+  ];
+
+  const match_stage_36 = [
+    {
+      $match: {
+        ...getParamsTOD(payload),
+        kedatangan: 'baru-kedatangan',
+        umur: { $eq: 3 },
+        umurBulan: { $eq: 0 },
+      },
+    },
+  ];
+
+  match_stage_1836.push(match_stage_18);
+  match_stage_1836.push(match_stage_36);
+
+  const group_1836 = [
+    {
+      $group: {
+        _id: null,
+        jumlahKedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahd: { $sum: '$dAdaGigiDesidusPemeriksaanUmum' },
+        jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
+        jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
+        dfxEqualToZero: {
+          //dfx=0
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: [
+                      '$yaTidakPesakitMempunyaiGigi',
+                      'ya-pesakit-mempunyai-gigi',
+                    ],
+                  },
+                  { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ];
+
   try {
     let dataBaru = [];
     let dataBu = [];
+    let data1836 = [];
     let bigData = [];
 
     // for (let i = 0; i < match_stage_baru.length; i++) {
@@ -17638,8 +17711,14 @@ const countTOD = async (payload) => {
       dataBu.push({ queryBu });
     }
 
+    for (const stage of match_stage_1836) {
+      const query1836 = await Umum.aggregate([...stage, ...group_1836]);
+      data1836.push({ query1836 });
+    }
+
     bigData.push(dataBaru);
     bigData.push(dataBu);
+    bigData.push(data1836);
 
     return bigData;
   } catch (error) {
