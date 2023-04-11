@@ -819,7 +819,14 @@ const countPG211A = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$ibuMengandung', true],
+              $and: [
+                {
+                  $eq: ['$ibuMengandung', true],
+                },
+                {
+                  $gte: ['$umur', 7],
+                },
+              ],
             },
             1,
             0,
@@ -3946,6 +3953,7 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207(payload),
       kedatangan: 'baru-kedatangan',
+      umur: { $gte: 7 },
       ibuMengandung: true,
     },
   };
@@ -4440,6 +4448,7 @@ const countPG207 = async (payload) => {
   const match_ibumengandung = {
     $match: {
       ...getParams207(payload),
+      umur: { $gte: 7 },
       ibuMengandung: true,
     },
   };
@@ -4869,6 +4878,7 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207sekolah(payload),
       statusRawatan: 'belum selesai',
+      umur: { $gte: 7 },
       ibuMengandung: true,
     },
   };
@@ -5666,6 +5676,7 @@ const countPG207 = async (payload) => {
     $match: {
       ...getParams207(payload),
       rawatanDibuatOperatorLain: true,
+      umur: { $gte: 7 },
       ibuMengandung: true,
     },
   };
