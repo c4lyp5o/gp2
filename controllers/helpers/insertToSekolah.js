@@ -2,16 +2,30 @@ const https = require('https');
 const axios = require('axios');
 const moment = require('moment');
 const Sekolah = require('../../models/Sekolah');
+const sesiTakwimSekolah = require('./sesiTakwimSekolah');
 const { logger } = require('../../logs/logger');
 
-const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
-  // TODO iterate pelajar and register to model sekolah
+// get years regardless of birthdate
+const getAge = (date) => {
+  const years =
+    parseInt(moment().format('YYYY')) - parseInt(moment(date).format('YYYY'));
+  return years;
+};
 
-  // yang nak
-  // pra
-  // tahun
-  // tingkatan 1 sampai 5
+const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
+  // filter the pelajar to only include current sesi & wanted TAHUN_TINGKATAN only
+  const MOEISPelajar =
+    SRSMPelajarMOEIS['SENARAI MURID MENGIKUT KELAS / INSTITUSI'];
+  const currentSesiPelajarAndWantedClass = MOEISPelajar.filter((sp) => {
+    return (
+      sp.SESI_TAKWIM === sesiTakwimSekolah() &&
+      (sp.ID_TAHUN_TINGKATAN !== '86' ||
+        sp.ID_TAHUN_TINGKATAN !== '87' ||
+        sp.ID_TAHUN_TINGKATAN !== '105')
+    );
+  });
 
+  // the interface
   const objPelajar = {
     idInstitusi: '',
     kodSekolah: '',
@@ -30,18 +44,13 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     warganegara: '',
   };
 
+  // initialize array
   let allConvertedPelajar = [];
 
-  const howOldAreYouMyFriendtahunV2 = (date) => {
-    const years =
-      parseInt(moment().format('YYYY')) - parseInt(moment(date).format('YYYY')); // get years regardless of birthdate
-    return years;
-  };
-
-  // currentSesiPelajar.forEach(async (sp) => {
-  //   objPelajar.idInstitusi = dataCreatedSRSM.idInstitusi;
-  //   objPelajar.kodSekolah = dataCreatedSRSM.kodSekolah;
-  //   objPelajar.namaSekolah = dataCreatedSRSM.nama;
+  // currentSesiPelajarAndWantedClass.forEach(async (sp) => {
+  //   objPelajar.idInstitusi = fromDbFasilitiSRSM.idInstitusi;
+  //   objPelajar.kodSekolah = fromDbFasilitiSRSM.kodSekolah;
+  //   objPelajar.namaSekolah = fromDbFasilitiSRSM.nama;
   //   objPelajar.idIndividu = sp.ID_INDIVIDU;
   //   objPelajar.nomborId = sp.NOMBOR_ID;
   //   objPelajar.nama = sp.NAMA;
@@ -72,7 +81,7 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
   //       console.log(data);
   //       objPelajar.kelasPelajar = data.TBA_KELAS_PELAJAR; // PENDING
   //       objPelajar.tarikhLahir = data.tarikh_lahir;
-  //       objPelajar.umur = howOldAreYouMyFriendtahunV2(data.tarikh_lahir);
+  //       objPelajar.umur = getAge(data.tarikh_lahir);
   //       objPelajar.keturunan = data.keturunan;
   //       objPelajar.warganegara = data.warganegara;
   //     } catch (error) {
@@ -84,29 +93,32 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
   //   allConvertedPelajar.push({ ...objPelajar });
   // });
 
-  for (let i = 0; i < currentSesiPelajar.length; i++) {
-    objPelajar.idInstitusi = dataCreatedSRSM.idInstitusi;
-    objPelajar.kodSekolah = dataCreatedSRSM.kodSekolah;
-    objPelajar.namaSekolah = dataCreatedSRSM.nama;
-    objPelajar.idIndividu = currentSesiPelajar[i].ID_INDIVIDU;
-    objPelajar.nomborId = currentSesiPelajar[i].NOMBOR_ID;
-    objPelajar.nama = currentSesiPelajar[i].NAMA;
-    objPelajar.sesiTakwimPelajar = currentSesiPelajar[i].SESI_TAKWIM;
-    objPelajar.tahunTingkatan = currentSesiPelajar[i].TAHUN_TINGKATAN;
-    objPelajar.jantina = currentSesiPelajar[i].JANTINA;
-    objPelajar.statusOku = currentSesiPelajar[i].STATUS_OKU;
+  // this will be blocking untill it's complete
+  for (let i = 0; i < currentSesiPelajarAndWantedClass.length; i++) {
+    objPelajar.idInstitusi = fromDbFasilitiSRSM.idInstitusi;
+    objPelajar.kodSekolah = fromDbFasilitiSRSM.kodSekolah;
+    objPelajar.namaSekolah = fromDbFasilitiSRSM.nama;
+    objPelajar.idIndividu = currentSesiPelajarAndWantedClass[i].ID_INDIVIDU;
+    objPelajar.nomborId = currentSesiPelajarAndWantedClass[i].NOMBOR_ID;
+    objPelajar.nama = currentSesiPelajarAndWantedClass[i].NAMA;
+    objPelajar.sesiTakwimPelajar =
+      currentSesiPelajarAndWantedClass[i].SESI_TAKWIM;
+    objPelajar.tahunTingkatan =
+      currentSesiPelajarAndWantedClass[i].TAHUN_TINGKATAN;
+    objPelajar.jantina = currentSesiPelajarAndWantedClass[i].JANTINA;
+    objPelajar.statusOku = currentSesiPelajarAndWantedClass[i].STATUS_OKU;
     if (
       process.env.BUILD_ENV === 'production' ||
       process.env.BUILD_ENV === 'dev'
     ) {
       try {
-        console.log(i);
+        console.log('Pelajar ' + fromDbFasilitiSRSM.nama + ' ' + i);
         const agent = new https.Agent({
           rejectUnauthorized: false,
         });
         const { data } = await axios.get(
           process.env.MOEIS_INTEGRATION_URL_SINGLE_PELAJAR +
-            `?id_individu=${currentSesiPelajar[i].ID_INDIVIDU}`,
+            `?id_individu=${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}`,
           {
             httpsAgent: agent,
             headers: {
@@ -115,7 +127,7 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
           }
         );
         objPelajar.tarikhLahir = data.tarikh_lahir;
-        objPelajar.umur = howOldAreYouMyFriendtahunV2(data.tarikh_lahir);
+        objPelajar.umur = getAge(data.tarikh_lahir);
         objPelajar.keturunan = data.keturunan;
         objPelajar.warganegara = data.warganegara;
       } catch (error) {
@@ -127,12 +139,55 @@ const insertToSekolah = async (dataCreatedSRSM, currentSesiPelajar) => {
     allConvertedPelajar.push({ ...objPelajar });
   }
 
-  const allPersonSekolah = await Sekolah.find({
-    idInstitusi: dataCreatedSRSM.idInstitusi,
-    kodSekolah: dataCreatedSRSM.kodSekolah,
+  // get already registered pelajar
+  const fromDbThisSekolahPelajar = await Sekolah.find({
+    idInstitusi: fromDbFasilitiSRSM.idInstitusi,
+    kodSekolah: fromDbFasilitiSRSM.kodSekolah,
+    sesiTakwimPelajar: sesiTakwimSekolah(),
   });
 
-  console.log(allConvertedPelajar);
+  // the diff between two array
+  function getDiffTwoArrayOfObject(array1, array2) {
+    return array1.filter((object1) => {
+      return !array2.some((object2) => {
+        return object1.idIndividu === object2.idIndividu;
+      });
+    });
+  }
+
+  // yang dari MOEIS nak masuk DB
+  const pelajarFromMOEISToDb = getDiffTwoArrayOfObject(
+    allConvertedPelajar,
+    fromDbThisSekolahPelajar
+  );
+  if (pelajarFromMOEISToDb.length > 0) {
+    const createdPelajar = await Sekolah.insertMany(pelajarFromMOEISToDb);
+    logger.info(
+      `[insertToSekolah] siap register fresh pelajar ${fromDbFasilitiSRSM.nama}`
+    );
+  }
+
+  // yang dari DB dah xda kat MOEIS
+  const pelajarFromDbtoMOEIS = getDiffTwoArrayOfObject(
+    fromDbThisSekolahPelajar,
+    allConvertedPelajar
+  );
+  if (pelajarFromDbtoMOEIS.length > 0) {
+    for (let i = 0; i < pelajarFromDbtoMOEIS.length; i++) {
+      const pelajarSetToBerpindah = await Sekolah.findOneAndUpdate(
+        pelajarFromDbtoMOEIS[i],
+        {
+          $set: { berpindah: true },
+        }
+      );
+    }
+    logger.info(
+      `[insertToSekolah] siap set pelajar berpindah ${fromDbFasilitiSRSM.nama}`
+    );
+  }
+
+  // finished and close this process
+  return;
 };
 
 module.exports = insertToSekolah;

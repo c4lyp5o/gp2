@@ -224,7 +224,7 @@ function KohortKotak() {
                       <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                         {index + 1}
                       </td>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 text-left'>
                         {singlePersonKohortKotak.nama}
                       </td>
                       <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
@@ -238,6 +238,7 @@ function KohortKotak() {
                           target='_blank'
                           rel='noreferrer'
                           to={`${singlePersonKohortKotak._id}`}
+                          className='bg-user7 text-userWhite shadow-md hover:bg-user8 rounded-sm p-1 m-1 transition-all my-2'
                         >
                           tambah KOTAK
                         </Link>
