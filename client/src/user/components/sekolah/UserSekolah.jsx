@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import {
   FaCheckCircle,
+  FaTimesCircle,
   FaCircle,
   FaAdjust,
   FaRegCircle,
@@ -508,7 +509,19 @@ function UserSekolah() {
                               : null}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 whitespace-nowrap text-left pl-0.5'>
-                            {singlePersonSekolah.statusRawatan === 'selesai' ? (
+                            {singlePersonSekolah.statusRawatan === 'enggan' ? (
+                              <FaTimesCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'tidak hadir' ? (
+                              <FaCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'enggan rawatan' ? (
+                              <FaTimesCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'tidak hadir rawatan' ? (
+                              <FaCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'selesai' ? (
                               <FaCircle className='text-user7 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'belum selesai' ? (
@@ -516,9 +529,7 @@ function UserSekolah() {
                             ) : singlePersonSekolah.statusRawatan ===
                               'belum mula' ? (
                               <FaRegCircle className='text-user8 mx-2 inline-flex' />
-                            ) : (
-                              <FaCircle className='text-user9 mx-2 inline-flex' />
-                            )}
+                            ) : null}
                             {singlePersonSekolah.statusRawatan}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
@@ -534,17 +545,17 @@ function UserSekolah() {
                               }`}
                               className={`${
                                 singlePersonSekolah.statusRawatan === 'enggan'
-                                  ? 'pointer-events-none bg-kaunter5 shadow-none'
+                                  ? 'pointer-events-none text-userBlack shadow-none'
                                   : singlePersonSekolah.statusRawatan ===
                                     'tidak hadir'
-                                  ? 'pointer-events-none bg-kaunter4 shadow-none'
+                                  ? 'pointer-events-none text-userBlack shadow-none'
                                   : singlePersonSekolah.pemeriksaanSekolah
-                                  ? 'bg-user7 shadow-md'
+                                  ? 'bg-user7 text-userWhite shadow-md'
                                   : filteredFasilitiSekolah[0]
                                       .sekolahSelesaiReten === true
-                                  ? 'pointer-events-none bg-user4 shadow-none'
-                                  : 'bg-user6 shadow-md'
-                              } hover:bg-user8 text-userWhite rounded-sm p-1 m-1 transition-all`}
+                                  ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                                  : 'bg-user6 text-userWhite shadow-md'
+                              } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
                             >
                               {singlePersonSekolah.statusRawatan === 'enggan'
                                 ? 'Enggan'
@@ -568,23 +579,23 @@ function UserSekolah() {
                                 to={`/pengguna/landing/senarai-sekolah/sekolah/form-sekolah/rawatan/${singlePersonSekolah._id}`}
                                 className={`${
                                   singlePersonSekolah.statusRawatan === 'enggan'
-                                    ? 'pointer-events-none bg-kaunter5 shadow-none'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
                                     : singlePersonSekolah.statusRawatan ===
                                       'tidak hadir'
-                                    ? 'pointer-events-none bg-kaunter4 shadow-none'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
                                     : singlePersonSekolah.statusRawatan ===
                                       'enggan rawatan'
-                                    ? 'pointer-events-none bg-kaunter5 shadow-none'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
                                     : singlePersonSekolah.statusRawatan ===
                                       'tidak hadir rawatan'
-                                    ? 'pointer-events-none bg-kaunter4 shadow-none'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
                                     : singlePersonSekolah.statusRawatan ===
                                       'selesai'
-                                    ? ' bg-user7 shadow-md hover:bg-user8'
+                                    ? ' bg-user7 text-userWhite shadow-md hover:bg-user8'
                                     : !singlePersonSekolah.pemeriksaanSekolah
-                                    ? 'pointer-events-none bg-user4 shadow-none'
-                                    : 'bg-user3 hover:bg-user2 shadow-md'
-                                } text-userWhite rounded-sm  p-1 m-1 transition-all`}
+                                    ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                                    : 'bg-user3 text-userWhite hover:bg-user2 shadow-md'
+                                } rounded-sm  p-1 m-1 transition-all`}
                               >
                                 {singlePersonSekolah.statusRawatan === 'enggan'
                                   ? 'Enggan'
