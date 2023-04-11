@@ -15135,7 +15135,7 @@ const countGender = async (payload) => {
   //
   const pesakitLelakiPrimer1859 = {
     $match: {
-      jenisFasiliti: { $eq: 'kp' },
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -15144,7 +15144,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanPrimer1859 = {
     $match: {
-      jenisFasiliti: { $in: ['kp'] },
+      jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -15172,7 +15172,7 @@ const countGender = async (payload) => {
   const pesakitLelakiOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jenisFasiliti: 'projek-komuniti-lain',
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -15182,7 +15182,7 @@ const countGender = async (payload) => {
   const pesakitPerempuanOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jenisFasiliti: 'projek-komuniti-lain',
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
       ...getParamsGender(payload),
@@ -16060,7 +16060,7 @@ const countPG201P2 = async (payload) => {
         ...getParamsPG201P2(payload),
         umur: { $gte: 5, $lt: 7 },
         jenisFasiliti: { $eq: 'taska-tadika' },
-        kumpulanEtnik: 'penan',
+        kumpulanEtnik: { $in: ['penan', 'orang asli semenanjung'] },
         deleted: false,
       },
     },
@@ -17609,9 +17609,82 @@ const countTOD = async (payload) => {
     },
   ];
 
+  // 18 dan 36 bulan
+  let match_stage_1836 = [];
+
+  const match_stage_18 = [
+    {
+      $match: {
+        ...getParamsTOD(payload),
+        kedatangan: 'baru-kedatangan',
+        umur: { $eq: 1 },
+        umurBulan: { $eq: 6 },
+      },
+    },
+  ];
+
+  const match_stage_36 = [
+    {
+      $match: {
+        ...getParamsTOD(payload),
+        kedatangan: 'baru-kedatangan',
+        umur: { $eq: 3 },
+        umurBulan: { $eq: 0 },
+      },
+    },
+  ];
+
+  match_stage_1836.push(match_stage_18);
+  match_stage_1836.push(match_stage_36);
+
+  const group_1836 = [
+    {
+      $group: {
+        _id: null,
+        jumlahKedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahd: { $sum: '$dAdaGigiDesidusPemeriksaanUmum' },
+        jumlahf: { $sum: '$fAdaGigiDesidusPemeriksaanUmum' },
+        jumlahx: { $sum: '$xAdaGigiDesidusPemeriksaanUmum' },
+        dfxEqualToZero: {
+          //dfx=0
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: [
+                      '$yaTidakPesakitMempunyaiGigi',
+                      'ya-pesakit-mempunyai-gigi',
+                    ],
+                  },
+                  { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$fAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ];
+
   try {
     let dataBaru = [];
     let dataBu = [];
+    let data1836 = [];
     let bigData = [];
 
     // for (let i = 0; i < match_stage_baru.length; i++) {
@@ -17638,8 +17711,14 @@ const countTOD = async (payload) => {
       dataBu.push({ queryBu });
     }
 
+    for (const stage of match_stage_1836) {
+      const query1836 = await Umum.aggregate([...stage, ...group_1836]);
+      data1836.push({ query1836 });
+    }
+
     bigData.push(dataBaru);
     bigData.push(dataBu);
+    bigData.push(data1836);
 
     return bigData;
   } catch (error) {
@@ -18744,7 +18823,7 @@ const getParamsPG201P2 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /mdtb/i },
+      // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18756,7 +18835,7 @@ const getParamsPG201P2 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /mdtb/i },
+      // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
@@ -18767,7 +18846,7 @@ const getParamsPG201P2 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /mdtb/i },
+      // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
