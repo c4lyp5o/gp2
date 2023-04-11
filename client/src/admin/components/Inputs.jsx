@@ -1040,17 +1040,6 @@ export function InputFacility(props) {
                           </span>
                         </p>
                         <div className='grid grid-cols-2 mb-3'>
-                          <label htmlFor='nama'>Tidak</label>
-                          <input
-                            required
-                            type='radio'
-                            id='act-stat'
-                            name='checkbox'
-                            value='kpb'
-                            onChange={(e) =>
-                              props.setJenisPerkhidmatanSekolah(e.target.value)
-                            }
-                          />
                           <label htmlFor='nama'>Ya</label>
                           <input
                             required
@@ -1058,6 +1047,17 @@ export function InputFacility(props) {
                             id='act-stat'
                             name='checkbox'
                             value='kps'
+                            onChange={(e) =>
+                              props.setJenisPerkhidmatanSekolah(e.target.value)
+                            }
+                          />
+                          <label htmlFor='nama'>Tidak</label>
+                          <input
+                            required
+                            type='radio'
+                            id='act-stat'
+                            name='checkbox'
+                            value='kpb'
                             onChange={(e) =>
                               props.setJenisPerkhidmatanSekolah(e.target.value)
                             }
@@ -1159,7 +1159,7 @@ export function InputFacility(props) {
                   <button
                     type='button'
                     onClick={() => props.setShowAddModal(false)}
-                    className='capitalize rounded-md shadow-xl p-2 transition-all duration-300 ease-in-out border-adminBlack border-2 text-adminBlack hover:text-admin3'
+                    className='capitalize rounded-md shadow-xl p-2 transition-all duration-300 ease-in-out border-adminBlack border-2 text-adminBlack hover:text-admin3 w-full hover:outline-user3 hover:outline'
                   >
                     Batal
                   </button>
@@ -1509,7 +1509,7 @@ export function InputEditKlinik(props) {
                   className={styles.cancelBtn}
                   onClick={() => props.setShowEditModal(false)}
                 >
-                  Cancel
+                  Batal
                 </span>
               </div>
             </div>
@@ -1722,7 +1722,7 @@ export function InputEditPegawai(props) {
               className={styles.cancelBtn}
               onClick={() => props.setShowEditModal(false)}
             >
-              Cancel
+              Batal
             </span>
           </div>
         </div>
@@ -1915,7 +1915,7 @@ export function InputEditFacility(props) {
                   className={styles.cancelBtn}
                   onClick={() => props.setShowEditModal(false)}
                 >
-                  Cancel
+                  Batal
                 </span>
               </div>
             </div>
@@ -2641,7 +2641,7 @@ export function InputKpEditPegawai(props) {
               className={styles.cancelBtn}
               onClick={() => props.setShowEditModal(false)}
             >
-              Cancel
+              Batal
             </span>
           </div>
         </div>
@@ -2778,7 +2778,7 @@ export function InputKpEditFacility(props) {
                   className={styles.cancelBtn}
                   onClick={() => props.setShowEditModal(false)}
                 >
-                  Cancel
+                  Batal
                 </span>
               </div>
             </div>
@@ -4159,7 +4159,7 @@ export function InputKpEditKPBMPB(props) {
                 className={styles.cancelBtn}
                 onClick={() => props.setShowEditModal(false)}
               >
-                Cancel
+                Batal
               </span>
             </div>
           </div>
