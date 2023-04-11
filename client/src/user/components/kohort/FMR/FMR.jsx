@@ -26,30 +26,34 @@ function KohortFMR() {
 
   const init = useRef(false);
 
-  // init fetch allPersonKohortFMR
   useEffect(() => {
     const fetchAllSekolahKohortFMR = async () => {
-      try {
-        setIsLoading(true);
-        const { data } = await axios.get('/api/v1/kohort/fmr', {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        });
-        console.log(data);
-        setAllSekolahKohortFMR(data.allSekolahKohortFMR);
-        setIsLoading(false);
-      } catch (error) {
-        console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchAllPersonSekolahs'
-        // );
+      if (init.current === false) {
+        try {
+          setIsLoading(true);
+          const { data } = await axios.get('/api/v1/kohort/fmr', {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          });
+          console.log(data);
+          setAllSekolahKohortFMR(data.allSekolahKohortFMR);
+          setIsLoading(false);
+        } catch (error) {
+          console.log(error);
+          // toast.error(
+          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchAllPersonSekolahs'
+          // );
+        }
       }
+      init.current = true;
     };
+    if (init.current === true) {
+      init.current === false;
+    }
     fetchAllSekolahKohortFMR();
-    // console.log(userinfo);
   }, [reloadState]);
 
   // on tab focus reload data
@@ -60,8 +64,6 @@ function KohortFMR() {
       window.removeEventListener('focus', setReloadState);
     };
   }, []);
-
-  const handleRegisterSekolahBaru = async () => {};
 
   return (
     <>
@@ -171,23 +173,23 @@ function KohortFMR() {
             )}
           </table>
         </div>
-        <div className='grid grid-cols-3 shadow-md shadow-user3 mt-5'>
+        <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
           <div className='flex justify-center items-center'>
             <Link
-              to='berdaftar'
+              to='daftar'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
             >
               DAFTAR KUMURAN MURID TAHUN 1
             </Link>
           </div>
-          <div className='flex justify-center items-center'>
+          {/* <div className='flex justify-center items-center'>
             <Link
               to='carian'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
             >
               CARIAN
             </Link>
-          </div>
+          </div> */}
           <div className='flex justify-center items-center'>
             <button
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
