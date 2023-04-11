@@ -30,7 +30,7 @@ router
 
 // expertimental
 // GET
-router.route('/faceted/:singleSekolahId').get(getAllPersonSekolah);
+router.route('/faceted/:kodSekolah').get(getAllPersonSekolah);
 
 // GET kemaskini
 router.route('/kemaskini/:idInstitusi').get(kemaskiniSenaraiPelajar);
