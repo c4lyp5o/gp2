@@ -533,7 +533,12 @@ function UserSekolah() {
                                   : 'tambah-pemeriksaan'
                               }`}
                               className={`${
-                                singlePersonSekolah.pemeriksaanSekolah
+                                singlePersonSekolah.statusRawatan === 'enggan'
+                                  ? 'pointer-events-none bg-kaunter5 shadow-none'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'tidak hadir'
+                                  ? 'pointer-events-none bg-kaunter4 shadow-none'
+                                  : singlePersonSekolah.pemeriksaanSekolah
                                   ? 'bg-user7 shadow-md'
                                   : filteredFasilitiSekolah[0]
                                       .sekolahSelesaiReten === true
@@ -541,7 +546,12 @@ function UserSekolah() {
                                   : 'bg-user6 shadow-md'
                               } hover:bg-user8 text-userWhite rounded-sm p-1 m-1 transition-all`}
                             >
-                              {singlePersonSekolah.pemeriksaanSekolah
+                              {singlePersonSekolah.statusRawatan === 'enggan'
+                                ? 'Enggan'
+                                : singlePersonSekolah.statusRawatan ===
+                                  'tidak hadir'
+                                ? 'Tidak Hadir'
+                                : singlePersonSekolah.pemeriksaanSekolah
                                 ? 'lihat pemeriksaan'
                                 : filteredFasilitiSekolah[0]
                                     .sekolahSelesaiReten === true
@@ -557,22 +567,39 @@ function UserSekolah() {
                                 rel='noreferrer'
                                 to={`/pengguna/landing/senarai-sekolah/sekolah/form-sekolah/rawatan/${singlePersonSekolah._id}`}
                                 className={`${
-                                  singlePersonSekolah.statusRawatan ===
-                                  'selesai'
+                                  singlePersonSekolah.statusRawatan === 'enggan'
+                                    ? 'pointer-events-none bg-kaunter5 shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'tidak hadir'
+                                    ? 'pointer-events-none bg-kaunter4 shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'enggan rawatan'
+                                    ? 'pointer-events-none bg-kaunter5 shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'tidak hadir rawatan'
+                                    ? 'pointer-events-none bg-kaunter4 shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'selesai'
                                     ? ' bg-user7 shadow-md hover:bg-user8'
                                     : !singlePersonSekolah.pemeriksaanSekolah
                                     ? 'pointer-events-none bg-user4 shadow-none'
-                                    : singlePersonSekolah.statusRawatan !==
-                                      'belum selesai'
-                                    ? 'pointer-events-none bg-user9 shadow-none'
                                     : 'bg-user3 hover:bg-user2 shadow-md'
                                 } text-userWhite rounded-sm  p-1 m-1 transition-all`}
                               >
-                                {singlePersonSekolah.statusRawatan === 'selesai'
+                                {singlePersonSekolah.statusRawatan === 'enggan'
+                                  ? 'Enggan'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'tidak hadir'
+                                  ? 'Tidak Hadir'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'enggan rawatan'
+                                  ? 'Enggan Rawatan'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'tidak hadir rawatan'
+                                  ? 'Tidak Hadir Rawatan'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'selesai'
                                   ? 'selesai rawatan'
-                                  : singlePersonSekolah.statusRawatan !==
-                                    'belum selesai'
-                                  ? singlePersonSekolah.statusRawatan
                                   : 'tambah rawatan'}
                               </Link>
                             ) : (
@@ -705,7 +732,7 @@ function UserSekolah() {
                                                 )}
                                                 {sumICDAS >= 1 && (
                                                   <span className='text-xs font-medium text-start'>
-                                                    ICDAS : {sumICDAS}
+                                                    MMI : {sumICDAS}
                                                   </span>
                                                 )}
                                                 {rawatan.jumlahTampalanSementaraSekolahRawatan >=
@@ -782,16 +809,16 @@ function UserSekolah() {
                                                   </span>
                                                 )}
                                                 {rawatan.kesSelesaiSekolahRawatan ===
-                                                  true && (
+                                                  'ya-kes-selesai-penyata-akhir-2' && (
                                                   <span className='text-xs font-medium text-start flex items-center'>
                                                     kes selesai{' '}
                                                     <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
                                                   </span>
                                                 )}
                                                 {rawatan.kesSelesaiIcdasSekolahRawatan ===
-                                                  true && (
+                                                  'ya-kes-selesai-icdas-penyata-akhir-2' && (
                                                   <span className='text-xs font-medium text-start flex items-center'>
-                                                    kes selesai ICDAS{' '}
+                                                    kes selesai MMI{' '}
                                                     <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
                                                   </span>
                                                 )}
