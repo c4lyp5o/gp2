@@ -20,9 +20,10 @@ function AdminAppProvider({ children }) {
     totpToken,
     setTotpToken,
   } = useToken();
+
   const navigate = useNavigate();
 
-  // read superadmin data
+  // login data
   const readNegeri = async () => {
     const response = await axios.get('/api/v1/superadmin/getnegeri');
     return response;
@@ -45,74 +46,27 @@ function AdminAppProvider({ children }) {
     );
     return response;
   };
-  // const readSuperadminData = async () => {
-  //   const response = await axios.get('/api/v1/superadmin/initialdata');
-  //   return response;
-  // };
 
-  // adhoc query
-  const adhocQuery = async (y, x) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'AQManager',
-      Fn: 'read',
-      y: y,
-      x: x,
-      token: adminToken,
+  // login method
+  const loginUser = async (credentials) => {
+    const response = await axios.post(`/api/v1/superadmin/login`, {
+      username: credentials.username,
+      password: credentials.password,
     });
+    if (response.data.adminToken) {
+      saveAdminToken(response.data.adminToken);
+    }
     return response;
   };
-
-  // crypter
-  const encryptEmail = (email) => {
-    if (!email) return 'No email provided';
-    const letterToEncrypt = Math.round(email.split('@')[0].length / 1.5);
-    const encrypted =
-      email
-        .split('@')[0]
-        .replace(
-          email.split('@')[0].substring(0, letterToEncrypt),
-          '*'.repeat(letterToEncrypt)
-        ) +
-      '@' +
-      email.split('@')[1];
-    return encrypted;
-  };
-  const encryptPassword = (password) => {
-    if (!password) return 'No password provided';
-    const letterToEncrypt = password.length;
-    const encrypted = password.replace(
-      password.substring(0, letterToEncrypt),
-      '*'.repeat(letterToEncrypt)
+  const checkUser = async (username) => {
+    const response = await axios.get(
+      `/api/v1/superadmin/check?username=${username}`
     );
-    return encrypted;
-  };
-
-  // user
-  const getCurrentUser = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'UserCenter',
-      Fn: 'read',
-      token: adminToken,
-    });
     return response;
-  };
-  const saveCurrentUser = async (data) => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'UserCenter',
-      Fn: 'updateOne',
-      token: adminToken,
-      data: data,
-    });
-    saveAdminToken(response.data.adminToken);
-    return response;
-  };
-  const logOutUser = () => {
-    removeAdminToken();
-    navigate('/pentadbir');
   };
 
   // totp
-  async function generateSecret() {
+  const generateSecret = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       main: 'TotpManager',
       Fn: 'create',
@@ -120,8 +74,8 @@ function AdminAppProvider({ children }) {
     });
     saveTotpToken(response.data.totpToken);
     return response;
-  }
-  async function verifyInitialSecret(secret) {
+  };
+  const verifyInitialSecret = async (secret) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       main: 'TotpManager',
       Fn: 'update',
@@ -130,8 +84,8 @@ function AdminAppProvider({ children }) {
       initialTotpToken: totpToken,
     });
     return response;
-  }
-  async function verifySecret(secret) {
+  };
+  const verifySecret = async (secret) => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       main: 'TotpManager',
       Fn: 'update',
@@ -139,52 +93,9 @@ function AdminAppProvider({ children }) {
       totpCode: secret,
     });
     return response;
-  }
-
-  // hq functions
-  const getAllNegeriAndDaerah = async () => {
-    const response = await axios.post(`/api/v1/superadmin/newroute`, {
-      main: 'HqCenter',
-      Fn: 'read',
-      token: adminToken,
-    });
-    return response;
-  };
-  const getDetailedData = async ({ type, idn, idd, id }) => {
-    const endpoint = '/api/v1/superadmin/newroute';
-    const params = { main: 'HqCenter', Fn: 'readOne', token: adminToken };
-
-    switch (type) {
-      case 'negeri':
-        params.idn = idn;
-        break;
-      case 'daerah':
-        params.idn = idn;
-        params.idd = idd;
-        break;
-      case 'klinik':
-        params.id = id;
-        break;
-      default:
-        throw new Error('Invalid type');
-    }
-
-    const response = await axios.post(`${endpoint}`, params);
-    return response;
-  };
-  const getStatsData = async (negeri, daerah) => {
-    const response = await axios.get(
-      `/api/v1/superadmin/getstats?negeri=${negeri}&daerah=${daerah}`,
-      {
-        headers: {
-          Authorization: adminToken,
-        },
-      }
-    );
-    return response;
   };
 
-  // data superadmin
+  // main data
   const createData = async (type, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -254,7 +165,7 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // data KP
+  // main kp data
   const createDataForKp = async (FType, data) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -324,7 +235,7 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // read fasiliti data
+  // misc data
   const readFasilitiData = async ({ negeri, daerah }) => {
     try {
       const response = await axios.get(
@@ -340,8 +251,6 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
-
-  // read operator data
   const readOperatorData = async (type, nama) => {
     try {
       const response = await axios.get(
@@ -357,8 +266,6 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
-
-  // read kkia data
   const readKkiaData = async ({ negeri }) => {
     try {
       const response = await axios.get(
@@ -374,8 +281,6 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
-
-  // read MOEIS data
   const readSekolahData = async (FType) => {
     const responseMOIES = await axios.get(
       `/api/v1/superadmin/getsekolahMOEIS?FType=${FType}`,
@@ -414,8 +319,6 @@ function AdminAppProvider({ children }) {
     //     return response.data[2].sekolahMenengah;
     // }
   };
-
-  // read kod program data
   const readKodProgramData = async () => {
     const response = await axios.post(`/api/v1/superadmin/newroute`, {
       main: 'PromosiManager',
@@ -424,8 +327,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
-  // read token data
   const readGenerateTokenData = async () => {
     try {
       const response = await axios.get(
@@ -457,7 +358,7 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // specifics for each kp for superadmin
+  // spesifik superadmin data
   const readSpesifikKkiaData = async (kp) => {
     try {
       const response = await axios.get(
@@ -519,7 +420,7 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // specifics for each kp for kpuser
+  // spesifik kp data
   const readSpesifikKkiaDataForKp = async (kp) => {
     try {
       const response = await axios.get(
@@ -581,33 +482,208 @@ function AdminAppProvider({ children }) {
     }
   };
 
-  // auth
-  async function loginUser(credentials) {
-    const response = await axios.post(`/api/v1/superadmin/login`, {
-      username: credentials.username,
-      password: credentials.password,
+  // hq functions
+  const getAllNegeriAndDaerah = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      main: 'HqCenter',
+      Fn: 'read',
+      token: adminToken,
     });
-    if (response.data.adminToken) {
-      saveAdminToken(response.data.adminToken);
-    }
     return response;
-  }
-  async function checkUser(username) {
+  };
+  const getDetailedData = async ({ type, idn, idd, id }) => {
+    const endpoint = '/api/v1/superadmin/newroute';
+    const params = { main: 'HqCenter', Fn: 'readOne', token: adminToken };
+
+    switch (type) {
+      case 'negeri':
+        params.idn = idn;
+        break;
+      case 'daerah':
+        params.idn = idn;
+        params.idd = idd;
+        break;
+      case 'klinik':
+        params.id = id;
+        break;
+      default:
+        throw new Error('Invalid type');
+    }
+
+    const response = await axios.post(`${endpoint}`, params);
+    return response;
+  };
+  const getStatsData = async (negeri, daerah) => {
     const response = await axios.get(
-      `/api/v1/superadmin/check?username=${username}`
+      `/api/v1/superadmin/getstats?negeri=${negeri}&daerah=${daerah}`,
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
     );
     return response;
-  }
+  };
 
-  // format 24 hour time to 12 hour
-  function formatTime(timeString) {
+  // semua jenis reten
+  const semuaJenisReten = [
+    {
+      kod: 'PG101A Pind. 1/2022',
+      kodRingkas: 'PG101A',
+      deskripsi:
+        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2:
+        '- Klinik Pergigian Primer & program lawatan pergigian di KKIA/KD',
+    },
+    {
+      kod: 'PG101C Pind. 1/2022',
+      kodRingkas: 'PG101C',
+      deskripsi:
+        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2: '- Program Outreach dan Klinik Pergigian Sekolah (Statik)',
+    },
+    {
+      kod: 'PG211A Pind. 1/2022',
+      kodRingkas: 'PG211A',
+      deskripsi:
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2: '- Perkhidmatan Pergigian Klinik Pergigian Primer',
+    },
+    {
+      kod: 'PG211C Pind. 1/2022',
+      kodRingkas: 'PG211C',
+      deskripsi:
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2: '- Perkhidmatan Pergigian Outreach',
+    },
+    {
+      kod: 'PG206 Pind. 1/2022',
+      kodRingkas: 'PG206',
+      deskripsi:
+        'Laporan Bulanan Individu/Klinik/Daerah/Negeri Hasil Kerja Juruterapi Pergigian Bagi Rawatan Am/Orang Kurang Upaya (OKU)/Bukan Warganegara',
+    },
+    {
+      kod: 'PG207 Pind. 1/2022',
+      kodRingkas: 'PG207',
+      deskripsi:
+        'Laporan Bulanan Individu/Klinik/Daerah/Negeri Hasil Kerja Pegawai Pergigian Bagi Rawatan Am/Ibu Mengandung/Orang Kurang Upaya (OKU)/Bukan Warganegara',
+    },
+    {
+      kod: 'PG214 Pind. 1/2022',
+      kodRingkas: 'PG214',
+      deskripsi:
+        'Laporan Bulanan Pesakit Baru Warga Emas Warganegara Dan Bukan Warganegara',
+    },
+    {
+      kod: 'PGPR201 Pind. 1/2022',
+      kodRingkas: 'PGPR201',
+      deskripsi:
+        'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
+    },
+    {
+      kod: 'PGPRO 01 Pind. 2/2022 FFR',
+      kodRingkas: 'PGPRO01',
+      deskripsi:
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
+    },
+    {
+      kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
+      kodRingkas: 'PGPRO01Combined',
+      deskripsi:
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
+    },
+    {
+      kod: 'PG201 Pind. 2/2022',
+      kodRingkas: 'PG201P2',
+      deskripsi:
+        'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
+    },
+    {
+      kod: 'PGS203 Pind. 2/2022',
+      kodRingkas: 'PGS203P2',
+      deskripsi:
+        'Laporan Bulanan Kesihatan Pergigian Dan Status Rawatan Murid Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
+    },
+    {
+      kod: 'TOD 02 Pin. 1/2022',
+      kodRingkas: 'TODP1',
+      deskripsi:
+        'Laporan Bulanan Hasil Kerja Pegawai Pergigian dan Jururawat Pergigian Klinik/ Daerah/ Negeri bagi Toddler',
+    },
+    {
+      kod: '-',
+      kodRingkas: 'MASA',
+      deskripsi: 'KPI Piagam Masa',
+    },
+    {
+      kod: 'BP Pind.1/2023',
+      kodRingkas: 'BP',
+      deskripsi: 'Laporan Tekanan Darah',
+    },
+    {
+      kod: 'BPE 01/2018 Pind. 1/2022',
+      kodRingkas: 'BPE',
+      deskripsi: 'Laporan Basic Periodontal Examination',
+    },
+    {
+      kod: '-',
+      kodRingkas: 'GENDER',
+      deskripsi: 'Laporan Gender',
+    },
+  ];
+
+  // misc
+  const getCurrentUser = async () => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      main: 'UserCenter',
+      Fn: 'read',
+      token: adminToken,
+    });
+    return response;
+  };
+  const saveCurrentUser = async (data) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      main: 'UserCenter',
+      Fn: 'updateOne',
+      token: adminToken,
+      data: data,
+    });
+    saveAdminToken(response.data.adminToken);
+    return response;
+  };
+  const logOutUser = () => {
+    removeAdminToken();
+    navigate('/pentadbir');
+  };
+  const encryptEmail = (email) => {
+    if (!email) return 'No email provided';
+    const letterToEncrypt = Math.round(email.split('@')[0].length / 1.5);
+    const encrypted =
+      email
+        .split('@')[0]
+        .replace(
+          email.split('@')[0].substring(0, letterToEncrypt),
+          '*'.repeat(letterToEncrypt)
+        ) +
+      '@' +
+      email.split('@')[1];
+    return encrypted;
+  };
+  const encryptPassword = (password) => {
+    if (!password) return 'No password provided';
+    const letterToEncrypt = password.length;
+    const encrypted = password.replace(
+      password.substring(0, letterToEncrypt),
+      '*'.repeat(letterToEncrypt)
+    );
+    return encrypted;
+  };
+  const formatTime = (timeString) => {
     const [hourString, minute] = timeString.split(':');
     const hour = +hourString % 24;
     return (hour % 12 || 12) + ':' + minute + (hour < 12 ? ' AM' : ' PM');
-  }
-
-  // image resizer
-  // async function resizeImage(data) {
+  };
+  // const resizeImage = async (data) => {
   //   const response = await axios.post('/api/v1/superadmin/newroute', {
   //     image: data.image.replace(/^data:image\/(png|jpg|jpeg);base64,/, ''),
   //     type: data.type,
@@ -617,9 +693,7 @@ function AdminAppProvider({ children }) {
   //   });
   //   return response;
   // }
-
-  // datepicker
-  function masterDatePicker({
+  const masterDatePicker = ({
     value,
     selected,
     onChange,
@@ -631,7 +705,7 @@ function AdminAppProvider({ children }) {
     endDate,
     minDate,
     className,
-  }) {
+  }) => {
     return (
       <DatePicker
         showPopperArrow={false}
@@ -658,9 +732,88 @@ function AdminAppProvider({ children }) {
         className={className}
       />
     );
-  }
+  };
+  const EmailValidator = (email) => {
+    const re =
+      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    return re.test(String(email).toLowerCase());
+  };
 
-  // Dictionaries
+  // dictionaries
+  const InfoDecoder = (data) => {
+    if (data.includes('Facebook')) {
+      data = data.replace('Facebook_', '');
+      data = data.replace('live_', 'Facebook LIVE: ');
+      data = data.replace('video_', 'Facebook Video: ');
+      data = data.replace('poster_', 'Facebook Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Instagram')) {
+      data = data.replace('Instagram_', '');
+      data = data.replace('live_', 'Instagram LIVE: ');
+      data = data.replace('video_', 'Instagram Video: ');
+      data = data.replace('poster_', 'Instagram Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Twitter')) {
+      data = data.replace('Twitter_', '');
+      data = data.replace('live_', 'Twitter LIVE: ');
+      data = data.replace('video_', 'Twitter Video: ');
+      data = data.replace('poster_', 'Twitter Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Youtube')) {
+      data = data.replace('Youtube_', '');
+      data = data.replace('live_', 'Youtube LIVE: ');
+      data = data.replace('video_', 'Youtube Video: ');
+      data = data.replace('poster_', 'Youtube Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('TikTok')) {
+      data = data.replace('TikTok_', '');
+      data = data.replace('live_', 'TikTok LIVE: ');
+      data = data.replace('video_', 'TikTok Video: ');
+      data = data.replace('poster_', 'TikTok Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+    if (data.includes('Lain')) {
+      data = data.replace('Lain_', '');
+      data = data.replace('live_', 'Lain LIVE: ');
+      data = data.replace('video_', 'Lain Video: ');
+      data = data.replace('poster_', 'Lain Poster: ');
+      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
+      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace('bilPenonton', 'Penonton');
+      data = data.replace('bilReach', 'Reach');
+      data = data.replace('bilShare', 'Share');
+      return data;
+    }
+  };
   const Dictionary = {
     all: 'all',
     kkiakd: 'KKIA / KD',
@@ -769,90 +922,24 @@ function AdminAppProvider({ children }) {
       return 'VIDEO';
     }
   };
-  const InfoDecoder = (data) => {
-    if (data.includes('Facebook')) {
-      data = data.replace('Facebook_', '');
-      data = data.replace('live_', 'Facebook LIVE: ');
-      data = data.replace('video_', 'Facebook Video: ');
-      data = data.replace('poster_', 'Facebook Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
-      data = data.replace('bilPenonton', 'Penonton');
-      data = data.replace('bilReach', 'Reach');
-      data = data.replace('bilShare', 'Share');
-      return data;
-    }
-    if (data.includes('Instagram')) {
-      data = data.replace('Instagram_', '');
-      data = data.replace('live_', 'Instagram LIVE: ');
-      data = data.replace('video_', 'Instagram Video: ');
-      data = data.replace('poster_', 'Instagram Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
-      data = data.replace('bilPenonton', 'Penonton');
-      data = data.replace('bilReach', 'Reach');
-      data = data.replace('bilShare', 'Share');
-      return data;
-    }
-    if (data.includes('Twitter')) {
-      data = data.replace('Twitter_', '');
-      data = data.replace('live_', 'Twitter LIVE: ');
-      data = data.replace('video_', 'Twitter Video: ');
-      data = data.replace('poster_', 'Twitter Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
-      data = data.replace('bilPenonton', 'Penonton');
-      data = data.replace('bilReach', 'Reach');
-      data = data.replace('bilShare', 'Share');
-      return data;
-    }
-    if (data.includes('Youtube')) {
-      data = data.replace('Youtube_', '');
-      data = data.replace('live_', 'Youtube LIVE: ');
-      data = data.replace('video_', 'Youtube Video: ');
-      data = data.replace('poster_', 'Youtube Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
-      data = data.replace('bilPenonton', 'Penonton');
-      data = data.replace('bilReach', 'Reach');
-      data = data.replace('bilShare', 'Share');
-      return data;
-    }
-    if (data.includes('TikTok')) {
-      data = data.replace('TikTok_', '');
-      data = data.replace('live_', 'TikTok LIVE: ');
-      data = data.replace('video_', 'TikTok Video: ');
-      data = data.replace('poster_', 'TikTok Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
-      data = data.replace('bilPenonton', 'Penonton');
-      data = data.replace('bilReach', 'Reach');
-      data = data.replace('bilShare', 'Share');
-      return data;
-    }
-    if (data.includes('Lain')) {
-      data = data.replace('Lain_', '');
-      data = data.replace('live_', 'Lain LIVE: ');
-      data = data.replace('video_', 'Lain Video: ');
-      data = data.replace('poster_', 'Lain Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
-      data = data.replace('bilPenonton', 'Penonton');
-      data = data.replace('bilReach', 'Reach');
-      data = data.replace('bilShare', 'Share');
-      return data;
-    }
-  };
 
-  const EmailValidator = (email) => {
-    const re =
-      /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-    return re.test(String(email).toLowerCase());
+  // adhoc query (he he boi)
+  const adhocQuery = async (y, x) => {
+    const response = await axios.post(`/api/v1/superadmin/newroute`, {
+      main: 'AQManager',
+      Fn: 'read',
+      y: y,
+      x: x,
+      token: adminToken,
+    });
+    return response;
   };
 
   return (
     <AdminAppContext.Provider
       value={{
+        // toast
+        toast,
         // tokens
         getAdminToken,
         getTotpToken,
@@ -864,19 +951,27 @@ function AdminAppProvider({ children }) {
         setAdminToken,
         totpToken,
         setTotpToken,
-        // start
-        // readSuperadminData,
+        // navigation
+        navigate,
+        // login data
         readNegeri,
         readDaerah,
         readKlinik,
         readAdmins,
+        // login method
+        loginUser,
+        checkUser,
+        // totp
+        generateSecret,
+        verifyInitialSecret,
+        verifySecret,
         // main data
         createData,
         readData,
         readOneData,
         updateData,
         deleteData,
-        // kp data
+        // main kp data
         createDataForKp,
         readDataForKp,
         readOneDataForKp,
@@ -890,44 +985,39 @@ function AdminAppProvider({ children }) {
         readKodProgramData,
         readGenerateTokenData,
         readGenerateTokenDataForKp,
-        // spesifik data
+        // spesifik superadmin data
         readSpesifikKkiaData,
         readSpesifikProgramData,
         readSpesifikKPBMPBData,
         readSpesifikIndividuData,
+        // spesifik kp data
         readSpesifikKkiaDataForKp,
         readSpesifikProgramDataForKp,
         readSpesifikKPBMPBDataForKp,
         readSpesifikIndividuDataForKp,
-        // stats data
+        // hq functions
         getStatsData,
+        getAllNegeriAndDaerah,
+        getDetailedData,
+        // semua jenis reten
+        semuaJenisReten,
         // misc
         getCurrentUser,
         saveCurrentUser,
         logOutUser,
-        Dictionary,
-        DictionaryHurufNegeri,
-        DictionarySosMedParam,
-        DictionarySosMedAcronym,
-        InfoDecoder,
-        navigate,
-        toast,
         encryptEmail,
         encryptPassword,
         formatTime,
         // resizeImage,
         masterDatePicker,
         EmailValidator,
-        // auth
-        loginUser,
-        checkUser,
-        generateSecret,
-        verifyInitialSecret,
-        verifySecret,
-        // hq
-        getAllNegeriAndDaerah,
-        getDetailedData,
-        // ahq
+        // dictionaries
+        InfoDecoder,
+        Dictionary,
+        DictionaryHurufNegeri,
+        DictionarySosMedParam,
+        DictionarySosMedAcronym,
+        // ad hoc query (he he boi)
         adhocQuery,
       }}
     >
