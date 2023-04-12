@@ -364,9 +364,12 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       createdByKp: req.user.kp,
       //
       createdByUsername: req.body.createdByUsername,
+      idIndividu: req.body.idIndividu,
       nama: req.body.nama,
+      noKadPengenalan: req.body.nomborId,
       namaSekolah: req.body.namaSekolah,
       kodSekolah: req.body.kodSekolah,
+      tahunTingkatan: req.body.tahunTingkatan,
       kelas: req.body.namaKelas,
       noTelefon: req.body.noTelMuridKotak,
       dalamPemantauanKohort: 'JAN - JUN 2023', // default

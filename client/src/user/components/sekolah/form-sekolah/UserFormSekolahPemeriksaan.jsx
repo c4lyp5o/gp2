@@ -857,7 +857,15 @@ function UserFormSekolahPemeriksaan() {
     if (kesSelesaiIcdas === 'ya-kes-selesai-icdas') {
       kesSelesaiMmi = true;
     }
-    const { nama, namaKelas, namaSekolah, kodSekolah } = singlePersonSekolah;
+    const {
+      nama,
+      namaKelas,
+      namaSekolah,
+      kodSekolah,
+      idIndividu,
+      nomborId,
+      tahunTingkatan,
+    } = singlePersonSekolah;
     // return;
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
       await toast
@@ -870,6 +878,9 @@ function UserFormSekolahPemeriksaan() {
               namaKelas,
               namaSekolah,
               kodSekolah,
+              idIndividu,
+              nomborId,
+              tahunTingkatan,
               statusRawatan,
               kesSelesaiMmi,
               engganTidakHadirPemeriksaan,
@@ -4295,7 +4306,7 @@ function UserFormSekolahPemeriksaan() {
                       )}
                       {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
                         <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
-                          <p className='flex items-center text-sm normal-case'>
+                          <p className='flex items-center text-sm'>
                             nombor telefon yang boleh dihubungi
                             <span className='text-user6'>*</span>
                           </p>
