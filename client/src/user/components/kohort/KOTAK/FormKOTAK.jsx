@@ -22,6 +22,7 @@ function UserFormKohortKOTAK() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonKohortKotak, setSinglePersonKohortKotak] = useState([]);
+  const [statusKotak, setStatusKotak] = useState('');
   const [isJenisRokokRequired, setIsJenisRokokRequired] = useState(true);
 
   //confirm data
@@ -221,81 +222,65 @@ function UserFormKohortKOTAK() {
           }
         );
         setSinglePersonKohortKotak(data.singlePersonKohortKotak);
-        // // map to form if kotakSekolahId exist
-        // if (kotakSekolahId !== 'tambah-kotak') {
-        //   setDalamPemantauanKohort(
-        //     data.personSekolahWithPopulate.pemeriksaanSekolah
-        //       .dalamPemantauanKohort
-        //   );
-        //   setStatusM(data.personSekolahWithPopulate.pemeriksaanSekolah.statusM);
-        //   setMenerimaNasihatRingkas(
-        //     data.personSekolahWithPopulate.pemeriksaanSekolah
-        //       .menerimaNasihatRingkas
-        //   );
-        //   setInginMelakukanIntervensiMerokok(
-        //     data.personSekolahWithPopulate.pemeriksaanSekolah
-        //       .inginMelakukanIntervensiMerokok
-        //   );
-        //   setRokokBiasaKotak(
-        //     data.personSekolahWithPopulate.kotakSekolah.rokokBiasaKotak
-        //   );
-        //   setElektronikVapeKotak(
-        //     data.personSekolahWithPopulate.kotakSekolah.elektronikVapeKotak
-        //   );
-        //   setShishaKotak(
-        //     data.personSekolahWithPopulate.kotakSekolah.shishaKotak
-        //   );
-        //   setLainLainKotak(
-        //     data.personSekolahWithPopulate.kotakSekolah.lainLainKotak
-        //   );
-        //   setTarikh1(data.personSekolahWithPopulate.kotakSekolah.tarikh1);
-        //   setAdaTiadaQTarikh1(
-        //     data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh1
-        //   );
-        //   setTarikh2(data.personSekolahWithPopulate.kotakSekolah.tarikh2);
-        //   setAdaTiadaQTarikh2(
-        //     data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh2
-        //   );
-        //   setTarikh3(data.personSekolahWithPopulate.kotakSekolah.tarikh3);
-        //   setAdaTiadaQTarikh3(
-        //     data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh3
-        //   );
-        //   setTarikh4(data.personSekolahWithPopulate.kotakSekolah.tarikh4);
-        //   setAdaTiadaQTarikh4(
-        //     data.personSekolahWithPopulate.kotakSekolah.adaTiadaQTarikh4
-        //   );
-        //   setRujukGuruKaunseling(
-        //     data.personSekolahWithPopulate.kotakSekolah.rujukGuruKaunseling
-        //   );
-        //   setTarikhQ(data.personSekolahWithPopulate.kotakSekolah.tarikhQ);
-        //   setStatusSelepas6Bulan(
-        //     data.personSekolahWithPopulate.kotakSekolah.statusSelepas6Bulan
-        //   );
-        //   // datepicker issue
-        //   setTarikhQ1DP(
-        //     new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh1)
-        //   );
-        //   if (data.personSekolahWithPopulate.kotakSekolah.tarikh2 !== '') {
-        //     setTarikhQ2DP(
-        //       new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh2)
-        //     );
-        //   }
-        //   if (data.personSekolahWithPopulate.kotakSekolah.tarikh3 !== '') {
-        //     setTarikhQ3DP(
-        //       new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh3)
-        //     );
-        //   }
-        //   if (data.personSekolahWithPopulate.kotakSekolah.tarikh4 !== '') {
-        //     setTarikhQ4DP(
-        //       new Date(data.personSekolahWithPopulate.kotakSekolah.tarikh4)
-        //     );
-        //   }
-        //   if (data.personSekolahWithPopulate.kotakSekolah.tarikhQ !== '') {
-        //     setTarikhQDP(
-        //       new Date(data.personSekolahWithPopulate.kotakSekolah.tarikhQ)
-        //     );
-        //   }
-        // }
+        setStatusKotak(data.singlePersonKohortKotak.statusKotak);
+        // map to form if status kotak tak sama dengan tambah kotak
+        if (statusKotak !== 'tambah kotak') {
+          setDalamPemantauanKohort(
+            data.singlePersonKohortKotak.dalamPemantauanKohort
+          );
+          setStatusM(data.singlePersonKohortKotak.statusM);
+          setMenerimaNasihatRingkas(
+            data.singlePersonKohortKotak.menerimaNasihatRingkas
+          );
+          setInginMelakukanIntervensiMerokok(
+            data.singlePersonKohortKotak.inginMelakukanIntervensiMerokok
+          );
+          setRokokBiasaKotak(data.singlePersonKohortKotak.rokokBiasaKotak);
+          setElektronikVapeKotak(
+            data.singlePersonKohortKotak.elektronikVapeKotak
+          );
+          setShishaKotak(data.singlePersonKohortKotak.shishaKotak);
+          setLainLainKotak(data.singlePersonKohortKotak.lainLainKotak);
+          setTarikh1(data.singlePersonKohortKotak.tarikh1);
+          setAdaTiadaQTarikh1(data.singlePersonKohortKotak.adaTiadaQTarikh1);
+          setTarikh2(data.singlePersonKohortKotak.tarikh2);
+          setAdaTiadaQTarikh2(data.singlePersonKohortKotak.adaTiadaQTarikh2);
+          setTarikh3(data.singlePersonKohortKotak.tarikh3);
+          setAdaTiadaQTarikh3(data.singlePersonKohortKotak.adaTiadaQTarikh3);
+          setTarikh4(data.singlePersonKohortKotak.tarikh4);
+          setAdaTiadaQTarikh4(data.singlePersonKohortKotak.adaTiadaQTarikh4);
+          setRujukGuruKaunseling(
+            data.singlePersonKohortKotak.rujukGuruKaunseling
+          );
+          setTarikhQ(data.singlePersonKohortKotak.tarikhQ);
+          setStatusSelepas6Bulan(
+            data.singlePersonKohortKotak.statusSelepas6Bulan
+          );
+          // datepicker issue
+          if (data.singlePersonKohortKotak.tarikhIntervensi1 !== '') {
+            setTarikhQ1DP(
+              new Date(data.singlePersonKohortKotak.tarikhIntervensi1)
+            );
+          }
+          if (data.singlePersonKohortKotak.tarikhIntervensi2 !== '') {
+            setTarikhQ2DP(
+              new Date(data.singlePersonKohortKotak.tarikhIntervensi2)
+            );
+          }
+          if (data.singlePersonKohortKotak.tarikhIntervensi3 !== '') {
+            setTarikhQ3DP(
+              new Date(data.singlePersonKohortKotak.tarikhIntervensi3)
+            );
+          }
+          if (data.singlePersonKohortKotak.tarikhIntervensi4 !== '') {
+            setTarikhQ4DP(
+              new Date(data.singlePersonKohortKotak.tarikhIntervensi4)
+            );
+          }
+          if (data.singlePersonKohortKotak.tarikhQ !== '') {
+            setTarikhQDP(new Date(data.singlePersonKohortKotak.tarikhQ));
+          }
+        }
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -307,131 +292,71 @@ function UserFormKohortKOTAK() {
     fetchSinglePersonKohortKotak();
   }, []);
 
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    // let statusKotak = '';
-    // if (tarikh1 !== '') {
-    //   statusKotak = 'selesai sesi 1';
-    // }
-    // if (tarikh2 !== '') {
-    //   statusKotak = 'selesai sesi 2';
-    // }
-    // if (tarikh3 !== '') {
-    //   statusKotak = 'selesai sesi 3';
-    // }
-    return;
-    if (kotakSekolahId === 'tambah-kotak') {
-      await toast
-        .promise(
-          axios.post(
-            `/api/v1/kohort/kotak/${personKotakId}`,
-            {
-              createdByUsername,
-              statusKotak,
-              dalamPemantauanKohort,
-              statusM,
-              menerimaNasihatRingkas,
-              inginMelakukanIntervensiMerokok,
-              rokokBiasaKotak,
-              elektronikVapeKotak,
-              shishaKotak,
-              lainLainKotak,
-              tarikh1,
-              adaTiadaQTarikh1,
-              tarikh2,
-              adaTiadaQTarikh2,
-              tarikh3,
-              adaTiadaQTarikh3,
-              tarikh4,
-              adaTiadaQTarikh4,
-              rujukGuruKaunseling,
-              tarikhQ,
-              statusSelepas6Bulan,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
+  const handleSubmit = async () => {
+    let statusKotak = '';
+    if (tarikh1 !== '') {
+      statusKotak = 'selesai sesi 1';
+    }
+    if (tarikh2 !== '') {
+      statusKotak = 'selesai sesi 2';
+    }
+    if (tarikh3 !== '') {
+      statusKotak = 'selesai sesi 3';
+    }
+    await toast
+      .promise(
+        axios.patch(
+          `/api/v1/kohort/kotak/${personKohortKotakId}`,
           {
-            pending: 'Menghantar...',
-            success: 'KOTAK pelajar berjaya dihantar',
-            error: 'KOTAK pelajar gagal dihantar',
+            createdByUsername,
+            statusKotak,
+            dalamPemantauanKohort,
+            statusM,
+            menerimaNasihatRingkas,
+            inginMelakukanIntervensiMerokok,
+            rokokBiasaKotak,
+            elektronikVapeKotak,
+            shishaKotak,
+            lainLainKotak,
+            tarikhIntervensi1: tarikh1,
+            adaTiadaQTarikh1,
+            tarikhIntervensi2: tarikh2,
+            adaTiadaQTarikh2,
+            tarikhIntervensi3: tarikh3,
+            adaTiadaQTarikh3,
+            tarikhIntervensi4: tarikh4,
+            adaTiadaQTarikh4,
+            rujukGuruKaunseling,
+            tarikhQ,
+            statusSelepas6Bulan,
           },
           {
-            autoClose: 2000,
-          }
-        )
-        .then(() => {
-          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-            autoClose: 2000,
-          });
-          setTimeout(() => {
-            window.opener = null;
-            window.open('', '_self');
-            window.close();
-          }, 3000);
-        });
-    }
-    if (kotakSekolahId !== 'tambah-kotak') {
-      await toast
-        .promise(
-          axios.patch(
-            `/api/v1/sekolah/kotak/ubah/${kotakSekolahId}`,
-            {
-              createdByUsername,
-              statusKotak,
-              dalamPemantauanKohort,
-              statusM,
-              menerimaNasihatRingkas,
-              inginMelakukanIntervensiMerokok,
-              rokokBiasaKotak,
-              elektronikVapeKotak,
-              shishaKotak,
-              lainLainKotak,
-              tarikh1,
-              adaTiadaQTarikh1,
-              tarikh2,
-              adaTiadaQTarikh2,
-              tarikh3,
-              adaTiadaQTarikh3,
-              tarikh4,
-              adaTiadaQTarikh4,
-              rujukGuruKaunseling,
-              tarikhQ,
-              statusSelepas6Bulan,
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
             },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
-          {
-            pending: 'Mengemaskini...',
-            success: 'KOTAK pelajar berjaya dikemaskini',
-            error: 'KOTAK pelajar gagal dikemaskini',
-          },
-          {
-            autoClose: 2000,
           }
-        )
-        .then(() => {
-          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-            autoClose: 2000,
-          });
-          setTimeout(() => {
-            window.opener = null;
-            window.open('', '_self');
-            window.close();
-          }, 3000);
+        ),
+        {
+          pending: 'Mengemaskini...',
+          success: 'KOTAK pelajar berjaya dikemaskini',
+          error: 'KOTAK pelajar gagal dikemaskini',
+        },
+        {
+          autoClose: 2000,
+        }
+      )
+      .then(() => {
+        toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+          autoClose: 2000,
         });
-    }
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 3000);
+      });
   };
 
   return (
