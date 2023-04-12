@@ -1522,7 +1522,7 @@ const Generate = (props) => {
                               : null}
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
-                            {import.meta.env.VITE_JANA !== 'OFF' ? (
+                            {import.meta.env.VITE_JANA_TOKEN !== 'OFF' ? (
                               <button
                                 type='button'
                                 className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
@@ -1535,13 +1535,15 @@ const Generate = (props) => {
                                 Jana
                               </button>
                             ) : (
-                              <span>Fungsi jana ditutup sementara</span>
+                              <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                                Fungsi jana ditutup sementara
+                              </span>
                             )}
                           </div>
                         </div>
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {import.meta.env.VITE_JANA !== 'OFF' ? (
+                        {import.meta.env.VITE_JANA_BULANAN !== 'OFF' ? (
                           <button
                             type='button'
                             className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
@@ -1554,7 +1556,7 @@ const Generate = (props) => {
                             Jana
                           </button>
                         ) : (
-                          <span className='p-3'>
+                          <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                             Fungsi jana ditutup sementara
                           </span>
                         )}
