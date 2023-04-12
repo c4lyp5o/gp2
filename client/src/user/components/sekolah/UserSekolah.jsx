@@ -472,9 +472,7 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   RAWATAN
                 </th>
-                {pilihanSekolah &&
-                filteredFasilitiSekolah[0].jenisFasiliti ===
-                  'sekolah-rendah' ? (
+                {!pilihanTahunTingkatan.includes('TINGKATAN') ? (
                   <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                     AKTIVITI BEGIN
                   </th>
@@ -885,8 +883,7 @@ function UserSekolah() {
                                   : 'tidak perlu KOTAK'}
                               </Link>
                             </td> */}
-                          {singlePersonSekolah.jenisFasiliti ===
-                          'sekolah-rendah' ? (
+                          {!pilihanTahunTingkatan.includes('TINGKATAN') ? (
                             <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <button
                                 onClick={() => {

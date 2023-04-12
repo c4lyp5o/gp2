@@ -125,6 +125,10 @@ const UmumSchema = new mongoose.Schema(
       default: '',
     },
     // untuk KPBMPB. kalau ada isi penggunaanKPBMPB akan ada perubahan dalam kedatanganKPBMPB & noPendaftaranKPBMPB
+    menggunakanKPBMPB: {
+      type: String,
+      default: '',
+    },
     penggunaanKPBMPB: {
       type: String,
       default: '',
