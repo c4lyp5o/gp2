@@ -70,6 +70,7 @@ function UserFormKohortKOTAK() {
       filterDate: (date) => {
         return moment() > date;
       },
+      disabled: tarikh1 !== '' ? true : false,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
@@ -85,7 +86,7 @@ function UserFormKohortKOTAK() {
       filterDate: (date) => {
         return moment() > date;
       },
-      disabled: tarikh1 === '' ? true : false,
+      disabled: statusKotak !== 'tambah kotak' ? true : false,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
@@ -101,7 +102,10 @@ function UserFormKohortKOTAK() {
       filterDate: (date) => {
         return moment() > date;
       },
-      disabled: tarikh2 === '' ? true : false,
+      disabled:
+        (tarikh1 === '' && tarikh2 === '') || (tarikh1 !== '' && tarikh2 === '')
+          ? true
+          : false,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
