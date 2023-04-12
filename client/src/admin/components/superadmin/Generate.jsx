@@ -1950,7 +1950,8 @@ const Generate = (props) => {
                               : null}
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
-                            {import.meta.env.VITE_JANA !== 'OFF' ? (
+                            {loginInfo.accountType === 'hqSuperadmin' ||
+                            import.meta.env.VITE_JANA_TOKEN !== 'OFF' ? (
                               <button
                                 type='button'
                                 className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
@@ -1969,7 +1970,8 @@ const Generate = (props) => {
                         </div>
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {import.meta.env.VITE_JANA !== 'OFF' ? (
+                        {loginInfo.accountType === 'hqSuperadmin' ||
+                        import.meta.env.VITE_JANA_BULANAN !== 'OFF' ? (
                           <button
                             type='button'
                             className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
@@ -1982,9 +1984,7 @@ const Generate = (props) => {
                             Jana
                           </button>
                         ) : (
-                          <span className='p-3'>
-                            Fungsi jana ditutup sementara
-                          </span>
+                          <span>Fungsi jana ditutup sementara</span>
                         )}
                       </td>
                     </tr>
