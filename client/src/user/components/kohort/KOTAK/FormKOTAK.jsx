@@ -245,13 +245,13 @@ function UserFormKohortKOTAK() {
           );
           setShishaKotak(data.singlePersonKohortKotak.shishaKotak);
           setLainLainKotak(data.singlePersonKohortKotak.lainLainKotak);
-          setTarikh1(data.singlePersonKohortKotak.tarikh1);
+          setTarikh1(data.singlePersonKohortKotak.tarikhIntervensi1);
           setAdaTiadaQTarikh1(data.singlePersonKohortKotak.adaTiadaQTarikh1);
-          setTarikh2(data.singlePersonKohortKotak.tarikh2);
+          setTarikh2(data.singlePersonKohortKotak.tarikhIntervensi2);
           setAdaTiadaQTarikh2(data.singlePersonKohortKotak.adaTiadaQTarikh2);
-          setTarikh3(data.singlePersonKohortKotak.tarikh3);
+          setTarikh3(data.singlePersonKohortKotak.tarikhIntervensi3);
           setAdaTiadaQTarikh3(data.singlePersonKohortKotak.adaTiadaQTarikh3);
-          setTarikh4(data.singlePersonKohortKotak.tarikh4);
+          setTarikh4(data.singlePersonKohortKotak.tarikhIntervensi4);
           setAdaTiadaQTarikh4(data.singlePersonKohortKotak.adaTiadaQTarikh4);
           setRujukGuruKaunseling(
             data.singlePersonKohortKotak.rujukGuruKaunseling
