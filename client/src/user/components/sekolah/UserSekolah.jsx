@@ -18,6 +18,7 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 function UserSekolah() {
   const {
     userToken,
+    userinfo,
     reliefUserToken,
     navigate,
     refreshTimer,
@@ -132,6 +133,7 @@ function UserSekolah() {
         `/api/v1/sekolah/ubah/${muridBeginCurrentId}`,
         {
           tarikhMelaksanakanBegin,
+          namaPelaksanaBegin: userinfo.nama,
         },
         {
           headers: {
@@ -942,6 +944,20 @@ function UserSekolah() {
                                         }
                                       />
                                     )}
+                                  </div>
+                                  <div className='grid justify-center pt-5'>
+                                    {singlePersonSekolah.namaPelaksanaBegin ? (
+                                      <div className='flex justify-center mt-3'>
+                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                          BEGIN telah dijalankan oleh{' '}
+                                          <p className='text-xl font-semibold text-kaunter1'>
+                                            {
+                                              singlePersonSekolah.namaPelaksanaBegin
+                                            }
+                                          </p>
+                                        </p>
+                                      </div>
+                                    ) : null}
                                   </div>
                                   <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
                                     <span
