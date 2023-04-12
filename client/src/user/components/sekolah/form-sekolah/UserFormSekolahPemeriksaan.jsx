@@ -38,6 +38,7 @@ function UserFormSekolahPemeriksaan() {
   const [engganPemeriksaan, setEngganPemeriksaan] = useState('');
   const [kebenaranPemeriksaan, setKebenaranPemeriksaan] = useState('');
   const [tidakHadirPemeriksaan, setTidakHadirPemeriksaan] = useState('');
+  const [padamPemeriksaan, setPadamPemeriksaan] = useState(false);
   const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
   const [statikBergerak, setStatikBergerak] = useState('');
   const [kpBergerak, setKpBergerak] = useState(false);
@@ -272,6 +273,23 @@ function UserFormSekolahPemeriksaan() {
       setPenandaRisikoKaries('rendah');
     }
   });
+
+  // reset ennganTidakHadirPemeriksaan
+  useEffect(() => {
+    if (padamPemeriksaan === true) {
+      setEngganTidakHadirPemeriksaan('');
+      setEngganPemeriksaan('');
+      setKebenaranPemeriksaan('');
+      setTidakHadirPemeriksaan('');
+      setConfirmData({
+        ...confirmData,
+        engganTidakHadirPemeriksaan: '',
+        engganPemeriksaan: '',
+        kebenaranPemeriksaan: '',
+        tidakHadirPemeriksaan: '',
+      });
+    }
+  }, [padamPemeriksaan]);
 
   // calculate total dmfx + sm desidus
   useEffect(() => {
@@ -1233,10 +1251,7 @@ function UserFormSekolahPemeriksaan() {
                           <span
                             className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                             onClick={() => {
-                              setEngganTidakHadirPemeriksaan('');
-                              setEngganPemeriksaan('');
-                              setKebenaranPemeriksaan('');
-                              setTidakHadirPemeriksaan('');
+                              setPadamPemeriksaan(true);
                             }}
                           >
                             X
@@ -1278,10 +1293,7 @@ function UserFormSekolahPemeriksaan() {
                           <span
                             className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                             onClick={() => {
-                              setEngganTidakHadirPemeriksaan('');
-                              setEngganPemeriksaan('');
-                              setKebenaranPemeriksaan('');
-                              setTidakHadirPemeriksaan('');
+                              setPadamPemeriksaan(true);
                             }}
                           >
                             X
