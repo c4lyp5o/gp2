@@ -419,70 +419,137 @@ export default function Pemeriksaan(props) {
                   </div>
                 ) : null}
                 {props.allUsedKPBMPB.length > 0 && (
-                  <div className='flex flex-row items-center'>
-                    <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                      Penggunaan KPB / MPB :
-                    </p>
-                    <select
-                      disabled={isDisabled}
-                      name='penggunaan-kpb-mpb'
-                      id='penggunaan-kpb-mpb'
-                      value={props.penggunaanKPBMPB}
-                      onChange={(e) => {
-                        props.setPenggunaanKPBMPB(e.target.value);
-                      }}
-                      className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                    >
-                      <option value=''>Pilih Jika Berkenaan</option>
-                      {props.singlePersonUmum.jenisFasiliti !==
-                      'projek-komuniti-lain'
-                        ? props.allUsedKPBMPB.map((kpbmpb) => (
-                            <option value={kpbmpb.nama}>
-                              {dictionaryJenisFasiliti[kpbmpb.jenisFasiliti]} |{' '}
-                              {kpbmpb.nama}
-                            </option>
-                          ))
-                        : null}
-                      {props.singlePersonUmum.jenisFasiliti ===
-                      'projek-komuniti-lain'
-                        ? props.allUsedKPBMPB.map((kpbmpb) => {
-                            return (
-                              <>
-                                {kpbmpb.penggunaanKpb !== 'NOT APPLICABLE' && (
-                                  <option value={kpbmpb.penggunaanKpb}>
-                                    KPB | {kpbmpb.penggunaanKpb}
-                                  </option>
-                                )}
-                                {kpbmpb.penggunaanKpb2 !== 'NOT APPLICABLE' && (
-                                  <option value={kpbmpb.penggunaanKpb2}>
-                                    KPB | {kpbmpb.penggunaanKpb2}
-                                  </option>
-                                )}
-                                {kpbmpb.penggunaanKpb3 !== 'NOT APPLICABLE' && (
-                                  <option value={kpbmpb.penggunaanKpb3}>
-                                    KPB | {kpbmpb.penggunaanKpb3}
-                                  </option>
-                                )}
-                                {kpbmpb.penggunaanMpb !== 'NOT APPLICABLE' && (
-                                  <option value={kpbmpb.penggunaanMpb}>
-                                    MPB | {kpbmpb.penggunaanMpb}
-                                  </option>
-                                )}
-                                {kpbmpb.penggunaanMpb2 !== 'NOT APPLICABLE' && (
-                                  <option value={kpbmpb.penggunaanMpb2}>
-                                    MPB | {kpbmpb.penggunaanMpb2}
-                                  </option>
-                                )}
-                                {kpbmpb.penggunaanMpb3 !== 'NOT APPLICABLE' && (
-                                  <option value={kpbmpb.penggunaanMpb3}>
-                                    MPB | {kpbmpb.penggunaanMpb3}
-                                  </option>
-                                )}
-                              </>
-                            );
-                          })
-                        : null}
-                    </select>
+                  <div className='flex flex-col'>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
+                        Menggunakan KPB / MPB
+                        <span className='font-semibold text-user6'>*</span>
+                      </p>
+                      <input
+                        disabled={isDisabled}
+                        required
+                        type='radio'
+                        name='menggunakan-kpb-mpb'
+                        id='ya-menggunakan-kpb-mpb'
+                        value='ya-menggunakan-kpb-mpb'
+                        checked={
+                          props.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setMenggunakanKPBMPB(e.target.value);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='ya-menggunakan-kpb-mpb'
+                        className='m-2 text-sm font-m'
+                      >
+                        Ya
+                      </label>
+                      <input
+                        disabled={isDisabled}
+                        required
+                        type='radio'
+                        name='menggunakan-kpb-mpb'
+                        id='tidak-menggunakan-kpb-mpb'
+                        value='tidak-menggunakan-kpb-mpb'
+                        checked={
+                          props.menggunakanKPBMPB ===
+                          'tidak-menggunakan-kpb-mpb'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setMenggunakanKPBMPB(e.target.value);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='tidak-menggunakan-kpb-mpb'
+                        className='m-2 text-sm font-m'
+                      >
+                        Tidak
+                      </label>
+                    </div>
+                    {props.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
+                      <div className='flex flex-row items-center'>
+                        <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                          Penggunaan KPB / MPB :
+                        </p>
+                        <select
+                          disabled={isDisabled}
+                          name='penggunaan-kpb-mpb'
+                          id='penggunaan-kpb-mpb'
+                          value={props.penggunaanKPBMPB}
+                          onChange={(e) => {
+                            props.setPenggunaanKPBMPB(e.target.value);
+                          }}
+                          className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                        >
+                          <option value=''>Pilih Jika Berkenaan</option>
+                          {props.singlePersonUmum.jenisFasiliti !==
+                          'projek-komuniti-lain'
+                            ? props.allUsedKPBMPB.map((kpbmpb) => (
+                                <option value={kpbmpb.nama}>
+                                  {
+                                    dictionaryJenisFasiliti[
+                                      kpbmpb.jenisFasiliti
+                                    ]
+                                  }{' '}
+                                  | {kpbmpb.nama}
+                                </option>
+                              ))
+                            : null}
+                          {props.singlePersonUmum.jenisFasiliti ===
+                          'projek-komuniti-lain'
+                            ? props.allUsedKPBMPB.map((kpbmpb) => {
+                                return (
+                                  <>
+                                    {kpbmpb.penggunaanKpb !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanKpb}>
+                                        KPB | {kpbmpb.penggunaanKpb}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanKpb2 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanKpb2}>
+                                        KPB | {kpbmpb.penggunaanKpb2}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanKpb3 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanKpb3}>
+                                        KPB | {kpbmpb.penggunaanKpb3}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanMpb !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanMpb}>
+                                        MPB | {kpbmpb.penggunaanMpb}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanMpb2 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanMpb2}>
+                                        MPB | {kpbmpb.penggunaanMpb2}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanMpb3 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanMpb3}>
+                                        MPB | {kpbmpb.penggunaanMpb3}
+                                      </option>
+                                    )}
+                                  </>
+                                );
+                              })
+                            : null}
+                        </select>
+                      </div>
+                    ) : null}
                   </div>
                 )}
                 {props.singlePersonUmum.umur >= 18 &&

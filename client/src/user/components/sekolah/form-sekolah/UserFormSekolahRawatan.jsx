@@ -237,7 +237,10 @@ function UserFormSekolahRawatan() {
     if (tidakHadirRawatan === 'ya-kehadiran-rawatan') {
       statusRawatan = 'tidak hadir rawatan';
     }
-    if (kesSelesaiSekolahRawatan === 'ya-kes-selesai-penyata-akhir-2') {
+    if (
+      kesSelesaiSekolahRawatan === 'ya-kes-selesai-penyata-akhir-2' ||
+      singlePersonSekolah.statusRawatan === 'selesai'
+    ) {
       statusRawatan = 'selesai';
     }
     let kesSelesaiMmi = false;

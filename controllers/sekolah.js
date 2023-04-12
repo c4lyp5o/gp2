@@ -364,9 +364,12 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       createdByKp: req.user.kp,
       //
       createdByUsername: req.body.createdByUsername,
+      idIndividu: req.body.idIndividu,
       nama: req.body.nama,
+      noKadPengenalan: req.body.nomborId,
       namaSekolah: req.body.namaSekolah,
       kodSekolah: req.body.kodSekolah,
+      tahunTingkatan: req.body.tahunTingkatan,
       kelas: req.body.namaKelas,
       noTelefon: req.body.noTelMuridKotak,
       dalamPemantauanKohort: 'JAN - JUN 2023', // default
@@ -503,10 +506,10 @@ const updatePemeriksaanSekolah = async (req, res) => {
       .json({ msg: `No document with id ${req.params.pemeriksaanSekolahId}` });
   }
 
-  const personSekolah = await Sekolah.findOneAndUpdate(
-    { _id: req.query.personSekolahId },
-    { $set: { statusRawatan: 'belum selesai' } }
-  );
+  // const personSekolah = await Sekolah.findOneAndUpdate(
+  //   { _id: req.query.personSekolahId },
+  //   { $set: { statusRawatan: 'belum selesai' } }
+  // );
 
   // delete KOTAK if inginMelakukanIntervensiMerokok === tidak || ''
   if (

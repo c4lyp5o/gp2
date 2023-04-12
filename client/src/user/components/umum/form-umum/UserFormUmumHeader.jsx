@@ -425,6 +425,9 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
   const [waktuDipanggil, setWaktuDipanggil] = useState('');
   masterForm.waktuDipanggil = waktuDipanggil;
   masterForm.setWaktuDipanggil = setWaktuDipanggil;
+  const [menggunakanKPBMPB, setMenggunakanKPBMPB] = useState('');
+  masterForm.menggunakanKPBMPB = menggunakanKPBMPB;
+  masterForm.setMenggunakanKPBMPB = setMenggunakanKPBMPB;
   const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
   masterForm.penggunaanKPBMPB = penggunaanKPBMPB;
   masterForm.setPenggunaanKPBMPB = setPenggunaanKPBMPB;
@@ -1505,6 +1508,7 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
         //map pemeriksaan ------------------------------------------------------------
         setStatusKehadiran(data.singlePersonUmum.statusKehadiran);
         setWaktuDipanggil(data.singlePersonUmum.waktuDipanggil);
+        setMenggunakanKPBMPB(data.singlePersonUmum.menggunakanKPBMPB);
         setPenggunaanKPBMPB(data.singlePersonUmum.penggunaanKPBMPB);
         setSystolicTekananDarah(data.singlePersonUmum.systolicTekananDarah);
         setDiastolicTekananDarah(data.singlePersonUmum.diastolicTekananDarah);
@@ -2145,6 +2149,7 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
               //pemeriksaan -------------------------------------------------------------
               statusKehadiran,
               waktuDipanggil,
+              menggunakanKPBMPB,
               penggunaanKPBMPB,
               systolicTekananDarah,
               diastolicTekananDarah,
