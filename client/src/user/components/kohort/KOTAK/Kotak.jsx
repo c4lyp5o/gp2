@@ -248,7 +248,9 @@ function KohortKotak() {
                           <span className='text-red-500'>BELUM DITETAPKAN</span>
                         ) : (
                           <span>
-                            {singlePersonKohortKotak.tarikhIntervensi1}
+                            {moment(
+                              singlePersonKohortKotak.tarikhIntervensi1
+                            ).format('DD/MM/YYYY')}
                           </span>
                         )}
                       </td>
