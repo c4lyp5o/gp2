@@ -138,7 +138,7 @@ function UserNavbar() {
                         : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
                     }
                   >
-                    PRA SEKOLAH & SEKOLAH
+                    SEKOLAH
                   </NavLink>
                 ) : null}
                 <NavLink

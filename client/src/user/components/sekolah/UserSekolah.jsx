@@ -4,6 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import {
   FaCheckCircle,
+  FaTimesCircle,
   FaCircle,
   FaAdjust,
   FaRegCircle,
@@ -25,7 +26,7 @@ function UserSekolah() {
     toast,
   } = useGlobalUserAppContext();
 
-  const { singleSekolahId } = useParams();
+  const { kodSekolah } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -35,11 +36,12 @@ function UserSekolah() {
   const [sekMenRen, setSekMenRen] = useState('');
   // const [isFiltering, setIsFiltering] = useState(false);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  const [tahun, setTahun] = useState([]);
-  const [namaKelas, setNamaKelas] = useState([]);
+  const [tahunTingkatan, setTahunTingkatan] = useState([]);
+  const [kelasPelajar, setKelasPelajar] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [pilihanTahun, setPilihanTahun] = useState('');
-  const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+  const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
+  const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
+  const [pilihanBegin, setPilihanBegin] = useState('');
   const [filterNama, setFilterNama] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
@@ -81,7 +83,7 @@ function UserSekolah() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/sekolah/faceted/${singleSekolahId}`,
+          `/api/v1/sekolah/faceted/${kodSekolah}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -102,6 +104,7 @@ function UserSekolah() {
         //   ['']
         // );
         setPilihanSekolah(data.fasilitiSekolahs[0].nama);
+        setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs([...namaSekolahs, data.fasilitiSekolahs[0].nama]);
         // setFasilitiSekolah(data.fasilitiSekolahs);
@@ -155,59 +158,59 @@ function UserSekolah() {
     // const filteredSekolahs = allPersonSekolahs.filter((person) =>
     //   person.namaSekolah.includes(pilihanSekolah)
     // );
-    const tahun = allPersonSekolahs.reduce(
-      (arrTahun, singlePersonSekolah) => {
-        if (!arrTahun.includes(singlePersonSekolah.tahun)) {
-          arrTahun.push(singlePersonSekolah.tahun);
+    const tahunTingkatan = allPersonSekolahs.reduce(
+      (arrTahunTingkatan, singlePersonSekolah) => {
+        if (!arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)) {
+          arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
         }
-        return arrTahun.filter((valid) => valid);
+        return arrTahunTingkatan.filter((valid) => valid);
       },
       ['']
     );
-    // console.log(tahun);
-    setTahun(tahun);
+    // console.log(tahunTingkatan);
+    setTahunTingkatan(tahunTingkatan);
     // setDahFilterSekolahs(filteredSekolahs);
   }, [pilihanSekolah]);
 
   useEffect(() => {
     const filteredTahun = allPersonSekolahs.filter((person) =>
-      person.tahun.includes(pilihanTahun)
+      person.tahunTingkatan.includes(pilihanTahunTingkatan)
     );
-    const namaKelas = filteredTahun.reduce(
-      (arrNamaKelas, singlePersonSekolah) => {
-        if (!arrNamaKelas.includes(singlePersonSekolah.namaKelas)) {
-          arrNamaKelas.push(singlePersonSekolah.namaKelas);
+    const kelasPelajar = filteredTahun.reduce(
+      (arrKelasPelajar, singlePersonSekolah) => {
+        if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
+          arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
         }
-        return arrNamaKelas.filter((valid) => valid);
+        return arrKelasPelajar.filter((valid) => valid);
       },
       ['']
     );
-    setNamaKelas(namaKelas);
+    setKelasPelajar(kelasPelajar);
     // setDahFilterTahun(filteredTahun);
-  }, [pilihanTahun]);
+  }, [pilihanTahunTingkatan]);
 
   // reset value
   useEffect(() => {
-    setPilihanTahun('');
-    setPilihanNamaKelas('');
+    setPilihanTahunTingkatan('');
+    setPilihanKelasPelajar('');
     setFilterNama('');
   }, [pilihanSekolah]);
 
   useEffect(() => {
-    setPilihanNamaKelas('');
+    setPilihanKelasPelajar('');
     setFilterNama('');
-  }, [pilihanTahun]);
+  }, [pilihanTahunTingkatan]);
 
   useEffect(() => {
     setFilterNama('');
-  }, [pilihanNamaKelas]);
+  }, [pilihanKelasPelajar]);
 
   // fetch fasiliti sekolah to determine selesai reten
   // useEffect(() => {
   //   const fetchFasilitiSekolahs = async () => {
   //     try {
   //       const { data } = await axios.get(
-  //         `/api/v1/sekolah/faceted/${singleSekolahId}`,
+  //         `/api/v1/sekolah/faceted/${kodSekolah}`,
   //         {
   //           headers: {
   //             Authorization: `Bearer ${
@@ -252,7 +255,7 @@ function UserSekolah() {
   // specific refreshTimer for this UserSekolah special case
   useEffect(() => {
     setRefreshTimer(!refreshTimer);
-  }, [pilihanSekolah, pilihanTahun, pilihanNamaKelas, filterNama]);
+  }, [pilihanSekolah, pilihanTahunTingkatan, pilihanKelasPelajar, filterNama]);
 
   const handleAccordian = (e) => {
     if (accordian === e) {
@@ -304,15 +307,15 @@ function UserSekolah() {
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
-                    value={pilihanTahun}
+                    value={pilihanTahunTingkatan}
                     onChange={(e) => {
-                      setPilihanTahun(e.target.value);
+                      setPilihanTahunTingkatan(e.target.value);
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
                     {pilihanSekolah ? (
-                      tahun.map((singleTahun, index) => {
+                      tahunTingkatan.map((singleTahun, index) => {
                         return (
                           <option
                             value={singleTahun}
@@ -335,15 +338,15 @@ function UserSekolah() {
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
-                    value={pilihanNamaKelas}
+                    value={pilihanKelasPelajar}
                     onChange={(e) => {
-                      setPilihanNamaKelas(e.target.value);
+                      setPilihanKelasPelajar(e.target.value);
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {pilihanTahun ? (
-                      namaKelas.map((singleNamaKelas, index) => {
+                    {pilihanTahunTingkatan ? (
+                      kelasPelajar.map((singleNamaKelas, index) => {
                         return (
                           <option
                             value={singleNamaKelas}
@@ -469,9 +472,11 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   RAWATAN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
-                  AKTIVITI BEGIN
-                </th>
+                {!pilihanTahunTingkatan.includes('TINGKATAN') ? (
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
+                    AKTIVITI BEGIN
+                  </th>
+                ) : null}
               </tr>
             </thead>
             {!isLoading &&
@@ -480,8 +485,8 @@ function UserSekolah() {
                 .filter(
                   (person) =>
                     person.namaSekolah.includes(pilihanSekolah) &&
-                    person.tahun.includes(pilihanTahun) &&
-                    person.namaKelas.includes(pilihanNamaKelas) &&
+                    person.tahunTingkatan.includes(pilihanTahunTingkatan) &&
+                    person.kelasPelajar.includes(pilihanKelasPelajar) &&
                     person.nama.includes(filterNama)
                 )
                 .map((singlePersonSekolah, index) => {
@@ -501,19 +506,29 @@ function UserSekolah() {
                                   .createdByUsername
                               : null}
                           </td>
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 whitespace-nowrap'>
-                            {singlePersonSekolah.statusRawatan}
-                            {singlePersonSekolah.statusRawatan === 'selesai' ? (
-                              <FaCircle className='text-user7 ml-1 inline-flex' />
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 whitespace-nowrap text-left pl-0.5'>
+                            {singlePersonSekolah.statusRawatan === 'enggan' ? (
+                              <FaTimesCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'tidak hadir' ? (
+                              <FaCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'enggan rawatan' ? (
+                              <FaTimesCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'tidak hadir rawatan' ? (
+                              <FaCircle className='text-user9 mx-2 inline-flex' />
+                            ) : singlePersonSekolah.statusRawatan ===
+                              'selesai' ? (
+                              <FaCircle className='text-user7 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'belum selesai' ? (
-                              <FaAdjust className='text-user8 ml-1 inline-flex' />
+                              <FaAdjust className='text-user8 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'belum mula' ? (
-                              <FaRegCircle className='text-user8 ml-1 inline-flex' />
-                            ) : (
-                              <FaCircle className='text-user9 ml-1 inline-flex' />
-                            )}
+                              <FaRegCircle className='text-user8 mx-2 inline-flex' />
+                            ) : null}
+                            {singlePersonSekolah.statusRawatan}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                             <Link
@@ -527,15 +542,25 @@ function UserSekolah() {
                                   : 'tambah-pemeriksaan'
                               }`}
                               className={`${
-                                singlePersonSekolah.pemeriksaanSekolah
-                                  ? 'bg-user7 shadow-md'
+                                singlePersonSekolah.statusRawatan === 'enggan'
+                                  ? 'pointer-events-none text-userBlack shadow-none'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'tidak hadir'
+                                  ? 'pointer-events-none text-userBlack shadow-none'
+                                  : singlePersonSekolah.pemeriksaanSekolah
+                                  ? 'bg-user7 text-userWhite shadow-md'
                                   : filteredFasilitiSekolah[0]
                                       .sekolahSelesaiReten === true
-                                  ? 'pointer-events-none bg-user4 shadow-none'
-                                  : 'bg-user6 shadow-md'
-                              } hover:bg-user8 text-userWhite rounded-sm p-1 m-1 transition-all`}
+                                  ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                                  : 'bg-user6 text-userWhite shadow-md'
+                              } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
                             >
-                              {singlePersonSekolah.pemeriksaanSekolah
+                              {singlePersonSekolah.statusRawatan === 'enggan'
+                                ? 'Enggan'
+                                : singlePersonSekolah.statusRawatan ===
+                                  'tidak hadir'
+                                ? 'Tidak Hadir'
+                                : singlePersonSekolah.pemeriksaanSekolah
                                 ? 'lihat pemeriksaan'
                                 : filteredFasilitiSekolah[0]
                                     .sekolahSelesaiReten === true
@@ -551,22 +576,39 @@ function UserSekolah() {
                                 rel='noreferrer'
                                 to={`/pengguna/landing/senarai-sekolah/sekolah/form-sekolah/rawatan/${singlePersonSekolah._id}`}
                                 className={`${
-                                  singlePersonSekolah.statusRawatan ===
-                                  'selesai'
-                                    ? ' bg-user7 shadow-md hover:bg-user8'
+                                  singlePersonSekolah.statusRawatan === 'enggan'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'tidak hadir'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'enggan rawatan'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'tidak hadir rawatan'
+                                    ? 'pointer-events-none text-userBlack shadow-none'
+                                    : singlePersonSekolah.statusRawatan ===
+                                      'selesai'
+                                    ? ' bg-user7 text-userWhite shadow-md hover:bg-user8'
                                     : !singlePersonSekolah.pemeriksaanSekolah
-                                    ? 'pointer-events-none bg-user4 shadow-none'
-                                    : singlePersonSekolah.statusRawatan !==
-                                      'belum selesai'
-                                    ? 'pointer-events-none bg-user9 shadow-none'
-                                    : 'bg-user3 hover:bg-user2 shadow-md'
-                                } text-userWhite rounded-sm  p-1 m-1 transition-all`}
+                                    ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                                    : 'bg-user3 text-userWhite hover:bg-user2 shadow-md'
+                                } rounded-sm  p-1 m-1 transition-all`}
                               >
-                                {singlePersonSekolah.statusRawatan === 'selesai'
+                                {singlePersonSekolah.statusRawatan === 'enggan'
+                                  ? 'Enggan'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'tidak hadir'
+                                  ? 'Tidak Hadir'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'enggan rawatan'
+                                  ? 'Enggan Rawatan'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'tidak hadir rawatan'
+                                  ? 'Tidak Hadir Rawatan'
+                                  : singlePersonSekolah.statusRawatan ===
+                                    'selesai'
                                   ? 'selesai rawatan'
-                                  : singlePersonSekolah.statusRawatan !==
-                                    'belum selesai'
-                                  ? singlePersonSekolah.statusRawatan
                                   : 'tambah rawatan'}
                               </Link>
                             ) : (
@@ -597,7 +639,7 @@ function UserSekolah() {
                                       isShown[singlePersonSekolah._id]
                                         ? 'block p-2 px-5 overflow-y-auto'
                                         : 'hidden '
-                                    } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                                    } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-10 lg:inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                                   >
                                     <div className='flex justify-between'>
                                       <h1 className='text-lg font-medium'>
@@ -699,7 +741,7 @@ function UserSekolah() {
                                                 )}
                                                 {sumICDAS >= 1 && (
                                                   <span className='text-xs font-medium text-start'>
-                                                    ICDAS : {sumICDAS}
+                                                    MMI : {sumICDAS}
                                                   </span>
                                                 )}
                                                 {rawatan.jumlahTampalanSementaraSekolahRawatan >=
@@ -776,16 +818,16 @@ function UserSekolah() {
                                                   </span>
                                                 )}
                                                 {rawatan.kesSelesaiSekolahRawatan ===
-                                                  true && (
+                                                  'ya-kes-selesai-penyata-akhir-2' && (
                                                   <span className='text-xs font-medium text-start flex items-center'>
                                                     kes selesai{' '}
                                                     <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
                                                   </span>
                                                 )}
                                                 {rawatan.kesSelesaiIcdasSekolahRawatan ===
-                                                  true && (
+                                                  'ya-kes-selesai-icdas-penyata-akhir-2' && (
                                                   <span className='text-xs font-medium text-start flex items-center'>
-                                                    kes selesai ICDAS{' '}
+                                                    kes selesai MMI{' '}
                                                     <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
                                                   </span>
                                                 )}
@@ -841,8 +883,7 @@ function UserSekolah() {
                                   : 'tidak perlu KOTAK'}
                               </Link>
                             </td> */}
-                          {singlePersonSekolah.jenisFasiliti ===
-                          'sekolah-rendah' ? (
+                          {!pilihanTahunTingkatan.includes('TINGKATAN') ? (
                             <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <button
                                 onClick={() => {
@@ -873,18 +914,21 @@ function UserSekolah() {
                               >
                                 <form onSubmit={handleSubmit}>
                                   <p className='flex justify-center text-lg font-bold border-b border-b-user1 py-3'>
-                                    Program BEGIN
+                                    Aktiviti BEGIN
                                   </p>
-                                  <p className='flex whitespace-pre-wrap pt-3'>
-                                    Tarikh {singlePersonSekolah.nama}{' '}
-                                    melaksanakan Aktiviti BEGIN ?
+                                  <p className='flex justify-center whitespace-nowrap pt-3'>
+                                    Tarikh murid ini melaksanakan Aktiviti
+                                    BEGIN?
                                   </p>
-                                  <div className='grid justify-center'>
+                                  <p className='flex justify-center whitespace-nowrap pt-3'>
+                                    <strong>{singlePersonSekolah.nama}</strong>{' '}
+                                  </p>
+                                  <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.tarikhMelaksanakanBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium'>
-                                          YA , Pada Tarikh{' '}
-                                          <span className='text-user2 text-xl font-semibold'>
+                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                          Selesai pada{' '}
+                                          <span className='text-xl font-semibold text-kaunter1'>
                                             {moment(
                                               singlePersonSekolah.tarikhMelaksanakanBegin
                                             ).format('DD/MM/YYYY')}
@@ -947,9 +991,13 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                  </td>
+                  {pilihanSekolah &&
+                  filteredFasilitiSekolah[0].jenisFasiliti ===
+                    'sekolah-rendah' ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  ) : null}
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -970,9 +1018,13 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                  </td>
+                  {pilihanSekolah &&
+                  filteredFasilitiSekolah[0].jenisFasiliti ===
+                    'sekolah-rendah' ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  ) : null}
                 </tr>
               </tbody>
             )}
