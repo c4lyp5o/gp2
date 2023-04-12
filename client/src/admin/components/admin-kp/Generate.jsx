@@ -1261,7 +1261,7 @@ const Generate = (props) => {
     readSpesifikKPBMPBDataForKp,
     readSpesifikIndividuDataForKp,
     readGenerateTokenDataForKp,
-    toast,
+    semuaJenisReten,
   } = useGlobalAdminAppContext();
 
   const init = useRef(false);
@@ -1296,106 +1296,6 @@ const Generate = (props) => {
   const [pilihanIndividu, setPilihanIndividu] = useState('');
 
   const loginInfo = props.loginInfo;
-
-  const semuaJenisReten = [
-    {
-      kod: 'PG101A Pind. 1/2022',
-      kodRingkas: 'PG101A',
-      deskripsi:
-        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2:
-        '- Klinik Pergigian Primer & program lawatan pergigian di KKIA/KD',
-    },
-    {
-      kod: 'PG101C Pind. 1/2022',
-      kodRingkas: 'PG101C',
-      deskripsi:
-        'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2: '- Program Outreach dan Klinik Pergigian Sekolah (Statik)',
-    },
-    {
-      kod: 'PG211A Pind. 1/2022',
-      kodRingkas: 'PG211A',
-      deskripsi:
-        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2: '- Perkhidmatan Pergigian Klinik Pergigian Primer',
-    },
-    {
-      kod: 'PG211C Pind. 1/2022',
-      kodRingkas: 'PG211C',
-      deskripsi:
-        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2: '- Perkhidmatan Pergigian Outreach',
-    },
-    {
-      kod: 'PG206 Pind. 1/2022',
-      kodRingkas: 'PG206',
-      deskripsi:
-        'Laporan Bulanan Individu/Klinik/Daerah/Negeri Hasil Kerja Juruterapi Pergigian Bagi Rawatan Am/Orang Kurang Upaya (OKU)/Bukan Warganegara',
-    },
-    {
-      kod: 'PG207 Pind. 1/2022',
-      kodRingkas: 'PG207',
-      deskripsi:
-        'Laporan Bulanan Individu/Klinik/Daerah/Negeri Hasil Kerja Pegawai Pergigian Bagi Rawatan Am/Ibu Mengandung/Orang Kurang Upaya (OKU)/Bukan Warganegara',
-    },
-    {
-      kod: 'PG214 Pind. 1/2022',
-      kodRingkas: 'PG214',
-      deskripsi:
-        'Laporan Bulanan Pesakit Baru Warga Emas Warganegara Dan Bukan Warganegara',
-    },
-    {
-      kod: 'PGPR201 Pind. 1/2022',
-      kodRingkas: 'PGPR201',
-      deskripsi:
-        'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
-    },
-    {
-      kod: 'PGPRO 01 Pind. 2/2022 FFR',
-      kodRingkas: 'PGPRO01',
-      deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
-    },
-    {
-      kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
-      kodRingkas: 'PGPRO01Combined',
-      deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
-    },
-    {
-      kod: 'PG201 Pind. 2/2022',
-      kodRingkas: 'PG201P2',
-      deskripsi:
-        'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
-    },
-    {
-      kod: 'PGS203 Pind. 2/2022',
-      kodRingkas: 'PGS203P2',
-      deskripsi:
-        'Laporan Bulanan Kesihatan Pergigian Dan Status Rawatan Murid Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
-    },
-    {
-      kod: '-',
-      kodRingkas: 'MASA',
-      deskripsi: 'KPI Piagam Masa',
-    },
-    {
-      kod: 'BP Pind.1/2023',
-      kodRingkas: 'BP',
-      deskripsi: 'Laporan Tekanan Darah',
-    },
-    {
-      kod: 'BPE 01/2018 Pind. 1/2022',
-      kodRingkas: 'BPE',
-      deskripsi: 'Laporan Basic Periodontal Examination',
-    },
-    {
-      kod: '-',
-      kodRingkas: 'GENDER',
-      deskripsi: 'Laporan Gender',
-    },
-  ];
 
   const handleGetKkia = async (e) => {
     setPilihanFasiliti(e);
