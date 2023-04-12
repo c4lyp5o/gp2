@@ -65,6 +65,10 @@ function UserFormKohortKOTAK() {
       onChange: (date) => {
         setTarikhQ1DP(date);
         setTarikh1(moment(date).format('YYYY-MM-DD'));
+        setConfirmData({
+          ...confirmData,
+          tarikh1: moment(date).format('YYYY-MM-DD'),
+        });
       },
       required: true,
       filterDate: (date) => {
@@ -82,6 +86,10 @@ function UserFormKohortKOTAK() {
       onChange: (date) => {
         setTarikhQ2DP(date);
         setTarikh2(moment(date).format('YYYY-MM-DD'));
+        setConfirmData({
+          ...confirmData,
+          tarikh2: moment(date).format('YYYY-MM-DD'),
+        });
       },
       filterDate: (date) => {
         return moment() > date;
@@ -98,6 +106,10 @@ function UserFormKohortKOTAK() {
       onChange: (date) => {
         setTarikhQ3DP(date);
         setTarikh3(moment(date).format('YYYY-MM-DD'));
+        setConfirmData({
+          ...confirmData,
+          tarikh3: moment(date).format('YYYY-MM-DD'),
+        });
       },
       filterDate: (date) => {
         return moment() > date;
@@ -117,6 +129,10 @@ function UserFormKohortKOTAK() {
       onChange: (date) => {
         setTarikhQDP(date);
         setTarikhQ(moment(date).format('YYYY-MM-DD'));
+        setConfirmData({
+          ...confirmData,
+          tarikhQ: moment(date).format('YYYY-MM-DD'),
+        });
       },
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
