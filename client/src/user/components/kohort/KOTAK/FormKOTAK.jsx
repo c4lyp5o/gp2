@@ -74,7 +74,7 @@ function UserFormKohortKOTAK() {
       filterDate: (date) => {
         return moment() > date;
       },
-      disabled: statusKotak !== 'tambah kotak' ? true : false,
+      disabled: statusKotak !== 'belum mula' ? true : false,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row',
     });
@@ -243,8 +243,8 @@ function UserFormKohortKOTAK() {
         );
         setSinglePersonKohortKotak(data.singlePersonKohortKotak);
         setStatusKotak(data.singlePersonKohortKotak.statusKotak);
-        // map to form if status kotak tak sama dengan tambah kotak
-        if (statusKotak !== 'tambah kotak') {
+        // map to form if status kotak tak sama dengan belum mula
+        if (statusKotak !== 'belum mula') {
           setDalamPemantauanKohort(
             data.singlePersonKohortKotak.dalamPemantauanKohort
           );
@@ -703,9 +703,6 @@ function UserFormKohortKOTAK() {
                         <div className='flex items-center flex-col lg:flex-row mx-2'>
                           <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
                             No. Telefon 1:
-                            <span className='text-user6 text-xl font-semibold'>
-                              *
-                            </span>
                           </p>
                           <input
                             readOnly
@@ -1185,37 +1182,31 @@ function UserFormKohortKOTAK() {
                       <TarikhQ />
                     </article>
                   ) : null}
-                  {dalamPemantauanKohort === 'ya-dalam-pemantauan-kohort' ||
-                  adaTiadaQTarikh1 === 'ada-q-tarikh1' ||
-                  adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
-                  adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
-                  adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
-                    <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1 auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                        status selepas 6 bulan daripada tarikh kehadiran
-                        intervensi sesi 1
-                      </h4>
-                      <select
-                        name='status-selepas-6-bulan-kotak'
-                        id='status-selepas-6-bulan-kotak'
-                        value={statusSelepas6Bulan}
-                        onChange={(e) => {
-                          setStatusSelepas6Bulan(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            statusSelepas6Bulan: e.target.value,
-                          });
-                        }}
-                        className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
-                      >
-                        <option value=''></option>
-                        <option value='berhenti'>Berhenti Merokok</option>
-                        <option value='tidakberhenti'>
-                          Tidak Berhenti Merokok
-                        </option>
-                      </select>
-                    </article>
-                  ) : null}
+                  <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1 auto-rows-min'>
+                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                      status selepas 6 bulan daripada tarikh kehadiran
+                      intervensi sesi 1
+                    </h4>
+                    <select
+                      name='status-selepas-6-bulan-kotak'
+                      id='status-selepas-6-bulan-kotak'
+                      value={statusSelepas6Bulan}
+                      onChange={(e) => {
+                        setStatusSelepas6Bulan(e.target.value);
+                        setConfirmData({
+                          ...confirmData,
+                          statusSelepas6Bulan: e.target.value,
+                        });
+                      }}
+                      className='outline outline-1 outline-userBlack w-30 m-3 text-sm font-m'
+                    >
+                      <option value=''></option>
+                      <option value='berhenti'>Berhenti Merokok</option>
+                      <option value='tidakberhenti'>
+                        Tidak Berhenti Merokok
+                      </option>
+                    </select>
+                  </article>
                 </section>
                 <div className='grid grid-cols-1 md:grid-cols-3 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2'>
                   <span

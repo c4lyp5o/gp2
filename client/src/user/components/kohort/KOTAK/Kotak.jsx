@@ -19,8 +19,11 @@ function KohortKotak() {
   const [isShown, setIsShown] = useState(false);
   const [allPersonKohortKotak, setAllPersonKohortKotak] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
-  const [pilihanTahun, setPilihanTahun] = useState('');
+  const [pilihanKohort, setPilihanKohort] = useState('');
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+
+  const [namaSekolahs, setNamaSekolahs] = useState([]);
+  const [kohort, setKohort] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -38,7 +41,26 @@ function KohortKotak() {
             }`,
           },
         });
-        setAllPersonKohortKotak(data.kohortKotakResultQuery);
+        //without duplicate namaSekolah and kohort
+        const namaSekolahs = [
+          ...new Set(
+            data.kohortKotakResultQuery.map((item) => item.namaSekolah)
+          ),
+        ];
+        const kohort = [
+          ...new Set(
+            data.kohortKotakResultQuery.map(
+              (item) => item.dalamPemantauanKohort
+            )
+          ),
+        ];
+        // 👇️ sort by String property ASCENDING (A - Z)
+        const desc = data.kohortKotakResultQuery.sort((a, b) =>
+          a.statusKotak > b.statusKotak ? 1 : -1
+        );
+        setNamaSekolahs(namaSekolahs);
+        setKohort(kohort);
+        setAllPersonKohortKotak(desc);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
@@ -93,7 +115,7 @@ function KohortKotak() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {/* {namaSekolahs.map((singleNamaSekolah, index) => {
+                    {namaSekolahs.map((singleNamaSekolah, index) => {
                       return (
                         <option
                           value={singleNamaSekolah}
@@ -103,7 +125,7 @@ function KohortKotak() {
                           {singleNamaSekolah}
                         </option>
                       );
-                    })} */}
+                    })}
                   </select>
                 </span>
               </p>
@@ -113,28 +135,28 @@ function KohortKotak() {
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
-                    value={pilihanTahun}
+                    value={pilihanKohort}
                     onChange={(e) => {
-                      setPilihanTahun(e.target.value);
+                      setPilihanKohort(e.target.value);
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {/* {pilihanSekolah ? (
-                      tahun.map((singleTahun, index) => {
+                    {pilihanSekolah ? (
+                      kohort.map((kohort, index) => {
                         return (
                           <option
-                            value={singleTahun}
+                            value={kohort}
                             key={index}
                             className='capitalize'
                           >
-                            {singleTahun}
+                            {kohort}
                           </option>
                         );
                       })
                     ) : (
                       <option value=''>SILA PILIH SEKOLAH</option>
-                    )} */}
+                    )}
                   </select>
                 </span>
               </p>
@@ -151,7 +173,7 @@ function KohortKotak() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {/* {pilihanTahun ? (
+                    {/* {pilihanKohort ? (
                       namaKelas.map((singleNamaKelas, index) => {
                         return (
                           <option
@@ -169,7 +191,7 @@ function KohortKotak() {
                   </select>
                 </span>
               </p>
-              {/* {pilihanTahun && (
+              {/* {pilihanKohort && (
                 <p className='grid grid-cols-[1fr_3fr] pb-1'>
                   <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                     Nama Pelajar:
@@ -200,7 +222,7 @@ function KohortKotak() {
                   NAMA
                 </th>
                 <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 whitespace-nowrap'>
-                  KELAS
+                  TAHUN / TINGKATAN
                 </th>
                 <th className='outline outline-1 outline-userWhite outline-offset-1 px-5 py-1'>
                   NO. TELEFON
@@ -209,57 +231,94 @@ function KohortKotak() {
                   INTERVENSI KOTAK
                 </th>
                 <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                  TARIKH KEHADIRAN INTERVENSI 1
+                  TARIKH KEHADIRAN INTERVENSI SESI 1
                 </th>
-                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                  STATUS SELEPAS 6 BULAN
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 uppercase w-72'>
+                  status selepas 6 bulan daripada tarikh kehadiran intervensi
+                  sesi 1
                 </th>
               </tr>
             </thead>
             {!isLoading ? (
               <tbody className='bg-user4'>
-                {allPersonKohortKotak.map((singlePersonKohortKotak, index) => {
-                  return (
-                    <tr key={index}>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                        {index + 1}
-                      </td>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 text-left'>
-                        {singlePersonKohortKotak.nama}
-                      </td>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                        {singlePersonKohortKotak.kelas}
-                      </td>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                        {singlePersonKohortKotak.noTelefon}
-                      </td>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                        <Link
-                          target='_blank'
-                          rel='noreferrer'
-                          to={`${singlePersonKohortKotak._id}`}
-                          className='bg-user7 text-userWhite shadow-md hover:bg-user8 rounded-sm p-1 m-1 transition-all my-2'
-                        >
-                          tambah KOTAK
-                        </Link>
-                      </td>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                        {!singlePersonKohortKotak.tarikhIntervensi1 ? (
-                          <span className='text-red-500'>BELUM DITETAPKAN</span>
-                        ) : (
-                          <span>
-                            {moment(
-                              singlePersonKohortKotak.tarikhIntervensi1
-                            ).format('DD/MM/YYYY')}
-                          </span>
-                        )}
-                      </td>
-                      <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                        {singlePersonKohortKotak.statusSelepas6Bulan}
-                      </td>
-                    </tr>
-                  );
-                })}
+                {allPersonKohortKotak
+                  .filter((singlePersonKohortKotak) => {
+                    if (pilihanSekolah === 'semua') {
+                      return singlePersonKohortKotak;
+                    } else if (
+                      singlePersonKohortKotak.namaSekolah === pilihanSekolah
+                    ) {
+                      return singlePersonKohortKotak;
+                    }
+                  })
+                  .filter((singlePersonKohortKotak) => {
+                    if (pilihanKohort === '') {
+                      return singlePersonKohortKotak;
+                    } else if (
+                      singlePersonKohortKotak.dalamPemantauanKohort ===
+                      pilihanKohort
+                    ) {
+                      return singlePersonKohortKotak;
+                    }
+                  })
+                  .map((singlePersonKohortKotak, index) => {
+                    return (
+                      <tr key={index}>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                          {index + 1}
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 text-left'>
+                          {singlePersonKohortKotak.nama}
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                          {singlePersonKohortKotak.tahunTingkatan}
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                          {singlePersonKohortKotak.noTelefon}
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-2'>
+                          <Link
+                            target='_blank'
+                            rel='noreferrer'
+                            to={`${singlePersonKohortKotak._id}`}
+                            className={`${
+                              singlePersonKohortKotak.statusKotak ===
+                              'selesai sesi 1'
+                                ? 'bg-[#00b894] text-userWhite hover:shadow-none hover:bg-[#55efc4]'
+                                : singlePersonKohortKotak.statusKotak ===
+                                  'selesai sesi 2'
+                                ? 'bg-[#0984e3] text-userWhite hover:shadow-none hover:bg-[#81ecec]'
+                                : singlePersonKohortKotak.statusKotak ===
+                                  'selesai sesi 3'
+                                ? 'bg-user8 text-userWhite hover:bg-user8 hover:shadow-none'
+                                : 'bg-user6 text-userWhite hover:shadow-none hover:bg-[#74b9ff]'
+                            } shadow-md shadow-user3 rounded-md p-1 m-1 transition-all my-2`}
+                          >
+                            {singlePersonKohortKotak.statusKotak ===
+                            'belum mula'
+                              ? 'tambah KOTAK'
+                              : singlePersonKohortKotak.statusKotak}
+                          </Link>
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                          {!singlePersonKohortKotak.tarikhIntervensi1 ? (
+                            <span className='text-red-500'>
+                              BELUM DITETAPKAN
+                            </span>
+                          ) : (
+                            <span>
+                              {moment(
+                                singlePersonKohortKotak.tarikhIntervensi1
+                              ).format('DD/MM/YYYY')}
+                            </span>
+                          )}
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                          {singlePersonKohortKotak.statusSelepas6Bulan}
+                        </td>
+                      </tr>
+                    );
+                  })}
               </tbody>
             ) : (
               <tbody className='text-user1'>
