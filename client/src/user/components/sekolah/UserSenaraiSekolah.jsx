@@ -11,6 +11,7 @@ import {
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import UserModalSelesaiSekolah from './UserModalSelesaiSekolah';
+import UserModalRefreshPelajar from './UserModalRefreshPelajar';
 
 function UserSekolahList() {
   const {
@@ -32,6 +33,7 @@ function UserSekolahList() {
   const [sekMenRen, setSekMenRen] = useState('');
 
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
+  const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
 
   const [reloadState, setReloadState] = useState(false);
@@ -133,7 +135,7 @@ function UserSekolahList() {
           }
         ),
         {
-          loading: 'Sedang menyimpan...',
+          pending: 'Sedang menutup reten sekolah...',
           success: 'Sekolah telah ditandakan selesai!',
           error: 'Gagal untuk selesai sekolah. Sila cuba lagi.',
         },
@@ -142,6 +144,41 @@ function UserSekolahList() {
         }
       );
       setModalSelesaiSekolah(false);
+      setReloadState(!reloadState);
+    }
+  };
+
+  const handleRefreshPelajar = async () => {
+    if (!modalRefreshPelajar) {
+      setModalRefreshPelajar(true);
+      return;
+    }
+    if (modalRefreshPelajar) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.get(`/api/v1/sekolah/kemaskini/${idSekolah}`, {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }),
+        {
+          pending: 'Sedang mengesahkan pengemaskinian pelajar...',
+          success: 'Pengemaskinian pelajar akan dilakukan',
+          error: 'Gagal untuk kemaskini pelajar. Sila cuba lagi.',
+        },
+        {
+          autoClose: 3000,
+        }
+      );
+      setModalRefreshPelajar(false);
       setReloadState(!reloadState);
     }
   };
@@ -349,9 +386,8 @@ function UserSekolahList() {
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                             <button
                               onClick={() => {
-                                // setIdSekolah(singleNamaSekolah._id);
-                                // setModalSelesaiSekolah(true);
-                                // TODO refresh pelajar mark pindah or not
+                                setIdSekolah(singleNamaSekolah._id);
+                                setModalRefreshPelajar(true);
                               }}
                               className={`${
                                 singleNamaSekolah.sekolahSelesaiReten
@@ -376,6 +412,13 @@ function UserSekolahList() {
           <UserModalSelesaiSekolah
             setModalSelesaiSekolah={setModalSelesaiSekolah}
             handleSelesaiSekolah={handleSelesaiSekolah}
+            id={idSekolah}
+          />
+        )}
+        {modalRefreshPelajar && (
+          <UserModalRefreshPelajar
+            setModalRefreshPelajar={setModalRefreshPelajar}
+            handleRefreshPelajar={handleRefreshPelajar}
             id={idSekolah}
           />
         )}
