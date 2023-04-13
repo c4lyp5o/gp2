@@ -23,7 +23,7 @@ router
   .route('/')
   .get(getAllPersonSekolahsVanilla) /*.post(createPersonSekolah)*/;
 // router.route('/:personSekolahId').get(getSinglePersonSekolahVanilla);
-router.route('/populate').get(getAllPersonSekolahsWithPopulate);
+// router.route('/populate').get(getAllPersonSekolahsWithPopulate);
 router
   .route('/populate/:personSekolahId')
   .get(getSinglePersonSekolahWithPopulate);
@@ -33,7 +33,7 @@ router
 router.route('/faceted/:kodSekolah').get(getAllPersonSekolah);
 
 // GET kemaskini
-router.route('/kemaskini/:idInstitusi').get(kemaskiniSenaraiPelajar);
+router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
 
 // POST
 router
