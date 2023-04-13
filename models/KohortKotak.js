@@ -30,7 +30,7 @@ const KohortKotakSchema = new mongoose.Schema(
     // kotak --------------------------------------------------
     statusKotak: {
       type: String,
-      default: 'tambah kotak',
+      default: 'belum mula',
     },
     idIndividu: {
       type: String,

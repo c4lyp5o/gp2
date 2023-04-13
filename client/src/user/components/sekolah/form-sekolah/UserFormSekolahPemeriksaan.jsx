@@ -4316,7 +4316,7 @@ function UserFormSekolahPemeriksaan() {
                           </div>
                         </div>
                       )}
-                      {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
+                      {/* {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
                         <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
                           <p className='flex items-center text-sm'>
                             nombor telefon yang boleh dihubungi
@@ -4344,7 +4344,7 @@ function UserFormSekolahPemeriksaan() {
                             />
                           </div>
                         </div>
-                      )}
+                      )} */}
                     </article>
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       {/* <h4 className='font-bold col-span-2 flex pl-5'>
