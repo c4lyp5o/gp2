@@ -63,50 +63,52 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
   res.status(200).json({ singlePersonSekolah });
 };
 
-// not used
-// GET /populate
+// GET /populate-satu-sekolah/:kodSekolah
 const getAllPersonSekolahsWithPopulate = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { kp } = req.user;
-  const fasilitiSekolahs = await Fasiliti.find({
+  const { kp, kodFasiliti } = req.user;
+  const fasilitiSekolahs = await Fasiliti.findOne({
     handler: kp,
-    jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: req.params.kodSekolah,
+    sesiTakwimSekolah: sesiTakwimSekolah(),
   });
 
-  const namaSekolahs = fasilitiSekolahs.reduce(
-    (arrNamaSekolahs, singleFasilitiSekolah) => {
-      if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
-        arrNamaSekolahs.push(singleFasilitiSekolah.nama);
-      }
-      return arrNamaSekolahs.filter((valid) => valid);
-    },
-    ['']
-  );
+  // const namaSekolahs = fasilitiSekolahs.reduce(
+  //   (arrNamaSekolahs, singleFasilitiSekolah) => {
+  //     if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
+  //       arrNamaSekolahs.push(singleFasilitiSekolah.nama);
+  //     }
+  //     return arrNamaSekolahs.filter((valid) => valid);
+  //   },
+  //   ['']
+  // );
 
-  const kodSekolahs = fasilitiSekolahs.reduce(
-    (arrKodSekolahs, singleFasilitiSekolah) => {
-      if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
-        arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
-      }
-      return arrKodSekolahs.filter((valid) => valid);
-    },
-    ['']
-  );
+  // const kodSekolahs = fasilitiSekolahs.reduce(
+  //   (arrKodSekolahs, singleFasilitiSekolah) => {
+  //     if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
+  //       arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
+  //     }
+  //     return arrKodSekolahs.filter((valid) => valid);
+  //   },
+  //   ['']
+  // );
 
   const allPersonSekolahs = await Sekolah.find({
-    namaSekolah: { $in: [...namaSekolahs] },
-    kodSekolah: { $in: [...kodSekolahs] },
+    kodSekolah: req.params.kodSekolah,
+    sesiTakwimPelajar: sesiTakwimSekolah(),
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah')
-    .populate('kotakSekolah');
+    .populate('rawatanSekolah');
+  // .populate('kotakSekolah');
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
+// not used
 // GET /faceted/:kodSekolah
 const getAllPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
