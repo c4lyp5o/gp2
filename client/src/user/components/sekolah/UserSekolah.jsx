@@ -42,7 +42,7 @@ function UserSekolah() {
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
   const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
-  const [pilihanBegin, setPilihanBegin] = useState('');
+  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [filterNama, setFilterNama] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
@@ -105,7 +105,7 @@ function UserSekolah() {
         //   ['']
         // );
         setPilihanSekolah(data.fasilitiSekolahs[0].nama);
-        setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
+        // setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs([...namaSekolahs, data.fasilitiSekolahs[0].nama]);
         // setFasilitiSekolah(data.fasilitiSekolahs);
