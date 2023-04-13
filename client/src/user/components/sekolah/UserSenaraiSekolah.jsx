@@ -135,7 +135,7 @@ function UserSekolahList() {
           }
         ),
         {
-          loading: 'Sedang menyimpan...',
+          pending: 'Sedang menutup reten sekolah...',
           success: 'Sekolah telah ditandakan selesai!',
           error: 'Gagal untuk selesai sekolah. Sila cuba lagi.',
         },
@@ -170,7 +170,7 @@ function UserSekolahList() {
           },
         }),
         {
-          loading: 'Sedang mengesahkan...',
+          pending: 'Sedang mengesahkan pengemaskinian pelajar...',
           success: 'Pengemaskinian pelajar akan dilakukan',
           error: 'Gagal untuk kemaskini pelajar. Sila cuba lagi.',
         },
