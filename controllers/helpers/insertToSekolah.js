@@ -144,7 +144,9 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
     idInstitusi: fromDbFasilitiSRSM.idInstitusi,
     kodSekolah: fromDbFasilitiSRSM.kodSekolah,
     sesiTakwimPelajar: sesiTakwimSekolah(),
-  });
+  }).select(
+    'idInstitusi kodSekolah namaSekolah idIndividu nomborId nama sesiTakwimPelajar tahunTingkatan kelasPelajar jantina statusOku tarikhLahir umur keturunan warganegara'
+  );
 
   // the diff between two array
   function getDiffTwoArrayOfObject(array1, array2) {
@@ -178,7 +180,8 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
         pelajarFromDbtoMOEIS[i],
         {
           $set: { berpindah: true },
-        }
+        },
+        { new: true }
       );
     }
     logger.info(
