@@ -93,7 +93,10 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   //   allConvertedPelajar.push({ ...objPelajar });
   // });
 
-  // this will be blocking untill it's complete
+  // this will be blocking until it's complete
+  logger.info(
+    `[insertToSekolah] initiated insertToSekolah ${fromDbFasilitiSRSM.nama}`
+  );
   for (let i = 0; i < currentSesiPelajarAndWantedClass.length; i++) {
     objPelajar.idInstitusi = fromDbFasilitiSRSM.idInstitusi;
     objPelajar.kodSekolah = fromDbFasilitiSRSM.kodSekolah;
@@ -190,6 +193,9 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   }
 
   // finished and close this process
+  logger.info(
+    `[insertToSekolah] finished insertToSekolah ${fromDbFasilitiSRSM.nama}`
+  );
   return;
 };
 
