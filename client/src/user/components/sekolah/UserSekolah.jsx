@@ -51,7 +51,7 @@ function UserSekolah() {
     useState(null);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
-  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
+  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
 
   //accordian
   const [accordian, setAccordian] = useState(false);
@@ -84,7 +84,7 @@ function UserSekolah() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/sekolah/faceted/${kodSekolah}`,
+          `/api/v1/sekolah/populate-satu-sekolah/${kodSekolah}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -104,10 +104,10 @@ function UserSekolah() {
         //   },
         //   ['']
         // );
-        setPilihanSekolah(data.fasilitiSekolahs[0].nama);
+        setPilihanSekolah(data.fasilitiSekolahs.nama);
         // setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
         setAllPersonSekolahs(data.allPersonSekolahs);
-        setNamaSekolahs([...namaSekolahs, data.fasilitiSekolahs[0].nama]);
+        setNamaSekolahs(data.fasilitiSekolahs.nama);
         // setFasilitiSekolah(data.fasilitiSekolahs);
         setFilteredFasilitiSekolah(data.fasilitiSekolahs);
         setRefreshTimer(!refreshTimer);
@@ -424,7 +424,7 @@ function UserSekolah() {
                 {pilihanSekolah ? (
                   <span className='uppercase text-xs lg:text-sm w-full'>
                     {pilihanSekolah &&
-                    filteredFasilitiSekolah[0].sekolahSelesaiReten === true ? (
+                    filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -554,8 +554,8 @@ function UserSekolah() {
                                   ? 'pointer-events-none text-userBlack shadow-none'
                                   : singlePersonSekolah.pemeriksaanSekolah
                                   ? 'bg-user7 text-userWhite shadow-md'
-                                  : filteredFasilitiSekolah[0]
-                                      .sekolahSelesaiReten === true
+                                  : filteredFasilitiSekolah.sekolahSelesaiReten ===
+                                    true
                                   ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
                                   : 'bg-user6 text-userWhite shadow-md'
                               } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
@@ -567,14 +567,14 @@ function UserSekolah() {
                                 ? 'Tidak Hadir'
                                 : singlePersonSekolah.pemeriksaanSekolah
                                 ? 'lihat pemeriksaan'
-                                : filteredFasilitiSekolah[0]
-                                    .sekolahSelesaiReten === true
+                                : filteredFasilitiSekolah.sekolahSelesaiReten ===
+                                  true
                                 ? 'Pemeriksaan Ditutup'
                                 : 'Tambah Pemeriksaan'}
                             </Link>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                            {filteredFasilitiSekolah[0].sekolahSelesaiReten ===
+                            {filteredFasilitiSekolah.sekolahSelesaiReten ===
                             false ? (
                               <Link
                                 target='_blank'
