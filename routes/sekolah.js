@@ -22,15 +22,16 @@ const {
 router
   .route('/')
   .get(getAllPersonSekolahsVanilla) /*.post(createPersonSekolah)*/;
-// router.route('/:personSekolahId').get(getSinglePersonSekolahVanilla);
-// router.route('/populate').get(getAllPersonSekolahsWithPopulate);
+router
+  .route('/populate-satu-sekolah/:kodSekolah')
+  .get(getAllPersonSekolahsWithPopulate);
 router
   .route('/populate/:personSekolahId')
   .get(getSinglePersonSekolahWithPopulate);
 
 // expertimental
 // GET
-router.route('/faceted/:kodSekolah').get(getAllPersonSekolah);
+// router.route('/faceted/:kodSekolah').get(getAllPersonSekolah);
 
 // GET kemaskini
 router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
