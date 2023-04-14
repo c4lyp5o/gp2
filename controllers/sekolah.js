@@ -15,24 +15,27 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { kp } = req.user;
+  const { kp, kodFasiliti } = req.user;
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
+    kodFasilitiHandler: kodFasiliti,
     jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+    sesiTakwimSekolah: sesiTakwimSekolah(),
   });
 
-  const namaSekolahs = fasilitiSekolahs.reduce(
-    (arrNamaSekolahs, singleFasilitiSekolah) => {
-      if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
-        arrNamaSekolahs.push(singleFasilitiSekolah.nama);
+  const kodSekolahs = fasilitiSekolahs.reduce(
+    (arrKodSekolahs, singleFasilitiSekolah) => {
+      if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
+        arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
       }
-      return arrNamaSekolahs.filter((valid) => valid);
+      return arrKodSekolahs.filter((valid) => valid);
     },
     ['']
   );
 
   const allPersonSekolahs = await Sekolah.find({
-    namaSekolah: { $in: [...namaSekolahs] },
+    kodSekolah: { $in: [...kodSekolahs] },
+    sesiTakwimPelajar: sesiTakwimSekolah(),
   });
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
@@ -60,49 +63,52 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
   res.status(200).json({ singlePersonSekolah });
 };
 
-// GET /populate
+// GET /populate-satu-sekolah/:kodSekolah
 const getAllPersonSekolahsWithPopulate = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { kp } = req.user;
-  const fasilitiSekolahs = await Fasiliti.find({
+  const { kp, kodFasiliti } = req.user;
+  const fasilitiSekolahs = await Fasiliti.findOne({
     handler: kp,
-    jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: req.params.kodSekolah,
+    sesiTakwimSekolah: sesiTakwimSekolah(),
   });
 
-  const namaSekolahs = fasilitiSekolahs.reduce(
-    (arrNamaSekolahs, singleFasilitiSekolah) => {
-      if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
-        arrNamaSekolahs.push(singleFasilitiSekolah.nama);
-      }
-      return arrNamaSekolahs.filter((valid) => valid);
-    },
-    ['']
-  );
+  // const namaSekolahs = fasilitiSekolahs.reduce(
+  //   (arrNamaSekolahs, singleFasilitiSekolah) => {
+  //     if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
+  //       arrNamaSekolahs.push(singleFasilitiSekolah.nama);
+  //     }
+  //     return arrNamaSekolahs.filter((valid) => valid);
+  //   },
+  //   ['']
+  // );
 
-  const kodSekolahs = fasilitiSekolahs.reduce(
-    (arrKodSekolahs, singleFasilitiSekolah) => {
-      if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
-        arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
-      }
-      return arrKodSekolahs.filter((valid) => valid);
-    },
-    ['']
-  );
+  // const kodSekolahs = fasilitiSekolahs.reduce(
+  //   (arrKodSekolahs, singleFasilitiSekolah) => {
+  //     if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
+  //       arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
+  //     }
+  //     return arrKodSekolahs.filter((valid) => valid);
+  //   },
+  //   ['']
+  // );
 
   const allPersonSekolahs = await Sekolah.find({
-    namaSekolah: { $in: [...namaSekolahs] },
-    kodSekolah: { $in: [...kodSekolahs] },
+    kodSekolah: req.params.kodSekolah,
+    sesiTakwimPelajar: sesiTakwimSekolah(),
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah')
-    .populate('kotakSekolah');
+    .populate('rawatanSekolah');
+  // .populate('kotakSekolah');
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
+// not used
 // GET /faceted/:kodSekolah
 const getAllPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -184,7 +190,7 @@ const getAllPersonSekolah = async (req, res) => {
           {
             $project: {
               _id: '$sekolah._id',
-              jenisFasiliti: 1,
+              // jenisFasiliti: 1,
               statusRawatan: '$sekolah.statusRawatan',
               idInstitusi: '$sekolah.idInstitusi',
               kodSekolah: '$sekolah.kodSekolah',
@@ -255,10 +261,11 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
 
   const personSekolahWithPopulate = await Sekolah.findOne({
     _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwimSekolah(),
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah')
-    .populate('kotakSekolah');
+    .populate('rawatanSekolah');
+  // .populate('kotakSekolah');
 
   if (!personSekolahWithPopulate) {
     return res
@@ -269,16 +276,14 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
   res.status(201).json({ personSekolahWithPopulate });
 };
 
-// GET /kemaskini/:idInstitusi
+// GET /kemaskini/:fasilitiId
 const kemaskiniSenaraiPelajar = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { idInstitusi } = req.params;
-
   const fasilitiSekolah = await Fasiliti.findOne({
-    idInstitusi,
+    _id: req.params.fasilitiId,
     sesiTakwimSekolah: sesiTakwimSekolah(),
   });
 
@@ -287,7 +292,8 @@ const kemaskiniSenaraiPelajar = async (req, res) => {
       rejectUnauthorized: false,
     });
     const { data } = await axios.get(
-      process.env.MOEIS_INTEGRATION_URL_PELAJAR + `?inid=${idInstitusi}`,
+      process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+        `?inid=${fasilitiSekolah.idInstitusi}`,
       {
         httpsAgent: agent,
         headers: {

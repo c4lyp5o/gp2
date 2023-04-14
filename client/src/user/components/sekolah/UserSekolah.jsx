@@ -4,7 +4,7 @@ import axios from 'axios';
 import moment from 'moment';
 import {
   FaCheckCircle,
-  FaTimesCircle,
+  FaTimes,
   FaCircle,
   FaAdjust,
   FaRegCircle,
@@ -42,7 +42,7 @@ function UserSekolah() {
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
   const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
-  const [pilihanBegin, setPilihanBegin] = useState('');
+  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [filterNama, setFilterNama] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
@@ -51,7 +51,7 @@ function UserSekolah() {
     useState(null);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
-  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState([]);
+  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
 
   //accordian
   const [accordian, setAccordian] = useState(false);
@@ -84,7 +84,7 @@ function UserSekolah() {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/sekolah/faceted/${kodSekolah}`,
+          `/api/v1/sekolah/populate-satu-sekolah/${kodSekolah}`,
           {
             headers: {
               Authorization: `Bearer ${
@@ -104,10 +104,10 @@ function UserSekolah() {
         //   },
         //   ['']
         // );
-        setPilihanSekolah(data.fasilitiSekolahs[0].nama);
-        setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
+        setPilihanSekolah(data.fasilitiSekolahs.nama);
+        // setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
         setAllPersonSekolahs(data.allPersonSekolahs);
-        setNamaSekolahs([...namaSekolahs, data.fasilitiSekolahs[0].nama]);
+        setNamaSekolahs(data.fasilitiSekolahs.nama);
         // setFasilitiSekolah(data.fasilitiSekolahs);
         setFilteredFasilitiSekolah(data.fasilitiSekolahs);
         setRefreshTimer(!refreshTimer);
@@ -305,7 +305,7 @@ function UserSekolah() {
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tahun:
+                  {pilihanSekolah.includes('MENENGAH') ? 'Tingkatan' : 'Tahun'}:
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
                   <select
@@ -424,7 +424,7 @@ function UserSekolah() {
                 {pilihanSekolah ? (
                   <span className='uppercase text-xs lg:text-sm w-full'>
                     {pilihanSekolah &&
-                    filteredFasilitiSekolah[0].sekolahSelesaiReten === true ? (
+                    filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -474,7 +474,9 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   RAWATAN
                 </th>
-                {!pilihanTahunTingkatan.includes('TINGKATAN') ? (
+                {pilihanSekolah &&
+                pilihanTahunTingkatan &&
+                !pilihanTahunTingkatan.includes('TINGKATAN') ? (
                   <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                     AKTIVITI BEGIN
                   </th>
@@ -483,6 +485,7 @@ function UserSekolah() {
             </thead>
             {!isLoading &&
               pilihanSekolah &&
+              pilihanTahunTingkatan &&
               allPersonSekolahs
                 .filter(
                   (person) =>
@@ -510,13 +513,13 @@ function UserSekolah() {
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 whitespace-nowrap text-left pl-0.5'>
                             {singlePersonSekolah.statusRawatan === 'enggan' ? (
-                              <FaTimesCircle className='text-user9 mx-2 inline-flex' />
+                              <FaTimes className='text-user9 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'tidak hadir' ? (
                               <FaCircle className='text-user9 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'enggan rawatan' ? (
-                              <FaTimesCircle className='text-user9 mx-2 inline-flex' />
+                              <FaTimes className='text-user9 mx-2 inline-flex' />
                             ) : singlePersonSekolah.statusRawatan ===
                               'tidak hadir rawatan' ? (
                               <FaCircle className='text-user9 mx-2 inline-flex' />
@@ -551,8 +554,8 @@ function UserSekolah() {
                                   ? 'pointer-events-none text-userBlack shadow-none'
                                   : singlePersonSekolah.pemeriksaanSekolah
                                   ? 'bg-user7 text-userWhite shadow-md'
-                                  : filteredFasilitiSekolah[0]
-                                      .sekolahSelesaiReten === true
+                                  : filteredFasilitiSekolah.sekolahSelesaiReten ===
+                                    true
                                   ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
                                   : 'bg-user6 text-userWhite shadow-md'
                               } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
@@ -564,14 +567,14 @@ function UserSekolah() {
                                 ? 'Tidak Hadir'
                                 : singlePersonSekolah.pemeriksaanSekolah
                                 ? 'lihat pemeriksaan'
-                                : filteredFasilitiSekolah[0]
-                                    .sekolahSelesaiReten === true
+                                : filteredFasilitiSekolah.sekolahSelesaiReten ===
+                                  true
                                 ? 'Pemeriksaan Ditutup'
                                 : 'Tambah Pemeriksaan'}
                             </Link>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                            {filteredFasilitiSekolah[0].sekolahSelesaiReten ===
+                            {filteredFasilitiSekolah.sekolahSelesaiReten ===
                             false ? (
                               <Link
                                 target='_blank'
@@ -986,7 +989,7 @@ function UserSekolah() {
                     </>
                   );
                 })}
-            {isLoading && (
+            {isLoading ? (
               <tbody className='bg-user4'>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1007,9 +1010,7 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {pilihanSekolah &&
-                  filteredFasilitiSekolah[0].jenisFasiliti ===
-                    'sekolah-rendah' ? (
+                  {pilihanSekolah && pilihanTahunTingkatan ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
@@ -1034,15 +1035,30 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {pilihanSekolah &&
-                  filteredFasilitiSekolah[0].jenisFasiliti ===
-                    'sekolah-rendah' ? (
+                  {pilihanSekolah && pilihanTahunTingkatan ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
                 </tr>
               </tbody>
+            ) : (
+              !pilihanTahunTingkatan && (
+                <tbody className='bg-user4'>
+                  <tr>
+                    <td
+                      colSpan={7}
+                      className='px-2 py-2 outline outline-1 outline-userWhite font-semibold text-lg outline-offset-1 '
+                    >
+                      Sila pilih{' '}
+                      {pilihanSekolah.includes('MENENGAH')
+                        ? 'Tingkatan'
+                        : 'Tahun'}{' '}
+                      dahulu
+                    </td>
+                  </tr>
+                </tbody>
+              )
             )}
           </table>
           {modalBegin && (
