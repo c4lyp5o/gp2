@@ -223,6 +223,13 @@ function UserFormSekolahRawatan() {
   }, []);
 
   const handleSubmit = async (e) => {
+    // if no data in confirmData, then return
+    if (Object.keys(confirmData).length === 0) {
+      toast.error('Sila pastikan anda telah mengisi data anda', {
+        autoClose: 3000,
+      });
+      return;
+    }
     let statusRawatan = '';
     if (
       kesSelesaiSekolahRawatan === 'tidak-kes-selesai-penyata-akhir-2' ||
@@ -245,7 +252,9 @@ function UserFormSekolahRawatan() {
     }
     let kesSelesaiMmi = false;
     if (
-      kesSelesaiIcdasSekolahRawatan === 'ya-kes-selesai-icdas-penyata-akhir-2'
+      kesSelesaiIcdasSekolahRawatan ===
+        'ya-kes-selesai-icdas-penyata-akhir-2' ||
+      singlePersonSekolah.kesSelesaiMmi === true
     ) {
       kesSelesaiMmi = true;
     }
