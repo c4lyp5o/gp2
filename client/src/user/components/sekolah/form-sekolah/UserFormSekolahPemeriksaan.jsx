@@ -13,6 +13,7 @@ function UserFormSekolahPemeriksaan() {
     userToken,
     reliefUserToken,
     username,
+    userinfo,
     useParams,
     masterDatePicker,
     toast,
@@ -794,6 +795,14 @@ function UserFormSekolahPemeriksaan() {
   }
 
   const handleSubmit = async (e) => {
+    let mdcMdtbNum = '';
+    if (!userinfo.mdtbNumber) {
+      mdcMdtbNum = userinfo.mdcNumber;
+    }
+    if (!userinfo.mdcNumber) {
+      mdcMdtbNum = userinfo.mdtbNumber;
+    }
+
     if (sumDMFXDesidus > 20) {
       toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
         autoClose: 3000,
@@ -876,15 +885,16 @@ function UserFormSekolahPemeriksaan() {
       kesSelesaiMmi = true;
     }
     const {
-      nama,
-      namaKelas,
-      namaSekolah,
       kodSekolah,
+      namaSekolah,
       idIndividu,
       nomborId,
+      nama,
       tahunTingkatan,
+      kelasPelajar,
     } = singlePersonSekolah;
-    // return;
+
+    // block tambah-pemeriksaan je yang guna sbb dah xleh edit pemeriksaan
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
       await toast
         .promise(
@@ -892,13 +902,15 @@ function UserFormSekolahPemeriksaan() {
             `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
             {
               createdByUsername,
-              nama,
-              namaKelas,
-              namaSekolah,
+              createdByMdcMdtb: mdcMdtbNum,
+              //
               kodSekolah,
+              namaSekolah,
               idIndividu,
               nomborId,
+              nama,
               tahunTingkatan,
+              kelasPelajar,
               statusRawatan,
               kesSelesaiMmi,
               engganTidakHadirPemeriksaan,
@@ -1010,124 +1022,124 @@ function UserFormSekolahPemeriksaan() {
           }, 3000);
         });
     }
-    if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
-      await toast
-        .promise(
-          axios.patch(
-            `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-            {
-              createdByUsername,
-              statusRawatan,
-              kesSelesaiMmi,
-              engganTidakHadirPemeriksaan,
-              engganPemeriksaan,
-              kebenaranPemeriksaan,
-              tidakHadirPemeriksaan,
-              tarikhPemeriksaanSemasa,
-              statikBergerak,
-              kpBergerak,
-              plateNo,
-              yaTidakSediaAdaStatusDenture,
-              separaPenuhAtasSediaAdaDenture,
-              separaPenuhBawahSediaAdaDenture,
-              yaTidakPerluStatusDenture,
-              separaPenuhAtasPerluDenture,
-              separaPenuhBawahPerluDenture,
-              kebersihanMulutOralHygiene,
-              skorBpeOralHygiene,
-              saringanKanserMulutOralHygiene,
-              skorGisMulutOralHygiene,
-              perluPenskaleranOralHygiene,
-              statusPeriodontium,
-              yaTidakPesakitMempunyaiGigi,
-              adaDesidus,
-              dAdaGigiDesidus,
-              fAdaGigiDesidus,
-              xAdaGigiDesidus,
-              adaKekal,
-              dAdaGigiKekal,
-              mAdaGigiKekal,
-              fAdaGigiKekal,
-              eAdaGigiKekal,
-              xAdaGigiKekal,
-              jumlahFaktorRisiko,
-              adaCleftLip,
-              rujukCleftLip,
-              kecederaanGigiAnteriorTrauma,
-              tisuLembutTrauma,
-              tisuKerasTrauma,
-              gicBilanganFsDibuat3TahunLepas,
-              resinBilanganFsDibuat3TahunLepas,
-              lainLainBilanganFsDibuat3TahunLepas,
-              dBilanganFsDibuat3TahunLepasTerjadi,
-              mBilanganFsDibuat3TahunLepasTerjadi,
-              fBilanganFsDibuat3TahunLepasTerjadi,
-              eBilanganFsDibuat3TahunLepasTerjadi,
-              xBilanganFsDibuat3TahunLepasTerjadi,
-              toothSurfaceLoss,
-              classID,
-              classIID,
-              classIF,
-              classIIF,
-              baruJumlahGigiKekalPerluFs,
-              baruJumlahMuridPerluFs,
-              baruJumlahGigiKekalPerluFv,
-              semulaJumlahGigiKekalPerluFv,
-              baruJumlahMuridPerluFv,
-              semulaJumlahMuridPerluFv,
-              baruJumlahGigiKekalPerluPrrJenis1,
-              semulaJumlahGigiKekalPerluPrrJenis1,
-              baruJumlahMuridPerluPrrJenis1,
-              semulaJumlahMuridPerluPrrJenis1,
-              yaTidakSilverDiamineFluoridePerluSapuan,
-              baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
-              baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
-              baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
-              baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
-              baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
-              semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
-              baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
-              semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
-              statusM,
-              menerimaNasihatRingkas,
-              melaksanakanSaringanMerokok,
-              bersediaDirujuk,
-              noTelMuridKotak,
-              kesSelesai,
-              kesSelesaiIcdas,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
-          {
-            pending: 'Mengemaskini...',
-            success: 'Pemeriksaan pelajar berjaya dikemaskini',
-            error: 'Pemeriksaan pelajar gagal dikemaskini',
-          },
-          {
-            autoClose: 2000,
-          }
-        )
-        .then(() => {
-          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-            autoClose: 2000,
-          });
-          setTimeout(() => {
-            window.opener = null;
-            window.open('', '_self');
-            window.close();
-          }, 3000);
-        });
-    }
+    // if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
+    //   await toast
+    //     .promise(
+    //       axios.patch(
+    //         `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
+    //         {
+    //           createdByUsername,
+    //           statusRawatan,
+    //           kesSelesaiMmi,
+    //           engganTidakHadirPemeriksaan,
+    //           engganPemeriksaan,
+    //           kebenaranPemeriksaan,
+    //           tidakHadirPemeriksaan,
+    //           tarikhPemeriksaanSemasa,
+    //           statikBergerak,
+    //           kpBergerak,
+    //           plateNo,
+    //           yaTidakSediaAdaStatusDenture,
+    //           separaPenuhAtasSediaAdaDenture,
+    //           separaPenuhBawahSediaAdaDenture,
+    //           yaTidakPerluStatusDenture,
+    //           separaPenuhAtasPerluDenture,
+    //           separaPenuhBawahPerluDenture,
+    //           kebersihanMulutOralHygiene,
+    //           skorBpeOralHygiene,
+    //           saringanKanserMulutOralHygiene,
+    //           skorGisMulutOralHygiene,
+    //           perluPenskaleranOralHygiene,
+    //           statusPeriodontium,
+    //           yaTidakPesakitMempunyaiGigi,
+    //           adaDesidus,
+    //           dAdaGigiDesidus,
+    //           fAdaGigiDesidus,
+    //           xAdaGigiDesidus,
+    //           adaKekal,
+    //           dAdaGigiKekal,
+    //           mAdaGigiKekal,
+    //           fAdaGigiKekal,
+    //           eAdaGigiKekal,
+    //           xAdaGigiKekal,
+    //           jumlahFaktorRisiko,
+    //           adaCleftLip,
+    //           rujukCleftLip,
+    //           kecederaanGigiAnteriorTrauma,
+    //           tisuLembutTrauma,
+    //           tisuKerasTrauma,
+    //           gicBilanganFsDibuat3TahunLepas,
+    //           resinBilanganFsDibuat3TahunLepas,
+    //           lainLainBilanganFsDibuat3TahunLepas,
+    //           dBilanganFsDibuat3TahunLepasTerjadi,
+    //           mBilanganFsDibuat3TahunLepasTerjadi,
+    //           fBilanganFsDibuat3TahunLepasTerjadi,
+    //           eBilanganFsDibuat3TahunLepasTerjadi,
+    //           xBilanganFsDibuat3TahunLepasTerjadi,
+    //           toothSurfaceLoss,
+    //           classID,
+    //           classIID,
+    //           classIF,
+    //           classIIF,
+    //           baruJumlahGigiKekalPerluFs,
+    //           baruJumlahMuridPerluFs,
+    //           baruJumlahGigiKekalPerluFv,
+    //           semulaJumlahGigiKekalPerluFv,
+    //           baruJumlahMuridPerluFv,
+    //           semulaJumlahMuridPerluFv,
+    //           baruJumlahGigiKekalPerluPrrJenis1,
+    //           semulaJumlahGigiKekalPerluPrrJenis1,
+    //           baruJumlahMuridPerluPrrJenis1,
+    //           semulaJumlahMuridPerluPrrJenis1,
+    //           yaTidakSilverDiamineFluoridePerluSapuan,
+    //           baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
+    //           semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
+    //           baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
+    //           semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
+    //           baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
+    //           semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
+    //           baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
+    //           semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
+    //           baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
+    //           semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
+    //           baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
+    //           semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
+    //           statusM,
+    //           menerimaNasihatRingkas,
+    //           melaksanakanSaringanMerokok,
+    //           bersediaDirujuk,
+    //           noTelMuridKotak,
+    //           kesSelesai,
+    //           kesSelesaiIcdas,
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${
+    //               reliefUserToken ? reliefUserToken : userToken
+    //             }`,
+    //           },
+    //         }
+    //       ),
+    //       {
+    //         pending: 'Mengemaskini...',
+    //         success: 'Pemeriksaan pelajar berjaya dikemaskini',
+    //         error: 'Pemeriksaan pelajar gagal dikemaskini',
+    //       },
+    //       {
+    //         autoClose: 2000,
+    //       }
+    //     )
+    //     .then(() => {
+    //       toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+    //         autoClose: 2000,
+    //       });
+    //       setTimeout(() => {
+    //         window.opener = null;
+    //         window.open('', '_self');
+    //         window.close();
+    //       }, 3000);
+    //     });
+    // }
   };
 
   return (
@@ -1195,7 +1207,7 @@ function UserFormSekolahPemeriksaan() {
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
                         {singlePersonSekolah.tahun}{' '}
-                        {singlePersonSekolah.namaKelas}
+                        {singlePersonSekolah.kelasPelajar}
                       </p>
                     </div>
                   </div>

@@ -13,8 +13,8 @@ function UserFormSekolahRawatan() {
   const {
     userToken,
     reliefUserToken,
-    dateToday,
     username,
+    userinfo,
     useParams,
     masterDatePicker,
     toast,
@@ -230,6 +230,15 @@ function UserFormSekolahRawatan() {
       });
       return;
     }
+
+    let mdcMdtbNum = '';
+    if (!userinfo.mdtbNumber) {
+      mdcMdtbNum = userinfo.mdcNumber;
+    }
+    if (!userinfo.mdcNumber) {
+      mdcMdtbNum = userinfo.mdtbNumber;
+    }
+
     let statusRawatan = '';
     if (
       kesSelesaiSekolahRawatan === 'tidak-kes-selesai-penyata-akhir-2' ||
@@ -264,6 +273,8 @@ function UserFormSekolahRawatan() {
           `/api/v1/sekolah/rawatan/${personSekolahId}`,
           {
             createdByUsername,
+            createdByMdcMdtb: mdcMdtbNum,
+            //
             statusRawatan,
             kesSelesaiMmi,
             tarikhRawatanSemasa,
