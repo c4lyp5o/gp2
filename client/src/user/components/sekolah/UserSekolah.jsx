@@ -1010,7 +1010,9 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {pilihanSekolah && pilihanTahunTingkatan ? (
+                  {pilihanSekolah &&
+                  pilihanTahunTingkatan &&
+                  !pilihanTahunTingkatan.includes('TINGKATAN') ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
@@ -1035,7 +1037,9 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {pilihanSekolah && pilihanTahunTingkatan ? (
+                  {pilihanSekolah &&
+                  pilihanTahunTingkatan &&
+                  !pilihanTahunTingkatan.includes('TINGKATAN') ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
