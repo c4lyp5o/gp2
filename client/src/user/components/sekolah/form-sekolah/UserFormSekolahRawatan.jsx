@@ -1559,7 +1559,7 @@ function UserFormSekolahRawatan() {
                     {pilihanRawatan.includes('rujukan') ||
                     pilihanRawatan.includes('lihat-semua') ? (
                       <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                        <div className='flex flex-row items-center pl-5 m-2'>
+                        {/* <div className='flex flex-row items-center pl-5 m-2'>
                           <input
                             type='checkbox'
                             name='rujuk-penyata-akhir-2'
@@ -1580,12 +1580,8 @@ function UserFormSekolahRawatan() {
                           >
                             rujukan
                           </label>
-                        </div>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center pl-5 m-2`}
-                        >
+                        </div> */}
+                        <div className=' flex flex-row items-center m-2 pl-5 mt-3'>
                           <input
                             type='checkbox'
                             name='rujukan-ke-klinik'
@@ -1601,7 +1597,7 @@ function UserFormSekolahRawatan() {
                                   !rujukKlinikSekolahRawatan,
                               });
                             }}
-                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label
                             htmlFor='rujukan-ke-klinik'
@@ -1610,11 +1606,7 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Klinik Pergigian
                           </label>
                         </div>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center pl-5 m-2`}
-                        >
+                        <div className=' flex flex-row items-center m-2 pl-5'>
                           <input
                             type='checkbox'
                             name='rawatan-ortodontik-penyata-akhir-2'
@@ -1630,7 +1622,7 @@ function UserFormSekolahRawatan() {
                                   !rujukRawatanOrtodontikSekolahRawatan,
                               });
                             }}
-                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label
                             htmlFor='rawatan-ortodontik-penyata-akhir-2'
@@ -1639,11 +1631,7 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Pakar ortodontik
                           </label>
                         </div>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center pl-5 m-2`}
-                        >
+                        <div className=' flex flex-row items-center m-2 pl-5'>
                           <input
                             type='checkbox'
                             name='rujukan-pakar-patologi'
@@ -1659,7 +1647,7 @@ function UserFormSekolahRawatan() {
                                   !rujukPakarPatologiSekolahRawatan,
                               });
                             }}
-                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label
                             htmlFor='rujukan-pakar-patologi'
@@ -1668,11 +1656,7 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut
                           </label>
                         </div>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center pl-5 m-2`}
-                        >
+                        <div className=' flex flex-row items-center m-2 pl-5'>
                           <input
                             type='checkbox'
                             name='rujukan-pakar-restoratif'
@@ -1688,7 +1672,7 @@ function UserFormSekolahRawatan() {
                                   !rujukPakarRestoratifSekolahRawatan,
                               });
                             }}
-                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label
                             htmlFor='rujukan-pakar-restoratif'
@@ -1697,11 +1681,7 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Pakar Restoratif
                           </label>
                         </div>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center pl-5 m-2`}
-                        >
+                        <div className=' flex flex-row items-center m-2 pl-5'>
                           <input
                             type='checkbox'
                             name='rujukan-pakar-bedah-mulut'
@@ -1717,7 +1697,7 @@ function UserFormSekolahRawatan() {
                                   !rujukPakarBedahMulutSekolahRawatan,
                               });
                             }}
-                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label
                             htmlFor='rujukan-pakar-bedah-mulut'
@@ -1726,11 +1706,7 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Pakar bedah mulut dan maksilofasial
                           </label>
                         </div>
-                        <div
-                          className={`${
-                            !rujukSekolahRawatan && 'hidden'
-                          } flex flex-row items-center pl-5 m-2`}
-                        >
+                        <div className=' flex flex-row items-center m-2 pl-5'>
                           <input
                             type='checkbox'
                             name='rujukan-pakar-pediatrik'
@@ -1746,7 +1722,7 @@ function UserFormSekolahRawatan() {
                                   !rujukPakarPediatrikSekolahRawatan,
                               });
                             }}
-                            className='ml-7 w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
                           <label
                             htmlFor='rujukan-pakar-pediatrik'
