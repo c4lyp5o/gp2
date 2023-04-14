@@ -50,6 +50,15 @@ const UserKohortKotakForm = lazy(() =>
   import('../components/kohort/KOTAK/FormKOTAK')
 );
 const UserKohortFMR = lazy(() => import('../components/kohort/FMR/FMR'));
+const UserDaftarMuridMasukKohortFMR = lazy(() =>
+  import('../components/kohort/FMR/DaftarMuridMasukKohortFMR')
+);
+const UserDaftarMuridBuatKumuranFMR = lazy(() =>
+  import('../components/kohort/FMR/DaftarMuridBuatKumuranFMR')
+);
+const UserDaftarMuridKohortBuatKumuranFMR = lazy(() =>
+  import('../components/kohort/FMR/DaftarMuridKohortBuatKumuranFMR')
+);
 const UserListMuridFMR = lazy(() =>
   import('../components/kohort/FMR/RegisterListMuridFMR')
 );
@@ -263,6 +272,30 @@ function UserAfterLogin() {
                 }
               />
               <Route
+                path='kohort/fmr/daftar-murid/:singleSekolahFMRId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserDaftarMuridMasukKohortFMR />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/fmr/daftar-kumur'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserDaftarMuridBuatKumuranFMR />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/fmr/daftar-kumur-kohort'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserDaftarMuridKohortBuatKumuranFMR />{' '}
+                  </Suspense>
+                }
+              />
+              {/* <Route
                 path='kohort/fmr/daftar'
                 element={
                   <Suspense fallback={<Loading />}>
@@ -285,7 +318,7 @@ function UserAfterLogin() {
                     <UserCarianMuridFMR />{' '}
                   </Suspense>
                 }
-              />
+              /> */}
             </>
           ) : null}
 
