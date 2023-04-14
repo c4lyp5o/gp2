@@ -30,10 +30,6 @@ function UserFormKohortKOTAK() {
 
   const createdByUsername = username;
   const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
-  const [statusM, setStatusM] = useState('');
-  const [inginMelakukanIntervensiMerokok, setInginMelakukanIntervensiMerokok] =
-    useState('');
-  const [menerimaNasihatRingkas, setMenerimaNasihatRingkas] = useState('');
   const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
   const [elektronikVapeKotak, setElektronikVapeKotak] = useState(false);
   const [shishaKotak, setShishaKotak] = useState(false);
@@ -48,6 +44,7 @@ function UserFormKohortKOTAK() {
   const [adaTiadaQTarikh4, setAdaTiadaQTarikh4] = useState('');
   const [rujukGuruKaunseling, setRujukGuruKaunseling] = useState('');
   const [tarikhQ, setTarikhQ] = useState('');
+  const [noTelefon, setNoTelefon] = useState('');
   const [noTel2, setNoTel2] = useState('');
   const [noTel3, setNoTel3] = useState('');
   const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
@@ -139,72 +136,82 @@ function UserFormKohortKOTAK() {
     });
   };
 
-  //reset value
-  useEffect(() => {
-    if (
-      statusM === 'perokok-pasif' ||
-      statusM === 'bekas-perokok' ||
-      statusM === 'bukan-perokok' ||
-      statusM === ''
-    ) {
-      setInginMelakukanIntervensiMerokok('');
+  //set specific value from date eg range january-june 2023
+  const cohortKotak = () => {
+    const rangeMonth = moment().month() + 1;
+    const rangeYear = moment().year();
+    if (rangeMonth >= 1 && rangeMonth <= 6) {
+      return `JANUARI-JUN ${rangeYear}`;
+    } else {
+      return `JULAI-DISEMBER ${rangeYear}`;
     }
-    // if (adaTiadaQTarikh1 === 'ada-q-tarikh1') {
-    //   setTarikh2('');
-    //   setTarikhQ2DP(null);
-    //   setAdaTiadaQTarikh2('');
-    //   setTarikh3('');
-    //   setAdaTiadaQTarikh3('');
-    //   setTarikhQ3DP(null);
-    //   setTarikh4('');
-    //   setAdaTiadaQTarikh4('');
-    //   setTarikhQ4DP(null);
-    // }
-    // if (adaTiadaQTarikh2 === 'ada-q-tarikh2') {
-    //   setTarikh3('');
-    //   setAdaTiadaQTarikh3('');
-    //   setTarikhQ3DP(null);
-    //   setTarikh4('');
-    //   setAdaTiadaQTarikh4('');
-    //   setTarikhQ4DP(null);
-    // }
-    // if (adaTiadaQTarikh3 === 'ada-q-tarikh3') {
-    //   setTarikh4('');
-    //   setAdaTiadaQTarikh4('');
-    //   setTarikhQ4DP(null);
-    // }
-    // if (adaTiadaQTarikh1 === 'tiada-q-tarikh1') {
-    //   setTarikhQ('');
-    //   setTarikhQDP(null);
-    //   setStatusSelepas6Bulan('');
-    // }
-    // if (adaTiadaQTarikh2 === 'tiada-q-tarikh2') {
-    //   setTarikhQ('');
-    //   setTarikhQDP(null);
-    //   setStatusSelepas6Bulan('');
-    // }
-    // if (adaTiadaQTarikh3 === 'tiada-q-tarikh3') {
-    //   setTarikhQ('');
-    //   setTarikhQDP(null);
-    //   setStatusSelepas6Bulan('');
-    //   setRujukGuruKaunseling('');
-    // }
-    // if (adaTiadaQTarikh4 === 'tiada-q-tarikh4') {
-    //   setTarikhQ('');
-    //   setTarikhQDP(null);
-    //   setStatusSelepas6Bulan('');
-    //   setRujukGuruKaunseling('');
-    // }
-  }, [
-    statusM,
-    adaTiadaQTarikh1,
-    adaTiadaQTarikh2,
-    adaTiadaQTarikh3,
-    adaTiadaQTarikh4,
-    tarikhQ2DP,
-    tarikhQ3DP,
-    tarikhQ4DP,
-  ]);
+  };
+
+  //reset value
+  // useEffect(() => {
+  // if (
+  //   statusM === 'perokok-pasif' ||
+  //   statusM === 'bekas-perokok' ||
+  //   statusM === 'bukan-perokok' ||
+  //   statusM === ''
+  // ) {
+  //   setInginMelakukanIntervensiMerokok('');
+  // }
+  // if (adaTiadaQTarikh1 === 'ada-q-tarikh1') {
+  //   setTarikh2('');
+  //   setTarikhQ2DP(null);
+  //   setAdaTiadaQTarikh2('');
+  //   setTarikh3('');
+  //   setAdaTiadaQTarikh3('');
+  //   setTarikhQ3DP(null);
+  //   setTarikh4('');
+  //   setAdaTiadaQTarikh4('');
+  //   setTarikhQ4DP(null);
+  // }
+  // if (adaTiadaQTarikh2 === 'ada-q-tarikh2') {
+  //   setTarikh3('');
+  //   setAdaTiadaQTarikh3('');
+  //   setTarikhQ3DP(null);
+  //   setTarikh4('');
+  //   setAdaTiadaQTarikh4('');
+  //   setTarikhQ4DP(null);
+  // }
+  // if (adaTiadaQTarikh3 === 'ada-q-tarikh3') {
+  //   setTarikh4('');
+  //   setAdaTiadaQTarikh4('');
+  //   setTarikhQ4DP(null);
+  // }
+  // if (adaTiadaQTarikh1 === 'tiada-q-tarikh1') {
+  //   setTarikhQ('');
+  //   setTarikhQDP(null);
+  //   setStatusSelepas6Bulan('');
+  // }
+  // if (adaTiadaQTarikh2 === 'tiada-q-tarikh2') {
+  //   setTarikhQ('');
+  //   setTarikhQDP(null);
+  //   setStatusSelepas6Bulan('');
+  // }
+  // if (adaTiadaQTarikh3 === 'tiada-q-tarikh3') {
+  //   setTarikhQ('');
+  //   setTarikhQDP(null);
+  //   setStatusSelepas6Bulan('');
+  //   setRujukGuruKaunseling('');
+  // }
+  // if (adaTiadaQTarikh4 === 'tiada-q-tarikh4') {
+  //   setTarikhQ('');
+  //   setTarikhQDP(null);
+  //   setStatusSelepas6Bulan('');
+  //   setRujukGuruKaunseling('');
+  // }
+  // }, [
+  //   adaTiadaQTarikh1,
+  //   adaTiadaQTarikh2,
+  //   adaTiadaQTarikh3,
+  //   adaTiadaQTarikh4,
+  //   tarikhQ2DP,
+  //   tarikhQ3DP,
+  //   tarikhQ4DP,
+  // ]);
 
   // set isJenisRokokRequired to true or false
   useEffect(() => {
@@ -247,13 +254,6 @@ function UserFormKohortKOTAK() {
         if (statusKotak !== 'belum mula') {
           setDalamPemantauanKohort(
             data.singlePersonKohortKotak.dalamPemantauanKohort
-          );
-          setStatusM(data.singlePersonKohortKotak.statusM);
-          setMenerimaNasihatRingkas(
-            data.singlePersonKohortKotak.menerimaNasihatRingkas
-          );
-          setInginMelakukanIntervensiMerokok(
-            data.singlePersonKohortKotak.inginMelakukanIntervensiMerokok
           );
           setRokokBiasaKotak(data.singlePersonKohortKotak.rokokBiasaKotak);
           setElektronikVapeKotak(
@@ -314,8 +314,10 @@ function UserFormKohortKOTAK() {
 
   const handleSubmit = async () => {
     let statusKotak = '';
+    let dalamPemantauanKohort = '';
     if (tarikh1 !== '') {
       statusKotak = 'selesai sesi 1';
+      dalamPemantauanKohort = cohortKotak(tarikh1);
     }
     if (tarikh2 !== '') {
       statusKotak = 'selesai sesi 2';
@@ -331,9 +333,6 @@ function UserFormKohortKOTAK() {
             createdByUsername,
             statusKotak,
             dalamPemantauanKohort,
-            statusM,
-            menerimaNasihatRingkas,
-            inginMelakukanIntervensiMerokok,
             rokokBiasaKotak,
             elektronikVapeKotak,
             shishaKotak,
@@ -471,229 +470,6 @@ function UserFormKohortKOTAK() {
                   <p className='ml-3 text-xl font-semibold'>Program KOTAK</p>
                 </span>
                 <section className='grid grid-cols-1 md:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2'>
-                  {/* <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      Program KOTAK<span className='text-user6'>*</span>
-                    </h4>
-                    <div className='flex flex-row items-center text-sm font-m col-span-2'>
-                      <p className='flex flex-row pl-5 '>
-                        dalam pemantauan kohort
-                        <span className='text-user6'>*</span>
-                      </p>
-                      <div className='flex items-center justify-center ml-2'>
-                        <input
-                          required
-                          type='radio'
-                          name='dalam-pemantauan-kohort'
-                          id='ya-dalam-pemantauan-kohort'
-                          value='ya-dalam-pemantauan-kohort'
-                          checked={
-                            dalamPemantauanKohort ===
-                            'ya-dalam-pemantauan-kohort'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setDalamPemantauanKohort(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              dalamPemantauanKohort: e.target.value,
-                            });
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='ya-dalam-pemantauan-kohort'
-                          className='m-2 text-sm font-m'
-                        >
-                          Ya
-                        </label>
-                        <input
-                          required
-                          type='radio'
-                          name='dalam-pemantauan-kohort'
-                          id='tidak-dalam-pemantauan-kohort'
-                          value='tidak-dalam-pemantauan-kohort'
-                          checked={
-                            dalamPemantauanKohort ===
-                            'tidak-dalam-pemantauan-kohort'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setDalamPemantauanKohort(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              dalamPemantauanKohort: e.target.value,
-                            });
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='tidak-dalam-pemantauan-kohort'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tidak
-                        </label>
-                      </div>
-                    </div>
-                    {dalamPemantauanKohort ===
-                      'tidak-dalam-pemantauan-kohort' && (
-                      <div className='flex flex-col pl-5 col-span-2'>
-                        <h4 className='font-bold flex flex-row'>
-                          status merokok<span className='text-user6'>*</span>
-                        </h4>
-                        <select
-                          required
-                          name='statusM'
-                          id='statusM'
-                          value={statusM}
-                          onChange={(e) => {
-                            setStatusM(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              statusM: e.target.value,
-                            });
-                          }}
-                          className='outline outline-1 outline-userBlack w-32 my-1 text-sm font-normal'
-                        >
-                          <option value=''></option>
-                          <option value='perokok-semasa'>Perokok Semasa</option>
-                          <option value='bekas-perokok'>Bekas Perokok</option>
-                          <option value='perokok-pasif'>Perokok Pasif</option>
-                          <option value='bukan-perokok'>Bukan Perokok</option>
-                        </select>
-                      </div>
-                    )}
-                    <div className='col-span-2 flex flex-row'>
-                      <p className='flex items-center pl-5 text-sm font-m col-span-2'>
-                        adakah pesakit menerima nasihat ringkas?
-                        <span className='text-user6'>*</span>
-                      </p>
-                      <div className='flex items-center pl-5'>
-                        <input
-                          required
-                          type='radio'
-                          name='menerima-nasihat-ringkas'
-                          id='ya-menerima-nasihat-ringkas'
-                          value='ya-menerima-nasihat-ringkas'
-                          checked={
-                            menerimaNasihatRingkas ===
-                            'ya-menerima-nasihat-ringkas'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setMenerimaNasihatRingkas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              menerimaNasihatRingkas: e.target.value,
-                            });
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='ya-menerima-nasihat-ringkas'
-                          className='m-2 text-sm font-m'
-                        >
-                          Ya
-                        </label>
-                        <input
-                          required={statusM === 'perokok-semasa' ? true : false}
-                          type='radio'
-                          name='menerima-nasihat-ringkas'
-                          id='tidak-menerima-nasihat-ringkas'
-                          value='tidak-menerima-nasihat-ringkas'
-                          checked={
-                            menerimaNasihatRingkas ===
-                            'tidak-menerima-nasihat-ringkas'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setMenerimaNasihatRingkas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              menerimaNasihatRingkas: e.target.value,
-                            });
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='tidak-menerima-nasihat-ringkas'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tidak
-                        </label>
-                      </div>
-                    </div>
-                    <div
-                      className={`${
-                        statusM === 'perokok-semasa' ? 'visible' : 'hidden'
-                      } col-span-2`}
-                    >
-                      <p className='flex items-center justify-center pl-5 text-sm font-m col-span-2'>
-                        ingin melakukan intervensi merokok?
-                        <span className='text-user6'>*</span>
-                      </p>
-                      <div className='flex items-center justify-center'>
-                        <input
-                          required={statusM === 'perokok-semasa' ? true : false}
-                          type='radio'
-                          name='ingin-melakukan-intervensi-merokok'
-                          id='ya-ingin-melakukan-intervensi-merokok'
-                          value='ya-ingin-melakukan-intervensi-merokok'
-                          checked={
-                            inginMelakukanIntervensiMerokok ===
-                            'ya-ingin-melakukan-intervensi-merokok'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setInginMelakukanIntervensiMerokok(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              inginMelakukanIntervensiMerokok: e.target.value,
-                            });
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='ya-ingin-melakukan-intervensi-merokok'
-                          className='m-2 text-sm font-m'
-                        >
-                          Ya
-                        </label>
-                        <input
-                          required={statusM === 'perokok-semasa' ? true : false}
-                          type='radio'
-                          name='ingin-melakukan-intervensi-merokok'
-                          id='tidak-ingin-melakukan-intervensi-merokok'
-                          value='tidak-ingin-melakukan-intervensi-merokok'
-                          checked={
-                            inginMelakukanIntervensiMerokok ===
-                            'tidak-ingin-melakukan-intervensi-merokok'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            setInginMelakukanIntervensiMerokok(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              inginMelakukanIntervensiMerokok: e.target.value,
-                            });
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='tidak-ingin-melakukan-intervensi-merokok'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tidak
-                        </label>
-                      </div>
-                    </div>
-                  </article> */}
                   <div className='col-span-2'>
                     <article className='flex flex-col gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5 col-span-3'>
@@ -705,14 +481,20 @@ function UserFormKohortKOTAK() {
                             No. Telefon 1:
                           </p>
                           <input
-                            readOnly
                             type='text'
                             pattern='[0-9]+'
                             title='Nombor telefon'
                             name='no-tel-1'
                             id='no-tel-1'
-                            value={singlePersonKohortKotak.noTelefon}
-                            className='w-40 h-10 border border-userBlack rounded-md pl-2 focus:outline-none'
+                            value={noTelefon}
+                            onChange={(e) => {
+                              setNoTelefon(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                noTelefon: e.target.value,
+                              });
+                            }}
+                            className='w-40 h-10 border border-userBlack rounded-md pl-2'
                             placeholder='0123456678'
                           />
                         </div>
@@ -763,343 +545,341 @@ function UserFormKohortKOTAK() {
                       </div>
                     </article>
                   </div>
-                  {dalamPemantauanKohort !== 'ya-dalam-pemantauan-kohort' ? (
-                    <div className='col-span-2 grid grid-cols-1 lg:grid-cols-3 gap-2'>
-                      <article className='grid grid-cols-1 col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          tarikh intervensi dilaksanakan
-                        </h4>
-                        <div className='flex pl-5 justify-center'>
-                          <div className='flex items-center flex-col lg:flex-row '>
-                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                              Sesi 1:
+                  <div className='col-span-2 grid grid-cols-1 lg:grid-cols-3 gap-2'>
+                    <article className='grid grid-cols-1 col-span-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold flex flex-row pl-5'>
+                        tarikh intervensi dilaksanakan
+                      </h4>
+                      <div className='flex pl-5 justify-center'>
+                        <div className='flex items-center flex-col lg:flex-row '>
+                          <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                            Sesi 1:
+                            <span className='text-user6 text-xl font-semibold'>
+                              *
+                            </span>
+                          </p>
+                          <TarikhQ1 />
+                        </div>
+                        <div className='flex items-center flex-col lg:flex-row pl-5'>
+                          <label
+                            htmlFor='ada-tiada-q-tarikh1'
+                            className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                          >
+                            tarikh rancang berhenti merokok :
+                          </label>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              required
+                              disabled={tarikh1 === '' ? true : false}
+                              type='radio'
+                              name='ada-tiada-q-tarikh1'
+                              id='ada-q-tarikh1'
+                              value='ada-q-tarikh1'
+                              checked={
+                                adaTiadaQTarikh1 === 'ada-q-tarikh1'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setAdaTiadaQTarikh1(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaTiadaQTarikh1: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='ada-q-tarikh1'
+                              className='m-2 text-xs sm:text-sm font-m'
+                            >
+                              ada
+                            </label>
+                            <input
+                              required
+                              disabled={tarikh1 === '' ? true : false}
+                              type='radio'
+                              name='ada-tiada-q-tarikh1'
+                              id='tiada-q-tarikh1'
+                              value='tiada-q-tarikh1'
+                              checked={
+                                adaTiadaQTarikh1 === 'tiada-q-tarikh1'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setAdaTiadaQTarikh1(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaTiadaQTarikh1: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tiada-q-tarikh1'
+                              className='m-2 text-xs sm:text-sm font-m'
+                            >
+                              tiada
+                            </label>
+                          </div>
+                        </div>
+                      </div>
+                      <div className='flex pl-5 justify-center'>
+                        <div className='flex items-center flex-col lg:flex-row'>
+                          <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                            Sesi 2:
+                            {tarikh2 && (
                               <span className='text-user6 text-xl font-semibold'>
                                 *
                               </span>
-                            </p>
-                            <TarikhQ1 />
-                          </div>
-                          <div className='flex items-center flex-col lg:flex-row pl-5'>
+                            )}
+                          </p>
+                          <TarikhQ2 />
+                        </div>
+                        <div className='flex items-center flex-col lg:flex-row pl-5'>
+                          <label
+                            htmlFor='ada-tiada-q-tarikh1'
+                            className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                          >
+                            tarikh rancang berhenti merokok :
+                          </label>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              required={tarikh2 ? true : false}
+                              disabled={tarikh2 === '' ? true : false}
+                              type='radio'
+                              name='ada-tiada-q-tarikh2'
+                              id='ada-q-tarikh2'
+                              value='ada-q-tarikh2'
+                              checked={
+                                adaTiadaQTarikh2 === 'ada-q-tarikh2'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setAdaTiadaQTarikh2(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaTiadaQTarikh2: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
                             <label
-                              htmlFor='ada-tiada-q-tarikh1'
-                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                              htmlFor='ada-q-tarikh2'
+                              className='m-2 text-xs sm:text-sm font-m'
                             >
-                              tarikh rancang berhenti merokok :
+                              ada
                             </label>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                required
-                                disabled={tarikh1 === '' ? true : false}
-                                type='radio'
-                                name='ada-tiada-q-tarikh1'
-                                id='ada-q-tarikh1'
-                                value='ada-q-tarikh1'
-                                checked={
-                                  adaTiadaQTarikh1 === 'ada-q-tarikh1'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setAdaTiadaQTarikh1(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    adaTiadaQTarikh1: e.target.value,
-                                  });
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='ada-q-tarikh1'
-                                className='m-2 text-xs sm:text-sm font-m'
-                              >
-                                ada
-                              </label>
-                              <input
-                                required
-                                disabled={tarikh1 === '' ? true : false}
-                                type='radio'
-                                name='ada-tiada-q-tarikh1'
-                                id='tiada-q-tarikh1'
-                                value='tiada-q-tarikh1'
-                                checked={
-                                  adaTiadaQTarikh1 === 'tiada-q-tarikh1'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setAdaTiadaQTarikh1(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    adaTiadaQTarikh1: e.target.value,
-                                  });
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='tiada-q-tarikh1'
-                                className='m-2 text-xs sm:text-sm font-m'
-                              >
-                                tiada
-                              </label>
-                            </div>
-                          </div>
-                        </div>
-                        <div className='flex pl-5 justify-center'>
-                          <div className='flex items-center flex-col lg:flex-row'>
-                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                              Sesi 2:
-                              {tarikh2 && (
-                                <span className='text-user6 text-xl font-semibold'>
-                                  *
-                                </span>
-                              )}
-                            </p>
-                            <TarikhQ2 />
-                          </div>
-                          <div className='flex items-center flex-col lg:flex-row pl-5'>
+                            <input
+                              required={tarikh2 ? true : false}
+                              disabled={tarikh2 === '' ? true : false}
+                              type='radio'
+                              name='ada-tiada-q-tarikh2'
+                              id='tiada-q-tarikh2'
+                              value='tiada-q-tarikh2'
+                              checked={
+                                adaTiadaQTarikh2 === 'tiada-q-tarikh2'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setAdaTiadaQTarikh2(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaTiadaQTarikh2: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
                             <label
-                              htmlFor='ada-tiada-q-tarikh1'
-                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                              htmlFor='tiada-q-tarikh2'
+                              className='m-2 text-xs sm:text-sm font-m'
                             >
-                              tarikh rancang berhenti merokok :
+                              tiada
                             </label>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                required={tarikh2 ? true : false}
-                                disabled={tarikh2 === '' ? true : false}
-                                type='radio'
-                                name='ada-tiada-q-tarikh2'
-                                id='ada-q-tarikh2'
-                                value='ada-q-tarikh2'
-                                checked={
-                                  adaTiadaQTarikh2 === 'ada-q-tarikh2'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setAdaTiadaQTarikh2(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    adaTiadaQTarikh2: e.target.value,
-                                  });
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='ada-q-tarikh2'
-                                className='m-2 text-xs sm:text-sm font-m'
-                              >
-                                ada
-                              </label>
-                              <input
-                                required={tarikh2 ? true : false}
-                                disabled={tarikh2 === '' ? true : false}
-                                type='radio'
-                                name='ada-tiada-q-tarikh2'
-                                id='tiada-q-tarikh2'
-                                value='tiada-q-tarikh2'
-                                checked={
-                                  adaTiadaQTarikh2 === 'tiada-q-tarikh2'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setAdaTiadaQTarikh2(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    adaTiadaQTarikh2: e.target.value,
-                                  });
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='tiada-q-tarikh2'
-                                className='m-2 text-xs sm:text-sm font-m'
-                              >
-                                tiada
-                              </label>
-                            </div>
                           </div>
                         </div>
-                        <div className='flex pl-5 justify-center'>
-                          <div className='flex items-center flex-col lg:flex-row'>
-                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                              Sesi 3:
-                              {tarikh3 && (
-                                <span className='text-user6 text-xl font-semibold'>
-                                  *
-                                </span>
-                              )}
-                            </p>
-                            <TarikhQ3 />
-                          </div>
-                          <div className='flex items-center flex-col lg:flex-row pl-5'>
+                      </div>
+                      <div className='flex pl-5 justify-center'>
+                        <div className='flex items-center flex-col lg:flex-row'>
+                          <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                            Sesi 3:
+                            {tarikh3 && (
+                              <span className='text-user6 text-xl font-semibold'>
+                                *
+                              </span>
+                            )}
+                          </p>
+                          <TarikhQ3 />
+                        </div>
+                        <div className='flex items-center flex-col lg:flex-row pl-5'>
+                          <label
+                            htmlFor='ada-tiada-q-tarikh1'
+                            className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                          >
+                            tarikh rancang berhenti merokok :
+                          </label>
+                          <div className='flex items-center justify-center'>
+                            <input
+                              required={tarikh3 ? true : false}
+                              disabled={tarikh3 === '' ? true : false}
+                              type='radio'
+                              name='ada-tiada-q-tarikh3'
+                              id='ada-q-tarikh3'
+                              value='ada-q-tarikh3'
+                              checked={
+                                adaTiadaQTarikh3 === 'ada-q-tarikh3'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setAdaTiadaQTarikh3(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaTiadaQTarikh3: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
                             <label
-                              htmlFor='ada-tiada-q-tarikh1'
-                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                              htmlFor='ada-q-tarikh3'
+                              className='m-2 text-xs sm:text-sm font-m'
                             >
-                              tarikh rancang berhenti merokok :
+                              ada
                             </label>
-                            <div className='flex items-center justify-center'>
-                              <input
-                                required={tarikh3 ? true : false}
-                                disabled={tarikh3 === '' ? true : false}
-                                type='radio'
-                                name='ada-tiada-q-tarikh3'
-                                id='ada-q-tarikh3'
-                                value='ada-q-tarikh3'
-                                checked={
-                                  adaTiadaQTarikh3 === 'ada-q-tarikh3'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setAdaTiadaQTarikh3(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    adaTiadaQTarikh3: e.target.value,
-                                  });
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='ada-q-tarikh3'
-                                className='m-2 text-xs sm:text-sm font-m'
-                              >
-                                ada
-                              </label>
-                              <input
-                                required={tarikh3 ? true : false}
-                                disabled={tarikh3 === '' ? true : false}
-                                type='radio'
-                                name='ada-tiada-q-tarikh3'
-                                id='tiada-q-tarikh3'
-                                value='tiada-q-tarikh3'
-                                checked={
-                                  adaTiadaQTarikh3 === 'tiada-q-tarikh3'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setAdaTiadaQTarikh3(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    adaTiadaQTarikh3: e.target.value,
-                                  });
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
-                              <label
-                                htmlFor='tiada-q-tarikh3'
-                                className='m-2 text-xs sm:text-sm font-m'
-                              >
-                                tiada
-                              </label>
-                            </div>
+                            <input
+                              required={tarikh3 ? true : false}
+                              disabled={tarikh3 === '' ? true : false}
+                              type='radio'
+                              name='ada-tiada-q-tarikh3'
+                              id='tiada-q-tarikh3'
+                              value='tiada-q-tarikh3'
+                              checked={
+                                adaTiadaQTarikh3 === 'tiada-q-tarikh3'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setAdaTiadaQTarikh3(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaTiadaQTarikh3: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tiada-q-tarikh3'
+                              className='m-2 text-xs sm:text-sm font-m'
+                            >
+                              tiada
+                            </label>
                           </div>
                         </div>
-                      </article>
-                      <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                        <h4 className='font-bold text-base flex flex-row text-left '>
-                          jenis rokok (hanya dilengkapkan setelah menjalani
-                          intervensi sesi 1)
-                          <strong className='text-user6'>*</strong>{' '}
-                        </h4>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='rokok-biasa-kotak'
-                            id='rokok-biasa-kotak'
-                            required={isJenisRokokRequired}
-                            checked={rokokBiasaKotak}
-                            onChange={() => {
-                              setRokokBiasaKotak(!rokokBiasaKotak);
-                              setConfirmData({
-                                ...confirmData,
-                                rokokBiasaKotak: !rokokBiasaKotak,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='rokok-biasa-kotak'
-                            className='m-2 text-sm font-m'
-                          >
-                            rokok biasa
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='elektronik-vape-kotak'
-                            id='elektronik-vape-kotak'
-                            required={isJenisRokokRequired}
-                            checked={elektronikVapeKotak}
-                            onChange={() => {
-                              setElektronikVapeKotak(!elektronikVapeKotak);
-                              setConfirmData({
-                                ...confirmData,
-                                elektronikVapeKotak: !elektronikVapeKotak,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='elektronik-vape-kotak'
-                            className='m-2 text-sm font-m'
-                          >
-                            peranti rokok elektronik / <i>Vape</i>
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='shisha-kotak'
-                            id='shisha-kotak'
-                            required={isJenisRokokRequired}
-                            checked={shishaKotak}
-                            onChange={() => {
-                              setShishaKotak(!shishaKotak);
-                              setConfirmData({
-                                ...confirmData,
-                                shishaKotak: !shishaKotak,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='shisha-kotak'
-                            className='m-2 text-sm font-m'
-                          >
-                            shisha
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='lain-lain-kotak'
-                            id='lain-lain-kotak'
-                            required={isJenisRokokRequired}
-                            checked={lainLainKotak}
-                            onChange={() => {
-                              setLainLainKotak(!lainLainKotak);
-                              setConfirmData({
-                                ...confirmData,
-                                lainLainKotak: !lainLainKotak,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='lain-lain-kotak'
-                            className='m-2 text-sm font-m'
-                          >
-                            lain-lain
-                          </label>
-                        </div>
-                      </article>
-                    </div>
-                  ) : null}
+                      </div>
+                    </article>
+                    <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                      <h4 className='font-bold text-base flex flex-row text-left '>
+                        jenis rokok (hanya dilengkapkan setelah menjalani
+                        intervensi sesi 1)
+                        <strong className='text-user6'>*</strong>{' '}
+                      </h4>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='rokok-biasa-kotak'
+                          id='rokok-biasa-kotak'
+                          required={isJenisRokokRequired}
+                          checked={rokokBiasaKotak}
+                          onChange={() => {
+                            setRokokBiasaKotak(!rokokBiasaKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              rokokBiasaKotak: !rokokBiasaKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='rokok-biasa-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          rokok biasa
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='elektronik-vape-kotak'
+                          id='elektronik-vape-kotak'
+                          required={isJenisRokokRequired}
+                          checked={elektronikVapeKotak}
+                          onChange={() => {
+                            setElektronikVapeKotak(!elektronikVapeKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              elektronikVapeKotak: !elektronikVapeKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='elektronik-vape-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          peranti rokok elektronik / <i>Vape</i>
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='shisha-kotak'
+                          id='shisha-kotak'
+                          required={isJenisRokokRequired}
+                          checked={shishaKotak}
+                          onChange={() => {
+                            setShishaKotak(!shishaKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              shishaKotak: !shishaKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='shisha-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          shisha
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='lain-lain-kotak'
+                          id='lain-lain-kotak'
+                          required={isJenisRokokRequired}
+                          checked={lainLainKotak}
+                          onChange={() => {
+                            setLainLainKotak(!lainLainKotak);
+                            setConfirmData({
+                              ...confirmData,
+                              lainLainKotak: !lainLainKotak,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='lain-lain-kotak'
+                          className='m-2 text-sm font-m'
+                        >
+                          lain-lain
+                        </label>
+                      </div>
+                    </article>
+                  </div>
                   {adaTiadaQTarikh4 === 'tiada-q-tarikh4' ||
                   adaTiadaQTarikh3 === 'tiada-q-tarikh3' ? (
                     <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
@@ -1170,8 +950,7 @@ function UserFormKohortKOTAK() {
                       </div>
                     </article>
                   ) : null}
-                  {dalamPemantauanKohort === 'ya-dalam-pemantauan-kohort' ||
-                  adaTiadaQTarikh1 === 'ada-q-tarikh1' ||
+                  {adaTiadaQTarikh1 === 'ada-q-tarikh1' ||
                   adaTiadaQTarikh2 === 'ada-q-tarikh2' ||
                   adaTiadaQTarikh3 === 'ada-q-tarikh3' ||
                   adaTiadaQTarikh4 === 'ada-q-tarikh4' ? (
