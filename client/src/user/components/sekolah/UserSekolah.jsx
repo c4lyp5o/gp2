@@ -427,15 +427,15 @@ function UserSekolah() {
                     filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
                       <input
                         type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='SEKOLAH SUDAH SELESAI RETEN'
+                        className='appearance-none w-full px-2 py-1 text-user7 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='SUDAH SELESAI'
                         readOnly
                       />
                     ) : (
                       <input
                         type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='SEKOLAH BELUM SELESAI RETEN'
+                        className='appearance-none w-full px-2 py-1 text-user9 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='BELUM SELESAI'
                         readOnly
                       />
                     )}
