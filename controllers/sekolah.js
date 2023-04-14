@@ -102,7 +102,8 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     sesiTakwimPelajar: sesiTakwimSekolah(),
   })
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah');
+    .populate('rawatanSekolah')
+    .sort({ nama: 1 });
   // .populate('kotakSekolah');
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
@@ -110,7 +111,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
 
 // not used
 // GET /faceted/:kodSekolah
-const getAllPersonSekolah = async (req, res) => {
+const getAllPersonSekolahFaceted = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
@@ -325,14 +326,17 @@ const createPersonSekolah = async (req, res) => {
 // POST /pemeriksaan/:personSekolahId
 // set statusRawatan to 'belum selesai' when creating pemeriksaan
 const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
+  req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
   const pemeriksaanSekolah = await Pemeriksaansekolah.create(req.body);
-
-  // console.table(req.body);
 
   // masukkan pemeriksaan ID dalam personSekolah
   const personSekolah = await Sekolah.findOneAndUpdate(
@@ -397,6 +401,7 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
+  req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
   const rawatanSekolah = await Rawatansekolah.create(req.body);
 
@@ -601,7 +606,7 @@ module.exports = {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
-  getAllPersonSekolah,
+  getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
   createPersonSekolah,

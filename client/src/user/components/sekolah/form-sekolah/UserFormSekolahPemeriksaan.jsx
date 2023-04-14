@@ -13,6 +13,7 @@ function UserFormSekolahPemeriksaan() {
     userToken,
     reliefUserToken,
     username,
+    userinfo,
     useParams,
     masterDatePicker,
     toast,
@@ -794,6 +795,14 @@ function UserFormSekolahPemeriksaan() {
   }
 
   const handleSubmit = async (e) => {
+    let mdcMdtbNum = '';
+    if (!userinfo.mdtbNumber) {
+      mdcMdtbNum = userinfo.mdcNumber;
+    }
+    if (!userinfo.mdcNumber) {
+      mdcMdtbNum = userinfo.mdtbNumber;
+    }
+
     if (sumDMFXDesidus > 20) {
       toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
         autoClose: 3000,
@@ -876,13 +885,13 @@ function UserFormSekolahPemeriksaan() {
       kesSelesaiMmi = true;
     }
     const {
-      nama,
-      namaKelas,
-      namaSekolah,
       kodSekolah,
+      namaSekolah,
       idIndividu,
       nomborId,
+      nama,
       tahunTingkatan,
+      kelasPelajar,
     } = singlePersonSekolah;
 
     // block tambah-pemeriksaan je yang guna sbb dah xleh edit pemeriksaan
@@ -893,13 +902,15 @@ function UserFormSekolahPemeriksaan() {
             `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
             {
               createdByUsername,
-              nama,
-              namaKelas,
-              namaSekolah,
+              createdByMdcMdtb: mdcMdtbNum,
+              //
               kodSekolah,
+              namaSekolah,
               idIndividu,
               nomborId,
+              nama,
               tahunTingkatan,
+              kelasPelajar,
               statusRawatan,
               kesSelesaiMmi,
               engganTidakHadirPemeriksaan,
@@ -1196,7 +1207,7 @@ function UserFormSekolahPemeriksaan() {
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
                         {singlePersonSekolah.tahun}{' '}
-                        {singlePersonSekolah.namaKelas}
+                        {singlePersonSekolah.kelasPelajar}
                       </p>
                     </div>
                   </div>
