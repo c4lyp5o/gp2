@@ -67,19 +67,6 @@ const KohortKotakSchema = new mongoose.Schema(
     dalamPemantauanKohort: {
       type: String,
       default: '',
-      required: true,
-    },
-    statusM: {
-      type: String,
-      default: '',
-    },
-    menerimaNasihatRingkas: {
-      type: String,
-      default: '',
-    },
-    inginMelakukanIntervensiMerokok: {
-      type: String,
-      default: '',
     },
     rokokBiasaKotak: {
       type: Boolean,

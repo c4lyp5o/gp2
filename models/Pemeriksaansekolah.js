@@ -14,7 +14,15 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdByKodFasiliti: {
+    type: String,
+    required: true,
+  },
   createdByUsername: {
+    type: String,
+    required: true,
+  },
+  createdByMdcMdtb: {
     type: String,
     required: true,
   },
