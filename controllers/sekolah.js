@@ -383,8 +383,8 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       kodSekolah: req.body.kodSekolah,
       tahunTingkatan: req.body.tahunTingkatan,
       kelas: req.body.namaKelas,
-      noTelefon: req.body.noTelMuridKotak,
-      dalamPemantauanKohort: 'JAN - JUN 2023', // default
+      // noTelefon: req.body.noTelMuridKotak,
+      // dalamPemantauanKohort: 'JAN - JUN 2023', // default
     });
   }
 
