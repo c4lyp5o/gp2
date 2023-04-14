@@ -54,7 +54,7 @@ function UserSekolah() {
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
 
   //accordian
-  const [accordian, setAccordian] = useState(false);
+  const [accordian, setAccordian] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -260,10 +260,10 @@ function UserSekolah() {
   }, [pilihanSekolah, pilihanTahunTingkatan, pilihanKelasPelajar, filterNama]);
 
   const handleAccordian = (e) => {
-    if (accordian === e) {
-      setAccordian('');
+    if (accordian.includes(e)) {
+      setAccordian(accordian.filter((a) => a !== e));
     } else {
-      setAccordian(e);
+      setAccordian([...accordian, e]);
     }
   };
 
@@ -708,7 +708,7 @@ function UserSekolah() {
                                                 rawatan.tarikhRawatanSemasa
                                               ).format('DD/MM/YYYY')}
                                             </h1>
-                                            {accordian === index && (
+                                            {accordian.includes(index) && (
                                               <div className='flex flex-col mx-1 px-1'>
                                                 <span className='text-xs font-semibold text-start flex flex-row items-center'>
                                                   <FaTooth className='mr-1' />{' '}
