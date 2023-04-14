@@ -225,18 +225,23 @@ function UserAfterLogin() {
             </>
           )}
 
-          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <Route
+              path='kohort'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <UserKohort />{' '}
+                </Suspense>
+              }
+            />
+          ) : null}
+          {/* kotak */}
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
           import.meta.env.VITE_ENV === 'DEV' ? (
             <>
-              <Route
-                path='kohort'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <UserKohort />{' '}
-                  </Suspense>
-                }
-              />
-              {/* kotak */}
               <Route
                 path='kohort/kotak'
                 element={
@@ -253,7 +258,12 @@ function UserAfterLogin() {
                   </Suspense>
                 }
               />
-              {/* FMR */}
+            </>
+          ) : null}
+          {/* FMR */}
+          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
               <Route
                 path='kohort/fmr'
                 element={
