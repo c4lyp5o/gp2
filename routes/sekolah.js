@@ -4,7 +4,7 @@ const {
   getAllPersonSekolahsVanilla,
   getSinglePersonSekolahVanilla,
   getAllPersonSekolahsWithPopulate,
-  getAllPersonSekolah,
+  getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
   createPersonSekolah,
@@ -31,7 +31,7 @@ router
 
 // expertimental
 // GET
-// router.route('/faceted/:kodSekolah').get(getAllPersonSekolah);
+// router.route('/faceted/:kodSekolah').get(getAllPersonSekolahFaceted);
 
 // GET kemaskini
 router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
