@@ -73,7 +73,9 @@ const refreshAuth = (req, res, next) => {
       .status(401)
       .json({ msg: 'Unauthorized. This behaviour will be reported' });
   }
-  next();
+  if (apiKey === process.env.MANUAL_REFRESH_TOKENS_SECRET) {
+    next();
+  }
 };
 
 const etlAuth = (req, res, next) => {
@@ -86,7 +88,9 @@ const etlAuth = (req, res, next) => {
       .status(401)
       .json({ msg: 'Unauthorized. This behaviour will be reported' });
   }
-  next();
+  if (apiKey === process.env.MANUAL_ETL_SECRET) {
+    next();
+  }
 };
 
 const debugAuth = (req, res, next) => {
@@ -99,7 +103,9 @@ const debugAuth = (req, res, next) => {
       .status(401)
       .json({ msg: 'Unauthorized. This behaviour will be reported' });
   }
-  next();
+  if (apiKey === process.env.DEBUG_SECRET) {
+    next();
+  }
 };
 
 module.exports = { adminAuth, adminAuthInt, etlAuth, refreshAuth, debugAuth };
