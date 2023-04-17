@@ -1,39 +1,35 @@
 import moment from 'moment';
-import { useEffect } from 'react';
-import {
-  FaWindowClose,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaUserCheck,
-  FaRegPaperPlane,
-  FaMinus,
-  FaPlus,
-} from 'react-icons/fa';
+import { FaWindowClose, FaRegPaperPlane } from 'react-icons/fa';
 
 export default function ModalMuridKohortBuatKumuranFMR(props) {
-  useEffect(() => {
-    console.log(props.allMuridKohort);
-  }, []);
+  const DateKumuranItem = props.TarikhKumuran;
 
   return (
     <>
-      <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/5 lg:inset-y-20 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <FaWindowClose
           onClick={props.closeModal}
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
         />
         <div className='grid grid-rows-[1fr_8fr_1fr] h-full'>
-          <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7'>
-            PERHATIAN
-          </h5>
+          <div className='grid grid-cols-2'>
+            <div>
+              <label className='flex mt-5'>
+                <span className='font-semibold'>Tarikh Kumuran:</span>
+              </label>
+            </div>
+            <div>
+              <DateKumuranItem />
+            </div>
+          </div>
           <div className='mt-1 py-1'>
-            <span className='relative flex items-center justify-center mt-4'>
+            {/* <span className='relative flex items-center justify-center mt-4'>
               <FaUserCheck className='text-4xl text-user9 mx-auto absolute animate-ping' />
               <FaUserCheck className='text-4xl text-user9 mx-auto absolute' />
             </span>
             <p className='px-1 font-semibold mt-7'>
               Anda YAKIN untuk menghantar maklumat?
-            </p>
+            </p> */}
             <div className='m-auto text-xs lg:text-sm rounded-md h-min max-w-max overflow-x-auto mt-5'>
               <table className='table-auto'>
                 <thead className='text-userWhite bg-user2'>
@@ -61,8 +57,8 @@ export default function ModalMuridKohortBuatKumuranFMR(props) {
                 </thead>
                 <>
                   <tbody className='text-user1'>
-                    {props.allMuridKohort &&
-                      props.allMuridKohort
+                    {props.selectedMurid &&
+                      props.selectedMurid
                         // .filter((murid) => {
                         //   if (selectedSekolah === '') {
                         //     return murid;
@@ -130,7 +126,7 @@ export default function ModalMuridKohortBuatKumuranFMR(props) {
             </button>
             <button
               className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
-              onClick={confirm}
+              onClick={props.openConfirmModal}
             >
               HANTAR
             </button>
@@ -139,7 +135,7 @@ export default function ModalMuridKohortBuatKumuranFMR(props) {
       </div>
       <div
         onClick={props.closeModal}
-        className='fixed inset-0 bg-userBlack opacity-50 z-0'
+        className='absolute inset-0 bg-user1 opacity-75 z-0'
       />
     </>
   );

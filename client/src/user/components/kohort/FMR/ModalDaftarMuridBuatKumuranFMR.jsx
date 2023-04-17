@@ -1,20 +1,8 @@
 import moment from 'moment';
 import { useEffect } from 'react';
-import {
-  FaWindowClose,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaUserCheck,
-  FaRegPaperPlane,
-  FaMinus,
-  FaPlus,
-} from 'react-icons/fa';
+import { FaWindowClose, FaUserCheck, FaRegPaperPlane } from 'react-icons/fa';
 
 export default function ModalMuridKohortBuatKumuranFMR(props) {
-  useEffect(() => {
-    console.log(props.allMuridKohort);
-  }, []);
-
   return (
     <>
       <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
