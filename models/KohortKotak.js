@@ -40,7 +40,7 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    noKadPengenalan: {
+    nomborId: {
       type: String,
       default: '',
     },
@@ -56,7 +56,7 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    kelas: {
+    kelasPelajar: {
       type: String,
       default: '',
     },

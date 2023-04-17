@@ -16,27 +16,21 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   }
 
   const { kp, kodFasiliti } = req.user;
+  const sesiTakwim = sesiTakwimSekolah();
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
     jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
-    sesiTakwimSekolah: sesiTakwimSekolah(),
+    sesiTakwimSekolah: sesiTakwim,
   });
 
-  const kodSekolahs = fasilitiSekolahs.reduce(
-    (arrKodSekolahs, singleFasilitiSekolah) => {
-      if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
-        arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
-      }
-      return arrKodSekolahs.filter((valid) => valid);
-    },
-    ['']
-  );
+  const kodSekolahs = new Set();
+  fasilitiSekolahs.forEach((fasiliti) => kodSekolahs.add(fasiliti.kodSekolah));
 
   const allPersonSekolahs = await Sekolah.find({
     kodSekolah: { $in: [...kodSekolahs] },
-    sesiTakwimPelajar: sesiTakwimSekolah(),
-  });
+    sesiTakwimPelajar: sesiTakwim,
+  }).lean();
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
@@ -374,15 +368,16 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       createdByDaerah: req.user.daerah,
       createdByKodFasiliti: req.user.kodFasiliti,
       createdByKp: req.user.kp,
-      //
+      createdByMdcMdtb: req.body.mdcMdtbNumber,
       createdByUsername: req.body.createdByUsername,
+      //
       idIndividu: req.body.idIndividu,
       nama: req.body.nama,
-      noKadPengenalan: req.body.nomborId,
+      nomborId: req.body.nomborId,
       namaSekolah: req.body.namaSekolah,
       kodSekolah: req.body.kodSekolah,
       tahunTingkatan: req.body.tahunTingkatan,
-      kelas: req.body.namaKelas,
+      kelasPelajar: req.body.kelasPelajar,
       // noTelefon: req.body.noTelMuridKotak,
       // dalamPemantauanKohort: 'JAN - JUN 2023', // default
     });

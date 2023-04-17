@@ -2,12 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-import {
-  FaCheckCircle,
-  FaTimesCircle,
-  FaCaretUp,
-  FaCaretDown,
-} from 'react-icons/fa';
 
 import RegisterFMRModal from './RegisterFMRModal';
 
@@ -19,7 +13,7 @@ function KohortFMR() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [modalRegisterSekolah, setModalRegisterSekolah] = useState(false);
-  const [allSekolahKohortFMR, setAllSekolahKohortFMR] = useState([]);
+  const [allSekolahFMR, setAllSekolahFMR] = useState([]);
   const [currentKodSekolah, setCurrentKodSekolah] = useState('');
 
   const [reloadState, setReloadState] = useState(false);
@@ -27,7 +21,7 @@ function KohortFMR() {
   const init = useRef(false);
 
   useEffect(() => {
-    const fetchAllSekolahKohortFMR = async () => {
+    const fetchAllSekolahFMR = async () => {
       if (init.current === false) {
         try {
           setIsLoading(true);
@@ -39,7 +33,7 @@ function KohortFMR() {
             },
           });
           console.log(data);
-          setAllSekolahKohortFMR(data.allSekolahKohortFMR);
+          setAllSekolahFMR(data.allSekolahFMR);
           setIsLoading(false);
         } catch (error) {
           console.log(error);
@@ -53,7 +47,7 @@ function KohortFMR() {
     if (init.current === true) {
       init.current === false;
     }
-    fetchAllSekolahKohortFMR();
+    fetchAllSekolahFMR();
   }, [reloadState]);
 
   // on tab focus reload data
@@ -113,50 +107,40 @@ function KohortFMR() {
             {!isLoading ? (
               <>
                 <tbody className='text-user1'>
-                  {allSekolahKohortFMR.map((singleSekolahKohortFMR, index) => {
+                  {allSekolahFMR.map((singleSekolahFMR, index) => {
                     return (
                       <tr key={index}>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                        <td className='outline outline-1 outline-offset-1 p-2'>
                           {index + 1}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {singleSekolahKohortFMR.nama}
+                        <td className='outline outline-1 outline-offset-1 p-2'>
+                          {singleSekolahFMR.nama}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {singleSekolahKohortFMR.kelas}
+                        <td className='outline outline-1 outline-offset-1 p-2'>
+                          {singleSekolahFMR.kelas}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {singleSekolahKohortFMR.noTelefon}
+                        <td className='outline outline-1 outline-offset-1 p-2'>
+                          {singleSekolahFMR.noTelefon}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {!singleSekolahKohortFMR.statusFMRTelahDaftarDarjahSatu ? (
-                            // <button
-                            //   className='bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                            //   onClick={() => {
-                            //     setCurrentKodSekolah(
-                            //       singleSekolahKohortFMR.kodSekolah
-                            //     );
-                            //     console.log(singleSekolahKohortFMR.kodSekolah);
-                            //     setModalRegisterSekolah(true);
-                            //   }}
-                            // >
-                            //   DAFTAR
-                            // </button>
-                            <Link
-                              to={`/pengguna/landing/kohort/fmr/daftar/${singleSekolahKohortFMR.kodSekolah}`}
-                              className='bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                            >
-                              DAFTAR
-                            </Link>
-                          ) : (
-                            <button
-                              disabled={true}
-                              className='bg-user6 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all cursor-not-allowed'
-                            >
-                              TELAH DAFTAR
-                            </button>
-                          )}
-                        </td>
+                        {userinfo.role === 'admin' ? (
+                          <td className='outline outline-1 outline-offset-1 p-2'>
+                            {!singleSekolahFMR.statusFMRTelahDaftarDarjahSatu ? (
+                              <Link
+                                to={`/pengguna/landing/kohort/fmr/daftar-murid/${singleSekolahFMR.kodSekolah}`}
+                                className='bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                              >
+                                DAFTAR
+                              </Link>
+                            ) : (
+                              <button
+                                disabled={true}
+                                className='bg-user6 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all cursor-not-allowed'
+                              >
+                                TELAH DAFTAR
+                              </button>
+                            )}
+                          </td>
+                        ) : null}
                       </tr>
                     );
                   })}
@@ -165,7 +149,7 @@ function KohortFMR() {
             ) : (
               <tbody className='text-user1'>
                 <tr>
-                  <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  <td className='outline outline-1 outline-offset-1 p-2'>
                     Loading...
                   </td>
                 </tr>
@@ -176,7 +160,7 @@ function KohortFMR() {
         <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
           <div className='flex justify-center items-center'>
             <Link
-              to='daftar'
+              to='daftar-kumur'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
             >
               DAFTAR KUMURAN MURID TAHUN 1
@@ -191,14 +175,12 @@ function KohortFMR() {
             </Link>
           </div> */}
           <div className='flex justify-center items-center'>
-            <button
+            <Link
+              to='daftar-kumur-kohort'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-              onClick={() => {
-                setModalRegisterSekolah(true);
-              }}
             >
-              DAFTAR KUMURAN MURID KOHORT
-            </button>
+              DAFTAR KUMURAN MURID KOHORT TAHUN 1
+            </Link>
           </div>
         </div>
         {modalRegisterSekolah ? (
