@@ -1,10 +1,14 @@
 # Changelog
 
-### Unreleased
+### 17/4/2023 (v2.0.19)
 
-#### Reverted
+#### Changed
 
-- _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum - https://github.com/nocturnalmc/gp2/commit/22d04e51a3b747baa7ddeb795b1dcb18115bc461
+- Pengguna perlu menjawab pemilihan penggunaan KPB / MPB ya atau tidak ketika mengisi borang pesakit umum sekiranya pesakit berkenaan berada di dalam tarikh penggunaan KPB / MPB bagi fasiliti tersebut
+
+#### e-Reporting
+
+- Menambah pilihan reten TOD 02 Pin. 1/2022 untuk dijana di semua peringkat pentadbir
 
 ### 5/4/2023 (v2.0.18)
 
