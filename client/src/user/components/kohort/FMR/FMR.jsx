@@ -71,7 +71,7 @@ function KohortFMR() {
               <div className='flex justify-end items-center text-right mt-2'>
                 <button
                   onClick={() => {
-                    navigate(-1);
+                    navigate('/pengguna/landing/kohort');
                   }}
                   className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
                 >
@@ -157,7 +157,7 @@ function KohortFMR() {
             )}
           </table>
         </div>
-        <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
+        <div className='grid grid-cols-3 shadow-md shadow-user3 mt-5'>
           <div className='flex justify-center items-center'>
             <Link
               to='daftar-kumur'
@@ -166,14 +166,14 @@ function KohortFMR() {
               DAFTAR KUMURAN MURID TAHUN 1
             </Link>
           </div>
-          {/* <div className='flex justify-center items-center'>
+          <div className='flex justify-center items-center'>
             <Link
               to='carian'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
             >
               CARIAN
             </Link>
-          </div> */}
+          </div>
           <div className='flex justify-center items-center'>
             <Link
               to='daftar-kumur-kohort'
