@@ -169,7 +169,8 @@ function UserNavbar() {
                     PROMOSI KLINIK
                   </NavLink>
                 )}
-                {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                {import.meta.env.VITE_ENV === 'TRAINING' ||
+                import.meta.env.VITE_ENV === 'UNSTABLE' ||
                 import.meta.env.VITE_ENV === 'DEV' ? (
                   <NavLink
                     to='kohort'
