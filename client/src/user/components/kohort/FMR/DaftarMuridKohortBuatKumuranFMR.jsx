@@ -6,16 +6,11 @@ import _ from 'lodash';
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
 import ModalMuridKohortBuatKumuranFMR from './ModalMuridKohortBuatKumuranFMR';
+import ModalConfirmMuridKohortBuatKumuranFMR from './ModalConfirmMuridKohortBuatKumuranFMR';
 
 export default function DaftarMuridBuatKumuranFMR() {
-  const {
-    userToken,
-    userinfo,
-    reliefUserToken,
-    masterDatePicker,
-    navigate,
-    toast,
-  } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, masterDatePicker, navigate, toast } =
+    useGlobalUserAppContext();
 
   const [allMuridKohort, setAllMuridKohort] = useState([]);
 
@@ -27,6 +22,7 @@ export default function DaftarMuridBuatKumuranFMR() {
   const [selectedKelasBasedOnSekolah, setSelectedKelasBasedOnSekolah] =
     useState('');
   const [selectedTahunKohort, setSelectedTahunKohort] = useState('');
+  const [selectedMurid, setSelectedMurid] = useState([]);
 
   const [selectAll, setSelectAll] = useState(false);
   const [users, setUsers] = useState([{ ic: '', masukKohort: false }]);
@@ -35,6 +31,7 @@ export default function DaftarMuridBuatKumuranFMR() {
   const [isLoading, setIsLoading] = useState(true);
 
   const [showModal, setShowModal] = useState(false);
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
 
   //datepicker range
   const [startKumuranDatePicker, setStartKumuranDatePicker] = useState(null);
@@ -59,8 +56,8 @@ export default function DaftarMuridBuatKumuranFMR() {
 
   const handleSelectAll = (event) => {
     setSelectAll(event.target.checked);
-    setUsers(
-      allMuridD1.map((singleMurid) => ({
+    setUsers((prevUsers) =>
+      prevUsers.map((singleMurid) => ({
         ...singleMurid,
         masukKohort: event.target.checked,
       }))
@@ -68,58 +65,80 @@ export default function DaftarMuridBuatKumuranFMR() {
   };
 
   const handleCheckboxChange = (event, index) => {
-    const updatedUsers = [...users];
-    updatedUsers[index].masukKohort = event.target.checked;
-    setUsers(updatedUsers);
-    console.log(updatedUsers);
+    setUsers((prevUsers) =>
+      prevUsers.map((singleMurid, i) =>
+        i === index
+          ? { ...singleMurid, masukKohort: event.target.checked }
+          : singleMurid
+      )
+    );
   };
 
-  const handleSubmit = (event) => {
+  const handleSubmit = async (event) => {
     event.preventDefault();
-    // jgn send kalau xde tarikh kumuran
+
     if (startKumuran === '') {
       toast.error('Sila pilih tarikh kumuran');
       return;
     }
-    // jgn send kalau xde murid yg dipilih
-    const filteredMurid = users.filter((user) => user.masukKohort === true);
+
+    const filteredMurid = users.filter((user) => user?.masukKohort === true);
+
     if (filteredMurid.length === 0) {
       toast.error('Sila pilih sekurang-kurangnya satu murid');
       return;
     }
-    // send
+
     const data = {
       muridKumuran: filteredMurid,
       startKumuran,
     };
-    console.log(data);
-    axios
-      .patch('/api/v1/kohort/fmr/daftar-kumuran', data, {
+
+    try {
+      const res = await axios.patch('/api/v1/kohort/fmr/daftar-kumuran', data, {
         headers: {
           Authorization: `Bearer ${
             reliefUserToken ? reliefUserToken : userToken
           }`,
         },
-      })
-      .then((res) => {
-        console.log(res);
-        toast.success('Berjaya');
-      })
-      .catch((err) => {
-        console.log(err);
-        toast.error('yada yada');
       });
+      console.log(res);
+      toast.success('Berjaya');
+      closeModal();
+    } catch (err) {
+      console.log(err);
+      toast.error('yada yada');
+      closeModal();
+    }
   };
 
   const closeModal = () => {
+    console.log('closing modal');
     setShowModal(!showModal);
   };
 
+  const closeConfirmModal = () => {
+    setShowModal(false);
+    setShowConfirmModal(false);
+  };
+
+  const openConfirmModal = () => {
+    console.log('open confirm modal');
+    setShowConfirmModal(true);
+  };
+
   const props = {
+    openConfirmModal,
     closeModal,
+    closeConfirmModal,
     TarikhKumuran,
+    handleSelectAll,
     handleCheckboxChange,
     handleSubmit,
+    selectedSekolah,
+    selectedKelasBasedOnSekolah,
+    selectedMurid,
+    startKumuran,
     users,
     allMuridKohort,
   };
@@ -167,13 +186,59 @@ export default function DaftarMuridBuatKumuranFMR() {
       setSelectedKelasBasedOnSekolah('');
     } else {
       const allKelasBasedOnSekolah = _.uniq(
-        allMuridD1
+        allMuridKohort
           .filter((murid) => murid.namaSekolah === selectedSekolah)
           .map((murid) => murid.namaKelas)
       );
       setAllKelasBasedOnSekolah(allKelasBasedOnSekolah);
+      setSelectedMurid(
+        allMuridKohort.filter((murid) => murid.namaSekolah === selectedSekolah)
+      );
+      setUsers(
+        allMuridKohort
+          .filter((murid) => murid.namaSekolah === selectedSekolah)
+          .map((singleMurid) => ({
+            ...singleMurid,
+            masukKohort: false,
+          }))
+      );
     }
   }, [selectedSekolah]);
+
+  useEffect(() => {
+    if (selectedKelasBasedOnSekolah === '') {
+      console.log('resetting');
+      setSelectedMurid(
+        allMuridKohort.filter((murid) => murid.namaSekolah === selectedSekolah)
+      );
+    } else {
+      setSelectedMurid(
+        allMuridKohort.filter(
+          (murid) =>
+            murid.namaSekolah === selectedSekolah &&
+            murid.namaKelas === selectedKelasBasedOnSekolah
+        )
+      );
+      setUsers(
+        allMuridKohort
+          .filter(
+            (murid) =>
+              murid.namaSekolah === selectedSekolah &&
+              murid.namaKelas === selectedKelasBasedOnSekolah
+          )
+          .map((singleMurid) => ({
+            ...singleMurid,
+            masukKohort: false,
+          }))
+      );
+    }
+  }, [selectedKelasBasedOnSekolah]);
+
+  useEffect(() => {
+    setSelectedMurid([]);
+    setSelectedSekolah('');
+    setSelectedKelasBasedOnSekolah('');
+  }, [selectedTahunKohort]);
 
   return (
     <>
@@ -231,7 +296,12 @@ export default function DaftarMuridBuatKumuranFMR() {
                 <span className='font-semibold'>
                   Kohort (Tahun Mula Kumuran):
                 </span>
-                <select className='ml-2'>
+                <select
+                  className='ml-2'
+                  onChange={(event) => {
+                    setSelectedTahunKohort(event.target.value);
+                  }}
+                >
                   <option value=''>Sila pilih kohort</option>
                   {allTahunKohort.map((kohort, index) => {
                     return (
@@ -277,6 +347,9 @@ export default function DaftarMuridBuatKumuranFMR() {
               <>
                 <tbody className='text-user1'>
                   {allMuridKohort
+                    .filter((muridKohort) => {
+                      return muridKohort.tahunKohortFMR === selectedTahunKohort;
+                    })
                     .filter((murid) => {
                       if (selectedSekolah === '') {
                         return murid;
@@ -359,6 +432,7 @@ export default function DaftarMuridBuatKumuranFMR() {
         </div>
         {showModal && <ModalMuridKohortBuatKumuranFMR {...props} />}
       </div>
+      {showConfirmModal && <ModalConfirmMuridKohortBuatKumuranFMR {...props} />}
     </>
   );
 }

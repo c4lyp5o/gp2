@@ -80,7 +80,7 @@ export default function DaftarMuridMasukKohortFMR() {
 
   const closeModalAndGoAway = () => {
     setShowModal(false);
-    navigate('/kohort/fmr');
+    navigate('kohort/fmr');
   };
 
   const closeModal = () => {
@@ -103,10 +103,18 @@ export default function DaftarMuridMasukKohortFMR() {
         );
         console.log(data);
         setAllMuridD1SingleSekolah(data.dataSemuaPelajarD1SingleSekolah);
-        const allSekolah = _.uniq(
-          data.dataSemuaPelajarD1SingleSekolah.map((murid) => murid.namaSekolah)
+        // const namaSekolah = _.uniq(
+        //   data.dataSemuaPelajarD1SingleSekolah.map((murid) => murid.namaSekolah)
+        // );
+        // setAllSekolah(allSekolah);
+        // setSelectedSekolah(allSekolah[0]);
+        const namaSekolah = data.dataSemuaPelajarD1SingleSekolah[0].namaSekolah;
+        const namaKelas = _.uniq(
+          data.dataSemuaPelajarD1SingleSekolah.map((murid) => murid.namaKelas)
         );
-        setAllSekolah(allSekolah);
+        // setAllSekolah([namaSekolah]);
+        setSelectedSekolah(namaSekolah);
+        setAllKelasBasedOnSekolah(namaKelas);
         setUsers(
           data.dataSemuaPelajarD1SingleSekolah.map((singleMurid) => ({
             ...singleMurid,
@@ -126,40 +134,28 @@ export default function DaftarMuridMasukKohortFMR() {
     }
   }, []);
 
-  useEffect(() => {
-    // Reset the selected class and filtered list of students when the selected school changes
-    setSelectedKelasBasedOnSekolah('');
-    setFilteredMuridD1(allMuridD1SingleSekolah);
-
-    if (selectedSekolah !== '') {
-      // Get all classes based on the selected school
-      const allKelas = allMuridD1SingleSekolah
-        .filter((murid) => murid.namaSekolah === selectedSekolah)
-        .map((murid) => murid.namaKelas);
-
-      // Set the state variable for all classes based on the selected school
-      setAllKelasBasedOnSekolah(Array.from(new Set(allKelas)));
-
-      // Filter the list of students based on the selected school
-      const filteredMurid = allMuridD1SingleSekolah.filter(
-        (murid) => murid.namaSekolah === selectedSekolah
-      );
-
-      // Set the state variable for the filtered list of students
-      setFilteredMuridD1(filteredMurid);
-    }
-  }, [selectedSekolah]);
+  // useEffect(() => {
+  //   setSelectedKelasBasedOnSekolah('');
+  //   setFilteredMuridD1(allMuridD1SingleSekolah);
+  //   if (selectedSekolah !== '') {
+  //     const allKelas = allMuridD1SingleSekolah
+  //       .filter((murid) => murid.namaSekolah === selectedSekolah)
+  //       .map((murid) => murid.namaKelas);
+  //     setAllKelasBasedOnSekolah(Array.from(new Set(allKelas)));
+  //     const filteredMurid = allMuridD1SingleSekolah.filter(
+  //       (murid) => murid.namaSekolah === selectedSekolah
+  //     );
+  //     setFilteredMuridD1(filteredMurid);
+  //   }
+  // }, [selectedSekolah]);
 
   useEffect(() => {
     if (selectedKelasBasedOnSekolah !== '') {
-      // Filter the list of students based on the selected school and class
       const filteredMurid = allMuridD1SingleSekolah.filter(
         (murid) =>
-          murid.namaSekolah === selectedSekolah &&
+          // murid.namaSekolah === selectedSekolah &&
           murid.namaKelas === selectedKelasBasedOnSekolah
       );
-
-      // Set the state variable for the filtered list of students
       setFilteredMuridD1(filteredMurid);
     }
   }, [selectedKelasBasedOnSekolah]);
@@ -183,8 +179,8 @@ export default function DaftarMuridMasukKohortFMR() {
             KP)
           </h5>
         </div>
-        <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
-          <div className='m-5'>
+        <div className='flex flex-auto shadow-md shadow-user3 mt-5'>
+          {/* <div className='m-5'>
             <label className='flex justify-center items-center'>
               <span className='font-semibold'>SEKOLAH:</span>
               <select
@@ -201,7 +197,7 @@ export default function DaftarMuridMasukKohortFMR() {
                 })}
               </select>
             </label>
-          </div>
+          </div> */}
           <div className='m-5'>
             <label className='flex justify-center items-center'>
               <span className='font-semibold'>KELAS:</span>
@@ -252,18 +248,18 @@ export default function DaftarMuridMasukKohortFMR() {
                   <tbody className='text-user1'>
                     {allMuridD1SingleSekolah
                       .filter((murid) => {
-                        if (selectedSekolah === '') {
+                        // if (selectedSekolah === '') {
+                        //   return murid;
+                        // } else {
+                        if (selectedKelasBasedOnSekolah === '') {
                           return murid;
                         } else {
-                          if (selectedKelasBasedOnSekolah === '') {
-                            return murid.namaSekolah === selectedSekolah;
-                          } else {
-                            return (
-                              murid.namaSekolah === selectedSekolah &&
-                              murid.namaKelas === selectedKelasBasedOnSekolah
-                            );
-                          }
+                          return (
+                            // murid.namaSekolah === selectedSekolah &&
+                            murid.namaKelas === selectedKelasBasedOnSekolah
+                          );
                         }
+                        // }
                       })
                       .map((singleMurid, index) => {
                         return (
@@ -300,17 +296,18 @@ export default function DaftarMuridMasukKohortFMR() {
                 </tbody>
               )}
             </table>
-            <div className='flex justify-center items-center mt-3'>
+            <div className='grid grid-cols-2 gap-2 justify-center items-center mt-3'>
               <button
                 type='button'
-                className='bg-user2 text-userWhite rounded-md px-3 py-1'
+                className='bg-user2 text-userWhite rounded-md px-3 py-2'
+                onClick={() => navigate('/pengguna/landing/kohort/fmr')}
               >
                 KEMBALI
               </button>
               <button
                 type='button'
                 onClick={() => setShowModal(true)}
-                className='bg-user2 text-userWhite rounded-md px-3 py-1'
+                className='bg-user2 text-userWhite rounded-md px-3 py-2'
               >
                 DAFTAR
               </button>
