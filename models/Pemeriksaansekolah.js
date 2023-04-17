@@ -14,7 +14,15 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  createdByKodFasiliti: {
+    type: String,
+    required: true,
+  },
   createdByUsername: {
+    type: String,
+    required: true,
+  },
+  createdByMdcMdtb: {
     type: String,
     required: true,
   },
@@ -94,6 +102,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
   perluPenskaleranOralHygiene: {
     type: Boolean,
     default: false,
+  },
+  statusPeriodontium: {
+    type: String,
+    default: '',
   },
   yaTidakPesakitMempunyaiGigi: {
     type: String,
@@ -382,7 +394,15 @@ const PemeriksaansekolahSchema = new mongoose.Schema({
     type: String,
     default: '',
   },
+  noTelMuridKotak: {
+    type: String,
+    default: '',
+  },
   kesSelesai: {
+    type: String,
+    default: '',
+  },
+  kesSelesaiIcdas: {
     type: String,
     default: '',
   },

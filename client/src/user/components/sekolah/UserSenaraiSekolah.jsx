@@ -11,6 +11,7 @@ import {
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import UserModalSelesaiSekolah from './UserModalSelesaiSekolah';
+import UserModalRefreshPelajar from './UserModalRefreshPelajar';
 
 function UserSekolahList() {
   const {
@@ -32,6 +33,7 @@ function UserSekolahList() {
   const [sekMenRen, setSekMenRen] = useState('');
 
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
+  const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
 
   const [reloadState, setReloadState] = useState(false);
@@ -133,7 +135,7 @@ function UserSekolahList() {
           }
         ),
         {
-          loading: 'Sedang menyimpan...',
+          pending: 'Sedang menutup reten sekolah...',
           success: 'Sekolah telah ditandakan selesai!',
           error: 'Gagal untuk selesai sekolah. Sila cuba lagi.',
         },
@@ -142,6 +144,41 @@ function UserSekolahList() {
         }
       );
       setModalSelesaiSekolah(false);
+      setReloadState(!reloadState);
+    }
+  };
+
+  const handleRefreshPelajar = async () => {
+    if (!modalRefreshPelajar) {
+      setModalRefreshPelajar(true);
+      return;
+    }
+    if (modalRefreshPelajar) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.get(`/api/v1/sekolah/kemaskini/${idSekolah}`, {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }),
+        {
+          pending: 'Sedang mengesahkan pengemaskinian pelajar...',
+          success: 'Pengemaskinian pelajar akan dilakukan',
+          error: 'Gagal untuk kemaskini pelajar. Sila cuba lagi.',
+        },
+        {
+          autoClose: 3000,
+        }
+      );
+      setModalRefreshPelajar(false);
       setReloadState(!reloadState);
     }
   };
@@ -166,7 +203,6 @@ function UserSekolahList() {
               onChange={(e) => setSekMenRen(e.target.value)}
             >
               <option value=''>SEMUA SEKOLAH</option>
-              <option value='prasekolah'>PRASEKOLAH</option>
               <option value='sekolah-menengah'>SEKOLAH MENENGAH</option>
               <option value='sekolah-rendah'>SEKOLAH RENDAH</option>
             </select>
@@ -214,6 +250,11 @@ function UserSekolahList() {
                     TUTUP RETEN SEKOLAH
                   </th>
                 )}
+                {userinfo.role === 'admin' && (
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-32'>
+                    KEMASKINI SENARAI PELAJAR
+                  </th>
+                )}
               </tr>
             </thead>
             {isLoading ? (
@@ -243,6 +284,11 @@ function UserSekolahList() {
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
+                  {userinfo.role === 'admin' && (
+                    <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    </td>
+                  )}
                   {userinfo.role === 'admin' && (
                     <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
@@ -320,7 +366,6 @@ function UserSekolahList() {
                         {userinfo.role === 'admin' && (
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                             <button
-                              // disabled={true}
                               onClick={() => {
                                 setIdSekolah(singleNamaSekolah._id);
                                 setModalSelesaiSekolah(true);
@@ -332,8 +377,27 @@ function UserSekolahList() {
                               } text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all`}
                             >
                               {singleNamaSekolah.sekolahSelesaiReten
-                                ? 'Telah Ditutup'
+                                ? 'TELAH DITUTUP'
                                 : 'TUTUP'}
+                            </button>
+                          </td>
+                        )}
+                        {userinfo.role === 'admin' && (
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                            <button
+                              onClick={() => {
+                                setIdSekolah(singleNamaSekolah._id);
+                                setModalRefreshPelajar(true);
+                              }}
+                              className={`${
+                                singleNamaSekolah.sekolahSelesaiReten
+                                  ? 'bg-user1 pointer-events-none px-5'
+                                  : 'bg-user3 shadow-md'
+                              } text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all`}
+                            >
+                              {singleNamaSekolah.sekolahSelesaiReten
+                                ? '-'
+                                : 'KEMASKINI'}
                             </button>
                           </td>
                         )}
@@ -348,6 +412,13 @@ function UserSekolahList() {
           <UserModalSelesaiSekolah
             setModalSelesaiSekolah={setModalSelesaiSekolah}
             handleSelesaiSekolah={handleSelesaiSekolah}
+            id={idSekolah}
+          />
+        )}
+        {modalRefreshPelajar && (
+          <UserModalRefreshPelajar
+            setModalRefreshPelajar={setModalRefreshPelajar}
+            handleRefreshPelajar={handleRefreshPelajar}
             id={idSekolah}
           />
         )}
