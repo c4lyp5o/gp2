@@ -122,8 +122,7 @@ export default function UserCarianPromosi() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const params = `/api/v1/query/promosi?
-      ${
+      const params = `/api/v1/query/promosi?${
         tarikhMulaAcara
           ? `tarikhMulaAcara=${moment(tarikhMulaAcara.format('YYYY-MM-DD'))}&`
           : ''

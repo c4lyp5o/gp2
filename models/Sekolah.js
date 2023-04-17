@@ -104,6 +104,14 @@ const SekolahSchema = new mongoose.Schema({
     type: Boolean,
     default: false,
   },
+  tarikhKumuranKohortFMR: {
+    type: Array,
+    default: [],
+  },
+  telahDaftarKohortFMR: {
+    type: Boolean,
+    default: false,
+  },
   // pemeriksaan -------------------------------------------------------
   pemeriksaanSekolah: {
     type: mongoose.Schema.Types.ObjectId,
@@ -120,11 +128,6 @@ const SekolahSchema = new mongoose.Schema({
   kotakSekolah: {
     type: mongoose.Schema.Types.ObjectId,
     ref: 'Kotaksekolah',
-  },
-  // FMR ---------------------------------------------------------------
-  tarikhKumuranMurid: {
-    type: Array,
-    default: [],
   },
 });
 
