@@ -1,11 +1,16 @@
 const PromosiType = require('../models/PromosiType');
 const Promosi = require('../models/Promosi');
+const { logger } = require('../logs/logger');
 
 // GET /
 const getAllProgramPromosi = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  logger.info(
+    `${req.method} ${req.url} [promosiController] getAllProgramPromosi called`
+  );
 
   const types = await PromosiType.find({ nama: 'current' });
   const { program } = types[0];
@@ -40,6 +45,10 @@ const getSingleAktivitiPromosi = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  logger.info(
+    `${req.method} ${req.url} [promosiController] getSingleAktivitiPromosi called`
+  );
+
   const singleAktivitiPromosi = await Promosi.findOne({
     _id: req.params.aktivitiId,
     tahunDibuat: new Date().getFullYear(),
@@ -61,6 +70,10 @@ const createAktivitiPromosi = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  logger.info(
+    `${req.method} ${req.url} [promosiController] createAktivitiPromosi called`
+  );
+
   // associate negeri, daerah, kp, tahunDibuat to each aktiviti for every creation
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
@@ -78,6 +91,10 @@ const updateAktvitiPromosi = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  logger.info(
+    `${req.method} ${req.url} [promosiController] updateAktvitiPromosi called`
+  );
 
   const updatedSingleAktivitiPromosi = await Promosi.findOneAndUpdate(
     {
@@ -103,6 +120,10 @@ const softDeleteAktivitiPromosi = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  logger.info(
+    `${req.method} ${req.url} [promosiController] softDeleteAktivitiPromosi called`
+  );
 
   const { deleteReason } = req.body;
 
@@ -160,6 +181,10 @@ const queryAktivitiPromosi = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  logger.info(
+    `${req.method} ${req.url} [promosiController] queryAktivitiPromosi called`
+  );
 
   const {
     user: { negeri, daerah, kp, kodFasiliti },
@@ -220,7 +245,7 @@ const queryAktivitiPromosi = async (req, res) => {
     };
   }
 
-  const aktivitiPromosiResultQuery = await Promosi.find(queryObject);
+  const aktivitiPromosiResultQuery = await Promosi.find(queryObject).lean();
 
   if (aktivitiPromosiResultQuery.length < 1) {
     return res.status(404).json({ msg: 'No aktiviti promosi found' });
