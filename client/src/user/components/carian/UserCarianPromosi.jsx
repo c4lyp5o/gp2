@@ -48,7 +48,7 @@ export default function UserCarianPromosi() {
         setTarikhMulaAcaraDP(tarikhMula);
       },
       className:
-        'appearance-none w-full lg:w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+        'appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
     });
   };
 
@@ -61,7 +61,7 @@ export default function UserCarianPromosi() {
         setTarikhAkhirAcaraDP(tarikhAkhir);
       },
       className:
-        'appearance-none w-full lg:w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
+        'appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
     });
   };
 
@@ -122,13 +122,20 @@ export default function UserCarianPromosi() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const params = `/api/v1/query/promosi?${
-        tarikhMulaAcara ? `tarikhMulaAcara=${tarikhMulaAcara}&` : ''
-      }${tarikhAkhirAcara ? `tarikhAkhirAcara=${tarikhAkhirAcara}&` : ''}${
-        kodProgram ? `kodProgram=${kodProgram}&` : ''
-      }${namaAcara ? `namaAcara=${namaAcara}&` : ''}${
-        mdcMdtbNumber ? `mdcMdtbNumber=${mdcMdtbNumber}&` : ''
-      }${individuOrKlinik ? `individuOrKlinik=${individuOrKlinik}&` : ''}`;
+      const params = `/api/v1/query/promosi?
+      ${
+        tarikhMulaAcara
+          ? `tarikhMulaAcara=${moment(tarikhMulaAcara.format('YYYY-MM-DD'))}&`
+          : ''
+      }${
+        tarikhAkhirAcara
+          ? `tarikhAkhirAcara=${moment(tarikhAkhirAcara.format('YYYY-MM-DD'))}&`
+          : ''
+      }${kodProgram ? `kodProgram=${kodProgram}&` : ''}${
+        namaAcara ? `namaAcara=${namaAcara}&` : ''
+      }${mdcMdtbNumber ? `mdcMdtbNumber=${mdcMdtbNumber}&` : ''}${
+        individuOrKlinik ? `individuOrKlinik=${individuOrKlinik}&` : ''
+      }`;
       setSearchUrl(params);
       const { data } = await axios.get(params, {
         headers: {
@@ -214,133 +221,127 @@ export default function UserCarianPromosi() {
         </div>
         <form onSubmit={handleSubmit}>
           <div className='grid lg:grid-cols-2 gap-2'>
-            <div>
-              <div className='m-auto w-full lg:flex lg:flex-row lg:py-2 lg:w-96'>
-                <label
-                  htmlFor='pilihanTarikh'
-                  className='whitespace-nowrap flex items-center mb-1'
-                >
-                  Tarikh Mula Acara :{' '}
-                </label>
-                <TarikhMula />
-              </div>
-              <div className='m-auto w-full lg:flex lg:flex-row lg:py-2 lg:w-96'>
-                <label
-                  htmlFor='pilihanTarikh'
-                  className='whitespace-nowrap flex items-center mb-1'
-                >
-                  Tarikh Akhir Acara :{' '}
-                </label>
-                <TarikhAkhir />
-              </div>
-              <div className='m-auto w-full lg:flex lg:flex-row lg:py-2 lg:w-96'>
-                <label
-                  htmlFor='pilihanNama'
-                  className='whitespace-nowrap flex items-center mb-1'
-                >
-                  Carian nama acara :{' '}
-                </label>
-                <input
-                  type='search'
-                  name='pilihanNama'
-                  className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase lg:ml-2'
-                  id='pilihanNama'
-                  onChange={(e) => {
-                    setNamaAcara(e.target.value.toUpperCase());
-                  }}
-                />
-              </div>
-              <div className='m-auto w-96 lg:flex lg:flex-row mt-3'>
-                <label
-                  htmlFor='pilihanIndividuAtauKlinik'
-                  className='whitespace-nowrap mr-7 mx-5'
-                >
-                  Individu/Klinik :{' '}
-                </label>
-                <select
-                  type='text'
-                  name='pilihanIndividuAtauKlinik'
-                  id='pilihanIndividuAtauKlinik'
-                  value={individuOrKlinik}
-                  className='w-full my-3 mx-4 leading-7 px-3 py-2 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                  onChange={(e) => setIndividuOrKlinik(e.target.value)}
-                >
-                  <option value=''>Sila Pilih</option>
-                  <option value='promosi-individu'>Individu</option>
-                  <option value='promosi-klinik'>Klinik</option>
-                </select>
-              </div>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+              <label
+                htmlFor='pilihanTarikh'
+                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              >
+                Tarikh Mula Acara :{' '}
+              </label>
+              <TarikhMula />
             </div>
-            <div>
-              <div className='m-auto w-96 lg:flex lg:flex-row'>
-                <label
-                  htmlFor='jenis-program'
-                  className='whitespace-nowrap mr-7 mx-5'
-                >
-                  jenis program :
-                </label>
-                <select
-                  type='text'
-                  name='jenis-program'
-                  id='jenis-program'
-                  value={jenisProgramResult}
-                  className='w-full my-3 mx-4 leading-7 px-3 py-2 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                  onChange={(e) => setJenisProgramResult(e.target.value)}
-                >
-                  <option value=''>Sila Pilih</option>
-                  {jenisProgram.map((j) => (
-                    <option key={j} value={j}>
-                      {j}
-                    </option>
-                  ))}
-                </select>
-              </div>
-              <div className='m-auto w-96 lg:flex lg:flex-row'>
-                <label
-                  htmlFor='kod-program'
-                  className='whitespace-nowrap mr-8 mx-5'
-                >
-                  kod program :
-                </label>
-                <select
-                  type='text'
-                  value={kodProgram}
-                  onChange={(e) => {
-                    setKodProgram(e.target.value);
-                  }}
-                  className='w-full my-3 mx-4 leading-7 px-3 py-2 ring-2 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md'
-                >
-                  <option value=''>Sila Pilih</option>
-                  {allProgramPromosi
-                    .filter((p) => p.jenisProgram === jenisProgramResult)
-                    .map((p) => {
-                      return (
-                        <option value={p.kodProgram}>
-                          {p.kodProgram} | {p.namaProgram}
-                        </option>
-                      );
-                    })}
-                </select>
-              </div>
-              <div className='m-auto w-96 lg:flex lg:flex-row'>
-                <label
-                  htmlFor='nama-program'
-                  className='whitespace-nowrap mx-5 text-left'
-                >
-                  nama program :
-                </label>
-                <div className='w-full my-3 mx-4 appearance-none leading-7 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none rounded-md shadow-md whitespace-nowrap bg-user1 bg-opacity-25'>
-                  <p className='whitespace-pre-wrap flex flex-row'>
-                    {kodProgram !== ''
-                      ? allProgramPromosi
-                          .filter((p) => p.kodProgram.includes(kodProgram))
-                          .map((p) => {
-                            return <span>{p.namaProgram}</span>;
-                          })
-                      : '..'}
-                  </p>
-                </div>
-              </div>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+              <label
+                htmlFor='pilihanTarikh'
+                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              >
+                Tarikh Akhir Acara :{' '}
+              </label>
+              <TarikhAkhir />
+            </div>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+              <label
+                htmlFor='pilihanNama'
+                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              >
+                Carian nama acara :{' '}
+              </label>
+              <input
+                type='search'
+                name='pilihanNama'
+                className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                id='pilihanNama'
+                onChange={(e) => {
+                  setNamaAcara(e.target.value.toUpperCase());
+                }}
+              />
+            </div>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+              <label
+                htmlFor='pilihanIndividuAtauKlinik'
+                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              >
+                Individu/Klinik :{' '}
+              </label>
+              <select
+                type='text'
+                name='pilihanIndividuAtauKlinik'
+                id='pilihanIndividuAtauKlinik'
+                value={individuOrKlinik}
+                className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                onChange={(e) => setIndividuOrKlinik(e.target.value)}
+              >
+                <option value=''>Sila Pilih</option>
+                <option value='promosi-individu'>Individu</option>
+                <option value='promosi-klinik'>Klinik</option>
+              </select>
+            </div>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+              <label
+                htmlFor='jenis-program'
+                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              >
+                jenis program :
+              </label>
+              <select
+                type='text'
+                name='jenis-program'
+                id='jenis-program'
+                value={jenisProgramResult}
+                className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                onChange={(e) => setJenisProgramResult(e.target.value)}
+              >
+                <option value=''>Sila Pilih</option>
+                {jenisProgram.map((j) => (
+                  <option key={j} value={j}>
+                    {j}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+              <label
+                htmlFor='kod-program'
+                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              >
+                kod program :
+              </label>
+              <select
+                type='text'
+                value={kodProgram}
+                onChange={(e) => {
+                  setKodProgram(e.target.value);
+                }}
+                className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+              >
+                <option value=''>Sila Pilih</option>
+                {allProgramPromosi
+                  .filter((p) => p.jenisProgram === jenisProgramResult)
+                  .map((p) => {
+                    return (
+                      <option value={p.kodProgram}>
+                        {p.kodProgram} | {p.namaProgram}
+                      </option>
+                    );
+                  })}
+              </select>
+            </div>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_7fr] lg:col-span-2'>
+              <label
+                htmlFor='nama-program'
+                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              >
+                nama program :
+              </label>
+              <p className='appearance-none w-full px-2 py-1 text-user1 text-left border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'>
+                {kodProgram !== ''
+                  ? allProgramPromosi
+                      .filter((p) => p.kodProgram.includes(kodProgram))
+                      .map((p) => {
+                        return <span>{p.namaProgram}</span>;
+                      })
+                  : '..'}
+              </p>
             </div>
           </div>
           <div className='grid grid-cols-2 gap-3'>
@@ -418,10 +419,14 @@ export default function UserCarianPromosi() {
                         {index + 1}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {hasilQueryPromosi.tarikhMula}
+                        {moment(hasilQueryPromosi.tarikhMula).format(
+                          'DD/MM/YYYY'
+                        )}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {hasilQueryPromosi.tarikhAkhir}
+                        {moment(hasilQueryPromosi.tarikhAkhir).format(
+                          'DD/MM/YYYY'
+                        )}
                       </td>
                       <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
                         {hasilQueryPromosi.kodProgram}

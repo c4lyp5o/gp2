@@ -126,7 +126,8 @@ function UserSekolah() {
     }
   }, [reloadState]);
 
-  const handleSubmit = async (e) => {
+  // TODO refactor to try catch block with toast.promise, submitting state & reset the date input
+  const handleSubmitBegin = async (e) => {
     e.preventDefault();
     await axios
       .patch(
@@ -427,15 +428,15 @@ function UserSekolah() {
                     filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
                       <input
                         type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='SEKOLAH SUDAH SELESAI RETEN'
+                        className='appearance-none w-full px-2 py-1 text-user7 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='SUDAH SELESAI'
                         readOnly
                       />
                     ) : (
                       <input
                         type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='SEKOLAH BELUM SELESAI RETEN'
+                        className='appearance-none w-full px-2 py-1 text-user9 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value='BELUM SELESAI'
                         readOnly
                       />
                     )}
@@ -917,7 +918,7 @@ function UserSekolah() {
                                     : 'hidden '
                                 } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                               >
-                                <form onSubmit={handleSubmit}>
+                                <form onSubmit={handleSubmitBegin}>
                                   <p className='flex justify-center text-lg font-bold border-b border-b-user1 py-3'>
                                     Aktiviti BEGIN
                                   </p>
@@ -1010,7 +1011,9 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {pilihanSekolah && pilihanTahunTingkatan ? (
+                  {pilihanSekolah &&
+                  pilihanTahunTingkatan &&
+                  !pilihanTahunTingkatan.includes('TINGKATAN') ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
@@ -1035,7 +1038,9 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  {pilihanSekolah && pilihanTahunTingkatan ? (
+                  {pilihanSekolah &&
+                  pilihanTahunTingkatan &&
+                  !pilihanTahunTingkatan.includes('TINGKATAN') ? (
                     <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>

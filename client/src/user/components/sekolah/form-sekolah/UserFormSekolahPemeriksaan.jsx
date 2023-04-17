@@ -24,6 +24,7 @@ function UserFormSekolahPemeriksaan() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   //confirm data
   const [confirmData, setConfirmData] = useState({});
@@ -289,6 +290,7 @@ function UserFormSekolahPemeriksaan() {
         kebenaranPemeriksaan: '',
         tidakHadirPemeriksaan: '',
       });
+      setPadamPemeriksaan(false);
     }
   }, [padamPemeriksaan]);
 
@@ -896,6 +898,7 @@ function UserFormSekolahPemeriksaan() {
 
     // block tambah-pemeriksaan je yang guna sbb dah xleh edit pemeriksaan
     if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
+      setIsSubmitting(true);
       await toast
         .promise(
           axios.post(
@@ -4538,17 +4541,47 @@ function UserFormSekolahPemeriksaan() {
                       window.open('', '_self');
                       window.close();
                     }}
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer col-start-2'
                   >
                     tutup
                   </span>
-                  {!isDisabled && (
+                  {isSubmitting ? (
                     <button
-                      type='submit'
-                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                      type='button'
+                      className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                      disabled
                     >
-                      hantar
+                      <svg
+                        className='animate-spin ml-1 mr-3 h-5 w-5 text-white'
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                      >
+                        <circle
+                          className='opacity-25'
+                          cx='12'
+                          cy='12'
+                          r='10'
+                          stroke='currentColor'
+                          strokeWidth='4'
+                        ></circle>
+                        <path
+                          className='opacity-75'
+                          fill='currentColor'
+                          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                        ></path>
+                      </svg>
+                      Menghantar Data
                     </button>
+                  ) : (
+                    !isDisabled && (
+                      <button
+                        type='submit'
+                        className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                      >
+                        hantar
+                      </button>
+                    )
                   )}
                 </div>
               </form>
