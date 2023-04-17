@@ -18,7 +18,13 @@ export default function UserKohort() {
           className='flex justify-start items-center p-2 bg-[#D7E2E9] text-userBlack hover:bg-user4 cursor-pointer shadow-md rounded-xl w-full h-full'
           onMouseEnter={() => setKotak(true)}
           onMouseLeave={() => setKotak(false)}
-          onClick={() => navigate('/pengguna/landing/kohort/kotak')}
+          onClick={() => {
+            import.meta.env.VITE_ENV === 'TRAINING' ||
+            import.meta.env.VITE_ENV === 'UNSTABLE' ||
+            import.meta.env.VITE_ENV === 'DEV'
+              ? navigate('/pengguna/landing/kohort/kotak')
+              : null;
+          }}
         >
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2 w-full whitespace-pre-wrap'>
@@ -48,7 +54,7 @@ export default function UserKohort() {
           <FaGripVertical className='text-5xl text-user3' />
           <div className='flex flex-col pl-2'>
             <h1 className='font-semibold text-xl text-left'>
-              Program Kumuran Berfluorida
+              Program Kumuran Berfluorida (akan datang)
             </h1>
             {sapuanFv && (
               <p className='font-light text-left'>Sapuan florida empat kali</p>
