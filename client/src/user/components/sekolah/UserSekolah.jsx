@@ -126,7 +126,8 @@ function UserSekolah() {
     }
   }, [reloadState]);
 
-  const handleSubmit = async (e) => {
+  // TODO refactor to try catch block with toast.promise, submitting state & reset the date input
+  const handleSubmitBegin = async (e) => {
     e.preventDefault();
     await axios
       .patch(
@@ -917,7 +918,7 @@ function UserSekolah() {
                                     : 'hidden '
                                 } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md m-2`}
                               >
-                                <form onSubmit={handleSubmit}>
+                                <form onSubmit={handleSubmitBegin}>
                                   <p className='flex justify-center text-lg font-bold border-b border-b-user1 py-3'>
                                     Aktiviti BEGIN
                                   </p>

@@ -290,6 +290,7 @@ function UserFormSekolahPemeriksaan() {
         kebenaranPemeriksaan: '',
         tidakHadirPemeriksaan: '',
       });
+      setPadamPemeriksaan(false);
     }
   }, [padamPemeriksaan]);
 
