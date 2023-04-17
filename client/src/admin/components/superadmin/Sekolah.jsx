@@ -45,13 +45,13 @@ export default function Sekolah(props) {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Bil.
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96'>
                   Nama & Kod Sekolah
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Jenis Perkhidmatan
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-52'>
                   Klinik Bertanggungjawab
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -78,22 +78,21 @@ export default function Sekolah(props) {
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {index + 1}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {f.nama} |{' '}
-                      <span className='font-bold'>{f.kodSekolah}</span>
+                    <td className='px-3 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-left'>
+                      {f.nama} | {f.kodSekolah}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {f.statusPerkhidmatan === 'kps' ? (
-                        <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                      {f.jenisPerkhidmatanSekolah === 'kps' ? (
+                        <span className='bg-user9 text-adminBlack text-xs  px-1.5 py-0.5 rounded'>
                           Klinik / Pusat Pergigian Sekolah
                         </span>
                       ) : (
-                        <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        <span className='bg-user4 text-adminBlack text-xs  px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Pasukan / Klinik Pergigian Bergerak
                         </span>
                       )}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    <td className='px-3 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-left'>
                       {f.handler}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
@@ -111,7 +110,7 @@ export default function Sekolah(props) {
                       )}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {f.statusFMRSekolah === 'active' ? (
+                      {f.statusFMRSekolah === 'ya' ? (
                         <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
                           Ya
                         </span>

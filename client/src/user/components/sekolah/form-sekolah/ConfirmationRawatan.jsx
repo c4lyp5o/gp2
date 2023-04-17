@@ -321,7 +321,8 @@ const ConfirmModal = ({ children, data }) => {
                           {data.kesSelesaiSekolahRawatan ? (
                             <p>
                               Kes Selesai
-                              {data.kesSelesaiSekolahRawatan === true ? (
+                              {data.kesSelesaiSekolahRawatan ===
+                              'ya-kes-selesai-penyata-akhir-2' ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
@@ -331,7 +332,8 @@ const ConfirmModal = ({ children, data }) => {
                           {data.kesSelesaiIcdasSekolahRawatan ? (
                             <p>
                               Kes Selesai ICDAS:
-                              {data.kesSelesaiIcdasSekolahRawatan === true ? (
+                              {data.kesSelesaiIcdasSekolahRawatan ===
+                              'ya-kes-selesai-icdas-penyata-akhir-2' ? (
                                 <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
                               ) : (
                                 <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />

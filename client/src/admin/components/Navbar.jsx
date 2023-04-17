@@ -4,23 +4,26 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 export default function Navbar(props) {
   const [showLinks, setShowLinks] = useState(false);
-  const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
   const [showPenetapanSubMenu, setShowPenetapanSubMenu] = useState(false);
+  const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
   const [showMaklumatLainSubMenu, setShowMaklumatLainSubMenu] = useState(false);
 
   const togglePenetapanSubMenu = () => {
     setShowPenetapanSubMenu(!showPenetapanSubMenu);
     setShowMedSosSubMenu(false);
+    setShowMaklumatLainSubMenu(false);
   };
 
   const toggleSubMenuMedSos = () => {
     setShowMedSosSubMenu(!showMedSosSubMenu);
     setShowPenetapanSubMenu(false);
+    setShowMaklumatLainSubMenu(false);
   };
 
   const toggleSubMenuMaklumatLain = () => {
     setShowMaklumatLainSubMenu(!showMaklumatLainSubMenu);
     setShowPenetapanSubMenu(false);
+    setShowMedSosSubMenu(false);
   };
 
   const toggleLinks = () => {
@@ -54,7 +57,12 @@ export default function Navbar(props) {
             <NavLink
               className='outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
               to='/pentadbir/landing'
-              onClick={() => setShowLinks(!showLinks)}
+              onClick={() => {
+                setShowLinks(!showLinks);
+                setShowPenetapanSubMenu(false);
+                setShowMedSosSubMenu(false);
+                setShowMaklumatLainSubMenu(false);
+              }}
             >
               PAPARAN UTAMA
             </NavLink>
@@ -269,7 +277,12 @@ export default function Navbar(props) {
                       : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                   }
                   to='generate'
-                  onClick={() => setShowLinks(!showLinks)}
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowPenetapanSubMenu(false);
+                    setShowMedSosSubMenu(false);
+                    setShowMaklumatLainSubMenu(false);
+                  }}
                 >
                   PENJANAAN RETEN
                 </NavLink>
@@ -434,7 +447,12 @@ export default function Navbar(props) {
                         : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                     }
                     to='kp/generate'
-                    onClick={() => setShowLinks(!showLinks)}
+                    onClick={() => {
+                      setShowLinks(!showLinks);
+                      setShowPenetapanSubMenu(false);
+                      setShowMedSosSubMenu(false);
+                      setShowMaklumatLainSubMenu(false);
+                    }}
                   >
                     PENJANAAN RETEN
                   </NavLink>
@@ -599,7 +617,12 @@ export default function Navbar(props) {
                       : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                   }
                   to='generate'
-                  onClick={() => setShowLinks(!showLinks)}
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowPenetapanSubMenu(false);
+                    setShowMedSosSubMenu(false);
+                    setShowMaklumatLainSubMenu(false);
+                  }}
                 >
                   PENJANAAN RETEN
                 </NavLink>
@@ -625,7 +648,12 @@ export default function Navbar(props) {
                       : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
                   }
                   to='generate'
-                  onClick={() => setShowLinks(!showLinks)}
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowPenetapanSubMenu(false);
+                    setShowMedSosSubMenu(false);
+                    setShowMaklumatLainSubMenu(false);
+                  }}
                 >
                   PENJANAAN RETEN
                 </NavLink>

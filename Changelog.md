@@ -1,12 +1,16 @@
 # Changelog
 
-### Unreleased
+### 17/4/2023 (v2.0.19)
 
-#### Reverted
+#### Changed
 
-- _Anticipatory guidance_ tidak boleh kosong ketika ingin menghantar reten di borang pesakit umum - https://github.com/nocturnalmc/gp2/commit/22d04e51a3b747baa7ddeb795b1dcb18115bc461
+- Pengguna perlu menjawab pemilihan penggunaan KPB / MPB ya atau tidak ketika mengisi borang pesakit umum sekiranya pesakit berkenaan berada di dalam tarikh penggunaan KPB / MPB bagi fasiliti tersebut
 
-### 4/4/2023 (v2.0.18)
+#### e-Reporting
+
+- Menambah pilihan reten TOD 02 Pin. 1/2022 untuk dijana di semua peringkat pentadbir
+
+### 5/4/2023 (v2.0.18)
 
 #### Added
 
@@ -14,7 +18,7 @@
 
 #### Changed
 
-- Perubahan pada cara kemasukan kod taska & tadika di modul Pentadbir bagi Pentadbir Daerah
+- Perubahan pada cara memasukan kod taska dan tadika di modul Pentadbir bagi Pentadbir Daerah
 - Senarai promosi yang dipaparkan di submodul Promosi Individu adalah berdasarkan kepada operator yang log masuk ke dalam modul Pengguna
 - Tindakan untuk menghapuskan reten promosi klinik & promosi individu diubah kepada submodul Carian Promosi dan dibuka hanya kepada pentadbir klinik atau pegawai promosi klinik
 
@@ -26,7 +30,7 @@
 
 - Pembetulan pada reten PG206 & PG207 supaya mengambil data bagi rawatan operator lain dengan lebih tepat
 - Memperbetulkan data yang tidak dipaparkan di kolum Pameran/Kempen, Radio dan Cetak bagi reten PGPRO 01 Pind. 2/2022 FFR dan reten PGPRO 01 Pind. 2/2022 Kod Program
-- Reten promosi yang telah dihapuskan tidak akan dipaparkan didalam reten PGPRO 01 Pind. 2/2022 FFR dan reten PGPRO 01 Pind. 2/2022 Kod Program
+- Reten promosi yang telah dihapuskan tidak akan dipaparkan di dalam reten PGPRO 01 Pind. 2/2022 FFR dan reten PGPRO 01 Pind. 2/2022 Kod Program
 
 ### 26/3/2023 (v2.0.17)
 

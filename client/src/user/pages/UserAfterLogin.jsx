@@ -49,6 +49,16 @@ const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
 const UserKohortKotakForm = lazy(() =>
   import('../components/kohort/KOTAK/FormKOTAK')
 );
+const UserKohortFMR = lazy(() => import('../components/kohort/FMR/FMR'));
+const UserListMuridFMR = lazy(() =>
+  import('../components/kohort/FMR/RegisterListMuridFMR')
+);
+const UserCarianMuridFMR = lazy(() =>
+  import('../components/kohort/FMR/CarianFMR')
+);
+const UserKohortFMRForm = lazy(() =>
+  import('../components/kohort/FMR/FormFMR')
+);
 
 const UserCarianPesakit = lazy(() =>
   import('../components/carian/UserCarianPesakit')
@@ -130,7 +140,7 @@ function UserAfterLogin() {
                 }
               />
               <Route
-                path='senarai-sekolah/sekolah/:singleSekolahId'
+                path='senarai-sekolah/sekolah/:kodSekolah'
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserSekolah />{' '}
@@ -215,18 +225,23 @@ function UserAfterLogin() {
             </>
           )}
 
-          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <Route
+              path='kohort'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <UserKohort />{' '}
+                </Suspense>
+              }
+            />
+          ) : null}
+          {/* kotak */}
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
           import.meta.env.VITE_ENV === 'DEV' ? (
             <>
-              <Route
-                path='kohort'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <UserKohort />{' '}
-                  </Suspense>
-                }
-              />
-              {/* kotak */}
               <Route
                 path='kohort/kotak'
                 element={
@@ -240,6 +255,44 @@ function UserAfterLogin() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserKohortKotakForm />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
+          {/* FMR */}
+          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
+              <Route
+                path='kohort/fmr'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortFMR />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/fmr/daftar'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserListMuridFMR />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/fmr/:personKohortFMRId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortFMRForm />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/fmr/carian'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserCarianMuridFMR />{' '}
                   </Suspense>
                 }
               />

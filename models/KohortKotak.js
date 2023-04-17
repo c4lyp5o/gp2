@@ -28,11 +28,19 @@ const KohortKotakSchema = new mongoose.Schema(
       required: true,
     },
     // kotak --------------------------------------------------
+    statusKotak: {
+      type: String,
+      default: 'belum mula',
+    },
+    idIndividu: {
+      type: String,
+      default: '',
+    },
     nama: {
       type: String,
       default: '',
     },
-    ic: {
+    noKadPengenalan: {
       type: String,
       default: '',
     },
@@ -41,6 +49,10 @@ const KohortKotakSchema = new mongoose.Schema(
       default: '',
     },
     kodSekolah: {
+      type: String,
+      default: '',
+    },
+    tahunTingkatan: {
       type: String,
       default: '',
     },
@@ -53,19 +65,6 @@ const KohortKotakSchema = new mongoose.Schema(
       default: '',
     },
     dalamPemantauanKohort: {
-      type: String,
-      default: '',
-      required: true,
-    },
-    statusM: {
-      type: String,
-      default: '',
-    },
-    menerimaNasihatRingkas: {
-      type: String,
-      default: '',
-    },
-    inginMelakukanIntervensiMerokok: {
       type: String,
       default: '',
     },

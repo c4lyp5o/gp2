@@ -1159,7 +1159,7 @@ export function InputFacility(props) {
                   <button
                     type='button'
                     onClick={() => props.setShowAddModal(false)}
-                    className='capitalize rounded-md shadow-xl p-2 transition-all duration-300 ease-in-out border-adminBlack border-2 text-adminBlack hover:text-admin3'
+                    className='capitalize rounded-md shadow-xl p-2 transition-all duration-300 ease-in-out border-adminBlack border-2 text-adminBlack hover:text-admin3 w-full hover:outline-user3 hover:outline'
                   >
                     Batal
                   </button>
@@ -1509,7 +1509,7 @@ export function InputEditKlinik(props) {
                   className={styles.cancelBtn}
                   onClick={() => props.setShowEditModal(false)}
                 >
-                  Cancel
+                  Batal
                 </span>
               </div>
             </div>
@@ -1722,7 +1722,7 @@ export function InputEditPegawai(props) {
               className={styles.cancelBtn}
               onClick={() => props.setShowEditModal(false)}
             >
-              Cancel
+              Batal
             </span>
           </div>
         </div>
@@ -1856,7 +1856,7 @@ export function InputEditFacility(props) {
                     }}
                   />
                 </div>
-                {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
+                {props.FType !== 'sr' ? null : (
                   <>
                     <p>
                       Program Kumuran Berflourida{' '}
@@ -1865,16 +1865,16 @@ export function InputEditFacility(props) {
                       </span>
                     </p>
                     <div className='grid grid-cols-2'>
-                      <label htmlFor='ya-fmr'>Aktif</label>
+                      <label htmlFor='ya-fmr'>Ya</label>
                       <input
                         checked={
-                          props.editedEntity.statusFMRSekolah === 'active'
+                          props.editedEntity.statusFMRSekolah === 'ya'
                             ? true
                             : false
                         }
                         type='radio'
                         name='ya-fmr'
-                        value='active'
+                        value='ya'
                         onChange={(e) => {
                           props.setEditedEntity({
                             ...props.editedEntity,
@@ -1882,16 +1882,16 @@ export function InputEditFacility(props) {
                           });
                         }}
                       />
-                      <label htmlFor='tidak-fmr'>Tidak Aktif</label>
+                      <label htmlFor='tidak-fmr'>Tidak</label>
                       <input
                         checked={
-                          props.editedEntity.statusFMRSekolah === 'non-active'
+                          props.editedEntity.statusFMRSekolah === 'tidak'
                             ? true
                             : false
                         }
                         type='radio'
                         name='tidak-fmr'
-                        value='non-active'
+                        value='tidak'
                         onChange={(e) => {
                           props.setEditedEntity({
                             ...props.editedEntity,
@@ -1915,7 +1915,7 @@ export function InputEditFacility(props) {
                   className={styles.cancelBtn}
                   onClick={() => props.setShowEditModal(false)}
                 >
-                  Cancel
+                  Batal
                 </span>
               </div>
             </div>
@@ -2641,7 +2641,7 @@ export function InputKpEditPegawai(props) {
               className={styles.cancelBtn}
               onClick={() => props.setShowEditModal(false)}
             >
-              Cancel
+              Batal
             </span>
           </div>
         </div>
@@ -2778,7 +2778,7 @@ export function InputKpEditFacility(props) {
                   className={styles.cancelBtn}
                   onClick={() => props.setShowEditModal(false)}
                 >
-                  Cancel
+                  Batal
                 </span>
               </div>
             </div>
@@ -4159,7 +4159,7 @@ export function InputKpEditKPBMPB(props) {
                 className={styles.cancelBtn}
                 onClick={() => props.setShowEditModal(false)}
               >
-                Cancel
+                Batal
               </span>
             </div>
           </div>
