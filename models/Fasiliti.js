@@ -49,6 +49,7 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  // sr sm => KOHORT FMR
   statusFMRSekolah: {
     type: String,
     default: 'tidak',
@@ -61,10 +62,12 @@ const fasilitiSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  // sr sm => BEGIN
   melaksanakanBegin: {
     type: Boolean,
     default: false,
   },
+  // sr sm => Persis
   risikoSekolahPersis: {
     type: String,
     default: 'NOT APPLICABLE',
