@@ -58,7 +58,7 @@ const SekolahSchema = new mongoose.Schema({
   // previously namaKelas
   kelasPelajar: {
     type: String,
-    default: 'MISSING kelas pelajar', // pending
+    default: 'MISSING NAMA KELAS',
   },
   //previously kodJantina
   jantina: {
