@@ -39,59 +39,13 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
     jantina: '',
     statusOku: '',
     tarikhLahir: '',
-    umur: 0,
+    umur: 7777777,
     keturunan: '',
     warganegara: '',
   };
 
   // initialize array
   let allConvertedPelajar = [];
-
-  // currentSesiPelajarAndWantedClass.forEach(async (sp) => {
-  //   objPelajar.idInstitusi = fromDbFasilitiSRSM.idInstitusi;
-  //   objPelajar.kodSekolah = fromDbFasilitiSRSM.kodSekolah;
-  //   objPelajar.namaSekolah = fromDbFasilitiSRSM.nama;
-  //   objPelajar.idIndividu = sp.ID_INDIVIDU;
-  //   objPelajar.nomborId = sp.NOMBOR_ID;
-  //   objPelajar.nama = sp.NAMA;
-  //   objPelajar.sesiTakwimPelajar = sp.SESI_TAKWIM;
-  //   objPelajar.tahunTingkatan = sp.TAHUN_TINGKATAN;
-  //   objPelajar.jantina = sp.JANTINA;
-  //   objPelajar.statusOku = sp.STATUS_OKU;
-
-  //   if (
-  //     process.env.BUILD_ENV === 'production' ||
-  //     process.env.BUILD_ENV === 'dev'
-  //   ) {
-  //     try {
-  //       console.log('query single pelajar');
-  //       const agent = new https.Agent({
-  //         rejectUnauthorized: false,
-  //       });
-  //       const { data } = await axios.get(
-  //         process.env.MOEIS_INTEGRATION_URL_SINGLE_PELAJAR +
-  //           `?id_individu=${sp.ID_INDIVIDU}`,
-  //         {
-  //           httpsAgent: agent,
-  //           headers: {
-  //             APIKEY: process.env.MOEIS_APIKEY,
-  //           },
-  //         }
-  //       );
-  //       console.log(data);
-  //       objPelajar.kelasPelajar = data.TBA_KELAS_PELAJAR; // PENDING
-  //       objPelajar.tarikhLahir = data.tarikh_lahir;
-  //       objPelajar.umur = getAge(data.tarikh_lahir);
-  //       objPelajar.keturunan = data.keturunan;
-  //       objPelajar.warganegara = data.warganegara;
-  //     } catch (error) {
-  //       logger.error(`[insertToSekolah] ${error.message}`);
-  //       return error.message;
-  //     }
-  //   }
-
-  //   allConvertedPelajar.push({ ...objPelajar });
-  // });
 
   // this will be blocking until it's complete
   logger.info(
@@ -108,6 +62,7 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
       currentSesiPelajarAndWantedClass[i].SESI_TAKWIM;
     objPelajar.tahunTingkatan =
       currentSesiPelajarAndWantedClass[i].TAHUN_TINGKATAN;
+    objPelajar.kelasPelajar = currentSesiPelajarAndWantedClass[i]['NAMA KELAS'];
     objPelajar.jantina = currentSesiPelajarAndWantedClass[i].JANTINA;
     objPelajar.statusOku = currentSesiPelajarAndWantedClass[i].STATUS_OKU;
     if (
@@ -130,7 +85,11 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
           }
         );
         objPelajar.tarikhLahir = data.tarikh_lahir;
-        objPelajar.umur = getAge(data.tarikh_lahir);
+        if (data.tarikh_lahir === '') {
+          objPelajar.umur = 7777777;
+        } else {
+          objPelajar.umur = getAge(data.tarikh_lahir);
+        }
         objPelajar.keturunan = data.keturunan;
         objPelajar.warganegara = data.warganegara;
       } catch (error) {
