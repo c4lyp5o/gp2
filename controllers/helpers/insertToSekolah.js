@@ -19,9 +19,10 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   const currentSesiPelajarAndWantedClass = MOEISPelajar.filter((sp) => {
     return (
       sp.SESI_TAKWIM === sesiTakwimSekolah() &&
-      (sp.ID_TAHUN_TINGKATAN !== '86' ||
-        sp.ID_TAHUN_TINGKATAN !== '87' ||
-        sp.ID_TAHUN_TINGKATAN !== '105')
+      sp.ID_TAHUN_TINGKATAN !== '86' &&
+      sp.ID_TAHUN_TINGKATAN !== '87' &&
+      sp.ID_TAHUN_TINGKATAN !== '97' &&
+      sp.ID_TAHUN_TINGKATAN !== '105'
     );
   });
 
