@@ -195,6 +195,7 @@ const queryAktivitiPromosi = async (req, res) => {
       mdcMdtbNumber,
       kodProgram,
       namaAcara,
+      statusReten,
     },
   } = req;
 
@@ -243,6 +244,10 @@ const queryAktivitiPromosi = async (req, res) => {
     queryObject.namaAcara = {
       $regex: new RegExp(namaAcara, 'i'),
     };
+  }
+
+  if (statusReten) {
+    queryObject.statusReten = statusReten;
   }
 
   const aktivitiPromosiResultQuery = await Promosi.find(queryObject).lean();
