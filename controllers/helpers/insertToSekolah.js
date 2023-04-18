@@ -39,7 +39,7 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
     jantina: '',
     statusOku: '',
     tarikhLahir: '',
-    umur: 0,
+    umur: 7777777,
     keturunan: '',
     warganegara: '',
   };
@@ -85,7 +85,11 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
           }
         );
         objPelajar.tarikhLahir = data.tarikh_lahir;
-        objPelajar.umur = getAge(data.tarikh_lahir);
+        if (data.tarikh_lahir === '') {
+          objPelajar.umur = 7777777;
+        } else {
+          objPelajar.umur = getAge(data.tarikh_lahir);
+        }
         objPelajar.keturunan = data.keturunan;
         objPelajar.warganegara = data.warganegara;
       } catch (error) {

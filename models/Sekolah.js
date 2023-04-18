@@ -75,7 +75,7 @@ const SekolahSchema = new mongoose.Schema({
   },
   umur: {
     type: Number,
-    default: 0,
+    default: 7777777, // lucky seven lol
   },
   // previously kaum
   keturunan: {
