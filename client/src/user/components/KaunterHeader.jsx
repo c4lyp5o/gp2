@@ -22,6 +22,12 @@ function KaunterHeader() {
           <h1 className='text-xl'>PENDAFTARAN</h1>
           <span className='text-kaunter5'>{import.meta.env.VITE_ENV}</span>
         </div>
+        <span className='hidden lg:block'>
+          <img
+            src='https://upload.wikimedia.org/wikipedia/commons/7/71/Ketupat.svg'
+            alt='missing ketupat kanan'
+          />
+        </span>
       </div>
     </div>
   );
