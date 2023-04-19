@@ -381,7 +381,7 @@ function UserFormSekolahRawatan() {
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
-                        <p className='ml-1'>{singlePersonSekolah.ic}</p>
+                        <p className='ml-1'>{singlePersonSekolah.nomborId}</p>
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
@@ -395,9 +395,7 @@ function UserFormSekolahRawatan() {
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>BANGSA :</h2>
-                        <p className='ml-1'>
-                          {singlePersonSekolah.kumpulanEtnik}
-                        </p>
+                        <p className='ml-1'>{singlePersonSekolah.keturunan}</p>
                       </div>
                     </div>
                   )}
@@ -421,8 +419,8 @@ function UserFormSekolahRawatan() {
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonSekolah.tahun}{' '}
-                        {singlePersonSekolah.namaKelas}
+                        {singlePersonSekolah.tahunTingkatan}{' '}
+                        {singlePersonSekolah.kelasPelajar}
                       </p>
                     </div>
                   </div>
