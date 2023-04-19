@@ -7,6 +7,7 @@ const {
   getMuridDalamKohortFMR,
   daftarMuridMasukKohortFMR,
   daftarKumuranFMR,
+  daftarKumuranKohortFMR,
   deletePersonKohortFMR,
 } = require('../controllers/kohortFMR');
 
@@ -16,13 +17,11 @@ router
   .route('/pilih-murid/:singleSekolahFMRId')
   .get(getAllD1StudentInSingleSekolahFMR);
 router.route('/daftar-kumuran').patch(daftarKumuranFMR);
+router.route('/daftar-kumuran-kohort').patch(daftarKumuranKohortFMR);
 router.route('/murid-kohort').get(getMuridDalamKohortFMR);
 router.route('/daftar-murid').post(daftarMuridMasukKohortFMR);
-// router.route('/daftar/:singleSekolahId').get(registerSekolahFMR);
-// router.route('/telah-daftar/').get(getAllPersonKohortFMR);
-// router
-//   .route('/:personKohortFMRId')
-//   .get(getPersonKohortFMR)
-//   .patch(updatePersonKohortFMR);
+router
+  .route('/hapus-murid-kohort/:singlePersonKohortFMRId')
+  .delete(deletePersonKohortFMR);
 
 module.exports = router;
