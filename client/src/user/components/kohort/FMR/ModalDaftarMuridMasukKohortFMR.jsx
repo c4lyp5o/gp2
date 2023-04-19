@@ -1,23 +1,9 @@
-import moment from 'moment';
-import { useEffect } from 'react';
-import {
-  FaWindowClose,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaUserCheck,
-  FaRegPaperPlane,
-  FaMinus,
-  FaPlus,
-} from 'react-icons/fa';
+import { FaWindowClose, FaUserCheck, FaRegPaperPlane } from 'react-icons/fa';
 
-export default function ModalMuridMasukKohortFMR(props) {
-  useEffect(() => {
-    console.log(props);
-  }, []);
-
+export default function ModalDaftarMuridMasukKohortFMR(props) {
   return (
     <>
-      <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/4 lg:inset-y-60 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <FaWindowClose
           onClick={props.closeModal}
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -42,7 +28,13 @@ export default function ModalMuridMasukKohortFMR(props) {
                     Nama Sekolah:{' '}
                   </p>
                   <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    {props.selectedSekolah}
+                    {Object.keys(props.users)
+                      .filter((key) => props.users[key].masukKohort === true)
+                      .map((key) => props.users[key].namaSekolah)
+                      .filter(
+                        (value, index, self) => self.indexOf(value) === index
+                      )
+                      .join(', ')}
                   </p>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr]'>
@@ -50,7 +42,13 @@ export default function ModalMuridMasukKohortFMR(props) {
                     Nama Kelas:{' '}
                   </p>
                   <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    {props.selectedKelasBasedOnSekolah}
+                    {Object.keys(props.users)
+                      .filter((key) => props.users[key].masukKohort === true)
+                      .map((key) => props.users[key].kelasPelajar)
+                      .filter(
+                        (value, index, self) => self.indexOf(value) === index
+                      )
+                      .join(', ')}
                   </p>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr]'>
@@ -78,16 +76,16 @@ export default function ModalMuridMasukKohortFMR(props) {
           </div>
           <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
             <button
-              className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
+              className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
               onClick={props.closeModal}
             >
               KEMBALI
-              <FaRegPaperPlane className='inline-flex ml-1' />
             </button>
             <button
-              className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
+              className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
               onClick={props.handleSubmit}
             >
+              <FaRegPaperPlane className='inline-flex ml-1' />
               HANTAR
             </button>
           </div>

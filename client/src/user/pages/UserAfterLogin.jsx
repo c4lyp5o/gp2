@@ -45,10 +45,12 @@ const UserFormPromosi = lazy(() =>
 
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
 
+// KOTAK
 const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
 const UserKohortKotakForm = lazy(() =>
   import('../components/kohort/KOTAK/FormKOTAK')
 );
+// FMR
 const UserKohortFMR = lazy(() => import('../components/kohort/FMR/FMR'));
 const UserDaftarMuridMasukKohortFMR = lazy(() =>
   import('../components/kohort/FMR/DaftarMuridMasukKohortFMR')
@@ -59,14 +61,8 @@ const UserDaftarMuridBuatKumuranFMR = lazy(() =>
 const UserDaftarMuridKohortBuatKumuranFMR = lazy(() =>
   import('../components/kohort/FMR/DaftarMuridKohortBuatKumuranFMR')
 );
-const UserListMuridFMR = lazy(() =>
-  import('../components/kohort/FMR/RegisterListMuridFMR')
-);
 const UserCarianMuridFMR = lazy(() =>
   import('../components/kohort/FMR/CarianFMR')
-);
-const UserKohortFMRForm = lazy(() =>
-  import('../components/kohort/FMR/FormFMR')
 );
 
 const UserCarianPesakit = lazy(() =>
@@ -320,7 +316,7 @@ function UserAfterLogin() {
                     <UserKohortFMRForm />{' '}
                   </Suspense>
                 }
-              />
+              /> */}
               <Route
                 path='kohort/fmr/carian'
                 element={
@@ -328,7 +324,7 @@ function UserAfterLogin() {
                     <UserCarianMuridFMR />{' '}
                   </Suspense>
                 }
-              /> */}
+              />
             </>
           ) : null}
 

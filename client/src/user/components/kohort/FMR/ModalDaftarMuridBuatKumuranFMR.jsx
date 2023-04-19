@@ -1,23 +1,10 @@
 import moment from 'moment';
-import { useEffect } from 'react';
-import {
-  FaWindowClose,
-  FaCheckCircle,
-  FaTimesCircle,
-  FaUserCheck,
-  FaRegPaperPlane,
-  FaMinus,
-  FaPlus,
-} from 'react-icons/fa';
+import { FaWindowClose, FaUserCheck, FaRegPaperPlane } from 'react-icons/fa';
 
-export default function ModalMuridKohortBuatKumuranFMR(props) {
-  useEffect(() => {
-    console.log(props.allMuridKohort);
-  }, []);
-
+export default function ModalDaftarKohortBuatKumuranFMR(props) {
   return (
     <>
-      <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/3 lg:inset-y-6 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/4 lg:inset-y-60 text-sm bg-userWhite z-10 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <FaWindowClose
           onClick={props.closeModal}
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
@@ -38,14 +25,20 @@ export default function ModalMuridKohortBuatKumuranFMR(props) {
               Maklumat yang telah dihantar tidak boleh diubah. Sila berhubung
               dengan pentadbir klinik sekiranya mempunyai masalah.
             </p>
-            {props.selectedSekolah ? (
+            {props.users.length > 0 ? (
               <>
                 <div className='grid grid-cols-[1fr_2fr]'>
                   <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                     Nama Sekolah:{' '}
                   </p>
                   <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    {props.selectedSekolah}
+                    {Object.keys(props.users)
+                      .filter((key) => props.users[key].masukKohort === true)
+                      .map((key) => props.users[key].namaSekolah)
+                      .filter(
+                        (value, index, self) => self.indexOf(value) === index
+                      )
+                      .join(', ')}
                   </p>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr]'>
@@ -53,12 +46,26 @@ export default function ModalMuridKohortBuatKumuranFMR(props) {
                     Nama Kelas:{' '}
                   </p>
                   <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    {props.selectedKelasBasedOnSekolah}
+                    {Object.keys(props.users)
+                      .filter((key) => props.users[key].masukKohort === true)
+                      .map((key) => props.users[key].kelasPelajar)
+                      .filter(
+                        (value, index, self) => self.indexOf(value) === index
+                      )
+                      .join(', ')}
                   </p>
                 </div>
                 <div className='grid grid-cols-[1fr_2fr]'>
                   <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                    Jumlah:{' '}
+                    Tarikh:{' '}
+                  </p>
+                  <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
+                    {moment().format('DD/MM/YYYY')}
+                  </p>
+                </div>
+                <div className='grid grid-cols-[1fr_2fr]'>
+                  <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                    Jumlah Murid Hadir FMR:{' '}
                   </p>
                   <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                     {
@@ -68,114 +75,21 @@ export default function ModalMuridKohortBuatKumuranFMR(props) {
                     }
                   </p>
                 </div>
-                <div className='grid grid-cols-[1fr_2fr]'>
-                  <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                    Kohort:{' '}
-                  </p>
-                  <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    Tahun 1 {new Date().getFullYear()}
-                  </p>
-                </div>
               </>
             ) : null}
-            <div className='m-auto text-xs lg:text-sm rounded-md h-min max-w-max overflow-x-auto mt-5'>
-              <table className='table-auto'>
-                <thead className='text-userWhite bg-user2'>
-                  <tr>
-                    <th>
-                      <input
-                        type='checkbox'
-                        checked={props.selectAll}
-                        onChange={props.handleSelectAll}
-                      />
-                    </th>
-                    <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                      BIL.
-                    </th>
-                    <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
-                      NAMA
-                    </th>
-                    <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
-                      STATUS KUMURAN TERAKHIR
-                    </th>
-                    <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
-                      HADIR FMR
-                    </th>
-                  </tr>
-                </thead>
-                <>
-                  <tbody className='text-user1'>
-                    {props.allMuridKohort &&
-                      props.allMuridKohort
-                        // .filter((murid) => {
-                        //   if (selectedSekolah === '') {
-                        //     return murid;
-                        //   } else {
-                        //     return murid.namaSekolah === selectedSekolah;
-                        //   }
-                        // })
-                        // .filter((murid) => {
-                        //   if (selectedKelasBasedOnSekolah === '') {
-                        //     return murid;
-                        //   } else {
-                        //     return (
-                        //       murid.namaKelas === selectedKelasBasedOnSekolah
-                        //     );
-                        //   }
-                        // })
-                        .map((singleMurid, index) => {
-                          return (
-                            <tr key={index}>
-                              <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                                {' '}
-                              </td>
-                              <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                                {index + 1}
-                              </td>
-                              <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                                {singleMurid.nama}
-                              </td>
-                              <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                                {singleMurid.tarikhKumuranKohortFMR &&
-                                singleMurid.tarikhKumuranKohortFMR.length > 0
-                                  ? moment(
-                                      singleMurid.tarikhKumuranKohortFMR[
-                                        singleMurid.tarikhKumuranKohortFMR
-                                          .length - 1
-                                      ]
-                                    ).format('DD/MM/YYYY')
-                                  : 'Belum mula'}
-                              </td>
-                              <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                                <input
-                                  type='checkbox'
-                                  className='form-checkbox text-md'
-                                  checked={props.users[index].masukKohort}
-                                  onChange={(e) =>
-                                    props.handleCheckboxChange(e, index)
-                                  }
-                                />
-                              </td>
-                            </tr>
-                          );
-                        })}
-                  </tbody>
-                </>
-              </table>
-            </div>
           </div>
           <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
             <button
-              className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
+              className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
               onClick={props.closeModal}
             >
               KEMBALI
-              <FaRegPaperPlane className='inline-flex ml-1' />
             </button>
             <button
-              className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
-              onClick={confirm}
+              className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
+              onClick={props.handleSubmit}
             >
+              <FaRegPaperPlane className='inline-flex ml-1' />
               HANTAR
             </button>
           </div>
