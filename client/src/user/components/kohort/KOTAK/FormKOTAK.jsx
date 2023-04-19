@@ -402,7 +402,9 @@ function UserFormKohortKOTAK() {
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
-                        <p className='ml-1'>{singlePersonKohortKotak.ic}</p>
+                        <p className='ml-1'>
+                          {singlePersonKohortKotak.nomborId}
+                        </p>
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
@@ -419,7 +421,7 @@ function UserFormKohortKOTAK() {
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>BANGSA :</h2>
                         <p className='ml-1'>
-                          {singlePersonKohortKotak.kumpulanEtnik}
+                          {singlePersonKohortKotak.keturunan}
                         </p>
                       </div>
                     </div>
@@ -446,7 +448,8 @@ function UserFormKohortKOTAK() {
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonKohortKotak.kelas}
+                        {singlePersonKohortKotak.tahunTingkatan}{' '}
+                        {singlePersonKohortKotak.kelasPelajar}
                       </p>
                     </div>
                   </div>
