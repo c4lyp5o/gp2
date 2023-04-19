@@ -253,7 +253,7 @@ function UserSekolahList() {
                   ISI RETEN
                 </th>
                 {userinfo.role === 'admin' && (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-28'>
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
                     TINDAKAN
                   </th>
                 )}
@@ -362,8 +362,14 @@ function UserSekolahList() {
                           </Link>
                         </td>
                         {userinfo.role === 'admin' && (
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 flex flex-col justify-center'>
-                            <div className='flex justify-center items-center'>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 flex flex-row justify-center'>
+                            <div
+                              className={`${
+                                isDownload[singleNamaSekolah._id]
+                                  ? ''
+                                  : 'mx-0.5'
+                              } flex justify-center items-center`}
+                            >
                               <button
                                 title='Cetak senarai murid sekolah'
                                 onClick={() => {
@@ -404,7 +410,13 @@ function UserSekolahList() {
                                 </p>
                               </button>
                             </div>
-                            <div className='flex justify-center items-center'>
+                            <div
+                              className={`${
+                                isKemaskini[singleNamaSekolah._id]
+                                  ? ''
+                                  : 'mx-0.5'
+                              } flex justify-center items-center`}
+                            >
                               <button
                                 title='Kemaskini senarai murid sekolah terkini'
                                 onClick={() => {
@@ -449,8 +461,8 @@ function UserSekolahList() {
                             </div>
                             <div
                               className={`${
-                                isTutup[singleNamaSekolah._id] ? '' : ''
-                              }flex justify-center items-center`}
+                                isTutup[singleNamaSekolah._id] ? '' : 'mx-0.5'
+                              } flex justify-center items-center`}
                             >
                               <button
                                 title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
