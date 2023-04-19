@@ -36,7 +36,7 @@ const KohortFMRSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    ic: {
+    nomborId: {
       type: String,
       default: '',
     },
@@ -48,11 +48,11 @@ const KohortFMRSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    tahun: {
+    tahunTingkatan: {
       type: String,
       default: '',
     },
-    kelas: {
+    kelasPelajar: {
       type: String,
       default: '',
     },

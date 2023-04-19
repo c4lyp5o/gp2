@@ -480,7 +480,7 @@ const ConfirmModal = ({ children, data }) => {
           </div>
           <div
             onClick={closeModal}
-            className='fixed inset-0 bg-userBlack opacity-50 z-10'
+            className='absolute inset-0 bg-user1 opacity-75 z-10'
           />
         </>
       )}
