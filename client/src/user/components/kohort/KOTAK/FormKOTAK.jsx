@@ -1234,15 +1234,11 @@ function UserFormKohortKOTAK() {
                       window.open('', '_self');
                       window.close();
                     }}
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
+                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer md:col-start-2'
                   >
                     tutup
                   </span>
-                  <input
-                    type='reset'
-                    value='reset'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all hover:cursor-pointer'
-                  />
+
                   <button
                     type='submit'
                     className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
