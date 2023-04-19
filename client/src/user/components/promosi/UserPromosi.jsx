@@ -71,9 +71,6 @@ function UserPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-fetchAllProgramPromosi'
-        // );
       }
     };
     fetchAllProgramPromosi();
@@ -104,7 +101,7 @@ function UserPromosi({ individuOrKlinik }) {
       try {
         setIsLoading(true);
         const { data } = await axios.get(
-          `/api/v1/query/promosi?tarikhAkhir=${bulanPilih}&individuOrKlinik=${individuOrKlinik}${
+          `/api/v1/query/promosi?individuOrKlinik=${individuOrKlinik}${
             individuOrKlinik === 'promosi-individu'
               ? `&mdcMdtbNumber=${
                   userinfo.mdcNumber ? userinfo.mdcNumber : userinfo.mdtbNumber
@@ -124,16 +121,11 @@ function UserPromosi({ individuOrKlinik }) {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        setIsLoading(false);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-query'
-        // );
       }
     };
     query();
   }, [
     individuOrKlinik,
-    kodProgram,
     showTambahAcara,
     reloadState,
     reliefUserToken,
@@ -167,7 +159,7 @@ function UserPromosi({ individuOrKlinik }) {
     setShowTambahAcara(false);
   }, [individuOrKlinik]);
 
-  //clear pilih & resultPilih if change bulanPilih
+  // clear pilih & resultPilih if change bulanPilih
   useEffect(() => {
     setPilih('');
     setResultPilih([]);
@@ -231,7 +223,7 @@ function UserPromosi({ individuOrKlinik }) {
           <div className=''>
             <div>
               <h2 className='text-xl text-left ml-5 mt-2 font-semibold flex flex-row'>
-                PROGRAM PROMOSI{' '}
+                TAMBAH PROGRAM PROMOSI{' '}
                 {individuOrKlinik === 'promosi-individu'
                   ? 'INDIVIDU'
                   : 'KLINIK'}
@@ -326,7 +318,8 @@ function UserPromosi({ individuOrKlinik }) {
         </div>
         <div className='relative outline outline-1 outline-userBlack m-3 pt-1 pb-3'>
           <h1 className='text-lg font-semibold m-3'>
-            SENARAI ACARA BAGI AKTIVITI PROMOSI / PENDIDIKAN KESIHATAN PERGIGIAN
+            SENARAI ACARA BAGI AKTIVITI PROMOSI / PENDIDIKAN KESIHATAN PERGIGIAN{' '}
+            {individuOrKlinik === 'promosi-individu' ? 'INDIVIDU' : 'KLINIK'}
           </h1>
           <div className='flex flex-col lg:flex-row items-center font-light lg:absolute left-1 top-2'>
             <label
