@@ -17,7 +17,7 @@ function UserFormKohortKOTAK() {
     toast,
   } = useGlobalUserAppContext();
 
-  const { personKohortKotakId } = useParams();
+  const { personKohortKotakId, createdByUsername } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -28,7 +28,6 @@ function UserFormKohortKOTAK() {
   //confirm data
   const [confirmData, setConfirmData] = useState({});
 
-  const createdByUsername = username;
   const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
   const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
   const [elektronikVapeKotak, setElektronikVapeKotak] = useState(false);

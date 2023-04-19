@@ -40,11 +40,20 @@ const updatePersonKohortKotak = async (req, res) => {
 
   const { personKohortKotakId } = req.params;
 
+  const { createdUsername } = req.user;
+
   const updatedSinglePersonKohortKotak = await KohortKotak.findOneAndUpdate(
     {
       _id: req.params.personKohortKotakId,
     },
-    req.body,
+    {
+      $set: {
+        ...req.body,
+      },
+      $push: {
+        createdUsername: createdUsername,
+      },
+    },
     { new: true }
   );
 
