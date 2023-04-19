@@ -1927,7 +1927,9 @@ export function InputEditFacility(props) {
 }
 
 export function InputEditEvent(props) {
-  const [jenisEventDd, setJenisEventDd] = useState('');
+  const [jenisEventDd, setJenisEventDd] = useState(
+    props.editedEntity.jenisEvent
+  );
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -1957,8 +1959,7 @@ export function InputEditEvent(props) {
                     </p> */}
                   {/* <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='date'
                         name='tarikh'
                         id='tarikh'
@@ -1981,8 +1982,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.jenisEvent}
                       onChange={(e) => {
                         props.setEditedEntity({
@@ -2030,8 +2030,7 @@ export function InputEditEvent(props) {
                       </p>
                       <select
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={props.editedEntity.kategoriInstitusi}
                         onChange={(e) =>
                           props.setEditedEntity({
@@ -2096,8 +2095,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <input
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.nama}
                       type='text'
                       name='nama'
@@ -2120,8 +2118,7 @@ export function InputEditEvent(props) {
                     <div className='grid gap-1'>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={props.editedEntity.tempat}
                         type='text'
                         name='nama'
@@ -2142,8 +2139,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.createdByKodFasiliti}
                       onChange={(e) => {
                         const selectedKlinik = props.klinik.find(
