@@ -17241,40 +17241,40 @@ const countTOD = async (payload) => {
         },
         jumlahTampalanAnteriorBaru: {
           $sum: {
-            $cond: [
-              {
-                $lte: [
-                  {
-                    $add: [
-                      '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-                      '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-                    ],
-                  },
-                  3,
-                ],
-              },
-              1,
-              0,
+            // $cond: [
+            // {
+            //   $lte: [
+            //     {
+            $add: [
+              '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             ],
+            //     },
+            //     3,
+            //   ],
+            // },
+            // 1,
+            // 0,
+            // ],
           },
         },
         jumlahTampalanPosteriorBaru: {
           $sum: {
-            $cond: [
-              {
-                $lte: [
-                  {
-                    $add: [
-                      '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-                      '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-                    ],
-                  },
-                  3,
-                ],
-              },
-              1,
-              0,
+            // $cond: [
+            //   {
+            //     $lte: [
+            //       {
+            $add: [
+              '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
             ],
+            //       },
+            //       3,
+            //     ],
+            //   },
+            //   1,
+            //   0,
+            // ],
           },
         },
       },
