@@ -1756,108 +1756,118 @@ export function InputEditFacility(props) {
             <div className='px-3 py-1'>
               <div className='grid gap-1'>
                 {props.FType !== 'kpb' && props.FType !== 'mp' ? (
-                  <p>
-                    Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
-                  </p>
+                  <div>
+                    Nama {Dictionary[props.FType]}:{' '}
+                    <span className='font-bold'>{props.editedEntity.nama}</span>{' '}
+                  </div>
                 ) : (
-                  <p>
+                  <div>
                     Nombor Plat {Dictionary[props.FType]}:{' '}
-                    {props.editedEntity.nama}{' '}
+                    <span className='font-bold'>{props.editedEntity.nama}</span>{' '}
+                  </div>
+                )}
+                <div>
+                  <p>
+                    Klinik Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-admin3'>*</span>
                   </p>
-                )}
-                <br />
-                <p>
-                  Klinik Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-admin3'>*</span>
-                </p>
-                <select
-                  value={props.editedEntity.kodFasilitiHandler}
-                  onChange={(e) => {
-                    const selectedKlinik = props.klinik.find(
-                      (k) => k.kodFasiliti === e.target.value
-                    );
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handler: selectedKlinik.kp,
-                      kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                    });
-                  }}
-                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                >
-                  <option value=''>Pilih Klinik Baru..</option>
-                  {props.klinik.map((k) => (
-                    <option className='capitalize' value={k.kodFasiliti}>
-                      {k.kp}
-                    </option>
-                  ))}
-                </select>
-                {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
-                  <>
-                    <p>
-                      Risiko Sekolah (PERSiS){' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <select
-                      required
-                      value={props.editedEntity.risikoSekolahPersis}
-                      onChange={(e) => {
-                        props.setEditedEntity({
-                          ...props.editedEntity,
-                          risikoSekolahPersis: e.target.value,
-                        });
-                      }}
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    >
-                      <option value=''>Pilih Risiko</option>
-                      <option value='rendah'>Rendah</option>
-                      <option value='tinggi'>Tinggi</option>
-                    </select>
-                  </>
-                )}
-                <p>
-                  Status {Dictionary[props.FType]}{' '}
-                  <span className='font-semibold text-lg text-admin3'>*</span>
-                </p>
-                <div className='grid grid-cols-2'>
-                  <label htmlFor='statusAktif'>Aktif</label>
-                  <input
-                    checked={
-                      props.editedEntity.statusPerkhidmatan === 'active'
-                        ? true
-                        : false
-                    }
-                    type='radio'
-                    name='statusAktif'
-                    value='active'
+                  <select
+                    value={props.editedEntity.kodFasilitiHandler}
                     onChange={(e) => {
+                      const selectedKlinik = props.klinik.find(
+                        (k) => k.kodFasiliti === e.target.value
+                      );
                       props.setEditedEntity({
                         ...props.editedEntity,
-                        statusPerkhidmatan: e.target.value,
+                        handler: selectedKlinik.kp,
+                        kodFasilitiHandler: selectedKlinik.kodFasiliti,
                       });
                     }}
-                  />
-                  <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
-                  <input
-                    checked={
-                      props.editedEntity.statusPerkhidmatan === 'non-active'
-                        ? true
-                        : false
-                    }
-                    type='radio'
-                    name='statusTidakAktif'
-                    value='non-active'
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        statusPerkhidmatan: e.target.value,
-                      });
-                    }}
-                  />
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>Pilih Klinik Baru..</option>
+                    {props.klinik.map((k) => (
+                      <option className='capitalize' value={k.kodFasiliti}>
+                        {k.kp}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                {props.FType !== 'sr' ? null : (
-                  <>
+                {(props.FType === 'sr' || props.FType === 'sm') && (
+                  <div>
+                    <div>
+                      <p>
+                        Risiko Sekolah (PERSiS){' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <select
+                        required
+                        value={props.editedEntity.risikoSekolahPersis}
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            risikoSekolahPersis: e.target.value,
+                          });
+                        }}
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      >
+                        <option value=''>Pilih Risiko</option>
+                        <option value='rendah'>Rendah</option>
+                        <option value='tinggi'>Tinggi</option>
+                      </select>
+                    </div>
+                    <div>
+                      <p>
+                        Klinik / Pusat Pergigian Sekolah{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <div className='grid grid-cols-2'>
+                        <label htmlFor='nama'>Ya</label>
+                        <input
+                          required
+                          type='radio'
+                          checked={
+                            props.editedEntity.jenisPerkhidmatanSekolah ===
+                            'kps'
+                          }
+                          id='act-stat'
+                          name='checkbox'
+                          value='kps'
+                          onChange={(e) =>
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              jenisPerkhidmatanSekolah: e.target.value,
+                            })
+                          }
+                        />
+                        <label htmlFor='nama'>Tidak</label>
+                        <input
+                          required
+                          type='radio'
+                          checked={
+                            props.editedEntity.jenisPerkhidmatanSekolah ===
+                            'kpb'
+                          }
+                          id='act-stat'
+                          name='checkbox'
+                          value='kpb'
+                          onChange={(e) =>
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              jenisPerkhidmatanSekolah: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {props.FType === 'sr' && (
+                  <div>
                     <p>
                       Program Kumuran Berflourida{' '}
                       <span className='font-semibold text-lg text-admin3'>
@@ -1900,8 +1910,50 @@ export function InputEditFacility(props) {
                         }}
                       />
                     </div>
-                  </>
+                  </div>
                 )}
+                <div>
+                  <p>
+                    Status {Dictionary[props.FType]}{' '}
+                    <span className='font-semibold text-lg text-admin3'>*</span>
+                  </p>
+                  <div className='grid grid-cols-2'>
+                    <label htmlFor='statusAktif'>Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusAktif'
+                      value='active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                      }}
+                    />
+                    <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'non-active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusTidakAktif'
+                      value='non-active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className={styles.modalActions}>
@@ -1927,7 +1979,9 @@ export function InputEditFacility(props) {
 }
 
 export function InputEditEvent(props) {
-  const [jenisEventDd, setJenisEventDd] = useState('');
+  const [jenisEventDd, setJenisEventDd] = useState(
+    props.editedEntity.jenisEvent
+  );
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -1957,8 +2011,7 @@ export function InputEditEvent(props) {
                     </p> */}
                   {/* <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='date'
                         name='tarikh'
                         id='tarikh'
@@ -1981,8 +2034,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.jenisEvent}
                       onChange={(e) => {
                         props.setEditedEntity({
@@ -2030,8 +2082,7 @@ export function InputEditEvent(props) {
                       </p>
                       <select
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={props.editedEntity.kategoriInstitusi}
                         onChange={(e) =>
                           props.setEditedEntity({
@@ -2096,8 +2147,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <input
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.nama}
                       type='text'
                       name='nama'
@@ -2120,8 +2170,7 @@ export function InputEditEvent(props) {
                     <div className='grid gap-1'>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={props.editedEntity.tempat}
                         type='text'
                         name='nama'
@@ -2142,8 +2191,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.createdByKodFasiliti}
                       onChange={(e) => {
                         const selectedKlinik = props.klinik.find(

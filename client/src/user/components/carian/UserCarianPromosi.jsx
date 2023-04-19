@@ -18,6 +18,7 @@ export default function UserCarianPromosi() {
   } = useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [bulanPilih, setBulanPilih] = useState('');
   const [allProgramPromosi, setAllProgramPromosi] = useState([]);
   const [jenisProgram, setJenisProgram] = useState([]);
   const [jenisProgramResult, setJenisProgramResult] = useState([]);
@@ -28,6 +29,8 @@ export default function UserCarianPromosi() {
   const [mdcMdtbNumber, setMdcMdtbNumber] = useState('');
   const [individuOrKlinik, setIndividuOrKlinik] = useState('');
   const [queryResult, setQueryResult] = useState('');
+  const [queryResultBulan, setQueryResultBulan] = useState('');
+  const [flipCarian, setFlipCarian] = useState(false);
   const [pilihanId, setPilihanId] = useState('');
   const [pilihanNama, setPilihanNama] = useState('');
   const [modalHapusPromosi, setModalHapusPromosi] = useState(false);
@@ -42,10 +45,16 @@ export default function UserCarianPromosi() {
   const TarikhMula = () => {
     return masterDatePicker({
       selected: tarikhMulaAcaraDP,
+      selectsStart: true,
+      startDate: tarikhMulaAcaraDP,
+      endDate: tarikhAkhirAcaraDP,
       onChange: (tarikhMula) => {
         const tempDate = moment(tarikhMula).format('YYYY-MM-DD');
         setTarikhMulaAcara(tempDate);
         setTarikhMulaAcaraDP(tarikhMula);
+      },
+      filterDate: (date) => {
+        return moment() > date;
       },
       className:
         'appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
@@ -55,10 +64,17 @@ export default function UserCarianPromosi() {
   const TarikhAkhir = () => {
     return masterDatePicker({
       selected: tarikhAkhirAcaraDP,
+      selectsEnd: true,
+      startDate: tarikhMulaAcaraDP,
+      endDate: tarikhAkhirAcaraDP,
+      minDate: tarikhMulaAcaraDP,
       onChange: (tarikhAkhir) => {
         const tempDate = moment(tarikhAkhir).format('YYYY-MM-DD');
         setTarikhAkhirAcara(tempDate);
         setTarikhAkhirAcaraDP(tarikhAkhir);
+      },
+      filterDate: (date) => {
+        return moment() > date;
       },
       className:
         'appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
@@ -122,20 +138,11 @@ export default function UserCarianPromosi() {
     e.preventDefault();
     try {
       setIsLoading(true);
-      const params = `/api/v1/query/promosi?
-      ${
-        tarikhMulaAcara
-          ? `tarikhMulaAcara=${moment(tarikhMulaAcara.format('YYYY-MM-DD'))}&`
-          : ''
-      }${
-        tarikhAkhirAcara
-          ? `tarikhAkhirAcara=${moment(tarikhAkhirAcara.format('YYYY-MM-DD'))}&`
-          : ''
-      }${kodProgram ? `kodProgram=${kodProgram}&` : ''}${
-        namaAcara ? `namaAcara=${namaAcara}&` : ''
-      }${mdcMdtbNumber ? `mdcMdtbNumber=${mdcMdtbNumber}&` : ''}${
-        individuOrKlinik ? `individuOrKlinik=${individuOrKlinik}&` : ''
-      }`;
+      const params = `/api/v1/query/promosi?${
+        kodProgram ? `kodProgram=${kodProgram}&` : ''
+      }${namaAcara ? `namaAcara=${namaAcara}&` : ''}${
+        mdcMdtbNumber ? `mdcMdtbNumber=${mdcMdtbNumber}&` : ''
+      }${individuOrKlinik ? `individuOrKlinik=${individuOrKlinik}&` : ''}`;
       setSearchUrl(params);
       const { data } = await axios.get(params, {
         headers: {
@@ -156,6 +163,37 @@ export default function UserCarianPromosi() {
       toast.error('Tiada data promosi yang dijumpai');
     }
   };
+
+  // query all promosi useEffect
+  useEffect(() => {
+    const fetchAllPromosi = async () => {
+      try {
+        setIsLoading(true);
+        const { data } = await axios.get(
+          `/api/v1/query/promosi?tarikhAkhir=${bulanPilih}
+        `,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        );
+        const desc = data.aktivitiPromosiResultQuery.sort((a, b) =>
+          a.tarikhMula > b.tarikhMula ? -1 : 1
+        );
+        setQueryResultBulan(desc);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-fetchAllPromosi'
+        // );
+      }
+    };
+    fetchAllPromosi();
+  }, [reliefUserToken, userToken]);
 
   const handleResetAllFilter = () => {
     setTarikhMulaAcara('');
@@ -215,170 +253,202 @@ export default function UserCarianPromosi() {
   return (
     <>
       <div className='h-full p-3 lg:p-5 overflow-y-auto'>
-        <div className='text-lg font-bold uppercase'>
+        <div className='text-lg font-bold uppercase pb-2'>
           SENARAI ACARA BAGI AKTIVITI PROMOSI / PENDIDIKAN KESIHATAN PERGIGIAN
           BAGI {userinfo.kpSkrg}
         </div>
-        <form onSubmit={handleSubmit}>
-          <div className='grid lg:grid-cols-2 gap-2'>
-            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
-              <label
-                htmlFor='pilihanTarikh'
-                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
-              >
-                Tarikh Mula Acara :{' '}
-              </label>
-              <TarikhMula />
+        {flipCarian ? (
+          <form onSubmit={handleSubmit}>
+            <div className='grid lg:grid-cols-2 gap-2'>
+              <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+                <label
+                  htmlFor='pilihanIndividuAtauKlinik'
+                  className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+                >
+                  Jenis Reten :{' '}
+                </label>
+                <select
+                  type='text'
+                  name='pilihanIndividuAtauKlinik'
+                  id='pilihanIndividuAtauKlinik'
+                  value={individuOrKlinik}
+                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  onChange={(e) => setIndividuOrKlinik(e.target.value)}
+                >
+                  <option value=''>Sila Pilih</option>
+                  <option value='promosi-individu'>Individu</option>
+                  <option value='promosi-klinik'>Klinik</option>
+                </select>
+              </div>
+              <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+                <label
+                  htmlFor='pilihanNama'
+                  className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+                >
+                  Carian nama acara :{' '}
+                </label>
+                <input
+                  type='search'
+                  name='pilihanNama'
+                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  id='pilihanNama'
+                  onChange={(e) => {
+                    setNamaAcara(e.target.value.toUpperCase());
+                  }}
+                />
+              </div>
+              <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+                <label
+                  htmlFor='jenis-program'
+                  className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+                >
+                  jenis program :
+                </label>
+                <select
+                  type='text'
+                  name='jenis-program'
+                  id='jenis-program'
+                  value={jenisProgramResult}
+                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  onChange={(e) => setJenisProgramResult(e.target.value)}
+                >
+                  <option value=''>Sila Pilih</option>
+                  {jenisProgram.map((j) => (
+                    <option key={j} value={j}>
+                      {j}
+                    </option>
+                  ))}
+                </select>
+              </div>
+              <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+                <label
+                  htmlFor='kod-program'
+                  className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+                >
+                  kod program :
+                </label>
+                <select
+                  type='text'
+                  value={kodProgram}
+                  onChange={(e) => {
+                    setKodProgram(e.target.value);
+                  }}
+                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                >
+                  <option value=''>Sila Pilih</option>
+                  {allProgramPromosi
+                    .filter((p) => p.jenisProgram === jenisProgramResult)
+                    .map((p) => {
+                      return (
+                        <option value={p.kodProgram}>
+                          {p.kodProgram} | {p.namaProgram}
+                        </option>
+                      );
+                    })}
+                </select>
+              </div>
+              <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_7fr] lg:col-span-2'>
+                <label
+                  htmlFor='nama-program'
+                  className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+                >
+                  nama program :
+                </label>
+                <p className='appearance-none w-full px-2 py-1 text-user1 text-left border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'>
+                  {kodProgram !== ''
+                    ? allProgramPromosi
+                        .filter((p) => p.kodProgram.includes(kodProgram))
+                        .map((p) => {
+                          return <span>{p.namaProgram}</span>;
+                        })
+                    : '..'}
+                </p>
+              </div>
             </div>
-            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
-              <label
-                htmlFor='pilihanTarikh'
-                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
-              >
-                Tarikh Akhir Acara :{' '}
-              </label>
-              <TarikhAkhir />
+            <div className='grid grid-cols-3 gap-3'>
+              <div>
+                <button
+                  type='submit'
+                  className={`${
+                    tarikhMulaAcara === '' &&
+                    tarikhAkhirAcara === '' &&
+                    kodProgram === '' &&
+                    individuOrKlinik === '' &&
+                    namaAcara === ''
+                      ? 'opacity-50 cursor-not-allowed'
+                      : ''
+                  } w-full lg:w-96 mx-auto my-5 py-2 px-4 bg-user2 text-userWhite rounded-md shadow-md`}
+                  disabled={
+                    tarikhMulaAcara === '' &&
+                    tarikhAkhirAcara === '' &&
+                    kodProgram === '' &&
+                    individuOrKlinik === '' &&
+                    namaAcara === ''
+                  }
+                >
+                  Hantar
+                </button>
+              </div>
+              <div>
+                <button
+                  type='reset'
+                  onClick={handleResetAllFilter}
+                  className='w-full lg:w-96 mx-auto my-5 py-2 px-4 bg-user2 text-userWhite rounded-md shadow-md'
+                >
+                  Tetap Semula
+                </button>
+              </div>
+              <div>
+                <button
+                  onClick={() => setFlipCarian(false)}
+                  // className='cursor-pointer bg-kaunter2 hover:bg-kaunter3 text-userWhite text-sm px-2 py-1 rounded-md shadow-md whitespace-nowrap normal-case transition-all'
+                  className='w-full lg:w-96 mx-auto my-5 py-2 px-4 bg-kaunter2 hover:bg-kaunter3 text-userWhite rounded-md shadow-md '
+                >
+                  Carian Mengikut Bulan
+                </button>
+              </div>
             </div>
-            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
+          </form>
+        ) : (
+          <div className='flex flex-row items-center justify-center m-3'>
+            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr_1fr] lg:gap-3'>
               <label
-                htmlFor='pilihanNama'
+                htmlFor='bulan'
                 className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
               >
-                Carian nama acara :{' '}
-              </label>
-              <input
-                type='search'
-                name='pilihanNama'
-                className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                id='pilihanNama'
-                onChange={(e) => {
-                  setNamaAcara(e.target.value.toUpperCase());
-                }}
-              />
-            </div>
-            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
-              <label
-                htmlFor='pilihanIndividuAtauKlinik'
-                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
-              >
-                Individu/Klinik :{' '}
+                Bulan :{' '}
               </label>
               <select
                 type='text'
-                name='pilihanIndividuAtauKlinik'
-                id='pilihanIndividuAtauKlinik'
-                value={individuOrKlinik}
+                name='bulan'
+                id='bulan'
                 className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                onChange={(e) => setIndividuOrKlinik(e.target.value)}
+                onChange={(e) => setBulanPilih(e.target.value)}
               >
-                <option value=''>Sila Pilih</option>
-                <option value='promosi-individu'>Individu</option>
-                <option value='promosi-klinik'>Klinik</option>
+                <option value=''>Semua</option>
+                <option value='01'>Januari</option>
+                <option value='02'>Februari</option>
+                <option value='03'>Mac</option>
+                <option value='04'>April</option>
+                <option value='05'>Mei</option>
+                <option value='06'>Jun</option>
+                <option value='07'>Julai</option>
+                <option value='08'>Ogos</option>
+                <option value='09'>September</option>
+                <option value='10'>Oktober</option>
+                <option value='11'>November</option>
+                <option value='12'>Disember</option>
               </select>
-            </div>
-            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
-              <label
-                htmlFor='jenis-program'
-                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
+              <span
+                onClick={() => setFlipCarian(true)}
+                className='cursor-pointer bg-kaunter2 hover:bg-kaunter3 text-userWhite text-sm px-2 py-1 rounded-md shadow-md whitespace-nowrap normal-case transition-all'
+                data-cy='carian-tanpa-tarikh'
               >
-                jenis program :
-              </label>
-              <select
-                type='text'
-                name='jenis-program'
-                id='jenis-program'
-                value={jenisProgramResult}
-                className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                onChange={(e) => setJenisProgramResult(e.target.value)}
-              >
-                <option value=''>Sila Pilih</option>
-                {jenisProgram.map((j) => (
-                  <option key={j} value={j}>
-                    {j}
-                  </option>
-                ))}
-              </select>
-            </div>
-            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_3fr]'>
-              <label
-                htmlFor='kod-program'
-                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
-              >
-                kod program :
-              </label>
-              <select
-                type='text'
-                value={kodProgram}
-                onChange={(e) => {
-                  setKodProgram(e.target.value);
-                }}
-                className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-              >
-                <option value=''>Sila Pilih</option>
-                {allProgramPromosi
-                  .filter((p) => p.jenisProgram === jenisProgramResult)
-                  .map((p) => {
-                    return (
-                      <option value={p.kodProgram}>
-                        {p.kodProgram} | {p.namaProgram}
-                      </option>
-                    );
-                  })}
-              </select>
-            </div>
-            <div className='m-auto w-full lg:grid lg:grid-cols-[1fr_7fr] lg:col-span-2'>
-              <label
-                htmlFor='nama-program'
-                className='whitespace-nowrap flex items-center mb-1 lg:justify-end mr-2'
-              >
-                nama program :
-              </label>
-              <p className='appearance-none w-full px-2 py-1 text-user1 text-left border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'>
-                {kodProgram !== ''
-                  ? allProgramPromosi
-                      .filter((p) => p.kodProgram.includes(kodProgram))
-                      .map((p) => {
-                        return <span>{p.namaProgram}</span>;
-                      })
-                  : '..'}
-              </p>
+                Carian Tanpa Bulan
+              </span>
             </div>
           </div>
-          <div className='grid grid-cols-2 gap-3'>
-            <div>
-              <button
-                type='submit'
-                className={`${
-                  tarikhMulaAcara === '' &&
-                  tarikhAkhirAcara === '' &&
-                  kodProgram === '' &&
-                  individuOrKlinik === '' &&
-                  namaAcara === ''
-                    ? 'opacity-50 cursor-not-allowed'
-                    : ''
-                } w-full lg:w-96 mx-auto my-5 py-2 px-4 bg-user2 text-userWhite rounded-md shadow-md`}
-                disabled={
-                  tarikhMulaAcara === '' &&
-                  tarikhAkhirAcara === '' &&
-                  kodProgram === '' &&
-                  individuOrKlinik === '' &&
-                  namaAcara === ''
-                }
-              >
-                Hantar
-              </button>
-            </div>
-            <div>
-              <button
-                type='reset'
-                onClick={handleResetAllFilter}
-                className='w-full lg:w-96 mx-auto my-5 py-2 px-4 bg-user2 text-userWhite rounded-md shadow-md'
-              >
-                Tetap Semula
-              </button>
-            </div>
-          </div>
-        </form>
+        )}
         <div className='m-auto overflow-x-auto overflow-y-hidden text-xs lg:text-sm rounded-md h-min max-w-max'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-user2'>
@@ -410,83 +480,175 @@ export default function UserCarianPromosi() {
               </tr>
             </thead>
             {!isLoading &&
+              flipCarian === true &&
               queryResult.length > 0 &&
-              queryResult.map((hasilQueryPromosi, index) => {
-                return (
-                  <tbody className='bg-user4'>
-                    <tr>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {index + 1}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {moment(hasilQueryPromosi.tarikhMula).format(
-                          'DD/MM/YYYY'
-                        )}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {moment(hasilQueryPromosi.tarikhAkhir).format(
-                          'DD/MM/YYYY'
-                        )}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {hasilQueryPromosi.kodProgram}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-left pl-3'>
-                        {hasilQueryPromosi.namaAcara}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {hasilQueryPromosi.createdByUsername}
-                      </td>
-                      <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
-                        {hasilQueryPromosi.promosiIndividu ? (
-                          <span>Individu</span>
-                        ) : (
-                          <span>Klinik</span>
-                        )}
-                      </td>
-                      <td
-                        className={`${
-                          pilihanId === hasilQueryPromosi._id && 'bg-user3'
-                        } px-2 py-3 outline outline-1 outline-userWhite outline-offset-1 text-user2`}
-                      >
-                        {hasilQueryPromosi.statusReten === 'telah diisi' ||
-                        hasilQueryPromosi.statusReten === 'reten salah' ? (
-                          <Link
-                            target='_blank'
-                            rel='noreferrer'
-                            to={`${
-                              hasilQueryPromosi.promosiIndividu
-                                ? `/pengguna/landing/promosi-individu/form-promosi/${hasilQueryPromosi._id}`
-                                : `/pengguna/landing/promosi-klinik/form-promosi/${hasilQueryPromosi._id}`
-                            }`}
-                            className='m-2 p-2 uppercase bg-user3 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 transition-all'
-                          >
-                            lihat reten
-                          </Link>
-                        ) : null}
-                        {(userinfo.role === 'admin' ||
-                          userinfo.rolePromosiKlinik) &&
-                          (hasilQueryPromosi.statusReten === 'telah diisi' ||
+              queryResult
+                .filter((q) => {
+                  return q.statusReten === 'telah diisi';
+                })
+                .map((hasilQueryPromosi, index) => {
+                  return (
+                    <tbody className='bg-user4'>
+                      <tr>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {index + 1}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {moment(hasilQueryPromosi.tarikhMula).format(
+                            'DD/MM/YYYY'
+                          )}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {moment(hasilQueryPromosi.tarikhAkhir).format(
+                            'DD/MM/YYYY'
+                          )}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {hasilQueryPromosi.kodProgram}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-left pl-3'>
+                          {hasilQueryPromosi.namaAcara}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {hasilQueryPromosi.createdByUsername}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {hasilQueryPromosi.promosiIndividu ? (
+                            <span>Individu</span>
+                          ) : (
+                            <span>Klinik</span>
+                          )}
+                        </td>
+                        <td
+                          className={`${
+                            pilihanId === hasilQueryPromosi._id && 'bg-user3'
+                          } px-2 py-3 outline outline-1 outline-userWhite outline-offset-1 text-user2`}
+                        >
+                          {hasilQueryPromosi.statusReten === 'telah diisi' ||
                           hasilQueryPromosi.statusReten === 'reten salah' ? (
-                            <span
-                              onClick={() => {
-                                setModalHapusPromosi(true);
-                                setPilihanId(hasilQueryPromosi._id);
-                                setPilihanNama(hasilQueryPromosi.namaAcara);
-                                // setPilihanStatusReten(
-                                //   hasilQueryPromosi.statusReten
-                                // );
-                              }}
-                              className='m-2 p-2 uppercase bg-user9 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 hover:cursor-pointer transition-all'
+                            <Link
+                              target='_blank'
+                              rel='noreferrer'
+                              to={`${
+                                hasilQueryPromosi.promosiIndividu
+                                  ? `/pengguna/landing/promosi-individu/form-promosi/${hasilQueryPromosi._id}`
+                                  : `/pengguna/landing/promosi-klinik/form-promosi/${hasilQueryPromosi._id}`
+                              }`}
+                              className='m-2 p-2 uppercase bg-user3 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 transition-all'
                             >
-                              HAPUS RETEN
-                            </span>
-                          ) : null)}
-                      </td>
-                    </tr>
-                  </tbody>
-                );
-              })}
+                              lihat reten
+                            </Link>
+                          ) : null}
+                          {(userinfo.role === 'admin' ||
+                            userinfo.rolePromosiKlinik) &&
+                            (hasilQueryPromosi.statusReten === 'telah diisi' ||
+                            hasilQueryPromosi.statusReten === 'reten salah' ? (
+                              <span
+                                onClick={() => {
+                                  setModalHapusPromosi(true);
+                                  setPilihanId(hasilQueryPromosi._id);
+                                  setPilihanNama(hasilQueryPromosi.namaAcara);
+                                  // setPilihanStatusReten(
+                                  //   hasilQueryPromosi.statusReten
+                                  // );
+                                }}
+                                className='m-2 p-2 uppercase bg-user9 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 hover:cursor-pointer transition-all'
+                              >
+                                HAPUS RETEN
+                              </span>
+                            ) : null)}
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })}
+            {!isLoading &&
+              flipCarian === false &&
+              queryResultBulan.length > 0 &&
+              queryResultBulan
+                .filter((a) => {
+                  if (bulanPilih === '') {
+                    return a.statusReten === 'telah diisi';
+                  } else if (a.tarikhAkhir.slice(5, 7) === bulanPilih) {
+                    return a.statusReten === 'telah diisi';
+                  }
+                })
+                .map((hasilQueryPromosi, index) => {
+                  return (
+                    <tbody className='bg-user4'>
+                      <tr>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {index + 1}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {moment(hasilQueryPromosi.tarikhMula).format(
+                            'DD/MM/YYYY'
+                          )}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {moment(hasilQueryPromosi.tarikhAkhir).format(
+                            'DD/MM/YYYY'
+                          )}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {hasilQueryPromosi.kodProgram}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-left pl-3'>
+                          {hasilQueryPromosi.namaAcara}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {hasilQueryPromosi.createdByUsername}
+                        </td>
+                        <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'>
+                          {hasilQueryPromosi.promosiIndividu ? (
+                            <span>Individu</span>
+                          ) : (
+                            <span>Klinik</span>
+                          )}
+                        </td>
+                        <td
+                          className={`${
+                            pilihanId === hasilQueryPromosi._id && 'bg-user3'
+                          } px-2 py-3 outline outline-1 outline-userWhite outline-offset-1 text-user2`}
+                        >
+                          {hasilQueryPromosi.statusReten === 'telah diisi' ||
+                          hasilQueryPromosi.statusReten === 'reten salah' ? (
+                            <Link
+                              target='_blank'
+                              rel='noreferrer'
+                              to={`${
+                                hasilQueryPromosi.promosiIndividu
+                                  ? `/pengguna/landing/promosi-individu/form-promosi/${hasilQueryPromosi._id}`
+                                  : `/pengguna/landing/promosi-klinik/form-promosi/${hasilQueryPromosi._id}`
+                              }`}
+                              className='m-2 p-2 uppercase bg-user3 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 transition-all'
+                            >
+                              lihat reten
+                            </Link>
+                          ) : null}
+                          {(userinfo.role === 'admin' ||
+                            userinfo.rolePromosiKlinik) &&
+                            (hasilQueryPromosi.statusReten === 'telah diisi' ||
+                            hasilQueryPromosi.statusReten === 'reten salah' ? (
+                              <span
+                                onClick={() => {
+                                  setModalHapusPromosi(true);
+                                  setPilihanId(hasilQueryPromosi._id);
+                                  setPilihanNama(hasilQueryPromosi.namaAcara);
+                                  // setPilihanStatusReten(
+                                  //   hasilQueryPromosi.statusReten
+                                  // );
+                                }}
+                                className='m-2 p-2 uppercase bg-user9 text-sm text-userWhite rounded-md shadow-md whitespace-nowrap hover:bg-user1 hover:cursor-pointer transition-all'
+                              >
+                                HAPUS RETEN
+                              </span>
+                            ) : null)}
+                        </td>
+                      </tr>
+                    </tbody>
+                  );
+                })}
             {isLoading && (
               <tbody className='bg-user4'>
                 <tr>

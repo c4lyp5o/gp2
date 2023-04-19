@@ -16,27 +16,21 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   }
 
   const { kp, kodFasiliti } = req.user;
+  const sesiTakwim = sesiTakwimSekolah();
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
     jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
-    sesiTakwimSekolah: sesiTakwimSekolah(),
+    sesiTakwimSekolah: sesiTakwim,
   });
 
-  const kodSekolahs = fasilitiSekolahs.reduce(
-    (arrKodSekolahs, singleFasilitiSekolah) => {
-      if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
-        arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
-      }
-      return arrKodSekolahs.filter((valid) => valid);
-    },
-    ['']
-  );
+  const kodSekolahs = new Set();
+  fasilitiSekolahs.forEach((fasiliti) => kodSekolahs.add(fasiliti.kodSekolah));
 
   const allPersonSekolahs = await Sekolah.find({
     kodSekolah: { $in: [...kodSekolahs] },
-    sesiTakwimPelajar: sesiTakwimSekolah(),
-  });
+    sesiTakwimPelajar: sesiTakwim,
+  }).lean();
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
@@ -372,17 +366,26 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     await KohortKotak.create({
       createdByNegeri: req.user.negeri,
       createdByDaerah: req.user.daerah,
-      createdByKodFasiliti: req.user.kodFasiliti,
       createdByKp: req.user.kp,
-      //
+      createdByKodFasiliti: req.user.kodFasiliti,
       createdByUsername: req.body.createdByUsername,
-      idIndividu: req.body.idIndividu,
-      nama: req.body.nama,
-      noKadPengenalan: req.body.nomborId,
-      namaSekolah: req.body.namaSekolah,
-      kodSekolah: req.body.kodSekolah,
-      tahunTingkatan: req.body.tahunTingkatan,
-      kelas: req.body.namaKelas,
+      createdByMdcMdtb: req.body.createdByMdcMdtb,
+      //
+      idInstitusi: personSekolah.idInstitusi,
+      kodSekolah: personSekolah.kodSekolah,
+      namaSekolah: personSekolah.namaSekolah,
+      idIndividu: personSekolah.idIndividu,
+      nomborId: personSekolah.nomborId,
+      nama: personSekolah.nama,
+      sesiTakwimPelajar: personSekolah.sesiTakwimPelajar,
+      tahunTingkatan: personSekolah.tahunTingkatan,
+      kelasPelajar: personSekolah.kelasPelajar,
+      jantina: personSekolah.jantina,
+      statusOku: personSekolah.statusOku,
+      tarikhLahir: personSekolah.tarikhLahir,
+      umur: personSekolah.umur,
+      keturunan: personSekolah.keturunan,
+      warganegara: personSekolah.warganegara,
       // noTelefon: req.body.noTelMuridKotak,
       // dalamPemantauanKohort: 'JAN - JUN 2023', // default
     });

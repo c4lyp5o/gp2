@@ -1535,9 +1535,7 @@ const Generate = (props) => {
                                 Jana
                               </button>
                             ) : (
-                              <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                                Fungsi jana ditutup sementara
-                              </span>
+                              <span>Fungsi jana ditutup sementara</span>
                             )}
                           </div>
                         </div>
@@ -1556,9 +1554,7 @@ const Generate = (props) => {
                             Jana
                           </button>
                         ) : (
-                          <span className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                            Fungsi jana ditutup sementara
-                          </span>
+                          <span>Fungsi jana ditutup sementara</span>
                         )}
                       </td>
                     </tr>

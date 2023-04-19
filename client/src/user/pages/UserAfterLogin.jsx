@@ -45,19 +45,24 @@ const UserFormPromosi = lazy(() =>
 
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
 
+// KOTAK
 const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
 const UserKohortKotakForm = lazy(() =>
   import('../components/kohort/KOTAK/FormKOTAK')
 );
+// FMR
 const UserKohortFMR = lazy(() => import('../components/kohort/FMR/FMR'));
-const UserListMuridFMR = lazy(() =>
-  import('../components/kohort/FMR/RegisterListMuridFMR')
+const UserDaftarMuridMasukKohortFMR = lazy(() =>
+  import('../components/kohort/FMR/DaftarMuridMasukKohortFMR')
+);
+const UserDaftarMuridBuatKumuranFMR = lazy(() =>
+  import('../components/kohort/FMR/DaftarMuridBuatKumuranFMR')
+);
+const UserDaftarMuridKohortBuatKumuranFMR = lazy(() =>
+  import('../components/kohort/FMR/DaftarMuridKohortBuatKumuranFMR')
 );
 const UserCarianMuridFMR = lazy(() =>
   import('../components/kohort/FMR/CarianFMR')
-);
-const UserKohortFMRForm = lazy(() =>
-  import('../components/kohort/FMR/FormFMR')
 );
 
 const UserCarianPesakit = lazy(() =>
@@ -273,6 +278,30 @@ function UserAfterLogin() {
                 }
               />
               <Route
+                path='kohort/fmr/daftar-murid/:singleSekolahFMRId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserDaftarMuridMasukKohortFMR />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/fmr/daftar-kumur'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserDaftarMuridBuatKumuranFMR />{' '}
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/fmr/daftar-kumur-kohort'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserDaftarMuridKohortBuatKumuranFMR />{' '}
+                  </Suspense>
+                }
+              />
+              {/* <Route
                 path='kohort/fmr/daftar'
                 element={
                   <Suspense fallback={<Loading />}>
@@ -287,7 +316,7 @@ function UserAfterLogin() {
                     <UserKohortFMRForm />{' '}
                   </Suspense>
                 }
-              />
+              /> */}
               <Route
                 path='kohort/fmr/carian'
                 element={
