@@ -3,8 +3,6 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
 
-import RegisterFMRModal from './RegisterFMRModal';
-
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
 function KohortFMR() {
@@ -12,9 +10,7 @@ function KohortFMR() {
     useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [modalRegisterSekolah, setModalRegisterSekolah] = useState(false);
   const [allSekolahFMR, setAllSekolahFMR] = useState([]);
-  const [currentKodSekolah, setCurrentKodSekolah] = useState('');
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -32,7 +28,7 @@ function KohortFMR() {
               }`,
             },
           });
-          console.log(data);
+          // console.log(data);
           setAllSekolahFMR(data.allSekolahFMR);
           setIsLoading(false);
         } catch (error) {
@@ -63,42 +59,40 @@ function KohortFMR() {
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
         <div className='relative shadow-md drop-shadow-sm mb-2'>
-          <div>
-            <div className='flex justify-between'>
-              <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
-                SENARAI SEKOLAH KOHORT FMR
-              </h2>
-              <div className='flex justify-end items-center text-right mt-2'>
-                <button
-                  onClick={() => {
-                    navigate('/pengguna/landing/kohort');
-                  }}
-                  className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                >
-                  kembali ke senarai data kohort
-                </button>
-              </div>
+          <div className='flex justify-between'>
+            <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
+              SENARAI SEKOLAH KOHORT FMR
+            </h2>
+            <div className='flex justify-end items-center text-right mt-2'>
+              <button
+                onClick={() => {
+                  navigate('/pengguna/landing/kohort');
+                }}
+                className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+              >
+                kembali ke senarai data kohort
+              </button>
             </div>
           </div>
         </div>
-        <div className='m-auto text-xs lg:text-sm rounded-md h-min max-w-max overflow-x-auto mt-3'>
+        <div className='m-auto overflow-x-auto overflow-y-hidden text-xs lg:text-sm rounded-md h-min max-w-max mt-5'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-user2'>
               <tr>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   BIL.
                 </th>
-                <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96 max-w-md'>
                   NAMA SEKOLAH
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   ENROLMEN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-5 py-1'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   BIL. MURID BARU
                 </th>
                 {userinfo.role === 'admin' ? (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     DAFTAR KOHORT TAHUN 1
                   </th>
                 ) : null}
@@ -106,24 +100,24 @@ function KohortFMR() {
             </thead>
             {!isLoading ? (
               <>
-                <tbody className='text-user1'>
+                <tbody className='bg-user4'>
                   {allSekolahFMR.map((singleSekolahFMR, index) => {
                     return (
                       <tr key={index}>
-                        <td className='outline outline-1 outline-offset-1 p-2'>
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
                           {index + 1}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 p-2'>
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
                           {singleSekolahFMR.nama}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 p-2'>
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
                           {singleSekolahFMR.kelas}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 p-2'>
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
                           {singleSekolahFMR.noTelefon}
                         </td>
                         {userinfo.role === 'admin' ? (
-                          <td className='outline outline-1 outline-offset-1 p-2'>
+                          <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
                             {!singleSekolahFMR.statusFMRTelahDaftarDarjahSatu ? (
                               <Link
                                 to={`/pengguna/landing/kohort/fmr/daftar-murid/${singleSekolahFMR.kodSekolah}`}
@@ -147,17 +141,63 @@ function KohortFMR() {
                 </tbody>
               </>
             ) : (
-              <tbody className='text-user1'>
+              <tbody className='bg-user4'>
                 <tr>
-                  <td className='outline outline-1 outline-offset-1 p-2'>
-                    Loading...
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
                 </tr>
               </tbody>
             )}
           </table>
         </div>
-        <div className='grid grid-cols-3 shadow-md shadow-user3 mt-5'>
+        <div className='grid grid-cols-3 shadow-md shadow-user3 m-5'>
           <div className='flex justify-center items-center'>
             <Link
               to='daftar-kumur'
@@ -183,14 +223,6 @@ function KohortFMR() {
             </Link>
           </div>
         </div>
-        {modalRegisterSekolah ? (
-          <RegisterFMRModal
-            modalRegisterSekolah={modalRegisterSekolah}
-            setModalRegisterSekolah={setModalRegisterSekolah}
-            currentKodSekolah={currentKodSekolah}
-            setReloadState={setReloadState}
-          />
-        ) : null}
       </div>
     </>
   );
