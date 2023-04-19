@@ -1,5 +1,4 @@
-import { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useEffect, useRef, useState } from 'react';
 import { BsTrash } from 'react-icons/bs';
 import axios from 'axios';
 import moment from 'moment';
@@ -7,40 +6,78 @@ import _ from 'lodash';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
+import ModalHapusKohortFMRModal from './ModalHapusMuridKohortFMR';
+
 export default function UserCarianPromosi() {
   const { userToken, userinfo, reliefUserToken, toast } =
     useGlobalUserAppContext();
-
-  const [isLoading, setIsLoading] = useState(true);
 
   const [allMuridKohort, setAllMuridKohort] = useState('');
   const [allSekolahKohortFMR, setAllSekolahKohortFMR] = useState([]);
   const [allKelasBasedOnSekolah, setAllKelasBasedOnSekolah] = useState([]);
   const [allTahunKohort, setAllTahunKohort] = useState([]);
 
-  // const [pilihanSekolah, setPilihanSekolah] = useState('');
-  // const [pilihanKelas, setPilihanKelas] = useState('');
   const [selectedSekolah, setSelectedSekolah] = useState('');
   const [selectedKelas, setSelectedKelas] = useState('');
   const [selectedTahunKohort, setSelectedTahunKohort] = useState('');
-  const [selectedMurid, setSelectedMurid] = useState([]);
+  const [selectedMurid, setSelectedMurid] = useState(null);
 
-  const [tahunMulaKumuran, setTahunMulaKumuran] = useState('');
-  const [modalHapusPromosi, setModalHapusPromosi] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
 
-  const [searchUrl, setSearchUrl] = useState('');
+  const [showModal, setShowModal] = useState(false);
+
+  const [searchUrl, setSearchUrl] = useState('/api/v1/kohort/fmr/murid-kohort');
   const [refetch, setRefetch] = useState(false);
 
+  const init = useRef(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    console.log(selectedMurid);
+    try {
+      const buangKau = await axios.delete(
+        `/api/v1/kohort/fmr/hapus-murid-kohort/${selectedMurid.nomborId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        }
+      );
+      console.log(buangKau);
+      closeModal();
+      toast.success(`${selectedMurid.nama} telah berjaya dibuang dari kohort!`);
+    } catch (error) {
+      console.log(error);
+      closeModal();
+      toast.error(`Ralat! ${selectedMurid.nama} tidak berjaya dibuang!`);
+    }
+  };
+
+  const closeModal = () => {
+    setShowModal(false);
+    setRefetch(!refetch);
+  };
+
+  const props = {
+    closeModal,
+    handleSubmit,
+    selectedMurid,
+  };
+
   useEffect(() => {
-    const fetchAllMuridFMR = async (e) => {
+    const fetchAllMuridKohortFMR = async (e) => {
       try {
-        const { data } = await axios.get(`/api/v1/kohort/fmr/murid-kohort`, {
+        const { data } = await axios.get(searchUrl, {
           headers: {
             Authorization: `Bearer ${
               reliefUserToken ? reliefUserToken : userToken
             }`,
           },
         });
+        import.meta.env.VITE_ENV === 'dev' &&
+          console.log(data.muridDalamKohortFMR);
         setAllMuridKohort(data.muridDalamKohortFMR);
         const nama2Sekolah = _.uniq(
           data.muridDalamKohortFMR.map((x) => x.namaSekolah)
@@ -48,7 +85,6 @@ export default function UserCarianPromosi() {
         const nama2TahunKohort = _.uniq(
           data.muridDalamKohortFMR.map((x) => x.tahunKohortFMR)
         );
-        console.log(nama2Sekolah);
         setAllSekolahKohortFMR(nama2Sekolah);
         setAllTahunKohort(nama2TahunKohort);
         setIsLoading(false);
@@ -59,72 +95,39 @@ export default function UserCarianPromosi() {
         // );
       }
     };
-    fetchAllMuridFMR();
+    if (!init.current) {
+      fetchAllMuridKohortFMR();
+      init.current = true;
+    }
   }, []);
 
-  //   useEffect(() => {
-  //     const refetchDataOnDelete = async () => {
-  //       try {
-  //         const { data } = await axios.get(searchUrl, {
-  //           headers: {
-  //             Authorization: `Bearer ${
-  //               reliefUserToken ? reliefUserToken : userToken
-  //             }`,
-  //           },
-  //         });
-  //         const desc = data.aktivitiPromosiResultQuery.sort((a, b) =>
-  //           a.tarikhMula > b.tarikhMula ? -1 : 1
-  //         );
-  //         setQueryResult(desc);
-  //         setIsLoading(false);
-  //       } catch (error) {
-  //         console.log(error);
-  //         // toast.error(
-  //         //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-refetchDataOnDelete'
-  //         // );
-  //       }
-  //     };
-  //     refetchDataOnDelete();
-  //   }, [refetch]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    try {
-      setIsLoading(true);
-      const params = `/api/v1/kohort/fmr?kodFasiliti=${userinfo.kodFasiliti}`;
-      setSearchUrl(params);
-      const { data } = await axios.get(params, {
-        headers: {
-          Authorization: `Bearer ${
-            reliefUserToken ? reliefUserToken : userToken
-          }`,
-        },
-      });
-      const desc = data.aktivitiPromosiResultQuery.sort((a, b) =>
-        a.tarikhMula > b.tarikhMula ? -1 : 1
-      );
-      setQueryResult(desc);
-      setIsLoading(false);
-    } catch (error) {
-      console.log(error);
-      setQueryResult([]);
-      setIsLoading(false);
-      toast.error('Tiada data promosi yang dijumpai');
-    }
-  };
-
-  const handleResetAllFilter = () => {
-    setTarikhMulaAcara('');
-    setTarikhAkhirAcara('');
-    setJenisProgramResult('');
-    setKodProgram('');
-    setNamaAcara('');
-    setIdOperator('');
-    setIndividuOrKlinik('');
-    setQueryResult([]);
-  };
+  useEffect(() => {
+    const refetchDataOnDelete = async () => {
+      try {
+        const { data } = await axios.get(searchUrl, {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+        });
+        const desc = data.muridDalamKohortFMR.sort((a, b) =>
+          a.nama > b.nama ? -1 : 1
+        );
+        setAllMuridKohort(desc);
+        setIsLoading(false);
+      } catch (error) {
+        console.log(error);
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-refetchDataOnDelete'
+        // );
+      }
+    };
+    refetchDataOnDelete();
+  }, [refetch]);
 
   useEffect(() => {
+    // console.log(selectedSekolah);
     if (selectedSekolah === '') {
       console.log('resetting');
       setSelectedKelas('');
@@ -132,8 +135,9 @@ export default function UserCarianPromosi() {
       const allKelasBasedOnSekolah = _.uniq(
         allMuridKohort
           .filter((murid) => murid.namaSekolah === selectedSekolah)
-          .map((murid) => murid.namaKelas)
+          .map((murid) => murid.kelasPelajar)
       );
+      // console.log(allKelasBasedOnSekolah);
       setAllKelasBasedOnSekolah(allKelasBasedOnSekolah);
       setSelectedMurid(
         allMuridKohort.filter((murid) => murid.namaSekolah === selectedSekolah)
@@ -152,7 +156,7 @@ export default function UserCarianPromosi() {
   //       allMuridKohort.filter(
   //         (murid) =>
   //           murid.namaSekolah === selectedSekolah &&
-  //           murid.namaKelas === selectedKelas
+  //           murid.kelasPelajar === selectedKelas
   //       )
   //     );
   //   }
@@ -173,6 +177,30 @@ export default function UserCarianPromosi() {
           </h5>
         </div>
         <div className='grid grid-row-2 shadow-md shadow-user3'>
+          <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
+            <div>
+              <label className='flex m-5'>
+                <span className='font-semibold'>
+                  Kohort (Tahun Mula Kumuran):
+                </span>
+                <select
+                  className='ml-2'
+                  onChange={(event) => {
+                    setSelectedTahunKohort(event.target.value);
+                  }}
+                >
+                  <option value=''>Sila pilih kohort</option>
+                  {allTahunKohort.map((kohort, index) => {
+                    return (
+                      <option value={kohort} key={index}>
+                        {kohort}
+                      </option>
+                    );
+                  })}
+                </select>
+              </label>
+            </div>
+          </div>
           <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
             <div className='m-5'>
               <label className='flex justify-center items-center'>
@@ -200,7 +228,7 @@ export default function UserCarianPromosi() {
                   onChange={(event) => setSelectedKelas(event.target.value)}
                 >
                   <option value=''>Sila pilih kelas</option>
-                  {allSekolahKohortFMR !== '' &&
+                  {selectedSekolah !== '' &&
                     allKelasBasedOnSekolah.map((kelas, index) => {
                       return (
                         <option value={kelas} key={index}>
@@ -208,30 +236,6 @@ export default function UserCarianPromosi() {
                         </option>
                       );
                     })}
-                </select>
-              </label>
-            </div>
-          </div>
-          <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
-            <div>
-              <label className='flex m-5'>
-                <span className='font-semibold'>
-                  Kohort (Tahun Mula Kumuran):
-                </span>
-                <select
-                  className='ml-2'
-                  onChange={(event) => {
-                    setSelectedTahunKohort(event.target.value);
-                  }}
-                >
-                  <option value=''>Sila pilih kohort</option>
-                  {allTahunKohort.map((kohort, index) => {
-                    return (
-                      <option value={kohort} key={index}>
-                        {kohort}
-                      </option>
-                    );
-                  })}
                 </select>
               </label>
             </div>
@@ -275,7 +279,7 @@ export default function UserCarianPromosi() {
                     } else {
                       return (
                         murid.namaSekolah === selectedSekolah &&
-                        murid.namaKelas === selectedKelas
+                        murid.kelasPelajar === selectedKelas
                       );
                     }
                   }
@@ -306,7 +310,13 @@ export default function UserCarianPromosi() {
                         </td>
                         {userinfo.role === 'admin' ? (
                           <td className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 text-center'>
-                            <BsTrash className='text-xl' />
+                            <BsTrash
+                              className='text-xl'
+                              onClick={() => {
+                                setSelectedMurid(singlePersonKohort);
+                                setShowModal(true);
+                              }}
+                            />
                           </td>
                         ) : null}
                       </tr>
@@ -331,15 +341,6 @@ export default function UserCarianPromosi() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -357,15 +358,6 @@ export default function UserCarianPromosi() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -382,29 +374,13 @@ export default function UserCarianPromosi() {
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
-                  </td>
-                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-8 rounded-xl'></span>
                   </td>
                 </tr>
               </tbody>
             )}
           </table>
         </div>
-        {modalHapusPromosi && (
-          <UserDeleteModal
-            handleDelete={handleDelete}
-            setModalHapus={setModalHapusPromosi}
-            id={pilihanId}
-            nama={pilihanNama}
-          />
-        )}
+        {showModal && <ModalHapusKohortFMRModal {...props} />}
       </div>
     </>
   );
