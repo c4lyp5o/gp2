@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaCheckCircle } from 'react-icons/fa';
 import axios from 'axios';
 import moment from 'moment';
 
@@ -22,6 +22,7 @@ function UserFormKohortKOTAK() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonKohortKotak, setSinglePersonKohortKotak] = useState([]);
+  const [dataArrayUsernames, setDataArrayUsernames] = useState([]);
   const [statusKotak, setStatusKotak] = useState('');
   const [isJenisRokokRequired, setIsJenisRokokRequired] = useState(true);
 
@@ -264,6 +265,9 @@ function UserFormKohortKOTAK() {
               }`,
             },
           }
+        );
+        setDataArrayUsernames(
+          data.singlePersonKohortKotak.createdByNameMdcMdtb
         );
         setSinglePersonKohortKotak(data.singlePersonKohortKotak);
         setStatusKotak(data.singlePersonKohortKotak.statusKotak);
@@ -598,375 +602,511 @@ function UserFormKohortKOTAK() {
                       <h4 className='font-bold flex flex-row pl-5'>
                         tarikh intervensi dilaksanakan
                       </h4>
-                      <div className='flex pl-5 justify-center'>
-                        <div className='flex items-center flex-col lg:flex-row '>
-                          <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                            Sesi 1:
-                            <span className='text-user6 text-xl font-semibold'>
-                              *
-                            </span>
-                          </p>
-                          <TarikhQ1 />
-                        </div>
-                        <div className='flex items-center flex-col lg:flex-row pl-5'>
-                          <label
-                            htmlFor='ada-tiada-q-tarikh1'
-                            className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
-                          >
-                            tarikh rancang berhenti merokok :
-                          </label>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              required
-                              disabled={tarikh1 === '' ? true : false}
-                              type='radio'
-                              name='ada-tiada-q-tarikh1'
-                              id='ada-q-tarikh1'
-                              value='ada-q-tarikh1'
-                              checked={
-                                adaTiadaQTarikh1 === 'ada-q-tarikh1'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setAdaTiadaQTarikh1(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaTiadaQTarikh1: e.target.value,
-                                });
-                                setThisUsernameData({
-                                  ...thisUsernameData,
-                                  adaTiadaQTarikh1: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='ada-q-tarikh1'
-                              className='m-2 text-xs sm:text-sm font-m'
-                            >
-                              ada
-                            </label>
-                            <input
-                              required
-                              disabled={tarikh1 === '' ? true : false}
-                              type='radio'
-                              name='ada-tiada-q-tarikh1'
-                              id='tiada-q-tarikh1'
-                              value='tiada-q-tarikh1'
-                              checked={
-                                adaTiadaQTarikh1 === 'tiada-q-tarikh1'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setAdaTiadaQTarikh1(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaTiadaQTarikh1: e.target.value,
-                                });
-                                setThisUsernameData({
-                                  ...thisUsernameData,
-                                  adaTiadaQTarikh1: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='tiada-q-tarikh1'
-                              className='m-2 text-xs sm:text-sm font-m'
-                            >
-                              tiada
-                            </label>
-                          </div>
-                        </div>
-                      </div>
-                      <div className='flex pl-5 justify-center'>
-                        <div className='flex items-center flex-col lg:flex-row'>
-                          <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                            Sesi 2:
-                            {tarikh2 && (
+                      {singlePersonKohortKotak.statusKotak === 'belum mula' ? (
+                        <div className='flex pl-5 justify-center'>
+                          <div className='flex items-center flex-col lg:flex-row '>
+                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                              Sesi 1:
                               <span className='text-user6 text-xl font-semibold'>
                                 *
                               </span>
-                            )}
-                          </p>
-                          <TarikhQ2 />
-                        </div>
-                        <div className='flex items-center flex-col lg:flex-row pl-5'>
-                          <label
-                            htmlFor='ada-tiada-q-tarikh1'
-                            className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
-                          >
-                            tarikh rancang berhenti merokok :
-                          </label>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              required={tarikh2 ? true : false}
-                              disabled={tarikh2 === '' ? true : false}
-                              type='radio'
-                              name='ada-tiada-q-tarikh2'
-                              id='ada-q-tarikh2'
-                              value='ada-q-tarikh2'
-                              checked={
-                                adaTiadaQTarikh2 === 'ada-q-tarikh2'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setAdaTiadaQTarikh2(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaTiadaQTarikh2: e.target.value,
-                                });
-                                setThisUsernameData({
-                                  ...thisUsernameData,
-                                  adaTiadaQTarikh2: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
+                            </p>
+                            <TarikhQ1 />
+                          </div>
+                          <div className='flex items-center flex-col lg:flex-row pl-5'>
                             <label
-                              htmlFor='ada-q-tarikh2'
-                              className='m-2 text-xs sm:text-sm font-m'
+                              htmlFor='ada-tiada-q-tarikh1'
+                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
                             >
-                              ada
+                              tarikh rancang berhenti merokok :
                             </label>
-                            <input
-                              required={tarikh2 ? true : false}
-                              disabled={tarikh2 === '' ? true : false}
-                              type='radio'
-                              name='ada-tiada-q-tarikh2'
-                              id='tiada-q-tarikh2'
-                              value='tiada-q-tarikh2'
-                              checked={
-                                adaTiadaQTarikh2 === 'tiada-q-tarikh2'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setAdaTiadaQTarikh2(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaTiadaQTarikh2: e.target.value,
-                                });
-                                setThisUsernameData({
-                                  ...thisUsernameData,
-                                  adaTiadaQTarikh2: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='tiada-q-tarikh2'
-                              className='m-2 text-xs sm:text-sm font-m'
-                            >
-                              tiada
-                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                required
+                                disabled={tarikh1 === '' ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh1'
+                                id='ada-q-tarikh1'
+                                value='ada-q-tarikh1'
+                                checked={
+                                  adaTiadaQTarikh1 === 'ada-q-tarikh1'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh1(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh1: e.target.value,
+                                  });
+                                  setThisUsernameData({
+                                    ...thisUsernameData,
+                                    adaTiadaQTarikh1: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ada-q-tarikh1'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                ada
+                              </label>
+                              <input
+                                required
+                                disabled={tarikh1 === '' ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh1'
+                                id='tiada-q-tarikh1'
+                                value='tiada-q-tarikh1'
+                                checked={
+                                  adaTiadaQTarikh1 === 'tiada-q-tarikh1'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh1(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh1: e.target.value,
+                                  });
+                                  setThisUsernameData({
+                                    ...thisUsernameData,
+                                    adaTiadaQTarikh1: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-q-tarikh1'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                tiada
+                              </label>
+                            </div>
                           </div>
                         </div>
-                      </div>
-                      <div className='flex pl-5 justify-center'>
-                        <div className='flex items-center flex-col lg:flex-row'>
-                          <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
-                            Sesi 3:
-                            {tarikh3 && (
-                              <span className='text-user6 text-xl font-semibold'>
-                                *
-                              </span>
-                            )}
+                      ) : (
+                        <div className='flex pl-5 justify-start text-left text-xs'>
+                          <p>
+                            Intervensi sesi 1 dijalankan pada{' '}
+                            {moment(
+                              singlePersonKohortKotak.tarikhIntervensi1
+                            ).format('DD/MM/YYYY')}{' '}
+                            dengan{' '}
+                            {adaTiadaQTarikh1 === 'ada-q-tarikh1'
+                              ? 'ada'
+                              : 'tiada'}{' '}
+                            tarikh rancang berhenti merokok oleh{' '}
+                            {dataArrayUsernames.length > 0
+                              ? dataArrayUsernames
+                                  .filter(
+                                    (item) =>
+                                      item.thisUsernameData.tarikh1 ===
+                                      singlePersonKohortKotak.tarikhIntervensi1
+                                  )
+                                  .map((item) => item.createdByUsername)
+                              : null}
                           </p>
-                          <TarikhQ3 />
                         </div>
-                        <div className='flex items-center flex-col lg:flex-row pl-5'>
-                          <label
-                            htmlFor='ada-tiada-q-tarikh1'
-                            className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
-                          >
-                            tarikh rancang berhenti merokok :
-                          </label>
-                          <div className='flex items-center justify-center'>
-                            <input
-                              required={tarikh3 ? true : false}
-                              disabled={tarikh3 === '' ? true : false}
-                              type='radio'
-                              name='ada-tiada-q-tarikh3'
-                              id='ada-q-tarikh3'
-                              value='ada-q-tarikh3'
-                              checked={
-                                adaTiadaQTarikh3 === 'ada-q-tarikh3'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setAdaTiadaQTarikh3(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaTiadaQTarikh3: e.target.value,
-                                });
-                                setThisUsernameData({
-                                  ...thisUsernameData,
-                                  adaTiadaQTarikh3: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
+                      )}
+                      {singlePersonKohortKotak.statusKotak ===
+                        'selesai sesi 1' ||
+                      singlePersonKohortKotak.statusKotak === 'belum mula' ? (
+                        <div className='flex pl-5 justify-center'>
+                          <div className='flex items-center flex-col lg:flex-row'>
+                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                              Sesi 2:
+                              {tarikh2 && (
+                                <span className='text-user6 text-xl font-semibold'>
+                                  *
+                                </span>
+                              )}
+                            </p>
+                            <TarikhQ2 />
+                          </div>
+                          <div className='flex items-center flex-col lg:flex-row pl-5'>
                             <label
-                              htmlFor='ada-q-tarikh3'
-                              className='m-2 text-xs sm:text-sm font-m'
+                              htmlFor='ada-tiada-q-tarikh1'
+                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
                             >
-                              ada
+                              tarikh rancang berhenti merokok :
                             </label>
-                            <input
-                              required={tarikh3 ? true : false}
-                              disabled={tarikh3 === '' ? true : false}
-                              type='radio'
-                              name='ada-tiada-q-tarikh3'
-                              id='tiada-q-tarikh3'
-                              value='tiada-q-tarikh3'
-                              checked={
-                                adaTiadaQTarikh3 === 'tiada-q-tarikh3'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setAdaTiadaQTarikh3(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaTiadaQTarikh3: e.target.value,
-                                });
-                                setThisUsernameData({
-                                  ...thisUsernameData,
-                                  adaTiadaQTarikh3: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                            />
-                            <label
-                              htmlFor='tiada-q-tarikh3'
-                              className='m-2 text-xs sm:text-sm font-m'
-                            >
-                              tiada
-                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                required={tarikh2 ? true : false}
+                                disabled={tarikh2 === '' ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh2'
+                                id='ada-q-tarikh2'
+                                value='ada-q-tarikh2'
+                                checked={
+                                  adaTiadaQTarikh2 === 'ada-q-tarikh2'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh2: e.target.value,
+                                  });
+                                  setThisUsernameData({
+                                    ...thisUsernameData,
+                                    adaTiadaQTarikh2: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ada-q-tarikh2'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                ada
+                              </label>
+                              <input
+                                required={tarikh2 ? true : false}
+                                disabled={tarikh2 === '' ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh2'
+                                id='tiada-q-tarikh2'
+                                value='tiada-q-tarikh2'
+                                checked={
+                                  adaTiadaQTarikh2 === 'tiada-q-tarikh2'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh2(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh2: e.target.value,
+                                  });
+                                  setThisUsernameData({
+                                    ...thisUsernameData,
+                                    adaTiadaQTarikh2: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-q-tarikh2'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                tiada
+                              </label>
+                            </div>
                           </div>
                         </div>
-                      </div>
+                      ) : (
+                        <div className='flex pl-5 justify-start text-left text-xs'>
+                          <p>
+                            Intervensi sesi 2 dijalankan pada{' '}
+                            {moment(
+                              singlePersonKohortKotak.tarikhIntervensi2
+                            ).format('DD/MM/YYYY')}{' '}
+                            dengan{' '}
+                            {adaTiadaQTarikh2 === 'ada-q-tarikh2'
+                              ? 'ada'
+                              : 'tiada'}{' '}
+                            tarikh rancang berhenti merokok oleh{' '}
+                            {dataArrayUsernames.length > 0
+                              ? dataArrayUsernames
+                                  .filter(
+                                    (item) =>
+                                      item.thisUsernameData.tarikh2 ===
+                                      singlePersonKohortKotak.tarikhIntervensi2
+                                  )
+                                  .map((item) => item.createdByUsername)
+                              : null}
+                          </p>
+                        </div>
+                      )}
+                      {singlePersonKohortKotak.statusKotak ===
+                        'selesai sesi 2' ||
+                      singlePersonKohortKotak.statusKotak ===
+                        'selesai sesi 1' ||
+                      singlePersonKohortKotak.statusKotak === 'belum mula' ? (
+                        <div className='flex pl-5 justify-center'>
+                          <div className='flex items-center flex-col lg:flex-row'>
+                            <p className='flex items-center flex-row lg:justify-center text-sm lg:text-base font-m whitespace-nowrap pr-3'>
+                              Sesi 3:
+                              {tarikh3 && (
+                                <span className='text-user6 text-xl font-semibold'>
+                                  *
+                                </span>
+                              )}
+                            </p>
+                            <TarikhQ3 />
+                          </div>
+                          <div className='flex items-center flex-col lg:flex-row pl-5'>
+                            <label
+                              htmlFor='ada-tiada-q-tarikh1'
+                              className='text-xs sm:text-sm font-m pt-2 lg:p-2 '
+                            >
+                              tarikh rancang berhenti merokok :
+                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                required={tarikh3 ? true : false}
+                                disabled={tarikh3 === '' ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh3'
+                                id='ada-q-tarikh3'
+                                value='ada-q-tarikh3'
+                                checked={
+                                  adaTiadaQTarikh3 === 'ada-q-tarikh3'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh3: e.target.value,
+                                  });
+                                  setThisUsernameData({
+                                    ...thisUsernameData,
+                                    adaTiadaQTarikh3: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ada-q-tarikh3'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                ada
+                              </label>
+                              <input
+                                required={tarikh3 ? true : false}
+                                disabled={tarikh3 === '' ? true : false}
+                                type='radio'
+                                name='ada-tiada-q-tarikh3'
+                                id='tiada-q-tarikh3'
+                                value='tiada-q-tarikh3'
+                                checked={
+                                  adaTiadaQTarikh3 === 'tiada-q-tarikh3'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setAdaTiadaQTarikh3(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaTiadaQTarikh3: e.target.value,
+                                  });
+                                  setThisUsernameData({
+                                    ...thisUsernameData,
+                                    adaTiadaQTarikh3: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-q-tarikh3'
+                                className='m-2 text-xs sm:text-sm font-m'
+                              >
+                                tiada
+                              </label>
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        <div className='flex pl-5 justify-start text-left text-xs'>
+                          <p>
+                            Intervensi sesi 3 dijalankan pada{' '}
+                            {moment(
+                              singlePersonKohortKotak.tarikhIntervensi2
+                            ).format('DD/MM/YYYY')}{' '}
+                            dengan{' '}
+                            {adaTiadaQTarikh3 === 'ada-q-tarikh3'
+                              ? 'ada'
+                              : 'tiada'}{' '}
+                            tarikh rancang berhenti merokok oleh{' '}
+                            {dataArrayUsernames.length > 0
+                              ? dataArrayUsernames
+                                  .filter(
+                                    (item) =>
+                                      item.thisUsernameData.tarikh3 ===
+                                      singlePersonKohortKotak.tarikhIntervensi3
+                                  )
+                                  .map((item) => item.createdByUsername)
+                              : null}
+                          </p>
+                        </div>
+                      )}
                     </article>
-                    <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold text-base flex flex-row text-left '>
-                        jenis rokok (hanya dilengkapkan setelah menjalani
-                        intervensi sesi 1)
-                        <strong className='text-user6'>*</strong>{' '}
-                      </h4>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='rokok-biasa-kotak'
-                          id='rokok-biasa-kotak'
-                          required={isJenisRokokRequired}
-                          checked={rokokBiasaKotak}
-                          onChange={() => {
-                            setRokokBiasaKotak(!rokokBiasaKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              rokokBiasaKotak: !rokokBiasaKotak,
-                            });
-                            setThisUsernameData({
-                              ...thisUsernameData,
-                              rokokBiasaKotak: !rokokBiasaKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='rokok-biasa-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          rokok biasa
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='elektronik-vape-kotak'
-                          id='elektronik-vape-kotak'
-                          required={isJenisRokokRequired}
-                          checked={elektronikVapeKotak}
-                          onChange={() => {
-                            setElektronikVapeKotak(!elektronikVapeKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              elektronikVapeKotak: !elektronikVapeKotak,
-                            });
-                            setThisUsernameData({
-                              ...thisUsernameData,
-                              elektronikVapeKotak: !elektronikVapeKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='elektronik-vape-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          peranti rokok elektronik / <i>Vape</i>
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='shisha-kotak'
-                          id='shisha-kotak'
-                          required={isJenisRokokRequired}
-                          checked={shishaKotak}
-                          onChange={() => {
-                            setShishaKotak(!shishaKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              shishaKotak: !shishaKotak,
-                            });
-                            setThisUsernameData({
-                              ...thisUsernameData,
-                              shishaKotak: !shishaKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='shisha-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          shisha
-                        </label>
-                      </div>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          type='checkbox'
-                          name='lain-lain-kotak'
-                          id='lain-lain-kotak'
-                          required={isJenisRokokRequired}
-                          checked={lainLainKotak}
-                          onChange={() => {
-                            setLainLainKotak(!lainLainKotak);
-                            setConfirmData({
-                              ...confirmData,
-                              lainLainKotak: !lainLainKotak,
-                            });
-                            setThisUsernameData({
-                              ...thisUsernameData,
-                              lainLainKotak: !lainLainKotak,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='lain-lain-kotak'
-                          className='m-2 text-sm font-m'
-                        >
-                          lain-lain
-                        </label>
-                      </div>
-                    </article>
+                    {singlePersonKohortKotak.statusKotak === 'belum mula' ? (
+                      <article className='grid gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                        <h4 className='font-bold text-base flex flex-row text-left '>
+                          jenis rokok (hanya dilengkapkan setelah menjalani
+                          intervensi sesi 1)
+                          <strong className='text-user6'>*</strong>{' '}
+                        </h4>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='rokok-biasa-kotak'
+                            id='rokok-biasa-kotak'
+                            required={isJenisRokokRequired}
+                            checked={rokokBiasaKotak}
+                            onChange={() => {
+                              setRokokBiasaKotak(!rokokBiasaKotak);
+                              setConfirmData({
+                                ...confirmData,
+                                rokokBiasaKotak: !rokokBiasaKotak,
+                              });
+                              setThisUsernameData({
+                                ...thisUsernameData,
+                                rokokBiasaKotak: !rokokBiasaKotak,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='rokok-biasa-kotak'
+                            className='m-2 text-sm font-m'
+                          >
+                            rokok biasa
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='elektronik-vape-kotak'
+                            id='elektronik-vape-kotak'
+                            required={isJenisRokokRequired}
+                            checked={elektronikVapeKotak}
+                            onChange={() => {
+                              setElektronikVapeKotak(!elektronikVapeKotak);
+                              setConfirmData({
+                                ...confirmData,
+                                elektronikVapeKotak: !elektronikVapeKotak,
+                              });
+                              setThisUsernameData({
+                                ...thisUsernameData,
+                                elektronikVapeKotak: !elektronikVapeKotak,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='elektronik-vape-kotak'
+                            className='m-2 text-sm font-m'
+                          >
+                            peranti rokok elektronik / <i>Vape</i>
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='shisha-kotak'
+                            id='shisha-kotak'
+                            required={isJenisRokokRequired}
+                            checked={shishaKotak}
+                            onChange={() => {
+                              setShishaKotak(!shishaKotak);
+                              setConfirmData({
+                                ...confirmData,
+                                shishaKotak: !shishaKotak,
+                              });
+                              setThisUsernameData({
+                                ...thisUsernameData,
+                                shishaKotak: !shishaKotak,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='shisha-kotak'
+                            className='m-2 text-sm font-m'
+                          >
+                            shisha
+                          </label>
+                        </div>
+                        <div className='flex items-center flex-row pl-5'>
+                          <input
+                            type='checkbox'
+                            name='lain-lain-kotak'
+                            id='lain-lain-kotak'
+                            required={isJenisRokokRequired}
+                            checked={lainLainKotak}
+                            onChange={() => {
+                              setLainLainKotak(!lainLainKotak);
+                              setConfirmData({
+                                ...confirmData,
+                                lainLainKotak: !lainLainKotak,
+                              });
+                              setThisUsernameData({
+                                ...thisUsernameData,
+                                lainLainKotak: !lainLainKotak,
+                              });
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='lain-lain-kotak'
+                            className='m-2 text-sm font-m'
+                          >
+                            lain-lain
+                          </label>
+                        </div>
+                      </article>
+                    ) : (
+                      <article className='grid auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
+                        <h4 className='font-bold text-base flex flex-row text-left '>
+                          jenis rokok (hanya dilengkapkan setelah menjalani
+                          intervensi sesi 1)
+                          <strong className='text-user6'>*</strong>{' '}
+                        </h4>
+                        {singlePersonKohortKotak.rokokBiasaKotak === true && (
+                          <div className='flex items-center flex-row pl-5'>
+                            <FaCheckCircle className='text-user7 inline-flex' />
+                            <label
+                              htmlFor='rokok-biasa-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              rokok biasa
+                            </label>
+                          </div>
+                        )}
+                        {singlePersonKohortKotak.elektronikVapeKotak ===
+                          true && (
+                          <div className='flex items-center flex-row pl-5'>
+                            <FaCheckCircle className='text-user7 inline-flex' />
+                            <label
+                              htmlFor='elektronik-vape-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              peranti rokok elektronik / <i>Vape</i>
+                            </label>
+                          </div>
+                        )}
+                        {singlePersonKohortKotak.shishaKotak === true && (
+                          <div className='flex items-center flex-row pl-5'>
+                            <FaCheckCircle className='text-user7 inline-flex' />
+                            <label
+                              htmlFor='shisha-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              shisha
+                            </label>
+                          </div>
+                        )}
+                        {singlePersonKohortKotak.lainLainKotak === true && (
+                          <div className='flex items-center flex-row pl-5'>
+                            <FaCheckCircle className='text-user7 inline-flex' />
+                            <label
+                              htmlFor='lain-lain-kotak'
+                              className='m-2 text-sm font-m'
+                            >
+                              lain-lain
+                            </label>
+                          </div>
+                        )}
+                      </article>
+                    )}
                   </div>
                   {adaTiadaQTarikh4 === 'tiada-q-tarikh4' ||
                   adaTiadaQTarikh3 === 'tiada-q-tarikh3' ? (
