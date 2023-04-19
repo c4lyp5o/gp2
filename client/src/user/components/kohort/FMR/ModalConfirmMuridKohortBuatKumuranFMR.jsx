@@ -6,7 +6,7 @@ export default function ModalConfirmMuridKohortBuatKumuranFMR(props) {
     <>
       <div className='absolute inset-x-0 inset-y-0 lg:inset-x-1/4 lg:inset-y-60 text-sm bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
         <FaWindowClose
-          onClick={props.closeConfirmModal}
+          onClick={props.closeModal}
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
         />
         <div className='grid grid-rows-[1fr_8fr_1fr] h-full'>
@@ -29,7 +29,13 @@ export default function ModalConfirmMuridKohortBuatKumuranFMR(props) {
                   Nama Sekolah:{' '}
                 </p>
                 <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {props.selectedSekolah}
+                  {Object.keys(props.users)
+                    .filter((key) => props.users[key].masukKohort === true)
+                    .map((key) => props.users[key].namaSekolah)
+                    .filter(
+                      (value, index, self) => self.indexOf(value) === index
+                    )
+                    .join(', ')}
                 </p>
               </div>
               <div className='grid grid-cols-[1fr_2fr]'>
@@ -37,7 +43,13 @@ export default function ModalConfirmMuridKohortBuatKumuranFMR(props) {
                   Nama Kelas:{' '}
                 </p>
                 <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {props.selectedKelasBasedOnSekolah}
+                  {Object.keys(props.users)
+                    .filter((key) => props.users[key].masukKohort === true)
+                    .map((key) => props.users[key].kelasPelajar)
+                    .filter(
+                      (value, index, self) => self.indexOf(value) === index
+                    )
+                    .join(', ')}
                 </p>
               </div>
               <div className='grid grid-cols-[1fr_2fr]'>
@@ -65,24 +77,24 @@ export default function ModalConfirmMuridKohortBuatKumuranFMR(props) {
           <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
             <button
               type='button'
-              className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
-              onClick={props.closeConfirmModal}
+              className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
+              onClick={props.closeModal}
             >
               KEMBALI
-              <FaRegPaperPlane className='inline-flex ml-1' />
             </button>
             <button
               type='button'
-              className='capitalize bg-userWhite text-userBlack rounded-md p-2 ml-3 hover:bg-user5 transition-all'
-              onClick={props.openConfirmModal}
+              className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
+              onClick={props.handleSubmit}
             >
+              <FaRegPaperPlane className='inline-flex ml-1' />
               HANTAR
             </button>
           </div>
         </div>
       </div>
       <div
-        onClick={props.closeConfirmModal}
+        onClick={props.closeModal}
         className='absolute inset-0 bg-user1 opacity-75 z-10'
       />
     </>
