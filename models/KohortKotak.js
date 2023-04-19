@@ -11,55 +11,89 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    createdByKodFasiliti: {
-      type: String,
-      //   required: true,
-    },
     createdByKp: {
       type: String,
       required: true,
     },
-    createdByMdcMdtb: {
+    createdByKodFasiliti: {
       type: String,
-      //   required: true,
+      required: true,
     },
     createdByUsername: {
       type: String,
       required: true,
     },
-    // kotak --------------------------------------------------
+    createdByMdcMdtb: {
+      type: String,
+      required: true,
+    },
+    // copied over from MOEIS ----------------------------------------
+    idInstitusi: {
+      type: String,
+      default: 'MISSING COPIED ID_INSTITUSI',
+    },
+    kodSekolah: {
+      type: String,
+      default: 'MISSING COPIED KOD_INSTITUSI',
+    },
+    namaSekolah: {
+      type: String,
+      default: 'MISSING COPIED NAMA INSTITUSI',
+    },
+    idIndividu: {
+      type: String,
+      default: 'MISSING COPIED ID_INDIVIDU',
+    },
+    nomborId: {
+      type: String,
+      default: 'MISSING COPIED NOMBOR_ID', // pengenalan diri
+    },
+    nama: {
+      type: String,
+      default: 'MISSING COPIED NAMA',
+    },
+    sesiTakwimPelajar: {
+      type: String,
+      default: 'MISSING COPIED SESI_TAKWIM',
+    },
+    tahunTingkatan: {
+      type: String,
+      default: 'MISSING COPIED TAHUN_TINGKATAN',
+    },
+    kelasPelajar: {
+      type: String,
+      default: 'MISSING COPIED NAMA KELAS',
+    },
+    jantina: {
+      type: String,
+      default: 'MISSING COPIED JANTINA',
+    },
+    statusOku: {
+      type: String,
+      default: 'MISSING COPIED STATUS_OKU',
+    },
+    tarikhLahir: {
+      type: String,
+      default: 'MISSING COPIED tarikh_lahir',
+    },
+    umur: {
+      type: Number,
+      default: 7777777, // lucky seven lol
+    },
+    keturunan: {
+      type: String,
+      default: 'MISSING COPIED keturunan',
+    },
+    warganegara: {
+      type: String,
+      default: 'MISSING COPIED warganegara',
+    },
+    // status KOTAK --------------------------------------------------
     statusKotak: {
       type: String,
       default: 'belum mula',
     },
-    idIndividu: {
-      type: String,
-      default: '',
-    },
-    nama: {
-      type: String,
-      default: '',
-    },
-    nomborId: {
-      type: String,
-      default: '',
-    },
-    namaSekolah: {
-      type: String,
-      default: '',
-    },
-    kodSekolah: {
-      type: String,
-      default: '',
-    },
-    tahunTingkatan: {
-      type: String,
-      default: '',
-    },
-    kelasPelajar: {
-      type: String,
-      default: '',
-    },
+    // start own field --------------------------------------------------
     noTelefon: {
       type: String,
       default: '',
