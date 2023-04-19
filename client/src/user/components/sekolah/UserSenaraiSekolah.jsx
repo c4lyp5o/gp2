@@ -6,6 +6,9 @@ import {
   BsFillCheckCircleFill,
   BsChevronDoubleRight,
   BsChevronDoubleLeft,
+  BsDownload,
+  BsEnvelopeX,
+  BsHurricane,
 } from 'react-icons/bs';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -35,6 +38,10 @@ function UserSekolahList() {
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
   const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
+
+  const [isTutup, setIsTutup] = useState(false);
+  const [isKemaskini, setIsKemaskini] = useState(false);
+  const [isDownload, setIsDownload] = useState(false);
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -246,13 +253,8 @@ function UserSekolahList() {
                   ISI RETEN
                 </th>
                 {userinfo.role === 'admin' && (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-32'>
-                    TUTUP RETEN SEKOLAH
-                  </th>
-                )}
-                {userinfo.role === 'admin' && (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-32'>
-                    KEMASKINI SENARAI PELAJAR
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-28'>
+                    TINDAKAN
                   </th>
                 )}
               </tr>
@@ -287,10 +289,6 @@ function UserSekolahList() {
                   {userinfo.role === 'admin' && (
                     <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                    </td>
-                  )}
-                  {userinfo.role === 'admin' && (
-                    <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                     </td>
                   )}
@@ -318,7 +316,7 @@ function UserSekolahList() {
                   })
                   .map((singleNamaSekolah, index) => {
                     return (
-                      <tr>
+                      <tr key={singleNamaSekolah._id}>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           {index + 1}
                         </td>
@@ -364,41 +362,138 @@ function UserSekolahList() {
                           </Link>
                         </td>
                         {userinfo.role === 'admin' && (
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                            <button
-                              onClick={() => {
-                                setIdSekolah(singleNamaSekolah._id);
-                                setModalSelesaiSekolah(true);
-                              }}
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 flex flex-col justify-center'>
+                            <div className='flex justify-center items-center'>
+                              <button
+                                title='Cetak senarai murid sekolah'
+                                onClick={() => {
+                                  setIdSekolah(singleNamaSekolah._id);
+                                  setModalCetak(true);
+                                }}
+                                onMouseEnter={() => {
+                                  setIsDownload({
+                                    ...isDownload,
+                                    [singleNamaSekolah._id]: true,
+                                  });
+                                }}
+                                onMouseLeave={() => {
+                                  setIsDownload({
+                                    ...isDownload,
+                                    [singleNamaSekolah._id]: false,
+                                  });
+                                }}
+                                className={`${
+                                  singleNamaSekolah.sekolahSelesaiReten
+                                    ? 'bg-user1 pointer-events-none px-5'
+                                    : 'bg-user3 shadow-md'
+                                } ${
+                                  isDownload[singleNamaSekolah._id]
+                                    ? ''
+                                    : 'w-7 h-7'
+                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
+                              >
+                                <BsDownload className='inline-flex' />
+                                <p
+                                  className={`${
+                                    isDownload[singleNamaSekolah._id]
+                                      ? 'max-w-min ml-1 transition-all duration-700 '
+                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                  }`}
+                                >
+                                  CETAK
+                                </p>
+                              </button>
+                            </div>
+                            <div className='flex justify-center items-center'>
+                              <button
+                                title='Kemaskini senarai murid sekolah terkini'
+                                onClick={() => {
+                                  setIdSekolah(singleNamaSekolah._id);
+                                  setModalRefreshPelajar(true);
+                                }}
+                                onMouseEnter={() => {
+                                  setIsKemaskini({
+                                    ...isKemaskini,
+                                    [singleNamaSekolah._id]: true,
+                                  });
+                                }}
+                                onMouseLeave={() => {
+                                  setIsKemaskini({
+                                    ...isKemaskini,
+                                    [singleNamaSekolah._id]: false,
+                                  });
+                                }}
+                                className={`${
+                                  singleNamaSekolah.sekolahSelesaiReten
+                                    ? 'bg-user1 pointer-events-none px-5'
+                                    : 'bg-user3 shadow-md'
+                                } ${
+                                  isKemaskini[singleNamaSekolah._id]
+                                    ? ''
+                                    : 'w-7 h-7'
+                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
+                              >
+                                <BsHurricane className='inline-flex' />
+                                <p
+                                  className={`${
+                                    isKemaskini[singleNamaSekolah._id]
+                                      ? 'max-w-min ml-1 transition-all duration-700 '
+                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                  }`}
+                                >
+                                  {singleNamaSekolah.sekolahSelesaiReten
+                                    ? 'TELAH DITUTUP'
+                                    : 'KEMASKINI'}
+                                </p>
+                              </button>
+                            </div>
+                            <div
                               className={`${
-                                singleNamaSekolah.sekolahSelesaiReten
-                                  ? 'bg-user7 pointer-events-none'
-                                  : 'bg-user3 shadow-md'
-                              } text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all`}
+                                isTutup[singleNamaSekolah._id] ? '' : ''
+                              }flex justify-center items-center`}
                             >
-                              {singleNamaSekolah.sekolahSelesaiReten
-                                ? 'TELAH DITUTUP'
-                                : 'TUTUP'}
-                            </button>
-                          </td>
-                        )}
-                        {userinfo.role === 'admin' && (
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                            <button
-                              onClick={() => {
-                                setIdSekolah(singleNamaSekolah._id);
-                                setModalRefreshPelajar(true);
-                              }}
-                              className={`${
-                                singleNamaSekolah.sekolahSelesaiReten
-                                  ? 'bg-user1 pointer-events-none px-5'
-                                  : 'bg-user3 shadow-md'
-                              } text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all`}
-                            >
-                              {singleNamaSekolah.sekolahSelesaiReten
-                                ? '-'
-                                : 'KEMASKINI'}
-                            </button>
+                              <button
+                                title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
+                                onClick={() => {
+                                  setIdSekolah(singleNamaSekolah._id);
+                                  setModalSelesaiSekolah(true);
+                                }}
+                                onMouseEnter={() => {
+                                  setIsTutup({
+                                    ...isTutup,
+                                    [singleNamaSekolah._id]: true,
+                                  });
+                                }}
+                                onMouseLeave={() => {
+                                  setIsTutup({
+                                    ...isTutup,
+                                    [singleNamaSekolah._id]: false,
+                                  });
+                                }}
+                                className={`${
+                                  singleNamaSekolah.sekolahSelesaiReten
+                                    ? 'bg-user7 pointer-events-none'
+                                    : 'bg-user3 shadow-md'
+                                } ${
+                                  isTutup[singleNamaSekolah._id]
+                                    ? ''
+                                    : 'w-7 h-7'
+                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700  flex items-center`}
+                              >
+                                <BsEnvelopeX className='inline-flex ' />
+                                <p
+                                  className={`${
+                                    isTutup[singleNamaSekolah._id]
+                                      ? 'max-w-min ml-1 transition-all duration-700 '
+                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                  }`}
+                                >
+                                  {singleNamaSekolah.sekolahSelesaiReten
+                                    ? 'TELAH DITUTUP'
+                                    : 'TUTUP'}
+                                </p>
+                              </button>
+                            </div>
                           </td>
                         )}
                       </tr>
