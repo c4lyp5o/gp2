@@ -11,13 +11,13 @@ function UserFormKohortKOTAK() {
   const {
     userToken,
     reliefUserToken,
-    username,
+    userinfo,
     useParams,
     masterDatePicker,
     toast,
   } = useGlobalUserAppContext();
 
-  const { personKohortKotakId, createdByUsername } = useParams();
+  const { personKohortKotakId } = useParams();
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
@@ -27,6 +27,8 @@ function UserFormKohortKOTAK() {
 
   //confirm data
   const [confirmData, setConfirmData] = useState({});
+
+  const [thisUsernameData, setThisUsernameData] = useState({});
 
   const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
   const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
@@ -65,6 +67,10 @@ function UserFormKohortKOTAK() {
           ...confirmData,
           tarikh1: moment(date).format('YYYY-MM-DD'),
         });
+        setThisUsernameData({
+          ...thisUsernameData,
+          tarikh1: moment(date).format('YYYY-MM-DD'),
+        });
       },
       required: true,
       filterDate: (date) => {
@@ -86,6 +92,10 @@ function UserFormKohortKOTAK() {
           ...confirmData,
           tarikh2: moment(date).format('YYYY-MM-DD'),
         });
+        setThisUsernameData({
+          ...thisUsernameData,
+          tarikh2: moment(date).format('YYYY-MM-DD'),
+        });
       },
       filterDate: (date) => {
         return moment() > date;
@@ -104,6 +114,10 @@ function UserFormKohortKOTAK() {
         setTarikh3(moment(date).format('YYYY-MM-DD'));
         setConfirmData({
           ...confirmData,
+          tarikh3: moment(date).format('YYYY-MM-DD'),
+        });
+        setThisUsernameData({
+          ...thisUsernameData,
           tarikh3: moment(date).format('YYYY-MM-DD'),
         });
       },
@@ -127,6 +141,10 @@ function UserFormKohortKOTAK() {
         setTarikhQ(moment(date).format('YYYY-MM-DD'));
         setConfirmData({
           ...confirmData,
+          tarikhQ: moment(date).format('YYYY-MM-DD'),
+        });
+        setThisUsernameData({
+          ...thisUsernameData,
           tarikhQ: moment(date).format('YYYY-MM-DD'),
         });
       },
@@ -249,6 +267,9 @@ function UserFormKohortKOTAK() {
         );
         setSinglePersonKohortKotak(data.singlePersonKohortKotak);
         setStatusKotak(data.singlePersonKohortKotak.statusKotak);
+        setNoTelefon(data.singlePersonKohortKotak.noTelefon);
+        setNoTel2(data.singlePersonKohortKotak.noTel2);
+        setNoTel3(data.singlePersonKohortKotak.noTel3);
         // map to form if status kotak tak sama dengan belum mula
         if (statusKotak !== 'belum mula') {
           setDalamPemantauanKohort(
@@ -312,6 +333,14 @@ function UserFormKohortKOTAK() {
   }, []);
 
   const handleSubmit = async () => {
+    let mdcMdtbNum = '';
+    if (!userinfo.mdtbNumber) {
+      mdcMdtbNum = userinfo.mdcNumber;
+    }
+    if (!userinfo.mdcNumber) {
+      mdcMdtbNum = userinfo.mdtbNumber;
+    }
+
     let statusKotak = '';
     let dalamPemantauanKohort = '';
     if (tarikh1 !== '') {
@@ -329,9 +358,14 @@ function UserFormKohortKOTAK() {
         axios.patch(
           `/api/v1/kohort/kotak/${personKohortKotakId}`,
           {
-            createdByUsername,
+            createdByUsername: userinfo.nama,
+            createdByMdcMdtb: mdcMdtbNum,
+            thisUsernameData,
             statusKotak,
             dalamPemantauanKohort,
+            noTelefon,
+            noTel2,
+            noTel3,
             rokokBiasaKotak,
             elektronikVapeKotak,
             shishaKotak,
@@ -495,6 +529,10 @@ function UserFormKohortKOTAK() {
                                 ...confirmData,
                                 noTelefon: e.target.value,
                               });
+                              setThisUsernameData({
+                                ...thisUsernameData,
+                                noTelefon: e.target.value,
+                              });
                             }}
                             className='w-40 h-10 border border-userBlack rounded-md pl-2'
                             placeholder='0123456678'
@@ -517,6 +555,10 @@ function UserFormKohortKOTAK() {
                                 ...confirmData,
                                 noTel2: e.target.value,
                               });
+                              setThisUsernameData({
+                                ...thisUsernameData,
+                                noTel2: e.target.value,
+                              });
                             }}
                             className='w-40 h-10 border border-userBlack rounded-md pl-2'
                             placeholder='0123456678'
@@ -537,6 +579,10 @@ function UserFormKohortKOTAK() {
                               setNoTel3(e.target.value);
                               setConfirmData({
                                 ...confirmData,
+                                noTel3: e.target.value,
+                              });
+                              setThisUsernameData({
+                                ...thisUsernameData,
                                 noTel3: e.target.value,
                               });
                             }}
@@ -588,6 +634,10 @@ function UserFormKohortKOTAK() {
                                   ...confirmData,
                                   adaTiadaQTarikh1: e.target.value,
                                 });
+                                setThisUsernameData({
+                                  ...thisUsernameData,
+                                  adaTiadaQTarikh1: e.target.value,
+                                });
                               }}
                               className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                             />
@@ -613,6 +663,10 @@ function UserFormKohortKOTAK() {
                                 setAdaTiadaQTarikh1(e.target.value);
                                 setConfirmData({
                                   ...confirmData,
+                                  adaTiadaQTarikh1: e.target.value,
+                                });
+                                setThisUsernameData({
+                                  ...thisUsernameData,
                                   adaTiadaQTarikh1: e.target.value,
                                 });
                               }}
@@ -665,6 +719,10 @@ function UserFormKohortKOTAK() {
                                   ...confirmData,
                                   adaTiadaQTarikh2: e.target.value,
                                 });
+                                setThisUsernameData({
+                                  ...thisUsernameData,
+                                  adaTiadaQTarikh2: e.target.value,
+                                });
                               }}
                               className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                             />
@@ -690,6 +748,10 @@ function UserFormKohortKOTAK() {
                                 setAdaTiadaQTarikh2(e.target.value);
                                 setConfirmData({
                                   ...confirmData,
+                                  adaTiadaQTarikh2: e.target.value,
+                                });
+                                setThisUsernameData({
+                                  ...thisUsernameData,
                                   adaTiadaQTarikh2: e.target.value,
                                 });
                               }}
@@ -742,6 +804,10 @@ function UserFormKohortKOTAK() {
                                   ...confirmData,
                                   adaTiadaQTarikh3: e.target.value,
                                 });
+                                setThisUsernameData({
+                                  ...thisUsernameData,
+                                  adaTiadaQTarikh3: e.target.value,
+                                });
                               }}
                               className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                             />
@@ -767,6 +833,10 @@ function UserFormKohortKOTAK() {
                                 setAdaTiadaQTarikh3(e.target.value);
                                 setConfirmData({
                                   ...confirmData,
+                                  adaTiadaQTarikh3: e.target.value,
+                                });
+                                setThisUsernameData({
+                                  ...thisUsernameData,
                                   adaTiadaQTarikh3: e.target.value,
                                 });
                               }}
@@ -801,6 +871,10 @@ function UserFormKohortKOTAK() {
                               ...confirmData,
                               rokokBiasaKotak: !rokokBiasaKotak,
                             });
+                            setThisUsernameData({
+                              ...thisUsernameData,
+                              rokokBiasaKotak: !rokokBiasaKotak,
+                            });
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
@@ -822,6 +896,10 @@ function UserFormKohortKOTAK() {
                             setElektronikVapeKotak(!elektronikVapeKotak);
                             setConfirmData({
                               ...confirmData,
+                              elektronikVapeKotak: !elektronikVapeKotak,
+                            });
+                            setThisUsernameData({
+                              ...thisUsernameData,
                               elektronikVapeKotak: !elektronikVapeKotak,
                             });
                           }}
@@ -847,6 +925,10 @@ function UserFormKohortKOTAK() {
                               ...confirmData,
                               shishaKotak: !shishaKotak,
                             });
+                            setThisUsernameData({
+                              ...thisUsernameData,
+                              shishaKotak: !shishaKotak,
+                            });
                           }}
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                         />
@@ -868,6 +950,10 @@ function UserFormKohortKOTAK() {
                             setLainLainKotak(!lainLainKotak);
                             setConfirmData({
                               ...confirmData,
+                              lainLainKotak: !lainLainKotak,
+                            });
+                            setThisUsernameData({
+                              ...thisUsernameData,
                               lainLainKotak: !lainLainKotak,
                             });
                           }}
@@ -911,6 +997,10 @@ function UserFormKohortKOTAK() {
                               ...confirmData,
                               rujukGuruKaunseling: e.target.value,
                             });
+                            setThisUsernameData({
+                              ...thisUsernameData,
+                              rujukGuruKaunseling: e.target.value,
+                            });
                           }}
                           className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                         />
@@ -938,6 +1028,10 @@ function UserFormKohortKOTAK() {
                             setRujukGuruKaunseling(e.target.value);
                             setConfirmData({
                               ...confirmData,
+                              rujukGuruKaunseling: e.target.value,
+                            });
+                            setThisUsernameData({
+                              ...thisUsernameData,
                               rujukGuruKaunseling: e.target.value,
                             });
                           }}
@@ -976,6 +1070,10 @@ function UserFormKohortKOTAK() {
                         setStatusSelepas6Bulan(e.target.value);
                         setConfirmData({
                           ...confirmData,
+                          statusSelepas6Bulan: e.target.value,
+                        });
+                        setThisUsernameData({
+                          ...thisUsernameData,
                           statusSelepas6Bulan: e.target.value,
                         });
                       }}
