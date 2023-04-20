@@ -243,9 +243,7 @@ function KohortKotak() {
               <tbody className='bg-user4'>
                 {allPersonKohortKotak
                   .filter((singlePersonKohortKotak) => {
-                    if (pilihanSekolah === 'semua') {
-                      return singlePersonKohortKotak;
-                    } else if (
+                    if (
                       singlePersonKohortKotak.namaSekolah === pilihanSekolah
                     ) {
                       return singlePersonKohortKotak;
