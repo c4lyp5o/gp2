@@ -601,6 +601,10 @@ function UserFormSekolahPemeriksaan() {
           setJumlahFaktorRisiko(
             data.personSekolahWithPopulate.pemeriksaanSekolah.jumlahFaktorRisiko
           );
+          setPenandaRisikoKaries(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .penandaRisikoKaries
+          );
           setAdaCleftLip(
             data.personSekolahWithPopulate.pemeriksaanSekolah.adaCleftLip
           );
@@ -948,6 +952,7 @@ function UserFormSekolahPemeriksaan() {
               eAdaGigiKekal,
               xAdaGigiKekal,
               jumlahFaktorRisiko,
+              penandaRisikoKaries,
               adaCleftLip,
               rujukCleftLip,
               kecederaanGigiAnteriorTrauma,
@@ -1066,6 +1071,7 @@ function UserFormSekolahPemeriksaan() {
     //           eAdaGigiKekal,
     //           xAdaGigiKekal,
     //           jumlahFaktorRisiko,
+    //           penandaRisikoKaries,
     //           adaCleftLip,
     //           rujukCleftLip,
     //           kecederaanGigiAnteriorTrauma,
@@ -3034,6 +3040,13 @@ function UserFormSekolahPemeriksaan() {
                                 ? penandaRisikoKaries
                                 : 'Sila Isi Jumlah Faktor Risiko'
                             }
+                            onChange={(e) => {
+                              setPenandaRisikoKaries(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                penandaRisikoKaries: e.target.value,
+                              });
+                            }}
                             className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
                               penandaRisikoKaries === 'rendah'
                                 ? 'bg-user7 w-24 px-2 '

@@ -475,6 +475,9 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
                   RAWATAN
                 </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
+                  STATUS <i>CRA</i>
+                </th>
                 {pilihanSekolah &&
                 pilihanTahunTingkatan &&
                 !pilihanTahunTingkatan.includes('TINGKATAN') ? (
@@ -889,6 +892,34 @@ function UserSekolah() {
                                   : 'tidak perlu KOTAK'}
                               </Link>
                             </td> */}
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 p-2'>
+                            {singlePersonSekolah.pemeriksaanSekolah ? (
+                              <p className='text-sm text-userBlack text-center flex items-center justify-center'>
+                                {
+                                  singlePersonSekolah.pemeriksaanSekolah
+                                    .penandaRisikoKaries
+                                }
+                                <FaCircle
+                                  className={`${
+                                    singlePersonSekolah.pemeriksaanSekolah
+                                      .penandaRisikoKaries === 'rendah'
+                                      ? 'text-user7'
+                                      : singlePersonSekolah.pemeriksaanSekolah
+                                          .penandaRisikoKaries === 'sederhana'
+                                      ? 'text-user8'
+                                      : singlePersonSekolah.pemeriksaanSekolah
+                                          .penandaRisikoKaries === 'tinggi'
+                                      ? 'text-user9'
+                                      : ''
+                                  } inline-flex text-center ml-1`}
+                                />
+                              </p>
+                            ) : (
+                              <p className='text-xs text-userWhite text-center flex items-center'>
+                                Sila Tambah Pemeriksaan
+                              </p>
+                            )}
+                          </td>
                           {!pilihanTahunTingkatan.includes('TINGKATAN') ? (
                             <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
                               <button
@@ -1011,6 +1042,9 @@ function UserSekolah() {
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                   {pilihanSekolah &&
                   pilihanTahunTingkatan &&
                   !pilihanTahunTingkatan.includes('TINGKATAN') ? (
@@ -1025,6 +1059,9 @@ function UserSekolah() {
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>

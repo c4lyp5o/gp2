@@ -7,6 +7,8 @@ import {
   FaTimesCircle,
   FaCaretUp,
   FaCaretDown,
+  FaPlus,
+  FaMinus,
 } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
@@ -28,6 +30,9 @@ function KohortKotak() {
   const [reloadState, setReloadState] = useState(false);
 
   const init = useRef(false);
+
+  //accordian
+  const [accordian, setAccordian] = useState([]);
 
   // init fetch allPersonKohortKotak
   useEffect(() => {
@@ -80,6 +85,14 @@ function KohortKotak() {
       window.removeEventListener('focus', setReloadState);
     };
   }, []);
+
+  const handleAccordian = (e) => {
+    if (accordian.includes(e)) {
+      setAccordian(accordian.filter((a) => a !== e));
+    } else {
+      setAccordian([...accordian, e]);
+    }
+  };
 
   return (
     <>
@@ -227,6 +240,9 @@ function KohortKotak() {
                 <th className='outline outline-1 outline-userWhite outline-offset-1 px-5 py-1'>
                   NO. TELEFON
                 </th>
+                <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1 w-40'>
+                  KOHORT
+                </th>
                 <th className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   INTERVENSI KOTAK
                 </th>
@@ -239,13 +255,11 @@ function KohortKotak() {
                 </th>
               </tr>
             </thead>
-            {!isLoading ? (
+            {!isLoading && pilihanSekolah ? (
               <tbody className='bg-user4'>
                 {allPersonKohortKotak
                   .filter((singlePersonKohortKotak) => {
-                    if (pilihanSekolah === 'semua') {
-                      return singlePersonKohortKotak;
-                    } else if (
+                    if (
                       singlePersonKohortKotak.namaSekolah === pilihanSekolah
                     ) {
                       return singlePersonKohortKotak;
@@ -263,7 +277,7 @@ function KohortKotak() {
                   })
                   .map((singlePersonKohortKotak, index) => {
                     return (
-                      <tr key={index}>
+                      <tr key={singlePersonKohortKotak._id}>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                           {index + 1}
                         </td>
@@ -276,7 +290,10 @@ function KohortKotak() {
                         <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                           {singlePersonKohortKotak.noTelefon}
                         </td>
-                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-2'>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
+                          {singlePersonKohortKotak.dalamPemantauanKohort}
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-2 whitespace-nowrap'>
                           <Link
                             target='_blank'
                             rel='noreferrer'
@@ -299,6 +316,145 @@ function KohortKotak() {
                               ? 'tambah KOTAK'
                               : singlePersonKohortKotak.statusKotak}
                           </Link>
+                          {singlePersonKohortKotak.createdByNameMdcMdtb
+                            .length >= 1 && (
+                            <div className='inline-flex'>
+                              <span
+                                className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                onClick={() => {
+                                  setIsShown({
+                                    ...isShown,
+                                    [singlePersonKohortKotak._id]: true,
+                                  });
+                                }}
+                              >
+                                {
+                                  singlePersonKohortKotak.createdByNameMdcMdtb
+                                    .length
+                                }
+                              </span>
+                              <div
+                                className={`${
+                                  isShown[singlePersonKohortKotak._id]
+                                    ? 'block p-2 px-5 overflow-y-auto'
+                                    : 'hidden '
+                                } absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-10 lg:inset-y-28 bg-userWhite text-user1 rounded-md shadow-md m-2`}
+                              >
+                                <div className='flex justify-between'>
+                                  <h1 className='text-lg font-medium'>
+                                    LAWATAN
+                                  </h1>
+                                </div>
+                                {singlePersonKohortKotak.createdByNameMdcMdtb.map(
+                                  (singleLawatan, index) => {
+                                    return (
+                                      <div className='flex flex-col'>
+                                        <h1
+                                          onClick={() => handleAccordian(index)}
+                                          className='text-sm text-start font-semibold bg-user1 bg-opacity-5 flex flex-row items-center rounded-md p-1 m-1 cursor-pointer'
+                                        >
+                                          {accordian === index ? (
+                                            <FaMinus className='m-1' />
+                                          ) : (
+                                            <FaPlus className='m-1' />
+                                          )}
+                                          Kedatangan {index + 1}
+                                        </h1>
+                                        {accordian.includes(index) && (
+                                          <div className='flex flex-col mx-1 px-1'>
+                                            <span className='text-xs font-semibold text-start flex flex-row items-center'>
+                                              {/* <FaUser className='m-1' /> */}
+                                              {singleLawatan.createdByUsername}
+                                            </span>
+                                            {singleLawatan.thisUsernameData
+                                              .tarikh1 && (
+                                              <span className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaCalendarAlt className='m-1' /> */}
+                                                TARIKH SESI 1 ={' '}
+                                                {moment(
+                                                  singleLawatan.thisUsernameData
+                                                    .tarikh1
+                                                ).format('DD/MM/YYYY')}
+                                              </span>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .rokokBiasaKotak === true && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmoking className='m-1' /> */}
+                                                ROKOK BIASA
+                                              </p>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .elektronikVapeKotak === true && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                ELEKTRONIK/VAPE
+                                              </p>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .shishaKotak === true && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                SHISHA
+                                              </p>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .lainLainKotak === true && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                LAIN-LAIN
+                                              </p>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .tarikh2 && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                TARIKH SESI 2 ={' '}
+                                                {moment(
+                                                  singleLawatan.thisUsernameData
+                                                    .tarikh2
+                                                ).format('DD/MM/YYYY')}
+                                              </p>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .tarikh3 && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                TARIKH SESI 3 ={' '}
+                                                {moment(
+                                                  singleLawatan.thisUsernameData
+                                                    .tarikh3
+                                                ).format('DD/MM/YYYY')}
+                                              </p>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .rujukGuruKaunseling ===
+                                              'ya-rujuk-guru-kaunseling' && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                RUJUK GURU KAUNSELING
+                                              </p>
+                                            )}
+                                            {singleLawatan.thisUsernameData
+                                              .tarikhQ && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                TARIKH BERHENTI MEROKOK ={' '}
+                                                {moment(
+                                                  singleLawatan.thisUsernameData
+                                                    .tarikhQ
+                                                ).format('DD/MM/YYYY')}
+                                              </p>
+                                            )}
+                                          </div>
+                                        )}
+                                      </div>
+                                    );
+                                  }
+                                )}
+                              </div>
+                            </div>
+                          )}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                           {!singlePersonKohortKotak.tarikhIntervensi1 ? (
@@ -321,15 +477,36 @@ function KohortKotak() {
                   })}
               </tbody>
             ) : (
-              <tbody className='text-user1'>
+              <tbody className='text-user1 bg-user4'>
                 <tr>
-                  <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                    Loading...
+                  <td
+                    colSpan={8}
+                    className='outline outline-1 outline-offset-1 px-2 py-1'
+                  >
+                    Sila pilih sekolah
+                  </td>
+                </tr>
+              </tbody>
+            )}
+            {isLoading && !pilihanSekolah && (
+              <tbody className='text-user1 bg-user4'>
+                <tr>
+                  <td
+                    colSpan={8}
+                    className='outline outline-1 outline-offset-1 px-2 py-1'
+                  >
+                    Loading
                   </td>
                 </tr>
               </tbody>
             )}
           </table>
+          <div
+            className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
+              isShown ? 'block' : 'hidden'
+            }`}
+            onClick={() => setIsShown(false)}
+          />
         </div>
       </div>
     </>

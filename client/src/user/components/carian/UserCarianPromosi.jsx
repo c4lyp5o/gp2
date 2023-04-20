@@ -521,7 +521,7 @@ export default function UserCarianPromosi() {
                         </td>
                         <td
                           className={`${
-                            pilihanId === hasilQueryPromosi._id && 'bg-user3'
+                            pilihanId === hasilQueryPromosi._id && ''
                           } px-2 py-3 outline outline-1 outline-userWhite outline-offset-1 text-user2`}
                         >
                           {hasilQueryPromosi.statusReten === 'telah diisi' ||
@@ -608,7 +608,7 @@ export default function UserCarianPromosi() {
                         </td>
                         <td
                           className={`${
-                            pilihanId === hasilQueryPromosi._id && 'bg-user3'
+                            pilihanId === hasilQueryPromosi._id && ''
                           } px-2 py-3 outline outline-1 outline-userWhite outline-offset-1 text-user2`}
                         >
                           {hasilQueryPromosi.statusReten === 'telah diisi' ||

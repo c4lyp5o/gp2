@@ -368,8 +368,8 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       createdByDaerah: req.user.daerah,
       createdByKp: req.user.kp,
       createdByKodFasiliti: req.user.kodFasiliti,
-      createdByUsername: req.body.createdByUsername,
-      createdByMdcMdtb: req.body.createdByMdcMdtb,
+      // createdByUsername: req.body.createdByUsername,
+      // createdByMdcMdtb: req.body.createdByMdcMdtb,
       //
       idInstitusi: personSekolah.idInstitusi,
       kodSekolah: personSekolah.kodSekolah,
