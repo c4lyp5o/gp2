@@ -7,6 +7,7 @@ import {
   FaTimesCircle,
   FaCaretUp,
   FaCaretDown,
+  FaInfoCircle,
   FaPlus,
   FaMinus,
 } from 'react-icons/fa';
@@ -19,10 +20,12 @@ function KohortKotak() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
+  const [isPhilterShown, setIsPhilterShown] = useState(false);
   const [allPersonKohortKotak, setAllPersonKohortKotak] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanKohort, setPilihanKohort] = useState('');
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+  const [philter, setPhilter] = useState('');
 
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kohort, setKohort] = useState([]);
@@ -94,25 +97,33 @@ function KohortKotak() {
     }
   };
 
+  const keys = ['nama', 'nomborId', 'tahunTingkatan'];
+
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
         <div className='relative shadow-md drop-shadow-sm mb-2'>
           <div className=''>
-            <div className='flex justify-between'>
-              <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
-                CARIAN KOHORT KOTAK
-              </h2>
-              <div className='flex justify-end items-center text-right mt-2'>
-                <button
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                  className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                >
-                  kembali ke senarai data kohort
-                </button>
+            <div className='flex flex-col pb-2'>
+              <div className='flex justify-between items-center'>
+                <h1 className='text-lg lg:text-xl text-user9 font-bold flex flex-row pl-5 pt-2'>
+                  SULIT
+                </h1>
+                <div className='flex justify-end items-center text-right mt-2'>
+                  <button
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                    className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mr-2 hover:bg-user1 transition-all'
+                  >
+                    kembali ke senarai data kohort
+                  </button>
+                </div>
               </div>
+              <h2 className='text-sm text-left lg:text-xl font-semibold flex flex-row pl-5 pt-2'>
+                SENARAI NAMA MURID MENJALANI PROGRAM INTERVENSI MEROKOK MELALUI
+                PROGRAM KOTAK DI SEKOLAH RENDAH / MENENGAH
+              </h2>
             </div>
             <div className='grid grid-cols-2'>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
@@ -175,33 +186,31 @@ function KohortKotak() {
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  No. Kad Pengenalan:
+                  Carian{' '}
+                  <div className='relative flex items-center ml-1'>
+                    <FaInfoCircle
+                      className='text-lg text-kaunter1'
+                      onClick={() => setIsPhilterShown(!isPhilterShown)}
+                    />
+                    {isPhilterShown && (
+                      <div className='absolute top-6 left-2 w-36 text-left z-10 bg-kaunter4 text-kaunterWhite font-normal text-sm px-2 py-1 rounded-md whitespace-pre-wrap'>
+                        <p className='text-center'>
+                          Carian Nama / Nombor Kad Pengenalan / Tahun /
+                          Tingkatan
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
-                  <select
-                    value={pilihanNamaKelas}
-                    onChange={(e) => {
-                      setPilihanNamaKelas(e.target.value);
-                    }}
+                  <input
+                    type='search'
+                    name='pilihanNama'
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>SILA PILIH</option>
-                    {/* {pilihanKohort ? (
-                      namaKelas.map((singleNamaKelas, index) => {
-                        return (
-                          <option
-                            value={singleNamaKelas}
-                            key={index}
-                            className='capitalize'
-                          >
-                            {singleNamaKelas}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option value=''>SILA PILIH TAHUN</option>
-                    )} */}
-                  </select>
+                    id='pilihanNama'
+                    placeholder='Cari pesakit...'
+                    onChange={(e) => setPhilter(e.target.value.toLowerCase())}
+                  />
                 </span>
               </p>
               {/* {pilihanKohort && (
@@ -275,6 +284,9 @@ function KohortKotak() {
                       return singlePersonKohortKotak;
                     }
                   })
+                  .filter((pt) =>
+                    keys.some((key) => pt[key].toLowerCase().includes(philter))
+                  )
                   .map((singlePersonKohortKotak, index) => {
                     return (
                       <tr key={singlePersonKohortKotak._id}>
@@ -506,6 +518,12 @@ function KohortKotak() {
               isShown ? 'block' : 'hidden'
             }`}
             onClick={() => setIsShown(false)}
+          />
+          <div
+            className={`fixed inset-0 h-full w-full ${
+              isPhilterShown ? 'block' : 'hidden'
+            }`}
+            onClick={() => setIsPhilterShown(!isPhilterShown)}
           />
         </div>
       </div>
