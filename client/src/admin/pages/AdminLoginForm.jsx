@@ -226,7 +226,9 @@ export default function AdminLoginForm() {
     readDaerah,
     readKlinik,
     readAdmins,
+    encryptEmail,
   } = useGlobalAdminAppContext();
+
   const [userName, setUserName] = useState({
     negeri: null,
     daerah: null,
@@ -325,7 +327,9 @@ export default function AdminLoginForm() {
         }
         // if using email
         toast.info(
-          `Key Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
+          `Key Verifikasi telah dihantar ke ${encryptEmail(
+            response.data.email
+          )}. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
         );
         const numkicker = setTimeout(() => {
           toast.error(
