@@ -657,6 +657,22 @@ export default function Navbar(props) {
                 >
                   PENJANAAN RETEN
                 </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='ondemand'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowPenetapanSubMenu(false);
+                    setShowMedSosSubMenu(false);
+                    setShowMaklumatLainSubMenu(false);
+                  }}
+                >
+                  ON DEMAND SETTING
+                </NavLink>
                 {/* <div>
                   <div
                     className={`${
