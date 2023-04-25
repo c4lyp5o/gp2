@@ -95,6 +95,16 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
+  // ondemand setting
+  const readOndemandSetting = async () => {
+    const response = await axios.get('/api/v1/ondemand', {
+      headers: {
+        Authorization: adminToken,
+      },
+    });
+    return response;
+  };
+
   // main data
   const createData = async (type, data) => {
     try {
@@ -965,6 +975,8 @@ function AdminAppProvider({ children }) {
         generateSecret,
         verifyInitialSecret,
         verifySecret,
+        // ondemand data
+        readOndemandSetting,
         // main data
         createData,
         readData,
