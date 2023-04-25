@@ -366,10 +366,10 @@ export default function AdminLoginForm() {
   };
 
   useEffect(() => {
-    const getData = async () => {
+    const initialSetup = async () => {
       try {
-        const response = await readNegeri();
-        setAllNegeri(response.data);
+        const { data: negeriData } = await readNegeri();
+        setAllNegeri(negeriData);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -377,17 +377,17 @@ export default function AdminLoginForm() {
         // );
       }
     };
-    getData();
+    initialSetup();
   }, []);
 
   useEffect(() => {
     if (pilihanNegeri === '' || pilihanNegeri === 'hqputrajaya') {
       return;
     }
-    const getData = async () => {
+    const getDaerahData = async () => {
       try {
-        const response = await readDaerah(pilihanNegeri);
-        setAllDaerah(response.data);
+        const { data: daerahData } = await readDaerah(pilihanNegeri);
+        setAllDaerah(daerahData);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -395,17 +395,17 @@ export default function AdminLoginForm() {
         // );
       }
     };
-    getData();
+    getDaerahData();
   }, [pilihanNegeri]);
 
   useEffect(() => {
     if (pilihanDaerah === '') {
       return;
     }
-    const getData = async () => {
+    const getKlinikData = async () => {
       try {
-        const response = await readKlinik(pilihanDaerah);
-        setAllKlinik(response.data);
+        const { data: klinikData } = await readKlinik(pilihanDaerah);
+        setAllKlinik(klinikData);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -413,17 +413,17 @@ export default function AdminLoginForm() {
         // );
       }
     };
-    getData();
+    getKlinikData();
   }, [pilihanDaerah]);
 
   useEffect(() => {
     if (pilihanKlinik === '') {
       return;
     }
-    const getData = async () => {
+    const getAdminsData = async () => {
       try {
-        const response = await readAdmins(pilihanKlinik);
-        setAllAdmin(response.data);
+        const { data: adminsData } = await readAdmins(pilihanKlinik);
+        setAllAdmin(adminsData);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -431,7 +431,7 @@ export default function AdminLoginForm() {
         // );
       }
     };
-    getData();
+    getAdminsData();
   }, [pilihanKlinik]);
 
   // to reset value if dropdown selection change
