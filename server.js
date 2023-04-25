@@ -55,10 +55,13 @@ const genRouterKp = require('./routes/generateRouterKp');
 // ETL
 const ETL = require('./routes/ETL');
 
+// ondemand setting
+const onDemand = require('./routes/ondemand');
+
 // IMPORT MIDDLEWARES ------------------------------------------
 const authCheck = require('./middlewares/authCheck');
 const moeisAuth = require('./middlewares/moeisAuth');
-const { etlAuth } = require('./middlewares/adminAuth');
+const { adminAuth, etlAuth } = require('./middlewares/adminAuth');
 const errorHandler = require('./middlewares/errorHandler');
 const notFound = require('./middlewares/notFound');
 
@@ -153,6 +156,9 @@ app.use('/api/v1/generatekp', genRouterKp);
 
 // ETL
 app.use('/api/v1/etl', etlAuth, ETL);
+
+// ondemand setting
+app.use('/api/v1/ondemand', adminAuth, onDemand);
 
 // identify client ip
 app.get('/api/v1/ip', async (req, res) => {
