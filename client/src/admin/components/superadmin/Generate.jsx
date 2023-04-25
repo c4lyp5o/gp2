@@ -1556,6 +1556,7 @@ const Generate = (props) => {
     readSpesifikKPBMPBData,
     readSpesifikIndividuData,
     readGenerateTokenData,
+    readOndemandSetting,
     semuaJenisReten,
   } = useGlobalAdminAppContext();
 
@@ -1582,6 +1583,7 @@ const Generate = (props) => {
   const [kp, setKp] = useState('');
 
   const [statusToken, setStatusToken] = useState([]);
+  const [statusReten, setStatusReten] = useState('');
 
   // masalah negara
   const [negeri, setNegeri] = useState([]);
@@ -1771,13 +1773,13 @@ const Generate = (props) => {
     setPilihanIndividu('');
     // refetch token after init.current = true
     if (init.current === true) {
-      readGenerateTokenData()
-        .then((res) => {
-          setStatusToken(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      readGenerateTokenData().then((res) => {
+        setStatusToken(res.data);
+      });
+      readOndemandSetting().then((res) => {
+        console.log(res.data.currentOndemandSetting);
+        setStatusReten(res.data.currentOndemandSetting);
+      });
     }
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
@@ -1812,6 +1814,10 @@ const Generate = (props) => {
           //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
           // );
         });
+      readOndemandSetting().then((res) => {
+        console.log(res.data.currentOndemandSetting);
+        setStatusReten(res.data.currentOndemandSetting);
+      });
     }
     init.current = true;
   }, []);
@@ -1951,13 +1957,12 @@ const Generate = (props) => {
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
                             {loginInfo.accountType === 'hqSuperadmin' ||
-                            import.meta.env.VITE_JANA_TOKEN !== 'OFF' ? (
+                            statusReten[jenis.kodRingkas] ? (
                               <button
                                 type='button'
                                 className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
                                 onClick={() => {
                                   setJenisReten(jenis.kodRingkas);
-                                  setOpenModalGenerateBulanan(false);
                                   setOpenModalGenerateAdHoc(true);
                                 }}
                               >
@@ -1971,7 +1976,7 @@ const Generate = (props) => {
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {loginInfo.accountType === 'hqSuperadmin' ||
-                        import.meta.env.VITE_JANA_BULANAN !== 'OFF' ? (
+                        statusReten[jenis.kodRingkas] ? (
                           <button
                             type='button'
                             className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
