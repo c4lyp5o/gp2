@@ -50,6 +50,14 @@ const Settings = lazy(() => import('../components/superadmin/Settings'));
 const Generate = lazy(() => import('../components/superadmin/Generate'));
 const GenerateKp = lazy(() => import('../components/admin-kp/Generate'));
 
+// ondemand setting
+const OndemandSetting = lazy(() =>
+  import('../components/superadmin/OndemandSetting')
+);
+
+// disabled admin page
+const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
+
 //ad hoc query
 // import AdHocQuery from '../components/superadmin/AdHocQuery';
 
@@ -60,13 +68,20 @@ function AdminAfterLogin() {
     setAdminToken,
     getCurrentUser,
     logOutUser,
+    readOndemandSetting,
   } = useGlobalAdminAppContext();
+
+  const ondemandSetting = readOndemandSetting();
 
   const [loginInfo, setLoginInfo] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  const [ondemandSettingData, setOndemandSettingData] =
+    useState(ondemandSetting);
 
   const [refetchState, setRefetchState] = useState(false);
 
@@ -125,17 +140,25 @@ function AdminAfterLogin() {
 
   useEffect(() => {
     const getUser = async () => {
-      const res = await getCurrentUser();
+      const { data: currentUserInfo } = await getCurrentUser();
       setLoginInfo({
-        ...res.data,
+        ...currentUserInfo,
         isLoggedIn: true,
       });
+      const { data } = await readOndemandSetting();
+      const { currentOndemandSetting } = data;
+      // console.log(currentOndemandSetting);
+      setOndemandSettingData(currentOndemandSetting);
     };
-    getUser().catch((err) => {
-      console.log(err);
-      logOutUser();
-    });
-    logOutNotiSystem();
+    getUser()
+      .catch((err) => {
+        console.log(err);
+        logOutUser();
+      })
+      .finally(() => {
+        setLoading(false);
+        logOutNotiSystem();
+      });
   }, [adminToken]);
 
   // refetch identity
@@ -159,8 +182,16 @@ function AdminAfterLogin() {
     };
   }, []);
 
-  if (!loginInfo) {
+  if (loading) {
     return <LoadingSuperDark />;
+  }
+
+  if (
+    !loading &&
+    loginInfo.accountType !== 'hqSuperadmin' &&
+    !ondemandSettingData.adminPage
+  ) {
+    return <DisabledAdminPage />;
   }
 
   return (
@@ -186,6 +217,19 @@ function AdminAfterLogin() {
               </Suspense>
             }
           />
+          {/* hq sahaja */}
+          {loginInfo.accountType === 'hqSuperadmin' ? (
+            <>
+              <Route
+                path='ondemand'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <OndemandSetting />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
           {/* hq, negeri & daerah superadmin */}
           {loginInfo.accountType !== 'kpUser' ? (
             <>
