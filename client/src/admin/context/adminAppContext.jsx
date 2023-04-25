@@ -105,6 +105,19 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
+  const saveOndemandSetting = async (data) => {
+    const response = await axios.patch(
+      '/api/v1/ondemand',
+      { ondemandSetting: data },
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
+    return response;
+  };
+
   // main data
   const createData = async (type, data) => {
     try {
@@ -977,6 +990,7 @@ function AdminAppProvider({ children }) {
         verifySecret,
         // ondemand data
         readOndemandSetting,
+        saveOndemandSetting,
         // main data
         createData,
         readData,
