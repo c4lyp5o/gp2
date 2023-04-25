@@ -1777,7 +1777,7 @@ const Generate = (props) => {
         setStatusToken(res.data);
       });
       readOndemandSetting().then((res) => {
-        console.log(res.data.currentOndemandSetting);
+        // console.log(res.data.currentOndemandSetting);
         setStatusReten(res.data.currentOndemandSetting);
       });
     }
@@ -1815,7 +1815,7 @@ const Generate = (props) => {
           // );
         });
       readOndemandSetting().then((res) => {
-        console.log(res.data.currentOndemandSetting);
+        // console.log(res.data.currentOndemandSetting);
         setStatusReten(res.data.currentOndemandSetting);
       });
     }
