@@ -28,7 +28,7 @@ const updateCurrentOndemandSetting = async (req, res) => {
 
   const currentOndemandSetting = await Ondemand.findOneAndUpdate(
     { name: 'current' },
-    { $set: { ondemandSetting } },
+    { $set: ondemandSetting },
     { new: true }
   );
 
