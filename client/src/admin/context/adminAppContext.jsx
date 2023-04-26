@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useToken } from './useToken';
+import { useLogininfo } from './useLogininfo';
+import { useOndemandSetting } from './useOndemandSetting';
 import DatePicker from 'react-datepicker';
 
 const AdminAppContext = createContext();
@@ -20,6 +22,16 @@ function AdminAppProvider({ children }) {
     totpToken,
     setTotpToken,
   } = useToken();
+
+  const { getLoginInfo, saveLoginInfo, removeLoginInfo, loginInfo } =
+    useLogininfo();
+
+  const {
+    getCurrentOndemandSetting,
+    saveCurrentondemandSetting,
+    removeCurrentondemandSetting,
+    currentOndemandSetting,
+  } = useOndemandSetting();
 
   const navigate = useNavigate();
 
@@ -104,7 +116,6 @@ function AdminAppProvider({ children }) {
     });
     return response;
   };
-
   const saveOndemandSetting = async (data) => {
     const response = await axios.patch(
       '/api/v1/ondemand',
@@ -974,6 +985,16 @@ function AdminAppProvider({ children }) {
         setAdminToken,
         totpToken,
         setTotpToken,
+        // login info
+        getLoginInfo,
+        saveLoginInfo,
+        removeLoginInfo,
+        loginInfo,
+        // ondemand data
+        getCurrentOndemandSetting,
+        saveCurrentondemandSetting,
+        removeCurrentondemandSetting,
+        currentOndemandSetting,
         // navigation
         navigate,
         // login data
