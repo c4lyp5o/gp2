@@ -102,7 +102,7 @@ function KohortKotak() {
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
-        <div className='relative shadow-md drop-shadow-sm mb-2'>
+        <div className='relative mb-2'>
           <div className=''>
             <div className='flex flex-col pb-2'>
               <div className='flex justify-between items-center'>
@@ -184,7 +184,7 @@ function KohortKotak() {
                   </select>
                 </span>
               </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <p className='grid grid-cols-[1fr_7fr] pb-1 col-span-2'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Carian{' '}
                   <div className='relative flex items-center ml-1'>
@@ -208,7 +208,7 @@ function KohortKotak() {
                     name='pilihanNama'
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                     id='pilihanNama'
-                    placeholder='Cari pesakit...'
+                    placeholder='CARIAN NAMA / NOMBOR KAD PENGENALAN / TAHUN / TINGKATAN'
                     onChange={(e) => setPhilter(e.target.value.toLowerCase())}
                   />
                 </span>
