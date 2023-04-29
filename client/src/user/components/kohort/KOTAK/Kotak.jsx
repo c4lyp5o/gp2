@@ -313,14 +313,14 @@ function KohortKotak() {
                             className={`${
                               singlePersonKohortKotak.statusKotak ===
                               'selesai sesi 1'
-                                ? 'bg-[#00b894] text-userWhite hover:shadow-none hover:bg-[#55efc4]'
+                                ? 'bg-user10 text-userWhite hover:shadow-none hover:bg-user11'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 2'
-                                ? 'bg-[#0984e3] text-userWhite hover:shadow-none hover:bg-[#81ecec]'
+                                ? 'bg-user12 text-userWhite hover:shadow-none hover:bg-user13'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 3'
-                                ? 'bg-user8 text-userWhite hover:bg-user8 hover:shadow-none'
-                                : 'bg-user6 text-userWhite hover:shadow-none hover:bg-[#74b9ff]'
+                                ? 'bg-user8 text-userWhite hover:bg-user14 hover:shadow-none'
+                                : 'bg-user6 text-userWhite hover:shadow-none hover:bg-user15'
                             } shadow-md shadow-user3 rounded-md p-1 m-1 transition-all my-2`}
                           >
                             {singlePersonKohortKotak.statusKotak ===

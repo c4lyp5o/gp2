@@ -12,6 +12,12 @@ module.exports = {
       user7: '#37e186', // hijau
       user8: '#ebcd59', // kuning
       user9: '#ff6363', // merah
+      user10: '#00b894', // hijau kotak
+      user11: '#55efc4', // hijau kotak hover
+      user12: '#0984e3', // biru kotak
+      user13: '#81ecec', // biru kotak hover
+      user14: '#f39c12', // kuning kotak hover
+      user15: '#74b9ff', // biru kotak hover for oren
       userWhite: 'white',
       userBlack: 'black',
       admin1: '#c76565', // pink pucat
