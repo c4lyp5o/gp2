@@ -155,12 +155,13 @@ function UserFormKohortKOTAK() {
   };
 
   //set specific value from date eg range january-june 2023
-  const cohortKotak = () => {
-    const rangeMonth = moment().month() + 1;
-    const rangeYear = moment().year();
+  const cohortKotak = (tarikh) => {
+    const rangeMonth = moment(tarikh).month() + 1;
+    const rangeYear = moment(tarikh).year();
     if (rangeMonth >= 1 && rangeMonth <= 6) {
       return `JANUARI-JUN ${rangeYear}`;
-    } else {
+    }
+    if (rangeMonth >= 7 && rangeMonth <= 12) {
       return `JULAI-DISEMBER ${rangeYear}`;
     }
   };
