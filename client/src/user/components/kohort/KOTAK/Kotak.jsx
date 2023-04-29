@@ -328,8 +328,23 @@ function KohortKotak() {
                               ? 'tambah KOTAK'
                               : singlePersonKohortKotak.statusKotak}
                           </Link>
-                          {singlePersonKohortKotak.createdByNameMdcMdtb
-                            .length >= 1 && (
+                          {singlePersonKohortKotak.createdByNameMdcMdtb.filter(
+                            (singleLawatan) => {
+                              if (
+                                singleLawatan.thisUsernameData.tarikh1 ||
+                                singleLawatan.thisUsernameData.tarikh2 ||
+                                singleLawatan.thisUsernameData.tarikh3 ||
+                                singleLawatan.thisUsernameData
+                                  .rujukGuruKaunseling ===
+                                  'ya-rujuk-guru-kaunseling' ||
+                                singleLawatan.thisUsernameData.tarikhQ ||
+                                singleLawatan.thisUsernameData
+                                  .statusSelepas6Bulan
+                              ) {
+                                return singleLawatan;
+                              }
+                            }
+                          ).length >= 1 && (
                             <div className='inline-flex'>
                               <span
                                 className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
@@ -341,8 +356,27 @@ function KohortKotak() {
                                 }}
                               >
                                 {
-                                  singlePersonKohortKotak.createdByNameMdcMdtb
-                                    .length
+                                  singlePersonKohortKotak.createdByNameMdcMdtb.filter(
+                                    (singleLawatan) => {
+                                      if (
+                                        singleLawatan.thisUsernameData
+                                          .tarikh1 ||
+                                        singleLawatan.thisUsernameData
+                                          .tarikh2 ||
+                                        singleLawatan.thisUsernameData
+                                          .tarikh3 ||
+                                        singleLawatan.thisUsernameData
+                                          .rujukGuruKaunseling ===
+                                          'ya-rujuk-guru-kaunseling' ||
+                                        singleLawatan.thisUsernameData
+                                          .tarikhQ ||
+                                        singleLawatan.thisUsernameData
+                                          .statusSelepas6Bulan
+                                      ) {
+                                        return singleLawatan;
+                                      }
+                                    }
+                                  ).length
                                 }
                               </span>
                               <div
@@ -357,8 +391,23 @@ function KohortKotak() {
                                     LAWATAN
                                   </h1>
                                 </div>
-                                {singlePersonKohortKotak.createdByNameMdcMdtb.map(
-                                  (singleLawatan, index) => {
+                                {singlePersonKohortKotak.createdByNameMdcMdtb
+                                  .filter((singleLawatan) => {
+                                    if (
+                                      singleLawatan.thisUsernameData.tarikh1 ||
+                                      singleLawatan.thisUsernameData.tarikh2 ||
+                                      singleLawatan.thisUsernameData.tarikh3 ||
+                                      singleLawatan.thisUsernameData
+                                        .rujukGuruKaunseling ===
+                                        'ya-rujuk-guru-kaunseling' ||
+                                      singleLawatan.thisUsernameData.tarikhQ ||
+                                      singleLawatan.thisUsernameData
+                                        .statusSelepas6Bulan
+                                    ) {
+                                      return singleLawatan;
+                                    }
+                                  })
+                                  .map((singleLawatan, index) => {
                                     return (
                                       <div className='flex flex-col'>
                                         <h1
@@ -388,34 +437,6 @@ function KohortKotak() {
                                                     .tarikh1
                                                 ).format('DD/MM/YYYY')}
                                               </span>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .rokokBiasaKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmoking className='m-1' /> */}
-                                                ROKOK BIASA
-                                              </p>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .elektronikVapeKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmokingBan className='m-1' /> */}
-                                                ELEKTRONIK/VAPE
-                                              </p>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .shishaKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmokingBan className='m-1' /> */}
-                                                SHISHA
-                                              </p>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .lainLainKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmokingBan className='m-1' /> */}
-                                                LAIN-LAIN
-                                              </p>
                                             )}
                                             {singleLawatan.thisUsernameData
                                               .tarikh2 && (
@@ -458,12 +479,23 @@ function KohortKotak() {
                                                 ).format('DD/MM/YYYY')}
                                               </p>
                                             )}
+                                            {singleLawatan.thisUsernameData
+                                              .statusSelepas6Bulan && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                STATUS SELEPAS 6 BULAN ={' '}
+                                                {singleLawatan.thisUsernameData
+                                                  .statusSelepas6Bulan ===
+                                                'berhenti'
+                                                  ? 'BERHENTI MEROKOK'
+                                                  : 'TIDAK BERHENTI MEROKOK'}
+                                              </p>
+                                            )}
                                           </div>
                                         )}
                                       </div>
                                     );
-                                  }
-                                )}
+                                  })}
                               </div>
                             </div>
                           )}
