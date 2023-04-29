@@ -251,6 +251,11 @@ function UserFormKohortKOTAK() {
     }
   }, [rokokBiasaKotak, elektronikVapeKotak, shishaKotak, lainLainKotak]);
 
+  //plus 6 month from tarikh1
+  const tarikh6Bulan = (pilihTarikh) => {
+    return moment(pilihTarikh).add(6, 'months').format('DD/MM/YYYY');
+  };
+
   // fetch singlePersonKohortKotak
   useEffect(() => {
     const fetchSinglePersonKohortKotak = async () => {
@@ -687,26 +692,32 @@ function UserFormKohortKOTAK() {
                           </div>
                         </div>
                       ) : (
-                        <div className='flex pl-5 justify-start text-left text-xs'>
-                          <p>
-                            Intervensi sesi 1 dijalankan pada{' '}
-                            {moment(
-                              singlePersonKohortKotak.tarikhIntervensi1
-                            ).format('DD/MM/YYYY')}{' '}
+                        <div className='flex pl-5 justify-start text-left text-xs md:text-sm'>
+                          <p className='normal-case'>
+                            <strong>INTERVENSI SESI 1</strong> dijalankan pada{' '}
+                            <strong>
+                              {moment(
+                                singlePersonKohortKotak.tarikhIntervensi1
+                              ).format('DD/MM/YYYY')}{' '}
+                            </strong>{' '}
                             dengan{' '}
-                            {adaTiadaQTarikh1 === 'ada-q-tarikh1'
-                              ? 'ada'
-                              : 'tiada'}{' '}
+                            <strong>
+                              {adaTiadaQTarikh1 === 'ada-q-tarikh1'
+                                ? 'ADA'
+                                : 'TIADA'}
+                            </strong>{' '}
                             tarikh rancang berhenti merokok oleh{' '}
-                            {dataArrayUsernames.length > 0
-                              ? dataArrayUsernames
-                                  .filter(
-                                    (item) =>
-                                      item.thisUsernameData.tarikh1 ===
-                                      singlePersonKohortKotak.tarikhIntervensi1
-                                  )
-                                  .map((item) => item.createdByUsername)
-                              : null}
+                            <strong>
+                              {dataArrayUsernames.length > 0
+                                ? dataArrayUsernames
+                                    .filter(
+                                      (item) =>
+                                        item.thisUsernameData.tarikh1 ===
+                                        singlePersonKohortKotak.tarikhIntervensi1
+                                    )
+                                    .map((item) => item.createdByUsername)
+                                : null}
+                            </strong>
                           </p>
                         </div>
                       )}
@@ -799,26 +810,32 @@ function UserFormKohortKOTAK() {
                           </div>
                         </div>
                       ) : (
-                        <div className='flex pl-5 justify-start text-left text-xs'>
-                          <p>
-                            Intervensi sesi 2 dijalankan pada{' '}
-                            {moment(
-                              singlePersonKohortKotak.tarikhIntervensi2
-                            ).format('DD/MM/YYYY')}{' '}
+                        <div className='flex pl-5 justify-start text-left text-xs  md:text-sm'>
+                          <p className='normal-case'>
+                            <strong>INTERVENSI SESI 2</strong> dijalankan pada{' '}
+                            <strong>
+                              {moment(
+                                singlePersonKohortKotak.tarikhIntervensi2
+                              ).format('DD/MM/YYYY')}{' '}
+                            </strong>{' '}
                             dengan{' '}
-                            {adaTiadaQTarikh2 === 'ada-q-tarikh2'
-                              ? 'ada'
-                              : 'tiada'}{' '}
+                            <strong>
+                              {adaTiadaQTarikh2 === 'ada-q-tarikh2'
+                                ? 'ADA'
+                                : 'TIADA'}
+                            </strong>{' '}
                             tarikh rancang berhenti merokok oleh{' '}
-                            {dataArrayUsernames.length > 0
-                              ? dataArrayUsernames
-                                  .filter(
-                                    (item) =>
-                                      item.thisUsernameData.tarikh2 ===
-                                      singlePersonKohortKotak.tarikhIntervensi2
-                                  )
-                                  .map((item) => item.createdByUsername)
-                              : null}
+                            <strong>
+                              {dataArrayUsernames.length > 0
+                                ? dataArrayUsernames
+                                    .filter(
+                                      (item) =>
+                                        item.thisUsernameData.tarikh2 ===
+                                        singlePersonKohortKotak.tarikhIntervensi2
+                                    )
+                                    .map((item) => item.createdByUsername)
+                                : null}
+                            </strong>
                           </p>
                         </div>
                       )}
@@ -913,26 +930,32 @@ function UserFormKohortKOTAK() {
                           </div>
                         </div>
                       ) : (
-                        <div className='flex pl-5 justify-start text-left text-xs'>
-                          <p>
-                            Intervensi sesi 3 dijalankan pada{' '}
-                            {moment(
-                              singlePersonKohortKotak.tarikhIntervensi2
-                            ).format('DD/MM/YYYY')}{' '}
+                        <div className='flex pl-5 justify-start text-left text-xs md:text-sm'>
+                          <p className='normal-case'>
+                            <strong>INTERVENSI SESI 3</strong> dijalankan pada{' '}
+                            <strong>
+                              {moment(
+                                singlePersonKohortKotak.tarikhIntervensi3
+                              ).format('DD/MM/YYYY')}{' '}
+                            </strong>{' '}
                             dengan{' '}
-                            {adaTiadaQTarikh3 === 'ada-q-tarikh3'
-                              ? 'ada'
-                              : 'tiada'}{' '}
+                            <strong>
+                              {adaTiadaQTarikh3 === 'ada-q-tarikh3'
+                                ? 'ADA'
+                                : 'TIADA'}
+                            </strong>{' '}
                             tarikh rancang berhenti merokok oleh{' '}
-                            {dataArrayUsernames.length > 0
-                              ? dataArrayUsernames
-                                  .filter(
-                                    (item) =>
-                                      item.thisUsernameData.tarikh3 ===
-                                      singlePersonKohortKotak.tarikhIntervensi3
-                                  )
-                                  .map((item) => item.createdByUsername)
-                              : null}
+                            <strong>
+                              {dataArrayUsernames.length > 0
+                                ? dataArrayUsernames
+                                    .filter(
+                                      (item) =>
+                                        item.thisUsernameData.tarikh3 ===
+                                        singlePersonKohortKotak.tarikhIntervensi3
+                                    )
+                                    .map((item) => item.createdByUsername)
+                                : null}
+                            </strong>
                           </p>
                         </div>
                       )}
@@ -1122,6 +1145,11 @@ function UserFormKohortKOTAK() {
                           required={
                             adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
                           }
+                          disabled={
+                            singlePersonKohortKotak.rujukGuruKaunseling === ''
+                              ? false
+                              : true
+                          }
                           type='radio'
                           name='rujuk-guru-kaunseling'
                           id='ya-rujuk-guru-kaunseling'
@@ -1153,6 +1181,11 @@ function UserFormKohortKOTAK() {
                         <input
                           required={
                             adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
+                          }
+                          disabled={
+                            singlePersonKohortKotak.rujukGuruKaunseling === ''
+                              ? false
+                              : true
                           }
                           type='radio'
                           name='rujuk-guru-kaunseling'
@@ -1205,6 +1238,11 @@ function UserFormKohortKOTAK() {
                     <select
                       name='status-selepas-6-bulan-kotak'
                       id='status-selepas-6-bulan-kotak'
+                      disabled={
+                        singlePersonKohortKotak.statusSelepas6Bulan === ''
+                          ? false
+                          : true
+                      }
                       value={statusSelepas6Bulan}
                       onChange={(e) => {
                         setStatusSelepas6Bulan(e.target.value);
