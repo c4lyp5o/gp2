@@ -687,6 +687,8 @@ function AdminAppProvider({ children }) {
   };
   const logOutUser = () => {
     removeAdminToken();
+    removeLoginInfo();
+    removeCurrentondemandSetting();
     navigate('/pentadbir');
   };
   const encryptEmail = (email) => {
