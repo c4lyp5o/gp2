@@ -1,4 +1,4 @@
-import { useEffect } from 'react';
+import { useEffect, useState } from 'react';
 
 import { useGlobalAdminAppContext } from '../context/adminAppContext';
 // component -----------------------------------------------------------
@@ -11,10 +11,21 @@ import Footer from '../components/Footer';
 export default function AdminDisabled() {
   const { logOutUser } = useGlobalAdminAppContext();
 
+  const [countdown, setCountdown] = useState(10);
+
+  // dealing with this later
+  const props = {
+    timer: 0,
+  };
+
   useEffect(() => {
     setTimeout(() => {
       logOutUser();
-    }, 10000);
+    }, 11000);
+    let timer = setInterval(() => {
+      setCountdown((countdown) => countdown - 1);
+    }, 1000);
+    return () => clearInterval(timer);
   }, []);
 
   return (
@@ -26,7 +37,8 @@ export default function AdminDisabled() {
           <h1 className='text-3xl font-bold mt-10 mb-10'>
             Maaf, laman pentadbir sistem Gi-Ret 2.0 sedang dalam proses
             penyelenggaraan. Kami memohon maaf atas segala kesulitan yang
-            berlaku. Anda akan di log out dalam masa 10 saat.
+            berlaku. Anda akan di log out dalam masa{' '}
+            <span className='text-user9 text-3xl'>{countdown}</span> saat.
           </h1>
         </div>
       </div>
