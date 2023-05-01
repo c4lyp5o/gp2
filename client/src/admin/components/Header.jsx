@@ -7,7 +7,8 @@ import { ConfirmModalForLogOut } from './Confirmation';
 import CountdownTimer from '../context/countdownTimer';
 
 export default function Header(props) {
-  const { navigate, removeAdminToken } = useGlobalAdminAppContext();
+  const { loginInfo, currentOndemandSetting, logOutUser } =
+    useGlobalAdminAppContext();
   const [showProfile, setShowProfile] = useState(false);
 
   // dropdown profil
@@ -32,8 +33,7 @@ export default function Header(props) {
   const handleLogout = () => {
     clearTimeout(props.kicker);
     clearTimeout(props.kickerNoti);
-    removeAdminToken();
-    navigate('/pentadbir');
+    logOutUser();
   };
 
   return (
@@ -63,14 +63,14 @@ export default function Header(props) {
               <h1>sistem gi-Ret 2.0</h1>
               <h1>
                 PENTADBIR{' '}
-                {props.loginInfo && (
+                {loginInfo && (
                   <div className='inline-flex' data-cy='header'>
-                    {props.loginInfo.accountType !== 'kpUser' ? (
+                    {loginInfo.accountType !== 'kpUser' ? (
                       <>
-                        {props.loginInfo.accountType === 'daerahSuperadmin' && (
+                        {loginInfo.accountType === 'daerahSuperadmin' && (
                           <p>DAERAH</p>
                         )}
-                        {props.loginInfo.accountType === 'negeriSuperadmin' && (
+                        {loginInfo.accountType === 'negeriSuperadmin' && (
                           <p>NEGERI</p>
                         )}
                       </>
@@ -82,53 +82,59 @@ export default function Header(props) {
               </h1>
               <span className='text-admin4'>{import.meta.env.VITE_ENV}</span>
             </div>
-            {props.loginInfo ? (
+            {loginInfo ? (
               <div className='relative right-2'>
-                <div className='flex flex-col'>
-                  <button
-                    type='button'
-                    className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-                    onClick={dropdownProfile}
-                  >
-                    <FaAddressCard className='m-1' />
-                    PROFIL ANDA
-                  </button>
-                  <button
-                    type='button'
-                    className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
-                    onClick={confirm(handleLogout)}
-                  >
-                    <FaCreativeCommonsBy className='m-1' />
-                    LOG KELUAR
-                  </button>
-                  <div className='absolute right-0 top-12'>
-                    <span>
-                      <CountdownTimer deadline={props.timer} place='header' />
-                    </span>
+                {currentOndemandSetting?.adminPage ||
+                loginInfo.accountType === 'hqSuperadmin' ? (
+                  <div className='flex flex-col'>
+                    <button
+                      type='button'
+                      className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
+                      onClick={dropdownProfile}
+                    >
+                      <FaAddressCard className='m-1' />
+                      PROFIL ANDA
+                    </button>
+                    <button
+                      type='button'
+                      className='p-1 m-2 w-36 text-adminWhite bg-admin3 hover:bg-opacity-80 rounded-sm shadow-xl outline outline-1 outline-admin4 transition-all flex flex-row'
+                      onClick={confirm(handleLogout)}
+                    >
+                      <FaCreativeCommonsBy className='m-1' />
+                      LOG KELUAR
+                    </button>
+                    <div className='absolute right-0 top-12'>
+                      <span>
+                        <CountdownTimer
+                          deadline={props.timer ? props.timer : 10}
+                          place='header'
+                        />
+                      </span>
+                    </div>
                   </div>
-                </div>
+                ) : null}
                 {showProfile && (
                   <div className='absolute z-0 bg-adminWhite text-user1 right-1 m-1 p-2 flex flex-col shadow-lg'>
                     <p className='w-auto text-sm leading-3 flex flex-col py-2 border-b-2 border-user1'>
                       <span className='uppercase pt-2'>
-                        {props.loginInfo.username}
+                        {loginInfo.username}
                       </span>
                     </p>
-                    {props.loginInfo.accountType !== 'kpUser' ? (
+                    {loginInfo.accountType !== 'kpUser' ? (
                       <>
-                        {props.loginInfo.accountType === 'daerahSuperadmin' && (
+                        {loginInfo.accountType === 'daerahSuperadmin' && (
                           <p className='w-48 text-sm pt-1'>
                             <b>Daerah: </b>
-                            {props.loginInfo.daerah}
+                            {loginInfo.daerah}
                           </p>
                         )}
-                        {props.loginInfo.accountType === 'negeriSuperadmin' && (
+                        {loginInfo.accountType === 'negeriSuperadmin' && (
                           <p className='w-48 text-sm pt-1'>
                             <b>Negeri: </b>
-                            {props.loginInfo.negeri}
+                            {loginInfo.negeri}
                           </p>
                         )}
-                        {props.loginInfo.accountType === 'hqSuperadmin' && (
+                        {loginInfo.accountType === 'hqSuperadmin' && (
                           <p className='w-48 text-xs pt-1 flex flex-col'>
                             <b>Kementerian Kesihatan Malaysia</b>
                             <b>Program Kesihatan Pergigian</b>
@@ -148,7 +154,7 @@ export default function Header(props) {
                     ) : (
                       <p className='w-40 text-sm pt-1'>
                         <b>KP: </b>
-                        {props.loginInfo.kp}
+                        {loginInfo.kp}
                       </p>
                     )}
                   </div>
