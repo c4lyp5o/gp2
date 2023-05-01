@@ -196,84 +196,6 @@ const initialDataAdmins = async (req, res) => {
   }
 };
 
-// const initialData = async (req, res) => {
-//   const all = await Superadmin.find({});
-//   const allKlinik = await User.find({
-//     role: 'klinik',
-//   });
-//   let allData = [];
-//   let cleanData = [];
-//   for (let i = 0; i < all.length; i++) {
-//     let location = {
-//       daerah: all[i].daerah,
-//       negeri: all[i].negeri,
-//       username: all[i].user_name,
-//     };
-//     allData.push(location);
-//   }
-//   const num = _.findIndex(allData, { negeri: '-' });
-//   allData.splice(num, 1);
-//   const negeri = _.uniqBy(allData, 'negeri');
-//   const daerah = _.uniqBy(allData, 'daerah');
-//   const username = _.uniqBy(allData, 'username');
-//   for (let i = 0; i < negeri.length; i++) {
-//     let temp = [];
-//     let usernames = [];
-//     for (let j = 0; j < daerah.length; j++) {
-//       if (negeri[i].negeri === daerah[j].negeri && daerah[j].daerah !== '-') {
-//         let tempDaerah = {
-//           daerah: daerah[j].daerah,
-//           username: daerah[j].username,
-//           klinik: [],
-//         };
-//         for (let k = 0; k < allKlinik.length; k++) {
-//           if (
-//             daerah[j].daerah === allKlinik[k].daerah &&
-//             allKlinik[k].accountType !== 'kaunterUser'
-//           ) {
-//             let tempKlinik = {
-//               username: allKlinik[k].username,
-//               nama: allKlinik[k].kp,
-//               admins: [],
-//             };
-//             const admins = await Operator.find({
-//               kodFasiliti: allKlinik[k].kodFasiliti,
-//               role: 'admin',
-//             });
-//             for (let l = 0; l < admins.length; l++) {
-//               let tempAdmin = {};
-//               tempAdmin.nama = admins[l].nama;
-//               if (admins[l].mdcNumber)
-//                 tempAdmin.mdcNumber = admins[l].mdcNumber;
-//               if (admins[l].mdtbNumber)
-//                 tempAdmin.mdtbNumber = admins[l].mdtbNumber;
-//               tempKlinik.admins.push(tempAdmin);
-//             }
-//             tempDaerah.klinik.push(tempKlinik);
-//           }
-//         }
-//         temp.push(tempDaerah);
-//       }
-//     }
-//     for (let j = 0; j < username.length; j++) {
-//       if (
-//         negeri[i].negeri === username[j].negeri &&
-//         username[j].daerah === '-'
-//       ) {
-//         let tempUser = { username: username[j].username };
-//         usernames.push(tempUser);
-//       }
-//     }
-//     let temp2 = {
-//       negeri: negeri[i].negeri,
-//       usernames: usernames,
-//       daerah: temp,
-//     };
-//     cleanData.push(temp2);
-//   }
-//   res.status(200).json(cleanData);
-// };
-
 const checkUser = async (req, res) => {
   const { username } = req.query;
   const tempUser = await Superadmin.findOne({ user_name: username });
@@ -371,6 +293,20 @@ const loginUser = async (req, res) => {
     });
   }
   // if admin
+  // PERLIS TEST DEV ANY PASS CAN LOGIN
+  if (
+    process.env.BUILD_ENV === 'dev' &&
+    (adminUser.negeri === 'Perlis' || adminUser.daerah === 'Arau')
+  ) {
+    logger.info(
+      `[adminAPI/loginUser] PERLIS TEST DEV ${adminUser.user_name} logged in with no password check`
+    );
+    return res.status(200).json({
+      status: 'success',
+      adminToken: adminUser.createJWT(),
+    });
+  }
+  // PERLIS TEST DEV ANY PASS CAN LOGIN
   // check if using totp or not
   if (adminUser.totp) {
     const verified = speakeasy.totp.verify({
