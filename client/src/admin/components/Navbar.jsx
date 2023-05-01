@@ -2,7 +2,11 @@ import { useState, useEffect, useRef } from 'react';
 import { NavLink } from 'react-router-dom';
 import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
+import { useGlobalAdminAppContext } from '../context/adminAppContext';
+
 export default function Navbar(props) {
+  const { loginInfo } = useGlobalAdminAppContext();
+
   const [showLinks, setShowLinks] = useState(false);
   const [showPenetapanSubMenu, setShowPenetapanSubMenu] = useState(false);
   const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
@@ -66,7 +70,7 @@ export default function Navbar(props) {
             >
               PAPARAN UTAMA
             </NavLink>
-            {props.loginInfo.accountType === 'daerahSuperadmin' && (
+            {loginInfo.accountType === 'daerahSuperadmin' && (
               <>
                 <div>
                   <div
@@ -299,8 +303,8 @@ export default function Navbar(props) {
                 </NavLink> */}
               </>
             )}
-            {props.loginInfo.accountType === 'kpUser' &&
-              props.loginInfo.role === 'admin' && (
+            {loginInfo.accountType === 'kpUser' &&
+              loginInfo.role === 'admin' && (
                 <>
                   <div>
                     <div
@@ -458,7 +462,7 @@ export default function Navbar(props) {
                   </NavLink>
                 </>
               )}
-            {props.loginInfo.role === 'sosmedadmin' && (
+            {loginInfo.role === 'sosmedadmin' && (
               <div>
                 <div
                   className={`${
@@ -505,7 +509,7 @@ export default function Navbar(props) {
                 </div>
               </div>
             )}
-            {props.loginInfo.accountType === 'negeriSuperadmin' && (
+            {loginInfo.accountType === 'negeriSuperadmin' && (
               <>
                 {/* <NavLink
                 className={({ isActive }) =>
@@ -628,7 +632,7 @@ export default function Navbar(props) {
                 </NavLink>
               </>
             )}
-            {props.loginInfo.accountType === 'hqSuperadmin' && (
+            {loginInfo.accountType === 'hqSuperadmin' && (
               <>
                 {/* <NavLink
                 className={({ isActive }) =>
