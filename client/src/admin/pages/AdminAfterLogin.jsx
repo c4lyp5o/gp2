@@ -68,20 +68,26 @@ function AdminAfterLogin() {
     setAdminToken,
     getCurrentUser,
     logOutUser,
+    // getLoginInfo,
+    saveLoginInfo,
+    loginInfo,
+    // getCurrentOndemandSetting,
+    saveCurrentondemandSetting,
+    currentOndemandSetting,
     readOndemandSetting,
   } = useGlobalAdminAppContext();
 
-  const ondemandSetting = readOndemandSetting();
+  // const ondemandSetting = readOndemandSetting();
 
-  const [loginInfo, setLoginInfo] = useState(null);
+  // const [loginInfo, setLoginInfo] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
   const [loading, setLoading] = useState(true);
 
-  const [ondemandSettingData, setOndemandSettingData] =
-    useState(ondemandSetting);
+  // const [ondemandSettingData, setOndemandSettingData] =
+  //   useState(ondemandSetting);
 
   const [refetchState, setRefetchState] = useState(false);
 
@@ -126,31 +132,42 @@ function AdminAfterLogin() {
 
     const nowMinutes = new Date().getTime();
     const real = nowMinutes + LOGOUT_DURATION;
+
     setTimer(real);
+  };
+
+  const adminPageInit = async () => {
+    const { data: currentUserInfo } = await getCurrentUser();
+    // setLoginInfo({
+    //   ...currentUserInfo,
+    //   isLoggedIn: true,
+    // });
+    saveLoginInfo({
+      ...currentUserInfo,
+      isLoggedIn: true,
+    });
+  };
+
+  const adminPageOndemandInit = async () => {
+    const { data } = await readOndemandSetting();
+    const { currentOndemandSetting } = data;
+    saveCurrentondemandSetting({ ...currentOndemandSetting });
+    console.log('ondemand setting init');
   };
 
   const props = {
     timer,
-    loginInfo,
-    setLoginInfo,
     logOutNotiSystem,
     kicker,
     kickerNoti,
   };
 
+  // init
   useEffect(() => {
-    const getUser = async () => {
-      const { data: currentUserInfo } = await getCurrentUser();
-      setLoginInfo({
-        ...currentUserInfo,
-        isLoggedIn: true,
-      });
-      const { data } = await readOndemandSetting();
-      const { currentOndemandSetting } = data;
-      // console.log(currentOndemandSetting);
-      setOndemandSettingData(currentOndemandSetting);
-    };
-    getUser()
+    adminPageInit()
+      .then(() => {
+        adminPageOndemandInit();
+      })
       .catch((err) => {
         console.log(err);
         logOutUser();
@@ -173,6 +190,12 @@ function AdminAfterLogin() {
     refetchIdentity();
   }, [refetchState]);
 
+  // refresh logOutNotiSystem and currentOndemandSetting on path change
+  useEffect(() => {
+    logOutNotiSystem();
+    adminPageOndemandInit();
+  }, [window.location.pathname]);
+
   // refetch indentity on tab focus
   useEffect(() => {
     window.addEventListener('focus', setRefetchState);
@@ -183,13 +206,13 @@ function AdminAfterLogin() {
   }, []);
 
   if (loading) {
-    return <LoadingSuperDark />;
+    return <Loading />;
   }
 
   if (
     !loading &&
     loginInfo.accountType !== 'hqSuperadmin' &&
-    !ondemandSettingData.adminPage
+    !currentOndemandSetting?.adminPage
   ) {
     return <DisabledAdminPage />;
   }
