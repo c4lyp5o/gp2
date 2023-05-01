@@ -38,83 +38,91 @@ export default function Pegawai(props) {
               </tr>
             </thead>
             <tbody className='bg-admin4'>
-              {props.data.map((o, index) => (
-                <tr key={index + 1}>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {index + 1}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    <div className='flex'>
-                      {o.nama}
-                      {o.tempatBertugasSebelumIni.length > 0 ? (
-                        <FaInfoCircle
-                          className='ml-2 text-md text-userBlack'
-                          onMouseEnter={(e) => {
-                            props.setShowInfo(true);
-                            props.setDataIndex(index);
-                          }}
-                          onMouseLeave={(e) => {
-                            props.setShowInfo(false);
-                          }}
-                        />
-                      ) : null}
-                      {props.showInfo && (
-                        <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
-                          <div className='text-xs'>
-                            <h2 className='font-mono'>
-                              Tempat Bertugas Sebelum Ini:{' '}
-                              {props.data[
-                                props.dataIndex
-                              ].tempatBertugasSebelumIni.map(
-                                (o, indexPegawai) => {
-                                  return (
-                                    <div key={indexPegawai}>
-                                      {indexPegawai + 1}. {o}{' '}
-                                    </div>
-                                  );
-                                }
-                              )}
-                            </h2>
-                            <p className='whitespace-nowrap'></p>
+              {props.data
+                .filter((o) => {
+                  if (o.mdtbNumber) {
+                    return !o.mdtbNumber.toLowerCase().includes(['mdtbauto']);
+                  } else {
+                    return o;
+                  }
+                })
+                .map((o, index) => (
+                  <tr key={index + 1}>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {index + 1}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <div className='flex'>
+                        {o.nama}
+                        {o.tempatBertugasSebelumIni.length > 0 ? (
+                          <FaInfoCircle
+                            className='ml-2 text-md text-userBlack'
+                            onMouseEnter={(e) => {
+                              props.setShowInfo(true);
+                              props.setDataIndex(index);
+                            }}
+                            onMouseLeave={(e) => {
+                              props.setShowInfo(false);
+                            }}
+                          />
+                        ) : null}
+                        {props.showInfo && (
+                          <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
+                            <div className='text-xs'>
+                              <h2 className='font-mono'>
+                                Tempat Bertugas Sebelum Ini:{' '}
+                                {props.data[
+                                  props.dataIndex
+                                ].tempatBertugasSebelumIni.map(
+                                  (o, indexPegawai) => {
+                                    return (
+                                      <div key={indexPegawai}>
+                                        {indexPegawai + 1}. {o}{' '}
+                                      </div>
+                                    );
+                                  }
+                                )}
+                              </h2>
+                              <p className='whitespace-nowrap'></p>
+                            </div>
                           </div>
-                        </div>
-                      )}
-                    </div>
-                  </td>
-                  {props.data[0].mdcNumber ? (
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {o.mdcNumber}
+                        )}
+                      </div>
                     </td>
-                  ) : (
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {o.mdtbNumber}
-                    </td>
-                  )}
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
-                    {o.gred}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
-                    {o.cscspVerified ? (
-                      <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                        Ada
-                      </span>
+                    {props.data[0].mdcNumber ? (
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {o.mdcNumber}
+                      </td>
                     ) : (
-                      <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
-                        Tiada
-                      </span>
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {o.mdtbNumber}
+                      </td>
                     )}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    <button
-                      className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                      onClick={() => {
-                        props.setShowEditModal(true);
-                        props.setId(o._id);
-                      }}
-                    >
-                      Kemaskini
-                    </button>
-                    {/* <button
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
+                      {o.gred}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
+                      {o.cscspVerified ? (
+                        <span className='bg-user7 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                          Ada
+                        </span>
+                      ) : (
+                        <span className='bg-admin2 text-kaunterWhite text-xs font-semibold px-2.5 py-0.5 rounded'>
+                          Tiada
+                        </span>
+                      )}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        onClick={() => {
+                          props.setShowEditModal(true);
+                          props.setId(o._id);
+                        }}
+                      >
+                        Kemaskini
+                      </button>
+                      {/* <button
                       className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
                       id={o._id}
                       onClick={(e) => {
@@ -125,9 +133,9 @@ export default function Pegawai(props) {
                     >
                       Hapus
                     </button> */}
-                  </td>
-                </tr>
-              ))}
+                    </td>
+                  </tr>
+                ))}
             </tbody>
           </table>
         </div>
