@@ -145,6 +145,23 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
+  const newRouteCreateData = async (type, data) => {
+    try {
+      const response = await axios.post(
+        `/api/v1/superadmin/post`,
+        { FType: type, Data: data },
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
   const readData = async (type) => {
     const response = await axios.get(
       `/api/v1/superadmin/getdata?FType=${type}`,
@@ -183,6 +200,23 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
+  const newRouteUpdateData = async (type, id, data) => {
+    try {
+      const response = await axios.patch(
+        `/api/v1/superadmin/patch`,
+        { FType: type, Id: id, Data: data },
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
   const deleteData = async (type, id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -192,6 +226,22 @@ function AdminAppProvider({ children }) {
         Id: id,
         token: adminToken,
       });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+  const newRouteDeleteData = async (type, id) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/delete?FType=${type}&Id=${id}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -1068,6 +1118,10 @@ function AdminAppProvider({ children }) {
         DictionarySosMedAcronym,
         // ad hoc query (he he boi)
         adhocQuery,
+        // testing pada maklumat asas
+        newRouteCreateData,
+        newRouteUpdateData,
+        newRouteDeleteData,
       }}
     >
       {children}
