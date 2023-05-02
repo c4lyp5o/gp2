@@ -55,6 +55,11 @@ const OndemandSetting = lazy(() =>
   import('../components/superadmin/OndemandSetting')
 );
 
+// maklumat asas daerah
+const MaklumatAsasDaerah = lazy(() =>
+  import('../components/superadmin/MaklumatAsasDaerah')
+);
+
 // disabled admin page
 const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
 
@@ -138,17 +143,16 @@ function AdminAfterLogin() {
 
   const adminPageInit = async () => {
     const { data: currentUserInfo } = await getCurrentUser();
-    // setLoginInfo({
-    //   ...currentUserInfo,
-    //   isLoggedIn: true,
-    // });
+    const { data } = await readOndemandSetting();
+    const { currentOndemandSetting } = data;
     saveLoginInfo({
       ...currentUserInfo,
       isLoggedIn: true,
     });
+    saveCurrentondemandSetting({ ...currentOndemandSetting });
   };
 
-  const adminPageOndemandInit = async () => {
+  const adminPageOndemandRefresh = async () => {
     const { data } = await readOndemandSetting();
     const { currentOndemandSetting } = data;
     saveCurrentondemandSetting({ ...currentOndemandSetting });
@@ -165,9 +169,6 @@ function AdminAfterLogin() {
   // init
   useEffect(() => {
     adminPageInit()
-      .then(() => {
-        adminPageOndemandInit();
-      })
       .catch((err) => {
         console.log(err);
         logOutUser();
@@ -192,8 +193,9 @@ function AdminAfterLogin() {
 
   // refresh logOutNotiSystem and currentOndemandSetting on path change
   useEffect(() => {
-    logOutNotiSystem();
-    adminPageOndemandInit();
+    adminPageOndemandRefresh().then(() => {
+      logOutNotiSystem();
+    });
   }, [window.location.pathname]);
 
   // refetch indentity on tab focus
@@ -212,7 +214,7 @@ function AdminAfterLogin() {
   if (
     !loading &&
     loginInfo.accountType !== 'hqSuperadmin' &&
-    !currentOndemandSetting?.adminPage
+    !currentOndemandSetting.adminPage
   ) {
     return <DisabledAdminPage />;
   }
@@ -419,6 +421,19 @@ function AdminAfterLogin() {
                   </DndProvider>
                 }
               /> */}
+            </>
+          ) : null}
+          {/* daerah superadmin */}
+          {loginInfo.accountType === 'daerahSuperadmin' ? (
+            <>
+              <Route
+                path='maklumat-asas'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <MaklumatAsasDaerah />
+                  </Suspense>
+                }
+              />
             </>
           ) : null}
           {/* KP superadmin */}
