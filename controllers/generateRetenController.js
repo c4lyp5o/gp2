@@ -4421,16 +4421,18 @@ const makeBPE = async (payload) => {
         jumlahReten += data[i][0].jumlahReten;
         jumlahRetenSalah += data[i][0].statusReten;
         row.getCell(4).value =
-          i % 2 == 0
+          i % 2 === 0
             ? data[i][0].kedatanganTahunSemasaBaru
             : data[i][0].kedatanganTahunSemasaUlangan; // leong, since match kita odd numbers adalah baru, dan even adalah ulangan, jd aku ckp ngn dia, kalau i/2 xde remainder, dia baru, kalau ada remainder dia ulangan
-        row.getCell(5).value = data[i][0].adaRujukanT2DMdariKK; //Column E (5)
-        row.getCell(6).value = data[i][0].adaRujukanT2DMdariLainLain; //Column F (6)
-        row.getCell(7).value = data[i][0].tiadaRujukanT2DM; //Column G (7)
+        row.getCell(5).value =
+          i % 2 === 0 ? data[i][0].adaRujukanT2DMdariKK : 0; //Column E (5)
+        row.getCell(6).value =
+          i % 2 === 0 ? data[i][0].adaRujukanT2DMdariLainLain : 0; //Column F (6)
+        row.getCell(7).value = i % 2 === 0 ? data[i][0].tiadaRujukanT2DM : 0; //Column G (7)
         row.getCell(8).value = data[i][0].risikoBpeDiabetes; //Column H (8)
         row.getCell(9).value = data[i][0].risikoBpePerokok; //Column I (9)
         row.getCell(10).value = data[i][0].risikoBpeLainLain; //Column J (10)
-        row.getCell(11).value = data[i][0].engganBPE; //Column K (11)
+        row.getCell(11).value = i % 2 === 0 ? 0 : data[i][0].engganBPE; //Column K (11)
         row.getCell(12).value = data[i][0].skorBPE0; //Column L (12)
         row.getCell(13).value = data[i][0].skorBPE1; //Column M (13)
         row.getCell(14).value = data[i][0].skorBPE2; //Column N (14)
