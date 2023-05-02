@@ -866,9 +866,10 @@ const getOneDataKpRoute = async (req, res) => {
 };
 
 const postRoute = async (req, res) => {
-  const { FType, Data, token } = req.body;
+  const authKey = req.headers.authorization;
+  const { FType, Data } = req.body;
   const { daerah, negeri, user_name } = await Superadmin.findById(
-    jwt.verify(token, process.env.JWT_SECRET).userId
+    jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
   const type = Dictionary[FType];
   logger.info(
