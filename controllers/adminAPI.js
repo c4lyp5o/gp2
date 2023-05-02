@@ -1178,56 +1178,41 @@ const postRouteKp = async (req, res) => {
 };
 
 const patchRoute = async (req, res) => {
-  const { FType, Id, Data, token } = req.body;
-  const { user_name } = jwt.verify(token, process.env.JWT_SECRET);
-  const type = Dictionary[FType];
-  logger.info(
-    `[adminAPI/patchRoute] ${user_name} attempting to update ${type} data with id ${Id}`
+  const authKey = req.headers.authorization;
+  const { FType, Id, Data } = req.body;
+  const { user_name } = await Superadmin.findById(
+    jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
-  let data;
-  switch (type) {
-    case 'juruterapi pergigian':
-    case 'pegawai':
-      data = await Operator.findByIdAndUpdate(
-        { _id: Id },
-        { $set: Data },
-        { new: true }
-      ).select('-summary');
-      logger.info(
-        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.nama}`
-      );
-      break;
-    case 'klinik':
-      data = await User.findByIdAndUpdate(
-        { _id: Id },
-        { $set: Data },
-        { new: true }
-      );
-      logger.info(
-        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.kp}`
-      );
-      break;
-    case 'program':
-      data = await Event.findByIdAndUpdate(
-        { _id: Id },
-        { $set: Data },
-        { new: true }
-      );
-      logger.info(
-        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.kodProgram}`
-      );
-      break;
-    default:
-      data = await Fasiliti.findByIdAndUpdate(
-        { _id: Id },
-        { $set: Data },
-        { new: true }
-      );
-      logger.info(
-        `[adminAPI/patchRoute] ${user_name} updated ${type} - ${Data.nama}`
-      );
-      break;
-  }
+
+  logger.info(
+    `[adminAPI/patchRoute] ${user_name} attempting to update ${Dictionary[FType]} data with id ${Id}`
+  );
+
+  const modelMap = new Map([
+    ['juruterapi pergigian', Operator],
+    ['pegawai', Operator],
+    ['klinik', User],
+    ['program', Event],
+    ['maklumat-asas-daerah', MaklumatAsasDaerah],
+  ]);
+
+  const model = modelMap.get(Dictionary[FType]) || Fasiliti;
+
+  logger.info(
+    `[adminAPI/patchRoute] ${user_name} attempting to update ${model.modelName} data with id ${Id}`
+  );
+
+  const data = await model.findByIdAndUpdate(
+    { _id: Id },
+    { $set: Data },
+    { new: true }
+  );
+
+  logger.info(
+    `[adminAPI/patchRoute] ${user_name} updated ${model.modelName} ${
+      Data.nama || Data.kp || Data.kodProgram || Data.kodDaerah || ''
+    }`
+  );
   res.status(200).json(data);
 };
 
