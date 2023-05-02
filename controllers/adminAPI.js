@@ -1407,7 +1407,7 @@ const deleteRoute = async (req, res) => {
   res.status(200).json(data);
 };
 
-const deleteKpRoute = async (req, res) => {
+const deleteRouteKp = async (req, res) => {
   const { FType, Id, token } = req.body;
   const { kp } = jwt.verify(token, process.env.JWT_SECRET);
   const type = Dictionary[FType];
@@ -3580,7 +3580,7 @@ module.exports = {
   patchRoute,
   patchRouteKp,
   deleteRoute,
-  deleteKpRoute,
+  deleteRouteKp,
   getStatisticsData,
   processFasilitiQuery,
   processOperatorQuery,
