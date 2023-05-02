@@ -10,10 +10,19 @@ export default function Navbar(props) {
   const [showLinks, setShowLinks] = useState(false);
   const [showPenetapanSubMenu, setShowPenetapanSubMenu] = useState(false);
   const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
+  const [showPromosiSubMenu, setShowPromosiSubMenu] = useState(false);
   const [showMaklumatLainSubMenu, setShowMaklumatLainSubMenu] = useState(false);
 
   const togglePenetapanSubMenu = () => {
     setShowPenetapanSubMenu(!showPenetapanSubMenu);
+    setShowPromosiSubMenu(false);
+    setShowMedSosSubMenu(false);
+    setShowMaklumatLainSubMenu(false);
+  };
+
+  const toggleSubMenuPromosi = () => {
+    setShowPromosiSubMenu(!showPromosiSubMenu);
+    setShowPenetapanSubMenu(false);
     setShowMedSosSubMenu(false);
     setShowMaklumatLainSubMenu(false);
   };
@@ -21,12 +30,14 @@ export default function Navbar(props) {
   const toggleSubMenuMedSos = () => {
     setShowMedSosSubMenu(!showMedSosSubMenu);
     setShowPenetapanSubMenu(false);
+    // setShowPromosiSubMenu(false);
     setShowMaklumatLainSubMenu(false);
   };
 
   const toggleSubMenuMaklumatLain = () => {
     setShowMaklumatLainSubMenu(!showMaklumatLainSubMenu);
     setShowPenetapanSubMenu(false);
+    setShowPromosiSubMenu(false);
     setShowMedSosSubMenu(false);
   };
 
@@ -232,22 +243,24 @@ export default function Navbar(props) {
                 <div>
                   <div
                     className={`${
-                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                      showPromosiSubMenu ? 'bg-admin3' : 'bg-admin2'
                     } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
-                    onClick={toggleSubMenuMedSos}
+                    onClick={toggleSubMenuPromosi}
                   >
-                    <span>MEDIA SOSIAL</span>
+                    <span>PROMOSI</span>
                     <span className='inline-flex ml-2'>
                       <FaArrowAltCircleUp
                         className={`transition-all ${
-                          showMedSosSubMenu && 'rotate-180'
+                          showPromosiSubMenu && 'rotate-180'
                         }`}
                       />
                     </span>
                   </div>
                   <div
                     className={`grid transition-all ${
-                      showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                      showPromosiSubMenu
+                        ? 'max-h-96'
+                        : 'max-h-0 overflow-hidden'
                     }`}
                   >
                     <NavLink
@@ -256,22 +269,56 @@ export default function Navbar(props) {
                           ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                           : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                       }
-                      to='followers'
+                      to='maklumat-asas'
                       onClick={() => setShowLinks(!showLinks)}
                     >
-                      <i>FOLLOWERS</i> MEDIA SOSIAL
+                      MAKLUMAT ASAS
                     </NavLink>
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
-                      }
-                      to='sosmed'
-                      onClick={() => setShowLinks(!showLinks)}
+                    <div
+                      className={`${
+                        showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                      onClick={toggleSubMenuMedSos}
                     >
-                      AKTIVITI MEDIA SOSIAL
-                    </NavLink>
+                      <span>MEDIA SOSIAL</span>
+                      <span className='inline-flex ml-2'>
+                        <FaArrowAltCircleUp
+                          className={`transition-all ${
+                            showMedSosSubMenu && 'rotate-180'
+                          }`}
+                        />
+                      </span>
+                    </div>
+                    <div
+                      className={`grid transition-all ${
+                        showMedSosSubMenu
+                          ? 'max-h-96'
+                          : 'max-h-0 overflow-hidden'
+                      }`}
+                    >
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive
+                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        }
+                        to='followers'
+                        onClick={() => setShowLinks(!showLinks)}
+                      >
+                        <i>FOLLOWERS</i> MEDIA SOSIAL
+                      </NavLink>
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive
+                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
+                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all text-sm'
+                        }
+                        to='sosmed'
+                        onClick={() => setShowLinks(!showLinks)}
+                      >
+                        AKTIVITI MEDIA SOSIAL
+                      </NavLink>
+                    </div>
                   </div>
                 </div>
                 <NavLink
