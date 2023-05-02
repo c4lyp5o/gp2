@@ -7,7 +7,6 @@ const { adminAuth, adminAuthInt } = require('../middlewares/adminAuth');
 
 // Controller
 const {
-  // initialData,
   initialDataNegeri,
   initialDataDaerah,
   initialDataKlinik,
@@ -19,6 +18,12 @@ const {
   getDataKpRoute,
   getOneDataRoute,
   getOneDataKpRoute,
+  postRoute,
+  postRouteKp,
+  patchRoute,
+  patchRouteKp,
+  deleteRoute,
+  deleteRouteKp,
   getStatisticsData,
   processFasilitiQuery,
   processOperatorQuery,
@@ -27,7 +32,6 @@ const {
 } = require('../controllers/adminAPI');
 
 // Initial Data
-// router.get('/initialdata', initialData);
 router.get('/getnegeri', initialDataNegeri);
 router.get('/getdaerah', initialDataDaerah);
 router.get('/getklinik', initialDataKlinik);
@@ -42,6 +46,14 @@ router.get('/getdata', adminAuth, getDataRoute);
 router.get('/getkpdata', adminAuth, getDataKpRoute);
 router.get('/getonedata', adminAuth, getOneDataRoute);
 router.get('/getonekpdata', adminAuth, getOneDataKpRoute);
+
+// Post Data
+router.post('/post', adminAuth, postRoute);
+router.post('/postkp', adminAuth, postRouteKp);
+router.patch('/patch', adminAuth, patchRoute);
+router.patch('/patchkp', adminAuth, patchRouteKp);
+router.delete('/delete', adminAuth, deleteRoute);
+router.delete('/deletekp', adminAuth, deleteRouteKp);
 
 // Statistics
 router.get('/getstats', adminAuth, getStatisticsData);
