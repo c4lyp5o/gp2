@@ -1,6 +1,6 @@
 const _ = require('lodash');
-const fs = require('fs');
-const path = require('path');
+// const fs = require('fs');
+// const path = require('path');
 const https = require('https');
 const axios = require('axios');
 const jwt = require('jsonwebtoken');
@@ -19,6 +19,7 @@ const Sosmed = require('../models/MediaSosial');
 const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
+const MaklumatAsasDaerah = require('../models/MaklumatAsasDaerah');
 const emailGen = require('../lib/emailgen');
 const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const insertToSekolah = require('./helpers/insertToSekolah');
@@ -60,6 +61,8 @@ const Dictionary = {
   followers: 'followers',
   program: 'program',
   programspesifik: 'program-spesifik',
+  // maklumat asas daerah
+  mda: 'maklumat-asas-daerah',
   // token
   tokenbal: 'token-balance',
   // negeri
@@ -354,8 +357,10 @@ const getDataRoute = async (req, res) => {
   const { FType, kp } = req.query;
   const type = Dictionary[FType];
   logger.info(`[adminAPI/getDataRoute] ${user_name} requested ${type} data`);
+
   // 2nd phase
   let data, countedData, owner;
+
   switch (type) {
     case 'klinik':
       data = await User.find({
@@ -539,6 +544,12 @@ const getDataRoute = async (req, res) => {
       })
         .select('jumlahToken jenisReten')
         .lean();
+      break;
+    case 'maklumat-asas-daerah':
+      data = await MaklumatAsasDaerah.find({
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+      }).lean();
       break;
     default:
       data = await Fasiliti.find({
@@ -1042,6 +1053,12 @@ const postRoute = async (req, res) => {
       data = await Event.create(Data);
       logger.info(
         `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.kodProgram}`
+      );
+      break;
+    case 'maklumat-asas-daerah':
+      data = await MaklumatAsasDaerah.create(Data);
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} created ${type} for ${Data.createdByDaerah}`
       );
       break;
     default:
