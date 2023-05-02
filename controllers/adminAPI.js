@@ -1219,39 +1219,32 @@ const patchRoute = async (req, res) => {
 const patchRouteKp = async (req, res) => {
   const { FType, Id, Data, token } = req.body;
   const { kp } = jwt.verify(token, process.env.JWT_SECRET);
-  const type = Dictionary[FType];
+
   logger.info(
-    `[adminAPI/patchRouteKp] kpUser attempting to update ${type} data with id ${Id}`
+    `[adminAPI/patchRouteKp] kpUser attempting to update ${Dictionary[FType]} data with id ${Id}`
   );
+
   let data;
+
   switch (type) {
     case 'program':
-      data = await Event.findByIdAndUpdate(
-        { _id: Id },
-        { $set: Data },
-        { new: true }
-      );
+      data = await Event.findByIdAndUpdate(Id, Data, { new: true });
       logger.info(
         `[adminAPI/patchRouteKp] ${kp} updated ${type} - ${data.nama}`
       );
       break;
     case 'jp':
     case 'pp':
-      data = await Operator.findByIdAndUpdate(
-        { _id: Id },
-        { $set: Data },
-        { new: true }
-      ).select('-summary');
+      data = await Operator.findByIdAndUpdate(Id, Data, {
+        new: true,
+        select: '-summary',
+      });
       logger.info(
         `[adminAPI/patchRouteKp] ${kp} updated CSCSP ${type} - ${data.nama}`
       );
       break;
     case 'tastad':
-      data = await Fasiliti.findByIdAndUpdate(
-        { _id: Id },
-        { $set: Data },
-        { new: true }
-      );
+      data = await Fasiliti.findByIdAndUpdate(Id, Data, { new: true });
       logger.info(
         `[adminAPI/patchRouteKp] ${kp} updated enrolmen ${type} - ${data.nama}`
       );
@@ -1259,7 +1252,7 @@ const patchRouteKp = async (req, res) => {
     case 'mpb':
     case 'kpb':
       data = await Fasiliti.findByIdAndUpdate(
-        { _id: Id },
+        Id,
         { $push: { penggunaanKPBMPB: Data } },
         { new: true }
       );
@@ -1268,8 +1261,7 @@ const patchRouteKp = async (req, res) => {
       );
       break;
     default:
-      console.log('default case for update');
-      break;
+      throw new Error('Invalid FType');
   }
   res.status(200).json(data);
 };
