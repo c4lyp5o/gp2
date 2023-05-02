@@ -560,7 +560,16 @@ const getDataRoute = async (req, res) => {
       break;
   }
   // 3rd phase
-  res.status(200).json(data);
+  if (data.length === 0) {
+    logger.error(
+      `[adminAPI/getDataRoute] ${user_name} requested ${type} data but no data found`
+    );
+    return res.status(404).json({
+      message: 'Tiada data ditemui',
+    });
+  } else {
+    res.status(200).json(data);
+  }
 };
 
 const getDataKpRoute = async (req, res) => {
@@ -575,6 +584,7 @@ const getDataKpRoute = async (req, res) => {
   logger.info(`[adminAPI/getDataKpRoute] ${kp} requested ${type} data`);
   // 2nd phase
   let data, countedData;
+
   switch (type) {
     case 'klinik':
       data = await User.find({
@@ -764,7 +774,16 @@ const getDataKpRoute = async (req, res) => {
       break;
   }
   // 3rd phase
-  res.status(200).json(data);
+  if (data.length === 0) {
+    logger.info(
+      `[adminAPI/getDataRoute] ${user_name} requested ${type} data with id ${Id} but no data found`
+    );
+    return res.status(404).json({
+      message: `Tiada data ${type} dengan id ${Id}`,
+    });
+  } else {
+    res.status(200).json(data);
+  }
 };
 
 const getOneDataRoute = async (req, res) => {
@@ -780,6 +799,7 @@ const getOneDataRoute = async (req, res) => {
   );
   // 2nd phase
   let data;
+
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
@@ -796,7 +816,16 @@ const getOneDataRoute = async (req, res) => {
       break;
   }
   // 3rd phase
-  res.status(200).json(data);
+  if (data.length === 0) {
+    logger.info(
+      `[adminAPI/getOneDataRoute] ${user_name} requested ${type} data with id ${Id} but no data found`
+    );
+    return res.status(404).json({
+      message: `Tiada data ${type} dengan id ${Id}`,
+    });
+  } else {
+    res.status(200).json(data);
+  }
 };
 
 const getOneDataKpRoute = async (req, res) => {
@@ -810,6 +839,7 @@ const getOneDataKpRoute = async (req, res) => {
   );
   // 2nd phase
   let data;
+
   switch (type) {
     case 'program':
       data = await Event.findById(Id).lean();
@@ -823,7 +853,16 @@ const getOneDataKpRoute = async (req, res) => {
       break;
   }
   // 3rd phase
-  res.status(200).json(data);
+  if (data.length === 0) {
+    logger.info(
+      `[adminAPI/getOneDataKpRoute] ${kp} requested ${type} data with id ${Id} but no data found`
+    );
+    return res.status(404).json({
+      message: `Tiada data ${type} dengan id ${Id}`,
+    });
+  } else {
+    res.status(200).json(data);
+  }
 };
 
 const postRoute = async (req, res) => {
