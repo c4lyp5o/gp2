@@ -1,6 +1,7 @@
 import { NavLink } from 'react-router-dom';
 import { useState, useEffect, useRef } from 'react';
 import { FaBars } from 'react-icons/fa';
+import jatanegara from '../../assets/Jata_MalaysiaV2.svg';
 
 function KaunterNavbar() {
   const [showLinks, setShowLinks] = useState(false);
@@ -160,7 +161,7 @@ function KaunterNavbar() {
           <div className='lg:hidden grid grid-rows-[50px_10px_10px] h-48 gap-1 text-center pt-24'>
             <img
               className='w-full h-full'
-              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              src={jatanegara}
               alt='missing jata negara'
             />
             <p className='uppercase text-[0.65rem]'>
