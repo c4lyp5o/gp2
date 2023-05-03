@@ -296,20 +296,15 @@ const loginUser = async (req, res) => {
     });
   }
   // if admin
-  // PERLIS TEST DEV ANY PASS CAN LOGIN
-  if (
-    process.env.BUILD_ENV === 'dev' &&
-    (adminUser.negeri === 'Perlis' || adminUser.daerah === 'Arau')
-  ) {
-    logger.info(
-      `[adminAPI/loginUser] PERLIS TEST DEV ${adminUser.user_name} logged in with no password check`
-    );
+  // KEPERLUAN DEV
+  if (process.env.BUILD_ENV === 'dev' && process.env.IDDQD === 'on') {
+    logger.info(`[adminAPI/loginUser] DEV ${adminUser.user_name} logged in`);
     return res.status(200).json({
       status: 'success',
       adminToken: adminUser.createJWT(),
     });
   }
-  // PERLIS TEST DEV ANY PASS CAN LOGIN
+  // KEPERLUAN DEV
   // check if using totp or not
   if (adminUser.totp) {
     const verified = speakeasy.totp.verify({
