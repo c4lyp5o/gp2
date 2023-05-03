@@ -67,13 +67,6 @@ function LandingPage() {
         <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
           <span className='ml-10 text-user6'>{import.meta.env.VITE_ENV}</span>
-          <span className='hidden lg:block'>
-            <img
-              className='-my-14 mx-52'
-              src='https://upload.wikimedia.org/wikipedia/commons/7/71/Ketupat.svg'
-              alt='missing ketupat kanan'
-            />
-          </span>
         </div>
       </div>
       {/* <div ref={notificationRef}>
