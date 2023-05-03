@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
+import jatanegara from '../../src/assets/Jata_MalaysiaV2.svg';
 
 function Faq() {
   // Pentadbir
@@ -73,7 +74,7 @@ function Faq() {
           <div className='grid grid-rows-[50px_10px_10px] md:gap-1 text-center col-start-1 md:col-start-2 md:justify-end'>
             <img
               className='w-full h-full'
-              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              src={jatanegara}
               alt='missing jata negara'
             />
             <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
@@ -172,7 +173,7 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Boleh jika Pentadbir Negeri tersebut merupakan PPYM/ Sister/
+                  Boleh, jika Pentadbir Negeri tersebut merupakan PPYM/ Sister/
                   JP yang bertugas di Klinik berkenaan.
                 </p>
               </article>
@@ -191,7 +192,9 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 2
+                  Berapa orang pentadbir bagi satu-satu daerah? Kalau lebih dari
+                  satu orang pentadbir, adalah perlu didaftarkan 3 e-mel
+                  berbeza?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -200,7 +203,10 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  apapapa huhu
+                  Tiada had Pentadbir Daerah. Guna hanya 1 e-mel sahaja yang
+                  dikongsi antara Pentadbir Daerah. Key verifikasi akan dihantar
+                  ke e-mel tersebut bagi membolehkan Pentadbir Daerah log masuk
+                  ke Modul Pentadbir Daerah.
                 </p>
               </article>
               <article className='my-1'>
@@ -218,7 +224,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 3
+                  Bagaimana nak cipta lebih dari 1 peranan? Contoh peranan
+                  Pentadbir Daerah dan juga pengguna?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -227,7 +234,13 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  apapapa huhu
+                  Tidak perlu cipta 2 peranan. Jika Pegawai A adalah pentadbir
+                  daerah B dan merupakan pegawai bertugas di Klinik C, semasa
+                  pendaftaran pegawai pergigian di Modul Pentadbir, pilih
+                  sebagai Pengguna di Klinik C. Tugas sebagai Pentadbir Daerah
+                  adalah mengemaskini data klinik, pegawai pergigian, juruterapi
+                  pergigian, taska & tadika dan lain-lain di Modul Pentadbir
+                  Daerah.
                 </p>
               </article>
               <article className='my-1'>
@@ -245,7 +258,9 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 4
+                  Untuk e-mel pegawai pergigian dan juruterapi pergigian, guna 1
+                  e-mel khas untuk klinik atau e-mel personal? perlu
+                  verification ke semasa pengguna log in?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -254,7 +269,12 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  apapapa huhu
+                  Sila guna e-mel personal masing-masing.Kata Laluan bagi Modul
+                  Pengguna dan Modul Pendaftaran adalah kata laluan tetap yang
+                  diberikan di Modul Pentadbir Daerah. Bagi pengisian reten
+                  individu (Pengguna), no. MDC/MDTB akan digunakan. Bagi
+                  Pentadbir Klinik, kunci verifikasi akan dihantar ke dalam
+                  e-mel Pentadbir Klinik.
                 </p>
               </article>
               <article className='my-1'>
@@ -273,7 +293,7 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 5
+                  Nama klinik saya salah ejaan
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
@@ -282,7 +302,8 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   }`}
                 >
-                  Jawapan soalan 5......
+                  Nama klinik diambil berdasarkan ejaan di PIK. Sekiranya ada
+                  perubahan, mohon untuk membuat permohonan kepada pihak PIK
                 </p>
               </article>
               <article className='my-1'>
@@ -302,7 +323,7 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 6
+                  1 pegawai boleh didaftarkan di KP utama dan KP Visiting ke?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
@@ -311,7 +332,11 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   }`}
                 >
-                  Jawapan soalan 6......
+                  Pegawai didaftarkan mengikut klinik utama beliau bertugas.
+                  Jika pegawai ke KP Visiting secara berkala (bukan setiap hari
+                  & bukan ditetapkan secara tetap di KP Vsiting), pilih sebagai
+                  pegawai relief di Modul Pengguna dan pilih nama KP Visiting
+                  tersebut.
                 </p>
               </article>
               <article className='my-1'>
@@ -332,7 +357,7 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 7
+                  Bagaimana cara nak tambah nama dalam senarai juruterapi?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
@@ -341,7 +366,12 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   }`}
                 >
-                  Jawapan soalan 7......
+                  Jika ada no. MDTB, sila guna butang Tambah di sebelah kanan
+                  pada fungsi bar Juruterapi Pergigian di Modul Pentadbir
+                  Daerah. Manakala jika tiada no. MDTB, sila tentukan secara
+                  manual pemegang JP1 hingga JP5. Juruterapi tersebut perlu
+                  mengisi reten mengikut JP1 hingga JP5 seperti yang telah
+                  ditetapkan oleh daerah.
                 </p>
               </article>
               <article className='my-1'>
@@ -363,7 +393,7 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 8
+                  Berapa orang maksimum untuk Pentadbir Klinik?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
@@ -372,7 +402,8 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   }`}
                 >
-                  Jawapan soalan 8......
+                  2-3 orang sahaja, PPYM dan Sister/JP yang akan memantau reten
+                  klinik
                 </p>
               </article>
               <article className='my-1'>
@@ -395,7 +426,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 9
+                  Adakah Pentadbir Klinik (PPYM) boleh berperanan sebagai
+                  pengguna atau perlu daftar sebagai pengguna
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
@@ -404,7 +436,8 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   }`}
                 >
-                  Jawapan soalan 9......
+                  Ya. Pentadbir Klinik secara automatik juga sebagai pengguna.
+                  Tidak perlu daftar 2 kali
                 </p>
               </article>
               <article className='my-1'>
@@ -428,7 +461,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 10
+                  Bolehkah guna semula e-mel pentadbir daerah untuk Klinik
+                  Pergigian? atau perlu guna e-mel yang lain?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
@@ -437,7 +471,9 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   }`}
                 >
-                  Jawapan soalan 10......
+                  Sila guna e-mel berbeza untuk pentadbir daerah dan pentadbir
+                  klinik. Kunci verifikasi untuk buka Modul Pentadbir Daerah
+                  akan dihantar ke e-mel Pentadbir Daerah.
                 </p>
               </article>
             </article>
@@ -464,7 +500,9 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 1
+                  Bagi klinik yang menggunakan Sistem OHCIS atau TPC OHCIS,
+                  masih perlu guna Sistem Gi-Ret 2.0 untuk pendaftaran tahun
+                  2023?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -473,7 +511,7 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  jlklllllllllllllllllllllllllllllllllllllllllksdlkjaspdjsapdaslkdjaslkdjpkjdksljd
+                  Ya, pesakit perlu didaftarkan di Sistem Gi-Ret 2.0 juga
                 </p>
               </article>
               <article className='my-1'>
@@ -491,7 +529,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 2
+                  bagi primer, pendaftaran adalah 100% melalui Sistem Gi-ret
+                  2.0? Tak perlu daftar di PG101?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -500,7 +539,7 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  apapapa huhu
+                  Ya. Bagi PG101A, ianya boleh dijana melalui Sistem Gi-Ret 2.0
                 </p>
               </article>
               <article className='my-1'>
@@ -518,7 +557,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 3
+                  Bagaimana nak dapatkan kata laluan bagi Modul Pendaftaran? dan
+                  Kata Laluan itu kita boleh tukar sendiri?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -527,7 +567,12 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  apapapa huhu
+                  Sila rujuk Pentadbir Daerah untuk mendapatkan kata laluan
+                  Modul Pendaftaran dan Modul Pengguna.Buat masa ini, kata
+                  laluan kami tidak buka lagi untuk membuat pertukaran. Akan ada
+                  tatacara yang tertentu bagi menentukan siapa yang akan
+                  bertanggungjawab menukar kata laluan pendaftaran dan
+                  penggunan.
                 </p>
               </article>
               {/* copy starts here */}
@@ -546,7 +591,10 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 4
+                  Jika pesakit pergi dua klinik berbeza dalam hari yang sama,
+                  adakah klinik kedua dapat mengesan pesakit tersebut sebagai
+                  pesakit ulangan atau perlu daftar sebagai pesakit baru semula
+                  ?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -555,7 +603,9 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  apapapa huhu
+                  Pesakit akan didaftarkan mengikut fasiliti. Jika pesakit tidak
+                  pernah datang ke fasiliti tersebut,maka pesakit tersebut
+                  adalah pesakit baru.
                 </p>
               </article>
               {/* copy ends here*/}
@@ -575,7 +625,7 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 5
+                  Macam mana nak tahu pesakit didaftarkan baru atau ulangan?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -584,7 +634,10 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 5..
+                  Sistem akan menentukan sama ada pesakit itu adalah pesakit
+                  baru atau ulangan. Pesakit baru mempunyai ikon berwarna hijau
+                  di sebelah nombor pendaftaran,manakala warna merah untuk
+                  pesakit ulangan. Sila rujuk pada LP8 pesakit juga.
                 </p>
               </article>
               <article className='my-1'>
@@ -604,7 +657,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 6
+                  Adakah nombor pendaftaran (RN) bagi warganegara berbeza dengan
+                  bukan warganegara?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -613,7 +667,9 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 6..
+                  Nombor pendaftaran (RN) bagi warganegara dan bukan warganegara
+                  adalah sama & berturutan.Perbezaan antara dua tersebut
+                  hanyalah jenis pengenalan.
                 </p>
               </article>
               <article className='my-1'>
@@ -634,7 +690,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 7
+                  Bagaimana pendaftaran jika pesakit tidak mempunyai sebarang
+                  pengenalan diri?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -643,7 +700,7 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 7..
+                  Pilih Jenis Pengenalan: Tiada Pengenalan Yang Sah
                 </p>
               </article>
               <article className='my-1'>
@@ -665,7 +722,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 8
+                  Bagaimana pendaftaran bagi pesakit bayi yang tiada surat
+                  beranak lagi?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -674,7 +732,8 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 8...
+                  Pilih Jenis Pengenalan: Baby Of, Kemudian masukkan nombor kad
+                  pengenalan ibu bayi tersebut.
                 </p>
               </article>
               <article className='my-1'>
@@ -697,7 +756,9 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 9
+                  Fungsi auto-fill hanya ada untuk MyKad/MyKid sahaja? Kerana
+                  pesakit didaftarkan dengan passport, tiada auto-fill untuk
+                  pesakit sama semasa ulangan.
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -706,7 +767,11 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 9...
+                  Nombor passport boleh berubah dan ini menghadkan fungsi
+                  auto-fill. Setakat ini, fungsi auto-fill hanya dapat dilakukan
+                  untuk jenis pengenalan menggunakan myKad/MyKid. Namun, kami
+                  mengambil maklum perkara ini dan akan melihat semula peluang
+                  untuk menambah baik.
                 </p>
               </article>
               <article className='my-1'>
@@ -730,7 +795,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 10
+                  Status pesakit bersekolah ditanda untuk kategori pesakit umur
+                  berapa?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -739,7 +805,9 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 10...
+                  Kedatangan pesakit yang masih bersekolah (bagi sekolah rendah
+                  dan sekolah menengah) perlu ditanda 'Bersekolah'. Sila rujuk
+                  glosari.
                 </p>
               </article>
               <article className='my-1'>
@@ -764,7 +832,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 11
+                  Permanent Residence (PR) didaftarkan menggunakan IC merah.
+                  Macam mana nak tahu dia Bukan Warganegara?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -773,7 +842,12 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 11...
+                  Mengikut JPN, selagi seseorang yang berada di Malaysia yang
+                  memegang MyPR, maka dia masih Bukan Warganegara, sehinggalah
+                  pemohonan menjadi warganegara diluluskan dan bertukar ke kad
+                  pengenalan biru. Maka dalam sistem, buat masa ini, boleh
+                  menggunakan jenis pengenalan Passport/ MyPR/ MyKAS/UNHCR untuk
+                  proses daftar di Modul Pendaftaran.
                 </p>
               </article>
               <article className='my-1'>
@@ -799,7 +873,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 12
+                  Jika terdapat kekangan masa untuk pendaftaran, bolehkah
+                  maklumat ditambah pada hari keesokkannya?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -808,7 +883,11 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 12...
+                  Bagi Pendaftaran di Klinik Pergigian, pendaftaran WAJIB
+                  dilakukan pada hari tersebut bagi mengelakkan kecelaruan
+                  nombor pendaftaran pesakit. Pengemaskinian data pesakit di
+                  bahagian pendaftaran juga hanya boleh dilakukan pada hari yang
+                  sama sahaja.
                 </p>
               </article>
               <article className='my-1'>
@@ -835,7 +914,7 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 13
+                  Pada ruang catatan, nombor resit perlu ditulis penuh ke?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -844,7 +923,8 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 13...
+                  Ruang catatan tersebut perlu ditulis sebagaimana yang ditulis
+                  sebelum ini, mengikut pentetapan daerah masing-masing.
                 </p>
               </article>
               <article className='my-1'>
@@ -872,7 +952,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 14
+                  Jika pesakit telah berjaya didaftarkan dalam sistem adakah
+                  data tersebut boleh dihapuskan?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -881,7 +962,9 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 14...
+                  Hanya Pentadbir KP sahaja boleh menghapuskan data tersebut,
+                  tetapi perlu justifikasi dan alasan yang kukuh supaya tidak
+                  menjejaskan kualiti data yang akan dilaporkan.
                 </p>
               </article>
               <article className='my-1'>
@@ -910,7 +993,10 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 15
+                  Jika pesakit KKIA yang telah didaftarkan dibawah KKIA/KD, dan
+                  pesakit tersebut datang semula untuk rawatan di KP,
+                  bagaimanakah pendaftaran dilakukan? Adakah nombor pendaftaran
+                  sama akan diberi sewaktu pendaftaran di KKIA/KD?
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -919,7 +1005,8 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 15...
+                  Sila daftar di Modul Pendaftaran Klinik Pergigian. Nombor
+                  pendaftaran pesakit tidak akan sama kerana perbezaan fasiliti.
                 </p>
               </article>
               <article className='my-1'>
@@ -949,7 +1036,8 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Soalan 16
+                  Jika pesakit hadir di KKIA/KD, siapakah yang akan daftar dalam
+                  sistem Gi-Ret 2.0
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
@@ -958,7 +1046,7 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Jawapan Soalan 16...
+                  Anggota pergigian yang membuat pemeriksaan di KKIA/KD
                 </p>
               </article>
             </article>
@@ -1190,7 +1278,7 @@ function Faq() {
                   Pendaftaran di Modul Pendaftaran mesti dibuat terus pada
                   Jumaat, iaitu hari yang sama pesakit datang ke klinik.Manakala
                   bagi pengisian data pemeriksaan/rawatan pesakit pula,
-                  dibenarkan sehingga SELASA SAHAJA.
+                  dibenarkan sehingga selasa sahaja.
                 </p>
               </article>
               <article className='my-1'>
@@ -1322,9 +1410,7 @@ function Faq() {
                       : 'max-h-0 overflow-hidden'
                   } `}
                 >
-                  Reten BPE akan dijana melalui Sistem Gi-Ret 2.0.Manakala Reten
-                  BP dalam proses penambahbaikan dan akan dimasukkan ke dalam
-                  sistem.
+                  Reten BPE dan BP boleh dijana melalui Sistem Gi-Ret 2.0.
                 </p>
               </article>
               <article className='my-1'>
@@ -1356,7 +1442,7 @@ function Faq() {
                   ) : (
                     <FaPlus className='pt-1' />
                   )}
-                  Jika berlaku pertukaran maklumat (cth: pertambahan
+                  Jika berlaku pertukaran maklumat (sebagai contoh: pertambahan
                   karies/sejarah perubatan), bagaimanakah hendak mengemaskini
                   semasa kedatangan ulangan?
                 </span>
@@ -1533,8 +1619,9 @@ function Faq() {
                     <FaPlus className='pt-1' />
                   )}
                   Bagi kes Endodontik,sekiranya rawatan pada hari tersebut
-                  adalah "cleaning and shaping" bagiamanakah pengisian rawatan
-                  dibuat, kerana hanya kes selesai endodontik dalam pilihan.
+                  adalah "cleaning and shaping" bagaimanakah pengisian rawatan
+                  dibuat, kerana hanya kes selesai endodontik sahaja dalam
+                  pilihan.
                 </span>
                 <p
                   className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
@@ -1545,8 +1632,7 @@ function Faq() {
                 >
                   Untuk langkah "cleaning & shaping, pegawai perlu claim
                   kedatangan ulangan & rawatan tampalan sementara. Rawatan
-                  endodontik dipilih sekiranya obturation telah selesai dibuat,
-                  Sila rujuk glosari PG207 di pautan https://bit.ly/finalFFR2022
+                  endodontik dipilih sekiranya obturation telah selesai dibuat.
                 </p>
               </article>
               <article className='my-1'>
@@ -1716,8 +1802,8 @@ function Faq() {
                   } `}
                 >
                   Sistem Gi-Ret 2.0 diwujudkan untuk mengurangkan beban compile
-                  reten ini. Reten tidak perlu ditutup atau dikumpulkan oleh
-                  sesiapa kerana reten boleh dijana secara automatik.
+                  reten. Reten tidak perlu ditutup atau dikumpulkan oleh sesiapa
+                  kerana reten boleh dijana secara automatik.
                 </p>
               </article>
               <article className='my-1'>

@@ -164,6 +164,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    penandaRisikoKaries: {
+      type: String,
+      default: '',
+    },
     adaCleftLip: {
       type: Boolean,
       default: false,

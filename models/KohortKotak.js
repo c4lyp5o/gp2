@@ -19,13 +19,20 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    createdByUsername: {
-      type: String,
+    // createdByUsername: {
+    //   type: Array,
+    //   required: true,
+    //   default: [],
+    // },
+    // createdByMdcMdtb: {
+    //   type: Array,
+    //   required: true,
+    //   default: [],
+    // },
+    createdByNameMdcMdtb: {
+      type: Array,
       required: true,
-    },
-    createdByMdcMdtb: {
-      type: String,
-      required: true,
+      default: [],
     },
     // copied over from MOEIS ----------------------------------------
     idInstitusi: {
