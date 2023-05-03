@@ -370,7 +370,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       createdByKodFasiliti: req.user.kodFasiliti,
       // createdByUsername: req.body.createdByUsername,
       // createdByMdcMdtb: req.body.createdByMdcMdtb,
-      //
+      // copied MOEIS data
       idInstitusi: personSekolah.idInstitusi,
       kodSekolah: personSekolah.kodSekolah,
       namaSekolah: personSekolah.namaSekolah,
