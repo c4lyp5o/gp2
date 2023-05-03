@@ -1484,7 +1484,8 @@ const getData = async (req, res) => {
             theType !== 'kp-bergerak' &&
             theType !== 'makmal-pergigian' &&
             theType !== 'sosmed' &&
-            theType !== 'followers'
+            theType !== 'followers' &&
+            theType !== 'maklumat-asas-daerah'
           ) {
             Data = {
               ...Data,
@@ -1761,6 +1762,13 @@ const getData = async (req, res) => {
             );
             res.status(200).json(createFollowerData);
           }
+          if (theType === 'maklumat-asas-daerah') {
+            const createMAD = await MaklumatAsasDaerah.create(Data);
+            logger.info(
+              `[adminAPI/DataCenter] ${user_name} created ${theType} for ${Data.createdByDaerah}`
+            );
+            res.status(200).json(createMAD);
+          }
           break;
         case 'update':
           logger.info(
@@ -1770,7 +1778,8 @@ const getData = async (req, res) => {
             theType !== 'pegawai' &&
             theType !== 'juruterapi pergigian' &&
             theType !== 'klinik' &&
-            theType !== 'program'
+            theType !== 'program' &&
+            theType !== 'maklumat-asas-daerah'
           ) {
             const data = await Fasiliti.findByIdAndUpdate(
               { _id: Id },
@@ -1812,6 +1821,14 @@ const getData = async (req, res) => {
             );
             logger.info(
               `[adminAPI/DataCenter] ${currentUser.user_name} updated ${theType} - ${Data.kodProgram}`
+            );
+            return res.status(200).json(data);
+          }
+          if (theType === 'maklumat-asas-daerah') {
+            const data = await MaklumatAsasDaerah.findByIdAndUpdate(
+              { _id: Id },
+              { $set: Data },
+              { new: true }
             );
             return res.status(200).json(data);
           }
