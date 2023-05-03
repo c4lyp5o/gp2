@@ -5,7 +5,7 @@ import { useEffect, useState, useRef } from 'react';
 
 import { ConfirmModalForLogOut } from './Confirmation';
 import CountdownTimer from '../context/countdownTimer';
-
+import jatanegara from '../../../src/assets/Jata_MalaysiaV2.svg';
 export default function Header(props) {
   const { loginInfo, currentOndemandSetting, logOutUser } =
     useGlobalAdminAppContext();
@@ -47,7 +47,7 @@ export default function Header(props) {
             <div className='grid grid-rows-[50px_10px_10px] gap-1 text-center col-start-2 justify-end'>
               <img
                 className='w-full h-full'
-                src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+                src={jatanegara}
                 alt='missing jata negara'
               />
               <p className='uppercase text-[0.65rem]'>

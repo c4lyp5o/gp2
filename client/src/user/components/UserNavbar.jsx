@@ -4,6 +4,7 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
+import jatanegara from '../../assets/Jata_MalaysiaV2.svg';
 function UserNavbar() {
   const { userinfo } = useGlobalUserAppContext();
 
@@ -51,7 +52,7 @@ function UserNavbar() {
           <div className='lg:hidden grid grid-rows-[50px_10px_10px] h-48 gap-1 text-center pt-24'>
             <img
               className='w-full h-full'
-              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              src={jatanegara}
               alt='missing jata negara'
             />
             <p className='uppercase text-[0.65rem]'>

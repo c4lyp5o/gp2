@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { FaPlus, FaMinus } from 'react-icons/fa';
+import jatanegara from '../../src/assets/Jata_MalaysiaV2.svg';
 
 function Faq() {
   // Pentadbir
@@ -73,7 +74,7 @@ function Faq() {
           <div className='grid grid-rows-[50px_10px_10px] md:gap-1 text-center col-start-1 md:col-start-2 md:justify-end'>
             <img
               className='w-full h-full'
-              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              src={jatanegara}
               alt='missing jata negara'
             />
             <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
