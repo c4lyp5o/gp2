@@ -47,13 +47,17 @@ router.get('/getkpdata', adminAuth, getDataKpRoute);
 router.get('/getonedata', adminAuth, getOneDataRoute);
 router.get('/getonekpdata', adminAuth, getOneDataKpRoute);
 
-// Post Data
-router.post('/post', adminAuth, postRoute);
-router.post('/postkp', adminAuth, postRouteKp);
-router.patch('/patch', adminAuth, patchRoute);
-router.patch('/patchkp', adminAuth, patchRouteKp);
-router.delete('/delete', adminAuth, deleteRoute);
-router.delete('/deletekp', adminAuth, deleteRouteKp);
+// Post Data - nanti pakai
+// router.post('/post', adminAuth, postRoute);
+// router.post('/postkp', adminAuth, postRouteKp);
+
+// Patch Data - nanti pakai
+// router.patch('/patch', adminAuth, patchRoute);
+// router.patch('/patchkp', adminAuth, patchRouteKp);
+
+// Delete Data - nanti pakai
+// router.delete('/delete', adminAuth, deleteRoute);
+// router.delete('/deletekp', adminAuth, deleteRouteKp);
 
 // Statistics
 router.get('/getstats', adminAuth, getStatisticsData);
