@@ -237,9 +237,14 @@ export const ModalSosMed = (props) => {
   const { toast, createData, createDataForKp, readKodProgramData } =
     useGlobalAdminAppContext();
 
-  const [pilihanKodProgram, setPilihanKodProgram] = useState([]);
+  const [programPromosi, setProgramPromosi] = useState({
+    jenisProgram: [],
+    allProgramPromosi: [],
+  });
+  const [pilihanJenisProgram, setPilihanJenisProgram] = useState([]);
   const [pilihanMediaSosial, setPilihanMediaSosial] = useState([]);
   const [questionState, setQuestionState] = useState([]);
+
   // data
   const [addingData, setAddingData] = useState(false);
 
@@ -381,13 +386,26 @@ export const ModalSosMed = (props) => {
   };
 
   useEffect(() => {
-    readKodProgramData().then((res) => {
-      if (res.status === 200) {
-        setPilihanKodProgram(res.data);
+    const fetchAllProgramPromosi = async () => {
+      try {
+        const { data } = await readKodProgramData();
+        const withoutDuplicateJenisProgram = data.map((a) => a.jenisProgram);
+        const withoutDuplicate = [...new Set(withoutDuplicateJenisProgram)];
+        setProgramPromosi({
+          jenisProgram: withoutDuplicate,
+          allProgramPromosi: data,
+        });
+      } catch (error) {
+        console.log(error);
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-fetchAllProgramPromosi'
+        // );
       }
-    });
+    };
+    fetchAllProgramPromosi();
+
     return () => {
-      setPilihanKodProgram([]);
+      setPilihanJenisProgram([]);
       setPilihanMediaSosial([]);
       setQuestionState([]);
     };
@@ -409,26 +427,57 @@ export const ModalSosMed = (props) => {
             </h5>
             <div className='grid grid-row-3 mx-auto'>
               <div className='m-2'>
-                <p className='flex flex-row pl-1 text-sm font-semibold'>
-                  Kod Program :
-                </p>
-                <Select
-                  className='basic-single'
-                  classNamePrefix='select'
-                  placeholder='Sila pilih kod Program...'
-                  options={pilihanKodProgram}
-                  getOptionLabel={(option) =>
-                    `${option.kodProgram} - ${option.jenisProgram} - ${option.namaProgram}`
-                  }
-                  getOptionValue={(option) => option.kodProgram}
-                  isSearchable={true}
-                  onChange={(e) => {
-                    setQuestionState({
-                      ...questionState,
-                      kodProgram: e.kodProgram,
-                    });
-                  }}
-                />
+                <div className='grid grid-cols-4 gap-10'>
+                  <label
+                    htmlFor='jenis-program'
+                    className='flex flex-row pl-1 text-sm font-semibold'
+                  >
+                    jenis program :
+                  </label>
+                  <select
+                    type='text'
+                    name='jenis-program'
+                    id='jenis-program'
+                    value={pilihanJenisProgram}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    onChange={(e) => setPilihanJenisProgram(e.target.value)}
+                  >
+                    <option value=''>Sila Pilih</option>
+                    {programPromosi.jenisProgram.map((j) => (
+                      <option key={j} value={j}>
+                        {j}
+                      </option>
+                    ))}
+                  </select>
+                  <label
+                    htmlFor='kod-program'
+                    className='flex flex-row pl-1 text-sm font-semibold'
+                  >
+                    kod program :
+                  </label>
+                  <select
+                    type='text'
+                    value={questionState.kodProgram}
+                    onChange={(e) => {
+                      setQuestionState({
+                        ...questionState,
+                        kodProgram: e.kodProgram,
+                      });
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>Sila Pilih</option>
+                    {programPromosi.allProgramPromosi
+                      .filter((p) => p.jenisProgram === pilihanJenisProgram)
+                      .map((p) => {
+                        return (
+                          <option value={p.kodProgram}>
+                            {p.kodProgram} | {p.namaProgram}
+                          </option>
+                        );
+                      })}
+                  </select>
+                </div>
               </div>
               <div className='flex justify-center mb-1 pl-3'>
                 <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
@@ -454,7 +503,7 @@ export const ModalSosMed = (props) => {
                   <span className='font-semibold text-user6'>*</span>
                 </p>
                 <input
-                  className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50  rounded-md uppercase flex flex-row mx-2'
+                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   type='text'
                   placeholder='Nama Aktiviti'
                   onChange={(e) => {
