@@ -96,7 +96,7 @@ function AdminAfterLogin() {
 
   const [refetchState, setRefetchState] = useState(false);
 
-  // const init = useRef(false);
+  const init = useRef(false);
 
   const LOGOUT_TIME = parseInt(import.meta.env.VITE_LOGOUT_TIME);
   const HALF_LOGOUT_TIME = LOGOUT_TIME / 2;
@@ -167,17 +167,23 @@ function AdminAfterLogin() {
   };
 
   // init
-  useEffect(() => {
-    adminPageInit()
-      .catch((err) => {
-        console.log(err);
-        logOutUser();
-      })
-      .finally(() => {
-        setLoading(false);
-        logOutNotiSystem();
-      });
-  }, [adminToken]);
+  // useEffect(() => {
+  //   if (init.current === false) {
+  //     console.log('page init');
+  //     adminPageInit()
+  //       .catch((err) => {
+  //         console.log(err);
+  //         logOutUser();
+  //       })
+  //       .finally(() => {
+  //         setLoading(false);
+  //         logOutNotiSystem();
+  //       });
+  //     setTimeout(() => {
+  //       init.current = true;
+  //     }, 2000);
+  //   }
+  // }, [adminToken]);
 
   // refetch identity
   useEffect(() => {
@@ -188,22 +194,42 @@ function AdminAfterLogin() {
           console.log('refetch identity admin');
       }
     };
-    refetchIdentity();
+    if (init.current === true) {
+      refetchIdentity();
+    }
   }, [refetchState]);
 
   // refresh logOutNotiSystem and currentOndemandSetting on path change
   useEffect(() => {
-    adminPageOndemandRefresh().then(() => {
-      logOutNotiSystem();
-    });
+    if (init.current === true) {
+      console.log('path refresh');
+      adminPageOndemandRefresh().then(() => {
+        logOutNotiSystem();
+      });
+    }
   }, [window.location.pathname]);
 
-  // refetch indentity on tab focus
+  // page init and activate event listener refetch indentity on tab focus
   useEffect(() => {
-    window.addEventListener('focus', setRefetchState);
-    setRefetchState(!refetchState);
+    console.log('focus refresh');
+    if (init.current === false) {
+      console.log('page init');
+      adminPageInit()
+        .catch((err) => {
+          console.log(err);
+          logOutUser();
+        })
+        .finally(() => {
+          setLoading(false);
+          logOutNotiSystem();
+        });
+      window.addEventListener('focus', setRefetchState);
+      setRefetchState(!refetchState);
+      init.current = true;
+    }
     return () => {
       window.removeEventListener('focus', setRefetchState);
+      init.current = false;
     };
   }, []);
 
