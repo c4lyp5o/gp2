@@ -5,6 +5,7 @@ const maklumatAsasDaerahSchema = new Schema(
   {
     createdByNegeri: { type: String, required: true },
     createdByDaerah: { type: String, required: true },
+    tahunSemasa: { type: Number, required: true, default: 0 },
     // Maklumat Asas
     jumlahPPSedangBerkhidmat: {
       type: Number,
