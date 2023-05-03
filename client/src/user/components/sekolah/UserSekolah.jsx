@@ -170,8 +170,31 @@ function UserSekolah() {
       },
       ['']
     );
-    // console.log(tahunTingkatan);
-    setTahunTingkatan(tahunTingkatan);
+
+    const order = [
+      'PRASEKOLAH',
+      'TAHUN SATU',
+      'TAHUN DUA',
+      'TAHUN TIGA',
+      'TAHUN EMPAT',
+      'TAHUN LIMA',
+      'TAHUN ENAM',
+      'TINGKATAN SATU',
+      'TINGKATAN DUA',
+      'TINGKATAN TIGA',
+      'TINGKATAN EMPAT',
+      'TINGKATAN LIMA',
+    ];
+
+    let tahunTingkatanInOrder = [];
+
+    for (var i = 0; i < order.length; i++) {
+      if (tahunTingkatan.indexOf(order[i]) > -1) {
+        tahunTingkatanInOrder.push(order[i]);
+      }
+    }
+
+    setTahunTingkatan(tahunTingkatanInOrder);
     // setDahFilterSekolahs(filteredSekolahs);
   }, [pilihanSekolah]);
 
