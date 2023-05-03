@@ -1,49 +1,60 @@
-import { useState, useEffect, useRef } from 'react';
+import { useState, useEffect } from 'react';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+
+import { SubmitButton, BusyButton } from '../Buttons';
 
 export default function MaklumatAsasDaerah() {
   const {
     loginInfo,
     readData,
+    createData,
+    updateData,
     newRouteCreateData,
     newRouteUpdateData,
     newRouteDeleteData,
+    toast,
   } = useGlobalAdminAppContext();
 
   const [maklumatAsasDaerah, setMaklumatAsasDaerah] = useState(null);
   const [initialNoData, setInitialNoData] = useState(false);
 
-  const init = useRef(false);
+  const [savingData, setSavingData] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    setSavingData(true);
     const updatedData = {
       ...maklumatAsasDaerah,
       ...(!initialNoData && { Id: maklumatAsasDaerah?._id }),
       ...(initialNoData && {
+        tahunSemasa: new Date().getFullYear(),
         createdByNegeri: loginInfo?.negeri,
         createdByDaerah: loginInfo?.daerah,
       }),
     };
-
     try {
       console.log(updatedData);
       const { data } = initialNoData
-        ? await newRouteCreateData('mda', updatedData)
-        : await newRouteUpdateData('mda', updatedData.Id, updatedData);
-      //   console.log(data);
-      // setMaklumatAsasDaerah(data);
+        ? await createData('mda', updatedData)
+        : await updateData('mda', updatedData.Id, updatedData);
+      setTimeout(() => {
+        toast.success(
+          `Maklumat Asas Daerah ${
+            loginInfo?.daerah
+          } Tahun ${new Date().getFullYear()} berjaya dikemaskini`
+        );
+        setSavingData(false);
+      }, 2000);
     } catch (err) {
       console.log(err);
+      setSavingData(false);
     }
   };
 
   useEffect(() => {
     async function fetchMaklumatAsasDaerah() {
       try {
-        console.log('running');
         const {
           data: [maklumatAsasDaerah],
         } = await readData('mda');
@@ -68,7 +79,8 @@ export default function MaklumatAsasDaerah() {
     <>
       <form onSubmit={handleSubmit}>
         <h1 className='text-3xl font-bold my-7'>
-          Maklumat Asas Bagi Daerah {loginInfo?.daerah}
+          Maklumat Asas Bagi Daerah {loginInfo?.daerah} Tahun{' '}
+          {new Date().getFullYear()}
         </h1>
         <div className='grid grid-cols-2 grid-rows-3 gap-2 outline outline-1 outline-userBlack text-center p-2'>
           <div>
@@ -461,14 +473,17 @@ export default function MaklumatAsasDaerah() {
           </div>
         </div>
         <div className='flex-auto mt-5'>
-          <button
-            type='submit'
-            className='bg-admin3 rounded-md p-2 shadow-md hover:bg-admin4 transition-colors'
-          >
-            <h1 className='text-xl font-bold'>
-              {initialNoData ? 'Simpan' : 'Kemaskini'}
-            </h1>
-          </button>
+          {savingData ? (
+            initialNoData ? (
+              <BusyButton func='add' />
+            ) : (
+              <BusyButton func='edit' />
+            )
+          ) : initialNoData ? (
+            <SubmitButton func='add' />
+          ) : (
+            <SubmitButton func='edit' />
+          )}
         </div>
       </form>
     </>
