@@ -873,41 +873,13 @@ const postRoute = async (req, res) => {
   let data, exists;
   switch (type) {
     case 'pegawai':
-      exists = await Operator.findOne({
-        mdcNumber: Data.mdcNumber,
-      }).select('-summary');
-      if (exists) {
-        exists.createdByNegeri = negeri;
-        exists.createdByDaerah = daerah;
-        exists.kpSkrg = Data.kpSkrg;
-        exists.kodFasiliti = Data.kodFasiliti;
-        exists.activationStatus = true;
-        exists.nama = Data.nama;
-        exists.email = Data.email;
-        exists.gred = Data.gred;
-        exists.role = Data.role;
-        exists.rolePromosiKlinik = Data.rolePromosiKlinik;
-        exists.roleMediaSosialKlinik = Data.roleMediaSosialKlinik;
-        data = await exists.save();
-        logger.info(
-          `[adminAPI/DataCenter] ${user_name} reactivated ${type} - ${Data.nama}`
-        );
-      } else {
-        Data = {
-          ...Data,
-          createdByDaerah: daerah,
-          createdByNegeri: negeri,
-        };
-        data = await Operator.create(Data);
-        logger.info(
-          `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.nama}`
-        );
-      }
-      break;
     case 'juruterapi pergigian':
-      exists = await Operator.findOne({
-        mdtbNumber: Data.mdtbNumber,
-      }).select('-summary');
+      const query =
+        type === 'pegawai'
+          ? { mdcNumber: Data.mdcNumber }
+          : { mdtbNumber: Data.mdtbNumber };
+      exists = await Operator.findOne(query).select('-summary');
+
       if (exists) {
         exists.createdByNegeri = negeri;
         exists.createdByDaerah = daerah;
@@ -925,11 +897,7 @@ const postRoute = async (req, res) => {
           `[adminAPI/DataCenter] ${user_name} reactivated ${type} - ${Data.nama}`
         );
       } else {
-        Data = {
-          ...Data,
-          createdByDaerah: daerah,
-          createdByNegeri: negeri,
-        };
+        Data = { ...Data, createdByDaerah: daerah, createdByNegeri: negeri };
         data = await Operator.create(Data);
         logger.info(
           `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.nama}`
@@ -1012,6 +980,43 @@ const postRoute = async (req, res) => {
         logger.info(
           `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.nama}`
         );
+      }
+      break;
+    case 'sekolah-rendah':
+    case 'sekolah-menengah':
+      let tempSekolahData = {
+        ...Data,
+        jenisFasiliti: theType,
+        createdByDaerah: daerah,
+        createdByNegeri: negeri,
+        sesiTakwimSekolah: sesiTakwimSekolah(),
+      };
+      try {
+        const agent = new https.Agent({
+          rejectUnauthorized: false,
+        });
+        const { data } = await axios.get(
+          process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+            `?inid=${Data.idInstitusi}`,
+          {
+            httpsAgent: agent,
+            headers: {
+              APIKEY: process.env.MOEIS_APIKEY,
+            },
+          }
+        );
+        const dataCreatedSRSM = await Fasiliti.create(tempSekolahData);
+        logger.info(
+          `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${tempSekolahData.nama}`
+        );
+        // send response registered sekolah first so that client will not wait too long on loading
+        res.status(200).json(dataCreatedSRSM);
+
+        // calling insertion function to collection sekolahs
+        insertToSekolah(dataCreatedSRSM, data);
+        return;
+      } catch (error) {
+        return res.status(503).json({ msg: error.message });
       }
       break;
     case 'kp-bergerak':
