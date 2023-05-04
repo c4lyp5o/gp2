@@ -3,68 +3,49 @@ import { FaPlus, FaMinus } from 'react-icons/fa';
 import jatanegara from '../../src/assets/Jata_MalaysiaV2.svg';
 
 function Faq() {
+  //search
+  const [search, setSearch] = useState('');
   // Pentadbir
   const [showPentadbir, setShowPentadbir] = useState(false);
-  const [showSubPentadbir1, setShowSubPentadbir1] = useState(false);
-  const [showSubPentadbir2, setShowSubPentadbir2] = useState(false);
-  const [showSubPentadbir3, setShowSubPentadbir3] = useState(false);
-  const [showSubPentadbir4, setShowSubPentadbir4] = useState(false);
-  const [showSubPentadbir5, setShowSubPentadbir5] = useState(false);
-  const [showSubPentadbir6, setShowSubPentadbir6] = useState(false);
-  const [showSubPentadbir7, setShowSubPentadbir7] = useState(false);
-  const [showSubPentadbir8, setShowSubPentadbir8] = useState(false);
-  const [showSubPentadbir9, setShowSubPentadbir9] = useState(false);
-  const [showSubPentadbir10, setShowSubPentadbir10] = useState(false);
+  const [showSubPentadbir, setShowSubPentadbir] = useState(null);
 
   // Register
   const [showPendaftaran, setShowPendaftaran] = useState(false);
-  const [showSubPendaftaran1, setShowSubPendaftaran1] = useState(false);
-  const [showSubPendaftaran2, setShowSubPendaftaran2] = useState(false);
-  const [showSubPendaftaran3, setShowSubPendaftaran3] = useState(false);
-  const [showSubPendaftaran4, setShowSubPendaftaran4] = useState(false);
-  const [showSubPendaftaran5, setShowSubPendaftaran5] = useState(false);
-  const [showSubPendaftaran6, setShowSubPendaftaran6] = useState(false);
-  const [showSubPendaftaran7, setShowSubPendaftaran7] = useState(false);
-  const [showSubPendaftaran8, setShowSubPendaftaran8] = useState(false);
-  const [showSubPendaftaran9, setShowSubPendaftaran9] = useState(false);
-  const [showSubPendaftaran10, setShowSubPendaftaran10] = useState(false);
-  const [showSubPendaftaran11, setShowSubPendaftaran11] = useState(false);
-  const [showSubPendaftaran12, setShowSubPendaftaran12] = useState(false);
-  const [showSubPendaftaran13, setShowSubPendaftaran13] = useState(false);
-  const [showSubPendaftaran14, setShowSubPendaftaran14] = useState(false);
-  const [showSubPendaftaran15, setShowSubPendaftaran15] = useState(false);
-  const [showSubPendaftaran16, setShowSubPendaftaran16] = useState(false);
+  const [showSubPendaftaran, setShowSubPendaftaran] = useState(null);
 
   // Pengguna
   const [showPengguna, setShowPengguna] = useState(false);
-  const [showSubPengguna1, setShowSubPengguna1] = useState(false);
-  const [showSubPengguna2, setShowSubPengguna2] = useState(false);
-  const [showSubPengguna3, setShowSubPengguna3] = useState(false);
-  const [showSubPengguna4, setShowSubPengguna4] = useState(false);
-  const [showSubPengguna5, setShowSubPengguna5] = useState(false);
-  const [showSubPengguna6, setShowSubPengguna6] = useState(false);
-  const [showSubPengguna7, setShowSubPengguna7] = useState(false);
-  const [showSubPengguna8, setShowSubPengguna8] = useState(false);
-  const [showSubPengguna9, setShowSubPengguna9] = useState(false);
-  const [showSubPengguna10, setShowSubPengguna10] = useState(false);
-  const [showSubPengguna11, setShowSubPengguna11] = useState(false);
-  const [showSubPengguna12, setShowSubPengguna12] = useState(false);
-  const [showSubPengguna13, setShowSubPengguna13] = useState(false);
-  const [showSubPengguna14, setShowSubPengguna14] = useState(false);
-  const [showSubPengguna15, setShowSubPengguna15] = useState(false);
-  const [showSubPengguna16, setShowSubPengguna16] = useState(false);
-  const [showSubPengguna17, setShowSubPengguna17] = useState(false);
-  const [showSubPengguna18, setShowSubPengguna18] = useState(false);
-  const [showSubPengguna19, setShowSubPengguna19] = useState(false);
-  const [showSubPengguna20, setShowSubPengguna20] = useState(false);
-  const [showSubPengguna21, setShowSubPengguna21] = useState(false);
-  const [showSubPengguna22, setShowSubPengguna22] = useState(false);
-  const [showSubPengguna23, setShowSubPengguna23] = useState(false);
-  const [showSubPengguna24, setShowSubPengguna24] = useState(false);
-  const [showSubPengguna25, setShowSubPengguna25] = useState(false);
+  const [showSubPengguna, setShowSubPengguna] = useState(null);
 
   // unUsed
   const [showUnused, setShowUnused] = useState(true);
+
+  //handleAccordion showSubPentadbir
+  const handleAccordionPentadbir = (itemId) => {
+    if (itemId === showSubPentadbir) {
+      setShowSubPentadbir(null);
+    } else {
+      setShowSubPentadbir(itemId);
+    }
+  };
+
+  //handleAccordion showSubPendaftaran
+  const handleAccordionPendaftaran = (itemId) => {
+    if (itemId === showSubPendaftaran) {
+      setShowSubPendaftaran(null);
+    } else {
+      setShowSubPendaftaran(itemId);
+    }
+  };
+
+  //handleAccordion showSubPengguna
+  const handleAccordionPengguna = (itemId) => {
+    if (itemId === showSubPengguna) {
+      setShowSubPengguna(null);
+    } else {
+      setShowSubPengguna(itemId);
+    }
+  };
 
   return (
     <>
@@ -97,9 +78,44 @@ function Faq() {
             <div className='justify-center items-center text-xl font-bold mt-7'>
               <h1>Soalan Lazim Gi-Ret 2.0</h1>
             </div>
-            <p className='lg:hidden text-sm text-user6 mt-3'></p>
           </div>
           <div className='px-2 grid grid-cols-3'>
+            <div className='my-4 col-span-3 relative'>
+              <input
+                type='search'
+                className={` ${
+                  showPendaftaran
+                    ? 'text-user6 placeholder-user6 border-user6 focus:ring-user6 '
+                    : showPengguna
+                    ? 'text-user2 placeholder-user2 border-user2 focus:ring-user2 '
+                    : showPentadbir
+                    ? 'text-admin2 placeholder-admin2 border-admin2 focus:ring-admin2 '
+                    : 'text-user1 placeholder-user1 border-user1 focus:ring-user1 '
+                }
+                w-full h-10 px-5 text-base  border  rounded-full outline-none focus:outline-none focus:ring-1 focus:border-transparent`}
+                placeholder={` ${
+                  showPendaftaran
+                    ? 'Carian Pendaftaran'
+                    : showPengguna
+                    ? 'Carian Pengguna'
+                    : showPentadbir
+                    ? 'Carian Pentadbir'
+                    : 'Carian'
+                }`}
+                onChange={(e) => setSearch(e.target.value.toLowerCase())}
+              />
+              <input
+                type='text'
+                disabled
+                className={` ${
+                  showPentadbir || showPendaftaran || showPengguna
+                    ? 'hidden'
+                    : 'block'
+                }
+                absolute top-0 left-0 w-full h-10 px-5 text-base text-userWhite bg-user1 placeholder-userWhite border border-user1 rounded-full`}
+                placeholder='Sila Pilih Modul'
+              />
+            </div>
             {/* tajuk modul */}
             <div>
               <button
@@ -148,337 +164,39 @@ function Faq() {
                   : 'max-h-0 overflow-y-hidden'
               } `}
             >
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir1(!showSubPentadbir1);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                  }}
-                >
-                  {showSubPentadbir1 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Adakah Pentadbir Negeri boleh turut serta menjadi Pentadbir
-                  Klinik?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir1
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  } `}
-                >
-                  Boleh, jika Pentadbir Negeri tersebut merupakan PPYM/ Sister/
-                  JP yang bertugas di Klinik berkenaan.
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir2(!showSubPentadbir2);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                  }}
-                >
-                  {showSubPentadbir2 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Berapa orang pentadbir bagi satu-satu daerah? Kalau lebih dari
-                  satu orang pentadbir, adalah perlu didaftarkan 3 e-mel
-                  berbeza?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir2
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  } `}
-                >
-                  Tiada had Pentadbir Daerah. Guna hanya 1 e-mel sahaja yang
-                  dikongsi antara Pentadbir Daerah. Key verifikasi akan dihantar
-                  ke e-mel tersebut bagi membolehkan Pentadbir Daerah log masuk
-                  ke Modul Pentadbir Daerah.
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir3(!showSubPentadbir3);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir4(false);
-                  }}
-                >
-                  {showSubPentadbir3 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Bagaimana nak cipta lebih dari 1 peranan? Contoh peranan
-                  Pentadbir Daerah dan juga pengguna?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir3
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  } `}
-                >
-                  Tidak perlu cipta 2 peranan. Jika Pegawai A adalah pentadbir
-                  daerah B dan merupakan pegawai bertugas di Klinik C, semasa
-                  pendaftaran pegawai pergigian di Modul Pentadbir, pilih
-                  sebagai Pengguna di Klinik C. Tugas sebagai Pentadbir Daerah
-                  adalah mengemaskini data klinik, pegawai pergigian, juruterapi
-                  pergigian, taska & tadika dan lain-lain di Modul Pentadbir
-                  Daerah.
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir4(!showSubPentadbir4);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                  }}
-                >
-                  {showSubPentadbir4 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Untuk e-mel pegawai pergigian dan juruterapi pergigian, guna 1
-                  e-mel khas untuk klinik atau e-mel personal? perlu
-                  verification ke semasa pengguna log in?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir4
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  } `}
-                >
-                  Sila guna e-mel personal masing-masing.Kata Laluan bagi Modul
-                  Pengguna dan Modul Pendaftaran adalah kata laluan tetap yang
-                  diberikan di Modul Pentadbir Daerah. Bagi pengisian reten
-                  individu (Pengguna), no. MDC/MDTB akan digunakan. Bagi
-                  Pentadbir Klinik, kunci verifikasi akan dihantar ke dalam
-                  e-mel Pentadbir Klinik.
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir5(!showSubPentadbir5);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                  }}
-                >
-                  {showSubPentadbir5 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Nama klinik saya salah ejaan
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir5
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  }`}
-                >
-                  Nama klinik diambil berdasarkan ejaan di PIK. Sekiranya ada
-                  perubahan, mohon untuk membuat permohonan kepada pihak PIK
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir6(!showSubPentadbir6);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                    setShowSubPentadbir5(false);
-                  }}
-                >
-                  {showSubPentadbir6 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  1 pegawai boleh didaftarkan di KP utama dan KP Visiting ke?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir6
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  }`}
-                >
-                  Pegawai didaftarkan mengikut klinik utama beliau bertugas.
-                  Jika pegawai ke KP Visiting secara berkala (bukan setiap hari
-                  & bukan ditetapkan secara tetap di KP Vsiting), pilih sebagai
-                  pegawai relief di Modul Pengguna dan pilih nama KP Visiting
-                  tersebut.
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir7(!showSubPentadbir7);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                    setShowSubPentadbir5(false);
-                    setShowSubPentadbir6(false);
-                  }}
-                >
-                  {showSubPentadbir7 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Bagaimana cara nak tambah nama dalam senarai juruterapi?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir7
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  }`}
-                >
-                  Jika ada no. MDTB, sila guna butang Tambah di sebelah kanan
-                  pada fungsi bar Juruterapi Pergigian di Modul Pentadbir
-                  Daerah. Manakala jika tiada no. MDTB, sila tentukan secara
-                  manual pemegang JP1 hingga JP5. Juruterapi tersebut perlu
-                  mengisi reten mengikut JP1 hingga JP5 seperti yang telah
-                  ditetapkan oleh daerah.
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir8(!showSubPentadbir8);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                    setShowSubPentadbir5(false);
-                    setShowSubPentadbir6(false);
-                    setShowSubPentadbir7(false);
-                  }}
-                >
-                  {showSubPentadbir8 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Berapa orang maksimum untuk Pentadbir Klinik?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir8
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  }`}
-                >
-                  2-3 orang sahaja, PPYM dan Sister/JP yang akan memantau reten
-                  klinik
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir9(!showSubPentadbir9);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                    setShowSubPentadbir5(false);
-                    setShowSubPentadbir6(false);
-                    setShowSubPentadbir7(false);
-                    setShowSubPentadbir8(false);
-                  }}
-                >
-                  {showSubPentadbir9 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Adakah Pentadbir Klinik (PPYM) boleh berperanan sebagai
-                  pengguna atau perlu daftar sebagai pengguna
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir9
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  }`}
-                >
-                  Ya. Pentadbir Klinik secara automatik juga sebagai pengguna.
-                  Tidak perlu daftar 2 kali
-                </p>
-              </article>
-              <article className='my-1'>
-                <span
-                  className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
-                  onClick={() => {
-                    setShowSubPentadbir10(!showSubPentadbir10);
-                    setShowSubPentadbir1(false);
-                    setShowSubPentadbir2(false);
-                    setShowSubPentadbir3(false);
-                    setShowSubPentadbir4(false);
-                    setShowSubPentadbir5(false);
-                    setShowSubPentadbir6(false);
-                    setShowSubPentadbir7(false);
-                    setShowSubPentadbir8(false);
-                    setShowSubPentadbir9(false);
-                  }}
-                >
-                  {showSubPentadbir10 ? (
-                    <FaMinus className='pt-1' />
-                  ) : (
-                    <FaPlus className='pt-1' />
-                  )}
-                  Bolehkah guna semula e-mel pentadbir daerah untuk Klinik
-                  Pergigian? atau perlu guna e-mel yang lain?
-                </span>
-                <p
-                  className={`flex flex-row transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
-                    showSubPentadbir10
-                      ? 'max-h-full overflow-y-auto'
-                      : 'max-h-0 overflow-hidden'
-                  }`}
-                >
-                  Sila guna e-mel berbeza untuk pentadbir daerah dan pentadbir
-                  klinik. Kunci verifikasi untuk buka Modul Pentadbir Daerah
-                  akan dihantar ke e-mel Pentadbir Daerah.
-                </p>
-              </article>
+              {pentadbirData
+                .filter((item) => item.title.toLowerCase().includes(search))
+                .map((item, index) => {
+                  return (
+                    <article className='my-1' key={index}>
+                      <span
+                        className='flex text-left text-xs lg:text-base items-center text-adminWhite font-bold bg-admin1 pl-3 p-1 w-full capitalize cursor-pointer'
+                        onClick={() => {
+                          handleAccordionPentadbir(index);
+                        }}
+                      >
+                        {showSubPentadbir === index ? (
+                          <FaMinus className='pt-1' />
+                        ) : (
+                          <FaPlus className='pt-1' />
+                        )}
+                        {item.title}
+                      </span>
+                      <p
+                        className={`flex flex-row text-left transition-all bg-user5 pl-3 text-xs lg:text-base font-normal normal-case ${
+                          showSubPentadbir === index
+                            ? 'max-h-full overflow-y-auto'
+                            : 'max-h-0 overflow-hidden'
+                        }`}
+                      >
+                        {item.content}
+                      </p>
+                    </article>
+                  );
+                })}
             </article>
             {/* modul pendaftaran */}
-            <article
+            {/* <article
               className={`flex flex-col transition-all col-span-3 bg-kaunter3 bg-opacity-70 rounded-b-md ${
                 showPendaftaran
                   ? 'max-h-full overflow-y-auto'
@@ -575,7 +293,6 @@ function Faq() {
                   penggunan.
                 </p>
               </article>
-              {/* copy starts here */}
               <article className='my-1'>
                 <span
                   className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
@@ -608,7 +325,6 @@ function Faq() {
                   adalah pesakit baru.
                 </p>
               </article>
-              {/* copy ends here*/}
               <article className='my-1'>
                 <span
                   className='flex text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
@@ -1049,9 +765,47 @@ function Faq() {
                   Anggota pergigian yang membuat pemeriksaan di KKIA/KD
                 </p>
               </article>
+            </article> */}
+            <article
+              className={`flex flex-col transition-all col-span-3 bg-kaunter3 bg-opacity-70 rounded-b-md ${
+                showPendaftaran
+                  ? 'max-h-full overflow-y-auto'
+                  : 'max-h-0 overflow-y-hidden'
+              } `}
+            >
+              {pendaftaranData
+                .filter((item) => item.title.toLowerCase().includes(search))
+                .map((item, index) => {
+                  return (
+                    <article className='my-1' key={index}>
+                      <span
+                        className='flex text-left text-xs lg:text-base items-center text-adminWhite font-bold bg-kaunter2 pl-3 p-1 w-full capitalize cursor-pointer'
+                        onClick={() => {
+                          handleAccordionPendaftaran(index);
+                        }}
+                      >
+                        {showSubPendaftaran === index ? (
+                          <FaMinus className='pt-1' />
+                        ) : (
+                          <FaPlus className='pt-1' />
+                        )}
+                        {item.title}
+                      </span>
+                      <p
+                        className={`flex flex-row text-left transition-all bg-admin5 pl-3 text-xs lg:text-base font-normal ${
+                          showSubPendaftaran === index
+                            ? 'max-h-full overflow-y-auto'
+                            : 'max-h-0 overflow-hidden'
+                        } `}
+                      >
+                        {item.content}
+                      </p>
+                    </article>
+                  );
+                })}
             </article>
             {/* modul pengguna */}
-            <article
+            {/* <article
               className={`flex flex-col transition-all col-span-3 bg-user5 bg-opacity-70 rounded-b-md ${
                 showPengguna
                   ? 'max-h-full overflow-y-auto'
@@ -1850,6 +1604,44 @@ function Faq() {
                   dijana oleh Pentadbir Klinik.
                 </p>
               </article>
+            </article> */}
+            <article
+              className={`flex flex-col transition-all col-span-3 bg-user5 bg-opacity-70 rounded-b-md ${
+                showPengguna
+                  ? 'max-h-full overflow-y-auto'
+                  : 'max-h-0 overflow-y-hidden'
+              } `}
+            >
+              {penggunaData
+                .filter((item) => item.title.toLowerCase().includes(search))
+                .map((item, index) => {
+                  return (
+                    <article className='my-1' key={index}>
+                      <span
+                        className='flex text-left text-xs lg:text-base items-center text-adminWhite font-semibold bg-user3 pl-3 p-1 w-full capitalize cursor-pointer'
+                        onClick={() => {
+                          handleAccordionPengguna(index);
+                        }}
+                      >
+                        {showSubPengguna === index ? (
+                          <FaMinus className='pt-1' />
+                        ) : (
+                          <FaPlus className='pt-1' />
+                        )}
+                        {item.title}
+                      </span>
+                      <p
+                        className={`flex flex-row text-left transition-all bg-user5 pl-3 text-xs lg:text-base font-normal ${
+                          showSubPengguna === index
+                            ? 'max-h-full overflow-y-auto'
+                            : 'max-h-0 overflow-hidden'
+                        } `}
+                      >
+                        {item.content}
+                      </p>
+                    </article>
+                  );
+                })}
             </article>
             <article
               className={`flex flex-col transition-all col-span-3 bg-user5 bg-opacity-70 rounded-b-md ${
@@ -1885,4 +1677,93 @@ function Faq() {
     </>
   );
 }
+
+const pentadbirData = [
+  {
+    id: 1,
+    title:
+      'Adakah Pentadbir Negeri boleh turut serta menjadi Pentadbir Klinik?',
+    content:
+      'Boleh, jika Pentadbir Negeri tersebut merupakan PPYM / Sister / JP yang bertugas di Klinik berkenaan',
+  },
+  {
+    id: 2,
+    title:
+      'Berapa orang pentadbir bagi satu-satu daerah? Kalau lebih dari satu orang pentadbir, adalah perlu didaftarkan 3 e-mel berbeza?',
+    content:
+      'Tiada had Pentadbir Daerah. Guna hanya 1 e-mel sahaja yang dikongsi antara Pentadbir Daerah. Key verifikasi akan dihantar ke e-mel tersebut bagi membolehkan Pentadbir Daerah log masuk ke Modul Pentadbir Daerah.',
+  },
+  {
+    id: 3,
+    title:
+      'Bagaimana nak cipta lebih dari 1 peranan? Contoh peranan Pentadbir Daerah dan juga pengguna?',
+    content:
+      'Tidak perlu cipta 2 peranan. Jika Pegawai A adalah pentadbir daerah B dan merupakan pegawai bertugas di Klinik C, semasa pendaftaran pegawai pergigian di Modul Pentadbir, pilih sebagai Pengguna di Klinik C. Tugas sebagai Pentadbir Daerah adalah mengemaskini data klinik, pegawai pergigian, juruterapi pergigian, taska & tadika dan lain-lain di Modul Pentadbir Daerah.',
+  },
+  {
+    id: 4,
+    title:
+      'Untuk e-mel pegawai pergigian dan juruterapi pergigian, guna 1 e-mel khas untuk klinik atau e-mel personal ? perlu verification ke semasa pengguna log masuk ?',
+    content:
+      'Sila guna e-mel personal masing-masing.Kata Laluan bagi Modul Pengguna dan Modul Pendaftaran adalah kata laluan tetap yang diberikan di Modul Pentadbir Daerah. Bagi pengisian reten individu (Pengguna), no. MDC/MDTB akan digunakan. Bagi Pentadbir Klinik, kunci verifikasi akan dihantar ke dalam e-mel Pentadbir Klinik.',
+  },
+  {
+    id: 5,
+    title: 'Nama klinik saya salah ejaan',
+    content:
+      'Nama klinik diambil berdasarkan ejaan di PIK. Sekiranya ada perubahan, mohon untuk membuat permohonan kepada pihak PIK',
+  },
+  {
+    id: 6,
+    title: '1 pegawai boleh didaftarkan di KP utama dan KP Visiting ke?',
+    content:
+      'Pegawai didaftarkan mengikut klinik utama beliau bertugas. Jika pegawai ke KP Visiting secara berkala (bukan setiap hari & bukan ditetapkan secara tetap di KP Vsiting), pilih sebagai pegawai relief di Modul Pengguna dan pilih nama KP Visiting tersebut.',
+  },
+  {
+    id: 7,
+    title: 'Bagaimana cara nak tambah nama dalam senarai juruterapi?',
+    content:
+      'Jika ada no. MDTB, sila guna butang Tambah di sebelah kanan pada fungsi bar Juruterapi Pergigian di Modul Pentadbir Daerah. Manakala jika tiada no. MDTB, sila tentukan secara manual pemegang JP1 hingga JP5. Juruterapi tersebut perlu mengisi reten mengikut JP1 hingga JP5 seperti yang telah ditetapkan oleh daerah.',
+  },
+  {
+    id: 8,
+    title: 'Berapa orang maksimum untuk Pentadbir Klinik?',
+    content:
+      '2-3 orang sahaja, PPYM dan Sister/JP yang akan memantau reten klinik',
+  },
+  {
+    id: 9,
+    title:
+      'Adakah Pentadbir Klinik (PPYM) boleh berperanan sebagai pengguna atau perlu daftar sebagai pengguna ?',
+    content:
+      'Ya. Pentadbir Klinik secara automatik juga sebagai pengguna. Tidak perlu daftar 2 kali',
+  },
+  {
+    id: 10,
+    title:
+      'Bolehkah guna semula e-mel pentadbir daerah untuk Klinik Pergigian? atau perlu guna e-mel yang lain?',
+    content:
+      'Sila guna e-mel berbeza untuk pentadbir daerah dan pentadbir klinik. Kunci verifikasi untuk buka Modul Pentadbir Daerah akan dihantar ke e-mel Pentadbir Daerah.',
+  },
+];
+
+const pendaftaranData = [
+  {
+    id: 1,
+    title:
+      'Bagi klinik yang menggunakan Sistem OHCIS atau TPC OHCIS, masih perlu guna Sistem Gi-Ret 2.0 untuk pendaftaran tahun 2023?',
+    content: 'Ya, pesakit perlu didaftarkan di Sistem Gi-Ret 2.0 juga',
+  },
+];
+
+const penggunaData = [
+  {
+    id: 1,
+    title:
+      ' Pegawai A bertugas sebagai ganti/relief di Klinik Pergigian B, bagaimanakah cara untuk memasukkan reten?',
+    content:
+      'Pegawai A perlu membuka Modul Pengguna beliau & tick sebagai pegawai relief, seterusnya pilih nama Klinik B untuk membuat pengisian reten pegawai.',
+  },
+];
+
 export default Faq;
