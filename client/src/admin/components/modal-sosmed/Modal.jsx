@@ -105,7 +105,7 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
   });
 };
 
-//modal add followers
+// modal add followers
 export const ModalAddFollowers = (props) => {
   const { createDataForKp } = useGlobalAdminAppContext();
 
@@ -233,6 +233,7 @@ export const ModalAddFollowers = (props) => {
   );
 };
 
+// modal add aktiviti media sosial
 export const ModalSosMed = (props) => {
   const { toast, createData, createDataForKp, readKodProgramData } =
     useGlobalAdminAppContext();
