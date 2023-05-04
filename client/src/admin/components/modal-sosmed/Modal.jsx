@@ -250,134 +250,56 @@ export const ModalSosMed = (props) => {
 
   const handleSubmit = async (e) => {
     setAddingData(true);
-    let Data = {};
-    let newData = {};
-    let fbData = {};
-    let insData = {};
-    let ytData = {};
-    let ttData = {};
-    let twData = {};
-    let llData = {};
-    let facebook = [];
-    let instagram = [];
-    let youtube = [];
-    let tiktok = [];
-    let twitter = [];
-    let lainLain = [];
-    Object.keys(questionState).map((key, value) => {
-      if (key.includes('Facebook')) {
-        fbData = {
-          ...fbData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Instagram')) {
-        insData = {
-          ...insData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Youtube')) {
-        ytData = {
-          ...ytData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('TikTok')) {
-        ttData = {
-          ...ttData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Twitter')) {
-        twData = {
-          ...twData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Lain-lain')) {
-        llData = {
-          ...llData,
-          [key]: questionState[key],
-        };
-      }
-    });
-    //
-    if (Object.keys(fbData).length !== 0) {
-      facebook = [...facebook, fbData];
-    }
-    if (Object.keys(insData).length !== 0) {
-      instagram = [...instagram, insData];
-    }
-    if (Object.keys(ytData).length !== 0) {
-      youtube = [...youtube, ytData];
-    }
-    if (Object.keys(ttData).length !== 0) {
-      tiktok = [...tiktok, ttData];
-    }
-    if (Object.keys(twData).length !== 0) {
-      twitter = [...twitter, twData];
-    }
-    if (Object.keys(llData).length !== 0) {
-      lainLain = [...lainLain, llData];
-    }
-    //
-    newData = {
-      ...newData,
+
+    const newData = {
       kodProgram: questionState.kodProgram,
       namaAktiviti: questionState.namaAktiviti,
       tarikhMula: questionState.tarikhMula,
       tarikhAkhir: questionState.tarikhAkhir,
-      facebook,
-      instagram,
-      youtube,
-      tiktok,
-      twitter,
-      lainLain,
+      facebook: [],
+      instagram: [],
+      youtube: [],
+      tiktok: [],
+      twitter: [],
+      lainLain: [],
     };
-    //
-    Data = {
-      ...Data,
+
+    Object.entries(questionState).forEach(([key, value]) => {
+      if (key.includes('Facebook')) {
+        newData.facebook.push({ [key]: value });
+      } else if (key.includes('Instagram')) {
+        newData.instagram.push({ [key]: value });
+      } else if (key.includes('Youtube')) {
+        newData.youtube.push({ [key]: value });
+      } else if (key.includes('TikTok')) {
+        newData.tiktok.push({ [key]: value });
+      } else if (key.includes('Twitter')) {
+        newData.twitter.push({ [key]: value });
+      } else if (key.includes('Lain-lain')) {
+        newData.lainLain.push({ [key]: value });
+      }
+    });
+
+    const data = {
       createdByKp: props.kp,
       createdByDaerah: props.daerah,
       createdByNegeri: props.negeri,
       kodProgram: questionState.kodProgram,
       data: [newData],
+      belongsTo: props.kp || props.daerah || props.negeri,
     };
-    if (props.kp) {
-      Data = {
-        ...Data,
-        belongsTo: props.kp,
-      };
-      createDataForKp(props.FType, Data).then((res) => {
-        if (res.status === 200) {
-          toast.info(`Data berjaya ditambah`);
-          props.setReload(!props.reload);
-        } else {
-          toast.error(`Data tidak berjaya ditambah`);
-        }
-        props.setShowSosMedModal(false);
-        setAddingData(false);
-      });
-      return;
+
+    const res = await createData(props.FType, data);
+
+    if (res.status === 200) {
+      toast.info(`Data berjaya ditambah`);
+      props.setReload(!props.reload);
+    } else {
+      toast.error(`Data tidak berjaya ditambah`);
     }
-    if (!props.kp) {
-      Data = {
-        ...Data,
-        belongsTo: props.daerah,
-      };
-    }
-    if (!props.daerah) {
-      Data = {
-        ...Data,
-        belongsTo: props.negeri,
-      };
-    }
-    createData(props.FType, Data).then((res) => {
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        props.setReload(!props.reload);
-      } else {
-        toast.error(`Data tidak berjaya ditambah`);
-      }
-      props.setShowSosMedModal(false);
-      setAddingData(false);
-    });
+
+    props.setShowSosMedModal(false);
+    setAddingData(false);
   };
 
   const propsSosMed = {
