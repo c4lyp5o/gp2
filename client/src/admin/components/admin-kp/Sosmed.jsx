@@ -44,11 +44,9 @@ export default function Sosmed(props) {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const endpoint =
-          props.accountType === 'kpUser' ? 'sosmedByKodProgram' : '';
         const res = await (props.accountType === 'kpUser'
-          ? readDataForKp(endpoint)
-          : readData(endpoint));
+          ? readDataForKp('sosmedByKodProgram')
+          : readData('sosmedByKodProgram'));
         setData(res.data);
       } catch (error) {
         console.error(error);
