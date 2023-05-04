@@ -19,7 +19,7 @@ export default function UserModalRefreshSekolah({
   const handleOtpRequest = async () => {
     setIsSubmitDisabled(true);
     await toast.promise(
-      axios.get(`/api/v1/getotp?id=${userinfo._id}`, {
+      axios.get(`/api/v1/getotp?id=${userinfo._id}&op=kemaskini-pelajar`, {
         headers: {
           Authorization: `Bearer ${
             reliefUserToken ? reliefUserToken : userToken
@@ -114,7 +114,7 @@ export default function UserModalRefreshSekolah({
               </>
             ) : (
               <div className='text-center'>
-                sila masukkan kod OTP bagi mengesahkan bebenaran kemaskini
+                sila masukkan kod OTP bagi mengesahkan kebenaran kemaskini
                 pelajar sekolah ini
               </div>
             )}
@@ -136,7 +136,7 @@ export default function UserModalRefreshSekolah({
                     : 'bg-user9 hover:bg-user5 hover:text-userBlack'
                 }`}
               >
-                {otpQuestion ? 'Hantar' : 'Meminta OTP'}
+                {otpQuestion ? 'Hantar' : 'KEMASKINI PELAJAR'}
               </button>
             ) : (
               <button

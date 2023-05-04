@@ -17,7 +17,7 @@ export default function UserModalSelesaiSekolah({
 
   const handleOtpRequest = async () => {
     await toast.promise(
-      axios.get(`/api/v1/getotp?id=${userinfo._id}`, {
+      axios.get(`/api/v1/getotp?id=${userinfo._id}&op=tutup-sekolah`, {
         headers: {
           Authorization: `Bearer ${
             reliefUserToken ? reliefUserToken : userToken
@@ -110,7 +110,7 @@ export default function UserModalSelesaiSekolah({
               </>
             ) : (
               <div className='text-center'>
-                sila masukkan kod OTP bagi mengesahkan bebenaran penutupan reten
+                sila masukkan kod OTP bagi mengesahkan kebenaran penutupan reten
                 sekolah ini
               </div>
             )}
@@ -131,7 +131,7 @@ export default function UserModalSelesaiSekolah({
                   : 'bg-user9 hover:bg-user5 hover:text-userBlack'
               }`}
             >
-              {otpQuestion ? 'Hantar' : 'Meminta OTP'}
+              {otpQuestion ? 'Hantar' : 'TUTUP RETEN SEKOLAH'}
             </button>
           </div>
         </div>
