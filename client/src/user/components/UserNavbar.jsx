@@ -292,19 +292,21 @@ function UserNavbar() {
                 >
                   CARIAN AKTIVITI PROMOSI
                 </NavLink>
-                <NavLink
-                  to='carian/sekolah'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  CARIAN MURID SEKOLAH
-                </NavLink>
+                {import.meta.env.VITE_ENV === 'DEV' ? (
+                  <NavLink
+                    to='carian/sekolah'
+                    onClick={() => {
+                      setShowLinks(!showLinks);
+                    }}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    }
+                  >
+                    CARIAN MURID SEKOLAH
+                  </NavLink>
+                ) : null}
               </div>
             </div>
             <NavLink
