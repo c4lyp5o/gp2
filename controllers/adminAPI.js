@@ -2883,14 +2883,14 @@ const sendVerificationEmail = async (userId) => {
         from: process.env.EMAILER_ACCT,
         to: admin.e_mail,
         subject: 'Kunci Verifikasi Anda',
-        html: html(admin.nama, key),
+        html: otpForLogin(admin.nama, key),
       };
     } else {
       return {
         from: process.env.EMAILER_ACCT,
         to: admin.email,
         subject: 'Kunci Verifikasi Anda',
-        html: html(admin.nama, key),
+        html: otpForLogin(admin.nama, key),
       };
     }
   };
@@ -3376,7 +3376,7 @@ const processSekolahQuery = async (req, res) => {
   }
 };
 
-const html = (nama, key) =>
+const otpForLogin = (nama, key) =>
   `<!doctype html>
 <html xmlns="http://www.w3.org/1999/xhtml" xmlns:v="urn:schemas-microsoft-com:vml" xmlns:o="urn:schemas-microsoft-com:office:office">
 
@@ -3579,7 +3579,6 @@ const html = (nama, key) =>
 
 module.exports = {
   generateRandomString,
-  // initialData,
   initialDataNegeri,
   initialDataDaerah,
   initialDataKlinik,
