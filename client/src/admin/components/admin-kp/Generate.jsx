@@ -599,7 +599,7 @@ const ModalGenerateAdHoc = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            strokewidth='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
@@ -1215,7 +1215,7 @@ const ModalGenerateBulanan = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            strokewidth='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
