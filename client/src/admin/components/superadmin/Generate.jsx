@@ -1770,9 +1770,14 @@ const Generate = (props) => {
     setPilihanIndividu('');
     // refetch token after init.current = true
     if (init.current === true) {
-      readGenerateTokenData().then((res) => {
-        setStatusToken(res.data);
-      });
+      readGenerateTokenData()
+        .then((res) => {
+          setStatusToken(res.data);
+        })
+        .catch((err) => {
+          console.log(err);
+          setStatusToken([]);
+        });
       readOndemandSetting().then((res) => {
         // console.log(res.data.currentOndemandSetting);
         setStatusReten(res.data.currentOndemandSetting);
@@ -1781,42 +1786,41 @@ const Generate = (props) => {
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
   useEffect(() => {
-    if (init.current === false) {
-      if (loginInfo.accountType === 'hqSuperadmin') {
-        setCurrentUser('PKP KKM');
-        readNegeri().then((res) => {
+    async function initialize() {
+      try {
+        if (loginInfo.accountType === 'hqSuperadmin') {
+          setCurrentUser('PKP KKM');
+          const res = await readNegeri();
           setNegeri(res.data);
-        });
-      }
-      if (loginInfo.accountType === 'negeriSuperadmin') {
-        setCurrentUser(`Negeri ${loginInfo.negeri}`);
-        readDaerah(loginInfo.nama).then((res) => {
+        }
+        if (loginInfo.accountType === 'negeriSuperadmin') {
+          setCurrentUser(`Negeri ${loginInfo.negeri}`);
+          const res = await readDaerah(loginInfo.nama);
           setDaerah(res.data);
-        });
-      }
-      if (loginInfo.accountType === 'daerahSuperadmin') {
-        setPilihanDaerah(loginInfo.daerah);
-        setCurrentUser(`Daerah ${loginInfo.daerah}`);
-        readKlinik(loginInfo.daerah).then((res) => {
+        }
+        if (loginInfo.accountType === 'daerahSuperadmin') {
+          setPilihanDaerah(loginInfo.daerah);
+          setCurrentUser(`Daerah ${loginInfo.daerah}`);
+          const res = await readKlinik(loginInfo.daerah);
           setKlinik(res.data);
-        });
+        }
+        const resToken = await readGenerateTokenData();
+        setStatusToken(resToken.data);
+        const resReten = await readOndemandSetting();
+        setStatusReten(resReten.data.currentOndemandSetting);
+      } catch (err) {
+        console.log(err);
+        setStatusToken([]);
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
+        // );
       }
-      readGenerateTokenData()
-        .then((res) => {
-          setStatusToken(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
-          // );
-        });
-      readOndemandSetting().then((res) => {
-        // console.log(res.data.currentOndemandSetting);
-        setStatusReten(res.data.currentOndemandSetting);
-      });
     }
-    init.current = true;
+
+    if (!init.current) {
+      initialize();
+      init.current = true;
+    }
   }, []);
 
   const propsGenerate = {
@@ -1940,7 +1944,7 @@ const Generate = (props) => {
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <div className='grid grid-cols-2 items-center'>
                           <div className='flex flex-col py-3 items-center gap-1 text-center'>
-                            {statusToken.map
+                            {statusToken
                               ? statusToken.map((token) => {
                                   if (token.jenisReten === jenis.kodRingkas) {
                                     return token.jumlahToken !== undefined
@@ -1949,7 +1953,7 @@ const Generate = (props) => {
                                   }
                                   return null;
                                 })
-                              : null}
+                              : []}
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
                             {loginInfo.accountType === 'hqSuperadmin' ||
