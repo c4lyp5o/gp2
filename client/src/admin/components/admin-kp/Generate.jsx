@@ -8,7 +8,8 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, masterDatePicker } = useGlobalAdminAppContext();
+  const { toast, adminToken, loginInfo, masterDatePicker } =
+    useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -104,10 +105,8 @@ const ModalGenerateAdHoc = (props) => {
     try {
       const res = await axios.get(
         `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          props.loginInfo.negeri
-        }&daerah=${props.loginInfo.daerah}&klinik=${
-          props.loginInfo.kodFasiliti
-        }${
+          loginInfo.negeri
+        }&daerah=${loginInfo.daerah}&klinik=${loginInfo.kodFasiliti}${
           props.pilihanFasiliti === 'kkiakd'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
             : ''
@@ -600,7 +599,7 @@ const ModalGenerateAdHoc = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            stroke-width='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
@@ -707,10 +706,8 @@ const ModalGenerateBulanan = (props) => {
     try {
       const res = await axios.get(
         `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          props.loginInfo.negeri
-        }&daerah=${props.loginInfo.daerah}&klinik=${
-          props.loginInfo.kodFasiliti
-        }${
+          loginInfo.negeri
+        }&daerah=${loginInfo.daerah}&klinik=${loginInfo.kodFasiliti}${
           props.pilihanFasiliti === 'kkiakd'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
             : ''
@@ -1218,7 +1215,7 @@ const ModalGenerateBulanan = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            stroke-width='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
@@ -1256,6 +1253,7 @@ const ModalGenerateBulanan = (props) => {
 
 const Generate = (props) => {
   const {
+    loginInfo,
     readSpesifikKkiaDataForKp,
     readSpesifikProgramDataForKp,
     readSpesifikKPBMPBDataForKp,
@@ -1294,8 +1292,6 @@ const Generate = (props) => {
   const [pilihanProgram, setPilihanProgram] = useState('');
   const [pilihanKpbMpb, setPilihanKpbMpb] = useState('');
   const [pilihanIndividu, setPilihanIndividu] = useState('');
-
-  const loginInfo = props.loginInfo;
 
   const handleGetKkia = async (e) => {
     setPilihanFasiliti(e);
@@ -1437,7 +1433,6 @@ const Generate = (props) => {
     programData,
     kpbmpbData,
     individuData,
-    loginInfo,
   };
 
   return (
