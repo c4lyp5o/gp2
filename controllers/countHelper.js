@@ -15522,6 +15522,7 @@ const countBPE = async (payload) => {
               $and: [
                 { $eq: ['$kedatangan', 'baru-kedatangan'] },
                 { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $ne: ['$engganBpeImplan', true] },
               ],
             },
             1,
@@ -15772,48 +15773,6 @@ const countBPE = async (payload) => {
     },
   };
 
-  const project_pemeriksaan = {
-    $project: {
-      _id: 1,
-      // pemeriksaan
-      kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
-      kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
-
-      adaRujukanT2DMdariKK: '$adaRujukanT2DMdariKK',
-      adaRujukanT2DMdariLainLain: '$adaRujukanT2DMdariLainLain',
-      tiadaRujukanT2DM: '$tiadaRujukanT2DM',
-      risikoBpeDiabetes: '$risikoBpeDiabetes',
-      risikoBpePerokok: '$risikoBpePerokok',
-      risikoBpeLainLain: '$risikoBpeLainLain',
-      engganBPE: '$engganBPE',
-      skorBPE0: '$skorBPE0',
-      skorBPE1: '$skorBPE1',
-      skorBPE2: '$skorBPE2',
-      skorBPE3: '$skorBPE3',
-      skorBPE4: '$skorBPE4',
-      adaPeriImplantMucositis: '$adaPeriImplantMucositis',
-      adaPeriImplantitis: '$adaPeriImplantitis',
-      // nasihatKaunselingDiet: '$nasihatKaunselingDiet',
-      nasihatBerhentiMerokok: '$nasihatBerhentiMerokok',
-      nasihatLainlain: '$nasihatLainlain',
-      nasihatOHE: '$nasihatOHE',
-      telahPenskaleran: '$telahPenskaleran',
-      telahPendebridmenAkar: '$telahPendebridmenAkar',
-      telahPengilapanTampalanRungkup: '$telahPengilapanTampalanRungkup',
-      telahAdjustasiOklusi: '$telahAdjustasiOklusi',
-      telahCabutGigiPerio: '$telahCabutGigiPerio',
-      telahExtirpasiPulpaSebabPerio: '$telahExtirpasiPulpaSebabPerio',
-      telahRawatanPerioLain: '$telahRawatanPerioLain',
-
-      telahRujukPakarPerio: '$telahRujukPakarPerio',
-      engganRujukPakarPerio: '$engganRujukPakarPerio',
-      engganLainRujukPakarPerio: '$engganLainRujukPakarPerio',
-
-      rujukanKeKlinikSCD: '$rujukanKeKlinikSCD',
-      rujukanKeKlinikUPPKA: '$rujukanKeKlinikUPPKA',
-      kesSelesaiPerio: '$kesSelesaiPerio',
-    },
-  };
   // bismillah
   let bigData = [];
 
