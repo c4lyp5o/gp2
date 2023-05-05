@@ -55,75 +55,54 @@ export default function DataKp({ FType }) {
   // reloader workaround
   const [reload, setReload] = useState(false);
 
-  const { getCurrentUser, readDataForKp, readData, toast } =
+  const { getCurrentUser, readDataForKp, readData } =
     useGlobalAdminAppContext();
 
   useEffect(() => {
     setLoading(true);
-    const getData = async () => {
-      const { data: userData } = await getCurrentUser();
-      setAccountType(userData.accountType);
-      setUser(userData.nama);
-      setKp(userData.kp);
-      setDaerah(userData.daerah);
-      if (userData.daerah === '-') {
-        setDaerah();
-      }
-      setNegeri(userData.negeri);
-      if (userData.accountType !== 'kpUser') {
-        const { data } = await readData(FType);
+    const fetchData = async () => {
+      try {
+        const { data: userData } = await getCurrentUser();
+
+        setAccountType(userData.accountType);
+        setUser(userData.nama);
+        setKp(userData.kp);
+        setDaerah(userData.daerah !== '-' ? userData.daerah : undefined);
+        setNegeri(userData.negeri);
+
+        const { data } = await (userData.accountType === 'kpUser'
+          ? readDataForKp(FType, kp)
+          : readData(FType));
+
         setData(data);
-      }
-      if (userData.accountType === 'kpUser') {
-        const { data } = await readDataForKp(FType, kp);
-        setData(data);
-      }
-    };
-    getData()
-      .then(() => {
-        switch (FType) {
-          case 'program':
-            setShow({ program: true });
-            break;
-          case 'sosmed':
-            setShow({ sosmed: true });
-            break;
-          case 'followers':
-            setShow({ followers: true });
-            break;
-          case 'tastad':
-            setShow({ tastad: true });
-            break;
-          case 'pp':
-            setShow({ pp: true });
-            break;
-          case 'jp':
-            setShow({ jp: true });
-            break;
-          case 'ins':
-            setShow({ ins: true });
-            break;
-          case 'kpb':
-            setShow({ kpb: true });
-            break;
-          case 'mpb':
-            setShow({ mpb: true });
-            break;
-          default:
-            setShow({ program: true });
-            break;
-        }
+
+        setShow({
+          program: FType === 'program',
+          sosmed: FType === 'sosmed',
+          followers: FType === 'followers',
+          tastad: FType === 'tastad',
+          pp: FType === 'pp',
+          jp: FType === 'jp',
+          ins: FType === 'ins',
+          kpb: FType === 'kpb',
+          mpb: FType === 'mpb',
+        });
+
         setShowFollowersModal(false);
         setShowSosMedModal(false);
-        setLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        setLoading(false);
+      } catch (error) {
+        setData(null);
+        console.error(error);
         // toast.error(
         //   'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: kp-get-data'
         // );
-      });
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchData();
+
     return () => {
       setData(null);
     };
@@ -219,7 +198,7 @@ export default function DataKp({ FType }) {
 
   return (
     <>
-      {data.length === 0 ? <NothingHereBoi FType={FType} /> : <RenderSection />}
+      {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
       <RenderModal />
       {FType === 'program' || FType === 'sosmed' || FType === 'followers' ? (
         <button

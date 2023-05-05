@@ -15516,10 +15516,33 @@ const countBPE = async (payload) => {
       //
       //kedatangan
       kedatanganTahunSemasaBaru: {
-        $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$kedatangan', 'baru-kedatangan'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $ne: ['$engganBpeImplan', true] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
       },
       kedatanganTahunSemasaUlangan: {
-        $sum: { $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0] },
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
       },
 
       //Punca Rujukan T2DM
@@ -15536,7 +15559,8 @@ const countBPE = async (payload) => {
       },
       //Risiko Perio - Perio Risk
       risikoBpeDiabetes: {
-        $sum: { $cond: [{ $eq: ['$diabetesFaktorRisikoBpe', true] }, 1, 0] },
+        // $sum: { $cond: [{ $eq: ['$diabetesFaktorRisikoBpe', true] }, 1, 0] },
+        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'klinik-kesihatan'] }, 1, 0] },
       },
       risikoBpePerokok: {
         $sum: { $cond: [{ $eq: ['$perokokFaktorRisikoBpe', true] }, 1, 0] },
@@ -15749,48 +15773,6 @@ const countBPE = async (payload) => {
     },
   };
 
-  const project_pemeriksaan = {
-    $project: {
-      _id: 1,
-      // pemeriksaan
-      kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
-      kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
-
-      adaRujukanT2DMdariKK: '$adaRujukanT2DMdariKK',
-      adaRujukanT2DMdariLainLain: '$adaRujukanT2DMdariLainLain',
-      tiadaRujukanT2DM: '$tiadaRujukanT2DM',
-      risikoBpeDiabetes: '$risikoBpeDiabetes',
-      risikoBpePerokok: '$risikoBpePerokok',
-      risikoBpeLainLain: '$risikoBpeLainLain',
-      engganBPE: '$engganBPE',
-      skorBPE0: '$skorBPE0',
-      skorBPE1: '$skorBPE1',
-      skorBPE2: '$skorBPE2',
-      skorBPE3: '$skorBPE3',
-      skorBPE4: '$skorBPE4',
-      adaPeriImplantMucositis: '$adaPeriImplantMucositis',
-      adaPeriImplantitis: '$adaPeriImplantitis',
-      // nasihatKaunselingDiet: '$nasihatKaunselingDiet',
-      nasihatBerhentiMerokok: '$nasihatBerhentiMerokok',
-      nasihatLainlain: '$nasihatLainlain',
-      nasihatOHE: '$nasihatOHE',
-      telahPenskaleran: '$telahPenskaleran',
-      telahPendebridmenAkar: '$telahPendebridmenAkar',
-      telahPengilapanTampalanRungkup: '$telahPengilapanTampalanRungkup',
-      telahAdjustasiOklusi: '$telahAdjustasiOklusi',
-      telahCabutGigiPerio: '$telahCabutGigiPerio',
-      telahExtirpasiPulpaSebabPerio: '$telahExtirpasiPulpaSebabPerio',
-      telahRawatanPerioLain: '$telahRawatanPerioLain',
-
-      telahRujukPakarPerio: '$telahRujukPakarPerio',
-      engganRujukPakarPerio: '$engganRujukPakarPerio',
-      engganLainRujukPakarPerio: '$engganLainRujukPakarPerio',
-
-      rujukanKeKlinikSCD: '$rujukanKeKlinikSCD',
-      rujukanKeKlinikUPPKA: '$rujukanKeKlinikUPPKA',
-      kesSelesaiPerio: '$kesSelesaiPerio',
-    },
-  };
   // bismillah
   let bigData = [];
 
@@ -17525,6 +17507,14 @@ const countTOD = async (payload) => {
               {
                 $and: [
                   { $lte: ['$jumlahFaktorRisiko', 2] },
+                  {
+                    $eq: [
+                      '$yaTidakPesakitMempunyaiGigi',
+                      'ya-pesakit-mempunyai-gigi',
+                    ],
+                  },
+                  { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                  { $eq: ['$adaKekalPemeriksaanUmum', false] },
                   { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                   { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                 ],
@@ -17542,6 +17532,18 @@ const countTOD = async (payload) => {
                   {
                     $and: [
                       {
+                        $and: [
+                          {
+                            $eq: [
+                              '$yaTidakPesakitMempunyaiGigi',
+                              'ya-pesakit-mempunyai-gigi',
+                            ],
+                          },
+                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                        ],
+                      },
+                      {
                         $or: [
                           { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                           { $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -17554,6 +17556,18 @@ const countTOD = async (payload) => {
                   },
                   {
                     $and: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$yaTidakPesakitMempunyaiGigi',
+                              'ya-pesakit-mempunyai-gigi',
+                            ],
+                          },
+                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                        ],
+                      },
                       {
                         $or: [
                           { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
@@ -17580,6 +17594,18 @@ const countTOD = async (payload) => {
                   {
                     $and: [
                       {
+                        $and: [
+                          {
+                            $eq: [
+                              '$yaTidakPesakitMempunyaiGigi',
+                              'ya-pesakit-mempunyai-gigi',
+                            ],
+                          },
+                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                        ],
+                      },
+                      {
                         $or: [
                           { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
                           { $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1] },
@@ -17599,6 +17625,18 @@ const countTOD = async (payload) => {
                   },
                   {
                     $and: [
+                      {
+                        $and: [
+                          {
+                            $eq: [
+                              '$yaTidakPesakitMempunyaiGigi',
+                              'ya-pesakit-mempunyai-gigi',
+                            ],
+                          },
+                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                        ],
+                      },
                       {
                         $or: [
                           { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
@@ -18103,6 +18141,7 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18114,6 +18153,7 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18126,6 +18166,7 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18137,6 +18178,7 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18147,6 +18189,7 @@ const getParams206 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18176,6 +18219,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18187,6 +18231,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18199,6 +18244,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18210,6 +18256,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18220,6 +18267,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18249,6 +18297,7 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18260,6 +18309,7 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18272,6 +18322,7 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18283,6 +18334,7 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18293,6 +18345,7 @@ const getParams207 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18322,6 +18375,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18333,6 +18387,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18345,6 +18400,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18356,6 +18412,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18365,6 +18422,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18460,6 +18518,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18471,6 +18530,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18481,6 +18541,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18490,6 +18551,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18517,6 +18579,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18530,6 +18593,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18542,6 +18606,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18553,6 +18618,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18623,6 +18689,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18638,6 +18705,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18652,6 +18720,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18664,6 +18733,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       deleted: false,
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18690,6 +18760,8 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
+      yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
     };
     return param;
   };
@@ -18701,6 +18773,8 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
+      yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
     };
     return param;
   };
@@ -18713,6 +18787,8 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
+      yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
     };
     return param;
   };
@@ -18724,6 +18800,8 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
+      yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
     };
     return param;
   };
@@ -18734,6 +18812,8 @@ const getParamsBPE = (payload) => {
       jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
+      yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
     };
     return param;
   };
@@ -18765,6 +18845,7 @@ const getParamsPGS203 = (payload) => {
       jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18777,6 +18858,7 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18790,6 +18872,7 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
@@ -18802,6 +18885,7 @@ const getParamsPGS203 = (payload) => {
       jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
+      statusReten: 'telah diisi',
     };
     return param;
   };
