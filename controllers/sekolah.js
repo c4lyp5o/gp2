@@ -570,7 +570,6 @@ const updateKotakSekolah = async (req, res) => {
   res.status(200).json({ updatedSingleKotak });
 };
 
-// not used
 // query /sekolah
 const queryPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -579,7 +578,7 @@ const queryPersonSekolah = async (req, res) => {
 
   const {
     user: { kp },
-    query: { namaSekolah, darjah, tingkatan, kelas },
+    query: { nama, nomborId, namaSekolah, tahunTingkatan, kelasPelajar },
   } = req;
   const queryObject = {};
 
@@ -587,16 +586,20 @@ const queryPersonSekolah = async (req, res) => {
     queryObject.namaSekolah = namaSekolah;
   }
 
-  if (darjah) {
-    queryObject.darjah = darjah;
+  if (nama) {
+    queryObject.nama = { $regex: nama, $options: 'i' };
   }
 
-  if (tingkatan) {
-    queryObject.tingkatan = tingkatan;
+  if (nomborId) {
+    queryObject.nomborId = { $regex: nomborId, $options: 'i' };
   }
 
-  if (kelas) {
-    queryObject.kelas = kelas;
+  if (tahunTingkatan) {
+    queryObject.tahunTingkatan = { $regex: tahunTingkatan, $options: 'i' };
+  }
+
+  if (kelasPelajar) {
+    queryObject.kelasPelajar = { $regex: kelasPelajar, $options: 'i' };
   }
 
   const sekolahResultQuery = await Sekolah.find(queryObject)
