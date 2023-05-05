@@ -71,6 +71,9 @@ const UserCarianPesakit = lazy(() =>
 const UserCarianPromosi = lazy(() =>
   import('../components/carian/UserCarianPromosi')
 );
+const UserCarianSekolah = lazy(() =>
+  import('../components/carian/UserCarianSekolah')
+);
 
 const UserSummary = lazy(() => import('../components/summary/UserSummary'));
 
@@ -352,6 +355,15 @@ function UserAfterLogin() {
             element={
               <Suspense fallback={<Loading />}>
                 <UserCarianPromosi />{' '}
+              </Suspense>
+            }
+          />
+
+          <Route
+            path='carian/sekolah'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserCarianSekolah />{' '}
               </Suspense>
             }
           />
