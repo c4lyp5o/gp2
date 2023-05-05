@@ -8,7 +8,7 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, masterDatePicker, Dictionary } =
+  const { toast, loginInfo, adminToken, masterDatePicker, Dictionary } =
     useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -58,7 +58,7 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
-    if (props.loginInfo.accountType === 'hqSuperadmin') {
+    if (loginInfo.accountType === 'hqSuperadmin') {
       file = `${props.jenisReten}_${
         props.pilihanNegeri === 'all' ? 'MALAYSIA' : ''
       }${
@@ -110,11 +110,9 @@ const ModalGenerateAdHoc = (props) => {
       ).format('DDMMYYYY')}_token.xlsx`;
     }
     if (props.pilihanDaerah === 'all') {
-      file = `${
-        props.jenisReten
-      }_${props.loginInfo.negeri.toUpperCase()}_${moment(new Date()).format(
-        'DDMMYYYY'
-      )}_token.xlsx`;
+      file = `${props.jenisReten}_${loginInfo.negeri.toUpperCase()}_${moment(
+        new Date()
+      ).format('DDMMYYYY')}_token.xlsx`;
     }
     return file;
   };
@@ -135,9 +133,9 @@ const ModalGenerateAdHoc = (props) => {
     try {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
-          props.loginInfo.accountType === 'hqSuperadmin'
+          loginInfo.accountType === 'hqSuperadmin'
             ? Dictionary[props.pilihanNegeri]
-            : props.loginInfo.negeri
+            : loginInfo.negeri
         }&daerah=${
           props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
         }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
@@ -288,7 +286,7 @@ const ModalGenerateAdHoc = (props) => {
                 )}
                 <div className='mb-3'>
                   <div className='grid gap-1'>
-                    {props.loginInfo.accountType === 'hqSuperadmin' ? (
+                    {loginInfo.accountType === 'hqSuperadmin' ? (
                       <div className='px-3 py-1'>
                         <label
                           htmlFor='negeri'
@@ -320,7 +318,7 @@ const ModalGenerateAdHoc = (props) => {
                         </select>
                       </div>
                     ) : null}
-                    {props.loginInfo.accountType === 'negeriSuperadmin' ||
+                    {loginInfo.accountType === 'negeriSuperadmin' ||
                     (props.pilihanNegeri !== '' &&
                       props.pilihanNegeri !== 'all') ? (
                       <div className='px-3 py-1'>
@@ -356,7 +354,7 @@ const ModalGenerateAdHoc = (props) => {
                         </select>
                       </div>
                     ) : null}
-                    {props.loginInfo.accountType === 'daerahSuperadmin' ||
+                    {loginInfo.accountType === 'daerahSuperadmin' ||
                     (props.pilihanDaerah !== '' &&
                       props.pilihanDaerah !== 'all') ? (
                       <div className='px-3 py-1'>
@@ -750,7 +748,7 @@ const ModalGenerateAdHoc = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            stroke-width='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
@@ -808,7 +806,7 @@ const ModalGenerateBulanan = (props) => {
 
   const fileName = () => {
     let file = '';
-    if (props.loginInfo.accountType === 'hqSuperadmin') {
+    if (loginInfo.accountType === 'hqSuperadmin') {
       file = `${props.jenisReten}_${
         props.pilihanNegeri === 'all' ? 'MALAYSIA' : ''
       }${
@@ -862,7 +860,7 @@ const ModalGenerateBulanan = (props) => {
       }_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
     }
     if (props.pilihanDaerah === 'all') {
-      file = `${props.jenisReten}_${props.loginInfo.negeri.toUpperCase()}_${
+      file = `${props.jenisReten}_${loginInfo.negeri.toUpperCase()}_${
         namaNamaBulan[bulan]
       }_${moment(new Date()).format('DDMMYYYY')}.xlsx`;
     }
@@ -885,9 +883,9 @@ const ModalGenerateBulanan = (props) => {
     try {
       const res = await axios.get(
         `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
-          props.loginInfo.accountType === 'hqSuperadmin'
+          loginInfo.accountType === 'hqSuperadmin'
             ? Dictionary[props.pilihanNegeri]
-            : props.loginInfo.negeri
+            : loginInfo.negeri
         }&daerah=${props.pilihanDaerah}&klinik=${props.pilihanKlinik}${
           props.pilihanFasiliti === 'kkiakd'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
@@ -1049,7 +1047,7 @@ const ModalGenerateBulanan = (props) => {
                 </div>
                 <div className='mb-3'>
                   <div className='grid gap-1'>
-                    {props.loginInfo.accountType === 'hqSuperadmin' ? (
+                    {loginInfo.accountType === 'hqSuperadmin' ? (
                       <div className='px-3 py-1'>
                         <label
                           htmlFor='negeri'
@@ -1081,7 +1079,7 @@ const ModalGenerateBulanan = (props) => {
                         </select>
                       </div>
                     ) : null}
-                    {props.loginInfo.accountType === 'negeriSuperadmin' ||
+                    {loginInfo.accountType === 'negeriSuperadmin' ||
                     props.daerah.length > 0 ? (
                       <div className='px-3 py-1'>
                         <label
@@ -1116,7 +1114,7 @@ const ModalGenerateBulanan = (props) => {
                         </select>
                       </div>
                     ) : null}
-                    {props.loginInfo.accountType === 'daerahSuperadmin' ||
+                    {loginInfo.accountType === 'daerahSuperadmin' ||
                     (props.pilihanDaerah !== '' &&
                       props.pilihanDaerah !== 'all') ? (
                       <div className='px-3 py-1'>
@@ -1510,7 +1508,7 @@ const ModalGenerateBulanan = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            stroke-width='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
@@ -1548,6 +1546,7 @@ const ModalGenerateBulanan = (props) => {
 
 const Generate = (props) => {
   const {
+    loginInfo,
     readNegeri,
     readDaerah,
     readKlinik,
@@ -1556,6 +1555,7 @@ const Generate = (props) => {
     readSpesifikKPBMPBData,
     readSpesifikIndividuData,
     readGenerateTokenData,
+    readOndemandSetting,
     semuaJenisReten,
   } = useGlobalAdminAppContext();
 
@@ -1582,6 +1582,7 @@ const Generate = (props) => {
   const [kp, setKp] = useState('');
 
   const [statusToken, setStatusToken] = useState([]);
+  const [statusReten, setStatusReten] = useState('');
 
   // masalah negara
   const [negeri, setNegeri] = useState([]);
@@ -1597,8 +1598,6 @@ const Generate = (props) => {
   const [pilihanProgram, setPilihanProgram] = useState('');
   const [pilihanKpbMpb, setPilihanKpbMpb] = useState('');
   const [pilihanIndividu, setPilihanIndividu] = useState('');
-
-  const loginInfo = props.loginInfo;
 
   const handleGetKkia = async (e) => {
     setPilihanFasiliti(e);
@@ -1771,13 +1770,13 @@ const Generate = (props) => {
     setPilihanIndividu('');
     // refetch token after init.current = true
     if (init.current === true) {
-      readGenerateTokenData()
-        .then((res) => {
-          setStatusToken(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
+      readGenerateTokenData().then((res) => {
+        setStatusToken(res.data);
+      });
+      readOndemandSetting().then((res) => {
+        // console.log(res.data.currentOndemandSetting);
+        setStatusReten(res.data.currentOndemandSetting);
+      });
     }
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
@@ -1812,6 +1811,10 @@ const Generate = (props) => {
           //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
           // );
         });
+      readOndemandSetting().then((res) => {
+        // console.log(res.data.currentOndemandSetting);
+        setStatusReten(res.data.currentOndemandSetting);
+      });
     }
     init.current = true;
   }, []);
@@ -1865,7 +1868,6 @@ const Generate = (props) => {
     programData,
     kpbmpbData,
     individuData,
-    loginInfo,
   };
 
   return (
@@ -1951,13 +1953,12 @@ const Generate = (props) => {
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
                             {loginInfo.accountType === 'hqSuperadmin' ||
-                            import.meta.env.VITE_JANA_TOKEN !== 'OFF' ? (
+                            statusReten[jenis.kodRingkas] ? (
                               <button
                                 type='button'
                                 className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
                                 onClick={() => {
                                   setJenisReten(jenis.kodRingkas);
-                                  setOpenModalGenerateBulanan(false);
                                   setOpenModalGenerateAdHoc(true);
                                 }}
                               >
@@ -1971,7 +1972,7 @@ const Generate = (props) => {
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         {loginInfo.accountType === 'hqSuperadmin' ||
-                        import.meta.env.VITE_JANA_BULANAN !== 'OFF' ? (
+                        statusReten[jenis.kodRingkas] ? (
                           <button
                             type='button'
                             className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'

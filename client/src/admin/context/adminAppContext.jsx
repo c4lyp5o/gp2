@@ -3,6 +3,8 @@ import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'react-toastify';
 import { useToken } from './useToken';
+import { useLogininfo } from './useLogininfo';
+import { useOndemandSetting } from './useOndemandSetting';
 import DatePicker from 'react-datepicker';
 
 const AdminAppContext = createContext();
@@ -20,6 +22,16 @@ function AdminAppProvider({ children }) {
     totpToken,
     setTotpToken,
   } = useToken();
+
+  const { getLoginInfo, saveLoginInfo, removeLoginInfo, loginInfo } =
+    useLogininfo();
+
+  const {
+    getCurrentOndemandSetting,
+    saveCurrentondemandSetting,
+    removeCurrentondemandSetting,
+    currentOndemandSetting,
+  } = useOndemandSetting();
 
   const navigate = useNavigate();
 
@@ -95,6 +107,28 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
+  // ondemand setting
+  const readOndemandSetting = async () => {
+    const response = await axios.get('/api/v1/ondemand', {
+      headers: {
+        Authorization: adminToken,
+      },
+    });
+    return response;
+  };
+  const saveOndemandSetting = async (data) => {
+    const response = await axios.patch(
+      '/api/v1/ondemand',
+      { ondemandSetting: data },
+      {
+        headers: {
+          Authorization: adminToken,
+        },
+      }
+    );
+    return response;
+  };
+
   // main data
   const createData = async (type, data) => {
     try {
@@ -105,6 +139,23 @@ function AdminAppProvider({ children }) {
         Data: data,
         token: adminToken,
       });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+  const newRouteCreateData = async (type, data) => {
+    try {
+      const response = await axios.post(
+        `/api/v1/superadmin/post`,
+        { FType: type, Data: data },
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -149,6 +200,23 @@ function AdminAppProvider({ children }) {
       return err;
     }
   };
+  const newRouteUpdateData = async (type, id, data) => {
+    try {
+      const response = await axios.patch(
+        `/api/v1/superadmin/patch`,
+        { FType: type, Id: id, Data: data },
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
   const deleteData = async (type, id) => {
     try {
       const response = await axios.post(`/api/v1/superadmin/newroute`, {
@@ -158,6 +226,22 @@ function AdminAppProvider({ children }) {
         Id: id,
         token: adminToken,
       });
+      return response;
+    } catch (err) {
+      console.log(err);
+      return err;
+    }
+  };
+  const newRouteDeleteData = async (type, id) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/delete?FType=${type}&Id=${id}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -653,6 +737,8 @@ function AdminAppProvider({ children }) {
   };
   const logOutUser = () => {
     removeAdminToken();
+    removeLoginInfo();
+    removeCurrentondemandSetting();
     navigate('/pentadbir');
   };
   const encryptEmail = (email) => {
@@ -951,6 +1037,16 @@ function AdminAppProvider({ children }) {
         setAdminToken,
         totpToken,
         setTotpToken,
+        // login info
+        getLoginInfo,
+        saveLoginInfo,
+        removeLoginInfo,
+        loginInfo,
+        // ondemand data
+        getCurrentOndemandSetting,
+        saveCurrentondemandSetting,
+        removeCurrentondemandSetting,
+        currentOndemandSetting,
         // navigation
         navigate,
         // login data
@@ -965,6 +1061,9 @@ function AdminAppProvider({ children }) {
         generateSecret,
         verifyInitialSecret,
         verifySecret,
+        // ondemand data
+        readOndemandSetting,
+        saveOndemandSetting,
         // main data
         createData,
         readData,
@@ -1019,6 +1118,10 @@ function AdminAppProvider({ children }) {
         DictionarySosMedAcronym,
         // ad hoc query (he he boi)
         adhocQuery,
+        // testing pada maklumat asas
+        newRouteCreateData,
+        newRouteUpdateData,
+        newRouteDeleteData,
       }}
     >
       {children}
