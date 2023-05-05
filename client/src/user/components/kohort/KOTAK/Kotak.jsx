@@ -7,6 +7,7 @@ import {
   FaTimesCircle,
   FaCaretUp,
   FaCaretDown,
+  FaInfoCircle,
   FaPlus,
   FaMinus,
 } from 'react-icons/fa';
@@ -19,10 +20,12 @@ function KohortKotak() {
 
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
+  const [isPhilterShown, setIsPhilterShown] = useState(false);
   const [allPersonKohortKotak, setAllPersonKohortKotak] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanKohort, setPilihanKohort] = useState('');
   const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
+  const [philter, setPhilter] = useState('');
 
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [kohort, setKohort] = useState([]);
@@ -94,25 +97,33 @@ function KohortKotak() {
     }
   };
 
+  const keys = ['nama', 'nomborId', 'tahunTingkatan'];
+
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
-        <div className='relative shadow-md drop-shadow-sm mb-2'>
+        <div className='relative mb-2'>
           <div className=''>
-            <div className='flex justify-between'>
-              <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
-                CARIAN KOHORT KOTAK
-              </h2>
-              <div className='flex justify-end items-center text-right mt-2'>
-                <button
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                  className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                >
-                  kembali ke senarai data kohort
-                </button>
+            <div className='flex flex-col pb-2'>
+              <div className='flex justify-between items-center'>
+                <h1 className='text-lg lg:text-xl text-user9 font-bold flex flex-row pl-5 pt-2'>
+                  SULIT
+                </h1>
+                <div className='flex justify-end items-center text-right mt-2'>
+                  <button
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                    className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mr-2 hover:bg-user1 transition-all'
+                  >
+                    kembali ke senarai data kohort
+                  </button>
+                </div>
               </div>
+              <h2 className='text-sm text-left lg:text-xl font-semibold flex flex-row pl-5 pt-2'>
+                SENARAI NAMA MURID MENJALANI PROGRAM INTERVENSI MEROKOK MELALUI
+                PROGRAM KOTAK DI SEKOLAH RENDAH / MENENGAH
+              </h2>
             </div>
             <div className='grid grid-cols-2'>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
@@ -173,35 +184,33 @@ function KohortKotak() {
                   </select>
                 </span>
               </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <p className='grid grid-cols-[1fr_7fr] pb-1 col-span-2'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  No. Kad Pengenalan:
+                  Carian{' '}
+                  <div className='relative flex items-center ml-1'>
+                    <FaInfoCircle
+                      className='text-lg text-kaunter1'
+                      onClick={() => setIsPhilterShown(!isPhilterShown)}
+                    />
+                    {isPhilterShown && (
+                      <div className='absolute top-6 left-2 w-36 text-left z-10 bg-kaunter4 text-kaunterWhite font-normal text-sm px-2 py-1 rounded-md whitespace-pre-wrap'>
+                        <p className='text-center'>
+                          Carian Nama / Nombor Kad Pengenalan / Tahun /
+                          Tingkatan
+                        </p>
+                      </div>
+                    )}
+                  </div>
                 </span>{' '}
                 <span className=' uppercase text-xs lg:text-sm w-full'>
-                  <select
-                    value={pilihanNamaKelas}
-                    onChange={(e) => {
-                      setPilihanNamaKelas(e.target.value);
-                    }}
+                  <input
+                    type='search'
+                    name='pilihanNama'
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>SILA PILIH</option>
-                    {/* {pilihanKohort ? (
-                      namaKelas.map((singleNamaKelas, index) => {
-                        return (
-                          <option
-                            value={singleNamaKelas}
-                            key={index}
-                            className='capitalize'
-                          >
-                            {singleNamaKelas}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option value=''>SILA PILIH TAHUN</option>
-                    )} */}
-                  </select>
+                    id='pilihanNama'
+                    placeholder='CARIAN NAMA / NOMBOR KAD PENGENALAN / TAHUN / TINGKATAN'
+                    onChange={(e) => setPhilter(e.target.value.toLowerCase())}
+                  />
                 </span>
               </p>
               {/* {pilihanKohort && (
@@ -275,6 +284,9 @@ function KohortKotak() {
                       return singlePersonKohortKotak;
                     }
                   })
+                  .filter((pt) =>
+                    keys.some((key) => pt[key].toLowerCase().includes(philter))
+                  )
                   .map((singlePersonKohortKotak, index) => {
                     return (
                       <tr key={singlePersonKohortKotak._id}>
@@ -301,14 +313,14 @@ function KohortKotak() {
                             className={`${
                               singlePersonKohortKotak.statusKotak ===
                               'selesai sesi 1'
-                                ? 'bg-[#00b894] text-userWhite hover:shadow-none hover:bg-[#55efc4]'
+                                ? 'bg-user10 text-userWhite hover:shadow-none hover:bg-user11'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 2'
-                                ? 'bg-[#0984e3] text-userWhite hover:shadow-none hover:bg-[#81ecec]'
+                                ? 'bg-user12 text-userWhite hover:shadow-none hover:bg-user13'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 3'
-                                ? 'bg-user8 text-userWhite hover:bg-user8 hover:shadow-none'
-                                : 'bg-user6 text-userWhite hover:shadow-none hover:bg-[#74b9ff]'
+                                ? 'bg-user8 text-userWhite hover:bg-user14 hover:shadow-none'
+                                : 'bg-user6 text-userWhite hover:shadow-none hover:bg-user15'
                             } shadow-md shadow-user3 rounded-md p-1 m-1 transition-all my-2`}
                           >
                             {singlePersonKohortKotak.statusKotak ===
@@ -316,8 +328,23 @@ function KohortKotak() {
                               ? 'tambah KOTAK'
                               : singlePersonKohortKotak.statusKotak}
                           </Link>
-                          {singlePersonKohortKotak.createdByNameMdcMdtb
-                            .length >= 1 && (
+                          {singlePersonKohortKotak.createdByNameMdcMdtb.filter(
+                            (singleLawatan) => {
+                              if (
+                                singleLawatan.thisUsernameData.tarikh1 ||
+                                singleLawatan.thisUsernameData.tarikh2 ||
+                                singleLawatan.thisUsernameData.tarikh3 ||
+                                singleLawatan.thisUsernameData
+                                  .rujukGuruKaunseling ===
+                                  'ya-rujuk-guru-kaunseling' ||
+                                singleLawatan.thisUsernameData.tarikhQ ||
+                                singleLawatan.thisUsernameData
+                                  .statusSelepas6Bulan
+                              ) {
+                                return singleLawatan;
+                              }
+                            }
+                          ).length >= 1 && (
                             <div className='inline-flex'>
                               <span
                                 className='hover:cursor-pointer text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
@@ -329,8 +356,27 @@ function KohortKotak() {
                                 }}
                               >
                                 {
-                                  singlePersonKohortKotak.createdByNameMdcMdtb
-                                    .length
+                                  singlePersonKohortKotak.createdByNameMdcMdtb.filter(
+                                    (singleLawatan) => {
+                                      if (
+                                        singleLawatan.thisUsernameData
+                                          .tarikh1 ||
+                                        singleLawatan.thisUsernameData
+                                          .tarikh2 ||
+                                        singleLawatan.thisUsernameData
+                                          .tarikh3 ||
+                                        singleLawatan.thisUsernameData
+                                          .rujukGuruKaunseling ===
+                                          'ya-rujuk-guru-kaunseling' ||
+                                        singleLawatan.thisUsernameData
+                                          .tarikhQ ||
+                                        singleLawatan.thisUsernameData
+                                          .statusSelepas6Bulan
+                                      ) {
+                                        return singleLawatan;
+                                      }
+                                    }
+                                  ).length
                                 }
                               </span>
                               <div
@@ -345,8 +391,23 @@ function KohortKotak() {
                                     LAWATAN
                                   </h1>
                                 </div>
-                                {singlePersonKohortKotak.createdByNameMdcMdtb.map(
-                                  (singleLawatan, index) => {
+                                {singlePersonKohortKotak.createdByNameMdcMdtb
+                                  .filter((singleLawatan) => {
+                                    if (
+                                      singleLawatan.thisUsernameData.tarikh1 ||
+                                      singleLawatan.thisUsernameData.tarikh2 ||
+                                      singleLawatan.thisUsernameData.tarikh3 ||
+                                      singleLawatan.thisUsernameData
+                                        .rujukGuruKaunseling ===
+                                        'ya-rujuk-guru-kaunseling' ||
+                                      singleLawatan.thisUsernameData.tarikhQ ||
+                                      singleLawatan.thisUsernameData
+                                        .statusSelepas6Bulan
+                                    ) {
+                                      return singleLawatan;
+                                    }
+                                  })
+                                  .map((singleLawatan, index) => {
                                     return (
                                       <div className='flex flex-col'>
                                         <h1
@@ -376,34 +437,6 @@ function KohortKotak() {
                                                     .tarikh1
                                                 ).format('DD/MM/YYYY')}
                                               </span>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .rokokBiasaKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmoking className='m-1' /> */}
-                                                ROKOK BIASA
-                                              </p>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .elektronikVapeKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmokingBan className='m-1' /> */}
-                                                ELEKTRONIK/VAPE
-                                              </p>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .shishaKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmokingBan className='m-1' /> */}
-                                                SHISHA
-                                              </p>
-                                            )}
-                                            {singleLawatan.thisUsernameData
-                                              .lainLainKotak === true && (
-                                              <p className='text-xs  text-start flex flex-row items-center'>
-                                                {/* <FaSmokingBan className='m-1' /> */}
-                                                LAIN-LAIN
-                                              </p>
                                             )}
                                             {singleLawatan.thisUsernameData
                                               .tarikh2 && (
@@ -446,12 +479,23 @@ function KohortKotak() {
                                                 ).format('DD/MM/YYYY')}
                                               </p>
                                             )}
+                                            {singleLawatan.thisUsernameData
+                                              .statusSelepas6Bulan && (
+                                              <p className='text-xs  text-start flex flex-row items-center'>
+                                                {/* <FaSmokingBan className='m-1' /> */}
+                                                STATUS SELEPAS 6 BULAN ={' '}
+                                                {singleLawatan.thisUsernameData
+                                                  .statusSelepas6Bulan ===
+                                                'berhenti'
+                                                  ? 'BERHENTI MEROKOK'
+                                                  : 'TIDAK BERHENTI MEROKOK'}
+                                              </p>
+                                            )}
                                           </div>
                                         )}
                                       </div>
                                     );
-                                  }
-                                )}
+                                  })}
                               </div>
                             </div>
                           )}
@@ -506,6 +550,12 @@ function KohortKotak() {
               isShown ? 'block' : 'hidden'
             }`}
             onClick={() => setIsShown(false)}
+          />
+          <div
+            className={`fixed inset-0 h-full w-full ${
+              isPhilterShown ? 'block' : 'hidden'
+            }`}
+            onClick={() => setIsPhilterShown(!isPhilterShown)}
           />
         </div>
       </div>
