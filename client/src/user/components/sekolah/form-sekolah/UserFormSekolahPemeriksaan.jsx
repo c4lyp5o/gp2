@@ -221,10 +221,9 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
 
   //reten salah
   const [dataRetenSalah, setDataRetenSalah] = useState({});
-  const [
-    separaPenuhAtasSediaAdaDentureRetenSalah,
-    setSeparaPenuhAtasSediaAdaDentureRetenSalah,
-  ] = useState(false);
+  const [pilihanDataSalah, setPilihanDataSalah] = useState({
+    separaPenuhAtasSediaAdaDentureRetenSalah: false,
+  });
 
   const TarikhPemeriksaanSemasa = () => {
     let isDisabled = false;
@@ -1085,7 +1084,11 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
   };
 
   return (
-    <ConfirmCheck callbackFx={handleSubmit} data={confirmData}>
+    <ConfirmCheck
+      callbackFx={handleSubmit}
+      data={confirmData}
+      salahReten={salahReten}
+    >
       {(confirm) => (
         <>
           <div className='h-full p-1 px-2 md:px-10 grid grid-rows-[1fr_7fr] gap-2 pb-2'>
@@ -1818,32 +1821,27 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
                               </label>
                             </div>
                             <div className='relative'>
-                              {separaPenuhAtasSediaAdaDentureRetenSalah ===
-                              false ? (
-                                <input
-                                  type='checkbox'
-                                  name='separa-penuh-atas-sedia-ada-denture-reten-salah'
-                                  id='separa-atas-sedia-ada-denture-reten-salah'
-                                  checked={
-                                    separaPenuhAtasSediaAdaDentureRetenSalah
-                                  }
-                                  onChange={() => {
-                                    setSeparaPenuhAtasSediaAdaDentureRetenSalah(
-                                      !separaPenuhAtasSediaAdaDentureRetenSalah
-                                    );
-                                    setDataRetenSalah({
-                                      ...dataRetenSalah,
-                                      separaPenuhAtasSediaAdaDentureRetenSalah:
-                                        !separaPenuhAtasSediaAdaDentureRetenSalah,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                              ) : (
-                                <span className='absolute top-0 left-0 w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'>
-                                  X
-                                </span>
-                              )}
+                              <input
+                                type='checkbox'
+                                name='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                id='separa-atas-sedia-ada-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.separaPenuhAtasSediaAdaDentureRetenSalah
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhAtasSediaAdaDentureRetenSalah:
+                                      !pilihanDataSalah.separaPenuhAtasSediaAdaDentureRetenSalah,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhAtasSediaAdaDentureRetenSalah:
+                                      !pilihanDataSalah.separaPenuhAtasSediaAdaDentureRetenSalah,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
                             </div>
                           </div>
                           {yaTidakSediaAdaStatusDenture ===
