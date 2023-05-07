@@ -9,7 +9,7 @@ import {
   FaUserCheck,
 } from 'react-icons/fa';
 
-const ConfirmModal = ({ children, data }) => {
+const ConfirmModal = ({ children, data, salahReten }) => {
   const [open, setOpen] = useState(false);
   const [openSelesai, setOpenSelesai] = useState(false);
   const [callback, setCallback] = useState(null);
@@ -70,6 +70,9 @@ const ConfirmModal = ({ children, data }) => {
                 <p className='px-1 font-semibold mt-7'>
                   Anda YAKIN untuk menghantar maklumat?
                 </p>
+                {salahReten === 'pemeriksaan-salah' && (
+                  <p className='px-1 font-semibold mt-7'>Anda YAKIN salah??</p>
+                )}
                 {data.engganTidakHadirPemeriksaan ? (
                   <p>
                     Pesakit
