@@ -411,6 +411,10 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    createdSalahreten: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

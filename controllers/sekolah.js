@@ -504,16 +504,28 @@ const updatePersonSekolah = async (req, res) => {
   res.status(200).json({ updatedPersonSekolah });
 };
 
-// not used
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
 const updatePemeriksaanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const createdSalahreten = {
+    createdByUsernameSalah: req.body.createdByUsernameSalah,
+    createdByMdcMdtbSalah: req.body.createdByMdcMdtbSalah,
+    dataRetenSalah: req.body.dataRetenSalah,
+  };
+
   const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
-    req.body,
+    {
+      $set: {
+        ...req.body,
+      },
+      $push: {
+        createdSalahreten: createdSalahreten,
+      },
+    },
     { new: true }
   );
 
@@ -527,22 +539,6 @@ const updatePemeriksaanSekolah = async (req, res) => {
   //   { _id: req.query.personSekolahId },
   //   { $set: { statusRawatan: 'belum selesai' } }
   // );
-
-  // delete KOTAK if inginMelakukanIntervensiMerokok === tidak || ''
-  if (
-    personSekolah.kotakSekolah &&
-    (req.body.inginMelakukanIntervensiMerokok === '' ||
-      req.body.inginMelakukanIntervensiMerokok ===
-        'tidak-ingin-melakukan-intervensi-merokok')
-  ) {
-    await Kotaksekolah.findOneAndRemove({
-      _id: personSekolah.kotakSekolah._id,
-    });
-    await Sekolah.findOneAndUpdate(
-      { _id: req.query.personSekolahId },
-      { $unset: { kotakSekolah: 1 } }
-    );
-  }
 
   res.status(200).json({ updatedSinglePemeriksaan });
 };
