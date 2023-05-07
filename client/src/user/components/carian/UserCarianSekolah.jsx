@@ -88,7 +88,7 @@ export default function UserCarianSekolah() {
                 data-cy='pilih-query'
               >
                 <option value='ic'>PENGENALAN DIRI</option>
-                <option value='nama'>NAMA</option>
+                {/* <option value='nama'>NAMA</option> */}
               </select>
               <span>
                 <FaSortDown className='absolute top-2 right-3 text-kaunterWhite' />
@@ -175,7 +175,7 @@ export default function UserCarianSekolah() {
                   SEKOLAH
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
-                  TAHUN
+                  TAHUN / TINGKATAN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-96'>
                   TINDAKAN
@@ -203,15 +203,40 @@ export default function UserCarianSekolah() {
                       {singleCarianSekolah.kelasPelajar}
                     </td>
                     <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                      {/* <button
-                                className='bg-user1 text-userWhite px-2 py-1 rounded-md shadow-md hover:bg-user2'
-                                onClick={() => {
-                                setSingleCarianSekolah(singleCarianSekolah);
-                                setIsModalShown(true);
-                                }}
-                            >
-                                LIHAT
-                            </button> */}
+                      <Link
+                        target='_blank'
+                        rel='noreferrer'
+                        to={`/pengguna/landing/carian/sekolah/form-sekolah/pemeriksaan/${
+                          singleCarianSekolah._id
+                        }/${
+                          singleCarianSekolah.pemeriksaanSekolah
+                            ? singleCarianSekolah.pemeriksaanSekolah._id
+                            : 'tambah-pemeriksaan'
+                        }`}
+                        className={`${
+                          singleCarianSekolah.statusRawatan === 'enggan'
+                            ? 'pointer-events-none text-userBlack shadow-none'
+                            : singleCarianSekolah.statusRawatan ===
+                              'tidak hadir'
+                            ? 'pointer-events-none text-userBlack shadow-none'
+                            : singleCarianSekolah.pemeriksaanSekolah
+                            ? 'bg-user7 text-userWhite shadow-md'
+                            : filteredFasilitiSekolah.sekolahSelesaiReten ===
+                              true
+                            ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                            : 'bg-user6 text-userWhite shadow-md'
+                        } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
+                      >
+                        {singleCarianSekolah.statusRawatan === 'enggan'
+                          ? 'Enggan'
+                          : singleCarianSekolah.statusRawatan === 'tidak hadir'
+                          ? 'Tidak Hadir'
+                          : singleCarianSekolah.pemeriksaanSekolah
+                          ? 'lihat pemeriksaan'
+                          : filteredFasilitiSekolah.sekolahSelesaiReten === true
+                          ? 'Pemeriksaan Ditutup'
+                          : 'Tambah Pemeriksaan'}
+                      </Link>
                     </td>
                   </tr>
                 );

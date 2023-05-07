@@ -367,6 +367,14 @@ function UserAfterLogin() {
               </Suspense>
             }
           />
+          <Route
+            path='carian/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserFormSekolahPemeriksaan salahReten='pemeriksaan-salah' />{' '}
+              </Suspense>
+            }
+          />
 
           <Route
             path='summary'
