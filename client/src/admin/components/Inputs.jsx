@@ -2240,7 +2240,8 @@ export function InputKpAddEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
+'
                       onChange={(e) => {
                         props.setJenisEvent(e.target.value);
                       }}
@@ -2269,34 +2270,6 @@ export function InputKpAddEvent(props) {
                       </option> */}
                     </select>
                   </div>
-                  {props.jenisEvent === 'projek-komuniti' && (
-                    <div className='mb-3'>
-                      <p>
-                        Nama Program Komuniti
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      <div className='grid gap-1'>
-                        <select
-                          required
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                          onChange={(e) => {
-                            props.setName(e.target.value);
-                          }}
-                        >
-                          <option value=''>Nama Program / Aktiviti</option>
-                          <option value='aktiviti domisiliari bersama klinik kesihatan/klinik desa'>
-                            Aktiviti Domisiliari Bersama Klinik Kesihatan/Klinik
-                            Desa
-                          </option>
-                          <option value='Sila Isi Nama Program!'>
-                            Lain-lain
-                          </option>
-                        </select>
-                      </div>
-                    </div>
-                  )}
                   {/* <p>
                     Tarikh Program Komuniti
                     <span className='font-semibold text-lg text-user6'>*</span>
@@ -2432,27 +2405,24 @@ export function InputKpAddEvent(props) {
                       <div />
                     )}
                   </div> */}
-                  {props.name !==
-                    'aktiviti domisiliari bersama klinik kesihatan/klinik desa' && (
-                    <div className='grid gap-1'>
-                      <p>
-                        Nama Program Komuniti
-                        <span className='font-semibold text-lg text-user6'>
-                          *
-                        </span>
-                      </p>
-                      <input
-                        required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
+                  <div className='grid gap-1'>
+                    <p>
+                      Nama Program Komuniti
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </p>
+                    <input
+                      required
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
 '
-                        type='text'
-                        name='nama'
-                        id='nama'
-                        value={props.name}
-                        onChange={(e) => props.setName(e.target.value)}
-                      />
-                    </div>
-                  )}
+                      type='text'
+                      name='nama'
+                      id='nama'
+                      value={props.name}
+                      onChange={(e) => props.setName(e.target.value)}
+                    />
+                  </div>
                   <div className='grid gap-1'>
                     <p>
                       Tempat
