@@ -2780,6 +2780,17 @@ const makePgPro01 = async (payload) => {
 
     let rowNew;
 
+    // for ulangan kumpulan sasaran
+    const kodSpesial = new Set([
+      'PRO6001',
+      'PRO6002',
+      'PRO6003',
+      'PRO6004',
+      'PRO6005',
+      'PRO6006',
+      'PRO6007',
+    ]);
+
     for (let i = 0; i < data.length; i++) {
       if (data[i]) {
         switch (data[i]._id) {
@@ -2959,13 +2970,13 @@ const makePgPro01 = async (payload) => {
         }
         rowNew.getCell(5).value = data[i].jumlahAktivitiCeramahBaru; //C15
         rowNew.getCell(6).value = data[i].jumlahPesertaCeramahBaru; //D15
-        if (i > 35 && i < 43) {
+        if (kodSpesial.has(data[i]._id)) {
           rowNew.getCell(7).value = data[i].jumlahAktivitiCeramahUlangan; //E15
           rowNew.getCell(8).value = data[i].jumlahPesertaCeramahUlangan; //F15
         }
         rowNew.getCell(9).value = data[i].jumlahAktivitiBaruLMG; //G15
         rowNew.getCell(10).value = data[i].jumlahPesertaBaruLMG; //H15
-        if (i > 35 && i < 43) {
+        if (kodSpesial.has(data[i]._id)) {
           rowNew.getCell(11).value = data[i].jumlahAktivitiUlanganLMG; //I15
           rowNew.getCell(12).value = data[i].jumlahPesertaUlanganLMG; //J15
         }
