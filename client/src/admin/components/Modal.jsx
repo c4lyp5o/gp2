@@ -406,10 +406,13 @@ const AddModalForKp = ({ setShowAddModal, FType, reload, setReload }) => {
   const handleSubmit = async () => {
     let Data = {};
     if (FType === 'program') {
+      if (name === 'Sila Isi Nama Program!') {
+        return toast.error('Sila Isi Nama Program!');
+      }
       Data = {
         nama: name,
-        jenisEvent: jenisEvent,
-        tempat: tempat,
+        jenisEvent,
+        tempat,
       };
     }
     createDataForKp(FType, Data).then((res) => {
