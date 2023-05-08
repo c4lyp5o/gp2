@@ -8,7 +8,7 @@ import ConfirmCheck from './ConfirmationPemeriksaan';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
-function UserFormSekolahPemeriksaan({ salahReten }) {
+function UserFormSekolahPemeriksaan() {
   const {
     userToken,
     reliefUserToken,
@@ -218,12 +218,6 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
   // datepicker issue
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
     useState(null);
-
-  //reten salah
-  const [dataRetenSalah, setDataRetenSalah] = useState({});
-  const [pilihanDataSalah, setPilihanDataSalah] = useState({
-    separaPenuhAtasSediaAdaDentureRetenSalah: false,
-  });
 
   const TarikhPemeriksaanSemasa = () => {
     let isDisabled = false;
@@ -1036,59 +1030,57 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
           }, 3000);
         });
     }
-    if (salahReten === 'pemeriksaan-salah') {
-      let mdcMdtbNumSalah = '';
-      if (!userinfo.mdtbNumber) {
-        mdcMdtbNumSalah = userinfo.mdcNumber;
-      }
-      if (!userinfo.mdcNumber) {
-        mdcMdtbNumSalah = userinfo.mdtbNumber;
-      }
-      await toast
-        .promise(
-          axios.patch(
-            `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-            {
-              createdByUsernameSalah: userinfo.nama,
-              createdByMdcMdtbSalah: mdcMdtbNumSalah,
-              dataRetenSalah,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
-          {
-            pending: 'Mengemaskini...',
-            success: 'Pemeriksaan pelajar berjaya dikemaskini',
-            error: 'Pemeriksaan pelajar gagal dikemaskini',
-          },
-          {
-            autoClose: 2000,
-          }
-        )
-        .then(() => {
-          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-            autoClose: 2000,
-          });
-          setTimeout(() => {
-            window.opener = null;
-            window.open('', '_self');
-            window.close();
-          }, 3000);
-        });
-    }
+
+    //salah reten buat dekat form lain pulak
+    // if (salahReten === 'pemeriksaan-salah') {
+    //   let mdcMdtbNumSalah = '';
+    //   if (!userinfo.mdtbNumber) {
+    //     mdcMdtbNumSalah = userinfo.mdcNumber;
+    //   }
+    //   if (!userinfo.mdcNumber) {
+    //     mdcMdtbNumSalah = userinfo.mdtbNumber;
+    //   }
+    //   await toast
+    //     .promise(
+    //       axios.patch(
+    //         `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
+    //         {
+    //           createdByUsernameSalah: userinfo.nama,
+    //           createdByMdcMdtbSalah: mdcMdtbNumSalah,
+    //           dataRetenSalah,
+    //         },
+    //         {
+    //           headers: {
+    //             Authorization: `Bearer ${
+    //               reliefUserToken ? reliefUserToken : userToken
+    //             }`,
+    //           },
+    //         }
+    //       ),
+    //       {
+    //         pending: 'Mengemaskini...',
+    //         success: 'Pemeriksaan pelajar berjaya dikemaskini',
+    //         error: 'Pemeriksaan pelajar gagal dikemaskini',
+    //       },
+    //       {
+    //         autoClose: 2000,
+    //       }
+    //     )
+    //     .then(() => {
+    //       toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+    //         autoClose: 2000,
+    //       });
+    //       setTimeout(() => {
+    //         window.opener = null;
+    //         window.open('', '_self');
+    //         window.close();
+    //       }, 3000);
+    //     });
+    // }
   };
 
   return (
-    <ConfirmCheck
-      callbackFx={handleSubmit}
-      data={confirmData}
-      salahReten={salahReten}
-    >
+    <ConfirmCheck callbackFx={handleSubmit} data={confirmData}>
       {(confirm) => (
         <>
           <div className='h-full p-1 px-2 md:px-10 grid grid-rows-[1fr_7fr] gap-2 pb-2'>
@@ -1819,29 +1811,6 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
                               >
                                 Tidak
                               </label>
-                            </div>
-                            <div className='relative'>
-                              <input
-                                type='checkbox'
-                                name='separa-penuh-atas-sedia-ada-denture-reten-salah'
-                                id='separa-atas-sedia-ada-denture-reten-salah'
-                                checked={
-                                  pilihanDataSalah.separaPenuhAtasSediaAdaDentureRetenSalah
-                                }
-                                onChange={() => {
-                                  setPilihanDataSalah({
-                                    ...pilihanDataSalah,
-                                    separaPenuhAtasSediaAdaDentureRetenSalah:
-                                      !pilihanDataSalah.separaPenuhAtasSediaAdaDentureRetenSalah,
-                                  });
-                                  setDataRetenSalah({
-                                    ...dataRetenSalah,
-                                    separaPenuhAtasSediaAdaDentureRetenSalah:
-                                      !pilihanDataSalah.separaPenuhAtasSediaAdaDentureRetenSalah,
-                                  });
-                                }}
-                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                              />
                             </div>
                           </div>
                           {yaTidakSediaAdaStatusDenture ===
@@ -4543,20 +4512,13 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
                       </svg>
                       Menghantar Data
                     </button>
-                  ) : !isDisabled ? (
-                    <button
-                      type='submit'
-                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
-                    >
-                      hantar
-                    </button>
                   ) : (
-                    salahReten === 'pemeriksaan-salah' && (
+                    !isDisabled && (
                       <button
                         type='submit'
-                        className='flex bg-user9 p-2 w-full capitalize justify-center hover:bg-user14 hover:text-userWhite transition-all'
+                        className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
                       >
-                        SALAH RETEN
+                        hantar
                       </button>
                     )
                   )}
