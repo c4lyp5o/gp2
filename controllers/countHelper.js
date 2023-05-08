@@ -15024,7 +15024,15 @@ const countBp = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$sejarahDarahTinggi', true],
+              $and: [
+                { $eq: ['$sejarahDarahTinggi', true] },
+                {
+                  $or: [
+                    { $gte: ['$systolicTekananDarah', 140] },
+                    { $gte: ['$diastolicTekananDarah', 90] },
+                  ],
+                },
+              ],
             },
             1,
             0,
@@ -15035,7 +15043,15 @@ const countBp = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$sejarahDarahTinggi', false],
+              $and: [
+                { $eq: ['$sejarahDarahTinggi', false] },
+                {
+                  $or: [
+                    { $gte: ['$systolicTekananDarah', 140] },
+                    { $gte: ['$diastolicTekananDarah', 90] },
+                  ],
+                },
+              ],
             },
             1,
             0,
