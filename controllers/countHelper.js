@@ -6710,7 +6710,7 @@ const countPGPR201Lama = async (payload) => {
   const oku = {
     $match: {
       kedatangan: { $eq: 'baru-kedatangan' },
-      oku: true,
+      orangKurangUpaya: true,
       ...getParams211(payload),
     },
   };
@@ -7200,7 +7200,7 @@ const countPG201 = async (payload) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -8359,7 +8359,7 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -9163,7 +9163,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -10273,7 +10273,7 @@ const countPG201PindSatu2022 = async (payload) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -11817,7 +11817,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
       //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
       //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       // },
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
 
@@ -11933,7 +11933,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
       //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
       //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       // },
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
 
@@ -12080,7 +12080,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
       //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
       //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       // },
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
 
