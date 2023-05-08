@@ -13746,7 +13746,7 @@ const countPGPro01 = async (payload) => {
         $sum: '$bilanganAktivitiPertandinganBahagianB',
       },
       jumlahPesertaPertandingan: {
-        $sum: 'bilanganPesertaPertandinganBahagianB',
+        $sum: '$bilanganPesertaPertandinganBahagianB',
       },
       jumlahAktivitiInteraktif: {
         $sum: '$bilanganAktivitiPermainanInteraktifBahagianB',
