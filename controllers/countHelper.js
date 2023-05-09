@@ -967,7 +967,7 @@ const countPG211A = async (payload) => {
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -1779,7 +1779,7 @@ const countPG211C = async (payload) => {
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -3866,7 +3866,7 @@ const countPG206 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -6570,9 +6570,8 @@ const countPG207 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error.message}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
-    // console.log('counthelper');
     throw Error(error.message);
   }
 };
@@ -6710,7 +6709,7 @@ const countPGPR201Lama = async (payload) => {
   const oku = {
     $match: {
       kedatangan: { $eq: 'baru-kedatangan' },
-      oku: true,
+      orangKurangUpaya: true,
       ...getParams211(payload),
     },
   };
@@ -6884,8 +6883,7 @@ const countPGPR201Baru = async (payload) => {
       umurBulan: {
         $lt: 13,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_1_4 = {
@@ -6894,8 +6892,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 1,
         $lte: 4,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_5_6 = {
@@ -6904,8 +6901,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 5,
         $lte: 6,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_7_9 = {
@@ -6914,8 +6910,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 7,
         $lte: 9,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_10_12 = {
@@ -6924,8 +6919,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 10,
         $lte: 12,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_13_14 = {
@@ -6934,8 +6928,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 13,
         $lte: 14,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_15_17 = {
@@ -6944,8 +6937,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 15,
         $lte: 17,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_18_19 = {
@@ -6954,8 +6946,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 18,
         $lte: 19,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_20_29 = {
@@ -6964,8 +6955,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 20,
         $lte: 29,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_30_49 = {
@@ -6974,8 +6964,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 30,
         $lte: 49,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_50_59 = {
@@ -6984,8 +6973,7 @@ const countPGPR201Baru = async (payload) => {
         $gte: 50,
         $lte: 59,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const age_60yearsandup = {
@@ -6993,22 +6981,19 @@ const countPGPR201Baru = async (payload) => {
       umur: {
         $gte: 60,
       },
-      kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const ibumengandung = {
     $match: {
-      kedatangan: { $eq: 'baru-kedatangan' },
       ibuMengandung: true,
-      ...getParams211(payload),
+      ...getParamsPgpr201(payload),
     },
   };
   const oku = {
     $match: {
-      kedatangan: { $eq: 'baru-kedatangan' },
-      oku: true,
-      ...getParams211(payload),
+      orangKurangUpaya: true,
+      ...getParamsPgpr201(payload),
     },
   };
 
@@ -7188,7 +7173,7 @@ const countPGPR201Baru = async (payload) => {
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -7214,7 +7199,7 @@ const countPG201 = async (payload) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -8349,7 +8334,7 @@ const countPG201 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -8373,7 +8358,7 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -9154,7 +9139,7 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -9177,7 +9162,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -10263,7 +10248,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -10287,7 +10272,7 @@ const countPG201PindSatu2022 = async (payload) => {
   const match_pratad_mbk = {
     $match: {
       kodSekolah: sekolah,
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
   const match_pratad_oap = {
@@ -11312,7 +11297,7 @@ const countPG201PindSatu2022 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -11831,7 +11816,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
       //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
       //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       // },
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
 
@@ -11947,7 +11932,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
       //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
       //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       // },
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
 
@@ -12094,7 +12079,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
       //   $gte: moment('2022-01-01').startOf('month').format('YYYY-MM-DD'),
       //   $lte: moment(bulan).endOf('month').format('YYYY-MM-DD'),
       // },
-      oku: true,
+      orangKurangUpaya: true,
     },
   };
 
@@ -13173,7 +13158,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -13691,7 +13676,7 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -13760,7 +13745,7 @@ const countPGPro01 = async (payload) => {
         $sum: '$bilanganAktivitiPertandinganBahagianB',
       },
       jumlahPesertaPertandingan: {
-        $sum: 'bilanganPesertaPertandinganBahagianB',
+        $sum: '$bilanganPesertaPertandinganBahagianB',
       },
       jumlahAktivitiInteraktif: {
         $sum: '$bilanganAktivitiPermainanInteraktifBahagianB',
@@ -13859,11 +13844,12 @@ const countPGPro01 = async (payload) => {
   // run aggregate
   try {
     const pipeline = [match_stage, group_stage];
+    throw new Error(JSON.stringify(match_stage));
     const data = await Promosi.aggregate(pipeline);
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -14446,7 +14432,7 @@ const countPGPro01Combined = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -14811,7 +14797,7 @@ const countMasa = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -15038,7 +15024,15 @@ const countBp = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$sejarahDarahTinggi', true],
+              $and: [
+                { $eq: ['$sejarahDarahTinggi', true] },
+                {
+                  $or: [
+                    { $gte: ['$systolicTekananDarah', 140] },
+                    { $gte: ['$diastolicTekananDarah', 90] },
+                  ],
+                },
+              ],
             },
             1,
             0,
@@ -15049,7 +15043,15 @@ const countBp = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$sejarahDarahTinggi', false],
+              $and: [
+                { $eq: ['$sejarahDarahTinggi', false] },
+                {
+                  $or: [
+                    { $gte: ['$systolicTekananDarah', 140] },
+                    { $gte: ['$diastolicTekananDarah', 90] },
+                  ],
+                },
+              ],
             },
             1,
             0,
@@ -15135,7 +15137,7 @@ const countBp = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -15384,7 +15386,7 @@ const countGender = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -15785,7 +15787,7 @@ const countBPE = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -16769,7 +16771,7 @@ const countPG201P2 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -17773,7 +17775,7 @@ const countTOD = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -17879,7 +17881,7 @@ const countAdHocQuery = async (
     return query;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -18432,6 +18434,60 @@ const getParams207sekolah = (payload) => {
   }
   if (pilihanIndividu) {
     return byPegawai(payload);
+  }
+  if (daerah !== 'all' && klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (daerah !== 'all' && klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (daerah === 'all') {
+    return byNegeri(payload);
+  }
+};
+const getParamsPgpr201 = (payload) => {
+  const byKp = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByKodFasiliti: { $eq: klinik },
+      deleted: false,
+      statusReten: 'telah diisi',
+    };
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByNegeri: { $eq: negeri },
+      createdByDaerah: { $eq: daerah },
+      deleted: false,
+      statusReten: 'telah diisi',
+    };
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByNegeri: { $eq: negeri },
+      deleted: false,
+      statusReten: 'telah diisi',
+    };
+    return param;
+  };
+
+  const satuMalaysia = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      deleted: false,
+      statusReten: 'telah diisi',
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
