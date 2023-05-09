@@ -40,11 +40,24 @@ const updatePersonKohortKotak = async (req, res) => {
 
   const { personKohortKotakId } = req.params;
 
+  const createdByNameMdcMdtb = {
+    createdByUsername: req.body.createdByUsername,
+    createdByMdcMdtb: req.body.createdByMdcMdtb,
+    thisUsernameData: req.body.thisUsernameData,
+  };
+
   const updatedSinglePersonKohortKotak = await KohortKotak.findOneAndUpdate(
     {
       _id: req.params.personKohortKotakId,
     },
-    req.body,
+    {
+      $set: {
+        ...req.body,
+      },
+      $push: {
+        createdByNameMdcMdtb: createdByNameMdcMdtb,
+      },
+    },
     { new: true }
   );
 

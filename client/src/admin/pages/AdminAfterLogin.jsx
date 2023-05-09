@@ -50,6 +50,19 @@ const Settings = lazy(() => import('../components/superadmin/Settings'));
 const Generate = lazy(() => import('../components/superadmin/Generate'));
 const GenerateKp = lazy(() => import('../components/admin-kp/Generate'));
 
+// ondemand setting
+const OndemandSetting = lazy(() =>
+  import('../components/superadmin/OndemandSetting')
+);
+
+// maklumat asas daerah
+const MaklumatAsasDaerah = lazy(() =>
+  import('../components/superadmin/MaklumatAsasDaerah')
+);
+
+// disabled admin page
+const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
+
 //ad hoc query
 // import AdHocQuery from '../components/superadmin/AdHocQuery';
 
@@ -60,17 +73,30 @@ function AdminAfterLogin() {
     setAdminToken,
     getCurrentUser,
     logOutUser,
+    // getLoginInfo,
+    saveLoginInfo,
+    loginInfo,
+    // getCurrentOndemandSetting,
+    saveCurrentondemandSetting,
+    currentOndemandSetting,
+    readOndemandSetting,
   } = useGlobalAdminAppContext();
 
-  const [loginInfo, setLoginInfo] = useState(null);
+  // const ondemandSetting = readOndemandSetting();
+
+  // const [loginInfo, setLoginInfo] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
+  const [loading, setLoading] = useState(true);
+
+  // const [ondemandSettingData, setOndemandSettingData] =
+  //   useState(ondemandSetting);
 
   const [refetchState, setRefetchState] = useState(false);
 
-  // const init = useRef(false);
+  const init = useRef(false);
 
   const LOGOUT_TIME = parseInt(import.meta.env.VITE_LOGOUT_TIME);
   const HALF_LOGOUT_TIME = LOGOUT_TIME / 2;
@@ -111,32 +137,53 @@ function AdminAfterLogin() {
 
     const nowMinutes = new Date().getTime();
     const real = nowMinutes + LOGOUT_DURATION;
+
     setTimer(real);
+  };
+
+  const adminPageInit = async () => {
+    const { data: currentUserInfo } = await getCurrentUser();
+    const { data } = await readOndemandSetting();
+    const { currentOndemandSetting } = data;
+    saveLoginInfo({
+      ...currentUserInfo,
+      isLoggedIn: true,
+    });
+    saveCurrentondemandSetting({ ...currentOndemandSetting });
+  };
+
+  const adminPageOndemandRefresh = async () => {
+    const { data } = await readOndemandSetting();
+    const { currentOndemandSetting } = data;
+    saveCurrentondemandSetting({ ...currentOndemandSetting });
+    console.log('ondemand setting init');
   };
 
   const props = {
     timer,
-    loginInfo,
-    setLoginInfo,
     logOutNotiSystem,
     kicker,
     kickerNoti,
   };
 
-  useEffect(() => {
-    const getUser = async () => {
-      const res = await getCurrentUser();
-      setLoginInfo({
-        ...res.data,
-        isLoggedIn: true,
-      });
-    };
-    getUser().catch((err) => {
-      console.log(err);
-      logOutUser();
-    });
-    logOutNotiSystem();
-  }, [adminToken]);
+  // init
+  // useEffect(() => {
+  //   if (init.current === false) {
+  //     console.log('page init');
+  //     adminPageInit()
+  //       .catch((err) => {
+  //         console.log(err);
+  //         logOutUser();
+  //       })
+  //       .finally(() => {
+  //         setLoading(false);
+  //         logOutNotiSystem();
+  //       });
+  //     setTimeout(() => {
+  //       init.current = true;
+  //     }, 2000);
+  //   }
+  // }, [adminToken]);
 
   // refetch identity
   useEffect(() => {
@@ -147,20 +194,55 @@ function AdminAfterLogin() {
           console.log('refetch identity admin');
       }
     };
-    refetchIdentity();
+    if (init.current === true) {
+      refetchIdentity();
+    }
   }, [refetchState]);
 
-  // refetch indentity on tab focus
+  // refresh logOutNotiSystem and currentOndemandSetting on path change
   useEffect(() => {
-    window.addEventListener('focus', setRefetchState);
-    setRefetchState(!refetchState);
+    if (init.current === true) {
+      console.log('path refresh');
+      adminPageOndemandRefresh().then(() => {
+        logOutNotiSystem();
+      });
+    }
+  }, [window.location.pathname]);
+
+  // page init and activate event listener refetch indentity on tab focus
+  useEffect(() => {
+    console.log('focus refresh');
+    if (init.current === false) {
+      console.log('page init');
+      adminPageInit()
+        .catch((err) => {
+          console.log(err);
+          logOutUser();
+        })
+        .finally(() => {
+          setLoading(false);
+          logOutNotiSystem();
+        });
+      window.addEventListener('focus', setRefetchState);
+      setRefetchState(!refetchState);
+      init.current = true;
+    }
     return () => {
       window.removeEventListener('focus', setRefetchState);
+      init.current = false;
     };
   }, []);
 
-  if (!loginInfo) {
-    return <LoadingSuperDark />;
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (
+    !loading &&
+    loginInfo.accountType !== 'hqSuperadmin' &&
+    !currentOndemandSetting.adminPage
+  ) {
+    return <DisabledAdminPage />;
   }
 
   return (
@@ -186,6 +268,19 @@ function AdminAfterLogin() {
               </Suspense>
             }
           />
+          {/* hq sahaja */}
+          {loginInfo.accountType === 'hqSuperadmin' ? (
+            <>
+              <Route
+                path='ondemand'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <OndemandSetting />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
           {/* hq, negeri & daerah superadmin */}
           {loginInfo.accountType !== 'kpUser' ? (
             <>
@@ -352,6 +447,19 @@ function AdminAfterLogin() {
                   </DndProvider>
                 }
               /> */}
+            </>
+          ) : null}
+          {/* daerah superadmin */}
+          {loginInfo.accountType === 'daerahSuperadmin' ? (
+            <>
+              <Route
+                path='maklumat-asas'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <MaklumatAsasDaerah />
+                  </Suspense>
+                }
+              />
             </>
           ) : null}
           {/* KP superadmin */}

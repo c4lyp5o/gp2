@@ -25,6 +25,8 @@ import MyVas from './MyVas';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
+import mysejahtera from '../../../assets/MySejahtera.png';
+
 export default function FillableForm({
   jenisFasiliti,
   showForm,
@@ -1533,7 +1535,7 @@ export default function FillableForm({
                           className='absolute -right-24 top-2 bg-user1 text-userWhite rounded-md text-sm px-1.5 py-1 hover:bg-user3 hover:text-userBlack cursor-pointer flex items-center'
                         >
                           <img
-                            src='https://upload.wikimedia.org/wikipedia/commons/9/90/MySejahtera.png'
+                            src={mysejahtera}
                             alt='MySejahtera Logo'
                             className='w-6 h-6 inline-block mr-1'
                           />
