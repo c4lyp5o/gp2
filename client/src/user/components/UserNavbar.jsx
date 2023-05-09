@@ -125,23 +125,19 @@ function UserNavbar() {
                 >
                   UMUM
                 </NavLink>
-                {import.meta.env.VITE_ENV === 'TRAINING' ||
-                import.meta.env.VITE_ENV === 'UNSTABLE' ||
-                import.meta.env.VITE_ENV === 'DEV' ? (
-                  <NavLink
-                    to='senarai-sekolah'
-                    onClick={() => {
-                      setShowLinks(!showLinks);
-                    }}
-                    className={({ isActive }) =>
-                      isActive
-                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                    }
-                  >
-                    SEKOLAH
-                  </NavLink>
-                ) : null}
+                <NavLink
+                  to='senarai-sekolah'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  SEKOLAH
+                </NavLink>
                 <NavLink
                   to='promosi-individu'
                   onClick={() => {
@@ -170,23 +166,19 @@ function UserNavbar() {
                     PROMOSI KLINIK
                   </NavLink>
                 )}
-                {import.meta.env.VITE_ENV === 'TRAINING' ||
-                import.meta.env.VITE_ENV === 'UNSTABLE' ||
-                import.meta.env.VITE_ENV === 'DEV' ? (
-                  <NavLink
-                    to='kohort'
-                    onClick={() => {
-                      setShowLinks(!showLinks);
-                    }}
-                    className={({ isActive }) =>
-                      isActive
-                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                    }
-                  >
-                    KOHORT
-                  </NavLink>
-                ) : null}
+                <NavLink
+                  to='kohort'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  KOHORT
+                </NavLink>
               </div>
             </div>
             {/* {reliefUserToken ? null : (
@@ -279,7 +271,8 @@ function UserNavbar() {
                 >
                   CARIAN PESAKIT
                 </NavLink>
-                {import.meta.env.VITE_ENV === 'DEV' ? (
+                {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                import.meta.env.VITE_ENV === 'DEV' ? (
                   <NavLink
                     to='carian/sekolah'
                     onClick={() => {
