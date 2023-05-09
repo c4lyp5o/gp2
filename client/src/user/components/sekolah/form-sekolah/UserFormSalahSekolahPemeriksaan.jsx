@@ -8,7 +8,7 @@ import ConfirmCheck from './ConfirmationPemeriksaan';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
-function UserFormSekolahPemeriksaan({ salahReten }) {
+function UserFormSalahSekolahPemeriksaan({ salahReten }) {
   const {
     userToken,
     reliefUserToken,
@@ -222,7 +222,7 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
   //reten salah
   const [dataRetenSalah, setDataRetenSalah] = useState({});
   const [pilihanDataSalah, setPilihanDataSalah] = useState({
-    yaTidakSediaAdaStatusDentureRetenSalah: false,
+    yaTidakSediaAdaStatusDenture: false,
   });
 
   const TarikhPemeriksaanSemasa = () => {
@@ -1485,7 +1485,7 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
                         <article className='grid grid-cols-1 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                           <div
                             className={`${
-                              pilihanDataSalah.yaTidakSediaAdaStatusDentureRetenSalah &&
+                              pilihanDataSalah.yaTidakSediaAdaStatusDenture &&
                               'bg-user9 bg-opacity-20'
                             } flex flex-row items-center pl-5 relative`}
                           >
@@ -1559,25 +1559,25 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
                                   name='separa-penuh-atas-sedia-ada-denture-reten-salah'
                                   id='separa-atas-sedia-ada-denture-reten-salah'
                                   checked={
-                                    pilihanDataSalah.yaTidakSediaAdaStatusDentureRetenSalah
+                                    pilihanDataSalah.yaTidakSediaAdaStatusDenture
                                   }
                                   onChange={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
-                                      yaTidakSediaAdaStatusDentureRetenSalah:
-                                        !pilihanDataSalah.yaTidakSediaAdaStatusDentureRetenSalah,
+                                      yaTidakSediaAdaStatusDenture:
+                                        !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
                                     });
                                     setDataRetenSalah({
                                       ...dataRetenSalah,
-                                      yaTidakSediaAdaStatusDentureRetenSalah:
-                                        !pilihanDataSalah.yaTidakSediaAdaStatusDentureRetenSalah,
+                                      yaTidakSediaAdaStatusDenture:
+                                        !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
                                     });
                                     setConfirmData({
                                       ...confirmData,
                                       pilihanDataSalah: {
                                         ...pilihanDataSalah,
-                                        yaTidakSediaAdaStatusDentureRetenSalah:
-                                          !pilihanDataSalah.yaTidakSediaAdaStatusDentureRetenSalah,
+                                        yaTidakSediaAdaStatusDenture:
+                                          !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
                                       },
                                     });
                                   }}
@@ -1585,14 +1585,14 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
                                 />
                               </div>
                             </div>
-                            {pilihanDataSalah.yaTidakSediaAdaStatusDentureRetenSalah ===
+                            {pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
                               true && (
                               <span
                                 className='absolute top-1/2 right-1/2 transform -translate-y-1/2 mr-2 text-user9'
                                 onClick={() =>
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
-                                    yaTidakSediaAdaStatusDentureRetenSalah: false,
+                                    yaTidakSediaAdaStatusDenture: false,
                                   })
                                 }
                               >
@@ -4319,4 +4319,4 @@ function UserFormSekolahPemeriksaan({ salahReten }) {
   );
 }
 
-export default UserFormSekolahPemeriksaan;
+export default UserFormSalahSekolahPemeriksaan;
