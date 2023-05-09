@@ -220,13 +220,13 @@ function UserSekolahList() {
   };
 
   // on tab focus reload data
-  // useEffect(() => {
-  //   window.addEventListener('focus', setReloadState);
-  //   setReloadState(!reloadState);
-  //   return () => {
-  //     window.removeEventListener('focus', setReloadState);
-  //   };
-  // }, []);
+  useEffect(() => {
+    window.addEventListener('focus', setReloadState);
+    setReloadState(!reloadState);
+    return () => {
+      window.removeEventListener('focus', setReloadState);
+    };
+  }, []);
 
   return (
     <>

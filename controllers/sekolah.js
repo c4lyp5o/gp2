@@ -310,13 +310,23 @@ const kemaskiniSenaraiPelajar = async (req, res) => {
   }
 };
 
-// GET /muat-turun/:fasilitiId
+// GET /muatturun/:fasilitiId
 const muatturunSenaraiPelajar = async (req, res) => {
-  const { fasilitiId } = req.params;
-
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
+
+  const { fasilitiId } = req.params;
+
+  const makeFile = () => {
+    return path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      `${generateRandomString(20)}.xlsx`
+    );
+  };
 
   let match_stage = {
     $match: {
@@ -345,84 +355,78 @@ const muatturunSenaraiPelajar = async (req, res) => {
       semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
     );
 
-    // dan tulislah segala yang akan berlaku sehingga hari kiamat
     let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(blank);
 
-    // delete the default worksheet
     workbook.removeWorksheet('Sheet1');
 
     for (const tahun of semuaTahun) {
-      console.log(tahun);
-      // create a blank worksheet with the name of our class
       const worksheet = workbook.addWorksheet(tahun);
 
-      // filter the students based on their class
       const studentsInClass = semuaPelajarSatuSekolah.filter(
         (student) => student.tahunTingkatan === tahun
       );
 
-      // console.log(studentsInClass);
-
-      // add column headers
-      worksheet.columns = [
-        { header: 'Nama', key: 'nama', width: 30 },
-        { header: 'Nombor ID', key: 'nomborId', width: 15 },
-        { header: 'Kelas', key: 'kelasPelajar', width: 15 },
-        { header: 'Tarikh Lahir', key: 'tarikhLahir', width: 15 },
-        { header: 'Umur', key: 'umur', width: 15 },
-      ];
-
-      // add rows for students in current class
-      worksheet.addRows(studentsInClass);
-
-      // format the header row
-      worksheet.getRow(1).font = { bold: true };
-
-      // format all rows
-      worksheet.eachRow((row, number) => {
-        row.alignment = { vertical: 'middle', horizontal: 'center' };
-        row.height = 30;
+      studentsInClass.sort((a, b) => {
+        if (a.kelasPelajar < b.kelasPelajar) {
+          return -1;
+        }
+        if (a.kelasPelajar > b.kelasPelajar) {
+          return 1;
+        }
+        if (a.nama < b.nama) {
+          return -1;
+        }
+        if (a.nama > b.nama) {
+          return 1;
+        }
+        return 0;
       });
 
-      // format all columns
-      worksheet.columns.forEach((column) => {
-        column.width = column.header.length < 12 ? 12 : column.header.length;
+      worksheet.columns = [
+        { header: 'NAMA', key: 'nama', width: 60 },
+        { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
+        { header: 'KELAS', key: 'kelasPelajar', width: 15 },
+        { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
+        { header: 'UMUR', key: 'umur', width: 10 },
+      ];
+
+      worksheet.addRows(studentsInClass);
+
+      worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+
+      worksheet.eachRow((row, number) => {
+        row.alignment = { vertical: 'middle', horizontal: 'center' };
+        row.height = 15;
+        row.eachCell((cell, number) => {
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' },
+          };
+        });
       });
     }
 
     const listPelajar = makeFile();
 
     await workbook.xlsx.writeFile(listPelajar);
-    const file = fs.readFileSync(path.resolve(process.cwd(), listPelajar));
-
-    console.log(file);
 
     res.setHeader(
       'Content-Type',
       'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
     );
-    res.setHeader(
-      'Content-Disposition',
-      'attachment; filename=senarai-pelajar.xlsx'
-    );
-    const fileStream = fs.createReadStream(newfile);
+    const fileStream = fs.createReadStream(listPelajar);
     fileStream.pipe(res);
+    fileStream.on('close', () => {
+      fs.unlinkSync(listPelajar);
+    });
   } catch (error) {
     console.log(error);
     res.status(500).json({ msg: error.message });
   }
-};
-
-const makeFile = () => {
-  return path.join(
-    __dirname,
-    '..',
-    'public',
-    'exports',
-    `${generateRandomString(20)}.xlsx`
-  );
 };
 
 // not used
