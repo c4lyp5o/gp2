@@ -1,5 +1,9 @@
 const https = require('https');
 const axios = require('axios');
+const fs = require('fs');
+const async = require('async');
+const path = require('path');
+const Excel = require('exceljs');
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
@@ -8,6 +12,7 @@ const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 const insertToSekolah = require('../controllers/helpers/insertToSekolah');
+const { generateRandomString } = require('./adminAPI');
 
 // GET /
 const getAllPersonSekolahsVanilla = async (req, res) => {
@@ -303,6 +308,121 @@ const kemaskiniSenaraiPelajar = async (req, res) => {
   } catch (error) {
     return res.status(503).json({ msg: error.message });
   }
+};
+
+// GET /muat-turun/:fasilitiId
+const muatturunSenaraiPelajar = async (req, res) => {
+  const { fasilitiId } = req.params;
+
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  let match_stage = {
+    $match: {
+      kodSekolah: fasilitiId,
+    },
+  };
+
+  let project_stage = {
+    $project: {
+      nama: 1,
+      nomborId: 1,
+      tahunTingkatan: 1,
+      namaSekolah: 1,
+      kelasPelajar: 1,
+      tarikhLahir: 1,
+      umur: 1,
+    },
+  };
+
+  try {
+    const semuaPelajarSatuSekolah = await Sekolah.aggregate([
+      match_stage,
+      project_stage,
+    ]);
+    const semuaTahun = new Set(
+      semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+    );
+
+    // dan tulislah segala yang akan berlaku sehingga hari kiamat
+    let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(blank);
+
+    // delete the default worksheet
+    workbook.removeWorksheet('Sheet1');
+
+    for (const tahun of semuaTahun) {
+      console.log(tahun);
+      // create a blank worksheet with the name of our class
+      const worksheet = workbook.addWorksheet(tahun);
+
+      // filter the students based on their class
+      const studentsInClass = semuaPelajarSatuSekolah.filter(
+        (student) => student.tahunTingkatan === tahun
+      );
+
+      // console.log(studentsInClass);
+
+      // add column headers
+      worksheet.columns = [
+        { header: 'Nama', key: 'nama', width: 30 },
+        { header: 'Nombor ID', key: 'nomborId', width: 15 },
+        { header: 'Kelas', key: 'kelasPelajar', width: 15 },
+        { header: 'Tarikh Lahir', key: 'tarikhLahir', width: 15 },
+        { header: 'Umur', key: 'umur', width: 15 },
+      ];
+
+      // add rows for students in current class
+      worksheet.addRows(studentsInClass);
+
+      // format the header row
+      worksheet.getRow(1).font = { bold: true };
+
+      // format all rows
+      worksheet.eachRow((row, number) => {
+        row.alignment = { vertical: 'middle', horizontal: 'center' };
+        row.height = 30;
+      });
+
+      // format all columns
+      worksheet.columns.forEach((column) => {
+        column.width = column.header.length < 12 ? 12 : column.header.length;
+      });
+    }
+
+    const listPelajar = makeFile();
+
+    await workbook.xlsx.writeFile(listPelajar);
+    const file = fs.readFileSync(path.resolve(process.cwd(), listPelajar));
+
+    console.log(file);
+
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    res.setHeader(
+      'Content-Disposition',
+      'attachment; filename=senarai-pelajar.xlsx'
+    );
+    const fileStream = fs.createReadStream(newfile);
+    fileStream.pipe(res);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error.message });
+  }
+};
+
+const makeFile = () => {
+  return path.join(
+    __dirname,
+    '..',
+    'public',
+    'exports',
+    `${generateRandomString(20)}.xlsx`
+  );
 };
 
 // not used
@@ -613,6 +733,7 @@ module.exports = {
   getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
+  muatturunSenaraiPelajar,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
