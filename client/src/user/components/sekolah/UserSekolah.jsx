@@ -171,7 +171,7 @@ function UserSekolah() {
   useEffect(() => {
     if (!modalBegin) {
       setTarikhMelaksanakanBegin('');
-      setTarikhMelaksanakanBeginDP('');
+      setTarikhMelaksanakanBeginDP(null);
     }
   }, [modalBegin]);
 
