@@ -105,7 +105,7 @@ function UserSekolahList() {
           });
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
-        // console.log(data);
+        console.log(data);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -155,6 +155,37 @@ function UserSekolahList() {
     }
   };
 
+  const handleDownloadSenaraiSekolah = async (currentId) => {
+    // try {
+    //   const res = await axios.get(`/api/v1/sekolah/muatturun/${currentId}`, {
+    //     headers: {
+    //       Authorization: `Bearer ${reliefUserToken ?? userToken}`,
+    //       responseType: 'blob',
+    //     },
+    //   });
+    //   console.log(res);
+    //   const link = document.createElement('a');
+    //   link.download = `Senarai Pelajar Sekolah ${currentId}.xlsx`;
+    //   link.href = URL.createObjectURL(new Blob([res.data]));
+    //   link.addEventListener('click', (e) => {
+    //     setTimeout(() => URL.revokeObjectURL(link.href), 100);
+    //   });
+    //   link.click();
+    // } catch (error) {
+    //   console.log(error);
+    // }
+    await axios
+      .get(`/api/v1/sekolah/muatturun/${currentId}`, {
+        headers: {
+          Authorization: `Bearer ${reliefUserToken ?? userToken}`,
+          responseType: 'blob',
+        },
+      })
+      .then((res) => {
+        console.log(res);
+      });
+  };
+
   const handleRefreshPelajar = async () => {
     if (!modalRefreshPelajar) {
       setModalRefreshPelajar(true);
@@ -191,13 +222,13 @@ function UserSekolahList() {
   };
 
   // on tab focus reload data
-  useEffect(() => {
-    window.addEventListener('focus', setReloadState);
-    setReloadState(!reloadState);
-    return () => {
-      window.removeEventListener('focus', setReloadState);
-    };
-  }, []);
+  // useEffect(() => {
+  //   window.addEventListener('focus', setReloadState);
+  //   setReloadState(!reloadState);
+  //   return () => {
+  //     window.removeEventListener('focus', setReloadState);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -373,8 +404,10 @@ function UserSekolahList() {
                               <button
                                 title='Cetak senarai murid sekolah'
                                 onClick={() => {
-                                  setIdSekolah(singleNamaSekolah._id);
-                                  setModalCetak(true);
+                                  // setIdSekolah(singleNamaSekolah._id);
+                                  const currentId =
+                                    singleNamaSekolah.kodSekolah;
+                                  handleDownloadSenaraiSekolah(currentId);
                                 }}
                                 onMouseEnter={() => {
                                   setIsDownload({
