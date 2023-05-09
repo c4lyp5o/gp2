@@ -7,6 +7,7 @@ const {
   getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
+  muatturunSenaraiPelajar,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
@@ -35,6 +36,9 @@ router
 
 // GET kemaskini
 router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
+
+// GET muatturun
+router.route('/muatturun/:fasilitiId').get(muatturunSenaraiPelajar);
 
 // POST
 router
