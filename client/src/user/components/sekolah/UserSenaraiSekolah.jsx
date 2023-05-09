@@ -43,6 +43,7 @@ function UserSekolahList() {
   const [isKemaskini, setIsKemaskini] = useState(false);
   const [isDownload, setIsDownload] = useState(false);
 
+  const [isDownloading, setIsDownloading] = useState(false);
   const [reloadState, setReloadState] = useState(false);
 
   useEffect(() => {
@@ -105,7 +106,6 @@ function UserSekolahList() {
           });
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
-        // console.log(data);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -152,6 +152,35 @@ function UserSekolahList() {
       );
       setModalSelesaiSekolah(false);
       setReloadState(!reloadState);
+    }
+  };
+
+  const handleDownloadSenaraiSekolah = async (currentId, currentName) => {
+    try {
+      setIsDownloading(true);
+      const { data } = await axios.get(
+        `/api/v1/sekolah/muatturun/${currentId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${reliefUserToken ?? userToken}`,
+          },
+          responseType: 'blob',
+        }
+      );
+      const link = document.createElement('a');
+      link.download = `Senarai Pelajar Sekolah ${currentName}.xlsx`;
+      link.href = URL.createObjectURL(new Blob([data]));
+      link.addEventListener('click', (e) => {
+        setTimeout(() => URL.revokeObjectURL(link.href), 100);
+      });
+      link.click();
+    } catch (error) {
+      toast.error('Harap maaf, senarai pelajar tidak dapat dimuatturun');
+      console.log(error);
+    } finally {
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 10000);
     }
   };
 
@@ -368,13 +397,20 @@ function UserSekolahList() {
                                 isDownload[singleNamaSekolah._id]
                                   ? ''
                                   : 'mx-0.5'
+                              } ${
+                                isDownloading
+                                  ? 'pointer-events-none opacity-50'
+                                  : ''
                               } flex justify-center items-center`}
                             >
                               <button
+                                disabled={isDownloading}
                                 title='Cetak senarai murid sekolah'
                                 onClick={() => {
-                                  setIdSekolah(singleNamaSekolah._id);
-                                  setModalCetak(true);
+                                  handleDownloadSenaraiSekolah(
+                                    singleNamaSekolah.kodSekolah,
+                                    singleNamaSekolah.nama
+                                  );
                                 }}
                                 onMouseEnter={() => {
                                   setIsDownload({
