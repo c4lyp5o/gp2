@@ -310,7 +310,7 @@ export default function AdminLoginForm() {
         // if kp superadmin
         if (response.data.accountType === 'kpSuperadmin') {
           toast.info(
-            `Kunci Verifikasi telah dihantar ke ${response.data.email}. Sila isi di ruang Kunci Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
+            `Key Verifikasi telah dihantar ke email yang didaftar. Sila isi di ruang Key Verifikasi. Mohon untuk memeriksa folder spam dan tandakan email dari Key Master sebagai bukan spam.`
           );
           setShowPasswordBox(true);
           return;
