@@ -14,16 +14,18 @@ import UserFooter from '../components/UserFooter';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
-// status harian, umum, sekolah, promosi, kohort, carian, summary
+// status harian
 const UserStatusHarian = lazy(() =>
   import('../components/status-harian/UserStatusHarian')
 );
 
+// umum
 const UserUmum = lazy(() => import('../components/umum/UserUmum'));
 const UserFormUmumHeader = lazy(() =>
   import('../components/umum/form-umum/UserFormUmumHeader')
 );
 
+// sekolah
 const UserSenaraiSekolah = lazy(() =>
   import('../components/sekolah/UserSenaraiSekolah')
 );
@@ -38,13 +40,14 @@ const UserFormSekolahRawatan = lazy(() =>
 //   import('../components/sekolah/form-sekolah/UserFormSekolahKOTAK')
 // );
 
+// promosi
 const UserPromosi = lazy(() => import('../components/promosi/UserPromosi'));
 const UserFormPromosi = lazy(() =>
   import('../components/promosi/form-promosi/UserFormPromosi')
 );
 
+// kohort
 const UserKohort = lazy(() => import('../components/kohort/UserKohortPage'));
-
 // KOTAK
 const UserKohortKotak = lazy(() => import('../components/kohort/KOTAK/Kotak'));
 const UserKohortKotakForm = lazy(() =>
@@ -65,6 +68,7 @@ const UserCarianMuridFMR = lazy(() =>
   import('../components/kohort/FMR/CarianFMR')
 );
 
+// carian
 const UserCarianPesakit = lazy(() =>
   import('../components/carian/UserCarianPesakit')
 );
@@ -75,6 +79,7 @@ const UserCarianSekolah = lazy(() =>
   import('../components/carian/UserCarianSekolah')
 );
 
+// summary
 const UserSummary = lazy(() => import('../components/summary/UserSummary'));
 
 function Loading() {
