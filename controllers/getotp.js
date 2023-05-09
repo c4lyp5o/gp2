@@ -1041,7 +1041,7 @@ const salahRetenSekolah = (nama, key) =>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;padding-right:25px;padding-left:25px;word-break:break-word;">
-                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Anda telah memohon untuk penutupan reten sekolah. Kunci verifikasi anda adalah:</div>
+                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Anda telah memohon untuk menanda salah reten sekolah. Kunci verifikasi anda adalah:</div>
                       </td>
                     </tr>
                     <tr>
@@ -1057,7 +1057,7 @@ const salahRetenSekolah = (nama, key) =>
                     </tr>
                     <tr>
                       <td align="left" style="font-size:0px;padding:10px 25px;padding-right:25px;padding-left:25px;word-break:break-word;">
-                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Jika anda tidak memohon untuk penutupan reten sekolah, sila abaikan email ini.</div>
+                        <div style="font-family:open Sans Helvetica, Arial, sans-serif;font-size:15px;line-height:1;text-align:left;color:#ffffff;">Jika anda tidak memohon untuk menanda salah reten sekolah, sila abaikan email ini.</div>
                       </td>
                     </tr>
                     <tr>
