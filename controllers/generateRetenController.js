@@ -29,345 +29,115 @@ const noBorderStyle = {
 
 // error returner
 const excelMakerError = (err) => {
-  penjanaanRetenLogger.error(err);
-  // console.log('error returner');
-  throw Error(err.message);
+  penjanaanRetenLogger.error(`Error making ${err}`);
+  throw Error(`Tidak boleh menjana ${err}`);
 };
 
-// superadmins
-// exports.startQueue = async function (req, res) {
-//   // get userdata
-//   const { authorization } = req.headers;
-//   const { username, accountType } = jwt.verify(
-//     authorization,
-//     process.env.JWT_SECRET
-//   );
-//   //
-//   const { jenisReten, fromEtl } = req.query;
-//   //
-//   if (
-//     accountType !== 'kaunterUser' &&
-//     fromEtl === 'false' &&
-//     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
-//   ) {
-//     logger.info(
-//       `[generateRetenController] not kaunter user & not from etl, from ${username}`
-//     );
-//     let userTokenData = await GenerateToken.findOne({
-//       belongsTo: username,
-//       jenisReten,
-//     });
-
-//     // create if there is no userTokenData
-//     if (!userTokenData) {
-//       switch (accountType) {
-//         case 'hqSuperadmin':
-//           const hqToken = new GenerateToken({
-//             belongsTo: username,
-//             accountType,
-//             jenisReten,
-//             jumlahToken: 9000,
-//           });
-//           await hqToken.save();
-//           userTokenData = hqToken;
-//           break;
-//         case 'negeriSuperadmin':
-//           const negeriToken = new GenerateToken({
-//             belongsTo: username,
-//             accountType,
-//             jenisReten,
-//             jumlahToken: 15,
-//           });
-//           await negeriToken.save();
-//           userTokenData = negeriToken;
-//           break;
-//         case 'daerahSuperadmin':
-//           const daerahToken = new GenerateToken({
-//             belongsTo: username,
-//             accountType,
-//             jenisReten,
-//             jumlahToken: 15,
-//           });
-//           await daerahToken.save();
-//           userTokenData = daerahToken;
-//           break;
-//         default:
-//           res
-//             .status(403)
-//             .json({ message: 'Anda tidak dibenarkan untuk menjana reten' });
-//       }
-//     }
-
-//     if (
-//       process.env.BUILD_ENV === 'production' &&
-//       userTokenData.jumlahToken <= 0
-//     ) {
-//       logger.info(
-//         '[generateRetenController] no more coins left for ' + username
-//       );
-//       return res.status(401).json({ msg: 'no more coins left' });
-//     }
-//   }
-
-//   // get in line soldier!
-//   const downloadQueue = async.queue(async (task, callback) => {
-//     try {
-//       const result = await task();
-//       callback(null, result);
-//     } catch (err) {
-//       callback(err);
-//     }
-//   }, process.env.GENERATE_WORKERS || 5);
-
-//   downloadQueue.push(() =>
-//     downloader(req, res, async (err, result) => {
-//       if (err) {
-//         // console.log('queue', err.message);
-//         if (err.message === 'No data found') {
-//           return res.status(404).json({ message: err });
-//         }
-//         return res.status(500).json({ message: err });
-//       }
-//       if (
-//         process.env.BUILD_ENV === 'production' &&
-//         accountType !== 'kaunterUser' &&
-//         fromEtl === 'false' &&
-//         (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
-//       ) {
-//         let userTokenData = await GenerateToken.findOne({
-//           belongsTo: username,
-//           jenisReten,
-//         });
-//         userTokenData.jumlahToken -= 1;
-//         await userTokenData.save();
-//         logger.info(
-//           '[generateRetenController] dah kurangkan token untuk ' + username
-//         );
-//       } else {
-//         logger.info(
-//           '[generateRetenController] not production atau generate bulanan and ' +
-//             username
-//         );
-//       }
-//       res.setHeader('Content-Type', 'application/vnd.ms-excel');
-//       res.status(200).send(result);
-//     })
-//   );
-
-//   logger.info(
-//     '[generateRetenController] que superadmin sekarang: ' +
-//       downloadQueue.length()
-//   );
-// };
-
 exports.startQueue = async function (req, res) {
-  try {
-    const { authorization } = req.headers;
-    const { username, accountType } = jwt.verify(
-      authorization,
-      process.env.JWT_SECRET
+  const { authorization } = req.headers;
+  const { username, accountType } = jwt.verify(
+    authorization,
+    process.env.JWT_SECRET
+  );
+  const { jenisReten, fromEtl } = req.query;
+
+  if (
+    accountType !== 'kaunterUser' &&
+    fromEtl === 'false' &&
+    (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
+  ) {
+    logger.info(
+      `[generateRetenController] not kaunter user & not from etl, from ${username}`
     );
-    const { jenisReten, fromEtl } = req.query;
+    let userTokenData = await GenerateToken.findOne({
+      belongsTo: username,
+      jenisReten,
+    });
 
-    if (
-      accountType !== 'kaunterUser' &&
-      fromEtl === 'false' &&
-      (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
-    ) {
-      logger.info(
-        `[generateRetenController] not kaunter user & not from etl, from ${username}`
-      );
-      let userTokenData = await GenerateToken.findOne({
-        belongsTo: username,
-        jenisReten,
-      });
-
-      if (!userTokenData) {
-        switch (accountType) {
-          case 'hqSuperadmin':
-            userTokenData = await new GenerateToken({
-              belongsTo: username,
-              accountType,
-              jenisReten,
-              jumlahToken: 9000,
-            }).save();
-            break;
-          case 'negeriSuperadmin':
-          case 'daerahSuperadmin':
-            userTokenData = await new GenerateToken({
-              belongsTo: username,
-              accountType,
-              jenisReten,
-              jumlahToken: 15,
-            }).save();
-            break;
-          default:
-            return res
-              .status(403)
-              .json({ message: 'Anda tidak dibenarkan untuk menjana reten' });
-        }
-      }
-
-      if (
-        process.env.BUILD_ENV === 'production' &&
-        userTokenData.jumlahToken <= 0
-      ) {
-        logger.info(
-          '[generateRetenController] no more coins left for ' + username
-        );
-        return res.status(401).json({ msg: 'no more coins left' });
+    if (!userTokenData) {
+      switch (accountType) {
+        case 'hqSuperadmin':
+          userTokenData = await new GenerateToken({
+            belongsTo: username,
+            accountType,
+            jenisReten,
+            jumlahToken: 9000,
+          }).save();
+          break;
+        case 'negeriSuperadmin':
+        case 'daerahSuperadmin':
+          userTokenData = await new GenerateToken({
+            belongsTo: username,
+            accountType,
+            jenisReten,
+            jumlahToken: 15,
+          }).save();
+          break;
+        default:
+          return res
+            .status(403)
+            .json({ message: 'Anda tidak dibenarkan untuk menjana reten' });
       }
     }
 
-    const downloadQueue = async.queue(async (task) => {
-      const result = await task();
-      return result;
-    }, process.env.GENERATE_WORKERS || 5);
-
-    const result = await new Promise((resolve, reject) => {
-      downloadQueue.push(async () => {
-        try {
-          const result = await downloader(req, res);
-          if (
-            process.env.BUILD_ENV === 'production' &&
-            accountType !== 'kaunterUser' &&
-            fromEtl === 'false' &&
-            (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
-          ) {
-            let userTokenData = await GenerateToken.findOne({
-              belongsTo: username,
-              jenisReten,
-            });
-            userTokenData.jumlahToken -= 1;
-            await userTokenData.save();
-            logger.info(
-              '[generateRetenController] dah kurangkan token untuk ' + username
-            );
-          } else {
-            logger.info(
-              '[generateRetenController] not production atau generate bulanan and ' +
-                username
-            );
-          }
-          res.setHeader('Content-Type', 'application/vnd.ms-excel');
-          res.status(200).send(result);
-          resolve(result);
-        } catch (err) {
-          reject(err);
-        }
-      });
-    });
-
-    logger.info(
-      '[generateRetenController] que superadmin sekarang: ' +
-        downloadQueue.length()
-    );
-    return result;
-  } catch (err) {
-    logger.error(err);
-    return res.status(500).json({ message: err });
+    if (
+      process.env.BUILD_ENV === 'production' &&
+      userTokenData.jumlahToken <= 0
+    ) {
+      logger.info(
+        '[generateRetenController] no more coins left for ' + username
+      );
+      return res.status(401).json({ msg: 'no more coins left' });
+    }
   }
+
+  const downloadQueue = async.queue(async (task) => {
+    const result = await task();
+    return result;
+  }, process.env.GENERATE_WORKERS || 5);
+
+  const result = await new Promise((resolve, reject) => {
+    downloadQueue.push(async () => {
+      try {
+        const result = await downloader(req, res);
+        if (
+          process.env.BUILD_ENV === 'production' &&
+          accountType !== 'kaunterUser' &&
+          fromEtl === 'false' &&
+          (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
+        ) {
+          let userTokenData = await GenerateToken.findOne({
+            belongsTo: username,
+            jenisReten,
+          });
+          userTokenData.jumlahToken -= 1;
+          await userTokenData.save();
+          logger.info(
+            '[generateRetenController] dah kurangkan token untuk ' + username
+          );
+        } else {
+          logger.info(
+            '[generateRetenController] not production atau generate bulanan and ' +
+              username
+          );
+        }
+        res.setHeader('Content-Type', 'application/vnd.ms-excel');
+        res.status(200).send(result);
+        resolve(result);
+      } catch (err) {
+        reject(err);
+      }
+    });
+  });
+
+  logger.info(
+    '[generateRetenController] que superadmin sekarang: ' +
+      downloadQueue.length()
+  );
+  return result;
 };
 
-// kp
-// exports.startQueueKp = async function (req, res) {
-//   // get userdata
-//   const { authorization } = req.headers;
-//   const { username, accountType } = jwt.verify(
-//     authorization,
-//     process.env.JWT_SECRET
-//   );
-//   //
-//   const { jenisReten, fromEtl } = req.query;
-//   //
-//   if (
-//     fromEtl === 'false' &&
-//     (jenisReten !== 'PG101A' || jenisReten !== 'PG101C')
-//   ) {
-//     logger.info(
-//       `[generateRetenController] from kpUser & not from etl, from ${username}`
-//     );
-//     let userTokenData = await GenerateToken.findOne({
-//       belongsTo: username,
-//       jenisReten,
-//     });
-
-//     // create if there is no userTokenData
-//     if (!userTokenData) {
-//       const kpUserToken = new GenerateToken({
-//         belongsTo: username,
-//         accountType,
-//         jenisReten,
-//         jumlahToken: 15,
-//       });
-//       await kpUserToken.save();
-//       userTokenData = kpUserToken;
-//       logger.info(
-//         `[generateRetenController] dah save token kp user ${username}`
-//       );
-//     }
-
-//     if (
-//       process.env.BUILD_ENV === 'production' &&
-//       userTokenData.jumlahToken <= 0
-//     ) {
-//       logger.info(
-//         '[generateRetenController] no more coins left for ' + username
-//       );
-//       return res.status(401).json({ msg: 'no more coins left' });
-//     }
-//   }
-
-//   // get in line soldier!
-//   const downloadQueueKp = async.queue(async (task, callback) => {
-//     try {
-//       const result = await task();
-//       callback(null, result);
-//     } catch (err) {
-//       callback(err);
-//     }
-//   }, process.env.GENERATE_WORKERS || 5);
-
-//   downloadQueueKp.push(() =>
-//     downloader(req, res, async (err, result) => {
-//       if (err) {
-//         if (err === 'No data found') {
-//           return res.status(404).json({ message: err });
-//         }
-//         return res.status(500).json({ message: err });
-//       }
-//       if (
-//         process.env.BUILD_ENV === 'production' &&
-//         fromEtl === 'false' &&
-//         (jenisReten !== 'PG101A' || jenisReten !== 'PG101')
-//       ) {
-//         let userTokenData = await GenerateToken.findOne({
-//           belongsTo: username,
-//           jenisReten,
-//         });
-//         userTokenData.jumlahToken -= 1;
-//         await userTokenData.save();
-//         logger.info(
-//           '[generateRetenController] dah kurangkan token untuk ' + username
-//         );
-//       } else {
-//         logger.info(
-//           '[generateRetenController] not production atau generate bulanan and ' +
-//             username
-//         );
-//       }
-//       res.setHeader('Content-Type', 'application/vnd.ms-excel');
-//       res.status(200).send(result);
-//     })
-//   );
-
-//   logger.info(
-//     '[generateRetenController] que kp sekarang: ' + downloadQueueKp.length()
-//   );
-// };
-
 exports.startQueueKp = async function (req, res) {
-  // get userdata
   const { authorization } = req.headers;
   const { username, accountType } = jwt.verify(
     authorization,
@@ -455,6 +225,7 @@ exports.startQueueKp = async function (req, res) {
   logger.info(
     '[generateRetenController] que kp sekarang: ' + downloadQueueKp.length()
   );
+  return result;
 };
 
 // helper
@@ -526,25 +297,21 @@ const downloader = async (req, res) => {
     fromEtl,
   };
 
-  try {
-    const excelFile = await mapsOfSeveralRetens.get(jenisReten)(payload);
+  const excelFile = await mapsOfSeveralRetens.get(jenisReten)(payload);
 
-    if (excelFile === 'No data found') {
-      return new Error('No data found');
-    }
-
-    penjanaanRetenLogger.info(
-      `[penjanaanReten] ${username} menjana ${jenisReten} untuk ${
-        klinik === 'all' ? 'semua klinik' : klinik
-      }${daerah === 'all' ? '/semua daerah' : `/${daerah}`}${
-        negeri === 'all' ? '/semua negeri' : `/${negeri}`
-      }`
-    );
-
-    return excelFile;
-  } catch (error) {
-    throw error;
+  if (excelFile === 'No data found') {
+    return new Error('No data found');
   }
+
+  penjanaanRetenLogger.info(
+    `[penjanaanReten] ${username} menjana ${jenisReten} untuk ${
+      klinik === 'all' ? 'semua klinik' : klinik
+    }${daerah === 'all' ? '/semua daerah' : `/${daerah}`}${
+      negeri === 'all' ? '/semua negeri' : `/${negeri}`
+    }`
+  );
+
+  return excelFile;
 };
 
 // functions
@@ -807,7 +574,7 @@ const makePG101A = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePG101C = async (payload) => {
@@ -1028,7 +795,7 @@ const makePG101C = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePG211A = async (payload) => {
@@ -1201,7 +968,7 @@ const makePG211A = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePG211C = async (payload) => {
@@ -1363,7 +1130,7 @@ const makePG211C = async (payload) => {
 
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePG206 = async (payload) => {
@@ -1767,7 +1534,7 @@ const makePG206 = async (payload) => {
 
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePG207 = async (payload) => {
@@ -2318,7 +2085,7 @@ const makePG207 = async (payload) => {
     return file;
   } catch (err) {
     // console.log('makePG207 error');
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePG214 = async (payload) => {
@@ -2495,7 +2262,7 @@ const makePG214 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePGPR201 = async (payload) => {
@@ -2692,7 +2459,7 @@ const makePGPR201 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePgPro01 = async (payload) => {
@@ -3072,7 +2839,7 @@ const makePgPro01 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePgPro01Combined = async (payload) => {
@@ -3265,7 +3032,7 @@ const makePgPro01Combined = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePG201P2 = async (payload) => {
@@ -3558,7 +3325,7 @@ const makePG201P2 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makePGS203P2 = async (payload) => {
@@ -3801,7 +3568,7 @@ const makePGS203P2 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makeMasa = async (payload) => {
@@ -3962,7 +3729,7 @@ const makeMasa = async (payload) => {
 
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makeBp = async (payload) => {
@@ -4365,7 +4132,7 @@ const makeBp = async (payload) => {
 
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makeBPE = async (payload) => {
@@ -4526,7 +4293,7 @@ const makeBPE = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makeGender = async (payload) => {
@@ -4785,7 +4552,7 @@ const makeGender = async (payload) => {
 
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 
@@ -4810,7 +4577,7 @@ const makeKEPP = async (payload) => {
     }
     return data;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 const makeTOD = async (payload) => {
@@ -5021,7 +4788,7 @@ const makeTOD = async (payload) => {
 
     return file;
   } catch (err) {
-    excelMakerError(err);
+    excelMakerError(payload.jenisReten);
   }
 };
 

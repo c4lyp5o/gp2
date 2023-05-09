@@ -967,7 +967,7 @@ const countPG211A = async (payload) => {
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -1779,7 +1779,7 @@ const countPG211C = async (payload) => {
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -3866,7 +3866,7 @@ const countPG206 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -6570,9 +6570,8 @@ const countPG207 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error.message}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
-    // console.log('counthelper');
     throw Error(error.message);
   }
 };
@@ -7174,7 +7173,7 @@ const countPGPR201Baru = async (payload) => {
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -8335,7 +8334,7 @@ const countPG201 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -9140,7 +9139,7 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -10249,7 +10248,7 @@ const countPG201A = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -11298,7 +11297,7 @@ const countPG201PindSatu2022 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -13159,7 +13158,7 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -13677,7 +13676,7 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -13845,11 +13844,12 @@ const countPGPro01 = async (payload) => {
   // run aggregate
   try {
     const pipeline = [match_stage, group_stage];
+    throw new Error(JSON.stringify(match_stage));
     const data = await Promosi.aggregate(pipeline);
     return data;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -14432,7 +14432,7 @@ const countPGPro01Combined = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -14797,7 +14797,7 @@ const countMasa = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -15137,7 +15137,7 @@ const countBp = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -15386,7 +15386,7 @@ const countGender = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -15787,7 +15787,7 @@ const countBPE = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -16771,7 +16771,7 @@ const countPG201P2 = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -17775,7 +17775,7 @@ const countTOD = async (payload) => {
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
@@ -17881,7 +17881,7 @@ const countAdHocQuery = async (
     return query;
   } catch (error) {
     errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. Error: ${error}`
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
     throw new Error(error);
   }
