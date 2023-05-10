@@ -79,7 +79,9 @@ const UserCarianSekolah = lazy(() =>
   import('../components/carian/UserCarianSekolah')
 );
 const UserFormSalahSekolahPemeriksaan = lazy(() =>
-  import('../components/sekolah/form-sekolah/UserFormSalahSekolahPemeriksaan')
+  import(
+    '../components/sekolah/form-salah-sekolah/UserFormSalahSekolahPemeriksaan'
+  )
 );
 
 // summary
