@@ -34,10 +34,9 @@ export default function MaklumatAsasDaerah() {
       }),
     };
     try {
-      console.log(updatedData);
       const { data } = initialNoData
-        ? await createData('mda', updatedData)
-        : await updateData('mda', updatedData.Id, updatedData);
+        ? await createData('mad', updatedData)
+        : await updateData('mad', updatedData.Id, updatedData);
       setTimeout(() => {
         toast.success(
           `Maklumat Asas Daerah ${
@@ -57,10 +56,9 @@ export default function MaklumatAsasDaerah() {
       try {
         const {
           data: [maklumatAsasDaerah],
-        } = await readData('mda');
+        } = await readData('mad');
         setMaklumatAsasDaerah({ ...maklumatAsasDaerah });
         setInitialNoData(false);
-        // console.log(maklumatAsasDaerah);
       } catch (error) {
         console.log(error);
         setInitialNoData(true);
@@ -73,7 +71,7 @@ export default function MaklumatAsasDaerah() {
       setInitialNoData(true);
       setMaklumatAsasDaerah(null);
     };
-  }, []);
+  }, [savingData]);
 
   return (
     <>
@@ -454,7 +452,7 @@ export default function MaklumatAsasDaerah() {
                   <label className='text-center'>Jumlah</label>
                   <input
                     type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center text-center'
+                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
                     value={
                       maklumatAsasDaerah?.jumlahWellnessHubYangTelahLaksanaKurang4Aktiviti ||
                       0
