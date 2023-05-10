@@ -1,5 +1,5 @@
 # pull Cypress image
-FROM cypress/included:12.7.0
+FROM cypress/included:latest
 
 # create app directory
 WORKDIR /usr/src/app
@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY . .
 
 # install node_modules
-RUN npm run install-prod && npm run install-client
+RUN npm run install-prod
 
 # build client React JS
 RUN CI=false npm run build-client

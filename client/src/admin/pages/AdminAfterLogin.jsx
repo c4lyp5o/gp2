@@ -201,6 +201,7 @@ function AdminAfterLogin() {
     }
   }, [window.location.pathname]);
 
+  // TODO needs rework because refetch identity not working if token tempered
   // page init and activate event listener refetch indentity on tab focus
   useEffect(() => {
     if (init.current === false) {
