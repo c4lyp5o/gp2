@@ -1396,9 +1396,6 @@ const Generate = () => {
       } catch (err) {
         console.log(err);
         setStatusToken([]);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-token'
-        // );
       }
     }
 
