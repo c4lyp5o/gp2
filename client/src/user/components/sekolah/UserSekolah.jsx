@@ -127,7 +127,6 @@ function UserSekolah() {
     }
   }, [reloadState]);
 
-  // TODO refactor to try catch block with toast.promise, submitting state & reset the date input
   const handleSubmitBegin = async (e) => {
     e.preventDefault();
     setSubmittingBegin(true);
@@ -528,6 +527,7 @@ function UserSekolah() {
                 ) : null}
               </tr>
             </thead>
+            {/* TODO disable semua data input if person sekolah berpindah === true */}
             {!isLoading &&
               pilihanSekolah &&
               pilihanTahunTingkatan &&
