@@ -707,6 +707,18 @@ const ConfirmModal = ({ children, data, salahReten }) => {
                     </div>
                   )
                 )}
+                {data.pilihanDataSalah &&
+                  salahReten === 'pemeriksaan-salah' && (
+                    <div className='grid grid-cols-[1fr_2fr]'>
+                      <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                        {data.pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
+                          true && 'Status Denture'}
+                      </p>
+                      <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                        {data.pilihanDataSalah.yaTidakSediaAdaStatusDentureText}
+                      </p>
+                    </div>
+                  )}
               </div>
               <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
                 <button
@@ -804,6 +816,20 @@ const ConfirmModal = ({ children, data, salahReten }) => {
             <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7'>
               PERHATIAN
             </h5>
+            <div className='flex flex-col justify-center mb-3 2xl:mb-10'>
+              <span className='relative flex justify-center items-center mt-8'>
+                <FaUserCheck className='text-7xl text-user9 mx-auto absolute animate-ping' />
+                <FaUserCheck className='text-7xl text-user9 mx-auto absolute' />
+              </span>
+              <p className='text-center text-xl font-bold mt-14'>
+                Adakah anda yakin?
+              </p>
+              <p className='text-center text-sm normal-case'>
+                Anda
+                <strong className='text-user9 mx-1'>TIDAK</strong>dibenarkan
+                untuk menanda reten salah selepas manghantar
+              </p>
+            </div>
             <div className='max-[1024px]:absolute min-[1536px]:absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
               <button
                 type='submit'
