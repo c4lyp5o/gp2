@@ -82,6 +82,13 @@ const countPG101A = async (payload) => {
 
   const data = await Umum.aggregate(pipeline);
 
+  if (data.length === 0) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
+    );
+    throw new Error(error);
+  }
+
   return data;
 };
 const countPG101C = async (payload) => {
@@ -150,6 +157,13 @@ const countPG101C = async (payload) => {
   const pipeline = match_stage.concat(project_stage, sort_stage);
 
   const data = await Umum.aggregate(pipeline);
+
+  if (data.length === 0) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
+    );
+    throw new Error(error);
+  }
 
   return data;
 };
@@ -15460,6 +15474,8 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gt: 14, $lt: 18 },
       kedatangan: { $eq: 'baru-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
+      engganBpeImplan: false,
     },
   };
   const bUmur1819 = {
@@ -15467,6 +15483,8 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 18, $lte: 19 },
       kedatangan: { $eq: 'baru-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
+      engganBpeImplan: false,
     },
   };
   const bUmur2029 = {
@@ -15474,6 +15492,8 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 20, $lte: 29 },
       kedatangan: { $eq: 'baru-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
+      engganBpeImplan: false,
     },
   };
   const bUmur3049 = {
@@ -15481,6 +15501,8 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 30, $lte: 49 },
       kedatangan: { $eq: 'baru-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
+      engganBpeImplan: false,
     },
   };
   const bUmur5059 = {
@@ -15488,6 +15510,8 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 50, $lte: 59 },
       kedatangan: { $eq: 'baru-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
+      engganBpeImplan: false,
     },
   };
   const bUmur60keatas = {
@@ -15495,6 +15519,8 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 60 },
       kedatangan: { $eq: 'baru-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
+      engganBpeImplan: false,
     },
   };
 
@@ -15503,6 +15529,7 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $lt: 18 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur1819 = {
@@ -15510,6 +15537,7 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 18, $lte: 19 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur2029 = {
@@ -15517,6 +15545,7 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 20, $lte: 29 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur3049 = {
@@ -15524,6 +15553,7 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 30, $lte: 49 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur5059 = {
@@ -15531,6 +15561,7 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 50, $lte: 59 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur60keatas = {
@@ -15538,6 +15569,7 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 60 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
+      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
 
@@ -15581,11 +15613,7 @@ const countBPE = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $eq: ['$kedatangan', 'baru-kedatangan'] },
-                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
-                { $ne: ['$engganBpeImplan', true] },
-              ],
+              $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
             },
             1,
             0,
@@ -15596,10 +15624,7 @@ const countBPE = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
-                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
-              ],
+              $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
             },
             1,
             0,
@@ -15609,7 +15634,15 @@ const countBPE = async (payload) => {
 
       //Punca Rujukan T2DM
       adaRujukanT2DMdariKK: {
-        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'klinik-kesihatan'] }, 1, 0] },
+        $sum: {
+          $cond: [
+            {
+              $and: [{ $eq: ['$puncaRujukan', 'klinik-kesihatan'] }],
+            },
+            1,
+            0,
+          ],
+        },
       },
       adaRujukanT2DMdariLainLain: {
         $sum: { $cond: [{ $eq: ['$puncaRujukan', 'lain-lain'] }, 1, 0] },
@@ -18587,6 +18620,8 @@ const getParams207sekolah = (payload) => {
   }
 };
 const getParamsPgpr201 = (payload) => {
+  const { negeri, daerah, klinik } = payload;
+
   const byKp = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
