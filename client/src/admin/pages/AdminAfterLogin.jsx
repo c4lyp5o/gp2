@@ -43,6 +43,11 @@ const DataNegeri = lazy(() => import('../components/superadmin/negeri/Data'));
 const Data = lazy(() => import('../components/superadmin/Data'));
 const DataKp = lazy(() => import('../components/admin-kp/Data'));
 
+// maklumat asas daerah
+const MaklumatAsasDaerah = lazy(() =>
+  import('../components/superadmin/MaklumatAsasDaerah')
+);
+
 // settings
 const Settings = lazy(() => import('../components/superadmin/Settings'));
 
@@ -55,16 +60,11 @@ const OndemandSetting = lazy(() =>
   import('../components/superadmin/OndemandSetting')
 );
 
-// maklumat asas daerah
-const MaklumatAsasDaerah = lazy(() =>
-  import('../components/superadmin/MaklumatAsasDaerah')
-);
-
 // disabled admin page
 const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
 
 //ad hoc query
-// import AdHocQuery from '../components/superadmin/AdHocQuery';
+// const AdHocQuery = lazy(() => import('../components/superadmin/AdHocQuery'));
 
 function AdminAfterLogin() {
   const {
@@ -242,7 +242,11 @@ function AdminAfterLogin() {
     loginInfo.accountType !== 'hqSuperadmin' &&
     !currentOndemandSetting.adminPage
   ) {
-    return <DisabledAdminPage />;
+    return (
+      <Suspense fallback={<Loading />}>
+        <DisabledAdminPage />
+      </Suspense>
+    );
   }
 
   return (
@@ -252,11 +256,12 @@ function AdminAfterLogin() {
       <Navbar {...props} />
       <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pt-2 pb-2 px-3'>
         <Routes>
+          {/* route for all: hq, negeri, daerah, kp superadmin sharing all these */}
           <Route
             path='followers'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='followers' />{' '}
+                <DataKp FType='followers' />
               </Suspense>
             }
           />
@@ -264,25 +269,14 @@ function AdminAfterLogin() {
             path='sosmed'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='sosmed' />{' '}
+                <DataKp FType='sosmed' />
               </Suspense>
             }
           />
-          {/* hq sahaja */}
-          {loginInfo.accountType === 'hqSuperadmin' ? (
-            <>
-              <Route
-                path='ondemand'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <OndemandSetting />{' '}
-                  </Suspense>
-                }
-              />
-            </>
-          ) : null}
-          {/* hq, negeri & daerah superadmin */}
-          {loginInfo.accountType !== 'kpUser' ? (
+          {/* route landing page, bendera stuff, graph, generate, tetapan untuk hq, negeri, daerah superadmin sahaja */}
+          {loginInfo.accountType === 'hqSuperadmin' ||
+          loginInfo.accountType === 'negeriSuperadmin' ||
+          loginInfo.accountType === 'daerahSuperadmin' ? (
             <>
               <Route
                 index
@@ -296,11 +290,68 @@ function AdminAfterLogin() {
                 path='negeri'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Negeri />{' '}
+                    <Negeri />
                   </Suspense>
                 }
               />
-              {/* Data untuk negeri */}
+              <Route
+                path='daerah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Daerah />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='klinik'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Klinik />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='generate'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Generate {...props} />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='tetapan'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Settings />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
+          {/* route hq superadmin sahaja */}
+          {loginInfo.accountType === 'hqSuperadmin' ? (
+            <>
+              <Route
+                path='generate'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Generate {...props} />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='ondemand'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <OndemandSetting />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
+          {/* route negeri superadmin sahaja */}
+          {loginInfo.accountType === 'negeriSuperadmin' ? (
+            <>
               <Route
                 path='negeri/pp'
                 element={
@@ -317,20 +368,16 @@ function AdminAfterLogin() {
                   </Suspense>
                 }
               />
-              {/* Data untuk negeri */}
+            </>
+          ) : null}
+          {/* route daerah superadmin sahaja */}
+          {loginInfo.accountType === 'daerahSuperadmin' ? (
+            <>
               <Route
-                path='daerah'
+                path='kp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Daerah />{' '}
-                  </Suspense>
-                }
-              />
-              <Route
-                path='klinik'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Klinik />{' '}
+                    <Data FType='kp' />{' '}
                   </Suspense>
                 }
               />
@@ -339,14 +386,6 @@ function AdminAfterLogin() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <Data FType='kkiakd' />{' '}
-                  </Suspense>
-                }
-              />
-              <Route
-                path='kp'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Data FType='kp' />{' '}
                   </Suspense>
                 }
               />
@@ -423,36 +462,6 @@ function AdminAfterLogin() {
                 }
               />
               <Route
-                path='tetapan'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Settings />{' '}
-                  </Suspense>
-                }
-              />
-              <Route
-                path='generate'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Generate {...props} />
-                  </Suspense>
-                }
-              />
-              {/* AdHoc Query thanks myhdw! */}
-              {/* <Route
-                path='aq'
-                element={
-                  <DndProvider backend={HTML5Backend}>
-                    <AdHocQuery />
-                  </DndProvider>
-                }
-              /> */}
-            </>
-          ) : null}
-          {/* daerah superadmin */}
-          {loginInfo.accountType === 'daerahSuperadmin' ? (
-            <>
-              <Route
                 path='maklumat-asas'
                 element={
                   <Suspense fallback={<Loading />}>
@@ -462,7 +471,7 @@ function AdminAfterLogin() {
               />
             </>
           ) : null}
-          {/* KP superadmin */}
+          {/* route kp superadmin sahaja */}
           {loginInfo.accountType === 'kpUser' ? (
             <>
               <Route
@@ -531,6 +540,17 @@ function AdminAfterLogin() {
               />
             </>
           ) : null}
+          {/* AdHoc Query thanks myhdw! */}
+          {/* <Route
+            path='aq'
+            element={
+              <Suspense fallback={<Loading />}>
+                <DndProvider backend={HTML5Backend}>
+                  <AdHocQuery />
+                </DndProvider>
+              </Suspense>
+            }
+          /> */}
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>
