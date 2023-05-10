@@ -11311,7 +11311,22 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        umur: { $lt: 7 },
+        // umur: { $lt: 7 },
+        $expr: {
+          $lte: [
+            {
+              $subtract: [
+                {
+                  $year: new Date(),
+                },
+                {
+                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                },
+              ],
+            },
+            6,
+          ],
+        },
       },
     },
     {
@@ -11345,7 +11360,22 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        umur: { $lt: 7 },
+        // umur: { $lt: 7 },
+        $expr: {
+          $lte: [
+            {
+              $subtract: [
+                {
+                  $year: new Date(),
+                },
+                {
+                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                },
+              ],
+            },
+            6,
+          ],
+        },
       },
     },
     {
@@ -11379,7 +11409,22 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        umur: { $lt: 7 },
+        // umur: { $lt: 7 },
+        $expr: {
+          $lte: [
+            {
+              $subtract: [
+                {
+                  $year: new Date(),
+                },
+                {
+                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                },
+              ],
+            },
+            6,
+          ],
+        },
         orangKurangUpaya: true,
       },
     },
@@ -11388,7 +11433,22 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        umur: { $lt: 7 },
+        // umur: { $lt: 7 },
+        $expr: {
+          $lte: [
+            {
+              $subtract: [
+                {
+                  $year: new Date(),
+                },
+                {
+                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                },
+              ],
+            },
+            6,
+          ],
+        },
         kumpulanEtnik: 'penan',
       },
     },
@@ -16022,7 +16082,22 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $eq: 5 },
+        // umur: { $eq: 5 },
+        $expr: {
+          $eq: [
+            {
+              $subtract: [
+                {
+                  $year: new Date(),
+                },
+                {
+                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                },
+              ],
+            },
+            5,
+          ],
+        },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
       },
@@ -16033,7 +16108,21 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $eq: 6 },
+        $expr: {
+          $eq: [
+            {
+              $subtract: [
+                {
+                  $year: new Date(),
+                },
+                {
+                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                },
+              ],
+            },
+            6,
+          ],
+        },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
       },
@@ -16043,7 +16132,33 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $gte: 5, $lt: 7 },
+        // umur: { $gte: 5, $lt: 7 },
+        $expr: {
+          $and: [
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    { $year: new Date() },
+                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
+                  ],
+                },
+                5,
+              ],
+            },
+            {
+              $lte: [
+                {
+                  $subtract: [
+                    { $year: new Date() },
+                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
+                  ],
+                },
+                7,
+              ],
+            },
+          ],
+        },
         jenisFasiliti: { $eq: 'taska-tadika' },
         orangKurangUpaya: true,
         deleted: false,
@@ -16054,7 +16169,33 @@ const countPG201P2 = async (payload) => {
     {
       $match: {
         ...getParamsPG201P2(payload),
-        umur: { $gte: 5, $lt: 7 },
+        // umur: { $gte: 5, $lt: 7 },
+        $expr: {
+          $and: [
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    { $year: new Date() },
+                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
+                  ],
+                },
+                5,
+              ],
+            },
+            {
+              $lte: [
+                {
+                  $subtract: [
+                    { $year: new Date() },
+                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
+                  ],
+                },
+                7,
+              ],
+            },
+          ],
+        },
         jenisFasiliti: { $eq: 'taska-tadika' },
         kumpulanEtnik: { $in: ['penan', 'orang asli semenanjung'] },
         deleted: false,

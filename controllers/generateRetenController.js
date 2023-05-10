@@ -2091,7 +2091,6 @@ const makePG207 = async (payload) => {
 
     return file;
   } catch (err) {
-    // console.log('makePG207 error');
     excelMakerError(payload.jenisReten);
   }
 };
@@ -3112,6 +3111,8 @@ const makePG201P2 = async (payload) => {
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
 
+    const rowsToIncrement = [2, 9];
+
     for (let i = 0; i < data.length; i++) {
       // let rowNew = worksheet.getRow(16 + i);
       console.log(`array ${i}. row ${rowNumber}`);
@@ -3271,7 +3272,7 @@ const makePG201P2 = async (payload) => {
         worksheet.getRow(rowNumber).getCell(86).value =
           data[i][0].jumlahKesSelesaiBiasa; //Column CH (86)
       }
-      rowNumber++;
+      rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
       console.log(`row number now is ${rowNumber}`);
     }
 
@@ -3399,6 +3400,8 @@ const makePGS203P2 = async (payload) => {
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
 
+    const rowsToIncrement = [1, 6, 10, 14, 18, 23, 27, 31];
+
     for (let i = 0; i < data.length; i++) {
       // let rowNew = worksheet.getRow(16 + i);
       console.log(`array ${i}. row ${rowNumber}`);
@@ -3501,20 +3504,7 @@ const makePGS203P2 = async (payload) => {
         worksheet.getRow(rowNumber).getCell(61).value = data[i][0].penskaleran; //Column BI (61)
         worksheet.getRow(rowNumber).getCell(62).value = data[i][0].kesSelesai; //Column BJ (62)
       }
-      if (
-        i === 1 ||
-        i === 6 ||
-        i === 10 ||
-        i === 14 ||
-        i === 18 ||
-        i === 23 ||
-        i === 27 ||
-        i === 31
-      ) {
-        rowNumber += 2;
-      } else {
-        rowNumber += 1;
-      }
+      rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
       console.log(`row number now is ${rowNumber}`);
     }
 
@@ -4651,7 +4641,9 @@ const makeTOD = async (payload) => {
     const jumlahPPdanJP = await Operator.aggregate([
       {
         $match: {
-          kodFasiliti: klinik,
+          ...(negeri !== 'all' ? { createdByNegeri: negeri } : null),
+          ...(daerah !== 'all' ? { createdByDaerah: daerah } : null),
+          ...(klinik !== 'all' ? { kodFasiliti: klinik } : null),
           statusPegawai: { $in: ['pp', 'jp'] },
         },
       },
@@ -4663,9 +4655,7 @@ const makeTOD = async (payload) => {
       },
     ]);
 
-    console.log(jumlahPPdanJP);
-
-    worksheet.getCell('C8').value = `${jumlahPPdanJP}`;
+    worksheet.getCell('C8').value = `${jumlahPPdanJP[0].jumlah}`;
     worksheet.getCell('C7').value = `${klinik.toUpperCase()}`;
     worksheet.getCell(
       'C6'
