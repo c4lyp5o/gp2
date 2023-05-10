@@ -153,16 +153,13 @@ function UserSekolah() {
         }
       )
       .then((res) => {
-        console.log(res);
         setModalBegin(false);
         setReloadState(!reloadState);
         setSubmittingBegin(false);
-        toast.success('Berjaya mengemaskini maklumat BEGIN sekolah');
       })
       .catch((err) => {
         console.log(err);
         setModalBegin(false);
-        toast.error('Gagal mengemaskini maklumat BEGIN sekolah');
       });
   };
 
