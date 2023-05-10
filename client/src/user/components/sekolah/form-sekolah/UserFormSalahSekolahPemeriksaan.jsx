@@ -223,6 +223,151 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
   const [dataRetenSalah, setDataRetenSalah] = useState({});
   const [pilihanDataSalah, setPilihanDataSalah] = useState({
     yaTidakSediaAdaStatusDenture: false,
+    yaTidakSediaAdaStatusDentureText: '',
+    separaPenuhAtasSediaAdaDenture: false,
+    separaPenuhAtasSediaAdaDentureText: '',
+    separaPenuhBawahSediaAdaDenture: false,
+    separaPenuhBawahSediaAdaDentureText: '',
+    yaTidakPerluStatusDenture: false,
+    yaTidakPerluStatusDentureText: '',
+    separaPenuhAtasPerluDenture: false,
+    separaPenuhAtasPerluDentureText: '',
+    separaPenuhBawahPerluDenture: false,
+    separaPenuhBawahPerluDentureText: '',
+    kebersihanMulutOralHygiene: false,
+    kebersihanMulutOralHygieneText: '',
+    skorBpeOralHygiene: false,
+    skorBpeOralHygieneText: '',
+    saringanKanserMulutOralHygiene: false,
+    saringanKanserMulutOralHygieneText: '',
+    skorGisMulutOralHygiene: false,
+    skorGisMulutOralHygieneText: '',
+    perluPenskaleranOralHygiene: false,
+    perluPenskaleranOralHygieneText: '',
+    statusPeriodontium: false,
+    statusPeriodontiumText: '',
+    yaTidakPesakitMempunyaiGigi: false,
+    yaTidakPesakitMempunyaiGigiText: '',
+    adaDesidus: false,
+    adaDesidusText: '',
+    dAdaGigiDesidus: false,
+    dAdaGigiDesidusText: '',
+    fAdaGigiDesidus: false,
+    fAdaGigiDesidusText: '',
+    xAdaGigiDesidus: false,
+    xAdaGigiDesidusText: '',
+    adaKekal: false,
+    adaKekalText: '',
+    dAdaGigiKekal: false,
+    dAdaGigiKekalText: '',
+    mAdaGigiKekal: false,
+    mAdaGigiKekalText: '',
+    fAdaGigiKekal: false,
+    fAdaGigiKekalText: '',
+    eAdaGigiKekal: false,
+    eAdaGigiKekalText: '',
+    xAdaGigiKekal: false,
+    xAdaGigiKekalText: '',
+    jumlahFaktorRisiko: false,
+    jumlahFaktorRisikoText: '',
+    penandaRisikoKaries: false,
+    penandaRisikoKariesText: '',
+    adaCleftLip: false,
+    adaCleftLipText: '',
+    rujukCleftLip: false,
+    rujukCleftLipText: '',
+    kecederaanGigiAnteriorTrauma: false,
+    kecederaanGigiAnteriorTraumaText: '',
+    tisuLembutTrauma: false,
+    tisuLembutTraumaText: '',
+    tisuKerasTrauma: false,
+    tisuKerasTraumaText: '',
+    gicBilanganFsDibuat3TahunLepas: false,
+    gicBilanganFsDibuat3TahunLepasText: '',
+    resinBilanganFsDibuat3TahunLepas: false,
+    resinBilanganFsDibuat3TahunLepasText: '',
+    lainLainBilanganFsDibuat3TahunLepas: false,
+    lainLainBilanganFsDibuat3TahunLepasText: '',
+    dBilanganFsDibuat3TahunLepasTerjadi: false,
+    dBilanganFsDibuat3TahunLepasTerjadiText: '',
+    mBilanganFsDibuat3TahunLepasTerjadi: false,
+    mBilanganFsDibuat3TahunLepasTerjadiText: '',
+    fBilanganFsDibuat3TahunLepasTerjadi: false,
+    fBilanganFsDibuat3TahunLepasTerjadiText: '',
+    eBilanganFsDibuat3TahunLepasTerjadi: false,
+    eBilanganFsDibuat3TahunLepasTerjadiText: '',
+    xBilanganFsDibuat3TahunLepasTerjadi: false,
+    xBilanganFsDibuat3TahunLepasTerjadiText: '',
+    toothSurfaceLoss: false,
+    toothSurfaceLossText: '',
+    classID: false,
+    classIDText: '',
+    classIID: false,
+    classIIDText: '',
+    classIF: false,
+    classIFText: '',
+    classIIF: false,
+    classIIFText: '',
+    baruJumlahGigiKekalPerluFs: false,
+    baruJumlahGigiKekalPerluFsText: '',
+    baruJumlahMuridPerluFs: false,
+    baruJumlahMuridPerluFsText: '',
+    baruJumlahGigiKekalPerluFv: false,
+    baruJumlahGigiKekalPerluFvText: '',
+    semulaJumlahGigiKekalPerluFv: false,
+    semulaJumlahGigiKekalPerluFvText: '',
+    baruJumlahMuridPerluFv: false,
+    baruJumlahMuridPerluFvText: '',
+    semulaJumlahMuridPerluFv: false,
+    semulaJumlahMuridPerluFvText: '',
+    baruJumlahGigiKekalPerluPrrJenis1: false,
+    baruJumlahGigiKekalPerluPrrJenis1Text: '',
+    semulaJumlahGigiKekalPerluPrrJenis1: false,
+    semulaJumlahGigiKekalPerluPrrJenis1Text: '',
+    baruJumlahMuridPerluPrrJenis1: false,
+    baruJumlahMuridPerluPrrJenis1Text: '',
+    semulaJumlahMuridPerluPrrJenis1: false,
+    semulaJumlahMuridPerluPrrJenis1Text: '',
+    yaTidakSilverDiamineFluoridePerluSapuan: false,
+    yaTidakSilverDiamineFluoridePerluSapuanText: '',
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    statusM: false,
+    statusMText: '',
+    menerimaNasihatRingkas: false,
+    menerimaNasihatRingkasText: '',
+    melaksanakanSaringanMerokok: false,
+    melaksanakanSaringanMerokokText: '',
+    bersediaDirujuk: false,
+    bersediaDirujukText: '',
+    noTelMuridKotak: false,
+    noTelMuridKotakText: '',
+    kesSelesai: false,
+    kesSelesaiText: '',
+    kesSelesaiIcdas: false,
+    kesSelesaiIcdasText: '',
   });
 
   const TarikhPemeriksaanSemasa = () => {
@@ -1481,7 +1626,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                       <h4 className='font-bold flex flex-row pl-5'>
                         Status dentur
                       </h4>
-                      <div className='grid grid-cols-2 gap-2 auto-rows-min'>
+                      <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min'>
                         <article className='grid grid-cols-1 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                           <div
                             className={`${
@@ -1581,8 +1726,55 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                       },
                                     });
                                   }}
-                                  className='w-4 h-4 text-user5 bg-user9 border-gray-300 focus:ring-blue-500'
+                                  className={` ${
+                                    pilihanDataSalah.yaTidakSediaAdaStatusDenture
+                                      ? 'hidden'
+                                      : 'block'
+                                  } w-4 h-4 text-user5 bg-user9 border-gray-300 focus:ring-blue-500`}
                                 />
+                                {pilihanDataSalah.yaTidakSediaAdaStatusDenture && (
+                                  <div className=' w-32 bg-userWhite rounded-md p-1 shadow-md shadow-user1'>
+                                    <div className='flex flex-row items-center'>
+                                      <label
+                                        htmlFor='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        className='text-xs font-semibold whitespace-nowrap'
+                                      >
+                                        Sebab{' '}
+                                        <span className='text-user6'>*</span>
+                                      </label>
+                                      <input
+                                        type='text'
+                                        required
+                                        name='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        id='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        value={
+                                          pilihanDataSalah.yaTidakSediaAdaStatusDentureText
+                                        }
+                                        onChange={(e) => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            yaTidakSediaAdaStatusDentureText:
+                                              e.target.value,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            yaTidakSediaAdaStatusDentureText:
+                                              e.target.value,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              yaTidakSediaAdaStatusDentureText:
+                                                e.target.value,
+                                            },
+                                          });
+                                        }}
+                                        className='w-full px-2 py-1 text-xs border border-user1 rounded-md focus:outline-none focus:ring-1 focus:ring-user15'
+                                      />
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                             {pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
