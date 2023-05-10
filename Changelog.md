@@ -1,5 +1,18 @@
 # Changelog
 
+### 11/5/2023 (v2.1.0)
+
+#### Added
+
+- Membuka submodul Sekolah di modul Pengguna
+- Membuka submodul Kohort Kotak di modul Pengguna
+- Pentadbir daerah boleh memilih sekolah di modul Pentadbir
+- Mengemaskini soalan-soalan FAQ sistem Gi-Ret 2.0
+
+#### Removed
+
+- Tidak memaparkan email di notifikasi ketika ingin log masuk ke dalam modul Pentadbir bagi semua peringkat
+
 ### 17/4/2023 (v2.0.19)
 
 #### Changed
