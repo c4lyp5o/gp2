@@ -60,7 +60,7 @@ const Dictionary = {
   program: 'program',
   programspesifik: 'program-spesifik',
   // maklumat asas daerah
-  mda: 'maklumat-asas-daerah',
+  mad: 'maklumat-asas-daerah',
   // token
   tokenbal: 'token-balance',
   // negeri
@@ -1768,7 +1768,7 @@ const getData = async (req, res) => {
           if (theType === 'maklumat-asas-daerah') {
             const createMAD = await MaklumatAsasDaerah.create(Data);
             logger.info(
-              `[adminAPI/DataCenter] ${user_name} created ${theType} for ${Data.createdByDaerah}`
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} for ${Data.createdByDaerah}`
             );
             res.status(200).json(createMAD);
           }
