@@ -4,7 +4,7 @@ import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
 
-import ConfirmCheck from './ConfirmationPemeriksaan';
+import ConfirmCheck from './ConfirmationSalahPemeriksaan';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
