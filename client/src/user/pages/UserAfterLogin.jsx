@@ -78,6 +78,9 @@ const UserCarianPromosi = lazy(() =>
 const UserCarianSekolah = lazy(() =>
   import('../components/carian/UserCarianSekolah')
 );
+const UserFormSalahSekolahPemeriksaan = lazy(() =>
+  import('../components/sekolah/form-sekolah/UserFormSalahSekolahPemeriksaan')
+);
 
 // summary
 const UserSummary = lazy(() => import('../components/summary/UserSummary'));
@@ -325,7 +328,7 @@ function UserAfterLogin() {
                 path='carian/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <UserFormSekolahPemeriksaan salahReten='pemeriksaan-salah' />
+                    <UserFormSalahSekolahPemeriksaan salahReten='pemeriksaan-salah' />
                   </Suspense>
                 }
               />
@@ -335,7 +338,7 @@ function UserAfterLogin() {
             path='carian/promosi'
             element={
               <Suspense fallback={<Loading />}>
-                <UserCarianPromosi />
+                <UserCarianPromosi />{' '}
               </Suspense>
             }
           />

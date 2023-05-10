@@ -6,9 +6,15 @@ import { FaSort, FaSortUp, FaSortDown, FaInfoCircle } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
+import UserModalSalahSekolah from './UserModalSalahSekolahReten';
+
 export default function UserCarianSekolah() {
   const { userToken, toast, userinfo, dateToday, masterDatePicker } =
     useGlobalUserAppContext();
+
+  //salah reten sekolah
+  const [modalSalahRetenSekolah, setModalSalahRetenSekolah] = useState(false);
+  const [carianSekolah, setCarianSekolah] = useState('');
 
   //carian murid with name or ic
   const [searchResults, setSearchResults] = useState([]);
@@ -64,6 +70,17 @@ export default function UserCarianSekolah() {
       }
     }
   };
+
+  //handle salah sekolah .apa tah aku buat ni
+  // const handleSalahSekolah = async (muridId) => {
+  //   if (!modalSalahRetenSekolah) {
+  //     setModalSalahRetenSekolah(true);
+  //   return;
+  //   }
+  //   if (modalSalahRetenSekolah) {
+  //     setModalSalahRetenSekolah(false);
+  //   }
+  // };
 
   return (
     <>
@@ -203,7 +220,7 @@ export default function UserCarianSekolah() {
                       {singleCarianSekolah.kelasPelajar}
                     </td>
                     <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                      <Link
+                      {/* <Link
                         target='_blank'
                         rel='noreferrer'
                         to={`/pengguna/landing/carian/sekolah/form-sekolah/pemeriksaan/${
@@ -236,13 +253,28 @@ export default function UserCarianSekolah() {
                           : filteredFasilitiSekolah.sekolahSelesaiReten === true
                           ? 'Pemeriksaan Ditutup'
                           : 'Tambah Pemeriksaan'}
-                      </Link>
+                      </Link> */}
+                      <button
+                        onClick={() => {
+                          setModalSalahRetenSekolah(true);
+                          setCarianSekolah(singleCarianSekolah);
+                        }}
+                        className='bg-user6 text-userWhite shadow-md hover:bg-user8 rounded-sm p-1 m-1 transition-all'
+                      >
+                        SALAH RETEN
+                      </button>
                     </td>
                   </tr>
                 );
               })}
             </tbody>
           </table>
+          {modalSalahRetenSekolah && (
+            <UserModalSalahSekolah
+              setModalSalahRetenSekolah={setModalSalahRetenSekolah}
+              carianSekolah={carianSekolah}
+            />
+          )}
         </div>
       </div>
     </>
