@@ -344,23 +344,6 @@ function UserAfterLogin() {
           />
 
           <Route
-            path='carian/sekolah'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserCarianSekolah />{' '}
-              </Suspense>
-            }
-          />
-          <Route
-            path='carian/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserFormSalahSekolahPemeriksaan salahReten='pemeriksaan-salah' />{' '}
-              </Suspense>
-            }
-          />
-
-          <Route
             path='summary'
             element={
               <Suspense fallback={<Loading />}>
