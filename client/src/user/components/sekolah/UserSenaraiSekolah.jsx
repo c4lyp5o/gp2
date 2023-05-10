@@ -158,6 +158,7 @@ function UserSekolahList() {
   const handleDownloadSenaraiSekolah = async (currentId, currentName) => {
     try {
       setIsDownloading(true);
+      const id = toast.loading('Sedang mencetak senarai pelajar...');
       const { data } = await axios.get(
         `/api/v1/sekolah/muatturun/${currentId}`,
         {
@@ -167,15 +168,30 @@ function UserSekolahList() {
           responseType: 'blob',
         }
       );
+      const currentTakwim = allPersonSekolahs[0].sesiTakwimPelajar.replace(
+        '/',
+        '-'
+      );
       const link = document.createElement('a');
-      link.download = `Senarai Pelajar Sekolah ${currentName}.xlsx`;
+      link.download = `SENARAI PELAJAR ${currentName} - ${currentTakwim}.xlsx`;
       link.href = URL.createObjectURL(new Blob([data]));
       link.addEventListener('click', (e) => {
         setTimeout(() => URL.revokeObjectURL(link.href), 100);
       });
       link.click();
+      toast.update(id, {
+        render: `Berjaya mencetak senarai pelajar ${currentName}`,
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000,
+      });
     } catch (error) {
-      toast.error('Harap maaf, senarai pelajar tidak dapat dimuatturun');
+      toast.update(id, {
+        render: 'Harap maaf, senarai pelajar tidak dapat dimuatturun',
+        type: 'success',
+        isLoading: false,
+        autoClose: 2000,
+      });
       console.log(error);
     } finally {
       setTimeout(() => {
