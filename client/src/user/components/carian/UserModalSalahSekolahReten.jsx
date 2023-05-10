@@ -78,26 +78,27 @@ export default function UserModalSalahSekolah({
     <>
       <form
         onSubmit={handleSubmit}
-        className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+        className='absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md m-'
       >
         <FaWindowClose
           className='absolute top-2 right-2 text-2xl cursor-pointer'
           onClick={() => setModalSalahRetenSekolah(false)}
         />
-        <div className='h-10 bg-user9 flex justify-center items-center text-userWhite uppercase font-bold text-lg'>
+        <div className='h-10 bg-user9 flex justify-center items-center text-userWhite uppercase font-bold text-lg rounded-t-md'>
           Pengesahan
         </div>
-        <div className='flex flex-col items-center justify-center'>
-          <h1 className='text-2xl font-bold text-center mt-3'>
-            Anda pasti untuk menutup sekolah?
+        <div className='flex flex-col items-center justify-center px-3'>
+          <h1 className='text-2xl font-bold text-center mt-3 border-b border-b-user1 py-3'>
+            Anda perlu meminta OTP untuk mengesahkan menanda reten salah untuk
+            murid ini
           </h1>
           <div>
             {otpQuestion ? (
               <>
-                <div className='normal-case'>
+                <div className='normal-case mt-4'>
                   Sila Masukkan OTP Yang Telah Dihantar Ke Emel {userinfo.email}
                 </div>
-                <div className='flex flex-col items-center justify-center'>
+                <div className='flex flex-col items-center justify-center mt-3'>
                   <label htmlFor='otpInput' className='sr-only'>
                     OTP
                   </label>
@@ -112,14 +113,19 @@ export default function UserModalSalahSekolah({
                 </div>
               </>
             ) : (
-              <div className='text-center'>
-                sila masukkan kod OTP bagi mengesahkan kebenaran penutupan reten
-                sekolah ini
-              </div>
+              !showBothForm && (
+                <div className='text-center mt-4'>
+                  sila masukkan kod OTP bagi menandakan reten salah sekolah di
+                  pilihan anda
+                </div>
+              )
             )}
           </div>
           {showBothForm && (
-            <div>
+            <div className='mt-5'>
+              <p className='my-2 font-semibold'>
+                Sila pilih mengikut pilihan anda
+              </p>
               <Link
                 target='_blank'
                 rel='noreferrer'
@@ -169,7 +175,7 @@ export default function UserModalSalahSekolah({
                     : 'bg-user9 hover:bg-user5 hover:text-userBlack'
                 }`}
               >
-                {otpQuestion ? 'Hantar' : 'TUTUP RETEN SEKOLAH'}
+                {otpQuestion ? 'VERIFIKASI' : 'DAPATKAN OTP'}
               </button>
             )}
           </div>
