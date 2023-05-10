@@ -82,17 +82,11 @@ function AdminAfterLogin() {
     readOndemandSetting,
   } = useGlobalAdminAppContext();
 
-  // const ondemandSetting = readOndemandSetting();
-
-  // const [loginInfo, setLoginInfo] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
   const [loading, setLoading] = useState(true);
-
-  // const [ondemandSettingData, setOndemandSettingData] =
-  //   useState(ondemandSetting);
 
   const [refetchState, setRefetchState] = useState(false);
 
@@ -156,7 +150,6 @@ function AdminAfterLogin() {
     const { data } = await readOndemandSetting();
     const { currentOndemandSetting } = data;
     saveCurrentondemandSetting({ ...currentOndemandSetting });
-    console.log('ondemand setting init');
   };
 
   const props = {
@@ -202,7 +195,6 @@ function AdminAfterLogin() {
   // refresh logOutNotiSystem and currentOndemandSetting on path change
   useEffect(() => {
     if (init.current === true) {
-      console.log('path refresh');
       adminPageOndemandRefresh().then(() => {
         logOutNotiSystem();
       });
@@ -211,9 +203,7 @@ function AdminAfterLogin() {
 
   // page init and activate event listener refetch indentity on tab focus
   useEffect(() => {
-    console.log('focus refresh');
     if (init.current === false) {
-      console.log('page init');
       adminPageInit()
         .catch((err) => {
           console.log(err);
