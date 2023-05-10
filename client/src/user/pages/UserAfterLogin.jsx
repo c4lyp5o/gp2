@@ -328,7 +328,7 @@ function UserAfterLogin() {
                 path='carian/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <UserFormSekolahPemeriksaan salahReten='pemeriksaan-salah' />
+                    <UserFormSalahSekolahPemeriksaan salahReten='pemeriksaan-salah' />
                   </Suspense>
                 }
               />
