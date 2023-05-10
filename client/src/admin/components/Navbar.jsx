@@ -81,6 +81,7 @@ export default function Navbar(props) {
             >
               PAPARAN UTAMA
             </NavLink>
+            {/* TODO rearrange pentadbir navbar according to AdminAfterLogin, easier to maintain & read for all the CSS and design stuff */}
             {loginInfo.accountType === 'daerahSuperadmin' && (
               <>
                 <div>

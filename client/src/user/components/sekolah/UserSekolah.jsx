@@ -127,7 +127,6 @@ function UserSekolah() {
     }
   }, [reloadState]);
 
-  // TODO refactor to try catch block with toast.promise, submitting state & reset the date input
   const handleSubmitBegin = async (e) => {
     e.preventDefault();
     setSubmittingBegin(true);
@@ -154,16 +153,13 @@ function UserSekolah() {
         }
       )
       .then((res) => {
-        console.log(res);
         setModalBegin(false);
         setReloadState(!reloadState);
         setSubmittingBegin(false);
-        toast.success('Berjaya mengemaskini maklumat BEGIN sekolah');
       })
       .catch((err) => {
         console.log(err);
         setModalBegin(false);
-        toast.error('Gagal mengemaskini maklumat BEGIN sekolah');
       });
   };
 
@@ -528,6 +524,7 @@ function UserSekolah() {
                 ) : null}
               </tr>
             </thead>
+            {/* TODO disable semua data input if person sekolah berpindah === true */}
             {!isLoading &&
               pilihanSekolah &&
               pilihanTahunTingkatan &&
