@@ -1626,7 +1626,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                       <h4 className='font-bold flex flex-row pl-5'>
                         Status dentur
                       </h4>
-                      <div className='grid grid-cols-2 gap-2 auto-rows-min'>
+                      <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min'>
                         <article className='grid grid-cols-1 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                           <div
                             className={`${
@@ -1726,8 +1726,55 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                       },
                                     });
                                   }}
-                                  className='w-4 h-4 text-user5 bg-user9 border-gray-300 focus:ring-blue-500'
+                                  className={` ${
+                                    pilihanDataSalah.yaTidakSediaAdaStatusDenture
+                                      ? 'hidden'
+                                      : 'block'
+                                  } w-4 h-4 text-user5 bg-user9 border-gray-300 focus:ring-blue-500`}
                                 />
+                                {pilihanDataSalah.yaTidakSediaAdaStatusDenture && (
+                                  <div className=' w-32 bg-userWhite rounded-md p-1 shadow-md shadow-user1'>
+                                    <div className='flex flex-row items-center'>
+                                      <label
+                                        htmlFor='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        className='text-xs font-semibold whitespace-nowrap'
+                                      >
+                                        Sebab{' '}
+                                        <span className='text-user6'>*</span>
+                                      </label>
+                                      <input
+                                        type='text'
+                                        required
+                                        name='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        id='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        value={
+                                          pilihanDataSalah.yaTidakSediaAdaStatusDentureText
+                                        }
+                                        onChange={(e) => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            yaTidakSediaAdaStatusDentureText:
+                                              e.target.value,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            yaTidakSediaAdaStatusDentureText:
+                                              e.target.value,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              yaTidakSediaAdaStatusDentureText:
+                                                e.target.value,
+                                            },
+                                          });
+                                        }}
+                                        className='w-full px-2 py-1 text-xs border border-user1 rounded-md focus:outline-none focus:ring-1 focus:ring-user15'
+                                      />
+                                    </div>
+                                  </div>
+                                )}
                               </div>
                             </div>
                             {pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
