@@ -2,14 +2,17 @@ import { useState } from 'react';
 
 export function useLogininfo() {
   const getLoginInfo = () => {
-    const loginInfo = localStorage.getItem('logininfo');
+    const loginInfo = JSON.parse(localStorage.getItem('logininfo'));
     return loginInfo;
   };
 
   const [loginInfo, setLoginInfo] = useState(getLoginInfo());
 
   const saveLoginInfo = (loginInfo) => {
-    localStorage.setItem('logininfo', loginInfo);
+    localStorage.setItem(
+      'logininfo',
+      JSON.stringify(loginInfo).replace(/</g, '\\u003c')
+    );
     setLoginInfo(loginInfo);
   };
 
