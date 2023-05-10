@@ -2,8 +2,8 @@ import { useState } from 'react';
 
 export function useOndemandSetting() {
   const getCurrentOndemandSetting = () => {
-    const currentOndemandSetting = localStorage.getItem(
-      'currentondemandsetting'
+    const currentOndemandSetting = JSON.parse(
+      localStorage.getItem('currentondemandsetting')
     );
     return currentOndemandSetting;
   };
@@ -13,7 +13,10 @@ export function useOndemandSetting() {
   );
 
   const saveCurrentondemandSetting = (currentOndemandSetting) => {
-    localStorage.setItem('currentondemandsetting', currentOndemandSetting);
+    localStorage.setItem(
+      'currentondemandsetting',
+      JSON.stringify(currentOndemandSetting).replace(/</g, '\\u003c')
+    );
     setCurrentOndemandSetting(currentOndemandSetting);
   };
 
