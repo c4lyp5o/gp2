@@ -3866,16 +3866,7 @@ const countPG206 = async (payload) => {
     bigData.push(dataSekolah);
     bigData.push(dataOperatorLain);
 
-    if (
-      bigData[0].every(({ queryPemeriksaan }) => queryPemeriksaan.length) &&
-      bigData[1].every(({ queryRawatan }) => queryRawatan.length) &&
-      bigData[2].every(({ querySekolah }) => querySekolah.length) &&
-      bigData[3].every(({ queryOperatorLain }) => queryOperatorLain.length)
-    ) {
-      return bigData;
-    } else {
-      throw new Error('Tiada data untuk dihantar');
-    }
+    return bigData;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
@@ -6579,16 +6570,7 @@ const countPG207 = async (payload) => {
     bigData.push(dataSekolah);
     bigData.push(dataOperatorLain);
 
-    if (
-      bigData[0].every(({ queryPemeriksaan }) => queryPemeriksaan.length) &&
-      bigData[1].every(({ queryRawatan }) => queryRawatan.length) &&
-      bigData[2].every(({ querySekolah }) => querySekolah.length) &&
-      bigData[3].every(({ queryOperatorLain }) => queryOperatorLain.length)
-    ) {
-      return bigData;
-    } else {
-      throw new Error('Tiada data untuk dihantar');
-    }
+    return bigData;
   } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
