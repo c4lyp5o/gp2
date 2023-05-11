@@ -6,6 +6,7 @@ const Pemeriksaan = require('../models/Pemeriksaansekolah');
 const Rawatan = require('../models/Rawatansekolah');
 const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
+const Fasiliti = require('../models/Fasiliti');
 const MediaSosial = require('../models/MediaSosial');
 const { errorRetenLogger } = require('../logs/logger');
 
@@ -11316,18 +11317,37 @@ const countPGS203 = async (payload) => {
         ...getParamsPGS203(payload),
         // umur: { $lt: 7 },
         $expr: {
-          $lte: [
+          $and: [
             {
-              $subtract: [
+              $lte: [
                 {
-                  $year: new Date(),
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
                 },
-                {
-                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
-                },
+                6,
               ],
             },
-            6,
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
+                },
+                5,
+              ],
+            },
           ],
         },
       },
@@ -11346,6 +11366,7 @@ const countPGS203 = async (payload) => {
     {
       $addFields: {
         govKe: '$fasiliti_data.govKe',
+        kodTastad: '$fasiliti_data.kodTastad',
       },
     },
     {
@@ -11356,6 +11377,7 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         govKe: 'Kerajaan',
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -11365,18 +11387,37 @@ const countPGS203 = async (payload) => {
         ...getParamsPGS203(payload),
         // umur: { $lt: 7 },
         $expr: {
-          $lte: [
+          $and: [
             {
-              $subtract: [
+              $lte: [
                 {
-                  $year: new Date(),
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
                 },
-                {
-                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
-                },
+                6,
               ],
             },
-            6,
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
+                },
+                5,
+              ],
+            },
           ],
         },
       },
@@ -11395,6 +11436,7 @@ const countPGS203 = async (payload) => {
     {
       $addFields: {
         govKe: '$fasiliti_data.govKe',
+        kodTastad: '$fasiliti_data.kodTastad',
       },
     },
     {
@@ -11405,6 +11447,7 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         govKe: 'Swasta',
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -11414,21 +11457,67 @@ const countPGS203 = async (payload) => {
         ...getParamsPGS203(payload),
         // umur: { $lt: 7 },
         $expr: {
-          $lte: [
+          $and: [
             {
-              $subtract: [
+              $lte: [
                 {
-                  $year: new Date(),
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
                 },
-                {
-                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
-                },
+                6,
               ],
             },
-            6,
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
+                },
+                5,
+              ],
+            },
           ],
         },
         orangKurangUpaya: true,
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        govKe: '$fasiliti_data.govKe',
+        kodTastad: '$fasiliti_data.kodTastad',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $match: {
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -11438,21 +11527,67 @@ const countPGS203 = async (payload) => {
         ...getParamsPGS203(payload),
         // umur: { $lt: 7 },
         $expr: {
-          $lte: [
+          $and: [
             {
-              $subtract: [
+              $lte: [
                 {
-                  $year: new Date(),
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
                 },
-                {
-                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
-                },
+                6,
               ],
             },
-            6,
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
+                },
+                5,
+              ],
+            },
           ],
         },
         kumpulanEtnik: 'penan',
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        govKe: '$fasiliti_data.govKe',
+        kodTastad: '$fasiliti_data.kodTastad',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $match: {
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -11837,11 +11972,43 @@ const countPGS203 = async (payload) => {
   // bismillah
   let bigData = [];
 
-  for (const stage of match_stage) {
-    const dataPGS203 = await Umum.aggregate([...stage, ...group_stage]);
-    bigData.push(dataPGS203);
+  try {
+    for (const stage of match_stage) {
+      const dataPGS203 = await Umum.aggregate([...stage, ...group_stage]);
+      bigData.push(dataPGS203);
+    }
+
+    console.log('dah siap kira');
+
+    const dataFasiliti = await Fasiliti.find({
+      ...(payload.negeri != 'all' && { createdByNegeri: payload.negeri }),
+      ...(payload.daerah != 'all' && { createdByDaerah: payload.daerah }),
+      ...(payload.klinik != 'all' && {
+        createdByKodFasiliti: payload.klinik,
+      }),
+      jenisFasiliti: { $in: ['taska', 'tadika'] },
+    });
+
+    console.log(dataFasiliti);
+
+    const totalEnrolmentByGovKe = dataFasiliti.reduce((totals, fasiliti) => {
+      if (fasiliti.jenisFasiliti === 'taska-tadika') {
+        const govKe = fasiliti.govKe ?? 'Unknown';
+        const enrolment = fasiliti.enrolmentTastad ?? 0;
+        totals[govKe] = (totals[govKe] ?? 0) + enrolment;
+      }
+      return totals;
+    }, {});
+
+    console.table(totalEnrolmentByGovKe);
+
+    return bigData;
+  } catch {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
+    );
+    throw new Error(error);
   }
-  return bigData;
 };
 //PGS yang ada campur sekolah - untuk dimasukkan ke PGS203
 const countPGS203Sek = async (klinik, bulan, sekolah) => {
@@ -15462,8 +15629,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gt: 14, $lt: 18 },
       kedatangan: { $eq: 'baru-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
-      engganBpeImplan: false,
     },
   };
   const bUmur1819 = {
@@ -15471,8 +15636,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 18, $lte: 19 },
       kedatangan: { $eq: 'baru-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
-      engganBpeImplan: false,
     },
   };
   const bUmur2029 = {
@@ -15480,8 +15643,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 20, $lte: 29 },
       kedatangan: { $eq: 'baru-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
-      engganBpeImplan: false,
     },
   };
   const bUmur3049 = {
@@ -15489,8 +15650,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 30, $lte: 49 },
       kedatangan: { $eq: 'baru-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
-      engganBpeImplan: false,
     },
   };
   const bUmur5059 = {
@@ -15498,8 +15657,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 50, $lte: 59 },
       kedatangan: { $eq: 'baru-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
-      engganBpeImplan: false,
     },
   };
   const bUmur60keatas = {
@@ -15507,8 +15664,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 60 },
       kedatangan: { $eq: 'baru-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
-      engganBpeImplan: false,
     },
   };
 
@@ -15516,32 +15671,24 @@ const countBPE = async (payload) => {
     $match: {
       ...getParamsBPE(payload),
       umur: { $lt: 18 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur1819 = {
     $match: {
       ...getParamsBPE(payload),
       umur: { $gte: 18, $lte: 19 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur2029 = {
     $match: {
       ...getParamsBPE(payload),
       umur: { $gte: 20, $lte: 29 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur3049 = {
     $match: {
       ...getParamsBPE(payload),
       umur: { $gte: 30, $lte: 49 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur5059 = {
@@ -15549,7 +15696,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 50, $lte: 59 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
   const uUmur60keatas = {
@@ -15601,7 +15747,11 @@ const countBPE = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }],
+              $and: [
+                { $eq: ['$kedatangan', 'baru-kedatangan'] },
+                { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $eq: ['$engganBpeImplan', false] },
+              ],
             },
             1,
             0,
@@ -15612,7 +15762,10 @@ const countBPE = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+              $and: [
+                { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
+                { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+              ],
             },
             1,
             0,
@@ -16105,22 +16258,52 @@ const countPG201P2 = async (payload) => {
         ...getParamsPG201P2(payload),
         // umur: { $eq: 5 },
         $expr: {
-          $eq: [
+          $and: [
             {
-              $subtract: [
+              $eq: [
                 {
-                  $year: new Date(),
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
                 },
-                {
-                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
-                },
+                5,
               ],
             },
-            5,
           ],
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        kodTastad: '$fasiliti_data.kodTastad',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $match: {
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -16130,22 +16313,52 @@ const countPG201P2 = async (payload) => {
       $match: {
         ...getParamsPG201P2(payload),
         $expr: {
-          $eq: [
+          $and: [
             {
-              $subtract: [
+              $eq: [
                 {
-                  $year: new Date(),
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
                 },
-                {
-                  $toInt: { $substr: ['$tarikhLahir', 0, 4] },
-                },
+                6,
               ],
             },
-            6,
           ],
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
         deleted: false,
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        kodTastad: '$fasiliti_data.kodTastad',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $match: {
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -16157,25 +16370,33 @@ const countPG201P2 = async (payload) => {
         $expr: {
           $and: [
             {
-              $gte: [
-                {
-                  $subtract: [
-                    { $year: new Date() },
-                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
-                  ],
-                },
-                5,
-              ],
-            },
-            {
               $lte: [
                 {
                   $subtract: [
-                    { $year: new Date() },
-                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
                   ],
                 },
-                7,
+                6,
+              ],
+            },
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
+                },
+                5,
               ],
             },
           ],
@@ -16183,6 +16404,32 @@ const countPG201P2 = async (payload) => {
         jenisFasiliti: { $eq: 'taska-tadika' },
         orangKurangUpaya: true,
         deleted: false,
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        kodTastad: '$fasiliti_data.kodTastad',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $match: {
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -16194,25 +16441,33 @@ const countPG201P2 = async (payload) => {
         $expr: {
           $and: [
             {
-              $gte: [
-                {
-                  $subtract: [
-                    { $year: new Date() },
-                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
-                  ],
-                },
-                5,
-              ],
-            },
-            {
               $lte: [
                 {
                   $subtract: [
-                    { $year: new Date() },
-                    { $toInt: { $substr: ['$tarikhLahir', 0, 4] } },
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
                   ],
                 },
-                7,
+                6,
+              ],
+            },
+            {
+              $gte: [
+                {
+                  $subtract: [
+                    {
+                      $year: new Date(),
+                    },
+                    {
+                      $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+                    },
+                  ],
+                },
+                5,
               ],
             },
           ],
@@ -16220,6 +16475,32 @@ const countPG201P2 = async (payload) => {
         jenisFasiliti: { $eq: 'taska-tadika' },
         kumpulanEtnik: { $in: ['penan', 'orang asli semenanjung'] },
         deleted: false,
+      },
+    },
+    {
+      $lookup: {
+        from: 'fasilitis',
+        localField: 'kodFasilitiTaskaTadika',
+        foreignField: 'kodTastad',
+        as: 'fasiliti_data',
+      },
+    },
+    {
+      $unwind: '$fasiliti_data',
+    },
+    {
+      $addFields: {
+        kodTastad: '$fasiliti_data.kodTastad',
+      },
+    },
+    {
+      $project: {
+        fasiliti_data: 0,
+      },
+    },
+    {
+      $match: {
+        kodTastad: { $regex: /tad/i },
       },
     },
   ];
@@ -19073,7 +19354,6 @@ const getParamsPGS203 = (payload) => {
   const byKp = () => {
     let param = {
       createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /mdtb/i },
       jenisFasiliti: { $eq: 'taska-tadika' },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
@@ -19087,7 +19367,6 @@ const getParamsPGS203 = (payload) => {
     let param = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /mdtb/i },
       jenisFasiliti: { $eq: 'taska-tadika' },
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
@@ -19100,7 +19379,6 @@ const getParamsPGS203 = (payload) => {
   const byNegeri = () => {
     let param = {
       createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
