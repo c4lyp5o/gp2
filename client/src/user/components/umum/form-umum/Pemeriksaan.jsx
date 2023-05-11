@@ -133,13 +133,68 @@ export default function Pemeriksaan(props) {
     );
   }
 
-  function HoveringTable({ show, position, patient }) {
+  function HoveringTable({ show, patient }) {
     const data = [
       {
         nameDesidus: 'd',
         valueDesidus: patient.dAdaGigiDesidusPemeriksaanUmum,
+      },
+      {
+        nameDesidus: 'f',
+        valueDesidus: patient.fAdaGigiDesidusPemeriksaanUmum,
+      },
+      {
+        nameDesidus: 'x',
+        valueDesidus: patient.xAdaGigiDesidusPemeriksaanUmum,
+      },
+      {
+        nameDesidus: 'dfx',
+        valueDesidus:
+          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
+          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
+      },
+    ];
+
+    const kekal = [
+      {
         nameKekal: 'D',
         valueKekal: patient.dAdaGigiKekalPemeriksaanUmum,
+      },
+      {
+        nameKekal: 'M',
+        valueKekal: patient.mAdaGigiKekalPemeriksaanUmum,
+      },
+      {
+        nameKekal: 'F',
+        valueKekal: patient.fAdaGigiKekalPemeriksaanUmum,
+      },
+      {
+        nameKekal: 'X',
+        valueKekal: patient.xAdaGigiKekalPemeriksaanUmum,
+      },
+      {
+        nameKekal: 'DMFX',
+        valueKekal:
+          parseInt(patient.dAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.mAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.fAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.xAdaGigiKekalPemeriksaanUmum),
+      },
+      {
+        nameKekal: 'X + M',
+        valueKekal:
+          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) +
+          parseInt(patient.mAdaGigiKekalPemeriksaanUmum),
+      },
+      {
+        nameKekal: 'E',
+        valueKekal: patient.eAdaGigiKekalPemeriksaanUmum,
+      },
+    ];
+
+    const status = [
+      {
         nameStatus: 'MBK',
         valueStatus:
           patient.adaDesidusPemeriksaanUmum === true ? (
@@ -163,10 +218,6 @@ export default function Pemeriksaan(props) {
           ),
       },
       {
-        nameDesidus: 'f',
-        valueDesidus: patient.fAdaGigiDesidusPemeriksaanUmum,
-        nameKekal: 'M',
-        valueKekal: patient.mAdaGigiKekalPemeriksaanUmum,
         nameStatus: 'BK',
         valueStatus:
           patient.adaKekalPemeriksaanUmum === true ? (
@@ -187,10 +238,6 @@ export default function Pemeriksaan(props) {
           ),
       },
       {
-        nameDesidus: 'x',
-        valueDesidus: patient.xAdaGigiDesidusPemeriksaanUmum,
-        nameKekal: 'F',
-        valueKekal: patient.fAdaGigiKekalPemeriksaanUmum,
         nameStatus: 'MBG',
         valueStatus:
           parseInt(patient.skorGisMulutOralHygienePemeriksaanUmum) === 0 ? (
@@ -204,13 +251,6 @@ export default function Pemeriksaan(props) {
           ),
       },
       {
-        nameDesidus: 'dfx',
-        valueDesidus:
-          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
-          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
-          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
-        nameKekal: 'X',
-        valueKekal: patient.xAdaGigiKekalPemeriksaanUmum,
         nameStatus: 'TPR',
         valueStatus: patient.tidakPerluRawatanPemeriksaanUmum ? (
           <div className='flex justify-center'>
@@ -223,11 +263,6 @@ export default function Pemeriksaan(props) {
         ),
       },
       {
-        nameKekal: 'DMFX',
-        valueKekal:
-          parseInt(patient.dAdaGigiDesidusPemeriksaanUmum) +
-          parseInt(patient.fAdaGigiDesidusPemeriksaanUmum) +
-          parseInt(patient.xAdaGigiDesidusPemeriksaanUmum),
         nameStatus: 'TSL',
         valueStatus: patient.toothSurfaceLossTraumaPemeriksaanUmum ? (
           <div className='flex justify-center'>
@@ -239,55 +274,73 @@ export default function Pemeriksaan(props) {
           </div>
         ),
       },
-      {
-        nameKekal: 'X + M',
-        valueKekal:
-          parseInt(patient.xAdaGigiKekalPemeriksaanUmum) +
-          parseInt(patient.mAdaGigiKekalPemeriksaanUmum),
-      },
-      {
-        nameKekal: 'E',
-        valueKekal: patient.eAdaGigiKekalPemeriksaanUmum,
-      },
     ];
 
     return (
       <div
-        className={`absolute shadow-md p-2 left-16 ${
+        className={`absolute shadow-md shadow-user3 transition-shadow  bg-user5 p-2 left-6 ${
           show ? 'block' : 'hidden'
         }`}
       >
-        <div className='z-20 w-52 h-36 border-2 '>
-          <div className='flex justify-center'>
-            <table className='bg-adminWhite z-30 rounded-t-md shadow-md max-w-full max-h-full overflow-y-auto'>
+        <div className='z-20 w-96 h-full border border-user1 bg-adminWhite  rounded-md shadow-md'>
+          <div className='grid grid-cols-3 auto-rows-min'>
+            <table className='table-auto h-4 m-1'>
               <thead>
                 <tr>
-                  <th className='px-2 py-1 text-left text-xs'>Gigi Desidus</th>
-                  <th className='px-2 py-1 text-left text-xs'>Jumlah</th>
-                  <th className='px-2 py-1 text-left text-xs'>Gigi Kekal</th>
-                  <th className='px-2 py-1 text-left text-xs'>Jumlah</th>
-                  <th className='px-2 py-1 text-left text-xs'>Status</th>
+                  <th colSpan={2} className='px-2 py-1  text-xs'>
+                    Gigi Desidus
+                  </th>
                 </tr>
               </thead>
               <tbody>
                 {data.map((item, index) => (
                   <tr key={index}>
-                    <td className='border px-2 py-1 text-xs normal-case'>
+                    <td className='border px-2 py-1 text-xs normal-case w-16'>
                       {item.nameDesidus}
                     </td>
-                    <td className='border px-2 py-1 text-xs'>
+                    <td className='border px-2 py-1 text-xs w-8'>
                       {item.valueDesidus}
                     </td>
-                    <td className='border px-2 py-1 text-xs'>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <table className='table-auto m-1'>
+              <thead>
+                <tr>
+                  <th colSpan={2} className='px-2 py-1  text-xs'>
+                    Gigi Kekal
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {kekal.map((item, index) => (
+                  <tr key={index}>
+                    <td className='border px-2 py-1 text-xs w-16 whitespace-nowrap'>
                       {item.nameKekal}
                     </td>
-                    <td className='border px-2 py-1 text-xs'>
+                    <td className='border px-2 py-1 text-xs w-8'>
                       {item.valueKekal}
                     </td>
-                    <td className='border px-2 py-1 text-xs'>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+            <table className='table-auto h-8 m-1'>
+              <thead>
+                <tr>
+                  <th colSpan={2} className='px-2 py-1 text-xs'>
+                    Status
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {status.map((item, index) => (
+                  <tr key={index}>
+                    <td className='border px-2 py-1 text-xs w-16'>
                       {item.nameStatus}
                     </td>
-                    <td className='border px-2 py-1 text-xs'>
+                    <td className='border px-2 py-1 text-xs w-8'>
                       {item.valueStatus}
                     </td>
                   </tr>

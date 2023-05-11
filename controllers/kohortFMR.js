@@ -1,11 +1,10 @@
-const moment = require('moment');
 const Fasiliti = require('../models/Fasiliti');
 const Sekolah = require('../models/Sekolah');
 const KohortFMR = require('../models/KohortFMR');
 const { logger } = require('../logs/logger');
 
 // GET /
-const getAllSekolahKohortFMR = async (req, res) => {
+const getAllSekolahFMR = async (req, res) => {
   logger.info(
     `${req.method} ${req.url} [KohortFMRController] getAllSekolahKohortFMR called`
   );
@@ -15,19 +14,19 @@ const getAllSekolahKohortFMR = async (req, res) => {
 
   const { kodFasiliti } = req.user;
 
-  const allSekolahKohortFMR = await Fasiliti.find({
+  const allSekolahFMR = await Fasiliti.find({
     jenisFasiliti: { $eq: 'sekolah-rendah' },
-    statusFMRSekolah: 'ya',
     kodFasilitiHandler: kodFasiliti,
+    statusFMRSekolah: 'ya',
   });
 
-  res.status(200).json({ allSekolahKohortFMR });
+  res.status(200).json({ allSekolahFMR });
 };
 
-// GET /query
-const getAllD1StudentInRegisteredSekolah = async (req, res) => {
+// GET /semua-murid
+const getAllD1StudentInSekolahFMR = async (req, res) => {
   logger.info(
-    `${req.method} ${req.url} [KohortFMRController] getAllD1StudentInRegisteredSekolah called`
+    `${req.method} ${req.url} [KohortFMRController] getAllD1StudentInSekolahFMR called`
   );
 
   if (req.user.accountType !== 'kpUser') {
@@ -116,22 +115,13 @@ const getAllD1StudentInRegisteredSekolah = async (req, res) => {
                           $eq: ['$kodSekolah', '$$kodSekolah'],
                         },
                         {
-                          $eq: ['$tahun', 'D1'],
+                          $eq: ['$tahunTingkatan', 'TAHUN DUA'],
                         },
+                        // {
+                        //   $eq: ['$telahDaftarKohortFMR', false],
+                        // },
                       ],
                     },
-                  },
-                },
-                {
-                  $project: {
-                    _id: 1,
-                    nama: 1,
-                    noKp: 1,
-                    kodJantina: 1,
-                    kaum: 1,
-                    tahun: 1,
-                    namaKelas: 1,
-                    statusRawatan: 1,
                   },
                 },
               ],
@@ -144,16 +134,19 @@ const getAllD1StudentInRegisteredSekolah = async (req, res) => {
           {
             $project: {
               _id: '$sekolah._id',
+              idInstitusi: 1,
               namaSekolah: '$nama',
-              kodSekolah: '$kodSekolah',
+              kodSekolah: 1,
               jenisFasiliti: 1,
               nama: '$sekolah.nama',
-              noKp: '$sekolah.noKp',
-              kodJantina: '$sekolah.kodJantina',
+              idIndividu: '$sekolah.idIndividu',
+              nomborId: '$sekolah.nomborId',
+              jantina: '$sekolah.jantina',
               kaum: '$sekolah.kaum',
-              tahun: '$sekolah.tahun',
-              namaKelas: '$sekolah.namaKelas',
-              statusRawatan: '$sekolah.statusRawatan',
+              tahunTingkatan: '$sekolah.tahunTingkatan',
+              kelasPelajar: '$sekolah.kelasPelajar',
+              tarikhKumuranKohortFMR: '$sekolah.tarikhKumuranKohortFMR',
+              telahDaftarKohortFMR: '$sekolah.telahDaftarKohortFMR',
             },
           },
           {
@@ -170,56 +163,36 @@ const getAllD1StudentInRegisteredSekolah = async (req, res) => {
     allD1PelajarSekolah: dataSekolahDenganPelajar[0].allD1PelajarSekolah,
     fasilitiSekolah: dataSekolahDenganPelajar[0].fasilitiSekolah,
   });
-
-  // const singleSekolah = await Fasiliti.findOne({
-  //   kodSekolah: singleSekolahId,
-  // });
-
-  // if (!singleSekolah) {
-  //   return res.status(404).json({ msg: 'No sekolah found' });
-  // }
-
-  // const allD1Students = await Sekolah.find({
-  //   kodSekolah: singleSekolahId,
-  //   tahun: 'D1',
-  // });
-
-  // if (allD1Students.length < 1) {
-  //   return res.status(404).json({ msg: 'No students found' });
-  // }
-
-  // const preprocessing = allStudents.map((student) => {
-  //   return {
-  //     createdByNegeri: negeri,
-  //     createdByDaerah: daerah,
-  //     createdByKodFasiliti: kodFasiliti,
-  //     createdByKp: kp,
-  //     // createdByMdcMdtb: student.createdByMdcMdtb,
-  //     // createdByUsername: student.createdByUsername,
-  //     nama: student.nama,
-  //     ic: student.noKp,
-  //     namaSekolah: student.namaSekolah,
-  //     kodSekolah: student.kodSekolah,
-  //     tahun: student.tahun,
-  //     kelas: student.namaKelas,
-  //     // noTelefon: student.noTelefon,
-  //     dalamPemantauanKohort: true,
-  //   };
-  // });
-
-  // await KohortFMR.insertMany(preprocessing);
-  // await singleSekolah.updateOne({
-  //   statusFMRTelahDaftarDarjahSatu: true,
-  // });
-  // console.log(allD1Students);
-
-  // res.status(200).json({ allD1Students });
 };
 
-// PATCH /daftar-kumuran
-const daftarKumuranFMR = async (req, res) => {
+// GET /pilih-murid/:singleSekolahFMRId
+const getAllD1StudentInSingleSekolahFMR = async (req, res) => {
   logger.info(
-    `${req.method} ${req.url} [KohortFMRController] daftarKumuran called`
+    `${req.method} ${req.url} [KohortFMRController] getAllD1StudentInSingleSekolahFMR called`
+  );
+
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { singleSekolahFMRId } = req.params;
+
+  console.log(singleSekolahFMRId);
+
+  const dataSemuaPelajarD1SingleSekolah = await Sekolah.find({
+    kodSekolah: singleSekolahFMRId,
+    tahunTingkatan: 'TAHUN DUA',
+  })
+    .sort({ nama: 1 })
+    .lean();
+
+  res.status(200).json({ dataSemuaPelajarD1SingleSekolah });
+};
+
+// GET /murid-kohort
+const getMuridDalamKohortFMR = async (req, res) => {
+  logger.info(
+    `${req.method} ${req.url} [KohortFMRController] getMuridDalamKohortFMR called`
   );
 
   if (req.user.accountType !== 'kpUser') {
@@ -228,22 +201,37 @@ const daftarKumuranFMR = async (req, res) => {
 
   const { negeri, daerah, kodFasiliti, kp } = req.user;
 
+  const muridDalamKohortFMR = await KohortFMR.find({
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    createdByKodFasiliti: kodFasiliti,
+    createdByKp: kp,
+  });
+
+  res.status(200).json({ muridDalamKohortFMR });
+};
+
+// PATCH /daftar-kumuran || untuk kumuran budak yang umum
+const daftarKumuranFMR = async (req, res) => {
+  logger.info(
+    `${req.method} ${req.url} [KohortFMRController] daftarKumuranFMR called`
+  );
+
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
   const { muridKumuran, startKumuran } = req.body;
 
-  console.log(muridKumuran, startKumuran);
-
   muridKumuran.forEach(async (murid) => {
-    const singlePersonKohortFMR = await KohortFMR.findOne({
-      nomborId: murid.nomborId,
-    });
-
-    const updatedSinglePersonKohortFMR = await KohortFMR.findOneAndUpdate(
+    // console.log(murid);
+    await Sekolah.findOneAndUpdate(
       {
         nomborId: murid.nomborId,
       },
       {
         $push: {
-          tarikhKumuranMurid: startKumuran,
+          tarikhKumuranKohortFMR: startKumuran,
         },
       },
       { new: true }
@@ -253,92 +241,138 @@ const daftarKumuranFMR = async (req, res) => {
   res.status(200).json({ msg: 'OK' });
 };
 
-// DELETE /:personKohortFMRId
-const deletePersonKohortFMR = async (req, res) => {
-  if (req.user.accountType !== 'kaunterUser') {
+// PATCH /daftar-kumuran-kohort || untuk kumuran budak yang ada dalam kohort
+const daftarKumuranKohortFMR = async (req, res) => {
+  logger.info(
+    `${req.method} ${req.url} [KohortFMRController] daftarKumuranFMR called`
+  );
+
+  if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { personKohortFMRId } = req.query;
+  const { muridKumuran, startKumuran } = req.body;
+
+  muridKumuran.forEach(async (murid) => {
+    await KohortFMR.findOneAndUpdate(
+      {
+        nomborId: murid.nomborId,
+      },
+      {
+        $push: {
+          tarikhKumuranKohortFMR: startKumuran,
+        },
+        $inc: {
+          jumlahKumuran: 1,
+        },
+      },
+      { new: true }
+    );
+  });
+
+  res.status(200).json({ msg: 'OK' });
+};
+
+// POST /daftar-murid
+const daftarMuridMasukKohortFMR = async (req, res) => {
+  logger.info(
+    `${req.method} ${req.url} [KohortFMRController] daftarMuridFMR called`
+  );
+
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { negeri, daerah, kodFasiliti, kp } = req.user;
+  const { semuaMuridKumuran } = req.body;
+  const kodSekolah = new Set();
+
+  await Promise.all(
+    semuaMuridKumuran.map(async (murid) => {
+      process.env.BUILD_ENV === 'dev' && console.log(`Murid: ${murid.nama}.}`);
+      const newKohortFMR = new KohortFMR({
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        createdByKodFasiliti: kodFasiliti,
+        createdByKp: kp,
+        idIndividu: murid.idIndividu,
+        nama: murid.nama,
+        nomborId: murid.nomborId,
+        namaSekolah: murid.namaSekolah,
+        kodSekolah: murid.kodSekolah,
+        tahunTingkatan: murid.tahunTingkatan,
+        kelasPelajar: murid.kelasPelajar,
+        dalamPemantauanKohort: true,
+        tahunKohortFMR: `JAN - DIS ${new Date().getFullYear()}`,
+        tarikhKumuranKohortFMR: murid.tarikhKumuranKohortFMR,
+        jumlahKumuran: murid.tarikhKumuranKohortFMR?.length || 0,
+      });
+
+      try {
+        await newKohortFMR.save();
+        kodSekolah.add(murid.kodSekolah);
+      } catch (error) {
+        console.log('Error while saving KohortFMR document:', error);
+        throw error;
+      }
+    })
+  );
+
+  await Promise.all(
+    Array.from(kodSekolah).map(async (kod) => {
+      process.env.BUILD_ENV === 'dev' &&
+        console.log('update field statusFMR untuk ', kod);
+      try {
+        await Fasiliti.updateOne(
+          { kodSekolah: kod },
+          { statusFMRTelahDaftarDarjahSatu: true }
+        );
+      } catch (error) {
+        console.log('Error while updating Fasiliti document:', error);
+        throw error;
+      }
+    })
+  );
+
+  console.log('siap daftar');
+
+  res.status(200).json({ msg: 'Murid telah didaftarkan' });
+};
+
+// DELETE /hapus-murid-kohort/:singlePersonKohortFMRId
+const deletePersonKohortFMR = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  logger.info(
+    `${req.method} ${req.url} [KohortFMRController] deletePersonKohortFMR called`
+  );
+
+  const { singlePersonKohortFMRId } = req.params;
 
   const deletedSinglePersonKohortFMR = await KohortFMR.findOneAndDelete({
-    _id: personKohortFMRId,
+    nomborId: singlePersonKohortFMRId,
   });
 
   if (!deletedSinglePersonKohortFMR) {
     return res
       .status(404)
-      .json({ msg: `No person with id ${personKohortFMRId} ` });
+      .json({ msg: `No person with id ${singlePersonKohortFMRId} ` });
   }
 
   res.status(200).json({
-    msg: `Person with id ${personKohortFMRId} succesfully deleted`,
+    msg: `Person with id ${singlePersonKohortFMRId} succesfully deleted`,
   });
-};
-
-// query /
-const queryPersonKohortFMR = async (req, res) => {
-  if (req.user.accountType !== 'kpUser') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
-
-  const {
-    user: { kp, kodFasiliti, daerah, negeri },
-    query: {
-      nama,
-      ic,
-      tarikhKedatangan,
-      jenisFasiliti,
-      jenisProgram,
-      namaProgram,
-    },
-  } = req;
-
-  const queryObject = {};
-  queryObject.createdByNegeri = negeri;
-  queryObject.createdByDaerah = daerah;
-  queryObject.createdByKp = kp;
-  //   queryObject.createdByKodFasiliti = kodFasiliti;
-  //   queryObject.tahunDaftar = new Date().getFullYear();
-  //   queryObject.deleted = false;
-
-  //   if (nama) {
-  //     queryObject.nama = { $regex: nama, $options: 'i' };
-  //   }
-
-  //   if (ic) {
-  //     queryObject.ic = { $regex: ic, $options: 'i' };
-  //   }
-
-  //   if (tarikhKedatangan) {
-  //     queryObject.tarikhKedatangan = tarikhKedatangan;
-  //   }
-
-  //   if (jenisFasiliti) {
-  //     queryObject.jenisFasiliti = jenisFasiliti;
-  //   }
-
-  //   if (jenisProgram) {
-  //     queryObject.jenisProgram = jenisProgram;
-  //   }
-
-  //   if (namaProgram) {
-  //     queryObject.namaProgram = namaProgram;
-  //   }
-
-  const KohortFMRResultQuery = await KohortFMR.find(queryObject).sort({
-    namaSekolah: -1,
-    namaKelas: -1,
-    nama: -1,
-  });
-
-  res.status(200).json({ KohortFMRResultQuery });
 };
 
 module.exports = {
-  getAllSekolahKohortFMR,
-  getAllD1StudentInRegisteredSekolah,
+  getAllSekolahFMR,
+  getAllD1StudentInSekolahFMR,
+  getAllD1StudentInSingleSekolahFMR,
+  getMuridDalamKohortFMR,
+  daftarMuridMasukKohortFMR,
   daftarKumuranFMR,
+  daftarKumuranKohortFMR,
   deletePersonKohortFMR,
-  queryPersonKohortFMR,
 };

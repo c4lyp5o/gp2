@@ -2,14 +2,6 @@ import { useState, useEffect, useRef } from 'react';
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import moment from 'moment';
-import {
-  FaCheckCircle,
-  FaTimesCircle,
-  FaCaretUp,
-  FaCaretDown,
-} from 'react-icons/fa';
-
-import RegisterFMRModal from './RegisterFMRModal';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
@@ -18,16 +10,14 @@ function KohortFMR() {
     useGlobalUserAppContext();
 
   const [isLoading, setIsLoading] = useState(true);
-  const [modalRegisterSekolah, setModalRegisterSekolah] = useState(false);
-  const [allSekolahKohortFMR, setAllSekolahKohortFMR] = useState([]);
-  const [currentKodSekolah, setCurrentKodSekolah] = useState('');
+  const [allSekolahFMR, setAllSekolahFMR] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
 
   const init = useRef(false);
 
   useEffect(() => {
-    const fetchAllSekolahKohortFMR = async () => {
+    const fetchAllSekolahFMR = async () => {
       if (init.current === false) {
         try {
           setIsLoading(true);
@@ -38,8 +28,8 @@ function KohortFMR() {
               }`,
             },
           });
-          console.log(data);
-          setAllSekolahKohortFMR(data.allSekolahKohortFMR);
+          // console.log(data);
+          setAllSekolahFMR(data.allSekolahFMR);
           setIsLoading(false);
         } catch (error) {
           console.log(error);
@@ -53,7 +43,7 @@ function KohortFMR() {
     if (init.current === true) {
       init.current === false;
     }
-    fetchAllSekolahKohortFMR();
+    fetchAllSekolahFMR();
   }, [reloadState]);
 
   // on tab focus reload data
@@ -69,42 +59,40 @@ function KohortFMR() {
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
         <div className='relative shadow-md drop-shadow-sm mb-2'>
-          <div>
-            <div className='flex justify-between'>
-              <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
-                SENARAI SEKOLAH KOHORT FMR
-              </h2>
-              <div className='flex justify-end items-center text-right mt-2'>
-                <button
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                  className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                >
-                  kembali ke senarai data kohort
-                </button>
-              </div>
+          <div className='flex justify-between'>
+            <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
+              SENARAI SEKOLAH KOHORT FMR
+            </h2>
+            <div className='flex justify-end items-center text-right mt-2'>
+              <button
+                onClick={() => {
+                  navigate('/pengguna/landing/kohort');
+                }}
+                className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+              >
+                kembali ke senarai data kohort
+              </button>
             </div>
           </div>
         </div>
-        <div className='m-auto text-xs lg:text-sm rounded-md h-min max-w-max overflow-x-auto mt-3'>
+        <div className='m-auto overflow-x-auto overflow-y-hidden text-xs lg:text-sm rounded-md h-min max-w-max mt-5'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-user2'>
               <tr>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   BIL.
                 </th>
-                <th className='outline outline-1 outline-offset-1 py-1 px-10 lg:px-20'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96 max-w-md'>
                   NAMA SEKOLAH
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   ENROLMEN
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-5 py-1'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   BIL. MURID BARU
                 </th>
                 {userinfo.role === 'admin' ? (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1'>
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                     DAFTAR KOHORT TAHUN 1
                   </th>
                 ) : null}
@@ -112,103 +100,129 @@ function KohortFMR() {
             </thead>
             {!isLoading ? (
               <>
-                <tbody className='text-user1'>
-                  {allSekolahKohortFMR.map((singleSekolahKohortFMR, index) => {
+                <tbody className='bg-user4'>
+                  {allSekolahFMR.map((singleSekolahFMR, index) => {
                     return (
                       <tr key={index}>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
                           {index + 1}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {singleSekolahKohortFMR.nama}
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          {singleSekolahFMR.nama}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {singleSekolahKohortFMR.kelas}
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          {singleSekolahFMR.kelas}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {singleSekolahKohortFMR.noTelefon}
+                        <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
+                          {singleSekolahFMR.noTelefon}
                         </td>
-                        <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                          {!singleSekolahKohortFMR.statusFMRTelahDaftarDarjahSatu ? (
-                            // <button
-                            //   className='bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                            //   onClick={() => {
-                            //     setCurrentKodSekolah(
-                            //       singleSekolahKohortFMR.kodSekolah
-                            //     );
-                            //     console.log(singleSekolahKohortFMR.kodSekolah);
-                            //     setModalRegisterSekolah(true);
-                            //   }}
-                            // >
-                            //   DAFTAR
-                            // </button>
-                            <Link
-                              to={`/pengguna/landing/kohort/fmr/daftar/${singleSekolahKohortFMR.kodSekolah}`}
-                              className='bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                            >
-                              DAFTAR
-                            </Link>
-                          ) : (
-                            <button
-                              disabled={true}
-                              className='bg-user6 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all cursor-not-allowed'
-                            >
-                              TELAH DAFTAR
-                            </button>
-                          )}
-                        </td>
+                        {userinfo.role === 'admin' ? (
+                          <td className='p-2 outline outline-1 outline-userWhite outline-offset-1'>
+                            {!singleSekolahFMR.statusFMRTelahDaftarDarjahSatu ? (
+                              <Link
+                                to={`/pengguna/landing/kohort/fmr/daftar-murid/${singleSekolahFMR.kodSekolah}`}
+                                className='bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                              >
+                                DAFTAR
+                              </Link>
+                            ) : (
+                              <button
+                                disabled={true}
+                                className='bg-user6 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all cursor-not-allowed'
+                              >
+                                TELAH DAFTAR
+                              </button>
+                            )}
+                          </td>
+                        ) : null}
                       </tr>
                     );
                   })}
                 </tbody>
               </>
             ) : (
-              <tbody className='text-user1'>
+              <tbody className='bg-user4'>
                 <tr>
-                  <td className='outline outline-1 outline-offset-1 px-2 py-1'>
-                    Loading...
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
                 </tr>
               </tbody>
             )}
           </table>
         </div>
-        <div className='grid grid-cols-2 shadow-md shadow-user3 mt-5'>
+        <div className='grid grid-cols-3 shadow-md shadow-user3 m-5'>
           <div className='flex justify-center items-center'>
             <Link
-              to='daftar'
+              to='daftar-kumur'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
             >
               DAFTAR KUMURAN MURID TAHUN 1
             </Link>
           </div>
-          {/* <div className='flex justify-center items-center'>
+          <div className='flex justify-center items-center'>
             <Link
               to='carian'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
             >
               CARIAN
             </Link>
-          </div> */}
+          </div>
           <div className='flex justify-center items-center'>
-            <button
+            <Link
+              to='daftar-kumur-kohort'
               className='bg-user3 text-md text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-              onClick={() => {
-                setModalRegisterSekolah(true);
-              }}
             >
-              DAFTAR KUMURAN MURID KOHORT
-            </button>
+              DAFTAR KUMURAN MURID KOHORT TAHUN 1
+            </Link>
           </div>
         </div>
-        {modalRegisterSekolah ? (
-          <RegisterFMRModal
-            modalRegisterSekolah={modalRegisterSekolah}
-            setModalRegisterSekolah={setModalRegisterSekolah}
-            currentKodSekolah={currentKodSekolah}
-            setReloadState={setReloadState}
-          />
-        ) : null}
       </div>
     </>
   );

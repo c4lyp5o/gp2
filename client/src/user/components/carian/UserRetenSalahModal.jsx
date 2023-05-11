@@ -20,7 +20,7 @@ export default function UserRetenSalahModal({
 
   const handleOtpRequest = async () => {
     await toast.promise(
-      axios.get(`/api/v1/getotp?id=${userinfo._id}`, {
+      axios.get(`/api/v1/getotp?id=${userinfo._id}&op=reten-salah`, {
         headers: {
           Authorization: `Bearer ${
             reliefUserToken ? reliefUserToken : userToken

@@ -65,12 +65,19 @@ exports.startQueue = async function (req, res) {
           }).save();
           break;
         case 'negeriSuperadmin':
+          userTokenData = await new GenerateToken({
+            belongsTo: username,
+            accountType,
+            jenisReten,
+            jumlahToken: 200,
+          }).save();
+          break;
         case 'daerahSuperadmin':
           userTokenData = await new GenerateToken({
             belongsTo: username,
             accountType,
             jenisReten,
-            jumlahToken: 15,
+            jumlahToken: 50,
           }).save();
           break;
         default:
@@ -164,7 +171,7 @@ exports.startQueueKp = async function (req, res) {
         belongsTo: username,
         accountType,
         jenisReten,
-        jumlahToken: 15,
+        jumlahToken: 25,
       }).save();
       userTokenData = kpUserToken;
       logger.info(
@@ -4859,30 +4866,31 @@ exports.refreshTokens = async function (req, res) {
 
   if (negeriTokens) {
     negeriTokens.forEach(async (token) => {
-      token.jumlahToken = 15;
+      token.jumlahToken = 200;
       await token.save();
     });
     logger.info('[generateRetenController] dah refresh token negeri');
   }
 
-  // refresh token daerah
+  // refresh daerah token
   const daerahTokens = await GenerateToken.find({
     accountType: 'daerahSuperadmin',
   });
   if (daerahTokens) {
     daerahTokens.forEach(async (token) => {
-      token.jumlahToken = 15;
+      token.jumlahToken = 50;
       await token.save();
     });
     logger.info('[generateRetenController] dah refresh token daerah');
   }
 
+  // refresh kp token
   const kpTokens = await GenerateToken.find({
     accountType: 'kpUser',
   });
   if (kpTokens) {
     kpTokens.forEach(async (token) => {
-      token.jumlahToken = 15;
+      token.jumlahToken = 25;
       await token.save();
     });
     logger.info('[generateRetenController] dah refresh token kp');

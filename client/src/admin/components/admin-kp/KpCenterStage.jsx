@@ -5,7 +5,7 @@ import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import { Loading } from '../Screens';
 
 export default function KpCenterStage(props) {
-  const { toast, readDataForKp } = useGlobalAdminAppContext();
+  const { toast, loginInfo, readDataForKp } = useGlobalAdminAppContext();
 
   const [loading, setLoading] = useState(true);
   const [program, setProgram] = useState([]);
@@ -31,7 +31,7 @@ export default function KpCenterStage(props) {
   return (
     <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5'>
       <h1>
-        Selamat datang, {props.loginInfo.officername} dari {props.loginInfo.kp}
+        Selamat datang, {loginInfo.officername} dari {loginInfo.kp}
       </h1>
       <p>Hari ini {moment(new Date()).format('DD/MM/YYYY')}</p>
       <div className='grid grid-cols gap-2'>

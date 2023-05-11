@@ -13925,6 +13925,7 @@ const countPGPro01 = async (payload) => {
   // run aggregate
   try {
     const pipeline = [match_stage, group_stage];
+    throw new Error(JSON.stringify(match_stage));
     const data = await Promosi.aggregate(pipeline);
     return data;
   } catch (error) {
