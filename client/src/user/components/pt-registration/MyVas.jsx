@@ -4,6 +4,8 @@ import { FaWindowClose } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
+import mysejahtera from '../../../assets/MySejahtera.png';
+
 export default function MyVas({ setShowMyVas }) {
   const { userToken, userinfo, reliefUserToken, toast } =
     useGlobalUserAppContext();
@@ -22,7 +24,7 @@ export default function MyVas({ setShowMyVas }) {
         />
         <div className='h-7 bg-user1 flex justify-center items-center text-userWhite normal-case font-semibold text-lg'>
           <img
-            src='https://upload.wikimedia.org/wikipedia/commons/9/90/MySejahtera.png'
+            src={mysejahtera}
             alt='MySejahtera Logo'
             className='w-6 h-6 inline-block m-1'
           />{' '}

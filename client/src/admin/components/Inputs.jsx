@@ -1084,8 +1084,7 @@ export function InputFacility(props) {
                       <div className='grid gap-1 mb-3'>
                         <input
                           required
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           type='text'
                           name='nama'
                           id='nama'
@@ -2238,27 +2237,27 @@ export function InputEditEvent(props) {
 }
 
 export function InputKpAddEvent(props) {
-  const { getCurrentUser, toast } = useGlobalAdminAppContext();
+  const { loginInfo, getCurrentUser, toast } = useGlobalAdminAppContext();
 
-  const [loginInfo, setLoginInfo] = useState({
-    negeri: 'SIAPA NEGERI KAU HA???', // initial state ni kena ada, kalau x nanti dia error
-  });
+  // const [loginInfo, setLoginInfo] = useState({
+  //   negeri: 'SIAPA NEGERI KAU HA???', // initial state ni kena ada, kalau x nanti dia error
+  // });
 
-  useEffect(() => {
-    const getUser = async () => {
-      const res = await getCurrentUser();
-      setLoginInfo({
-        ...res.data,
-        isLoggedIn: true,
-      });
-    };
-    getUser().catch((err) => {
-      console.log(err);
-      // toast.error(
-      //   'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: input-kp-tambah-program'
-      // );
-    });
-  }, []);
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const res = await getCurrentUser();
+  //     setLoginInfo({
+  //       ...res.data,
+  //       isLoggedIn: true,
+  //     });
+  //   };
+  //   getUser().catch((err) => {
+  //     console.log(err);
+  //     // toast.error(
+  //     //   'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: input-kp-tambah-program'
+  //     // );
+  //   });
+  // }, []);
 
   return (
     <>
@@ -2288,8 +2287,7 @@ export function InputKpAddEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       onChange={(e) => {
                         props.setJenisEvent(e.target.value);
                       }}
@@ -2310,7 +2308,7 @@ export function InputKpAddEvent(props) {
                         <option value='fds'>Flying Dental Service</option>
                       )}
                       {loginInfo.negeri === 'Kelantan' && (
-                        <option value='rtc'>RTC Kelantan , Tunjung</option>
+                        <option value='rtc'>RTC Kelantan, Tunjung</option>
                       )}
                       {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
                       <option value='incremental'>
@@ -2332,8 +2330,7 @@ export function InputKpAddEvent(props) {
                       <input
                         autoFocus
                         type='text'
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={
                           props.editedEntity.enrolmenInstitusi ===
                           'NOT APPLICABLE'
@@ -2392,8 +2389,7 @@ export function InputKpAddEvent(props) {
                         <select
                           name='kpb'
                           id='kpb'
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           value={props.editedEntity.penggunaanKpb}
                           onChange={(e) => {
                             props.setEditedEntity({
@@ -2433,8 +2429,7 @@ export function InputKpAddEvent(props) {
                         <select
                           name='mpb'
                           id='mpb'
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           value={props.editedEntity.penggunaanMpb}
                           onChange={(e) => {
                             props.setEditedEntity({
@@ -2462,8 +2457,7 @@ export function InputKpAddEvent(props) {
                     </p>
                     <input
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       type='text'
                       name='nama'
                       id='nama'
@@ -2481,8 +2475,7 @@ export function InputKpAddEvent(props) {
                     <div className='grid gap-1'>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='text'
                         name='nama'
                         id='nama'

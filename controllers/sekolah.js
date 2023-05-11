@@ -1,5 +1,9 @@
 const https = require('https');
 const axios = require('axios');
+const fs = require('fs');
+const async = require('async');
+const path = require('path');
+const Excel = require('exceljs');
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
@@ -8,6 +12,7 @@ const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 const insertToSekolah = require('../controllers/helpers/insertToSekolah');
+const { generateRandomString } = require('./adminAPI');
 
 // GET /
 const getAllPersonSekolahsVanilla = async (req, res) => {
@@ -305,6 +310,170 @@ const kemaskiniSenaraiPelajar = async (req, res) => {
   }
 };
 
+// GET /muatturun/:fasilitiId
+const muatturunSenaraiPelajar = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { fasilitiId } = req.params;
+
+  const makeFile = () => {
+    return path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      `${generateRandomString(20)}.xlsx`
+    );
+  };
+
+  let match_stage = {
+    $match: {
+      kodSekolah: fasilitiId,
+    },
+  };
+
+  let project_stage = {
+    $project: {
+      nama: 1,
+      // nomborId: 1,
+      tahunTingkatan: 1,
+      namaSekolah: 1,
+      kelasPelajar: 1,
+      // tarikhLahir: 1,
+      // umur: 1,
+      jantina: 1,
+      warganegara: 1,
+      sesiTakwimPelajar: 1,
+    },
+  };
+
+  try {
+    const semuaPelajarSatuSekolah = await Sekolah.aggregate([
+      match_stage,
+      project_stage,
+    ]);
+    const semuaTahun = new Set(
+      semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+    );
+
+    let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(blank);
+
+    workbook.removeWorksheet('Sheet1');
+
+    for (const tahun of semuaTahun) {
+      const worksheet = workbook.addWorksheet(tahun);
+
+      const studentsInClass = semuaPelajarSatuSekolah.filter(
+        (student) => student.tahunTingkatan === tahun
+      );
+
+      studentsInClass.sort((a, b) => {
+        if (a.kelasPelajar < b.kelasPelajar) {
+          return -1;
+        }
+        if (a.kelasPelajar > b.kelasPelajar) {
+          return 1;
+        }
+        if (a.nama < b.nama) {
+          return -1;
+        }
+        if (a.nama > b.nama) {
+          return 1;
+        }
+        return 0;
+      });
+
+      worksheet.columns = [
+        { header: 'BIL', key: 'bil', width: 5, height: 26 },
+        { header: 'NAMA', key: 'nama', width: 60, height: 26 },
+        // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
+        {
+          header: 'TAHUN/TINGKATAN',
+          key: 'tahunTingkatan',
+          width: 35,
+          height: 26,
+        },
+        { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
+        // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
+        // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+        { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+        {
+          header: 'WARGANEGARA',
+          key: 'warganegara',
+          width: 40,
+          height: 26,
+        },
+        // {
+        //   header: 'SESI TAKWIM',
+        //   key: 'sesiTakwimPelajar',
+        //   width: 18,
+        //   height: 26,
+        // },
+      ];
+
+      worksheet.addRows(studentsInClass);
+
+      worksheet.getColumn('bil').eachCell((cell, number) => {
+        if (number !== 1) {
+          cell.value = number - 1;
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        }
+      });
+
+      worksheet.columns.forEach((column) => {
+        if (column.header === 'nama') {
+          column.eachCell((cell, rowNumber) => {
+            cell.alignment = { vertical: 'middle', horizontal: 'left' };
+          });
+        } else {
+          column.eachCell((cell, rowNumber) => {
+            cell.alignment = { vertical: 'middle', horizontal: 'center' };
+          });
+        }
+      });
+
+      worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+      worksheet.getRow(1).alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+      };
+
+      worksheet.eachRow((row) => {
+        row.height = 15;
+        row.eachCell((cell) => {
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' },
+          };
+        });
+      });
+    }
+
+    const listPelajar = makeFile();
+
+    await workbook.xlsx.writeFile(listPelajar);
+
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    const fileStream = fs.createReadStream(listPelajar);
+    fileStream.pipe(res);
+    fileStream.on('close', () => {
+      fs.unlinkSync(listPelajar);
+    });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ msg: error.message });
+  }
+};
+
 // not used
 // POST /
 const createPersonSekolah = async (req, res) => {
@@ -368,9 +537,9 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       createdByDaerah: req.user.daerah,
       createdByKp: req.user.kp,
       createdByKodFasiliti: req.user.kodFasiliti,
-      createdByUsername: req.body.createdByUsername,
-      createdByMdcMdtb: req.body.createdByMdcMdtb,
-      //
+      // createdByUsername: req.body.createdByUsername,
+      // createdByMdcMdtb: req.body.createdByMdcMdtb,
+      // copied MOEIS data
       idInstitusi: personSekolah.idInstitusi,
       kodSekolah: personSekolah.kodSekolah,
       namaSekolah: personSekolah.namaSekolah,
@@ -504,16 +673,28 @@ const updatePersonSekolah = async (req, res) => {
   res.status(200).json({ updatedPersonSekolah });
 };
 
-// not used
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
 const updatePemeriksaanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const createdSalahreten = {
+    createdByUsernameSalah: req.body.createdByUsernameSalah,
+    createdByMdcMdtbSalah: req.body.createdByMdcMdtbSalah,
+    dataRetenSalah: req.body.dataRetenSalah,
+  };
+
   const updatedSinglePemeriksaan = await Pemeriksaansekolah.findOneAndUpdate(
     { _id: req.params.pemeriksaanSekolahId },
-    req.body,
+    {
+      $set: {
+        ...req.body,
+      },
+      $push: {
+        createdSalahreten: createdSalahreten,
+      },
+    },
     { new: true }
   );
 
@@ -527,22 +708,6 @@ const updatePemeriksaanSekolah = async (req, res) => {
   //   { _id: req.query.personSekolahId },
   //   { $set: { statusRawatan: 'belum selesai' } }
   // );
-
-  // delete KOTAK if inginMelakukanIntervensiMerokok === tidak || ''
-  if (
-    personSekolah.kotakSekolah &&
-    (req.body.inginMelakukanIntervensiMerokok === '' ||
-      req.body.inginMelakukanIntervensiMerokok ===
-        'tidak-ingin-melakukan-intervensi-merokok')
-  ) {
-    await Kotaksekolah.findOneAndRemove({
-      _id: personSekolah.kotakSekolah._id,
-    });
-    await Sekolah.findOneAndUpdate(
-      { _id: req.query.personSekolahId },
-      { $unset: { kotakSekolah: 1 } }
-    );
-  }
 
   res.status(200).json({ updatedSinglePemeriksaan });
 };
@@ -570,7 +735,6 @@ const updateKotakSekolah = async (req, res) => {
   res.status(200).json({ updatedSingleKotak });
 };
 
-// not used
 // query /sekolah
 const queryPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -579,7 +743,7 @@ const queryPersonSekolah = async (req, res) => {
 
   const {
     user: { kp },
-    query: { namaSekolah, darjah, tingkatan, kelas },
+    query: { nama, nomborId, namaSekolah, tahunTingkatan, kelasPelajar },
   } = req;
   const queryObject = {};
 
@@ -587,16 +751,20 @@ const queryPersonSekolah = async (req, res) => {
     queryObject.namaSekolah = namaSekolah;
   }
 
-  if (darjah) {
-    queryObject.darjah = darjah;
+  if (nama) {
+    queryObject.nama = { $regex: nama, $options: 'i' };
   }
 
-  if (tingkatan) {
-    queryObject.tingkatan = tingkatan;
+  if (nomborId) {
+    queryObject.nomborId = { $regex: nomborId, $options: 'i' };
   }
 
-  if (kelas) {
-    queryObject.kelas = kelas;
+  if (tahunTingkatan) {
+    queryObject.tahunTingkatan = { $regex: tahunTingkatan, $options: 'i' };
+  }
+
+  if (kelasPelajar) {
+    queryObject.kelasPelajar = { $regex: kelasPelajar, $options: 'i' };
   }
 
   const sekolahResultQuery = await Sekolah.find(queryObject)
@@ -614,6 +782,7 @@ module.exports = {
   getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
+  muatturunSenaraiPelajar,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,

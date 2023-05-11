@@ -1,25 +1,25 @@
 import { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-export default function UserModalRefreshSekolah({
-  handleRefreshPelajar,
-  setModalRefreshPelajar,
-  id,
+export default function UserModalSalahSekolah({
+  carianSekolah,
+  setModalSalahRetenSekolah,
 }) {
   const { userToken, userinfo, reliefUserToken, toast } =
     useGlobalUserAppContext();
 
   const [otpQuestion, setOtpQuestion] = useState(false);
   const [otpInput, setOtpInput] = useState('');
-  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
+  const [showBothForm, setShowBothForm] = useState(false);
+  const [hilangSekolah, setHilangSekolah] = useState(false);
 
   const handleOtpRequest = async () => {
-    setIsSubmitDisabled(true);
     await toast.promise(
-      axios.get(`/api/v1/getotp?id=${userinfo._id}&op=kemaskini-pelajar`, {
+      axios.get(`/api/v1/getotp?id=${userinfo._id}&op=salah-reten-sekolah`, {
         headers: {
           Authorization: `Bearer ${
             reliefUserToken ? reliefUserToken : userToken
@@ -36,11 +36,9 @@ export default function UserModalRefreshSekolah({
       }
     );
     setOtpQuestion(true);
-    setIsSubmitDisabled(false);
   };
 
   const handleOtpVerify = async () => {
-    setIsSubmitDisabled(true);
     await toast
       .promise(
         axios.get(`/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`, {
@@ -59,8 +57,9 @@ export default function UserModalRefreshSekolah({
       )
       .then((res) => {
         if (res.data.msg === 'OTP verified') {
-          handleRefreshPelajar(id);
+          setShowBothForm(true);
           setOtpQuestion(false);
+          setHilangSekolah(true);
         }
       });
   };
@@ -79,26 +78,27 @@ export default function UserModalRefreshSekolah({
     <>
       <form
         onSubmit={handleSubmit}
-        className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+        className='absolute z-30 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md m-'
       >
         <FaWindowClose
           className='absolute top-2 right-2 text-2xl cursor-pointer'
-          onClick={() => setModalRefreshPelajar(false)}
+          onClick={() => setModalSalahRetenSekolah(false)}
         />
-        <div className='h-10 bg-user9 flex justify-center items-center text-userWhite uppercase font-bold text-lg'>
+        <div className='h-10 bg-user9 flex justify-center items-center text-userWhite uppercase font-bold text-lg rounded-t-md'>
           Pengesahan
         </div>
-        <div className='flex flex-col items-center justify-center'>
-          <h1 className='text-2xl font-bold text-center mt-3'>
-            Anda pasti untuk mengemaskini senarai pelajar?
+        <div className='flex flex-col items-center justify-center px-3'>
+          <h1 className='text-2xl font-bold text-center mt-3 border-b border-b-user1 py-3'>
+            Anda perlu meminta OTP untuk mengesahkan menanda reten salah untuk
+            murid ini
           </h1>
           <div>
             {otpQuestion ? (
               <>
-                <div className='normal-case'>
+                <div className='normal-case mt-4'>
                   Sila Masukkan OTP Yang Telah Dihantar Ke Emel {userinfo.email}
                 </div>
-                <div className='flex flex-col items-center justify-center'>
+                <div className='flex flex-col items-center justify-center mt-3'>
                   <label htmlFor='otpInput' className='sr-only'>
                     OTP
                   </label>
@@ -113,21 +113,60 @@ export default function UserModalRefreshSekolah({
                 </div>
               </>
             ) : (
-              <div className='text-center'>
-                sila masukkan kod OTP bagi mengesahkan kebenaran kemaskini
-                pelajar sekolah ini
-              </div>
+              !showBothForm && (
+                <div className='text-center mt-4'>
+                  sila masukkan kod OTP bagi menandakan reten salah sekolah di
+                  pilihan anda
+                </div>
+              )
             )}
           </div>
-          <div></div>
+          {showBothForm && (
+            <div className='mt-5'>
+              <p className='my-2 font-semibold'>
+                Sila pilih mengikut pilihan anda
+              </p>
+              <Link
+                target='_blank'
+                rel='noreferrer'
+                to={`/pengguna/landing/carian/sekolah/form-sekolah/pemeriksaan/${
+                  carianSekolah._id
+                }/${
+                  carianSekolah.pemeriksaanSekolah
+                    ? carianSekolah.pemeriksaanSekolah._id
+                    : 'tambah-pemeriksaan'
+                }`}
+                className={`${
+                  carianSekolah.statusRawatan === 'enggan'
+                    ? 'pointer-events-none text-userBlack shadow-none'
+                    : carianSekolah.statusRawatan === 'tidak hadir'
+                    ? 'pointer-events-none text-userBlack shadow-none'
+                    : carianSekolah.pemeriksaanSekolah
+                    ? 'bg-user7 text-userWhite shadow-md'
+                    : filteredFasilitiSekolah.sekolahSelesaiReten === true
+                    ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                    : 'bg-user6 text-userWhite shadow-md'
+                } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
+                onClick={() => setModalSalahRetenSekolah(false)}
+              >
+                {carianSekolah.statusRawatan === 'enggan'
+                  ? 'Enggan'
+                  : carianSekolah.statusRawatan === 'tidak hadir'
+                  ? 'Tidak Hadir'
+                  : carianSekolah.pemeriksaanSekolah
+                  ? 'lihat pemeriksaan'
+                  : 'Tambah Pemeriksaan'}
+              </Link>
+            </div>
+          )}
           <div className='absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
             <span
               className='capitalize bg-userWhite text-userBlack rounded-md p-2 mr-3 hover:bg-user5 hover:cursor-pointer transition-all'
-              onClick={() => setModalRefreshPelajar(false)}
+              onClick={() => setModalSalahRetenSekolah(false)}
             >
               Batal
             </span>
-            {!isSubmitDisabled ? (
+            {hilangSekolah ? null : (
               <button
                 type='submit'
                 className={`capitalize text-userWhite rounded-md p-2 ml-3 hover:cursor-pointer transition-all ${
@@ -136,40 +175,14 @@ export default function UserModalRefreshSekolah({
                     : 'bg-user9 hover:bg-user5 hover:text-userBlack'
                 }`}
               >
-                {otpQuestion ? 'Hantar' : 'KEMASKINI PELAJAR'}
-              </button>
-            ) : (
-              <button
-                disabled={true}
-                className='capitalize text-userWhite rounded-md p-2 ml-3 transition-all bg-user2 cursor-not-allowed'
-              >
-                <svg
-                  className='animate-spin m-auto h-5 w-5 text-white'
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                >
-                  <circle
-                    className='opacity-25'
-                    cx='12'
-                    cy='12'
-                    r='10'
-                    stroke='currentColor'
-                    strokeWidth='4'
-                  ></circle>
-                  <path
-                    className='opacity-75'
-                    fill='currentColor'
-                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-                  ></path>
-                </svg>
+                {otpQuestion ? 'VERIFIKASI' : 'DAPATKAN OTP'}
               </button>
             )}
           </div>
         </div>
       </form>
       <div
-        onClick={() => setModalRefreshPelajar(false)}
+        onClick={() => setModalSalahRetenSekolah(false)}
         className='absolute inset-0 bg-user1 opacity-75 z-10'
       />
     </>

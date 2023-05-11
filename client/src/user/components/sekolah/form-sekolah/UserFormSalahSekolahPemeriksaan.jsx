@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { FaInfoCircle } from 'react-icons/fa';
+import { FaInfoCircle, FaTimes } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
@@ -8,7 +8,7 @@ import ConfirmCheck from './ConfirmationPemeriksaan';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
-function UserFormSekolahPemeriksaan() {
+function UserFormSalahSekolahPemeriksaan({ salahReten }) {
   const {
     userToken,
     reliefUserToken,
@@ -219,6 +219,157 @@ function UserFormSekolahPemeriksaan() {
   const [tarikhPemeriksaanSemasaDP, setTarikhPemeriksaanSemasaDP] =
     useState(null);
 
+  //reten salah
+  const [dataRetenSalah, setDataRetenSalah] = useState({});
+  const [pilihanDataSalah, setPilihanDataSalah] = useState({
+    yaTidakSediaAdaStatusDenture: false,
+    yaTidakSediaAdaStatusDentureText: '',
+    separaPenuhAtasSediaAdaDenture: false,
+    separaPenuhAtasSediaAdaDentureText: '',
+    separaPenuhBawahSediaAdaDenture: false,
+    separaPenuhBawahSediaAdaDentureText: '',
+    yaTidakPerluStatusDenture: false,
+    yaTidakPerluStatusDentureText: '',
+    separaPenuhAtasPerluDenture: false,
+    separaPenuhAtasPerluDentureText: '',
+    separaPenuhBawahPerluDenture: false,
+    separaPenuhBawahPerluDentureText: '',
+    kebersihanMulutOralHygiene: false,
+    kebersihanMulutOralHygieneText: '',
+    skorBpeOralHygiene: false,
+    skorBpeOralHygieneText: '',
+    saringanKanserMulutOralHygiene: false,
+    saringanKanserMulutOralHygieneText: '',
+    skorGisMulutOralHygiene: false,
+    skorGisMulutOralHygieneText: '',
+    perluPenskaleranOralHygiene: false,
+    perluPenskaleranOralHygieneText: '',
+    statusPeriodontium: false,
+    statusPeriodontiumText: '',
+    yaTidakPesakitMempunyaiGigi: false,
+    yaTidakPesakitMempunyaiGigiText: '',
+    adaDesidus: false,
+    adaDesidusText: '',
+    dAdaGigiDesidus: false,
+    dAdaGigiDesidusText: '',
+    fAdaGigiDesidus: false,
+    fAdaGigiDesidusText: '',
+    xAdaGigiDesidus: false,
+    xAdaGigiDesidusText: '',
+    adaKekal: false,
+    adaKekalText: '',
+    dAdaGigiKekal: false,
+    dAdaGigiKekalText: '',
+    mAdaGigiKekal: false,
+    mAdaGigiKekalText: '',
+    fAdaGigiKekal: false,
+    fAdaGigiKekalText: '',
+    eAdaGigiKekal: false,
+    eAdaGigiKekalText: '',
+    xAdaGigiKekal: false,
+    xAdaGigiKekalText: '',
+    jumlahFaktorRisiko: false,
+    jumlahFaktorRisikoText: '',
+    penandaRisikoKaries: false,
+    penandaRisikoKariesText: '',
+    adaCleftLip: false,
+    adaCleftLipText: '',
+    rujukCleftLip: false,
+    rujukCleftLipText: '',
+    kecederaanGigiAnteriorTrauma: false,
+    kecederaanGigiAnteriorTraumaText: '',
+    tisuLembutTrauma: false,
+    tisuLembutTraumaText: '',
+    tisuKerasTrauma: false,
+    tisuKerasTraumaText: '',
+    gicBilanganFsDibuat3TahunLepas: false,
+    gicBilanganFsDibuat3TahunLepasText: '',
+    resinBilanganFsDibuat3TahunLepas: false,
+    resinBilanganFsDibuat3TahunLepasText: '',
+    lainLainBilanganFsDibuat3TahunLepas: false,
+    lainLainBilanganFsDibuat3TahunLepasText: '',
+    dBilanganFsDibuat3TahunLepasTerjadi: false,
+    dBilanganFsDibuat3TahunLepasTerjadiText: '',
+    mBilanganFsDibuat3TahunLepasTerjadi: false,
+    mBilanganFsDibuat3TahunLepasTerjadiText: '',
+    fBilanganFsDibuat3TahunLepasTerjadi: false,
+    fBilanganFsDibuat3TahunLepasTerjadiText: '',
+    eBilanganFsDibuat3TahunLepasTerjadi: false,
+    eBilanganFsDibuat3TahunLepasTerjadiText: '',
+    xBilanganFsDibuat3TahunLepasTerjadi: false,
+    xBilanganFsDibuat3TahunLepasTerjadiText: '',
+    toothSurfaceLoss: false,
+    toothSurfaceLossText: '',
+    classID: false,
+    classIDText: '',
+    classIID: false,
+    classIIDText: '',
+    classIF: false,
+    classIFText: '',
+    classIIF: false,
+    classIIFText: '',
+    baruJumlahGigiKekalPerluFs: false,
+    baruJumlahGigiKekalPerluFsText: '',
+    baruJumlahMuridPerluFs: false,
+    baruJumlahMuridPerluFsText: '',
+    baruJumlahGigiKekalPerluFv: false,
+    baruJumlahGigiKekalPerluFvText: '',
+    semulaJumlahGigiKekalPerluFv: false,
+    semulaJumlahGigiKekalPerluFvText: '',
+    baruJumlahMuridPerluFv: false,
+    baruJumlahMuridPerluFvText: '',
+    semulaJumlahMuridPerluFv: false,
+    semulaJumlahMuridPerluFvText: '',
+    baruJumlahGigiKekalPerluPrrJenis1: false,
+    baruJumlahGigiKekalPerluPrrJenis1Text: '',
+    semulaJumlahGigiKekalPerluPrrJenis1: false,
+    semulaJumlahGigiKekalPerluPrrJenis1Text: '',
+    baruJumlahMuridPerluPrrJenis1: false,
+    baruJumlahMuridPerluPrrJenis1Text: '',
+    semulaJumlahMuridPerluPrrJenis1: false,
+    semulaJumlahMuridPerluPrrJenis1Text: '',
+    yaTidakSilverDiamineFluoridePerluSapuan: false,
+    yaTidakSilverDiamineFluoridePerluSapuanText: '',
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan: false,
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukanText: '',
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan: false,
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukanText: '',
+    statusM: false,
+    statusMText: '',
+    menerimaNasihatRingkas: false,
+    menerimaNasihatRingkasText: '',
+    melaksanakanSaringanMerokok: false,
+    melaksanakanSaringanMerokokText: '',
+    bersediaDirujuk: false,
+    bersediaDirujukText: '',
+    noTelMuridKotak: false,
+    noTelMuridKotakText: '',
+    kesSelesai: false,
+    kesSelesaiText: '',
+    kesSelesaiIcdas: false,
+    kesSelesaiIcdasText: '',
+  });
+
   const TarikhPemeriksaanSemasa = () => {
     let isDisabled = false;
     if (
@@ -243,56 +394,6 @@ function UserFormSekolahPemeriksaan() {
         'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
     });
   };
-
-  //cek risiko karies
-  useEffect(() => {
-    if (parseInt(jumlahFaktorRisiko) >= 3 && parseInt(eAdaGigiKekal) >= 1) {
-      setPenandaRisikoKaries('tinggi');
-    } else if (
-      parseInt(jumlahFaktorRisiko) >= 1 &&
-      (parseInt(dAdaGigiDesidus) >= 1 || parseInt(dAdaGigiKekal) >= 1)
-    ) {
-      setPenandaRisikoKaries('tinggi');
-    } else if (
-      parseInt(jumlahFaktorRisiko) <= 2 &&
-      parseInt(eAdaGigiKekal) >= 1
-    ) {
-      setPenandaRisikoKaries('sederhana');
-    } else if (
-      parseInt(jumlahFaktorRisiko) >= 3 &&
-      (parseInt(dAdaGigiDesidus) === 0 || parseInt(dAdaGigiKekal) === 0)
-    ) {
-      setPenandaRisikoKaries('sederhana');
-    } else if (
-      parseInt(jumlahFaktorRisiko) === 0 &&
-      (parseInt(dAdaGigiDesidus) >= 1 || parseInt(dAdaGigiKekal) >= 1)
-    ) {
-      setPenandaRisikoKaries('sederhana');
-    } else if (
-      parseInt(jumlahFaktorRisiko) <= 2 &&
-      (parseInt(dAdaGigiDesidus) === 0 || parseInt(dAdaGigiKekal) === 0)
-    ) {
-      setPenandaRisikoKaries('rendah');
-    }
-  });
-
-  // reset ennganTidakHadirPemeriksaan
-  useEffect(() => {
-    if (padamPemeriksaan === true) {
-      setEngganTidakHadirPemeriksaan('');
-      setEngganPemeriksaan('');
-      setKebenaranPemeriksaan('');
-      setTidakHadirPemeriksaan('');
-      setConfirmData({
-        ...confirmData,
-        engganTidakHadirPemeriksaan: '',
-        engganPemeriksaan: '',
-        kebenaranPemeriksaan: '',
-        tidakHadirPemeriksaan: '',
-      });
-      setPadamPemeriksaan(false);
-    }
-  }, [padamPemeriksaan]);
 
   // calculate total dmfx + sm desidus
   useEffect(() => {
@@ -411,67 +512,6 @@ function UserFormSekolahPemeriksaan() {
   useEffect(() => {
     setDAdaGigiKekal(parseInt(dAdaGigiKekal));
   }, [dAdaGigiKekal]);
-
-  //reset value
-  useEffect(() => {
-    if (statikBergerak === 'klinik-pergigian-statik' || statikBergerak === '') {
-      setKpBergerak(false);
-      setPlateNo('');
-    }
-    if (yaTidakSediaAdaStatusDenture === 'tidak-sedia-ada-status-denture') {
-      setSeparaPenuhAtasSediaAdaDenture('');
-      setSeparaPenuhBawahSediaAdaDenture('');
-    }
-    if (yaTidakPerluStatusDenture === 'tidak-perlu-status-denture') {
-      setSeparaPenuhAtasPerluDenture('');
-      setSeparaPenuhBawahPerluDenture('');
-    }
-    if (!adaDesidus) {
-      setDAdaGigiDesidus(0);
-      setFAdaGigiDesidus(0);
-      setXAdaGigiDesidus(0);
-    }
-    if (!adaKekal) {
-      setDAdaGigiKekal(0);
-      setMAdaGigiKekal(0);
-      setFAdaGigiKekal(0);
-      setEAdaGigiKekal(0);
-      setXAdaGigiKekal(0);
-    }
-  }, [
-    statikBergerak,
-    yaTidakSediaAdaStatusDenture,
-    yaTidakPerluStatusDenture,
-    adaDesidus,
-    adaKekal,
-  ]);
-
-  useEffect(() => {
-    if (melaksanakanSaringanMerokok === 'tidak-melaksanakan-saringan-merokok') {
-      setStatusM('');
-      setMenerimaNasihatRingkas('');
-      setBersediaDirujuk('');
-    }
-  }, [melaksanakanSaringanMerokok]);
-
-  useEffect(() => {
-    if (statusPeriodontium === 'gis-status-periodontium') {
-      setSkorBpeOralHygiene('');
-    } else if (statusPeriodontium === 'bpe-status-periodontium') {
-      setSkorGisMulutOralHygiene('');
-    }
-  }, [statusPeriodontium]);
-
-  //reset modal
-  useEffect(() => {
-    if (engganTidakHadirPemeriksaan === 'tidak-hadir-pemeriksaan') {
-      setEngganPemeriksaan('');
-      setKebenaranPemeriksaan('');
-    }
-    if (engganTidakHadirPemeriksaan === 'enggan-pemeriksaan') {
-      setTidakHadirPemeriksaan('');
-    }
-  }, [engganTidakHadirPemeriksaan]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -869,138 +909,23 @@ function UserFormSekolahPemeriksaan() {
       );
       return;
     }
-    let statusRawatan = '';
-    if (
-      kesSelesai !== 'ya-kes-selesai' ||
-      engganPemeriksaan !== 'ya-enggan-pemeriksaan' ||
-      tidakHadirPemeriksaan !== 'ya-kehadiran-pemeriksaan'
-    ) {
-      statusRawatan = 'belum selesai';
-    }
-    if (kesSelesai === 'ya-kes-selesai') {
-      statusRawatan = 'selesai';
-    }
-    if (engganPemeriksaan === 'ya-enggan-pemeriksaan') {
-      statusRawatan = 'enggan';
-    }
-    if (tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan') {
-      statusRawatan = 'tidak hadir';
-    }
-    let kesSelesaiMmi = false;
-    if (kesSelesaiIcdas === 'ya-kes-selesai-icdas') {
-      kesSelesaiMmi = true;
-    }
-    const {
-      kodSekolah,
-      namaSekolah,
-      idIndividu,
-      nomborId,
-      nama,
-      tahunTingkatan,
-      kelasPelajar,
-    } = singlePersonSekolah;
 
-    // block tambah-pemeriksaan je yang guna sbb dah xleh edit pemeriksaan
-    if (pemeriksaanSekolahId === 'tambah-pemeriksaan') {
-      setIsSubmitting(true);
+    if (salahReten === 'pemeriksaan-salah') {
+      let mdcMdtbNumSalah = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNumSalah = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNumSalah = userinfo.mdtbNumber;
+      }
       await toast
         .promise(
-          axios.post(
-            `/api/v1/sekolah/pemeriksaan/${personSekolahId}`,
+          axios.patch(
+            `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
             {
-              createdByUsername,
-              createdByMdcMdtb: mdcMdtbNum,
-              //
-              kodSekolah,
-              namaSekolah,
-              idIndividu,
-              nomborId,
-              nama,
-              tahunTingkatan,
-              kelasPelajar,
-              statusRawatan,
-              kesSelesaiMmi,
-              engganTidakHadirPemeriksaan,
-              engganPemeriksaan,
-              kebenaranPemeriksaan,
-              tidakHadirPemeriksaan,
-              tarikhPemeriksaanSemasa,
-              statikBergerak,
-              kpBergerak,
-              plateNo,
-              yaTidakSediaAdaStatusDenture,
-              separaPenuhAtasSediaAdaDenture,
-              separaPenuhBawahSediaAdaDenture,
-              yaTidakPerluStatusDenture,
-              separaPenuhAtasPerluDenture,
-              separaPenuhBawahPerluDenture,
-              kebersihanMulutOralHygiene,
-              skorBpeOralHygiene,
-              saringanKanserMulutOralHygiene,
-              skorGisMulutOralHygiene,
-              perluPenskaleranOralHygiene,
-              statusPeriodontium,
-              yaTidakPesakitMempunyaiGigi,
-              adaDesidus,
-              dAdaGigiDesidus,
-              fAdaGigiDesidus,
-              xAdaGigiDesidus,
-              adaKekal,
-              dAdaGigiKekal,
-              mAdaGigiKekal,
-              fAdaGigiKekal,
-              eAdaGigiKekal,
-              xAdaGigiKekal,
-              jumlahFaktorRisiko,
-              penandaRisikoKaries,
-              adaCleftLip,
-              rujukCleftLip,
-              kecederaanGigiAnteriorTrauma,
-              tisuLembutTrauma,
-              tisuKerasTrauma,
-              gicBilanganFsDibuat3TahunLepas,
-              resinBilanganFsDibuat3TahunLepas,
-              lainLainBilanganFsDibuat3TahunLepas,
-              dBilanganFsDibuat3TahunLepasTerjadi,
-              mBilanganFsDibuat3TahunLepasTerjadi,
-              fBilanganFsDibuat3TahunLepasTerjadi,
-              eBilanganFsDibuat3TahunLepasTerjadi,
-              xBilanganFsDibuat3TahunLepasTerjadi,
-              toothSurfaceLoss,
-              classID,
-              classIID,
-              classIF,
-              classIIF,
-              baruJumlahGigiKekalPerluFs,
-              baruJumlahMuridPerluFs,
-              baruJumlahGigiKekalPerluFv,
-              semulaJumlahGigiKekalPerluFv,
-              baruJumlahMuridPerluFv,
-              semulaJumlahMuridPerluFv,
-              baruJumlahGigiKekalPerluPrrJenis1,
-              semulaJumlahGigiKekalPerluPrrJenis1,
-              baruJumlahMuridPerluPrrJenis1,
-              semulaJumlahMuridPerluPrrJenis1,
-              yaTidakSilverDiamineFluoridePerluSapuan,
-              baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
-              baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
-              baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
-              baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
-              semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
-              baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
-              semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
-              baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
-              semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
-              statusM,
-              menerimaNasihatRingkas,
-              melaksanakanSaringanMerokok,
-              bersediaDirujuk,
-              noTelMuridKotak,
-              kesSelesai,
-              kesSelesaiIcdas,
+              createdByUsernameSalah: userinfo.nama,
+              createdByMdcMdtbSalah: mdcMdtbNumSalah,
+              dataRetenSalah,
             },
             {
               headers: {
@@ -1011,9 +936,9 @@ function UserFormSekolahPemeriksaan() {
             }
           ),
           {
-            pending: 'Menghantar...',
-            success: 'Pemeriksaan pelajar berjaya dihantar',
-            error: 'Pemeriksaan pelajar gagal dihantar',
+            pending: 'Mengemaskini...',
+            success: 'Pemeriksaan pelajar berjaya dikemaskini',
+            error: 'Pemeriksaan pelajar gagal dikemaskini',
           },
           {
             autoClose: 2000,
@@ -1030,57 +955,14 @@ function UserFormSekolahPemeriksaan() {
           }, 3000);
         });
     }
-
-    //salah reten buat dekat form lain pulak
-    // if (salahReten === 'pemeriksaan-salah') {
-    //   let mdcMdtbNumSalah = '';
-    //   if (!userinfo.mdtbNumber) {
-    //     mdcMdtbNumSalah = userinfo.mdcNumber;
-    //   }
-    //   if (!userinfo.mdcNumber) {
-    //     mdcMdtbNumSalah = userinfo.mdtbNumber;
-    //   }
-    //   await toast
-    //     .promise(
-    //       axios.patch(
-    //         `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-    //         {
-    //           createdByUsernameSalah: userinfo.nama,
-    //           createdByMdcMdtbSalah: mdcMdtbNumSalah,
-    //           dataRetenSalah,
-    //         },
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${
-    //               reliefUserToken ? reliefUserToken : userToken
-    //             }`,
-    //           },
-    //         }
-    //       ),
-    //       {
-    //         pending: 'Mengemaskini...',
-    //         success: 'Pemeriksaan pelajar berjaya dikemaskini',
-    //         error: 'Pemeriksaan pelajar gagal dikemaskini',
-    //       },
-    //       {
-    //         autoClose: 2000,
-    //       }
-    //     )
-    //     .then(() => {
-    //       toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-    //         autoClose: 2000,
-    //       });
-    //       setTimeout(() => {
-    //         window.opener = null;
-    //         window.open('', '_self');
-    //         window.close();
-    //       }, 3000);
-    //     });
-    // }
   };
 
   return (
-    <ConfirmCheck callbackFx={handleSubmit} data={confirmData}>
+    <ConfirmCheck
+      callbackFx={handleSubmit}
+      data={confirmData}
+      salahReten={salahReten}
+    >
       {(confirm) => (
         <>
           <div className='h-full p-1 px-2 md:px-10 grid grid-rows-[1fr_7fr] gap-2 pb-2'>
@@ -1744,9 +1626,14 @@ function UserFormSekolahPemeriksaan() {
                       <h4 className='font-bold flex flex-row pl-5'>
                         Status dentur
                       </h4>
-                      <div className='grid grid-cols-2 gap-2 auto-rows-min'>
+                      <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min'>
                         <article className='grid grid-cols-1 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                          <div className='flex flex-row items-center pl-5'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.yaTidakSediaAdaStatusDenture &&
+                              'bg-user9 bg-opacity-20'
+                            } flex flex-row items-center pl-5 relative`}
+                          >
                             <h4 className='font-semibold mr-2 flex items-center'>
                               Sedia Ada?
                             </h4>
@@ -1811,7 +1698,99 @@ function UserFormSekolahPemeriksaan() {
                               >
                                 Tidak
                               </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                  id='separa-atas-sedia-ada-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.yaTidakSediaAdaStatusDenture
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      yaTidakSediaAdaStatusDenture:
+                                        !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      yaTidakSediaAdaStatusDenture:
+                                        !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        yaTidakSediaAdaStatusDenture:
+                                          !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
+                                      },
+                                    });
+                                  }}
+                                  className={` ${
+                                    pilihanDataSalah.yaTidakSediaAdaStatusDenture
+                                      ? 'hidden'
+                                      : 'block'
+                                  } w-4 h-4 text-user5 bg-user9 border-gray-300 focus:ring-blue-500`}
+                                />
+                                {pilihanDataSalah.yaTidakSediaAdaStatusDenture && (
+                                  <div className=' w-32 bg-userWhite rounded-md p-1 shadow-md shadow-user1'>
+                                    <div className='flex flex-row items-center'>
+                                      <label
+                                        htmlFor='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        className='text-xs font-semibold whitespace-nowrap'
+                                      >
+                                        Sebab{' '}
+                                        <span className='text-user6'>*</span>
+                                      </label>
+                                      <input
+                                        type='text'
+                                        required
+                                        name='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        id='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                        value={
+                                          pilihanDataSalah.yaTidakSediaAdaStatusDentureText
+                                        }
+                                        onChange={(e) => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            yaTidakSediaAdaStatusDentureText:
+                                              e.target.value,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            yaTidakSediaAdaStatusDentureText:
+                                              e.target.value,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              yaTidakSediaAdaStatusDentureText:
+                                                e.target.value,
+                                            },
+                                          });
+                                        }}
+                                        className='w-full px-2 py-1 text-xs border border-user1 rounded-md focus:outline-none focus:ring-1 focus:ring-user15'
+                                      />
+                                    </div>
+                                  </div>
+                                )}
+                              </div>
                             </div>
+                            {pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
+                              true && (
+                              <span
+                                className='absolute top-1/2 right-1/2 transform -translate-y-1/2 mr-2 text-user9'
+                                onClick={() =>
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakSediaAdaStatusDenture: false,
+                                  })
+                                }
+                              >
+                                <FaTimes className='text-2xl' />
+                              </span>
+                            )}
                           </div>
                           {yaTidakSediaAdaStatusDenture ===
                             'ya-sedia-ada-status-denture' && (
@@ -4513,12 +4492,12 @@ function UserFormSekolahPemeriksaan() {
                       Menghantar Data
                     </button>
                   ) : (
-                    !isDisabled && (
+                    salahReten === 'pemeriksaan-salah' && (
                       <button
                         type='submit'
-                        className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                        className='flex bg-user9 p-2 w-full capitalize justify-center hover:bg-user14 hover:text-userWhite transition-all'
                       >
-                        hantar
+                        SALAH RETEN
                       </button>
                     )
                   )}
@@ -4532,4 +4511,4 @@ function UserFormSekolahPemeriksaan() {
   );
 }
 
-export default UserFormSekolahPemeriksaan;
+export default UserFormSalahSekolahPemeriksaan;

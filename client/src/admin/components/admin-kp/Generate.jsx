@@ -8,7 +8,8 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, adminToken, masterDatePicker } = useGlobalAdminAppContext();
+  const { toast, adminToken, loginInfo, masterDatePicker } =
+    useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
 
@@ -104,10 +105,8 @@ const ModalGenerateAdHoc = (props) => {
     try {
       const res = await axios.get(
         `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          props.loginInfo.negeri
-        }&daerah=${props.loginInfo.daerah}&klinik=${
-          props.loginInfo.kodFasiliti
-        }${
+          loginInfo.negeri
+        }&daerah=${loginInfo.daerah}&klinik=${loginInfo.kodFasiliti}${
           props.pilihanFasiliti === 'kkiakd'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
             : ''
@@ -600,7 +599,7 @@ const ModalGenerateAdHoc = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            stroke-width='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
@@ -707,10 +706,8 @@ const ModalGenerateBulanan = (props) => {
     try {
       const res = await axios.get(
         `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          props.loginInfo.negeri
-        }&daerah=${props.loginInfo.daerah}&klinik=${
-          props.loginInfo.kodFasiliti
-        }${
+          loginInfo.negeri
+        }&daerah=${loginInfo.daerah}&klinik=${loginInfo.kodFasiliti}${
           props.pilihanFasiliti === 'kkiakd'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
             : ''
@@ -1218,7 +1215,7 @@ const ModalGenerateBulanan = (props) => {
                             cy='12'
                             r='10'
                             stroke='currentColor'
-                            stroke-width='4'
+                            strokeWidth='4'
                           ></circle>
                           <path
                             className='opacity-75'
@@ -1254,13 +1251,15 @@ const ModalGenerateBulanan = (props) => {
   );
 };
 
-const Generate = (props) => {
+const Generate = () => {
   const {
+    loginInfo,
     readSpesifikKkiaDataForKp,
     readSpesifikProgramDataForKp,
     readSpesifikKPBMPBDataForKp,
     readSpesifikIndividuDataForKp,
     readGenerateTokenDataForKp,
+    readOndemandSetting,
     semuaJenisReten,
   } = useGlobalAdminAppContext();
 
@@ -1285,6 +1284,7 @@ const Generate = (props) => {
   const [kp, setKp] = useState('');
 
   const [statusToken, setStatusToken] = useState([]);
+  const [statusReten, setStatusReten] = useState([]);
 
   // masalah negara
   const [namaKlinik, setNamaKlinik] = useState('');
@@ -1294,8 +1294,6 @@ const Generate = (props) => {
   const [pilihanProgram, setPilihanProgram] = useState('');
   const [pilihanKpbMpb, setPilihanKpbMpb] = useState('');
   const [pilihanIndividu, setPilihanIndividu] = useState('');
-
-  const loginInfo = props.loginInfo;
 
   const handleGetKkia = async (e) => {
     setPilihanFasiliti(e);
@@ -1382,25 +1380,29 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
+          setStatusToken([]);
         });
     }
   }, [openModalGenerateAdHoc, openModalGenerateBulanan]);
 
   useEffect(() => {
-    if (init.current === false) {
-      setNamaKlinik(loginInfo.kp);
-      readGenerateTokenDataForKp()
-        .then((res) => {
-          setStatusToken(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-token'
-          // );
-        });
+    async function initialize() {
+      try {
+        setNamaKlinik(loginInfo.kp);
+        const resToken = await readGenerateTokenDataForKp();
+        setStatusToken(resToken.data);
+        const resReten = await readOndemandSetting();
+        setStatusReten(resReten.data.currentOndemandSetting);
+      } catch (err) {
+        console.log(err);
+        setStatusToken([]);
+      }
     }
-    init.current = true;
+
+    if (!init.current) {
+      initialize();
+      init.current = true;
+    }
   }, []);
 
   const propsGenerate = {
@@ -1437,7 +1439,6 @@ const Generate = (props) => {
     programData,
     kpbmpbData,
     individuData,
-    loginInfo,
   };
 
   return (
@@ -1510,7 +1511,7 @@ const Generate = (props) => {
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                         <div className='grid grid-cols-2 items-center'>
                           <div className='flex flex-col py-3 items-center gap-1 text-center'>
-                            {statusToken.map
+                            {statusToken
                               ? statusToken.map((token) => {
                                   if (token.jenisReten === jenis.kodRingkas) {
                                     return token.jumlahToken !== undefined
@@ -1519,10 +1520,10 @@ const Generate = (props) => {
                                   }
                                   return null;
                                 })
-                              : null}
+                              : []}
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
-                            {import.meta.env.VITE_JANA_TOKEN !== 'OFF' ? (
+                            {statusReten[jenis.kodRingkas] ? (
                               <button
                                 type='button'
                                 className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
@@ -1541,7 +1542,7 @@ const Generate = (props) => {
                         </div>
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {import.meta.env.VITE_JANA_BULANAN !== 'OFF' ? (
+                        {statusReten[jenis.kodRingkas] ? (
                           <button
                             type='button'
                             className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'

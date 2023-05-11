@@ -127,7 +127,7 @@ const ConfirmModal = ({ children, data }) => {
                       Menggunakan:{' '}
                     </p>
                     <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                      Rokok Biasa (Surya memang best)
+                      Rokok Biasa
                     </p>
                   </div>
                 ) : null}
@@ -137,7 +137,7 @@ const ConfirmModal = ({ children, data }) => {
                       Menggunakan:{' '}
                     </p>
                     <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                      Vape (Voltbar is the best)
+                      Vape
                     </p>
                   </div>
                 ) : null}
@@ -147,7 +147,7 @@ const ConfirmModal = ({ children, data }) => {
                       Menggunakan:{' '}
                     </p>
                     <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                      Shisha (Golongan kaya)
+                      Shisha
                     </p>
                   </div>
                 ) : null}
@@ -157,7 +157,7 @@ const ConfirmModal = ({ children, data }) => {
                       Menggunakan:{' '}
                     </p>
                     <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                      Lain-lain (Lambaian daun...)
+                      Lain-lain
                     </p>
                   </div>
                 ) : null}

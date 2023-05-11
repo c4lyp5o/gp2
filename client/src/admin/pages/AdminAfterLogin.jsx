@@ -43,6 +43,11 @@ const DataNegeri = lazy(() => import('../components/superadmin/negeri/Data'));
 const Data = lazy(() => import('../components/superadmin/Data'));
 const DataKp = lazy(() => import('../components/admin-kp/Data'));
 
+// maklumat asas daerah
+const MaklumatAsasDaerah = lazy(() =>
+  import('../components/superadmin/MaklumatAsasDaerah')
+);
+
 // settings
 const Settings = lazy(() => import('../components/superadmin/Settings'));
 
@@ -50,8 +55,16 @@ const Settings = lazy(() => import('../components/superadmin/Settings'));
 const Generate = lazy(() => import('../components/superadmin/Generate'));
 const GenerateKp = lazy(() => import('../components/admin-kp/Generate'));
 
+// ondemand setting
+const OndemandSetting = lazy(() =>
+  import('../components/superadmin/OndemandSetting')
+);
+
+// disabled admin page
+const DisabledAdminPage = lazy(() => import('../pages/AdminDisabled'));
+
 //ad hoc query
-// import AdHocQuery from '../components/superadmin/AdHocQuery';
+// const AdHocQuery = lazy(() => import('../components/superadmin/AdHocQuery'));
 
 function AdminAfterLogin() {
   const {
@@ -60,17 +73,24 @@ function AdminAfterLogin() {
     setAdminToken,
     getCurrentUser,
     logOutUser,
+    // getLoginInfo,
+    saveLoginInfo,
+    loginInfo,
+    // getCurrentOndemandSetting,
+    saveCurrentondemandSetting,
+    currentOndemandSetting,
+    readOndemandSetting,
   } = useGlobalAdminAppContext();
 
-  const [loginInfo, setLoginInfo] = useState(null);
   const [kickerNoti, setKickerNoti] = useState(null);
   const [kicker, setKicker] = useState(null);
   const kickerNotiId = useRef();
   const [timer, setTimer] = useState(null);
+  const [loading, setLoading] = useState(true);
 
   const [refetchState, setRefetchState] = useState(false);
 
-  // const init = useRef(false);
+  const init = useRef(false);
 
   const LOGOUT_TIME = parseInt(import.meta.env.VITE_LOGOUT_TIME);
   const HALF_LOGOUT_TIME = LOGOUT_TIME / 2;
@@ -111,32 +131,52 @@ function AdminAfterLogin() {
 
     const nowMinutes = new Date().getTime();
     const real = nowMinutes + LOGOUT_DURATION;
+
     setTimer(real);
+  };
+
+  const adminPageInit = async () => {
+    const { data: currentUserInfo } = await getCurrentUser();
+    const { data } = await readOndemandSetting();
+    const { currentOndemandSetting } = data;
+    saveLoginInfo({
+      ...currentUserInfo,
+      isLoggedIn: true,
+    });
+    saveCurrentondemandSetting({ ...currentOndemandSetting });
+  };
+
+  const adminPageOndemandRefresh = async () => {
+    const { data } = await readOndemandSetting();
+    const { currentOndemandSetting } = data;
+    saveCurrentondemandSetting({ ...currentOndemandSetting });
   };
 
   const props = {
     timer,
-    loginInfo,
-    setLoginInfo,
     logOutNotiSystem,
     kicker,
     kickerNoti,
   };
 
-  useEffect(() => {
-    const getUser = async () => {
-      const res = await getCurrentUser();
-      setLoginInfo({
-        ...res.data,
-        isLoggedIn: true,
-      });
-    };
-    getUser().catch((err) => {
-      console.log(err);
-      logOutUser();
-    });
-    logOutNotiSystem();
-  }, [adminToken]);
+  // init
+  // useEffect(() => {
+  //   if (init.current === false) {
+  //     console.log('page init');
+  //     adminPageInit()
+  //       .catch((err) => {
+  //         console.log(err);
+  //         logOutUser();
+  //       })
+  //       .finally(() => {
+  //         setLoading(false);
+  //         logOutNotiSystem();
+  //       });
+  //     setTimeout(() => {
+  //       init.current = true;
+  //     }, 2000);
+  //   }
+  // }, [adminToken]);
 
   // refetch identity
   useEffect(() => {
@@ -147,20 +187,57 @@ function AdminAfterLogin() {
           console.log('refetch identity admin');
       }
     };
-    refetchIdentity();
+    if (init.current === true) {
+      refetchIdentity();
+    }
   }, [refetchState]);
 
-  // refetch indentity on tab focus
+  // refresh logOutNotiSystem and currentOndemandSetting on path change
   useEffect(() => {
-    window.addEventListener('focus', setRefetchState);
-    setRefetchState(!refetchState);
+    if (init.current === true) {
+      adminPageOndemandRefresh().then(() => {
+        logOutNotiSystem();
+      });
+    }
+  }, [window.location.pathname]);
+
+  // TODO needs rework because refetch identity not working if token tempered
+  // page init and activate event listener refetch indentity on tab focus
+  useEffect(() => {
+    if (init.current === false) {
+      adminPageInit()
+        .catch((err) => {
+          console.log(err);
+          logOutUser();
+        })
+        .finally(() => {
+          setLoading(false);
+          logOutNotiSystem();
+        });
+      window.addEventListener('focus', setRefetchState);
+      setRefetchState(!refetchState);
+      init.current = true;
+    }
     return () => {
       window.removeEventListener('focus', setRefetchState);
+      init.current = false;
     };
   }, []);
 
-  if (!loginInfo) {
-    return <LoadingSuperDark />;
+  if (loading) {
+    return <Loading />;
+  }
+
+  if (
+    !loading &&
+    loginInfo.accountType !== 'hqSuperadmin' &&
+    !currentOndemandSetting.adminPage
+  ) {
+    return (
+      <Suspense fallback={<Loading />}>
+        <DisabledAdminPage />
+      </Suspense>
+    );
   }
 
   return (
@@ -170,11 +247,12 @@ function AdminAfterLogin() {
       <Navbar {...props} />
       <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pt-2 pb-2 px-3'>
         <Routes>
+          {/* route for all: hq, negeri, daerah, kp superadmin sharing all these */}
           <Route
             path='followers'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='followers' />{' '}
+                <DataKp FType='followers' />
               </Suspense>
             }
           />
@@ -182,12 +260,14 @@ function AdminAfterLogin() {
             path='sosmed'
             element={
               <Suspense fallback={<Loading />}>
-                <DataKp FType='sosmed' />{' '}
+                <DataKp FType='sosmed' />
               </Suspense>
             }
           />
-          {/* hq, negeri & daerah superadmin */}
-          {loginInfo.accountType !== 'kpUser' ? (
+          {/* route landing page, bendera stuff, graph, generate, tetapan untuk hq, negeri, daerah superadmin sahaja */}
+          {loginInfo.accountType === 'hqSuperadmin' ||
+          loginInfo.accountType === 'negeriSuperadmin' ||
+          loginInfo.accountType === 'daerahSuperadmin' ? (
             <>
               <Route
                 index
@@ -201,11 +281,68 @@ function AdminAfterLogin() {
                 path='negeri'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Negeri />{' '}
+                    <Negeri />
                   </Suspense>
                 }
               />
-              {/* Data untuk negeri */}
+              <Route
+                path='daerah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Daerah />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='klinik'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Klinik />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='generate'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Generate {...props} />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='tetapan'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Settings />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
+          {/* route hq superadmin sahaja */}
+          {loginInfo.accountType === 'hqSuperadmin' ? (
+            <>
+              <Route
+                path='generate'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <Generate {...props} />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='ondemand'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <OndemandSetting />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
+          {/* route negeri superadmin sahaja */}
+          {loginInfo.accountType === 'negeriSuperadmin' ? (
+            <>
               <Route
                 path='negeri/pp'
                 element={
@@ -222,20 +359,16 @@ function AdminAfterLogin() {
                   </Suspense>
                 }
               />
-              {/* Data untuk negeri */}
+            </>
+          ) : null}
+          {/* route daerah superadmin sahaja */}
+          {loginInfo.accountType === 'daerahSuperadmin' ? (
+            <>
               <Route
-                path='daerah'
+                path='kp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Daerah />{' '}
-                  </Suspense>
-                }
-              />
-              <Route
-                path='klinik'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Klinik />{' '}
+                    <Data FType='kp' />{' '}
                   </Suspense>
                 }
               />
@@ -244,14 +377,6 @@ function AdminAfterLogin() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <Data FType='kkiakd' />{' '}
-                  </Suspense>
-                }
-              />
-              <Route
-                path='kp'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Data FType='kp' />{' '}
                   </Suspense>
                 }
               />
@@ -328,33 +453,16 @@ function AdminAfterLogin() {
                 }
               />
               <Route
-                path='tetapan'
+                path='maklumat-asas'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Settings />{' '}
+                    <MaklumatAsasDaerah />
                   </Suspense>
                 }
               />
-              <Route
-                path='generate'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Generate {...props} />
-                  </Suspense>
-                }
-              />
-              {/* AdHoc Query thanks myhdw! */}
-              {/* <Route
-                path='aq'
-                element={
-                  <DndProvider backend={HTML5Backend}>
-                    <AdHocQuery />
-                  </DndProvider>
-                }
-              /> */}
             </>
           ) : null}
-          {/* KP superadmin */}
+          {/* route kp superadmin sahaja */}
           {loginInfo.accountType === 'kpUser' ? (
             <>
               <Route
@@ -423,6 +531,17 @@ function AdminAfterLogin() {
               />
             </>
           ) : null}
+          {/* AdHoc Query thanks myhdw! */}
+          {/* <Route
+            path='aq'
+            element={
+              <Suspense fallback={<Loading />}>
+                <DndProvider backend={HTML5Backend}>
+                  <AdHocQuery />
+                </DndProvider>
+              </Suspense>
+            }
+          /> */}
           <Route path='*' element={<AdminLoggedInNotFound />} />
         </Routes>
       </div>
