@@ -214,12 +214,12 @@ function AdminAfterLogin() {
           setLoading(false);
           logOutNotiSystem();
         });
-      window.addEventListener('focus', setRefetchState);
-      setRefetchState(!refetchState);
+      // window.addEventListener('focus', setRefetchState);
+      // setRefetchState(!refetchState);
       init.current = true;
     }
     return () => {
-      window.removeEventListener('focus', setRefetchState);
+      // window.removeEventListener('focus', setRefetchState);
       init.current = false;
     };
   }, []);

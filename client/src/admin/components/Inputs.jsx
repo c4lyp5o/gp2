@@ -802,6 +802,13 @@ export function InputFacility(props) {
               <div className='px-3 py-1'>
                 <div className='mb-3'>
                   {(props.FType === 'sm' || props.FType === 'sr') &&
+                    props.addingData && (
+                      <div className='text-user9 uppercase font-bold'>
+                        Mohon jangan tutup tetingkap ini sebelum proses menambah
+                        sekolah selesai, terima kasih
+                      </div>
+                    )}
+                  {(props.FType === 'sm' || props.FType === 'sr') &&
                     props.statusMOEIS === true && (
                       <>
                         <div>
