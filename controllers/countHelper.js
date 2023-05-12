@@ -1805,6 +1805,8 @@ const countPG214 = async (payload) => {
       ...getParams211(payload),
       umur: { $gte: 59 },
       kedatangan: 'baru-kedatangan',
+      statusReten: 'telah diisi',
+      deleted: false,
       statusKehadiran: false,
     },
   };
