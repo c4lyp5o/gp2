@@ -1,5 +1,10 @@
 import { useState, useEffect } from 'react';
-import { FaInfoCircle, FaTimes } from 'react-icons/fa';
+import {
+  FaInfoCircle,
+  FaTimes,
+  FaCheck,
+  FaRegHandPointLeft,
+} from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
 import moment from 'moment';
@@ -222,152 +227,150 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
   //reten salah
   const [dataRetenSalah, setDataRetenSalah] = useState({});
   const [pilihanDataSalah, setPilihanDataSalah] = useState({
-    yaTidakSediaAdaStatusDenture: false,
-    yaTidakSediaAdaStatusDentureText: '',
-    separaPenuhAtasSediaAdaDenture: false,
-    separaPenuhAtasSediaAdaDentureText: '',
-    separaPenuhBawahSediaAdaDenture: false,
-    separaPenuhBawahSediaAdaDentureText: '',
-    yaTidakPerluStatusDenture: false,
-    yaTidakPerluStatusDentureText: '',
-    separaPenuhAtasPerluDenture: false,
-    separaPenuhAtasPerluDentureText: '',
-    separaPenuhBawahPerluDenture: false,
-    separaPenuhBawahPerluDentureText: '',
-    kebersihanMulutOralHygiene: false,
-    kebersihanMulutOralHygieneText: '',
-    skorBpeOralHygiene: false,
-    skorBpeOralHygieneText: '',
+    yaTidakSediaAdaStatusDenture: '',
+    yaTidakSediaAdaStatusDentureCBox: false,
+    separaPenuhAtasSediaAdaDenture: '',
+    separaPenuhAtasSediaAdaDentureCBox: false,
+    separaPenuhBawahSediaAdaDenture: '',
+    separaPenuhBawahSediaAdaDentureCBox: false,
+    yaTidakPerluStatusDenture: '',
+    yaTidakPerluStatusDentureCBox: false,
+    separaPenuhAtasPerluDenture: '',
+    separaPenuhAtasPerluDentureCBox: false,
+    separaPenuhBawahPerluDenture: '',
+    separaPenuhBawahPerluDentureCBox: false,
+    kebersihanMulutOralHygiene: '',
+    kebersihanMulutOralHygieneCBox: false,
+    skorBpeOralHygiene: '',
+    skorBpeOralHygieneCBox: false,
     saringanKanserMulutOralHygiene: false,
-    saringanKanserMulutOralHygieneText: '',
-    skorGisMulutOralHygiene: false,
-    skorGisMulutOralHygieneText: '',
+    saringanKanserMulutOralHygieneCBox: false,
+    skorGisMulutOralHygiene: '',
+    skorGisMulutOralHygieneCBox: false,
     perluPenskaleranOralHygiene: false,
-    perluPenskaleranOralHygieneText: '',
+    perluPenskaleranOralHygieneCBox: false,
     statusPeriodontium: false,
-    statusPeriodontiumText: '',
-    yaTidakPesakitMempunyaiGigi: false,
-    yaTidakPesakitMempunyaiGigiText: '',
+    statusPeriodontiumCBox: false,
+    yaTidakPesakitMempunyaiGigi: '',
+    yaTidakPesakitMempunyaiGigiCBox: false,
     adaDesidus: false,
-    adaDesidusText: '',
-    dAdaGigiDesidus: false,
-    dAdaGigiDesidusText: '',
-    fAdaGigiDesidus: false,
-    fAdaGigiDesidusText: '',
-    xAdaGigiDesidus: false,
-    xAdaGigiDesidusText: '',
+    adaDesidusCBox: false,
+    dAdaGigiDesidus: 0,
+    dAdaGigiDesidusCBox: false,
+    fAdaGigiDesidus: 0,
+    fAdaGigiDesidusCBox: false,
+    xAdaGigiDesidus: 0,
+    xAdaGigiDesidusCBox: false,
     adaKekal: false,
-    adaKekalText: '',
-    dAdaGigiKekal: false,
-    dAdaGigiKekalText: '',
-    mAdaGigiKekal: false,
-    mAdaGigiKekalText: '',
-    fAdaGigiKekal: false,
-    fAdaGigiKekalText: '',
-    eAdaGigiKekal: false,
-    eAdaGigiKekalText: '',
-    xAdaGigiKekal: false,
-    xAdaGigiKekalText: '',
-    jumlahFaktorRisiko: false,
-    jumlahFaktorRisikoText: '',
-    penandaRisikoKaries: false,
-    penandaRisikoKariesText: '',
+    adaKekalCBox: false,
+    dAdaGigiKekal: 0,
+    dAdaGigiKekalCBox: false,
+    mAdaGigiKekal: 0,
+    mAdaGigiKekalCBox: false,
+    fAdaGigiKekal: 0,
+    fAdaGigiKekalCBox: false,
+    eAdaGigiKekal: 0,
+    eAdaGigiKekalCBox: false,
+    xAdaGigiKekal: 0,
+    xAdaGigiKekalCBox: false,
+    jumlahFaktorRisiko: '',
+    jumlahFaktorRisikoCBox: false,
+    penandaRisikoKaries: '',
+    penandaRisikoKariesCBox: false,
     adaCleftLip: false,
-    adaCleftLipText: '',
+    adaCleftLipCBox: false,
     rujukCleftLip: false,
-    rujukCleftLipText: '',
+    rujukCleftLipCBox: false,
     kecederaanGigiAnteriorTrauma: false,
-    kecederaanGigiAnteriorTraumaText: '',
+    kecederaanGigiAnteriorTraumaCBox: false,
     tisuLembutTrauma: false,
-    tisuLembutTraumaText: '',
+    tisuLembutTraumaCBox: false,
     tisuKerasTrauma: false,
-    tisuKerasTraumaText: '',
-    gicBilanganFsDibuat3TahunLepas: false,
-    gicBilanganFsDibuat3TahunLepasText: '',
-    resinBilanganFsDibuat3TahunLepas: false,
-    resinBilanganFsDibuat3TahunLepasText: '',
-    lainLainBilanganFsDibuat3TahunLepas: false,
-    lainLainBilanganFsDibuat3TahunLepasText: '',
-    dBilanganFsDibuat3TahunLepasTerjadi: false,
-    dBilanganFsDibuat3TahunLepasTerjadiText: '',
-    mBilanganFsDibuat3TahunLepasTerjadi: false,
-    mBilanganFsDibuat3TahunLepasTerjadiText: '',
-    fBilanganFsDibuat3TahunLepasTerjadi: false,
-    fBilanganFsDibuat3TahunLepasTerjadiText: '',
-    eBilanganFsDibuat3TahunLepasTerjadi: false,
-    eBilanganFsDibuat3TahunLepasTerjadiText: '',
-    xBilanganFsDibuat3TahunLepasTerjadi: false,
-    xBilanganFsDibuat3TahunLepasTerjadiText: '',
+    tisuKerasTraumaCBox: false,
+    gicBilanganFsDibuat3TahunLepas: 0,
+    gicBilanganFsDibuat3TahunLepasCBox: false,
+    resinBilanganFsDibuat3TahunLepas: 0,
+    resinBilanganFsDibuat3TahunLepasCBox: false,
+    lainLainBilanganFsDibuat3TahunLepas: 0,
+    lainLainBilanganFsDibuat3TahunLepasCBox: false,
+    dBilanganFsDibuat3TahunLepasTerjadi: 0,
+    dBilanganFsDibuat3TahunLepasTerjadiCBox: false,
+    mBilanganFsDibuat3TahunLepasTerjadi: 0,
+    mBilanganFsDibuat3TahunLepasTerjadiCBox: false,
+    fBilanganFsDibuat3TahunLepasTerjadi: 0,
+    fBilanganFsDibuat3TahunLepasTerjadiCBox: false,
+    eBilanganFsDibuat3TahunLepasTerjadi: 0,
+    eBilanganFsDibuat3TahunLepasTerjadiCBox: false,
+    xBilanganFsDibuat3TahunLepasTerjadi: 0,
+    xBilanganFsDibuat3TahunLepasTerjadiCBox: false,
     toothSurfaceLoss: false,
-    toothSurfaceLossText: '',
-    classID: false,
-    classIDText: '',
-    classIID: false,
-    classIIDText: '',
-    classIF: false,
-    classIFText: '',
-    classIIF: false,
-    classIIFText: '',
-    baruJumlahGigiKekalPerluFs: false,
-    baruJumlahGigiKekalPerluFsText: '',
+    toothSurfaceLossCBox: false,
+    classID: 0,
+    classIDCBox: false,
+    classIID: 0,
+    classIIDCBox: false,
+    classIF: 0,
+    classIFCBox: false,
+    classIIF: 0,
+    classIIFCBox: false,
+    baruJumlahGigiKekalPerluFs: 0,
+    baruJumlahGigiKekalPerluFsCBox: false,
     baruJumlahMuridPerluFs: false,
-    baruJumlahMuridPerluFsText: '',
-    baruJumlahGigiKekalPerluFv: false,
-    baruJumlahGigiKekalPerluFvText: '',
-    semulaJumlahGigiKekalPerluFv: false,
-    semulaJumlahGigiKekalPerluFvText: '',
+    baruJumlahMuridPerluFsCBox: false,
+    baruJumlahGigiKekalPerluFv: 0,
+    baruJumlahGigiKekalPerluFvCBox: false,
+    semulaJumlahGigiKekalPerluFv: 0,
+    semulaJumlahGigiKekalPerluFvCBox: false,
     baruJumlahMuridPerluFv: false,
-    baruJumlahMuridPerluFvText: '',
-    semulaJumlahMuridPerluFv: false,
-    semulaJumlahMuridPerluFvText: '',
-    baruJumlahGigiKekalPerluPrrJenis1: false,
-    baruJumlahGigiKekalPerluPrrJenis1Text: '',
-    semulaJumlahGigiKekalPerluPrrJenis1: false,
-    semulaJumlahGigiKekalPerluPrrJenis1Text: '',
+    baruJumlahMuridPerluFvCBox: false,
+    baruJumlahGigiKekalPerluPrrJenis1: 0,
+    baruJumlahGigiKekalPerluPrrJenis1CBox: false,
+    semulaJumlahGigiKekalPerluPrrJenis1: 0,
+    semulaJumlahGigiKekalPerluPrrJenis1CBox: false,
     baruJumlahMuridPerluPrrJenis1: false,
-    baruJumlahMuridPerluPrrJenis1Text: '',
+    baruJumlahMuridPerluPrrJenis1CBox: false,
     semulaJumlahMuridPerluPrrJenis1: false,
-    semulaJumlahMuridPerluPrrJenis1Text: '',
-    yaTidakSilverDiamineFluoridePerluSapuan: false,
-    yaTidakSilverDiamineFluoridePerluSapuanText: '',
-    baruGDAnteriorSewarnaJumlahTampalanDiperlukan: false,
-    baruGDAnteriorSewarnaJumlahTampalanDiperlukanText: '',
-    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan: false,
-    semulaGDAnteriorSewarnaJumlahTampalanDiperlukanText: '',
-    baruGKAnteriorSewarnaJumlahTampalanDiperlukan: false,
-    baruGKAnteriorSewarnaJumlahTampalanDiperlukanText: '',
-    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan: false,
-    semulaGKAnteriorSewarnaJumlahTampalanDiperlukanText: '',
-    baruGDPosteriorSewarnaJumlahTampalanDiperlukan: false,
-    baruGDPosteriorSewarnaJumlahTampalanDiperlukanText: '',
-    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan: false,
-    semulaGDPosteriorSewarnaJumlahTampalanDiperlukanText: '',
-    baruGKPosteriorSewarnaJumlahTampalanDiperlukan: false,
-    baruGKPosteriorSewarnaJumlahTampalanDiperlukanText: '',
-    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan: false,
-    semulaGKPosteriorSewarnaJumlahTampalanDiperlukanText: '',
-    baruGDPosteriorAmalgamJumlahTampalanDiperlukan: false,
-    baruGDPosteriorAmalgamJumlahTampalanDiperlukanText: '',
-    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan: false,
-    semulaGDPosteriorAmalgamJumlahTampalanDiperlukanText: '',
-    baruGKPosteriorAmalgamJumlahTampalanDiperlukan: false,
-    baruGKPosteriorAmalgamJumlahTampalanDiperlukanText: '',
-    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan: false,
-    semulaGKPosteriorAmalgamJumlahTampalanDiperlukanText: '',
-    statusM: false,
-    statusMText: '',
-    menerimaNasihatRingkas: false,
-    menerimaNasihatRingkasText: '',
-    melaksanakanSaringanMerokok: false,
-    melaksanakanSaringanMerokokText: '',
-    bersediaDirujuk: false,
-    bersediaDirujukText: '',
-    noTelMuridKotak: false,
-    noTelMuridKotakText: '',
-    kesSelesai: false,
-    kesSelesaiText: '',
-    kesSelesaiIcdas: false,
-    kesSelesaiIcdasText: '',
+    semulaJumlahMuridPerluPrrJenis1CBox: false,
+    yaTidakSilverDiamineFluoridePerluSapuan: '',
+    yaTidakSilverDiamineFluoridePerluSapuanCBox: false,
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukan: 0,
+    baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan: 0,
+    semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukan: 0,
+    baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan: 0,
+    semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukan: 0,
+    baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan: 0,
+    semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukan: 0,
+    baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan: 0,
+    semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox: false,
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukan: 0,
+    baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox: false,
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan: 0,
+    semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox: false,
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukan: 0,
+    baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox: false,
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan: 0,
+    semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox: false,
+    statusM: '',
+    statusMCBox: false,
+    menerimaNasihatRingkas: '',
+    menerimaNasihatRingkasCBox: false,
+    melaksanakanSaringanMerokok: '',
+    melaksanakanSaringanMerokokCBox: false,
+    bersediaDirujuk: '',
+    bersediaDirujukCBox: false,
+    noTelMuridKotak: '',
+    noTelMuridKotakCBox: false,
+    kesSelesai: '',
+    kesSelesaiCBox: false,
+    kesSelesaiIcdas: '',
+    kesSelesaiIcdasCBox: false,
   });
 
   const TarikhPemeriksaanSemasa = () => {
@@ -1630,7 +1633,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                         <article className='grid grid-cols-1 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
                           <div
                             className={`${
-                              pilihanDataSalah.yaTidakSediaAdaStatusDenture &&
+                              pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox &&
                               'bg-user9 bg-opacity-20'
                             } flex flex-row items-center pl-5 relative`}
                           >
@@ -1701,133 +1704,408 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               <div className='relative'>
                                 <input
                                   type='checkbox'
-                                  name='separa-penuh-atas-sedia-ada-denture-reten-salah'
-                                  id='separa-atas-sedia-ada-denture-reten-salah'
+                                  name='separa-penuh-atas-sedia-ada-denture-reten-salah-cbox'
+                                  id='separa-atas-sedia-ada-denture-reten-salah-cbox'
                                   checked={
-                                    pilihanDataSalah.yaTidakSediaAdaStatusDenture
+                                    pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox
                                   }
                                   onChange={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
-                                      yaTidakSediaAdaStatusDenture:
-                                        !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
+                                      yaTidakSediaAdaStatusDentureCBox:
+                                        !pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox,
                                     });
                                     setDataRetenSalah({
                                       ...dataRetenSalah,
-                                      yaTidakSediaAdaStatusDenture:
-                                        !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
+                                      yaTidakSediaAdaStatusDentureCBox:
+                                        !pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox,
                                     });
                                     setConfirmData({
                                       ...confirmData,
                                       pilihanDataSalah: {
                                         ...pilihanDataSalah,
-                                        yaTidakSediaAdaStatusDenture:
-                                          !pilihanDataSalah.yaTidakSediaAdaStatusDenture,
+                                        yaTidakSediaAdaStatusDentureCBox:
+                                          !pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox,
                                       },
                                     });
                                   }}
-                                  className={` ${
-                                    pilihanDataSalah.yaTidakSediaAdaStatusDenture
-                                      ? 'hidden'
-                                      : 'block'
-                                  } w-4 h-4 text-user5 bg-user9 border-gray-300 focus:ring-blue-500`}
+                                  className='peer hidden'
                                 />
-                                {pilihanDataSalah.yaTidakSediaAdaStatusDenture && (
-                                  <div className=' w-32 bg-userWhite rounded-md p-1 shadow-md shadow-user1'>
-                                    <div className='flex flex-row items-center'>
-                                      <label
-                                        htmlFor='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
-                                        className='text-xs font-semibold whitespace-nowrap'
-                                      >
-                                        Sebab{' '}
-                                        <span className='text-user6'>*</span>
-                                      </label>
-                                      <input
-                                        type='text'
-                                        required
-                                        name='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
-                                        id='sebab-separa-penuh-atas-sedia-ada-denture-reten-salah'
-                                        value={
-                                          pilihanDataSalah.yaTidakSediaAdaStatusDentureText
-                                        }
-                                        onChange={(e) => {
-                                          setPilihanDataSalah({
+                                <label
+                                  htmlFor='separa-atas-sedia-ada-denture-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          yaTidakSediaAdaStatusDenture: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          yaTidakSediaAdaStatusDenture: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
                                             ...pilihanDataSalah,
-                                            yaTidakSediaAdaStatusDentureText:
-                                              e.target.value,
-                                          });
-                                          setDataRetenSalah({
-                                            ...dataRetenSalah,
-                                            yaTidakSediaAdaStatusDentureText:
-                                              e.target.value,
-                                          });
-                                          setConfirmData({
-                                            ...confirmData,
-                                            pilihanDataSalah: {
-                                              ...pilihanDataSalah,
-                                              yaTidakSediaAdaStatusDentureText:
-                                                e.target.value,
-                                            },
-                                          });
-                                        }}
-                                        className='w-full px-2 py-1 text-xs border border-user1 rounded-md focus:outline-none focus:ring-1 focus:ring-user15'
-                                      />
-                                    </div>
-                                  </div>
-                                )}
+                                            yaTidakSediaAdaStatusDenture: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
                               </div>
                             </div>
-                            {pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
-                              true && (
-                              <span
-                                className='absolute top-1/2 right-1/2 transform -translate-y-1/2 mr-2 text-user9'
-                                onClick={() =>
+                          </div>
+                          {pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox ===
+                            true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1'>
+                              <input
+                                disabled={
+                                  yaTidakSediaAdaStatusDenture ===
+                                  'ya-sedia-ada-status-denture'
+                                    ? true
+                                    : false
+                                }
+                                type='radio'
+                                name='sedia-ada-status-denture-reten-salah'
+                                id='ya-sedia-ada-status-denture-reten-salah'
+                                value='ya-sedia-ada-status-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
+                                  'ya-sedia-ada-status-denture-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
-                                    yaTidakSediaAdaStatusDenture: false,
-                                  })
-                                }
-                              >
-                                <FaTimes className='text-2xl' />
-                              </span>
-                            )}
-                          </div>
-                          {yaTidakSediaAdaStatusDenture ===
-                            'ya-sedia-ada-status-denture' && (
-                            <div className='items-center grid grid-cols-[3fr_2fr_2fr]'>
+                                    yaTidakSediaAdaStatusDenture:
+                                      e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakSediaAdaStatusDenture:
+                                      e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakSediaAdaStatusDenture:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
                               <label
-                                htmlFor='atas-sedia-ada-denture'
+                                htmlFor='ya-sedia-ada-status-denture-reten-salah'
                                 className='m-2 text-sm font-m'
                               >
-                                Atas
+                                Ya
                               </label>
+                              <input
+                                disabled={
+                                  yaTidakSediaAdaStatusDenture ===
+                                  'tidak-sedia-ada-status-denture'
+                                    ? true
+                                    : false
+                                }
+                                type='radio'
+                                name='sedia-ada-status-denture-reten-salah'
+                                id='tidak-sedia-ada-status-denture-reten-salah'
+                                value='tidak-sedia-ada-status-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
+                                  'tidak-sedia-ada-status-denture-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakSediaAdaStatusDenture:
+                                      e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakSediaAdaStatusDenture:
+                                      e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakSediaAdaStatusDenture:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-sedia-ada-status-denture-reten-salah'
+                                className='m-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                type='radio'
+                                name='sedia-ada-status-denture-reten-salah'
+                                id='tiada-sedia-ada-status-denture-reten-salah'
+                                value='tiada-sedia-ada-status-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.yaTidakSediaAdaStatusDenture ===
+                                  'tiada-sedia-ada-status-denture-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakSediaAdaStatusDenture:
+                                      e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakSediaAdaStatusDenture:
+                                      e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakSediaAdaStatusDenture:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-sedia-ada-status-denture-reten-salah'
+                                className='m-2 text-sm font-m'
+                              >
+                                Tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakSediaAdaStatusDenture: '',
+                                    yaTidakSediaAdaStatusDentureCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakSediaAdaStatusDenture: '',
+                                    yaTidakSediaAdaStatusDentureCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakSediaAdaStatusDenture: '',
+                                      yaTidakSediaAdaStatusDentureCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
+                          <div
+                            className={`${
+                              pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } items-center grid grid-cols-[2fr_2fr_2fr_1fr]`}
+                          >
+                            <label
+                              htmlFor='atas-sedia-ada-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Atas
+                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-atas-sedia-ada-denture'
+                                id='separa-atas-sedia-ada-denture'
+                                value='separa-atas-sedia-ada-denture'
+                                checked={
+                                  separaPenuhAtasSediaAdaDenture ===
+                                  'separa-atas-sedia-ada-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhAtasSediaAdaDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhAtasSediaAdaDenture:
+                                      e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='separa-atas-sedia-ada-denture'
+                                className='m-2 text-sm font-m'
+                              >
+                                Separa
+                              </label>
+                            </div>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-atas-sedia-ada-denture'
+                                id='penuh-atas-sedia-ada-denture'
+                                value='penuh-atas-sedia-ada-denture'
+                                checked={
+                                  separaPenuhAtasSediaAdaDenture ===
+                                  'penuh-atas-sedia-ada-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhAtasSediaAdaDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhAtasSediaAdaDenture:
+                                      e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='penuh-atas-sedia-ada-denture'
+                                className='m-2 text-sm font-m'
+                              >
+                                Penuh
+                              </label>
+                            </div>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                id='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhAtasSediaAdaDentureCBox:
+                                      !pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhAtasSediaAdaDentureCBox:
+                                      !dataRetenSalah.separaPenuhAtasSediaAdaDentureCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasSediaAdaDentureCBox:
+                                        !pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasSediaAdaDenture: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        separaPenuhAtasSediaAdaDenture: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          separaPenuhAtasSediaAdaDenture: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox ===
+                            true && (
+                            <div className='items-center grid grid-cols-[2fr_2fr_2fr_1fr] bg-user11 bg-opacity-50 mb-1'>
                               <div className='flex items-center justify-center'>
                                 <input
-                                  disabled={isDisabled}
-                                  type='radio'
-                                  name='separa-penuh-atas-sedia-ada-denture'
-                                  id='separa-atas-sedia-ada-denture'
-                                  value='separa-atas-sedia-ada-denture'
-                                  checked={
+                                  disabled={
                                     separaPenuhAtasSediaAdaDenture ===
                                     'separa-atas-sedia-ada-denture'
                                       ? true
                                       : false
                                   }
+                                  type='radio'
+                                  name='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                  id='separa-atas-sedia-ada-denture-reten-salah'
+                                  value='separa-atas-sedia-ada-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhAtasSediaAdaDenture ===
+                                    'separa-atas-sedia-ada-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
                                   onChange={(e) => {
-                                    setSeparaPenuhAtasSediaAdaDenture(
-                                      e.target.value
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
                                       separaPenuhAtasSediaAdaDenture:
                                         e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhAtasSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasSediaAdaDenture:
+                                          e.target.value,
+                                      },
                                     });
                                   }}
                                   className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                                 />
                                 <label
-                                  htmlFor='separa-atas-sedia-ada-denture'
+                                  htmlFor='separa-atas-sedia-ada-denture-reten-salah'
                                   className='m-2 text-sm font-m'
                                 >
                                   Separa
@@ -1835,74 +2113,302 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </div>
                               <div className='flex items-center justify-center'>
                                 <input
-                                  disabled={isDisabled}
-                                  type='radio'
-                                  name='separa-penuh-atas-sedia-ada-denture'
-                                  id='penuh-atas-sedia-ada-denture'
-                                  value='penuh-atas-sedia-ada-denture'
-                                  checked={
+                                  disabled={
                                     separaPenuhAtasSediaAdaDenture ===
                                     'penuh-atas-sedia-ada-denture'
                                       ? true
                                       : false
                                   }
+                                  type='radio'
+                                  name='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                  id='penuh-atas-sedia-ada-denture-reten-salah'
+                                  value='penuh-atas-sedia-ada-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhAtasSediaAdaDenture ===
+                                    'penuh-atas-sedia-ada-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
                                   onChange={(e) => {
-                                    setSeparaPenuhAtasSediaAdaDenture(
-                                      e.target.value
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
                                       separaPenuhAtasSediaAdaDenture:
                                         e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhAtasSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasSediaAdaDenture:
+                                          e.target.value,
+                                      },
                                     });
                                   }}
                                   className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                                 />
                                 <label
-                                  htmlFor='penuh-atas-sedia-ada-denture'
+                                  htmlFor='penuh-atas-sedia-ada-denture-reten-salah'
                                   className='m-2 text-sm font-m'
                                 >
                                   Penuh
                                 </label>
                               </div>
-                            </div>
-                          )}
-                          {yaTidakSediaAdaStatusDenture ===
-                            'ya-sedia-ada-status-denture' && (
-                            <div className='items-center grid grid-cols-[3fr_2fr_2fr]'>
-                              <label
-                                htmlFor='bawah-sedia-ada-denture'
-                                className='m-2 text-sm font-m'
-                              >
-                                Bawah
-                              </label>
                               <div className='flex items-center justify-center'>
                                 <input
-                                  disabled={isDisabled}
                                   type='radio'
-                                  name='separa-penuh-bawah-sedia-ada-denture'
-                                  id='separa-bawah-sedia-ada-denture'
-                                  value='separa-bawah-sedia-ada-denture'
+                                  name='separa-penuh-atas-sedia-ada-denture-reten-salah'
+                                  id='tiada-atas-sedia-ada-denture-reten-salah'
+                                  value='tiada-atas-sedia-ada-denture-reten-salah'
                                   checked={
-                                    separaPenuhBawahSediaAdaDenture ===
-                                    'separa-bawah-sedia-ada-denture'
+                                    pilihanDataSalah.separaPenuhAtasSediaAdaDenture ===
+                                    'tiada-atas-sedia-ada-denture-reten-salah'
                                       ? true
                                       : false
                                   }
                                   onChange={(e) => {
-                                    setSeparaPenuhBawahSediaAdaDenture(
-                                      e.target.value
-                                    );
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhAtasSediaAdaDenture:
+                                        e.target.value,
+                                    });
                                     setConfirmData({
                                       ...confirmData,
-                                      separaPenuhBawahSediaAdaDenture:
-                                        e.target.value,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasSediaAdaDenture:
+                                          e.target.value,
+                                      },
                                     });
                                   }}
                                   className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                                 />
                                 <label
-                                  htmlFor='separa-bawah-sedia-ada-denture'
+                                  htmlFor='tiada-atas-sedia-ada-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Tiada
+                                </label>
+                              </div>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhAtasSediaAdaDenture: '',
+                                    separaPenuhAtasSediaAdaDentureCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhAtasSediaAdaDenture: '',
+                                    separaPenuhAtasSediaAdaDentureCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasSediaAdaDenture: '',
+                                      separaPenuhAtasSediaAdaDentureCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
+                          <div
+                            className={` ${
+                              pilihanDataSalah.bawahSediaAdaDentureCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } items-center grid grid-cols-[2fr_2fr_2fr_1fr] `}
+                          >
+                            <label
+                              htmlFor='bawah-sedia-ada-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Bawah
+                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-bawah-sedia-ada-denture'
+                                id='separa-bawah-sedia-ada-denture'
+                                value='separa-bawah-sedia-ada-denture'
+                                checked={
+                                  separaPenuhBawahSediaAdaDenture ===
+                                  'separa-bawah-sedia-ada-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhBawahSediaAdaDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhBawahSediaAdaDenture:
+                                      e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='separa-bawah-sedia-ada-denture'
+                                className='m-2 text-sm font-m'
+                              >
+                                Separa
+                              </label>
+                            </div>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-bawah-sedia-ada-denture'
+                                id='penuh-bawah-sedia-ada-denture'
+                                value='penuh-bawah-sedia-ada-denture'
+                                checked={
+                                  separaPenuhBawahSediaAdaDenture ===
+                                  'penuh-bawah-sedia-ada-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhBawahSediaAdaDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhBawahSediaAdaDenture:
+                                      e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='penuh-bawah-sedia-ada-denture'
+                                className='m-2 text-sm font-m'
+                              >
+                                Penuh
+                              </label>
+                            </div>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='bawah-sedia-ada-denture-reten-salah'
+                                id='bawah-sedia-ada-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.bawahSediaAdaDentureCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bawahSediaAdaDentureCBox:
+                                      !pilihanDataSalah.bawahSediaAdaDentureCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bawahSediaAdaDentureCBox:
+                                      !pilihanDataSalah.bawahSediaAdaDentureCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bawahSediaAdaDentureCBox:
+                                        !pilihanDataSalah.bawahSediaAdaDentureCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='bawah-sedia-ada-denture-reten-salah'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.bawahSediaAdaDentureCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahSediaAdaDenture: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        separaPenuhBawahSediaAdaDenture: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          separaPenuhBawahSediaAdaDenture: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.bawahSediaAdaDentureCBox ===
+                            true && (
+                            <div className='items-center grid grid-cols-[2fr_2fr_2fr_1fr] bg-user11 bg-opacity-50'>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhBawahSediaAdaDenture ===
+                                    'separa-bawah-sedia-ada-denture'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-bawah-sedia-ada-denture-reten-salah'
+                                  id='separa-bawah-sedia-ada-denture-reten-salah'
+                                  value='separa-bawah-sedia-ada-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhBawahSediaAdaDenture ===
+                                    'separa-bawah-sedia-ada-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhBawahSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahSediaAdaDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='separa-bawah-sedia-ada-denture-reten-salah'
                                   className='m-2 text-sm font-m'
                                 >
                                   Separa
@@ -1910,36 +2416,123 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </div>
                               <div className='flex items-center justify-center'>
                                 <input
-                                  disabled={isDisabled}
-                                  type='radio'
-                                  name='separa-penuh-bawah-sedia-ada-denture'
-                                  id='penuh-bawah-sedia-ada-denture'
-                                  value='penuh-bawah-sedia-ada-denture'
-                                  checked={
+                                  disabled={
                                     separaPenuhBawahSediaAdaDenture ===
                                     'penuh-bawah-sedia-ada-denture'
                                       ? true
                                       : false
                                   }
+                                  type='radio'
+                                  name='separa-penuh-bawah-sedia-ada-denture-reten-salah'
+                                  id='penuh-bawah-sedia-ada-denture-reten-salah'
+                                  value='penuh-bawah-sedia-ada-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhBawahSediaAdaDenture ===
+                                    'penuh-bawah-sedia-ada-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
                                   onChange={(e) => {
-                                    setSeparaPenuhBawahSediaAdaDenture(
-                                      e.target.value
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
                                       separaPenuhBawahSediaAdaDenture:
                                         e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhBawahSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahSediaAdaDenture:
+                                          e.target.value,
+                                      },
                                     });
                                   }}
                                   className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                                 />
                                 <label
-                                  htmlFor='penuh-bawah-sedia-ada-denture'
+                                  htmlFor='penuh-bawah-sedia-ada-denture-reten-salah'
                                   className='m-2 text-sm font-m'
                                 >
                                   Penuh
                                 </label>
                               </div>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhBawahSediaAdaDenture ===
+                                    'tiada-ada-bawah-sedia-ada-denture'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-bawah-sedia-ada-denture-reten-salah'
+                                  id='tiada-ada-bawah-sedia-ada-denture-reten-salah'
+                                  value='tiada-ada-bawah-sedia-ada-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhBawahSediaAdaDenture ===
+                                    'tiada-ada-bawah-sedia-ada-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhBawahSediaAdaDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahSediaAdaDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='tiada-ada-bawah-sedia-ada-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Tiada
+                                </label>
+                              </div>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bawahSediaAdaDentureCBox: false,
+                                    separaPenuhBawahSediaAdaDenture: '',
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bawahSediaAdaDentureCBox: '',
+                                    separaPenuhBawahSediaAdaDentureCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bawahSediaAdaDentureCBox: false,
+                                      separaPenuhBawahSediaAdaDenture: '',
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-2xl' />
+                              </span>
                             </div>
                           )}
                         </article>
@@ -2005,156 +2598,148 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                             </div>
                           </div>
-                          {yaTidakPerluStatusDenture ===
-                            'ya-perlu-status-denture' && (
-                            <div className='items-center  grid grid-cols-[3fr_2fr_2fr]'>
+                          <div className='items-center  grid grid-cols-[3fr_2fr_2fr]'>
+                            <label
+                              htmlFor='atas-perlu-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Atas
+                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-atas-perlu-denture'
+                                id='separa-atas-perlu-denture'
+                                value='separa-atas-perlu-denture'
+                                checked={
+                                  separaPenuhAtasPerluDenture ===
+                                  'separa-atas-perlu-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhAtasPerluDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhAtasPerluDenture: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
                               <label
-                                htmlFor='atas-perlu-denture'
+                                htmlFor='separa-atas-perlu-denture'
                                 className='m-2 text-sm font-m'
                               >
-                                Atas
+                                Separa
                               </label>
-                              <div className='flex items-center justify-center'>
-                                <input
-                                  disabled={isDisabled}
-                                  type='radio'
-                                  name='separa-penuh-atas-perlu-denture'
-                                  id='separa-atas-perlu-denture'
-                                  value='separa-atas-perlu-denture'
-                                  checked={
-                                    separaPenuhAtasPerluDenture ===
-                                    'separa-atas-perlu-denture'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setSeparaPenuhAtasPerluDenture(
-                                      e.target.value
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      separaPenuhAtasPerluDenture:
-                                        e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='separa-atas-perlu-denture'
-                                  className='m-2 text-sm font-m'
-                                >
-                                  Separa
-                                </label>
-                              </div>
-                              <div className='flex items-center justify-center'>
-                                <input
-                                  disabled={isDisabled}
-                                  type='radio'
-                                  name='separa-penuh-atas-perlu-denture'
-                                  id='penuh-atas-perlu-denture'
-                                  value='penuh-atas-perlu-denture'
-                                  checked={
-                                    separaPenuhAtasPerluDenture ===
-                                    'penuh-atas-perlu-denture'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setSeparaPenuhAtasPerluDenture(
-                                      e.target.value
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      separaPenuhAtasPerluDenture:
-                                        e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='penuh-atas-perlu-denture'
-                                  className='m-2 text-sm font-m'
-                                >
-                                  Penuh
-                                </label>
-                              </div>
                             </div>
-                          )}
-                          {yaTidakPerluStatusDenture ===
-                            'ya-perlu-status-denture' && (
-                            <div className='items-center grid grid-cols-[3fr_2fr_2fr]'>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-atas-perlu-denture'
+                                id='penuh-atas-perlu-denture'
+                                value='penuh-atas-perlu-denture'
+                                checked={
+                                  separaPenuhAtasPerluDenture ===
+                                  'penuh-atas-perlu-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhAtasPerluDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhAtasPerluDenture: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
                               <label
-                                htmlFor='bawah-perlu-denture'
+                                htmlFor='penuh-atas-perlu-denture'
                                 className='m-2 text-sm font-m'
                               >
-                                Bawah
+                                Penuh
                               </label>
-                              <div className='flex items-center justify-center'>
-                                <input
-                                  disabled={isDisabled}
-                                  type='radio'
-                                  name='separa-penuh-bawah-perlu-denture'
-                                  id='separa-bawah-perlu-denture'
-                                  value='separa-bawah-perlu-denture'
-                                  checked={
-                                    separaPenuhBawahPerluDenture ===
-                                    'separa-bawah-perlu-denture'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setSeparaPenuhBawahPerluDenture(
-                                      e.target.value
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      separaPenuhBawahPerluDenture:
-                                        e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='separa-bawah-perlu-denture'
-                                  className='m-2 text-sm font-m'
-                                >
-                                  Separa
-                                </label>
-                              </div>
-                              <div className='flex items-center justify-center'>
-                                <input
-                                  disabled={isDisabled}
-                                  type='radio'
-                                  name='separa-penuh-bawah-perlu-denture'
-                                  id='penuh-bawah-perlu-denture'
-                                  value='penuh-bawah-perlu-denture'
-                                  checked={
-                                    separaPenuhBawahPerluDenture ===
-                                    'penuh-bawah-perlu-denture'
-                                      ? true
-                                      : false
-                                  }
-                                  onChange={(e) => {
-                                    setSeparaPenuhBawahPerluDenture(
-                                      e.target.value
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      separaPenuhBawahPerluDenture:
-                                        e.target.value,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                                />
-                                <label
-                                  htmlFor='penuh-bawah-perlu-denture'
-                                  className='m-2 text-sm font-m'
-                                >
-                                  Penuh
-                                </label>
-                              </div>
                             </div>
-                          )}
+                          </div>
+                          <div className='items-center grid grid-cols-[3fr_2fr_2fr]'>
+                            <label
+                              htmlFor='bawah-perlu-denture'
+                              className='m-2 text-sm font-m'
+                            >
+                              Bawah
+                            </label>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-bawah-perlu-denture'
+                                id='separa-bawah-perlu-denture'
+                                value='separa-bawah-perlu-denture'
+                                checked={
+                                  separaPenuhBawahPerluDenture ===
+                                  'separa-bawah-perlu-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhBawahPerluDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhBawahPerluDenture:
+                                      e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='separa-bawah-perlu-denture'
+                                className='m-2 text-sm font-m'
+                              >
+                                Separa
+                              </label>
+                            </div>
+                            <div className='flex items-center justify-center'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='separa-penuh-bawah-perlu-denture'
+                                id='penuh-bawah-perlu-denture'
+                                value='penuh-bawah-perlu-denture'
+                                checked={
+                                  separaPenuhBawahPerluDenture ===
+                                  'penuh-bawah-perlu-denture'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setSeparaPenuhBawahPerluDenture(
+                                    e.target.value
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    separaPenuhBawahPerluDenture:
+                                      e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='penuh-bawah-perlu-denture'
+                                className='m-2 text-sm font-m'
+                              >
+                                Penuh
+                              </label>
+                            </div>
+                          </div>
                         </article>
                       </div>
                     </article>
