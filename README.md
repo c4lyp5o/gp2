@@ -6,13 +6,13 @@
 
 Unstable/Nightly build status for branch https://github.com/nocturnalmc/gp2/tree/unstable-nightly
 
-[![Build Status](https://jenkins.nocturnal.quest/buildStatus/icon?job=gp2-unstable)](https://jenkins.nocturnal.quest/job/gp2-unstable/)
+[![Build Status](https://jenkins.nocturnal.quest:8443/buildStatus/icon?job=gp2-unstable)](https://jenkins.nocturnal.quest:8443/job/gp2-unstable/)
 
 ---
 
 Training environment build status for branch https://github.com/nocturnalmc/gp2/tree/training-env
 
-[![Build Status](https://jenkins.nocturnal.quest/buildStatus/icon?job=gp2-training)](https://jenkins.nocturnal.quest/job/gp2-training/)
+[![Build Status](https://jenkins.nocturnal.quest:8443/buildStatus/icon?job=gp2-training)](https://jenkins.nocturnal.quest:8443/job/gp2-training/)
 
 ---
 

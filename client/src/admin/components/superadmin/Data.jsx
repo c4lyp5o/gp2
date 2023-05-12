@@ -22,7 +22,7 @@ export default function Data({ FType }) {
   const [id, setId] = useState('');
 
   // data
-  const [data, setData] = useState([]);
+  const [data, setData] = useState(null);
   const [loading, setLoading] = useState(true);
   const [negeri, setNegeri] = useState(null);
   const [daerah, setDaerah] = useState(null);
@@ -46,51 +46,61 @@ export default function Data({ FType }) {
   } = useGlobalAdminAppContext();
 
   useEffect(() => {
-    getCurrentUser().then((res) => {
-      setDaerah(res.data.daerah);
-      setNegeri(res.data.negeri);
-      setUser(res.data.nama);
-    });
-    readData(FType).then((res) => {
-      setData(res.data);
-      switch (FType) {
-        case 'kp':
-          setShowPassword({
-            [res.data.username]: false,
-            [res.data.kaunterUsername]: false,
-          });
-          setShow({ klinik: true });
-          break;
-        case 'kkiakd':
-          setShow({ kkiakd: true });
-          break;
-        case 'jp':
-        case 'pp':
-          setShow({ operators: true });
-          break;
-        case 'taska':
-        case 'tadika':
-          setShow({ tastad: true });
-          break;
-        case 'sr':
-        case 'sm':
-          setShow({ sekolah: true });
-          break;
-        case 'program':
-          setShow({ program: true });
-          break;
-        case 'kpb':
-        case 'mpb':
-          setShow({ kpbmpb: true });
-          break;
-        default:
-          console.log('nope');
-          break;
-      }
-      setTimeout(() => {
+    const fetchData = async () => {
+      try {
+        setLoading(true);
+        const { data: userData } = await getCurrentUser();
+        setDaerah(userData.daerah);
+        setNegeri(userData.negeri);
+        setUser(userData.nama);
+
+        const { data } = await readData(FType);
+        setData(data);
+
+        switch (FType) {
+          case 'kp':
+            setShowPassword({
+              [data.username]: false,
+              [data.kaunterUsername]: false,
+            });
+            setShow({ klinik: true });
+            break;
+          case 'kkiakd':
+            setShow({ kkiakd: true });
+            break;
+          case 'jp':
+          case 'pp':
+            setShow({ operators: true });
+            break;
+          case 'taska':
+          case 'tadika':
+            setShow({ tastad: true });
+            break;
+          case 'sr':
+          case 'sm':
+            setShow({ sekolah: true });
+            break;
+          case 'program':
+            setShow({ program: true });
+            break;
+          case 'kpb':
+          case 'mpb':
+            setShow({ kpbmpb: true });
+            break;
+          default:
+            console.log('nope');
+            break;
+        }
+      } catch (error) {
+        setData(null);
+        console.log(error);
+      } finally {
         setLoading(false);
-      }, 500);
-    });
+      }
+    };
+
+    fetchData();
+
     return () => {
       setLoading(true);
       setShow({});
@@ -158,11 +168,7 @@ export default function Data({ FType }) {
   if (!loading) {
     return (
       <>
-        {data.length === 0 ? (
-          <NothingHereBoi FType={FType} />
-        ) : (
-          <RenderSection />
-        )}
+        {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
         <RenderModal />
         <button
           className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'

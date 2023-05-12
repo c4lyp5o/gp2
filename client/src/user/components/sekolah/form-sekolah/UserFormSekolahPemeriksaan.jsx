@@ -601,6 +601,10 @@ function UserFormSekolahPemeriksaan() {
           setJumlahFaktorRisiko(
             data.personSekolahWithPopulate.pemeriksaanSekolah.jumlahFaktorRisiko
           );
+          setPenandaRisikoKaries(
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .penandaRisikoKaries
+          );
           setAdaCleftLip(
             data.personSekolahWithPopulate.pemeriksaanSekolah.adaCleftLip
           );
@@ -948,6 +952,7 @@ function UserFormSekolahPemeriksaan() {
               eAdaGigiKekal,
               xAdaGigiKekal,
               jumlahFaktorRisiko,
+              penandaRisikoKaries,
               adaCleftLip,
               rujukCleftLip,
               kecederaanGigiAnteriorTrauma,
@@ -1025,95 +1030,24 @@ function UserFormSekolahPemeriksaan() {
           }, 3000);
         });
     }
-    // if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
+
+    //salah reten buat dekat form lain pulak
+    // if (salahReten === 'pemeriksaan-salah') {
+    //   let mdcMdtbNumSalah = '';
+    //   if (!userinfo.mdtbNumber) {
+    //     mdcMdtbNumSalah = userinfo.mdcNumber;
+    //   }
+    //   if (!userinfo.mdcNumber) {
+    //     mdcMdtbNumSalah = userinfo.mdtbNumber;
+    //   }
     //   await toast
     //     .promise(
     //       axios.patch(
     //         `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
     //         {
-    //           createdByUsername,
-    //           statusRawatan,
-    //           kesSelesaiMmi,
-    //           engganTidakHadirPemeriksaan,
-    //           engganPemeriksaan,
-    //           kebenaranPemeriksaan,
-    //           tidakHadirPemeriksaan,
-    //           tarikhPemeriksaanSemasa,
-    //           statikBergerak,
-    //           kpBergerak,
-    //           plateNo,
-    //           yaTidakSediaAdaStatusDenture,
-    //           separaPenuhAtasSediaAdaDenture,
-    //           separaPenuhBawahSediaAdaDenture,
-    //           yaTidakPerluStatusDenture,
-    //           separaPenuhAtasPerluDenture,
-    //           separaPenuhBawahPerluDenture,
-    //           kebersihanMulutOralHygiene,
-    //           skorBpeOralHygiene,
-    //           saringanKanserMulutOralHygiene,
-    //           skorGisMulutOralHygiene,
-    //           perluPenskaleranOralHygiene,
-    //           statusPeriodontium,
-    //           yaTidakPesakitMempunyaiGigi,
-    //           adaDesidus,
-    //           dAdaGigiDesidus,
-    //           fAdaGigiDesidus,
-    //           xAdaGigiDesidus,
-    //           adaKekal,
-    //           dAdaGigiKekal,
-    //           mAdaGigiKekal,
-    //           fAdaGigiKekal,
-    //           eAdaGigiKekal,
-    //           xAdaGigiKekal,
-    //           jumlahFaktorRisiko,
-    //           adaCleftLip,
-    //           rujukCleftLip,
-    //           kecederaanGigiAnteriorTrauma,
-    //           tisuLembutTrauma,
-    //           tisuKerasTrauma,
-    //           gicBilanganFsDibuat3TahunLepas,
-    //           resinBilanganFsDibuat3TahunLepas,
-    //           lainLainBilanganFsDibuat3TahunLepas,
-    //           dBilanganFsDibuat3TahunLepasTerjadi,
-    //           mBilanganFsDibuat3TahunLepasTerjadi,
-    //           fBilanganFsDibuat3TahunLepasTerjadi,
-    //           eBilanganFsDibuat3TahunLepasTerjadi,
-    //           xBilanganFsDibuat3TahunLepasTerjadi,
-    //           toothSurfaceLoss,
-    //           classID,
-    //           classIID,
-    //           classIF,
-    //           classIIF,
-    //           baruJumlahGigiKekalPerluFs,
-    //           baruJumlahMuridPerluFs,
-    //           baruJumlahGigiKekalPerluFv,
-    //           semulaJumlahGigiKekalPerluFv,
-    //           baruJumlahMuridPerluFv,
-    //           semulaJumlahMuridPerluFv,
-    //           baruJumlahGigiKekalPerluPrrJenis1,
-    //           semulaJumlahGigiKekalPerluPrrJenis1,
-    //           baruJumlahMuridPerluPrrJenis1,
-    //           semulaJumlahMuridPerluPrrJenis1,
-    //           yaTidakSilverDiamineFluoridePerluSapuan,
-    //           baruGDAnteriorSewarnaJumlahTampalanDiperlukan,
-    //           semulaGDAnteriorSewarnaJumlahTampalanDiperlukan,
-    //           baruGKAnteriorSewarnaJumlahTampalanDiperlukan,
-    //           semulaGKAnteriorSewarnaJumlahTampalanDiperlukan,
-    //           baruGDPosteriorSewarnaJumlahTampalanDiperlukan,
-    //           semulaGDPosteriorSewarnaJumlahTampalanDiperlukan,
-    //           baruGKPosteriorSewarnaJumlahTampalanDiperlukan,
-    //           semulaGKPosteriorSewarnaJumlahTampalanDiperlukan,
-    //           baruGDPosteriorAmalgamJumlahTampalanDiperlukan,
-    //           semulaGDPosteriorAmalgamJumlahTampalanDiperlukan,
-    //           baruGKPosteriorAmalgamJumlahTampalanDiperlukan,
-    //           semulaGKPosteriorAmalgamJumlahTampalanDiperlukan,
-    //           statusM,
-    //           menerimaNasihatRingkas,
-    //           melaksanakanSaringanMerokok,
-    //           bersediaDirujuk,
-    //           noTelMuridKotak,
-    //           kesSelesai,
-    //           kesSelesaiIcdas,
+    //           createdByUsernameSalah: userinfo.nama,
+    //           createdByMdcMdtbSalah: mdcMdtbNumSalah,
+    //           dataRetenSalah,
     //         },
     //         {
     //           headers: {
@@ -1169,7 +1103,7 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
-                        <p className='ml-1'>{singlePersonSekolah.ic}</p>
+                        <p className='ml-1'>{singlePersonSekolah.nomborId}</p>
                       </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
@@ -1182,7 +1116,7 @@ function UserFormSekolahPemeriksaan() {
                         </p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>BANGSA :</h2>
+                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
                         <p className='ml-1'>
                           {singlePersonSekolah.kumpulanEtnik}
                         </p>
@@ -1209,7 +1143,7 @@ function UserFormSekolahPemeriksaan() {
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonSekolah.tahun}{' '}
+                        {singlePersonSekolah.tahunTingkatan}{' '}
                         {singlePersonSekolah.kelasPelajar}
                       </p>
                     </div>
@@ -3036,6 +2970,13 @@ function UserFormSekolahPemeriksaan() {
                                 ? penandaRisikoKaries
                                 : 'Sila Isi Jumlah Faktor Risiko'
                             }
+                            onChange={(e) => {
+                              setPenandaRisikoKaries(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                penandaRisikoKaries: e.target.value,
+                              });
+                            }}
                             className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
                               penandaRisikoKaries === 'rendah'
                                 ? 'bg-user7 w-24 px-2 '
