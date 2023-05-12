@@ -201,6 +201,7 @@ function AdminAfterLogin() {
     }
   }, [window.location.pathname]);
 
+  // TODO needs rework because refetch identity not working if token tempered
   // page init and activate event listener refetch indentity on tab focus
   useEffect(() => {
     if (init.current === false) {
@@ -213,12 +214,12 @@ function AdminAfterLogin() {
           setLoading(false);
           logOutNotiSystem();
         });
-      window.addEventListener('focus', setRefetchState);
-      setRefetchState(!refetchState);
+      // window.addEventListener('focus', setRefetchState);
+      // setRefetchState(!refetchState);
       init.current = true;
     }
     return () => {
-      window.removeEventListener('focus', setRefetchState);
+      // window.removeEventListener('focus', setRefetchState);
       init.current = false;
     };
   }, []);

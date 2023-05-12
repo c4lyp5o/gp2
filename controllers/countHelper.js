@@ -3866,17 +3866,6 @@ const countPG206 = async (payload) => {
     bigData.push(dataSekolah);
     bigData.push(dataOperatorLain);
 
-    if (
-      bigData[0].every(({ queryPemeriksaan }) => queryPemeriksaan.length) &&
-      bigData[1].every(({ queryRawatan }) => queryRawatan.length) &&
-      bigData[2].every(({ querySekolah }) => querySekolah.length) &&
-      bigData[3].every(({ queryOperatorLain }) => queryOperatorLain.length)
-    ) {
-      console.log(`All query arrays have length greater than 0`);
-    } else {
-      throw new Error(`At least one query array has length 0`);
-    }
-
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
@@ -13918,7 +13907,6 @@ const countPGPro01 = async (payload) => {
   // run aggregate
   try {
     const pipeline = [match_stage, group_stage];
-    throw new Error(JSON.stringify(match_stage));
     const data = await Promosi.aggregate(pipeline);
     return data;
   } catch (error) {
