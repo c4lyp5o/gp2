@@ -27,8 +27,13 @@ export default function UserKohort() {
               Program Kesihatan Oral Tanpa Amalan Merokok (KOTAK)
             </h1>
             {kotak && (
-              <p className='font-light text-left'>
-                Menjalani program intevensi merokok
+              <p className='font-light text-left pr-2'>
+                Menjalani program intervensi merokok
+                <p className='text-[#e84118] normal-case font-medium'>
+                  (Maklumat ini adalah SULIT . DILARANG mendedahkan maklumat
+                  tanpa kebenaran . Tindakan TATATERTIB akan dikenakan sekiranya
+                  maklumat terdedah)
+                </p>
               </p>
             )}
           </div>
