@@ -11493,6 +11493,7 @@ const countPGS203 = async (payload) => {
           ],
         },
         orangKurangUpaya: true,
+        deleted: false,
       },
     },
     {
@@ -11562,7 +11563,8 @@ const countPGS203 = async (payload) => {
             },
           ],
         },
-        kumpulanEtnik: 'penan',
+        kumpulanEtnik: { $in: ['penan', 'orang asli semenanjung'] },
+        deleted: false,
       },
     },
     {
@@ -15777,8 +15779,8 @@ const countBPE = async (payload) => {
             {
               $and: [
                 { $eq: ['$kedatangan', 'baru-kedatangan'] },
-                { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
-                { $eq: ['$engganBpeImplan', false] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $ne: ['$engganBpeImplan', false] },
               ],
             },
             1,
@@ -15792,7 +15794,7 @@ const countBPE = async (payload) => {
             {
               $and: [
                 { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
-                { $eq: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
               ],
             },
             1,

@@ -4404,7 +4404,7 @@ const makeGender = async (payload) => {
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('GENDER');
+    let worksheet = workbook.getWorksheet('GENDER 2023');
 
     worksheet.getCell('B3').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('B4').value = moment(new Date()).format('YYYY');
