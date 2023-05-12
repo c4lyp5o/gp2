@@ -394,8 +394,10 @@ function UserFormSekolahRawatan() {
                         </p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>BANGSA :</h2>
-                        <p className='ml-1'>{singlePersonSekolah.keturunan}</p>
+                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                        <p className='ml-1'>
+                          {singlePersonSekolah.kumpulanEtnik}
+                        </p>
                       </div>
                     </div>
                   )}
