@@ -3548,8 +3548,8 @@ const makePGS203P2 = async (payload) => {
         worksheet.getRow(rowNumber).getCell(59).value = data[i][0].cabutanGk; //Column BG (59)
         worksheet.getRow(rowNumber).getCell(61).value = data[i][0].penskaleran; //Column BI (61)
         worksheet.getRow(rowNumber).getCell(62).value = data[i][0].kesSelesai; //Column BJ (62)
-        worksheet.getRow(rowNumber).getCell(64).value =
-          data[i][0].jumlahFasiliti || 0; //Column BL (64)
+        // worksheet.getRow(rowNumber).getCell(64).value =
+        //   data[i][0].jumlahFasiliti || 0; //Column BL (64)
         if (i < 3) {
           worksheet.getRow(rowNumber).getCell(65).value =
             data[i][0].jumlahFasilitiDilawati.length || 0; //Column BM (65)
@@ -3558,6 +3558,11 @@ const makePGS203P2 = async (payload) => {
       rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
       console.log(`row number now is ${rowNumber}`);
     }
+
+    worksheet.getRow(16).getCell(64).value =
+      data[0][0].jumlahFasilitiKerajaan || 0;
+    worksheet.getRow(17).getCell(64).value =
+      data[0][0].jumlahFasilitiSwasta || 0;
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
@@ -3616,7 +3621,6 @@ const makePGS203P2 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
-    console.log(err);
     penjanaanRetenLogger.error(
       `[generateRetenController] Excel making error. Reason: ${err}`
     );

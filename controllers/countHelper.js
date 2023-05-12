@@ -12009,7 +12009,21 @@ const countPGS203 = async (payload) => {
       return totals;
     }, {});
 
-    totalEnrolment = { ...totalEnrolment, jumlahFasiliti: dataFasiliti.length };
+    // count dataFasiliti that has govKe === 'Kerajaan' or 'Swasta'
+    const dataFasilitiKerajaan = dataFasiliti.filter((fasiliti) => {
+      fasiliti.govKe === 'kerajaan', fasiliti.statusPerkhidmatan === 'active';
+    });
+
+    const dataFasilitiSwasta = dataFasiliti.filter((fasiliti) => {
+      fasiliti.govKe === 'swasta', fasiliti.statusPerkhidmatan === 'active';
+    });
+
+    totalEnrolment = {
+      ...totalEnrolment,
+      jumlahFasiliti: dataFasiliti.length,
+      jumlahFasilitiKerajaan: dataFasilitiKerajaan.length,
+      jumlahFasilitiSwasta: dataFasilitiSwasta.length,
+    };
 
     bigData[0][0] = { ...bigData[0][0], ...totalEnrolment };
 
