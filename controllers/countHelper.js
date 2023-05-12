@@ -15780,7 +15780,7 @@ const countBPE = async (payload) => {
               $and: [
                 { $eq: ['$kedatangan', 'baru-kedatangan'] },
                 { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
-                { $ne: ['$engganBpeImplan', false] },
+                { $ne: ['$engganBpeImplan', true] },
               ],
             },
             1,
@@ -15802,7 +15802,6 @@ const countBPE = async (payload) => {
           ],
         },
       },
-
       //Punca Rujukan T2DM
       adaRujukanT2DMdariKK: {
         $sum: {
