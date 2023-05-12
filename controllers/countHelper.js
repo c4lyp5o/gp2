@@ -11591,7 +11591,7 @@ const countPGS203 = async (payload) => {
       },
     },
   ];
-
+  //
   match_stage.push(pra_tad_kerajaan);
   match_stage.push(pra_tad_swasta);
   match_stage.push(pra_tad_OKU);
@@ -11965,6 +11965,7 @@ const countPGS203 = async (payload) => {
             $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
           },
         },
+        jumlahFasilitiDilawati: { $addToSet: '$kodFasilitiTaskaTadika' },
       },
     },
   ];
@@ -11978,8 +11979,6 @@ const countPGS203 = async (payload) => {
       bigData.push(dataPGS203);
     }
 
-    console.log('dah siap kira');
-
     const dataFasiliti = await Fasiliti.find({
       ...(payload.negeri != 'all' && { createdByNegeri: payload.negeri }),
       ...(payload.daerah != 'all' && { createdByDaerah: payload.daerah }),
@@ -11987,23 +11986,33 @@ const countPGS203 = async (payload) => {
         createdByKodFasiliti: payload.klinik,
       }),
       jenisFasiliti: { $in: ['taska', 'tadika'] },
-    });
+    })
+      .select('govKe enrolmenTastad jenisFasiliti')
+      .lean();
 
-    console.log(dataFasiliti);
-
-    const totalEnrolmentByGovKe = dataFasiliti.reduce((totals, fasiliti) => {
-      if (fasiliti.jenisFasiliti === 'taska-tadika') {
-        const govKe = fasiliti.govKe ?? 'Unknown';
-        const enrolment = fasiliti.enrolmentTastad ?? 0;
-        totals[govKe] = (totals[govKe] ?? 0) + enrolment;
+    let totalEnrolment = dataFasiliti.reduce((totals, fasiliti) => {
+      if (
+        fasiliti.jenisFasiliti === 'tadika' ||
+        fasiliti.jenisFasiliti === 'taska'
+      ) {
+        const govKe = !fasiliti.govKe ? 'tiadaStatus' : fasiliti.govKe;
+        if (
+          fasiliti.enrolmenTastad !== 'NOT APPLICABLE' ||
+          !fasiliti.enrolmenTastad
+        ) {
+          const enrolment = parseInt(fasiliti.enrolmenTastad) ?? 0;
+          totals[govKe] = (totals[govKe] ?? 0) + enrolment;
+        }
       }
       return totals;
     }, {});
 
-    console.table(totalEnrolmentByGovKe);
+    totalEnrolment = { ...totalEnrolment, jumlahFasiliti: dataFasiliti.length };
+
+    bigData[0][0] = { ...bigData[0][0], ...totalEnrolment };
 
     return bigData;
-  } catch {
+  } catch (error) {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
@@ -15671,24 +15680,28 @@ const countBPE = async (payload) => {
     $match: {
       ...getParamsBPE(payload),
       umur: { $lt: 18 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
     },
   };
   const uUmur1819 = {
     $match: {
       ...getParamsBPE(payload),
       umur: { $gte: 18, $lte: 19 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
     },
   };
   const uUmur2029 = {
     $match: {
       ...getParamsBPE(payload),
       umur: { $gte: 20, $lte: 29 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
     },
   };
   const uUmur3049 = {
     $match: {
       ...getParamsBPE(payload),
       umur: { $gte: 30, $lte: 49 },
+      kedatangan: { $eq: 'ulangan-kedatangan' },
     },
   };
   const uUmur5059 = {
@@ -15703,7 +15716,6 @@ const countBPE = async (payload) => {
       ...getParamsBPE(payload),
       umur: { $gte: 60 },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      skorBpeOralHygienePemeriksaanUmum: 'tiada',
     },
   };
 
@@ -17073,136 +17085,6 @@ const countPG201P2 = async (payload) => {
     },
   ];
 
-  const project_stage = [
-    {
-      $project: {
-        _id: 1,
-        //enrolment
-
-        //kedatangan:
-        engganKedatangan: '$engganKedatangan',
-        tidakHadirKehadiran: '$tidakHadirKehadiran',
-        kedatanganTahunSemasaBaru: '$kedatanganTahunSemasaBaru',
-        kedatanganTahunSemasaUlangan: '$kedatanganTahunSemasaUlangan',
-
-        //Kebersihan Mulut
-        skorPlakA: '$skorPlakA',
-        skorPlakC: '$skorPlakC',
-        skorPlakE: '$skorPlakE',
-
-        //Status gigi Desidus
-        jumlahd: '$jumlahd',
-        jumlahf: '$jumlahf',
-        jumlahx: '$jumlahx',
-
-        //Status gigi kekal
-        jumlahE: '$jumlahE',
-        jumlahD: '$jumlahD',
-        jumlahM: '$jumlahM',
-        jumlahF: '$jumlahF',
-        jumlahX: '$jumlahX',
-
-        //status kesihatan mulut murid
-        dfxSamaKosong: '$dfxSamaKosong',
-        jumlahMBK: '$jumlahMBK',
-        statusBebasKaries: '$statusBebasKaries',
-        gigiKekalDMFXsamaAtauKurangDari3: '$gigiKekalDMFXsamaAtauKurangDari3',
-        xTambahMsamaKosong: '$xTambahMsamaKosong',
-        eLebihAtauSamaDenganSatu: '$eLebihAtauSamaDenganSatu',
-        bebasKariesTetapiElebihAtauSamaDenganSatu:
-          '$bebasKariesTetapiElebihAtauSamaDenganSatu',
-
-        skorGIS0: '$skorGIS0',
-        skorGIS1: '$skorGIS1',
-        skorGIS2: '$skorGIS2',
-        skorGIS3: '$skorGIS3',
-
-        // skorBPE0: '$skorBPE0',
-        // skorBPE1: '$skorBPE1',
-        // skorBPE2: '$skorBPE2',
-        // skorBPE3: '$skorBPE3',
-        // skorBPE4: '$skorBPE4',
-
-        jumlahTPRmmi: '$jumlahTPRmmi',
-        jumlahTPRbiasa: '$jumlahTPRbiasa',
-
-        jumlahKecederaanTulangMuka: '$jumlahKecederaanTulangMuka',
-        jumlahKecederaanGigi: '$jumlahKecederaanGigi',
-        jumlahKecederaanTisuLembut: '$jumlahKecederaanTisuLembut',
-
-        jumlahPatientAdaTSL: '$jumlahPatientAdaTSL',
-
-        jumlahCleftMurid: '$jumlahCleftMurid',
-        jumlahCleftDirujuk: '$jumlahCleftDirujuk',
-
-        //rawatan perlu dibuat
-        perluSapuanFperluSapuanFluoridaBilMuriduorida:
-          '$perluSapuanFluoridaBilMurid',
-        perluPrrJenis1BilMurid: '$perluPrrJenis1BilMurid',
-        perluPrrJenis1BilGigi: '$perluPrrJenis1BilGigi',
-        perluFissureSealantBilMurid: '$perluFissureSealantBilMurid',
-        perluFissureSealantBilGigi: '$perluFissureSealantBilGigi',
-
-        //jumlahGigiPerluTampalanAntGdBaru: '$jumlahGigiPerluTampalanAntGdBaru',
-        //jumlahGigiPerluTampalanAntGdSemula: '$jumlahGigiPerluTampalanAntGdSemula',
-        //jumlahGigiPerluTampalanAntGkBaru: '$jumlahGigiPerluTampalanAntGkBaru',
-        //jumlahGigiPerluTampalanAntGkSemula: '$jumlahGigiPerluTampalanAntGkSemula',
-
-        //jumlahGigiPerluTampalanPostGdBaru: '$jumlahGigiPerluTampalanPostGdBaru',
-        //jumlahGigiPerluTampalanPostGdSemula: '$jumlahGigiPerluTampalanPostGdSemula',
-        //jumlahGigiPerluTampalanPostGkBaru: '$jumlahGigiPerluTampalanPostGkBaru',
-        //jumlahGigiPerluTampalanPostGkSemula: '$jumlahGigiPerluTampalanPostGkSemula',
-
-        //jumlahGigiPerluTampalanPostAmgGdBaru: '$jumlahGigiPerluTampalanPostAmgGdBaru',
-        //jumlahGigiPerluTampalanPostAmgGdSemula: '$jumlahGigiPerluTampalanPostAmgGdSemula',
-        //jumlahGigiPerluTampalanPostAmgGkBaru: '$jumlahGigiPerluTampalanPostAmgGkBaru',
-        //jumlahGigiPerluTampalanPostAmgGkSemula: '$jumlahGigiPerluTampalanPostAmgGkSemula',
-
-        //rawatan diberi
-        telahSapuanFluoridaBilMurid: '$telahSapuanFluoridaBilMurid',
-        telahPrrJenis1BilMurid: '$telahPrrJenis1BilMurid',
-        telahPrrJenis1BilGigi: '$telahPrrJenis1BilGigi',
-        telahFissureSealantBilMurid: '$telahFissureSealantBilMurid',
-        telahFissureSealantBilGigi: '$telahFissureSealantBilGigi',
-
-        jumlahGigiTelahDibuatTampalanAntGdBaru:
-          '$jumlahGigiTelahDibuatTampalanAntGdBaru',
-        jumlahGigiTelahDibuatTampalanAntGdSemula:
-          '$jumlahGigiTelahDibuatTampalanAntGdSemula',
-        jumlahGigiTelahDibuatTampalanAntGkBaru:
-          '$jumlahGigiTelahDibuatTampalanAntGkBaru',
-        jumlahGigiTelahDibuatTampalanAntGkSemula:
-          '$jumlahGigiTelahDibuatTampalanAntGkSemula',
-
-        jumlahGigiTelahDibuatTampalanPostGdBaru:
-          '$jumlahGigiTelahDibuatTampalanPostGdBaru',
-        jumlahGigiTelahDibuatTampalanPostGdSemula:
-          '$jumlahGigiTelahDibuatTampalanPostGdSemula',
-        jumlahGigiTelahDibuatTampalanPostGkBaru:
-          '$jumlahGigiTelahDibuatTampalanPostGkBaru',
-        jumlahGigiTelahDibuatTampalanPostGkSemula:
-          '$jumlahGigiTelahDibuatTampalanPostGkSemula',
-
-        jumlahGigiTelahDibuatTampalanPostAmgGdBaru:
-          '$jumlahGigiTelahDibuatTampalanPostAmgGdBaru',
-        jumlahGigiTelahDibuatTampalanPostAmgGdSemula:
-          '$jumlahGigiTelahDibuatTampalanPostAmgGdSemula',
-        jumlahGigiTelahDibuatTampalanPostAmgGkBaru:
-          '$jumlahGigiTelahDibuatTampalanPostAmgGkBaru',
-        jumlahGigiTelahDibuatTampalanPostAmgGkSemula:
-          '$jumlahGigiTelahDibuatTampalanPostAmgGkSemula',
-        jumlahGigiTelahDibuatTampalanSementara:
-          '$jumlahGigiTelahDibuatTampalanSementara',
-
-        cabutanGd: '$cabutanGd',
-        cabutanGk: '$cabutanGk',
-        penskaleran: '$penskaleran',
-
-        jumlahKesSelesaiMMI: '$jumlahKesSelesaiMMI',
-        jumlahKesSelesaiBiasa: '$jumlahKesSelesaiBiasa',
-      },
-    },
-  ];
   // bismillah
   let bigData = [];
 
@@ -17211,6 +17093,37 @@ const countPG201P2 = async (payload) => {
       const dataPG201P2 = await Umum.aggregate([...stage, ...group_stage]);
       bigData.push(dataPG201P2);
     }
+
+    const dataFasiliti = await Fasiliti.find({
+      ...(payload.negeri != 'all' && { createdByNegeri: payload.negeri }),
+      ...(payload.daerah != 'all' && { createdByDaerah: payload.daerah }),
+      ...(payload.klinik != 'all' && {
+        createdByKodFasiliti: payload.klinik,
+      }),
+      jenisFasiliti: { $in: ['taska', 'tadika'] },
+    })
+      .select('enrolmen5Tahun enrolmen6Tahun')
+      .lean();
+
+    let enrolmen5Tahun = 0;
+    let enrolmen6Tahun = 0;
+
+    dataFasiliti.forEach((fasiliti) => {
+      if (enrolmen5Tahun !== 'NOT APPLICABLE') {
+        enrolmen5Tahun += parseInt(fasiliti.enrolmen5Tahun);
+      }
+      if (enrolmen6Tahun !== 'NOT APPLICABLE') {
+        enrolmen6Tahun += parseInt(fasiliti.enrolmen6Tahun);
+      }
+    });
+
+    if (enrolmen5Tahun) {
+      bigData[0][0].enrolmen5Tahun = enrolmen5Tahun;
+    }
+    if (enrolmen6Tahun) {
+      bigData[0][0].enrolmen6Tahun = enrolmen6Tahun;
+    }
+
     return bigData;
   } catch (error) {
     errorRetenLogger.error(
