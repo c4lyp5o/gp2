@@ -513,103 +513,106 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                       </h1>
                     )}
                     {!showForm && accordian.includes(index) && (
-                      <div className='flex flex-col mx-1 px-1 text-sm'>
-                        <span className='font-semibold text-start flex flex-row items-center'>
-                          <FaTooth className='mr-1' />{' '}
+                      <div className='grid grid-cols-[2fr_4fr_1fr] gap-2 mx-1 px-1 text-sm'>
+                        <span className='font-semibold text-start flex justify-center items-center shadow-md shadow-user1 rounded-md border-l-8 border-user2'>
                           {rawatan.createdByUsername}
                         </span>
-                        {rawatan.cabutDesidusSekolahRawatan >= 1 && (
-                          <span className='font-medium text-start'>
-                            cabut desidus :{rawatan.cabutDesidusSekolahRawatan}
-                          </span>
-                        )}
-                        {rawatan.cabutKekalSekolahRawatan >= 1 && (
-                          <span className='font-medium text-start'>
-                            cabut desidus :{rawatan.cabutKekalSekolahRawatan}
-                          </span>
-                        )}
-                        {sumGigiDesidus >= 1 && (
-                          <span className='font-medium text-start'>
-                            tampalan gigi desidus : {sumGigiDesidus}
-                          </span>
-                        )}
-                        {sumGigiKekal >= 1 && (
-                          <span className='font-medium text-start'>
-                            tampalan gigi kekal : {sumGigiKekal}
-                          </span>
-                        )}
-                        {sumICDAS >= 1 && (
-                          <span className='font-medium text-start'>
-                            MMI : {sumICDAS}
-                          </span>
-                        )}
-                        {rawatan.jumlahTampalanSementaraSekolahRawatan >= 1 && (
-                          <span className='font-medium text-start'>
-                            tampalan sementara :{' '}
-                            {rawatan.jumlahTampalanSementaraSekolahRawatan}
-                          </span>
-                        )}
-                        {rawatan.pulpotomiSekolahRawatan >= 1 && (
-                          <span className='font-medium text-start'>
-                            pulpotomi : {rawatan.pulpotomiSekolahRawatan}
-                          </span>
-                        )}
-                        {rawatan.endodontikSekolahRawatan >= 1 && (
-                          <span className='font-medium text-start'>
-                            endodontik : {rawatan.endodontikSekolahRawatan}
-                          </span>
-                        )}
-                        {rawatan.absesSekolahRawatan >= 1 && (
-                          <span className='font-medium text-start'>
-                            abses : {rawatan.absesSekolahRawatan}
-                          </span>
-                        )}
-                        {rawatan.penskaleranSekolahRawatan >= 1 && (
-                          <span className='font-medium text-start'>
-                            penskaleran : {rawatan.penskaleranSekolahRawatan}
-                          </span>
-                        )}
-                        {rawatan.rujukSekolahRawatan === true && (
-                          <span className='font-medium text-start flex items-center flex-wrap'>
-                            Dirujuk{' '}
-                            <FaCheckCircle className='text-user7 text-center mx-1' />
-                            untuk{' '}
-                            {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
-                            true
-                              ? 'cabutan ,'
-                              : ''}
-                            {rawatan.rujukRawatanEndodontikSekolahRawatan ===
-                            true
-                              ? 'rawatan endodontik ,'
-                              : ''}
-                            {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                            true
-                              ? 'rawatan penskaleran ,'
-                              : ''}
-                            {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
-                            true
-                              ? 'rawatan periodontik ,'
-                              : ''}
-                            {rawatan.rujukLainLainSekolahRawatan === true
-                              ? rawatan.rujukLainLainTulisSekolahRawatan
-                              : ''}
-                          </span>
-                        )}
-                        {rawatan.kesSelesaiSekolahRawatan ===
-                          'ya-kes-selesai-penyata-akhir-2' && (
-                          <span className='font-medium text-start flex items-center'>
-                            kes selesai{' '}
-                            <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                          </span>
-                        )}
-                        {rawatan.kesSelesaiIcdasSekolahRawatan ===
-                          'ya-kes-selesai-icdas-penyata-akhir-2' && (
-                          <span className='font-medium text-start flex items-center'>
-                            kes selesai MMI{' '}
-                            <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                          </span>
-                        )}
-                        <div className='flex justify-end'>
+                        <div className='shadow-md shadow-user1 rounded-md flex items-center flex-col border-l-8 border-user2 p-2'>
+                          {rawatan.cabutDesidusSekolahRawatan >= 1 && (
+                            <span className='font-medium text-left'>
+                              cabut desidus :
+                              {rawatan.cabutDesidusSekolahRawatan}
+                            </span>
+                          )}
+                          {rawatan.cabutKekalSekolahRawatan >= 1 && (
+                            <span className='font-medium text-left'>
+                              cabut desidus :{rawatan.cabutKekalSekolahRawatan}
+                            </span>
+                          )}
+                          {sumGigiDesidus >= 1 && (
+                            <span className='font-medium text-left'>
+                              tampalan gigi desidus : {sumGigiDesidus}
+                            </span>
+                          )}
+                          {sumGigiKekal >= 1 && (
+                            <span className='font-medium text-left'>
+                              tampalan gigi kekal : {sumGigiKekal}
+                            </span>
+                          )}
+                          {sumICDAS >= 1 && (
+                            <span className='font-medium text-left'>
+                              MMI : {sumICDAS}
+                            </span>
+                          )}
+                          {rawatan.jumlahTampalanSementaraSekolahRawatan >=
+                            1 && (
+                            <span className='font-medium text-left'>
+                              tampalan sementara :{' '}
+                              {rawatan.jumlahTampalanSementaraSekolahRawatan}
+                            </span>
+                          )}
+                          {rawatan.pulpotomiSekolahRawatan >= 1 && (
+                            <span className='font-medium text-left'>
+                              pulpotomi : {rawatan.pulpotomiSekolahRawatan}
+                            </span>
+                          )}
+                          {rawatan.endodontikSekolahRawatan >= 1 && (
+                            <span className='font-medium text-left'>
+                              endodontik : {rawatan.endodontikSekolahRawatan}
+                            </span>
+                          )}
+                          {rawatan.absesSekolahRawatan >= 1 && (
+                            <span className='font-medium text-left'>
+                              abses : {rawatan.absesSekolahRawatan}
+                            </span>
+                          )}
+                          {rawatan.penskaleranSekolahRawatan >= 1 && (
+                            <span className='font-medium text-left'>
+                              penskaleran : {rawatan.penskaleranSekolahRawatan}
+                            </span>
+                          )}
+                          {rawatan.rujukSekolahRawatan === true && (
+                            <span className='font-medium text-left flex items-center flex-wrap'>
+                              Dirujuk{' '}
+                              <FaCheckCircle className='text-user7 text-center mx-1' />
+                              untuk{' '}
+                              {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
+                              true
+                                ? 'cabutan ,'
+                                : ''}
+                              {rawatan.rujukRawatanEndodontikSekolahRawatan ===
+                              true
+                                ? 'rawatan endodontik ,'
+                                : ''}
+                              {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                              true
+                                ? 'rawatan penskaleran ,'
+                                : ''}
+                              {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
+                              true
+                                ? 'rawatan periodontik ,'
+                                : ''}
+                              {rawatan.rujukLainLainSekolahRawatan === true
+                                ? rawatan.rujukLainLainTulisSekolahRawatan
+                                : ''}
+                            </span>
+                          )}
+                          {rawatan.kesSelesaiSekolahRawatan ===
+                            'ya-kes-selesai-penyata-akhir-2' && (
+                            <span className='font-medium text-left flex items-center'>
+                              kes selesai{' '}
+                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                            </span>
+                          )}
+                          {rawatan.kesSelesaiIcdasSekolahRawatan ===
+                            'ya-kes-selesai-icdas-penyata-akhir-2' && (
+                            <span className='font-medium text-left flex items-center'>
+                              kes selesai MMI{' '}
+                              <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                            </span>
+                          )}
+                        </div>
+                        <div className=''>
                           <button
                             type='button'
                             className='bg-user12 hover:bg-user13 text-userWhite text-sm whitespace-nowrap rounded-md px-2 py-1 mt-2 flex flex-row justify-center items-center'
