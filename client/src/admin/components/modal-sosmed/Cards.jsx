@@ -158,7 +158,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
           </div>
           <div className='grid grid-cols-[3fr_1fr] text-xs'>
             <p className='flex flex-row pl-2 items-center'>
-              {nama === 'Twitter' ? 'Bilangan Reach' : 'Bilangan Reach'}
+              Bilangan Reach {nama === 'Twitter' ? 'Bil. Retweet' : null}
             </p>
             <input
               key={nama + '_poster_bilReach'}
@@ -175,7 +175,7 @@ const Section = ({ nama, logo, questionState, setQuestionState }) => {
               }
             />
             <p className='flex flex-row pl-2 items-center'>
-              {nama === 'Twitter' ? 'Bilangan Retweet' : 'Bilangan Share'}
+              Bilangan Share {nama === 'Twitter' ? 'Bil. Retweet' : null}
             </p>
             <input
               key={nama + '_poster_bilShare'}
