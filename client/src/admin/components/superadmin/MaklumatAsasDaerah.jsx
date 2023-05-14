@@ -80,391 +80,479 @@ export default function MaklumatAsasDaerah() {
           Maklumat Asas Bagi Daerah {loginInfo?.daerah} Tahun{' '}
           {new Date().getFullYear()}
         </h1>
-        <div className='grid grid-cols-2 grid-rows-3 gap-2 outline outline-1 outline-userBlack text-center p-2'>
-          <div>
-            <div className='bg-admin3 rounded-md flex items-center justify-center p-2 shadow-md hover:bg-admin4 transition-colors h-9'>
-              <h1 className='text-xl font-bold'>Maklumat Asas</h1>
+        <div className='grid grid-cols-1 gap-2 text-center p-2'>
+          <div className='shadow-lg shadow-user1 rounded-md mt-2'>
+            <div className='bg-admin3 rounded-t-md flex items-center justify-center p-2 transition-colors h-9'>
+              <h1 className='text-xl font-bold text-userWhite'>
+                Maklumat Asas
+              </h1>
             </div>
-            <div className='text-sm rounded-md outline outline-2 outline-userBlack text-center p-2 mt-2'>
+            <div className='text-sm rounded-b-md text-center p-2'>
               <article className='m-1'>
-                Jumlah anggota kesihatan pergigian sedia ada yang sedang
-                berkhidmat
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahPPSedangBerkhidmat || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahPPSedangBerkhidmat: e.target.value,
-                      })
-                    }
-                  />
-                  <label className='text-center'>JP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahJPSedangBerkhidmat || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahJPSedangBerkhidmat: e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Jumlah anggota kesihatan pergigian sedia ada yang sedang
+                    berkhidmat
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center'>Pegawai Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahPPSedangBerkhidmat || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahPPSedangBerkhidmat: e.target.value,
+                        })
+                      }
+                    />
+                    <label className='text-center'>Juruterapi Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahJPSedangBerkhidmat || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahJPSedangBerkhidmat: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </article>
+              <article className='m-1 rounded-md'>
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan anggota kesihatan pergigian yang BAHARU dilantik
+                    melapor diri pada tahun semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center'>Pegawai Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahPPBaharuTahunSemasa || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahPPBaharuTahunSemasa: e.target.value,
+                        })
+                      }
+                    />
+                    <label className='text-center'>Juruterapi Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahJPBaharuTahunSemasa || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahJPBaharuTahunSemasa: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
               <article className='m-1'>
-                Jumlah anggota kesihatan pergigian yang terlibat dalam program
-                Incremental Dental Care
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahPPTerlibatIDC || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahPPTerlibatIDC: e.target.value,
-                      })
-                    }
-                  />
-                  <label className='text-center'>JP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahJPTerlibatIDC || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahJPTerlibatIDC: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </article>
-              <article className='m-1'>
-                Bilangan anggota kesihatan pergigian yang BAHARU dilantik
-                melapor diri pada tahun semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahPPBaharuTahunSemasa || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahPPBaharuTahunSemasa: e.target.value,
-                      })
-                    }
-                  />
-                  <label className='text-center'>JP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahJPBaharuTahunSemasa || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahJPBaharuTahunSemasa: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </article>
-            </div>
-          </div>
-          <div>
-            <div className='bg-admin3 rounded-md flex items-center justify-center p-2 shadow-md hover:bg-admin4 transition-colors h-9'>
-              <h1 className='text-xl font-bold'>Program KOTAK</h1>
-            </div>
-            <div className='text-sm rounded-md outline outline-2 outline-userBlack text-center p-2 mt-2'>
-              <article className='m-1'>
-                Bilangan anggota kesihatan pergigian yang BAHARU dilantik /
-                dilatih untuk membuat saringan dan intervensi di sekolah diri
-                pada tahun semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahPPDilatihIntervensiSekolah || 0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahPPDilatihIntervensiSekolah: e.target.value,
-                      })
-                    }
-                  />
-                  <label className='text-center'>JP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahJPDilatihIntervensiSekolah || 0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahJPDilatihIntervensiSekolah: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </article>
-              <article className='m-1'>
-                Bilangan latihan program KOTAK yang telah diadakan pada tahun
-                semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahLatihanKOTAKTahunSemasa || 0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahLatihanKOTAKTahunSemasa: e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Jumlah anggota kesihatan pergigian yang terlibat dalam
+                    program <i className='ml-1'> Incremental Dental Care</i>
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center'>Pegawai Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahPPTerlibatIDC || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahPPTerlibatIDC: e.target.value,
+                        })
+                      }
+                    />
+                    <label className='text-center'>Juruterapi Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahJPTerlibatIDC || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahJPTerlibatIDC: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
             </div>
           </div>
-          <div>
-            <div className='bg-admin3 rounded-md flex items-center justify-center p-2 shadow-md hover:bg-admin4 transition-colors h-9'>
-              <h1 className='text-xl font-bold'>Program BEGIN</h1>
+          <div className='shadow-lg shadow-user1 rounded-md mt-2'>
+            <div className='bg-admin3 rounded-t-md flex items-center justify-center p-2 shadow-md transition-colors h-9'>
+              <h1 className='text-xl font-bold text-userWhite'>
+                Program Kesihatan Oral Tanpa Amalan Merokok (KOTAK)
+              </h1>
             </div>
-            <div className='text-sm rounded-md outline outline-2 outline-userBlack text-center p-2 mt-2'>
+            <div className='text-sm rounded-b-md text-center p-2'>
+              <article className='m-1'>
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan anggota kesihatan pergigian yang BAHARU dilantik /
+                    dilatih untuk membuat saringan dan intervensi di sekolah
+                    diri pada tahun semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center'>Pegawai Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahPPDilatihIntervensiSekolah ||
+                        0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahPPDilatihIntervensiSekolah: e.target.value,
+                        })
+                      }
+                    />
+                    <label className='text-center'>Juruterapi Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahJPDilatihIntervensiSekolah ||
+                        0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahJPDilatihIntervensiSekolah: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </article>
+              <article className='m-1'>
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan latihan program KOTAK yang telah diadakan pada
+                    tahun semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahLatihanKOTAKTahunSemasa || 0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahLatihanKOTAKTahunSemasa: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div className='shadow-lg shadow-user1 rounded-md mt-2'>
+            <div className='bg-admin3 rounded-t-md flex items-center justify-center p-2 shadow-md transition-colors h-9'>
+              <h1 className='text-xl font-bold text-userWhite'>
+                Program latihan memberus gigi berkesan (BEGIN)
+              </h1>
+            </div>
+            <div className='text-sm rounded-b-md text-center p-2'>
               <article className='prose'>
-                Bilangan anggota kesihatan pergigian yang telah dilantik untuk
-                melaksanakan aktiviti BEGIN
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahPPDilatihBEGIN || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahPPDilatihBEGIN: e.target.value,
-                      })
-                    }
-                  />
-                  <label className='text-center'>JP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahJPDilatihBEGIN || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahJPDilatihBEGIN: e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan anggota kesihatan pergigian yang telah dilantik
+                    untuk melaksanakan aktiviti BEGIN
+                  </p>{' '}
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center'>Pegawai Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahPPDilatihBEGIN || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahPPDilatihBEGIN: e.target.value,
+                        })
+                      }
+                    />
+                    <label className='text-center'>Juruterapi Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahJPDilatihBEGIN || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahJPDilatihBEGIN: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
               <article className='m-1'>
-                Bilangan ahli Dedicated Dental Promotion Team yang telah
-                dilantik untuk melaksanakan aktiviti BEGIN (
-                <span className='text-admin2'>*</span>bagi daerah yang mempunyai
-                DPT)
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahPPDalamDPTDilatihBEGIN || 0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahPPDalamDPTDilatihBEGIN: e.target.value,
-                      })
-                    }
-                  />
-                  <label className='text-center'>JP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahJPDalamDPTDilatihBEGIN || 0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahJPDalamDPTDilatihBEGIN: e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan ahli Dedicated Dental Promotion Team yang telah
+                    dilatih untuk melaksanakan aktiviti BEGIN (** bagi daerah
+                    yang mempunyai pasukan DPT)
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center'>Pegawai Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahPPDalamDPTDilatihBEGIN || 0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahPPDalamDPTDilatihBEGIN: e.target.value,
+                        })
+                      }
+                    />
+                    <label className='text-center'>Juruterapi Pergigian</label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahJPDalamDPTDilatihBEGIN || 0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahJPDalamDPTDilatihBEGIN: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
               <article className='m-1'>
-                Bilangan latihan program BEGIN yang telah diadakan pada tahun
-                semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>PP</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahLatihanBEGINTahunSemasa || 0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahLatihanBEGINTahunSemasa: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </article>
-            </div>
-          </div>
-          <div>
-            <div className='bg-admin3 rounded-md flex items-center justify-center p-2 shadow-md hover:bg-admin4 transition-colors h-9'>
-              <h1 className='text-xl font-bold'>Program KPMP</h1>
-            </div>
-            <div className='text-sm rounded-md outline outline-2 outline-userBlack text-center p-2 mt-2'>
-              <article className='m-1'>
-                Bilangan klinik pergigian yang dirancang untuk dijadikan sebagai
-                Klinik Pergigian Mesra Promosi pada tahun semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>Jumlah</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahKlinikDirancangMenjadiKPMP || 0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahKlinikDirancangMenjadiKPMP: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </article>
-              <article className='m-1'>
-                Bilangan Klinik pergigian mesra promosi (KPMP) sedia ada
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>Jumlah</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahKlinikKPMPSediaAda || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahKlinikKPMPSediaAda: e.target.value,
-                      })
-                    }
-                  />
-                </div>
-              </article>
-              <article className='m-1'>
-                Jumlah Klinik pergigian mesra promosi (KPMP)
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>Jumlah</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={maklumatAsasDaerah?.jumlahKlinikKPMP || 0}
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahKlinikKPMP: e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Jumlah latihan program BEGIN yang telah diadakan pada tahun
+                    semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahLatihanBEGINTahunSemasa || 0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahLatihanBEGINTahunSemasa: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
             </div>
           </div>
-          <div className='col-span-2'>
-            <div className='bg-admin3 rounded-md flex items-center justify-center p-2 shadow-md hover:bg-admin4 transition-colors h-9'>
-              <h1 className='text-xl font-bold'>Program Wellness Hub</h1>
+          <div className='shadow-lg shadow-user1 rounded-md mt-2'>
+            <div className='bg-admin3 rounded-t-md flex items-center justify-center p-2 shadow-md transition-colors h-9'>
+              <h1 className='text-xl font-bold text-userWhite'>
+                Program klinik pergigian mesra promosi (KPMP)
+              </h1>
             </div>
-            <div className='text-sm rounded-md outline outline-2 outline-userBlack text-center p-2 mt-2'>
+            <div className='text-sm rounded-b-md p-2'>
               <article className='m-1'>
-                Bilangan Wellness Hub yang di RANCANG untuk dilantik /
-                dilaksanakan aktiviti promosi dan pendidikan kesihatan pergigian
-                pada tahun semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>Jumlah</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahWellnessHubDirancangBuatAktivitiPromosi ||
-                      0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahWellnessHubDirancangBuatAktivitiPromosi:
-                          e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan klinik pergigian yang dirancang untuk dijadikan
+                    sebagai Klinik Pergigian Mesra Promosi pada tahun semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahKlinikDirancangMenjadiKPMP ||
+                        0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahKlinikDirancangMenjadiKPMP: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
               <article className='m-1'>
-                Bilangan wellness hub yang telah MELAKSANAKAN 4 kali aktiviti
-                promosi dan pendidikan kesihatan pergigian pada tahun semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>Jumlah</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahWellnessHubYangTelahLaksana4Aktiviti ||
-                      0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahWellnessHubYangTelahLaksana4Aktiviti:
-                          e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan Klinik pergigian mesra promosi (KPMP) yang
+                    diwujudkan di peringkat daerah
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahKlinikKPMPSediaAda || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahKlinikKPMPSediaAda: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
               <article className='m-1'>
-                Bilangan wellness hub yang telah MELAKSANAKAN sekurang-kurangnya
-                3 kali aktiviti promosi dan pendidikan kesihatan pergigian pada
-                tahun semasa
-                <div className='grid grid-flow-col-dense gap-1 mt-2'>
-                  <label className='text-center'>Jumlah</label>
-                  <input
-                    type='number'
-                    className='w-20 h-8 rounded-md outline outline-2 outline-userBlack text-center'
-                    value={
-                      maklumatAsasDaerah?.jumlahWellnessHubYangTelahLaksanaKurang4Aktiviti ||
-                      0
-                    }
-                    onChange={(e) =>
-                      setMaklumatAsasDaerah({
-                        ...maklumatAsasDaerah,
-                        jumlahWellnessHubYangTelahLaksanaKurang4Aktiviti:
-                          e.target.value,
-                      })
-                    }
-                  />
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Jumlah Klinik pergigian mesra promosi (KPMP) yang telah
+                    menjalani audit dan penarafan bintang (kali pertama secara
+                    rasmi)
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={maklumatAsasDaerah?.jumlahKlinikKPMP || 0}
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahKlinikKPMP: e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </article>
+            </div>
+          </div>
+          <div className='shadow-lg shadow-user1 rounded-md mt-2'>
+            <div className='bg-admin3 rounded-t-md flex items-center justify-center p-2 shadow-md transition-colors h-9'>
+              <h1 className='text-xl font-bold text-userWhite'>
+                Program <i> Wellness Hub</i>
+              </h1>
+            </div>
+            <div className='text-sm rounded-b-md text-center p-2 '>
+              <article className='m-1'>
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan Wellness Hub yang di RANCANG untuk dilawati /
+                    dilaksanakan aktiviti promosi dan pendidikan kesihatan
+                    pergigian pada tahun semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahWellnessHubDirancangBuatAktivitiPromosi ||
+                        0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahWellnessHubDirancangBuatAktivitiPromosi:
+                            e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </article>
+              <article className='m-1'>
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan wellness hub yang telah MELAKSANAKAN 4 kali atau
+                    lebih aktiviti promosi dan pendidikan kesihatan pergigian
+                    pada tahun semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahWellnessHubYangTelahLaksana4Aktiviti ||
+                        0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahWellnessHubYangTelahLaksana4Aktiviti:
+                            e.target.value,
+                        })
+                      }
+                    />
+                  </div>
+                </div>
+              </article>
+              <article className='m-1'>
+                <div className='grid grid-cols-[6fr_4fr] gap-1 mt-2'>
+                  <p className='flex items-center text-left pl-3'>
+                    Bilangan wellness hub yang telah MELAKSANAKAN
+                    sekurang-kurangnya 3 kali aktiviti promosi dan pendidikan
+                    kesihatan pergigian pada tahun semasa
+                  </p>
+                  <div className='grid grid-cols-4'>
+                    <label className='text-center flex items-center justify-center'>
+                      Jumlah
+                    </label>
+                    <input
+                      type='number'
+                      className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
+                      value={
+                        maklumatAsasDaerah?.jumlahWellnessHubYangTelahLaksanaKurang4Aktiviti ||
+                        0
+                      }
+                      onChange={(e) =>
+                        setMaklumatAsasDaerah({
+                          ...maklumatAsasDaerah,
+                          jumlahWellnessHubYangTelahLaksanaKurang4Aktiviti:
+                            e.target.value,
+                        })
+                      }
+                    />
+                  </div>
                 </div>
               </article>
             </div>
