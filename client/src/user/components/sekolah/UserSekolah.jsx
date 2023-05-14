@@ -518,7 +518,7 @@ function UserSekolah() {
                 {pilihanSekolah &&
                 pilihanTahunTingkatan &&
                 !pilihanTahunTingkatan.includes('TINGKATAN') ? (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-40'>
+                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                     AKTIVITI BEGIN
                   </th>
                 ) : null}
@@ -959,27 +959,33 @@ function UserSekolah() {
                             )}
                           </td>
                           {!pilihanTahunTingkatan.includes('TINGKATAN') ? (
-                            <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                              <button
-                                onClick={() => {
-                                  setModalBegin({
-                                    ...modalBegin,
-                                    [singlePersonSekolah._id]: true,
-                                  });
-                                }}
-                                className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
-                              >
-                                {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                  <p className='text-xs text-userBlack text-center flex items-center'>
-                                    Selesai
-                                    <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                  </p>
-                                ) : (
-                                  <p className='text-xs text-userBlack text-center flex items-center'>
-                                    Tarikh Pelaksanaan
-                                  </p>
-                                )}
-                              </button>
+                            <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 '>
+                              {singlePersonSekolah.pemeriksaanSekolah ? (
+                                <button
+                                  onClick={() => {
+                                    setModalBegin({
+                                      ...modalBegin,
+                                      [singlePersonSekolah._id]: true,
+                                    });
+                                  }}
+                                  className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                >
+                                  {singlePersonSekolah.tarikhMelaksanakanBegin ? (
+                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                      Selesai
+                                      <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                    </p>
+                                  ) : (
+                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                      Tarikh Pelaksanaan
+                                    </p>
+                                  )}
+                                </button>
+                              ) : (
+                                <p className='text-xs text-userWhite text-center flex items-center'>
+                                  Sila Tambah Pemeriksaan
+                                </p>
+                              )}
                               <div
                                 className={`${
                                   modalBegin[singlePersonSekolah._id]
