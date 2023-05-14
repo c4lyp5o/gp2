@@ -105,7 +105,7 @@ export default function UserCarianSekolah() {
                 data-cy='pilih-query'
               >
                 <option value='ic'>PENGENALAN DIRI</option>
-                {/* <option value='nama'>NAMA</option> */}
+                <option value='nama'>NAMA</option>
               </select>
               <span>
                 <FaSortDown className='absolute top-2 right-3 text-kaunterWhite' />
@@ -259,7 +259,7 @@ export default function UserCarianSekolah() {
                           setModalSalahRetenSekolah(true);
                           setCarianSekolah(singleCarianSekolah);
                         }}
-                        className='bg-user6 text-userWhite shadow-md hover:bg-user8 rounded-sm p-1 m-1 transition-all'
+                        className='bg-user9 text-userWhite shadow-md hover:bg-user8 rounded-sm p-1 m-1 transition-all'
                       >
                         SALAH RETEN
                       </button>
