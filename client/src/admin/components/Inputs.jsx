@@ -863,7 +863,7 @@ export function InputFacility(props) {
                       </p>
                     </div>
                   )}
-                  {props.FType !== 'sr' && props.FType !== 'sm' ? (
+                  {props.FType !== 'sr' && props.FType !== 'sm' && (
                     <div>
                       <input
                         required
@@ -874,32 +874,191 @@ export function InputFacility(props) {
                         onChange={(e) => props.setName(e.target.value)}
                       />
                     </div>
-                  ) : (
-                    <div>
-                      <select
-                        required
-                        id='institusi'
-                        name='institusi'
-                        onChange={(e) => {
-                          props.setName(e.target.value);
-                          const index = e.target.selectedIndex;
-                          const el = e.target.childNodes[index];
-                          props.setIdInstitusi(el.getAttribute('id'));
-                          props.setKodSekolah(el.getAttribute('data-kod'));
-                        }}
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  )}
+                  {(props.FType === 'sr' || props.FType === 'sm') && (
+                    <div className='grid gap-1'>
+                      <label
+                        htmlFor='default-search'
+                        className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                       >
-                        <option value=''>Pilih Sekolah</option>
-                        {props.sekolah.map((s) => (
-                          <option
-                            value={s.NAMA_INSTITUSI}
-                            id={s.ID_INSTITUSI}
-                            data-kod={s.KOD_INSTITUSI}
+                        Cari
+                      </label>
+                      <div className='relative'>
+                        <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
+                          <svg
+                            aria-hidden='true'
+                            className='w-5 h-3 text-gray-500 dark:text-gray-400'
+                            fill='none'
+                            stroke='currentColor'
+                            viewBox='0 0 24 24'
+                            xmlns='http://www.w3.org/2000/svg'
                           >
-                            {s.NAMA_INSTITUSI}
-                          </option>
-                        ))}
-                      </select>
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth='2'
+                              d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                            ></path>
+                          </svg>
+                        </div>
+                        <input
+                          autoFocus
+                          value={props.carianNama}
+                          type='search'
+                          className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          placeholder='Cari sekolah...'
+                          onChange={(e) => {
+                            props.setCarianNama(e.target.value);
+                          }}
+                        />
+                        {props.searching === false ? (
+                          <button
+                            type='button'
+                            className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (!props.carianNama) {
+                                toast.error('Sila isi nama pegawai');
+                                return;
+                              }
+                              props.setSearching(true);
+                              props.setFilteredSekolah([]);
+                              const filteredSekolah = props.sekolah.filter(
+                                (sekolah) => {
+                                  return (
+                                    sekolah.NAMA_INSTITUSI.toLowerCase().includes(
+                                      props.carianNama.toLowerCase()
+                                    ) ||
+                                    sekolah.KOD_INSTITUSI.toLowerCase().includes(
+                                      props.carianNama.toLowerCase()
+                                    )
+                                  );
+                                }
+                              );
+                              props.setFilteredSekolah(filteredSekolah);
+                              props.setSearching(false);
+                            }}
+                          >
+                            Cari
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              type='button'
+                              className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                              disabled={true}
+                            >
+                              <svg
+                                className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                              >
+                                <circle
+                                  className='opacity-25'
+                                  cx='12'
+                                  cy='12'
+                                  r='10'
+                                  stroke='currentColor'
+                                  strokeWidth='4'
+                                ></circle>
+                                <path
+                                  className='opacity-75'
+                                  fill='currentColor'
+                                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                ></path>
+                              </svg>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {props.filteredSekolah.length > 0 ? (
+                        <>
+                          <select
+                            required
+                            id='institusi'
+                            name='institusi'
+                            onChange={(e) => {
+                              props.setName(e.target.value);
+                              const index = e.target.selectedIndex;
+                              const el = e.target.childNodes[index];
+                              props.setIdInstitusi(el.getAttribute('id'));
+                              props.setKodSekolah(el.getAttribute('data-kod'));
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Pilih Sekolah</option>
+                            {props.filteredSekolah.map((s) => (
+                              <option
+                                value={s.NAMA_INSTITUSI}
+                                id={s.ID_INSTITUSI}
+                                data-kod={s.KOD_INSTITUSI}
+                              >
+                                {s.NAMA_INSTITUSI}
+                              </option>
+                            ))}
+                          </select>
+                          <div>
+                            <p>
+                              Klinik / Pusat Pergigian Sekolah{' '}
+                              <span className='font-semibold text-lg text-user6'>
+                                *
+                              </span>
+                            </p>
+                            <div className='grid grid-cols-2 mb-3'>
+                              <label htmlFor='nama'>Ya</label>
+                              <input
+                                required
+                                type='radio'
+                                id='act-stat'
+                                name='checkbox'
+                                value='kps'
+                                onChange={(e) =>
+                                  props.setJenisPerkhidmatanSekolah(
+                                    e.target.value
+                                  )
+                                }
+                              />
+                              <label htmlFor='nama'>Tidak</label>
+                              <input
+                                required
+                                type='radio'
+                                id='act-stat'
+                                name='checkbox'
+                                value='kpb'
+                                onChange={(e) =>
+                                  props.setJenisPerkhidmatanSekolah(
+                                    e.target.value
+                                  )
+                                }
+                              />
+                            </div>
+                            <div className='grid gap-2'>
+                              <div>
+                                Risiko Sekolah (PERSiS){' '}
+                                <span className='font-semibold text-lg text-user6'>
+                                  *
+                                </span>
+                              </div>
+                              <div className='grid gap-1'>
+                                <select
+                                  required
+                                  onChange={(e) =>
+                                    props.setRisiko(e.target.value)
+                                  }
+                                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                >
+                                  <option value=''>Pilih Risiko</option>
+                                  <option value='rendah'>Rendah</option>
+                                  <option value='tinggi'>Tinggi</option>
+                                </select>
+                              </div>
+                            </div>
+                          </div>
+                        </>
+                      ) : (
+                        <span>Tiada Sekolah / Kod Sekolah dijumpai</span>
+                      )}
                     </div>
                   )}
                   {(props.FType === 'taska' || props.FType === 'tadika') && (
@@ -918,8 +1077,8 @@ export function InputFacility(props) {
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
                             <option value=''>Pilih kategori..</option>
-                            <option value='kerajaan'>Kerajaan</option>
-                            <option value='swasta'>Swasta</option>
+                            <option value='Kerajaan'>Kerajaan</option>
+                            <option value='Swasta'>Swasta</option>
                           </select>
                         </div>
                       </div>
@@ -1915,6 +2074,38 @@ export function InputEditFacility(props) {
                           });
                         }}
                       />
+                    </div>
+                  </div>
+                )}
+                {/* GOV KE */}
+                {props.FType !== 'taska' && props.FType !== 'tadika' ? null : (
+                  <div className='grid gap-2'>
+                    <div>
+                      Kategori {props.FType}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </div>
+                    <div>
+                      <select
+                        required
+                        onChange={(e) =>
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            govKe: e.target.value,
+                          })
+                        }
+                        value={
+                          props.editedEntity.govKe
+                            ? props.editedEntity.govKe
+                            : ''
+                        }
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      >
+                        <option value=''>Pilih kategori..</option>
+                        <option value='Kerajaan'>Kerajaan</option>
+                        <option value='Swasta'>Swasta</option>
+                      </select>
                     </div>
                   </div>
                 )}
