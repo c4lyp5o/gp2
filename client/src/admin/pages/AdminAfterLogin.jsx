@@ -452,14 +452,17 @@ function AdminAfterLogin() {
                   </Suspense>
                 }
               />
-              <Route
-                path='maklumat-asas'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <MaklumatAsasDaerah />
-                  </Suspense>
-                }
-              />
+              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+              import.meta.env.VITE_ENV === 'DEV' ? (
+                <Route
+                  path='maklumat-asas'
+                  element={
+                    <Suspense fallback={<Loading />}>
+                      <MaklumatAsasDaerah />
+                    </Suspense>
+                  }
+                />
+              ) : null}
             </>
           ) : null}
           {/* route kp superadmin sahaja */}

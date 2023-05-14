@@ -368,8 +368,8 @@ function UserSekolahList() {
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 px-2 text-left'>
                           {singleNamaSekolah.nama}
                         </td>
-                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                          {enrolmen[index]}
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 normal-case'>
+                          {enrolmen[index] === 0 ? 'Sedang dikemaskini dengan MOEIS' : enrolmen[index]}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           {kedatanganBaru[index]}

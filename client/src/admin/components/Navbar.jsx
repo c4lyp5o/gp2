@@ -264,17 +264,20 @@ export default function Navbar(props) {
                         : 'max-h-0 overflow-hidden'
                     }`}
                   >
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                      }
-                      to='maklumat-asas'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      MAKLUMAT ASAS
-                    </NavLink>
+                    {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                    import.meta.env.VITE_ENV === 'DEV' ? (
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive
+                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        }
+                        to='maklumat-asas'
+                        onClick={() => setShowLinks(!showLinks)}
+                      >
+                        MAKLUMAT ASAS
+                      </NavLink>
+                    ) : null}
                     <div
                       className={`${
                         showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
