@@ -777,7 +777,8 @@ export function InputPegawai(props) {
 }
 
 export function InputFacility(props) {
-  const { Dictionary, DictionaryHurufNegeri } = useGlobalAdminAppContext();
+  const { Dictionary, DictionaryHurufNegeri, toast } =
+    useGlobalAdminAppContext();
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -918,7 +919,7 @@ export function InputFacility(props) {
                             onClick={(e) => {
                               e.preventDefault();
                               if (!props.carianNama) {
-                                toast.error('Sila isi nama pegawai');
+                                toast.error('Sila isi nama / kod sekolah');
                                 return;
                               }
                               props.setSearching(true);
@@ -998,63 +999,6 @@ export function InputFacility(props) {
                               </option>
                             ))}
                           </select>
-                          <div>
-                            <p>
-                              Klinik / Pusat Pergigian Sekolah{' '}
-                              <span className='font-semibold text-lg text-user6'>
-                                *
-                              </span>
-                            </p>
-                            <div className='grid grid-cols-2 mb-3'>
-                              <label htmlFor='nama'>Ya</label>
-                              <input
-                                required
-                                type='radio'
-                                id='act-stat'
-                                name='checkbox'
-                                value='kps'
-                                onChange={(e) =>
-                                  props.setJenisPerkhidmatanSekolah(
-                                    e.target.value
-                                  )
-                                }
-                              />
-                              <label htmlFor='nama'>Tidak</label>
-                              <input
-                                required
-                                type='radio'
-                                id='act-stat'
-                                name='checkbox'
-                                value='kpb'
-                                onChange={(e) =>
-                                  props.setJenisPerkhidmatanSekolah(
-                                    e.target.value
-                                  )
-                                }
-                              />
-                            </div>
-                            <div className='grid gap-2'>
-                              <div>
-                                Risiko Sekolah (PERSiS){' '}
-                                <span className='font-semibold text-lg text-user6'>
-                                  *
-                                </span>
-                              </div>
-                              <div className='grid gap-1'>
-                                <select
-                                  required
-                                  onChange={(e) =>
-                                    props.setRisiko(e.target.value)
-                                  }
-                                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                                >
-                                  <option value=''>Pilih Risiko</option>
-                                  <option value='rendah'>Rendah</option>
-                                  <option value='tinggi'>Tinggi</option>
-                                </select>
-                              </div>
-                            </div>
-                          </div>
                         </>
                       ) : (
                         <span>Tiada Sekolah / Kod Sekolah dijumpai</span>
@@ -1183,8 +1127,7 @@ export function InputFacility(props) {
                         <div>
                           <input
                             required
-                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             type='text'
                             name='catatan'
                             id='catatan'
@@ -1369,8 +1312,7 @@ export function InputEvent(props) {
                     </p> */}
                   {/* <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='date'
                         name='tarikh'
                         id='tarikh'
@@ -1492,8 +1434,7 @@ export function InputEvent(props) {
                   <div className='grid gap-1'>
                     <input
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       type='text'
                       name='nama'
                       id='nama'
@@ -1510,8 +1451,7 @@ export function InputEvent(props) {
                     <div className='grid gap-1'>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='text'
                         name='nama'
                         id='nama'
@@ -1728,8 +1668,7 @@ export function InputEditPegawai(props) {
                 <input
                   required
                   defaultValue={props.editedEntity.email}
-                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   type='text'
                   name='email'
                   id='email'
