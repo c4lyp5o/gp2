@@ -57,9 +57,10 @@ function KohortKotak() {
         ];
         const kohort = [
           ...new Set(
-            data.kohortKotakResultQuery.map(
-              (item) => item.dalamPemantauanKohort
-            )
+            data.kohortKotakResultQuery
+              .map((item) => item.dalamPemantauanKohort)
+              //witout empty string
+              .filter((item) => item !== '')
           ),
         ];
         // 👇️ sort by String property ASCENDING (A - Z)
@@ -106,7 +107,7 @@ function KohortKotak() {
           <div className=''>
             <div className='flex flex-col pb-2'>
               <div className='flex justify-between items-center'>
-                <h1 className='text-lg lg:text-xl text-user9 font-bold flex flex-row pl-5 pt-2'>
+                <h1 className='text-xl lg:text-3xl text-user9 font-bold flex flex-row pl-5 pt-1'>
                   SULIT
                 </h1>
                 <div className='flex justify-end items-center text-right mt-2'>
