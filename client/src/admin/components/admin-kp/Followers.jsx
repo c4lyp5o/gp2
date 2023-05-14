@@ -25,18 +25,18 @@ function Followers(props) {
         </h1>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
           <table className='table-auto'>
-            <thead className='text-adminWhite bg-admin3 text-xl'>
+            <thead className='text-adminWhite bg-admin3 outline-adminWhite'>
               <tr>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 text-xl'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                   Bil.
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 text-xl'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                   Jenis Platform
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 text-xl'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                   Follower Bulan Terdahulu
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 text-xl'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                   Follower Bulan Ini
                 </th>
               </tr>
@@ -45,10 +45,10 @@ function Followers(props) {
               {props.data.map((item, index) => {
                 return (
                   <tr key={index}>
-                    <td className='px-2 py-1 outline outline-1 outline-offset-1 text-xl'>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                       {index + 1}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-offset-1 grid grid-flow-col gap-2 text-xl'>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 grid grid-flow-col gap-2 outline-adminWhite'>
                       {item.namaPlatform}{' '}
                       {item.namaPlatform !== 'youtube' &&
                       item.namaPlatform !== 'tiktok' ? (
@@ -67,10 +67,10 @@ function Followers(props) {
                         <FaTiktok className='mt-1 text-adminBlack' />
                       )}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-offset-1 text-xl'>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                       {item.jumlahFollowerBulanTerdahulu}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-offset-1 text-xl'>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                       {item.jumlahFollowerBulanIni}
                     </td>
                   </tr>
