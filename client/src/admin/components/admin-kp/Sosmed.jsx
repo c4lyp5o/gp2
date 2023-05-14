@@ -87,7 +87,9 @@ export default function Sosmed(props) {
               return (
                 <>
                   <div className='m-2 justify-center'>
-                    <h1>KOD PROGRAM: {i.kodProgram}</h1>
+                    <h1>
+                      KOD PROGRAM: {i.kodProgram} {i.jenisProgram}
+                    </h1>
                   </div>
                   <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
                     <table className='table-auto'>
@@ -102,10 +104,10 @@ export default function Sosmed(props) {
                           <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                             Tarikh Kemaskini
                           </th>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                          <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96'>
                             Tajuk Bahan / Aktiviti
                           </th>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                          <th className='px-2 py-1 outline outline-1 outline-offset-1 w-44'>
                             Jenis Media Sosial
                           </th>
                           <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -126,7 +128,7 @@ export default function Sosmed(props) {
                               <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                                 {moment(int.tarikhAkhir).format('DD-MM-YYYY')}
                               </td>
-                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-left'>
                                 <div className='flex flex-row'>
                                   {int.namaAktiviti}{' '}
                                   <FaInfoCircle

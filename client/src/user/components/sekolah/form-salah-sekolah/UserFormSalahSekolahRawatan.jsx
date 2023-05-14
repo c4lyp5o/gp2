@@ -513,20 +513,26 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                       </h1>
                     )}
                     {!showForm && accordian.includes(index) && (
-                      <div className='grid grid-cols-[2fr_4fr_1fr] gap-2 mx-1 px-1 text-sm'>
-                        <span className='font-semibold text-start flex justify-center items-center shadow-md shadow-user1 rounded-md border-l-8 border-user2'>
-                          {rawatan.createdByUsername}
-                        </span>
-                        <div className='shadow-md shadow-user1 rounded-md flex items-center flex-col border-l-8 border-user2 p-2'>
+                      <div className='grid grid-cols-2 lg:grid-cols-[2fr_4fr_1fr] gap-2 m-1 px-1 text-sm'>
+                        <div className='shadow-md shadow-user1 rounded-md flex flex-col lg:flex-row border-l-8 border-user2 p-2'>
+                          <span className='font-semibold text-start flex justify-start items-center'>
+                            <FaTooth className='mr-2 text-lg text-user2' />
+                          </span>
+                          <span className='font-semibold text-start flex justify-start items-center'>
+                            {rawatan.createdByUsername}
+                          </span>
+                        </div>
+                        <div className='shadow-md shadow-user1 rounded-md flex flex-col border-l-8 border-user2 p-2'>
+                          <FaTooth className='text-lg text-user2' />
                           {rawatan.cabutDesidusSekolahRawatan >= 1 && (
-                            <span className='font-medium text-left'>
+                            <span className='font-medium text-left flex justify-start'>
                               cabut desidus :
                               {rawatan.cabutDesidusSekolahRawatan}
                             </span>
                           )}
                           {rawatan.cabutKekalSekolahRawatan >= 1 && (
                             <span className='font-medium text-left'>
-                              cabut desidus :{rawatan.cabutKekalSekolahRawatan}
+                              cabut Kekal :{rawatan.cabutKekalSekolahRawatan}
                             </span>
                           )}
                           {sumGigiDesidus >= 1 && (
@@ -540,7 +546,7 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                             </span>
                           )}
                           {sumICDAS >= 1 && (
-                            <span className='font-medium text-left'>
+                            <span className='font-medium text-left flex justify-start'>
                               MMI : {sumICDAS}
                             </span>
                           )}
@@ -612,7 +618,7 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                             </span>
                           )}
                         </div>
-                        <div className=''>
+                        <div className='flex items-end'>
                           <button
                             type='button'
                             className='bg-user12 hover:bg-user13 text-userWhite text-sm whitespace-nowrap rounded-md px-2 py-1 mt-2 flex flex-row justify-center items-center'
