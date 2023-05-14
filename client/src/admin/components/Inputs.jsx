@@ -995,7 +995,7 @@ export function InputFacility(props) {
                                 id={s.ID_INSTITUSI}
                                 data-kod={s.KOD_INSTITUSI}
                               >
-                                {s.NAMA_INSTITUSI}
+                                {s.NAMA_INSTITUSI} | {s.KOD_INSTITUSI} | {s.PPD}
                               </option>
                             ))}
                           </select>
