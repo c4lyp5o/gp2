@@ -2228,7 +2228,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           )}
                           <div
                             className={` ${
-                              pilihanDataSalah.bawahSediaAdaDentureCBox &&
+                              pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox &&
                               'bg-user9 bg-opacity-20'
                             } items-center grid grid-cols-[2fr_2fr_2fr_1fr] `}
                           >
@@ -2308,25 +2308,25 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 name='bawah-sedia-ada-denture-reten-salah'
                                 id='bawah-sedia-ada-denture-reten-salah'
                                 checked={
-                                  pilihanDataSalah.bawahSediaAdaDentureCBox
+                                  pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox
                                 }
                                 onChange={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
-                                    bawahSediaAdaDentureCBox:
-                                      !pilihanDataSalah.bawahSediaAdaDentureCBox,
+                                    separaPenuhBawahSediaAdaDentureCBox:
+                                      !pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox,
                                   });
                                   setDataRetenSalah({
                                     ...dataRetenSalah,
-                                    bawahSediaAdaDentureCBox:
-                                      !pilihanDataSalah.bawahSediaAdaDentureCBox,
+                                    separaPenuhBawahSediaAdaDentureCBox:
+                                      !pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox,
                                   });
                                   setConfirmData({
                                     ...confirmData,
                                     pilihanDataSalah: {
                                       ...pilihanDataSalah,
-                                      bawahSediaAdaDentureCBox:
-                                        !pilihanDataSalah.bawahSediaAdaDentureCBox,
+                                      separaPenuhBawahSediaAdaDentureCBox:
+                                        !pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox,
                                     },
                                   });
                                 }}
@@ -2336,7 +2336,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 htmlFor='bawah-sedia-ada-denture-reten-salah'
                                 className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
                               >
-                                {pilihanDataSalah.bawahSediaAdaDentureCBox ===
+                                {pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox ===
                                 true ? (
                                   <FaTimes
                                     className='text-2xl'
@@ -2364,7 +2364,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                             </div>
                           </div>
-                          {pilihanDataSalah.bawahSediaAdaDentureCBox ===
+                          {pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox ===
                             true && (
                             <div className='items-center grid grid-cols-[2fr_2fr_2fr_1fr] bg-user11 bg-opacity-50'>
                               <div className='flex items-center justify-center'>
@@ -2513,19 +2513,19 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
-                                    bawahSediaAdaDentureCBox: false,
+                                    separaPenuhBawahSediaAdaDentureCBox: false,
                                     separaPenuhBawahSediaAdaDenture: '',
                                   });
                                   setDataRetenSalah({
                                     ...dataRetenSalah,
-                                    bawahSediaAdaDentureCBox: '',
+                                    separaPenuhBawahSediaAdaDenture: '',
                                     separaPenuhBawahSediaAdaDentureCBox: false,
                                   });
                                   setConfirmData({
                                     ...confirmData,
                                     pilihanDataSalah: {
                                       ...pilihanDataSalah,
-                                      bawahSediaAdaDentureCBox: false,
+                                      separaPenuhBawahSediaAdaDentureCBox: false,
                                       separaPenuhBawahSediaAdaDenture: '',
                                     },
                                   });
