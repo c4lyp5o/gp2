@@ -336,16 +336,16 @@ function UserSekolah() {
                     type='text'
                     name='pilihan-sekolah'
                     id='pilihan-sekolah'
-                    value={pilihanSekolah}
+                    value={pilihanSekolah ? pilihanSekolah : 'SEDANG MEMUAT...'}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
                 </span>
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  {pilihanSekolah.includes('MENENGAH') ? 'Tingkatan' : 'Tahun'}:
-                </span>{' '}
-                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  Tahun/Tingkatan:
+                </span>
+                <span className='uppercase text-xs lg:text-sm w-full'>
                   <select
                     value={pilihanTahunTingkatan}
                     onChange={(e) => {
@@ -354,21 +354,19 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {pilihanSekolah ? (
-                      tahunTingkatan.map((singleTahun, index) => {
-                        return (
-                          <option
-                            value={singleTahun}
-                            key={index}
-                            className='capitalize'
-                          >
-                            {singleTahun}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option value=''>SILA PILIH SEKOLAH</option>
-                    )}
+                    {pilihanSekolah
+                      ? tahunTingkatan.map((singleTahun, index) => {
+                          return (
+                            <option
+                              value={singleTahun}
+                              key={index}
+                              className='capitalize'
+                            >
+                              {singleTahun}
+                            </option>
+                          );
+                        })
+                      : null}
                   </select>
                 </span>
               </p>
@@ -385,21 +383,19 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>SILA PILIH</option>
-                    {pilihanTahunTingkatan ? (
-                      kelasPelajar.map((singleNamaKelas, index) => {
-                        return (
-                          <option
-                            value={singleNamaKelas}
-                            key={index}
-                            className='capitalize'
-                          >
-                            {singleNamaKelas}
-                          </option>
-                        );
-                      })
-                    ) : (
-                      <option value=''>SILA PILIH TAHUN</option>
-                    )}
+                    {pilihanTahunTingkatan
+                      ? kelasPelajar.map((singleNamaKelas, index) => {
+                          return (
+                            <option
+                              value={singleNamaKelas}
+                              key={index}
+                              className='capitalize'
+                            >
+                              {singleNamaKelas}
+                            </option>
+                          );
+                        })
+                      : null}
                   </select>
                 </span>
               </p>
