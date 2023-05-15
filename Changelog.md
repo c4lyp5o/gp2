@@ -15,7 +15,7 @@
 
 #### Fixed
 
-- Penambahan pemengemaskinian taska & tadika sama ada Kerajaan atau Swasta di Pentadbir daerah
+- Penambahan pengemaskinian taska dan tadika sama ada Kerajaan atau Swasta di peringkat Pentadbir Daerah
 
 #### Removed
 
