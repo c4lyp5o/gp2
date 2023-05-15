@@ -2,6 +2,7 @@ const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const fasilitiSchema = new Schema({
+  // main header -----------------------------------------------------------------
   nama: {
     type: String,
   },
@@ -14,12 +15,6 @@ const fasilitiSchema = new Schema({
   jenisFasiliti: {
     type: String,
   },
-  // klinik
-  statusRoleKlinik: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  // fasiliti2 lain
   handler: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -32,53 +27,12 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // sr sm
-  idInstitusi: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  kodSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  sesiTakwimSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  jenisPerkhidmatanSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  statusFMRSekolah: {
-    type: String,
-    default: 'tidak',
-  },
-  statusFMRTelahDaftarDarjahSatu: {
-    type: Boolean,
-    default: false,
-  },
-  sekolahSelesaiReten: {
-    type: Boolean,
-    default: false,
-  },
-  melaksanakanBegin: {
-    type: Boolean,
-    default: false,
-  },
-  risikoSekolahPersis: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  tarikhMulaSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
-  // kkia
+  // kkiakd -----------------------------------------------------------------------
   kodKkiaKd: {
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // tas tad
+  // taska, tadika ----------------------------------------------------------------
   kodTastad: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -107,16 +61,51 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // institusi
-  kategoriInstitusi: {
+  // sekolah-rendah, sekolah-menengah ----------------------------------------------
+  idInstitusi: {
     type: String,
     default: 'NOT APPLICABLE',
   },
-  enrolmenInstitusi: {
+  kodSekolah: {
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // MPB KPB
+  sesiTakwimSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jenisPerkhidmatanSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  sekolahSelesaiReten: {
+    type: Boolean,
+    default: false,
+  },
+  tarikhMulaSekolah: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // sr sm => PERSiS
+  risikoSekolahPersis: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // sr sm => KOHORT FMR
+  statusFMRSekolah: {
+    type: String,
+    default: 'tidak',
+  },
+  statusFMRTelahDaftarDarjahSatu: {
+    type: Boolean,
+    default: false,
+  },
+  // sr sm => BEGIN
+  melaksanakanBegin: {
+    type: Boolean,
+    default: false,
+  },
+  // kp-bergerak makmal-pergigian ------------------------------------------------
   subJenisKPBMPB: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -124,6 +113,24 @@ const fasilitiSchema = new Schema({
   penggunaanKPBMPB: {
     type: Array,
     default: [],
+  },
+  // tak pakai pun ni, recheck betul2 nnti boleh comment out
+  // klinik -----------------------------------------------------------------------
+  // dah ada dalam User model
+  statusRoleKlinik: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  // institusi --------------------------------------------------------------------
+  // dah ada dalam Event model
+  kategoriInstitusi: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmenInstitusi: {
+    // dah ada dalam Even model
+    type: String,
+    default: 'NOT APPLICABLE',
   },
 });
 

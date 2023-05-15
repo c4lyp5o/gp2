@@ -4,6 +4,7 @@ import { FaBars, FaArrowAltCircleUp } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../context/userAppContext';
 
+import jatanegara from '../../assets/Jata_MalaysiaV2.svg';
 function UserNavbar() {
   const { userinfo } = useGlobalUserAppContext();
 
@@ -51,7 +52,7 @@ function UserNavbar() {
           <div className='lg:hidden grid grid-rows-[50px_10px_10px] h-48 gap-1 text-center pt-24'>
             <img
               className='w-full h-full'
-              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              src={jatanegara}
               alt='missing jata negara'
             />
             <p className='uppercase text-[0.65rem]'>
@@ -169,23 +170,19 @@ function UserNavbar() {
                     PROMOSI KLINIK
                   </NavLink>
                 )}
-                {import.meta.env.VITE_ENV === 'TRAINING' ||
-                import.meta.env.VITE_ENV === 'UNSTABLE' ||
-                import.meta.env.VITE_ENV === 'DEV' ? (
-                  <NavLink
-                    to='kohort'
-                    onClick={() => {
-                      setShowLinks(!showLinks);
-                    }}
-                    className={({ isActive }) =>
-                      isActive
-                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                    }
-                  >
-                    KOHORT
-                  </NavLink>
-                ) : null}
+                <NavLink
+                  to='kohort'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                  }
+                >
+                  KOHORT
+                </NavLink>
               </div>
             </div>
             {/* {reliefUserToken ? null : (
@@ -278,6 +275,22 @@ function UserNavbar() {
                 >
                   CARIAN PESAKIT
                 </NavLink>
+                {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                import.meta.env.VITE_ENV === 'DEV' ? (
+                  <NavLink
+                    to='carian/sekolah'
+                    onClick={() => {
+                      setShowLinks(!showLinks);
+                    }}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    }
+                  >
+                    CARIAN MURID SEKOLAH
+                  </NavLink>
+                ) : null}
                 <NavLink
                   to='carian/promosi'
                   onClick={() => {

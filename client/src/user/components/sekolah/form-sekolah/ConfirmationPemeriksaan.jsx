@@ -46,6 +46,7 @@ const ConfirmModal = ({ children, data }) => {
 
   const closeSelesai = () => {
     setOpenSelesai(false);
+    setOpen(false);
   };
 
   return (

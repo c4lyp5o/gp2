@@ -1,5 +1,26 @@
 # Changelog
 
+### 11/5/2023 (v2.1.0)
+
+#### Added
+
+- Membuka submodul Sekolah di modul Pengguna
+- Membuka submodul Kohort KOTAK di modul Pengguna
+- Pentadbir daerah boleh memilih sekolah di modul Pentadbir
+- Mengemaskini soalan-soalan FAQ sistem Gi-Ret 2.0
+
+#### Changed
+
+- Token penjanaan reten bagi Pentadbir negeri, daerah & klinik diubah kepada 200, 50 dan 25
+
+#### Fixed
+
+- Penambahan pemengemaskinian taska & tadika sama ada Kerajaan atau Swasta di Pentadbir daerah
+
+#### Removed
+
+- Tidak lagi memaparkan email di notifikasi ketika ingin log masuk ke dalam modul Pentadbir bagi semua peringkat
+
 ### 17/4/2023 (v2.0.19)
 
 #### Changed

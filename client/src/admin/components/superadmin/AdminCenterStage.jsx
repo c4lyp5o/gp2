@@ -112,7 +112,8 @@ function MainChart({ data, accountType }) {
 }
 
 export default function AdminCenterStage(props) {
-  const { toast, getAllNegeriAndDaerah, navigate } = useGlobalAdminAppContext();
+  const { toast, loginInfo, getAllNegeriAndDaerah, navigate } =
+    useGlobalAdminAppContext();
   const [data, setData] = useState(null);
 
   const init = useRef(false);
@@ -137,14 +138,14 @@ export default function AdminCenterStage(props) {
   return (
     <>
       <div className='justify-center items-center text-xl font-semibold mt-10 space-y-5'>
-        {props.loginInfo.accountType === 'daerahSuperadmin' ||
-        props.loginInfo.accountType === 'negeriSuperadmin' ? (
+        {loginInfo.accountType === 'daerahSuperadmin' ||
+        loginInfo.accountType === 'negeriSuperadmin' ? (
           <h1>
             Selamat datang, pentadbir{' '}
-            {props.loginInfo.accountType === 'daerahSuperadmin' ? (
-              <span>daerah {props.loginInfo.daerah}</span>
+            {loginInfo.accountType === 'daerahSuperadmin' ? (
+              <span>daerah {loginInfo.daerah}</span>
             ) : (
-              <span>negeri {props.loginInfo.negeri}</span>
+              <span>negeri {loginInfo.negeri}</span>
             )}
           </h1>
         ) : (
@@ -158,14 +159,14 @@ export default function AdminCenterStage(props) {
             <div className='w-72 rounded overflow-hidden shadow-xl m-2 justify-center flex flex-col'>
               <img
                 className={`w-1/2 mx-auto ${
-                  props.loginInfo.accountType !== 'daerahSuperadmin'
+                  loginInfo.accountType !== 'daerahSuperadmin'
                     ? 'hover:cursor-pointer hover:outline-admin3 hover:outline-none hover:outline-solid hover:outline-2'
                     : ''
                 } mt-3`}
                 alt={item.namaNegeri}
                 src={FlagsDictionary[item.namaNegeri]}
                 onClick={() => {
-                  if (props.loginInfo.accountType !== 'daerahSuperadmin') {
+                  if (loginInfo.accountType !== 'daerahSuperadmin') {
                     navigate(
                       `/pentadbir/landing/negeri?idn=${item.namaNegeri}`
                     );
@@ -216,7 +217,7 @@ export default function AdminCenterStage(props) {
               {data.length > 0 && (
                 <MainChart
                   data={item}
-                  accountType={props.loginInfo.accountType}
+                  accountType={loginInfo.accountType}
                 />
               )}
             </div>

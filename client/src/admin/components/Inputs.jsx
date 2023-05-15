@@ -777,7 +777,8 @@ export function InputPegawai(props) {
 }
 
 export function InputFacility(props) {
-  const { Dictionary, DictionaryHurufNegeri } = useGlobalAdminAppContext();
+  const { Dictionary, DictionaryHurufNegeri, toast } =
+    useGlobalAdminAppContext();
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -801,6 +802,13 @@ export function InputFacility(props) {
             <div className={styles.modalContent}>
               <div className='px-3 py-1'>
                 <div className='mb-3'>
+                  {(props.FType === 'sm' || props.FType === 'sr') &&
+                    props.addingData && (
+                      <div className='text-user9 uppercase font-bold'>
+                        Mohon jangan tutup tetingkap ini sebelum proses menambah
+                        sekolah selesai, terima kasih
+                      </div>
+                    )}
                   {(props.FType === 'sm' || props.FType === 'sr') &&
                     props.statusMOEIS === true && (
                       <>
@@ -856,7 +864,7 @@ export function InputFacility(props) {
                       </p>
                     </div>
                   )}
-                  {props.FType !== 'sr' && props.FType !== 'sm' ? (
+                  {props.FType !== 'sr' && props.FType !== 'sm' && (
                     <div>
                       <input
                         required
@@ -867,32 +875,134 @@ export function InputFacility(props) {
                         onChange={(e) => props.setName(e.target.value)}
                       />
                     </div>
-                  ) : (
-                    <div>
-                      <select
-                        required
-                        id='institusi'
-                        name='institusi'
-                        onChange={(e) => {
-                          props.setName(e.target.value);
-                          const index = e.target.selectedIndex;
-                          const el = e.target.childNodes[index];
-                          props.setIdInstitusi(el.getAttribute('id'));
-                          props.setKodSekolah(el.getAttribute('data-kod'));
-                        }}
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  )}
+                  {(props.FType === 'sr' || props.FType === 'sm') && (
+                    <div className='grid gap-1'>
+                      <label
+                        htmlFor='default-search'
+                        className='mb-2 text-sm font-medium text-gray-900 sr-only dark:text-gray-300'
                       >
-                        <option value=''>Pilih Sekolah</option>
-                        {props.sekolah.map((s) => (
-                          <option
-                            value={s.NAMA_INSTITUSI}
-                            id={s.ID_INSTITUSI}
-                            data-kod={s.KOD_INSTITUSI}
+                        Cari
+                      </label>
+                      <div className='relative'>
+                        <div className='flex absolute inset-y-0 left-0 items-center pl-3 pointer-events-none'>
+                          <svg
+                            aria-hidden='true'
+                            className='w-5 h-3 text-gray-500 dark:text-gray-400'
+                            fill='none'
+                            stroke='currentColor'
+                            viewBox='0 0 24 24'
+                            xmlns='http://www.w3.org/2000/svg'
                           >
-                            {s.NAMA_INSTITUSI}
-                          </option>
-                        ))}
-                      </select>
+                            <path
+                              strokeLinecap='round'
+                              strokeLinejoin='round'
+                              strokeWidth='2'
+                              d='M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z'
+                            ></path>
+                          </svg>
+                        </div>
+                        <input
+                          autoFocus
+                          value={props.carianNama}
+                          type='search'
+                          className='block p-4 pl-10 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500'
+                          placeholder='Cari sekolah...'
+                          onChange={(e) => {
+                            props.setCarianNama(e.target.value);
+                          }}
+                        />
+                        {props.searching === false ? (
+                          <button
+                            type='button'
+                            className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                            onClick={(e) => {
+                              e.preventDefault();
+                              if (!props.carianNama) {
+                                toast.error('Sila isi nama / kod sekolah');
+                                return;
+                              }
+                              props.setSearching(true);
+                              props.setFilteredSekolah([]);
+                              const filteredSekolah = props.sekolah.filter(
+                                (sekolah) => {
+                                  return (
+                                    sekolah.NAMA_INSTITUSI.toLowerCase().includes(
+                                      props.carianNama.toLowerCase()
+                                    ) ||
+                                    sekolah.KOD_INSTITUSI.toLowerCase().includes(
+                                      props.carianNama.toLowerCase()
+                                    )
+                                  );
+                                }
+                              );
+                              props.setFilteredSekolah(filteredSekolah);
+                              props.setSearching(false);
+                            }}
+                          >
+                            Cari
+                          </button>
+                        ) : (
+                          <>
+                            <button
+                              type='button'
+                              className='text-white absolute right-2.5 bottom-2.5 bg-admin3 hover:bg-admin4 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-4 py-2'
+                              disabled={true}
+                            >
+                              <svg
+                                className='animate-spin -ml-1 mr-3 h-5 w-5 text-white'
+                                xmlns='http://www.w3.org/2000/svg'
+                                fill='none'
+                                viewBox='0 0 24 24'
+                              >
+                                <circle
+                                  className='opacity-25'
+                                  cx='12'
+                                  cy='12'
+                                  r='10'
+                                  stroke='currentColor'
+                                  strokeWidth='4'
+                                ></circle>
+                                <path
+                                  className='opacity-75'
+                                  fill='currentColor'
+                                  d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                                ></path>
+                              </svg>
+                            </button>
+                          </>
+                        )}
+                      </div>
+                      {props.filteredSekolah.length > 0 ? (
+                        <>
+                          <select
+                            required
+                            id='institusi'
+                            name='institusi'
+                            onChange={(e) => {
+                              props.setName(e.target.value);
+                              const index = e.target.selectedIndex;
+                              const el = e.target.childNodes[index];
+                              props.setIdInstitusi(el.getAttribute('id'));
+                              props.setKodSekolah(el.getAttribute('data-kod'));
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Pilih Sekolah</option>
+                            {props.filteredSekolah.map((s) => (
+                              <option
+                                value={s.NAMA_INSTITUSI}
+                                id={s.ID_INSTITUSI}
+                                data-kod={s.KOD_INSTITUSI}
+                              >
+                                {s.NAMA_INSTITUSI} | {s.KOD_INSTITUSI} | {s.PPD}
+                              </option>
+                            ))}
+                          </select>
+                        </>
+                      ) : (
+                        <span>Tiada Sekolah / Kod Sekolah dijumpai</span>
+                      )}
                     </div>
                   )}
                   {(props.FType === 'taska' || props.FType === 'tadika') && (
@@ -911,8 +1021,8 @@ export function InputFacility(props) {
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
                             <option value=''>Pilih kategori..</option>
-                            <option value='kerajaan'>Kerajaan</option>
-                            <option value='swasta'>Swasta</option>
+                            <option value='Kerajaan'>Kerajaan</option>
+                            <option value='Swasta'>Swasta</option>
                           </select>
                         </div>
                       </div>
@@ -975,7 +1085,7 @@ export function InputFacility(props) {
                                 value={
                                   props.govKe === ''
                                     ? ''
-                                    : props.govKe === 'kerajaan'
+                                    : props.govKe === 'Kerajaan'
                                     ? 'K'
                                     : 'S'
                                 }
@@ -1017,8 +1127,7 @@ export function InputFacility(props) {
                         <div>
                           <input
                             required
-                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                             type='text'
                             name='catatan'
                             id='catatan'
@@ -1084,8 +1193,7 @@ export function InputFacility(props) {
                       <div className='grid gap-1 mb-3'>
                         <input
                           required
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           type='text'
                           name='nama'
                           id='nama'
@@ -1204,8 +1312,7 @@ export function InputEvent(props) {
                     </p> */}
                   {/* <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='date'
                         name='tarikh'
                         id='tarikh'
@@ -1327,8 +1434,7 @@ export function InputEvent(props) {
                   <div className='grid gap-1'>
                     <input
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       type='text'
                       name='nama'
                       id='nama'
@@ -1345,8 +1451,7 @@ export function InputEvent(props) {
                     <div className='grid gap-1'>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='text'
                         name='nama'
                         id='nama'
@@ -1563,8 +1668,7 @@ export function InputEditPegawai(props) {
                 <input
                   required
                   defaultValue={props.editedEntity.email}
-                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   type='text'
                   name='email'
                   id='email'
@@ -1756,108 +1860,118 @@ export function InputEditFacility(props) {
             <div className='px-3 py-1'>
               <div className='grid gap-1'>
                 {props.FType !== 'kpb' && props.FType !== 'mp' ? (
-                  <p>
-                    Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
-                  </p>
+                  <div>
+                    Nama {Dictionary[props.FType]}:{' '}
+                    <span className='font-bold'>{props.editedEntity.nama}</span>{' '}
+                  </div>
                 ) : (
-                  <p>
+                  <div>
                     Nombor Plat {Dictionary[props.FType]}:{' '}
-                    {props.editedEntity.nama}{' '}
+                    <span className='font-bold'>{props.editedEntity.nama}</span>{' '}
+                  </div>
+                )}
+                <div>
+                  <p>
+                    Klinik Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-admin3'>*</span>
                   </p>
-                )}
-                <br />
-                <p>
-                  Klinik Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-admin3'>*</span>
-                </p>
-                <select
-                  value={props.editedEntity.kodFasilitiHandler}
-                  onChange={(e) => {
-                    const selectedKlinik = props.klinik.find(
-                      (k) => k.kodFasiliti === e.target.value
-                    );
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handler: selectedKlinik.kp,
-                      kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                    });
-                  }}
-                  className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                >
-                  <option value=''>Pilih Klinik Baru..</option>
-                  {props.klinik.map((k) => (
-                    <option className='capitalize' value={k.kodFasiliti}>
-                      {k.kp}
-                    </option>
-                  ))}
-                </select>
-                {props.FType !== 'sr' && props.FType !== 'sm' ? null : (
-                  <>
-                    <p>
-                      Risiko Sekolah (PERSiS){' '}
-                      <span className='font-semibold text-lg text-user6'>
-                        *
-                      </span>
-                    </p>
-                    <select
-                      required
-                      value={props.editedEntity.risikoSekolahPersis}
-                      onChange={(e) => {
-                        props.setEditedEntity({
-                          ...props.editedEntity,
-                          risikoSekolahPersis: e.target.value,
-                        });
-                      }}
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    >
-                      <option value=''>Pilih Risiko</option>
-                      <option value='rendah'>Rendah</option>
-                      <option value='tinggi'>Tinggi</option>
-                    </select>
-                  </>
-                )}
-                <p>
-                  Status {Dictionary[props.FType]}{' '}
-                  <span className='font-semibold text-lg text-admin3'>*</span>
-                </p>
-                <div className='grid grid-cols-2'>
-                  <label htmlFor='statusAktif'>Aktif</label>
-                  <input
-                    checked={
-                      props.editedEntity.statusPerkhidmatan === 'active'
-                        ? true
-                        : false
-                    }
-                    type='radio'
-                    name='statusAktif'
-                    value='active'
+                  <select
+                    value={props.editedEntity.kodFasilitiHandler}
                     onChange={(e) => {
+                      const selectedKlinik = props.klinik.find(
+                        (k) => k.kodFasiliti === e.target.value
+                      );
                       props.setEditedEntity({
                         ...props.editedEntity,
-                        statusPerkhidmatan: e.target.value,
+                        handler: selectedKlinik.kp,
+                        kodFasilitiHandler: selectedKlinik.kodFasiliti,
                       });
                     }}
-                  />
-                  <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
-                  <input
-                    checked={
-                      props.editedEntity.statusPerkhidmatan === 'non-active'
-                        ? true
-                        : false
-                    }
-                    type='radio'
-                    name='statusTidakAktif'
-                    value='non-active'
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        statusPerkhidmatan: e.target.value,
-                      });
-                    }}
-                  />
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>Pilih Klinik Baru..</option>
+                    {props.klinik.map((k) => (
+                      <option className='capitalize' value={k.kodFasiliti}>
+                        {k.kp}
+                      </option>
+                    ))}
+                  </select>
                 </div>
-                {props.FType !== 'sr' ? null : (
-                  <>
+                {(props.FType === 'sr' || props.FType === 'sm') && (
+                  <div>
+                    <div>
+                      <p>
+                        Risiko Sekolah (PERSiS){' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <select
+                        required
+                        value={props.editedEntity.risikoSekolahPersis}
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            risikoSekolahPersis: e.target.value,
+                          });
+                        }}
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      >
+                        <option value=''>Pilih Risiko</option>
+                        <option value='rendah'>Rendah</option>
+                        <option value='tinggi'>Tinggi</option>
+                      </select>
+                    </div>
+                    <div>
+                      <p>
+                        Klinik / Pusat Pergigian Sekolah{' '}
+                        <span className='font-semibold text-lg text-user6'>
+                          *
+                        </span>
+                      </p>
+                      <div className='grid grid-cols-2'>
+                        <label htmlFor='nama'>Ya</label>
+                        <input
+                          required
+                          type='radio'
+                          checked={
+                            props.editedEntity.jenisPerkhidmatanSekolah ===
+                            'kps'
+                          }
+                          id='act-stat'
+                          name='checkbox'
+                          value='kps'
+                          onChange={(e) =>
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              jenisPerkhidmatanSekolah: e.target.value,
+                            })
+                          }
+                        />
+                        <label htmlFor='nama'>Tidak</label>
+                        <input
+                          required
+                          type='radio'
+                          checked={
+                            props.editedEntity.jenisPerkhidmatanSekolah ===
+                            'kpb'
+                          }
+                          id='act-stat'
+                          name='checkbox'
+                          value='kpb'
+                          onChange={(e) =>
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              jenisPerkhidmatanSekolah: e.target.value,
+                            })
+                          }
+                        />
+                      </div>
+                    </div>
+                  </div>
+                )}
+                {props.FType === 'sr' && (
+                  <div>
                     <p>
                       Program Kumuran Berflourida{' '}
                       <span className='font-semibold text-lg text-admin3'>
@@ -1900,8 +2014,82 @@ export function InputEditFacility(props) {
                         }}
                       />
                     </div>
-                  </>
+                  </div>
                 )}
+                {/* GOV KE */}
+                {props.FType !== 'taska' && props.FType !== 'tadika' ? null : (
+                  <div className='grid gap-2'>
+                    <div>
+                      Kategori {props.FType}
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </div>
+                    <div>
+                      <select
+                        required
+                        onChange={(e) =>
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            govKe: e.target.value,
+                          })
+                        }
+                        value={
+                          props.editedEntity.govKe
+                            ? props.editedEntity.govKe
+                            : ''
+                        }
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      >
+                        <option value=''>Pilih kategori..</option>
+                        <option value='Kerajaan'>Kerajaan</option>
+                        <option value='Swasta'>Swasta</option>
+                      </select>
+                    </div>
+                  </div>
+                )}
+                <div>
+                  <p>
+                    Status {Dictionary[props.FType]}{' '}
+                    <span className='font-semibold text-lg text-admin3'>*</span>
+                  </p>
+                  <div className='grid grid-cols-2'>
+                    <label htmlFor='statusAktif'>Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusAktif'
+                      value='active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                      }}
+                    />
+                    <label htmlFor='statusTidakAktif'>Tidak Aktif</label>
+                    <input
+                      checked={
+                        props.editedEntity.statusPerkhidmatan === 'non-active'
+                          ? true
+                          : false
+                      }
+                      type='radio'
+                      name='statusTidakAktif'
+                      value='non-active'
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          statusPerkhidmatan: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                </div>
               </div>
             </div>
             <div className={styles.modalActions}>
@@ -1927,7 +2115,9 @@ export function InputEditFacility(props) {
 }
 
 export function InputEditEvent(props) {
-  const [jenisEventDd, setJenisEventDd] = useState('');
+  const [jenisEventDd, setJenisEventDd] = useState(
+    props.editedEntity.jenisEvent
+  );
   return (
     <>
       <form onSubmit={props.confirm(props.handleSubmit)}>
@@ -1957,8 +2147,7 @@ export function InputEditEvent(props) {
                     </p> */}
                   {/* <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='date'
                         name='tarikh'
                         id='tarikh'
@@ -1981,8 +2170,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.jenisEvent}
                       onChange={(e) => {
                         props.setEditedEntity({
@@ -2030,8 +2218,7 @@ export function InputEditEvent(props) {
                       </p>
                       <select
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={props.editedEntity.kategoriInstitusi}
                         onChange={(e) =>
                           props.setEditedEntity({
@@ -2096,8 +2283,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <input
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.nama}
                       type='text'
                       name='nama'
@@ -2120,8 +2306,7 @@ export function InputEditEvent(props) {
                     <div className='grid gap-1'>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={props.editedEntity.tempat}
                         type='text'
                         name='nama'
@@ -2142,8 +2327,7 @@ export function InputEditEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={props.editedEntity.createdByKodFasiliti}
                       onChange={(e) => {
                         const selectedKlinik = props.klinik.find(
@@ -2190,27 +2374,27 @@ export function InputEditEvent(props) {
 }
 
 export function InputKpAddEvent(props) {
-  const { getCurrentUser, toast } = useGlobalAdminAppContext();
+  const { loginInfo, getCurrentUser, toast } = useGlobalAdminAppContext();
 
-  const [loginInfo, setLoginInfo] = useState({
-    negeri: 'SIAPA NEGERI KAU HA???', // initial state ni kena ada, kalau x nanti dia error
-  });
+  // const [loginInfo, setLoginInfo] = useState({
+  //   negeri: 'SIAPA NEGERI KAU HA???', // initial state ni kena ada, kalau x nanti dia error
+  // });
 
-  useEffect(() => {
-    const getUser = async () => {
-      const res = await getCurrentUser();
-      setLoginInfo({
-        ...res.data,
-        isLoggedIn: true,
-      });
-    };
-    getUser().catch((err) => {
-      console.log(err);
-      // toast.error(
-      //   'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: input-kp-tambah-program'
-      // );
-    });
-  }, []);
+  // useEffect(() => {
+  //   const getUser = async () => {
+  //     const res = await getCurrentUser();
+  //     setLoginInfo({
+  //       ...res.data,
+  //       isLoggedIn: true,
+  //     });
+  //   };
+  //   getUser().catch((err) => {
+  //     console.log(err);
+  //     // toast.error(
+  //     //   'Uh oh, server kita mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: input-kp-tambah-program'
+  //     // );
+  //   });
+  // }, []);
 
   return (
     <>
@@ -2240,8 +2424,7 @@ export function InputKpAddEvent(props) {
                   <div className='grid gap-1'>
                     <select
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       onChange={(e) => {
                         props.setJenisEvent(e.target.value);
                       }}
@@ -2262,7 +2445,7 @@ export function InputKpAddEvent(props) {
                         <option value='fds'>Flying Dental Service</option>
                       )}
                       {loginInfo.negeri === 'Kelantan' && (
-                        <option value='rtc'>RTC Kelantan , Tunjung</option>
+                        <option value='rtc'>RTC Kelantan, Tunjung</option>
                       )}
                       {/* {206,207} shaja(sementara je tpi smpai bulan 3)***data jgn buang *****data tak masuk ke program koumniti & sekolah & pg211
                       <option value='incremental'>
@@ -2284,8 +2467,7 @@ export function InputKpAddEvent(props) {
                       <input
                         autoFocus
                         type='text'
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         value={
                           props.editedEntity.enrolmenInstitusi ===
                           'NOT APPLICABLE'
@@ -2344,8 +2526,7 @@ export function InputKpAddEvent(props) {
                         <select
                           name='kpb'
                           id='kpb'
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           value={props.editedEntity.penggunaanKpb}
                           onChange={(e) => {
                             props.setEditedEntity({
@@ -2385,8 +2566,7 @@ export function InputKpAddEvent(props) {
                         <select
                           name='mpb'
                           id='mpb'
-                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                          className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           value={props.editedEntity.penggunaanMpb}
                           onChange={(e) => {
                             props.setEditedEntity({
@@ -2414,8 +2594,7 @@ export function InputKpAddEvent(props) {
                     </p>
                     <input
                       required
-                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       type='text'
                       name='nama'
                       id='nama'
@@ -2433,8 +2612,7 @@ export function InputKpAddEvent(props) {
                     <div className='grid gap-1'>
                       <input
                         required
-                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                        className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                         type='text'
                         name='nama'
                         id='nama'

@@ -58,6 +58,9 @@ export default function Tastad(props) {
                   Status
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Kategori
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Alamat {Dictionary[props.FType]}
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
@@ -93,6 +96,22 @@ export default function Tastad(props) {
                       ) : (
                         <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Tidak Aktif
+                        </span>
+                      )}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.govKe === 'Kerajaan' ? (
+                        <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                          Kerajaan
+                        </span>
+                      ) : f.govKe === 'Swasta' ? (
+                        <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          Swasta
+                        </span>
+                      ) : (
+                        <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          {' '}
+                          -{' '}
                         </span>
                       )}
                     </td>

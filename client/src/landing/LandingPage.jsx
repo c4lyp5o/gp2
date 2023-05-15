@@ -1,6 +1,7 @@
 import { useState, useRef, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { FaArrowAltCircleUp, FaBell } from 'react-icons/fa';
+import jatanegara from '../assets/Jata_MalaysiaV2.svg';
 
 function LandingPage() {
   const [showKlinikSubMenu, setShowKlinikSubMenu] = useState(false);
@@ -46,7 +47,7 @@ function LandingPage() {
           <div className='grid grid-rows-[50px_10px_10px] md:gap-1 text-center col-start-1 md:col-start-2 md:justify-end'>
             <img
               className='w-full h-full'
-              src='https://upload.wikimedia.org/wikipedia/commons/9/94/Jata_MalaysiaV2.svg'
+              src={jatanegara}
               alt='missing jata negara'
             />
             <p className='uppercase text-[0.55rem] lg:text-[0.65rem]'>
@@ -66,13 +67,6 @@ function LandingPage() {
         <div className='hidden md:grid grid-rows-2 text-2xl font-bold text-start'>
           <h1 className='row-span-2 mb-3'>sistem gi-Ret 2.0</h1>
           <span className='ml-10 text-user6'>{import.meta.env.VITE_ENV}</span>
-          <span className='hidden lg:block'>
-            <img
-              className='-my-14 mx-52'
-              src='https://upload.wikimedia.org/wikipedia/commons/7/71/Ketupat.svg'
-              alt='missing ketupat kanan'
-            />
-          </span>
         </div>
       </div>
       {/* <div ref={notificationRef}>

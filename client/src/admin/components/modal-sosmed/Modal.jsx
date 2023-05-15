@@ -105,7 +105,7 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
   });
 };
 
-//modal add followers
+// modal add followers
 export const ModalAddFollowers = (props) => {
   const { createDataForKp } = useGlobalAdminAppContext();
 
@@ -233,146 +233,74 @@ export const ModalAddFollowers = (props) => {
   );
 };
 
+// modal add aktiviti media sosial
 export const ModalSosMed = (props) => {
   const { toast, createData, createDataForKp, readKodProgramData } =
     useGlobalAdminAppContext();
 
-  const [pilihanKodProgram, setPilihanKodProgram] = useState([]);
+  const [programPromosi, setProgramPromosi] = useState({
+    jenisProgram: [],
+    allProgramPromosi: [],
+  });
+  const [pilihanJenisProgram, setPilihanJenisProgram] = useState([]);
   const [pilihanMediaSosial, setPilihanMediaSosial] = useState([]);
   const [questionState, setQuestionState] = useState([]);
+
   // data
   const [addingData, setAddingData] = useState(false);
 
   const handleSubmit = async (e) => {
     setAddingData(true);
-    let Data = {};
-    let newData = {};
-    let fbData = {};
-    let insData = {};
-    let ytData = {};
-    let ttData = {};
-    let twData = {};
-    let llData = {};
-    let facebook = [];
-    let instagram = [];
-    let youtube = [];
-    let tiktok = [];
-    let twitter = [];
-    let lainLain = [];
-    Object.keys(questionState).map((key, value) => {
-      if (key.includes('Facebook')) {
-        fbData = {
-          ...fbData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Instagram')) {
-        insData = {
-          ...insData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Youtube')) {
-        ytData = {
-          ...ytData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('TikTok')) {
-        ttData = {
-          ...ttData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Twitter')) {
-        twData = {
-          ...twData,
-          [key]: questionState[key],
-        };
-      } else if (key.includes('Lain-lain')) {
-        llData = {
-          ...llData,
-          [key]: questionState[key],
-        };
-      }
-    });
-    //
-    if (Object.keys(fbData).length !== 0) {
-      facebook = [...facebook, fbData];
-    }
-    if (Object.keys(insData).length !== 0) {
-      instagram = [...instagram, insData];
-    }
-    if (Object.keys(ytData).length !== 0) {
-      youtube = [...youtube, ytData];
-    }
-    if (Object.keys(ttData).length !== 0) {
-      tiktok = [...tiktok, ttData];
-    }
-    if (Object.keys(twData).length !== 0) {
-      twitter = [...twitter, twData];
-    }
-    if (Object.keys(llData).length !== 0) {
-      lainLain = [...lainLain, llData];
-    }
-    //
-    newData = {
-      ...newData,
+
+    const newData = {
       kodProgram: questionState.kodProgram,
       namaAktiviti: questionState.namaAktiviti,
       tarikhMula: questionState.tarikhMula,
       tarikhAkhir: questionState.tarikhAkhir,
-      facebook,
-      instagram,
-      youtube,
-      tiktok,
-      twitter,
-      lainLain,
+      facebook: [],
+      instagram: [],
+      youtube: [],
+      tiktok: [],
+      twitter: [],
+      lainLain: [],
     };
-    //
-    Data = {
-      ...Data,
+
+    Object.entries(questionState).forEach(([key, value]) => {
+      if (key.includes('Facebook')) {
+        newData.facebook.push({ [key]: value });
+      } else if (key.includes('Instagram')) {
+        newData.instagram.push({ [key]: value });
+      } else if (key.includes('Youtube')) {
+        newData.youtube.push({ [key]: value });
+      } else if (key.includes('TikTok')) {
+        newData.tiktok.push({ [key]: value });
+      } else if (key.includes('Twitter')) {
+        newData.twitter.push({ [key]: value });
+      } else if (key.includes('Lain-lain')) {
+        newData.lainLain.push({ [key]: value });
+      }
+    });
+
+    const data = {
       createdByKp: props.kp,
       createdByDaerah: props.daerah,
       createdByNegeri: props.negeri,
       kodProgram: questionState.kodProgram,
       data: [newData],
+      belongsTo: props.kp || props.daerah || props.negeri,
     };
-    if (props.kp) {
-      Data = {
-        ...Data,
-        belongsTo: props.kp,
-      };
-      createDataForKp(props.FType, Data).then((res) => {
-        if (res.status === 200) {
-          toast.info(`Data berjaya ditambah`);
-          props.setReload(!props.reload);
-        } else {
-          toast.error(`Data tidak berjaya ditambah`);
-        }
-        props.setShowSosMedModal(false);
-        setAddingData(false);
-      });
-      return;
+
+    const res = await createData(props.FType, data);
+
+    if (res.status === 200) {
+      toast.info(`Data berjaya ditambah`);
+      props.setReload(!props.reload);
+    } else {
+      toast.error(`Data tidak berjaya ditambah`);
     }
-    if (!props.kp) {
-      Data = {
-        ...Data,
-        belongsTo: props.daerah,
-      };
-    }
-    if (!props.daerah) {
-      Data = {
-        ...Data,
-        belongsTo: props.negeri,
-      };
-    }
-    createData(props.FType, Data).then((res) => {
-      if (res.status === 200) {
-        toast.info(`Data berjaya ditambah`);
-        props.setReload(!props.reload);
-      } else {
-        toast.error(`Data tidak berjaya ditambah`);
-      }
-      props.setShowSosMedModal(false);
-      setAddingData(false);
-    });
+
+    props.setShowSosMedModal(false);
+    setAddingData(false);
   };
 
   const propsSosMed = {
@@ -381,13 +309,26 @@ export const ModalSosMed = (props) => {
   };
 
   useEffect(() => {
-    readKodProgramData().then((res) => {
-      if (res.status === 200) {
-        setPilihanKodProgram(res.data);
+    const fetchAllProgramPromosi = async () => {
+      try {
+        const { data } = await readKodProgramData();
+        const withoutDuplicateJenisProgram = data.map((a) => a.jenisProgram);
+        const withoutDuplicate = [...new Set(withoutDuplicateJenisProgram)];
+        setProgramPromosi({
+          jenisProgram: withoutDuplicate,
+          allProgramPromosi: data,
+        });
+      } catch (error) {
+        console.log(error);
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-promosi-fetchAllProgramPromosi'
+        // );
       }
-    });
+    };
+    fetchAllProgramPromosi();
+
     return () => {
-      setPilihanKodProgram([]);
+      setPilihanJenisProgram([]);
       setPilihanMediaSosial([]);
       setQuestionState([]);
     };
@@ -409,26 +350,57 @@ export const ModalSosMed = (props) => {
             </h5>
             <div className='grid grid-row-3 mx-auto'>
               <div className='m-2'>
-                <p className='flex flex-row pl-1 text-sm font-semibold'>
-                  Kod Program :
-                </p>
-                <Select
-                  className='basic-single'
-                  classNamePrefix='select'
-                  placeholder='Sila pilih kod Program...'
-                  options={pilihanKodProgram}
-                  getOptionLabel={(option) =>
-                    `${option.kodProgram} - ${option.jenisProgram} - ${option.namaProgram}`
-                  }
-                  getOptionValue={(option) => option.kodProgram}
-                  isSearchable={true}
-                  onChange={(e) => {
-                    setQuestionState({
-                      ...questionState,
-                      kodProgram: e.kodProgram,
-                    });
-                  }}
-                />
+                <div className='grid grid-cols-4 gap-10'>
+                  <label
+                    htmlFor='jenis-program'
+                    className='flex flex-row pl-1 text-sm font-semibold'
+                  >
+                    jenis program :
+                  </label>
+                  <select
+                    type='text'
+                    name='jenis-program'
+                    id='jenis-program'
+                    value={pilihanJenisProgram}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    onChange={(e) => setPilihanJenisProgram(e.target.value)}
+                  >
+                    <option value=''>Sila Pilih</option>
+                    {programPromosi.jenisProgram.map((j) => (
+                      <option key={j} value={j}>
+                        {j}
+                      </option>
+                    ))}
+                  </select>
+                  <label
+                    htmlFor='kod-program'
+                    className='flex flex-row pl-1 text-sm font-semibold'
+                  >
+                    kod program :
+                  </label>
+                  <select
+                    type='text'
+                    value={questionState.kodProgram}
+                    onChange={(e) => {
+                      setQuestionState({
+                        ...questionState,
+                        kodProgram: e.target.value,
+                      });
+                    }}
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  >
+                    <option value=''>Sila Pilih</option>
+                    {programPromosi.allProgramPromosi
+                      .filter((p) => p.jenisProgram === pilihanJenisProgram)
+                      .map((p) => {
+                        return (
+                          <option value={p.kodProgram}>
+                            {p.kodProgram} | {p.namaProgram}
+                          </option>
+                        );
+                      })}
+                  </select>
+                </div>
               </div>
               <div className='flex justify-center mb-1 pl-3'>
                 <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
@@ -454,7 +426,7 @@ export const ModalSosMed = (props) => {
                   <span className='font-semibold text-user6'>*</span>
                 </p>
                 <input
-                  className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50  rounded-md uppercase flex flex-row mx-2'
+                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   type='text'
                   placeholder='Nama Aktiviti'
                   onChange={(e) => {

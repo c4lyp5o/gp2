@@ -28,11 +28,15 @@ const KohortFMRSchema = new mongoose.Schema(
       // required: true,
     },
     // FMR --------------------------------------------------
+    idIndividu: {
+      type: String,
+      default: '',
+    },
     nama: {
       type: String,
       default: '',
     },
-    ic: {
+    nomborId: {
       type: String,
       default: '',
     },
@@ -44,11 +48,11 @@ const KohortFMRSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    tahun: {
+    tahunTingkatan: {
       type: String,
       default: '',
     },
-    kelas: {
+    kelasPelajar: {
       type: String,
       default: '',
     },
@@ -57,14 +61,14 @@ const KohortFMRSchema = new mongoose.Schema(
       default: '',
       // required: true,
     },
-    tahunKohort: {
+    tahunKohortFMR: {
       type: String,
       default: '',
       // required: true,
     },
-    tarikhKumuranTerakhir: {
-      type: String,
-      default: '',
+    tarikhKumuranKohortFMR: {
+      type: Array,
+      default: [],
       // required: true,
     },
     jumlahKumuran: {

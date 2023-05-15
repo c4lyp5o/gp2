@@ -7,6 +7,7 @@ const {
   getAllPersonSekolahFaceted,
   getSinglePersonSekolahWithPopulate,
   kemaskiniSenaraiPelajar,
+  muatturunSenaraiPelajar,
   createPersonSekolah,
   createPemeriksaanWithSetPersonSekolah,
   createRawatanWithPushPersonSekolah,
@@ -14,6 +15,7 @@ const {
   updateFasiliti,
   updatePersonSekolah,
   updatePemeriksaanSekolah,
+  updateRawatanSekolah,
   updateKotakSekolah,
   queryPersonSekolah,
 } = require('../controllers/sekolah');
@@ -36,6 +38,9 @@ router
 // GET kemaskini
 router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
 
+// GET muatturun
+router.route('/muatturun/:fasilitiId').get(muatturunSenaraiPelajar);
+
 // POST
 router
   .route('/pemeriksaan/:personSekolahId')
@@ -51,6 +56,7 @@ router.route('/ubah/:personSekolahId').patch(updatePersonSekolah);
 router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);
+router.route('rawatan/ubah/:rawatanSekolahId').patch(updateRawatanSekolah);
 router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
 
 module.exports = router;
