@@ -125,19 +125,23 @@ function UserNavbar() {
                 >
                   UMUM
                 </NavLink>
-                <NavLink
-                  to='senarai-sekolah'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                  }}
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                      : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
-                  }
-                >
-                  SEKOLAH
-                </NavLink>
+                {import.meta.env.VITE_ENV === 'TRAINING' ||
+                import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                import.meta.env.VITE_ENV === 'DEV' ? (
+                  <NavLink
+                    to='senarai-sekolah'
+                    onClick={() => {
+                      setShowLinks(!showLinks);
+                    }}
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'bg-user8 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                        : 'bg-user1 rounded-md shadow-xl p-3 my-0.5 mx-1 hover:bg-user8 transition-all'
+                    }
+                  >
+                    SEKOLAH
+                  </NavLink>
+                ) : null}
                 <NavLink
                   to='promosi-individu'
                   onClick={() => {
