@@ -1655,33 +1655,33 @@ const getData = async (req, res) => {
               createdByNegeri: negeri,
               sesiTakwimSekolah: sesiTakwimSekolah(),
             };
-            try {
-              const agent = new https.Agent({
-                rejectUnauthorized: false,
-              });
-              const { data } = await axios.get(
-                process.env.MOEIS_INTEGRATION_URL_PELAJAR +
-                  `?inid=${Data.idInstitusi}`,
-                {
-                  httpsAgent: agent,
-                  headers: {
-                    APIKEY: process.env.MOEIS_APIKEY,
-                  },
-                }
-              );
-              const dataCreatedSRSM = await Fasiliti.create(Data);
-              logger.info(
-                `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
-              );
-              // send response registered sekolah first so that client will not wait too long on loading
-              res.status(200).json(dataCreatedSRSM);
+            // try {
+            //   const agent = new https.Agent({
+            //     rejectUnauthorized: false,
+            //   });
+            //   const { data } = await axios.get(
+            //     process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+            //       `?inid=${Data.idInstitusi}`,
+            //     {
+            //       httpsAgent: agent,
+            //       headers: {
+            //         APIKEY: process.env.MOEIS_APIKEY,
+            //       },
+            //     }
+            //   );
+            const dataCreatedSRSM = await Fasiliti.create(Data);
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} created ${theType} - ${Data.nama}`
+            );
+            // send response registered sekolah first so that client will not wait too long on loading
+            res.status(200).json(dataCreatedSRSM);
 
-              // calling insertion function to collection sekolahs
-              // insertToSekolah(dataCreatedSRSM, data);
-              return;
-            } catch (error) {
-              return res.status(503).json({ msg: error.message });
-            }
+            // calling insertion function to collection sekolahs
+            // insertToSekolah(dataCreatedSRSM, data);
+            return;
+            // } catch (error) {
+            //   return res.status(503).json({ msg: error.message });
+            // }
           }
           if (theType === 'program') {
             if (negeri) {
@@ -3251,127 +3251,129 @@ const processSekolahQuery = async (req, res) => {
   logger.info(
     `[adminAPI/processSekolahQuery] ${user_name} requested ${type} data`
   );
-  if (
-    process.env.BUILD_ENV === 'production' ||
-    process.env.BUILD_ENV === 'dev'
-  ) {
-    if (type === 'sekolah-rendah') {
-      let SENARAI_INSTITUSI = [];
+  // if (
+  //   process.env.BUILD_ENV === 'production' ||
+  //   process.env.BUILD_ENV === 'dev'
+  // ) {
+  //   if (type === 'sekolah-rendah') {
+  //     let SENARAI_INSTITUSI = [];
 
-      for (let i = 0; i < jnskodSR.length; i++) {
-        const URLquerySR =
-          process.env.MOEIS_INTEGRATION_URL_SEKOLAH +
-          `?jkod=${JPNKod}&jnskod=${jnskodSR[i]}`;
-        try {
-          const agent = new https.Agent({
-            rejectUnauthorized: false,
-          });
-          const { data } = await axios.get(URLquerySR, {
-            httpsAgent: agent,
-            headers: {
-              APIKEY: process.env.MOEIS_APIKEY,
-            },
-          });
-          SENARAI_INSTITUSI = [...SENARAI_INSTITUSI, ...data.SENARAI_INSTITUSI];
-        } catch (error) {
-          return res.status(503).json({ msg: error.message });
-        }
-      }
-      const queryResultSR = { SENARAI_INSTITUSI };
+  //     for (let i = 0; i < jnskodSR.length; i++) {
+  //       const URLquerySR =
+  //         process.env.MOEIS_INTEGRATION_URL_SEKOLAH +
+  //         `?jkod=${JPNKod}&jnskod=${jnskodSR[i]}`;
+  //       console.log(URLquerySR);
+  //       try {
+  //         const agent = new https.Agent({
+  //           rejectUnauthorized: false,
+  //         });
+  //         const { data } = await axios.get(URLquerySR, {
+  //           httpsAgent: agent,
+  //           headers: {
+  //             APIKEY: process.env.MOEIS_APIKEY,
+  //           },
+  //         });
+  //         SENARAI_INSTITUSI = [...SENARAI_INSTITUSI, ...data.SENARAI_INSTITUSI];
+  //       } catch (error) {
+  //         return res.status(503).json({ msg: error.message });
+  //       }
+  //     }
+  //     const queryResultSR = { SENARAI_INSTITUSI };
 
-      const currentSRSM = await Fasiliti.find({
-        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
-        createdByNegeri: negeri,
-        idInstitusi: { $ne: null },
-        sesiTakwimSekolah: sesiTakwimSekolah(),
-      });
-      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+  //     const currentSRSM = await Fasiliti.find({
+  //       jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+  //       createdByNegeri: negeri,
+  //       idInstitusi: { $ne: null },
+  //       sesiTakwimSekolah: sesiTakwimSekolah(),
+  //     });
+  //     const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
 
-      const filteredResultSR = {
-        SENARAI_INSTITUSI: queryResultSR.SENARAI_INSTITUSI.filter(
-          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
-        ),
-      };
+  //     const filteredResultSR = {
+  //       SENARAI_INSTITUSI: queryResultSR.SENARAI_INSTITUSI.filter(
+  //         (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+  //       ),
+  //     };
 
-      return res.status(200).json(filteredResultSR);
-    }
-    if (type === 'sekolah-menengah') {
-      let SENARAI_INSTITUSI = [];
+  //     return res.status(200).json(filteredResultSR);
+  //   }
+  //   if (type === 'sekolah-menengah') {
+  //     let SENARAI_INSTITUSI = [];
 
-      for (let i = 0; i < jnskodSR.length; i++) {
-        const URLquerySM =
-          process.env.MOEIS_INTEGRATION_URL_SEKOLAH +
-          `?jkod=${JPNKod}&jnskod=${jnskodSM[i]}`;
-        try {
-          const agent = new https.Agent({
-            rejectUnauthorized: false,
-          });
-          const { data } = await axios.get(URLquerySM, {
-            httpsAgent: agent,
-            headers: {
-              APIKEY: process.env.MOEIS_APIKEY,
-            },
-          });
-          SENARAI_INSTITUSI = [...SENARAI_INSTITUSI, ...data.SENARAI_INSTITUSI];
-        } catch (error) {
-          return res.status(503).json({ msg: error.message });
-        }
-      }
-      const queryResultSM = { SENARAI_INSTITUSI };
+  //     for (let i = 0; i < jnskodSR.length; i++) {
+  //       const URLquerySM =
+  //         process.env.MOEIS_INTEGRATION_URL_SEKOLAH +
+  //         `?jkod=${JPNKod}&jnskod=${jnskodSM[i]}`;
+  //       console.log(URLquerySM);
+  //       try {
+  //         const agent = new https.Agent({
+  //           rejectUnauthorized: false,
+  //         });
+  //         const { data } = await axios.get(URLquerySM, {
+  //           httpsAgent: agent,
+  //           headers: {
+  //             APIKEY: process.env.MOEIS_APIKEY,
+  //           },
+  //         });
+  //         SENARAI_INSTITUSI = [...SENARAI_INSTITUSI, ...data.SENARAI_INSTITUSI];
+  //       } catch (error) {
+  //         return res.status(503).json({ msg: error.message });
+  //       }
+  //     }
+  //     const queryResultSM = { SENARAI_INSTITUSI };
 
-      const currentSRSM = await Fasiliti.find({
-        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
-        createdByNegeri: negeri,
-        idInstitusi: { $ne: null },
-        sesiTakwimSekolah: sesiTakwimSekolah(),
-      });
-      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+  //     const currentSRSM = await Fasiliti.find({
+  //       jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+  //       createdByNegeri: negeri,
+  //       idInstitusi: { $ne: null },
+  //       sesiTakwimSekolah: sesiTakwimSekolah(),
+  //     });
+  //     const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
 
-      const filteredResultSM = {
-        SENARAI_INSTITUSI: queryResultSM.SENARAI_INSTITUSI.filter(
-          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
-        ),
-      };
+  //     const filteredResultSM = {
+  //       SENARAI_INSTITUSI: queryResultSM.SENARAI_INSTITUSI.filter(
+  //         (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+  //       ),
+  //     };
 
-      return res.status(200).json(filteredResultSM);
-    }
+  //     return res.status(200).json(filteredResultSM);
+  //   }
+  // }
+  // if (
+  //   process.env.BUILD_ENV === 'training' ||
+  //   process.env.BUILD_ENV === 'unstable'
+  // ) {
+  const URLquery =
+    process.env.MOEIS_INTEGRATION_URL_SEKOLAH + `?jkod=${JPNKod}`;
+  try {
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    const { data } = await axios.get(URLquery, {
+      httpsAgent: agent,
+      headers: {
+        APIKEY: process.env.MOEIS_APIKEY_MOCKER,
+      },
+    });
+
+    const currentSRSM = await Fasiliti.find({
+      jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+      createdByNegeri: negeri,
+      idInstitusi: { $ne: null },
+      sesiTakwimSekolah: sesiTakwimSekolah(),
+    });
+    const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
+
+    const filteredResultSRSM = {
+      SENARAI_INSTITUSI: data.SENARAI_INSTITUSI.filter(
+        (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
+      ),
+    };
+
+    return res.status(200).json(filteredResultSRSM);
+  } catch (error) {
+    return res.status(503).json({ msg: error.message });
   }
-  if (
-    process.env.BUILD_ENV === 'training' ||
-    process.env.BUILD_ENV === 'unstable'
-  ) {
-    const URLquery =
-      process.env.MOEIS_INTEGRATION_URL_SEKOLAH + `?jkod=${JPNKod}`;
-    try {
-      const agent = new https.Agent({
-        rejectUnauthorized: false,
-      });
-      const { data } = await axios.get(URLquery, {
-        httpsAgent: agent,
-        headers: {
-          APIKEY: process.env.MOEIS_APIKEY,
-        },
-      });
-
-      const currentSRSM = await Fasiliti.find({
-        jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
-        createdByNegeri: negeri,
-        idInstitusi: { $ne: null },
-        sesiTakwimSekolah: sesiTakwimSekolah(),
-      });
-      const idInstitusi = currentSRSM.map((srsm) => srsm.idInstitusi);
-
-      const filteredResultSRSM = {
-        SENARAI_INSTITUSI: data.SENARAI_INSTITUSI.filter(
-          (srsm) => !idInstitusi.includes(srsm.ID_INSTITUSI)
-        ),
-      };
-
-      return res.status(200).json(filteredResultSRSM);
-    } catch (error) {
-      return res.status(503).json({ msg: error.message });
-    }
-  }
+  // }
 };
 
 const otpForLogin = (nama, key) =>
