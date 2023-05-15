@@ -99,6 +99,8 @@ const AddModal = ({
   const [carianNama, setCarianNama] = useState('');
   const [searching, setSearching] = useState(false);
   const [noPpJp, setNoPpJp] = useState('');
+  // sekolah
+  const [filteredSekolah, setFilteredSekolah] = useState([]);
 
   const handleSubmit = async () => {
     setAddingData(true);
@@ -178,7 +180,7 @@ const AddModal = ({
       const kodTastadSebenar = `${FType.substring(0, 3).toUpperCase()}-${
         DictionaryHurufNegeri[negeri]
       }${kodTastadTengah}-${
-        govKe === 'kerajaan' ? 'K' : 'S'
+        govKe === 'Kerajaan' ? 'K' : 'S'
       }${kodTastadHujung}`;
       Data = {
         ...Data,
@@ -331,6 +333,9 @@ const AddModal = ({
     govKe,
     setSubJenisKPBMPB,
     subJenisKPBMPB,
+    // sekolah
+    setFilteredSekolah,
+    filteredSekolah,
     //event
     setJenisEvent,
     jenisEvent,
@@ -525,6 +530,7 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
     ) {
       Data = {
         ...Data,
+        govKe: editedEntity.govKe,
         risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
         jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,

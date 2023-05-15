@@ -462,7 +462,7 @@ function UserFormKohortKOTAK() {
                         </p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>BANGSA :</h2>
+                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
                         <p className='ml-1'>
                           {singlePersonKohortKotak.keturunan}
                         </p>
@@ -1277,13 +1277,14 @@ function UserFormKohortKOTAK() {
                   >
                     tutup
                   </span>
-
-                  <button
-                    type='submit'
-                    className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
-                  >
-                    hantar
-                  </button>
+                  {singlePersonKohortKotak.statusSelepas6Bulan === '' && (
+                    <button
+                      type='submit'
+                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                    >
+                      hantar
+                    </button>
+                  )}
                 </div>
               </form>
             </div>

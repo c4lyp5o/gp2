@@ -79,7 +79,12 @@ const UserCarianSekolah = lazy(() =>
   import('../components/carian/UserCarianSekolah')
 );
 const UserFormSalahSekolahPemeriksaan = lazy(() =>
-  import('../components/sekolah/form-sekolah/UserFormSalahSekolahPemeriksaan')
+  import(
+    '../components/sekolah/form-salah-sekolah/UserFormSalahSekolahPemeriksaan'
+  )
+);
+const UserFormSalahSekolahRawatan = lazy(() =>
+  import('../components/sekolah/form-salah-sekolah/UserFormSalahSekolahRawatan')
 );
 
 // summary
@@ -143,39 +148,43 @@ function UserAfterLogin() {
             }
           />
 
-          <Route
-            path='senarai-sekolah'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserSenaraiSekolah />
-              </Suspense>
-            }
-          />
-          <Route
-            path='senarai-sekolah/sekolah/:kodSekolah'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserSekolah />
-              </Suspense>
-            }
-          />
-          <Route
-            path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserFormSekolahPemeriksaan />
-              </Suspense>
-            }
-          />
-          <Route
-            path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserFormSekolahRawatan />
-              </Suspense>
-            }
-          />
-          {/* <Route
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
+              <Route
+                path='senarai-sekolah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserSenaraiSekolah />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='senarai-sekolah/sekolah/:kodSekolah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserSekolah />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSekolahPemeriksaan />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSekolahRawatan />
+                  </Suspense>
+                }
+              />
+              {/* <Route
               path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
               element={
                 <Suspense fallback={<Loading />}>
@@ -183,6 +192,8 @@ function UserAfterLogin() {
                 </Suspense>
               }
             /> */}
+            </>
+          ) : null}
 
           <Route
             path='promosi-individu'
@@ -329,6 +340,14 @@ function UserAfterLogin() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserFormSalahSekolahPemeriksaan salahReten='pemeriksaan-salah' />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='carian/sekolah/form-sekolah/rawatan/:personSekolahId/:rawatanSekolahId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSalahSekolahRawatan salahReten='rawatan-salah' />
                   </Suspense>
                 }
               />

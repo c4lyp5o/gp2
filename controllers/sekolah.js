@@ -420,19 +420,23 @@ const muatturunSenaraiPelajar = async (req, res) => {
       worksheet.getColumn('bil').eachCell((cell, number) => {
         if (number !== 1) {
           cell.value = number - 1;
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
         }
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+
+      worksheet.getColumn('warganegara').eachCell((cell) => {
+        cell.value = cell.value || 'BUKAN WARGANEGARA';
       });
 
       worksheet.columns.forEach((column) => {
-        if (column.header === 'nama') {
-          column.eachCell((cell, rowNumber) => {
-            cell.alignment = { vertical: 'middle', horizontal: 'left' };
-          });
-        } else {
-          column.eachCell((cell, rowNumber) => {
-            cell.alignment = { vertical: 'middle', horizontal: 'center' };
-          });
+        column.eachCell((cell) => {
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+      });
+
+      worksheet.getColumn('nama').eachCell((cell, number) => {
+        if (number !== 1) {
+          cell.alignment = { vertical: 'middle', horizontal: 'left' };
         }
       });
 
@@ -712,6 +716,27 @@ const updatePemeriksaanSekolah = async (req, res) => {
   res.status(200).json({ updatedSinglePemeriksaan });
 };
 
+// PATCH /rawatan/ubah/:rawatanSekolahId
+const updateRawatanSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const updatedSingleRawatan = await Rawatansekolah.findOneAndUpdate(
+    { _id: req.params.rawatanSekolahId },
+    req.body,
+    { new: true }
+  );
+
+  if (!updatedSingleRawatan) {
+    return res
+      .status(404)
+      .json({ msg: `No document with id ${req.params.rawatanSekolahId}` });
+  }
+
+  res.status(200).json({ updatedSingleRawatan });
+};
+
 // not used
 // PATCH /kotak/ubah/:kotakSekolahId
 // kotak tak handle status rawatan
@@ -790,6 +815,7 @@ module.exports = {
   updateFasiliti,
   updatePersonSekolah,
   updatePemeriksaanSekolah,
+  updateRawatanSekolah,
   updateKotakSekolah,
   queryPersonSekolah,
 };
