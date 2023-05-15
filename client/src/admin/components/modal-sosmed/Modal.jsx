@@ -101,7 +101,7 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
       }
     },
     className:
-      'appearance-none w-11/12 text-sm px-3 py-1.5 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase px-4',
+      'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2',
   });
 };
 
@@ -350,7 +350,7 @@ export const ModalSosMed = (props) => {
             </h5>
             <div className='grid grid-row-3 mx-auto'>
               <div className='m-2'>
-                <div className='grid grid-cols-[1fr_5fr_1fr_5fr] gap-10'>
+                <div className='grid grid-cols-4 gap-10'>
                   <label
                     htmlFor='jenis-program'
                     className='flex flex-row pl-1 text-sm font-semibold'
@@ -362,7 +362,7 @@ export const ModalSosMed = (props) => {
                     name='jenis-program'
                     id='jenis-program'
                     value={pilihanJenisProgram}
-                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                     onChange={(e) => setPilihanJenisProgram(e.target.value)}
                   >
                     <option value=''>Sila Pilih</option>
@@ -384,10 +384,10 @@ export const ModalSosMed = (props) => {
                     onChange={(e) => {
                       setQuestionState({
                         ...questionState,
-                        kodProgram: e.kodProgram,
+                        kodProgram: e.target.value,
                       });
                     }}
-                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   >
                     <option value=''>Sila Pilih</option>
                     {programPromosi.allProgramPromosi
@@ -403,7 +403,7 @@ export const ModalSosMed = (props) => {
                 </div>
               </div>
               <div className='flex justify-center mb-1 pl-3'>
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-3 md:whitespace-nowrap'>
+                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
                   tarikh muatnaik:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
@@ -411,7 +411,7 @@ export const ModalSosMed = (props) => {
                   jenis='mula'
                   setQuestionState={setQuestionState}
                 />
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center ml-3 mr-8 md:whitespace-nowrap'>
+                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
                   tarikh kemaskini:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
@@ -420,13 +420,13 @@ export const ModalSosMed = (props) => {
                   setQuestionState={setQuestionState}
                 />
               </div>
-              <div className='flex mt-2 pr-2'>
+              <div className='flex mt-2'>
                 <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-1 md:whitespace-nowrap pl-3'>
                   Tajuk Bahan / Aktiviti:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
                 <input
-                  className='appearance-none w-full px-2 py-1.5 text-user1  ring-1 ring-user1 ring-opacity-50 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   type='text'
                   placeholder='Nama Aktiviti'
                   onChange={(e) => {
@@ -438,7 +438,7 @@ export const ModalSosMed = (props) => {
                 />
               </div>
             </div>
-            <div className='p-2 grid grid-cols-[1fr_8fr]'>
+            <div className='p-2'>
               <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-1'>
                 Jenis Media Sosial :{' '}
                 <span className='font-semibold text-user6'>*</span>

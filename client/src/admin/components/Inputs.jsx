@@ -1085,7 +1085,7 @@ export function InputFacility(props) {
                                 value={
                                   props.govKe === ''
                                     ? ''
-                                    : props.govKe === 'kerajaan'
+                                    : props.govKe === 'Kerajaan'
                                     ? 'K'
                                     : 'S'
                                 }
