@@ -1677,7 +1677,7 @@ const getData = async (req, res) => {
               res.status(200).json(dataCreatedSRSM);
 
               // calling insertion function to collection sekolahs
-              insertToSekolah(dataCreatedSRSM, data);
+              // insertToSekolah(dataCreatedSRSM, data);
               return;
             } catch (error) {
               return res.status(503).json({ msg: error.message });
