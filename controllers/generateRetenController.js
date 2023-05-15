@@ -3151,15 +3151,24 @@ const makePG201P2 = async (payload) => {
         console.log(data[i][0].jumlahReten, data[i][0].jumlahRetenSalah);
         jumlahReten += data[i][0].jumlahReten;
         jumlahRetenSalah += data[i][0].jumlahRetenSalah;
+
         // bila masuk sekolah kena pakai switch
-        worksheet.getRow(rowNumber).getCell(3).value =
-          i % 2 === 0
-            ? data[0][0].enrolmen6Tahun
+        switch (i) {
+          case 0:
+            worksheet.getRow(rowNumber).getCell(3).value = data[0][0]
+              .enrolmen5Tahun
+              ? data[0][0].enrolmen5Tahun
+              : 'BELUM DIISI'; //column C (3)
+            break;
+          case 1:
+            worksheet.getRow(rowNumber).getCell(3).value = data[0][0]
+              .enrolmen6Tahun
               ? data[0][0].enrolmen6Tahun
-              : 'BELUM DIISI'
-            : data[0][0].enrolmen5Tahun
-            ? data[0][0].enrolmen5Tahun
-            : 'BELUM DIISI'; //column C (3)
+              : 'BELUM DIISI'; //column C (3)
+            break;
+          default:
+            break;
+        }
 
         //Kedatangan
         worksheet.getRow(rowNumber).getCell(4).value =
@@ -3425,14 +3434,16 @@ const makePGS203P2 = async (payload) => {
     worksheet.getCell('AB5').value = `${monthName.toUpperCase()}`;
     worksheet.getCell('AI5').value = `${yearNow}`;
     // write facility
-    let intro1 = worksheet.getRow(6);
-    intro1.getCell(2).value = `${klinik.toUpperCase()}`;
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({ kodFasiliti: klinik });
+      worksheet.getCell('B6').value = `${currentKlinik.kp.toUpperCase()}`;
+    } else {
+      worksheet.getCell('B6').value = `${klinik.toUpperCase()}`;
+    }
     // write daerah
-    let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('B7').value = `${daerah.toUpperCase()}`;
     // write negeri
-    let intro3 = worksheet.getRow(8);
-    intro3.getCell(2).value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('B8').value = `${negeri.toUpperCase()}`;
     // end intro
 
     // write data
@@ -3450,14 +3461,16 @@ const makePGS203P2 = async (payload) => {
         console.log(`we got data in this array`);
         jumlahReten += data[i][0].jumlahReten;
         jumlahRetenSalah += data[i][0].jumlahRetenSalah;
-        worksheet.getRow(rowNumber).getCell(3).value =
-          i % 2 === 0
-            ? data[0].Swasta
-              ? data[0].Swasta
-              : 'BELUM DIISI'
-            : data[0].Kerajaan
-            ? data[0].Kerajaan
-            : 'BELUM DIISI';
+        switch (i) {
+          case 0:
+            worksheet.getRow(rowNumber).getCell(3).value = data[0][0].Kerajaan;
+            break;
+          case 1:
+            worksheet.getRow(rowNumber).getCell(3).value = data[0][0].Swasta;
+            break;
+          default:
+            break;
+        }
         worksheet.getRow(rowNumber).getCell(4).value =
           data[i][0].kedatanganTahunSemasaBaru; //column D (4)
         worksheet.getRow(rowNumber).getCell(5).value =
@@ -3555,21 +3568,28 @@ const makePGS203P2 = async (payload) => {
         worksheet.getRow(rowNumber).getCell(59).value = data[i][0].cabutanGk; //Column BG (59)
         worksheet.getRow(rowNumber).getCell(61).value = data[i][0].penskaleran; //Column BI (61)
         worksheet.getRow(rowNumber).getCell(62).value = data[i][0].kesSelesai; //Column BJ (62)
-        // worksheet.getRow(rowNumber).getCell(64).value =
-        //   data[i][0].jumlahFasiliti || 0; //Column BL (64)
+        switch (i) {
+          case 0:
+            worksheet.getRow(rowNumber).getCell(64).value =
+              data[0][0].jumlahTastadKerajaan || 0; //Column BL (64)
+            break;
+          case 1:
+            worksheet.getRow(rowNumber).getCell(64).value =
+              data[0][0].jumlahTastadSwasta || 0; //Column BL (64)
+            break;
+          default:
+            break;
+        }
         if (i < 3) {
-          worksheet.getRow(rowNumber).getCell(65).value =
-            data[i][0].jumlahFasilitiDilawati.length || 0; //Column BM (65)
+          worksheet.getRow(rowNumber).getCell(65).value = data[i][0]
+            .jumlahFasilitiDilawati
+            ? data[i][0].jumlahFasilitiDilawati.length
+            : 0; //Column BM (65)
         }
       }
       rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
       console.log(`row number now is ${rowNumber}`);
     }
-
-    worksheet.getRow(16).getCell(64).value =
-      data[0][0].jumlahFasilitiKerajaan || 0;
-    worksheet.getRow(17).getCell(64).value =
-      data[0][0].jumlahFasilitiSwasta || 0;
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
@@ -4519,95 +4539,39 @@ const makeGender = async (payload) => {
     }
 
     // info
-    let rowTambahan = 1;
-    let rowNew;
-    rowNew = worksheet.getRow(16);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Gi-Ret 2.0';
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = process.env.npm_package_version;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Memaparkan maklumat dari';
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    if (bulan) {
-      rowNew.getCell(1).value = `${moment(bulan)
-        .startOf('month')
-        .format('DD-MM-YYYY')} - ${moment(bulan)
-        .endOf('month')
-        .format('DD-MM-YYYY')}`;
-    } else {
-      rowNew.getCell(1).value = `${moment(tarikhMula).format(
-        'DD-MM-YYYY'
-      )} - ${moment(tarikhAkhir).format('DD-MM-YYYY')}`;
-    }
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Tarikh dan masa penjanaan';
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = `${moment(new Date()).format(
-      'DD-MM-YYYY'
-    )} - ${moment(new Date()).format('HH:mm:ss')}`;
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Peratus reten dilaporkan salah';
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    // rowNew.getCell(1).font = {
-    //     color: { argb: 'FF0000' },
-    //    };
-    rowNew.getCell(1).value = 'TIDAK BERKENAAN';
-    //
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).value = 'Dijana oleh';
-    rowTambahan++;
-    rowNew = worksheet.getRow(16 + rowTambahan);
-    worksheet.mergeCells(
-      `${rowNew.getCell(1).address}:${rowNew.getCell(4).address}}`
-    );
-    rowNew.getCell(1).alignment = { vertical: 'middle', horizontal: 'left' };
-    rowNew.getCell(1).font = {
-      color: { argb: 'FF0000' },
+    worksheet.getCell(
+      'Y3'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('Y4').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
+            bulan
+          )
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell('Y5').value = `Dijana oleh: ${username} (${moment(
+      new Date()
+    ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('Y3').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
     };
-    rowNew.getCell(1).value = username;
+    worksheet.getCell('Y4').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('Y5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
 
     worksheet.name = 'GENDER';
 
@@ -4774,6 +4738,10 @@ const makeTOD = async (payload) => {
           data[0][i].queryBaru[0].jumlahTampalanAnteriorBaru;
         row.getCell(22).value =
           data[0][i].queryBaru[0].jumlahTampalanPosteriorBaru;
+        // CRA nak data baru je
+        row.getCell(30).value = data[0][i].queryBaru[0].craRendah;
+        row.getCell(31).value = data[0][i].queryBaru[0].craSederhana;
+        row.getCell(32).value = data[0][i].queryBaru[0].craTinggi;
       }
       j += 2;
     }
@@ -4792,9 +4760,6 @@ const makeTOD = async (payload) => {
         row.getCell(25).value = data[1][i].queryBu[0].jumlahAbses;
         row.getCell(26).value = data[1][i].queryBu[0].jumlahPulpotomi;
         row.getCell(27).value = data[1][i].queryBu[0].rujukanAgensiLuar;
-        row.getCell(30).value = data[1][i].queryBu[0].craRendah;
-        row.getCell(31).value = data[1][i].queryBu[0].craSederhana;
-        row.getCell(32).value = data[1][i].queryBu[0].craTinggi;
       }
       j += 2;
     }
