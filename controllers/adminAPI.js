@@ -3251,14 +3251,10 @@ const processSekolahQuery = async (req, res) => {
   logger.info(
     `[adminAPI/processSekolahQuery] ${user_name} requested ${type} data`
   );
-
-  // nanti revert if block ni
-  if (process.env.BUILD_ENV === 'production') {
-    return res.status(503).json({ msg: 'Service not available' });
-  }
-  // nanti revert if block ni
-
-  if (process.env.BUILD_ENV === 'dev') {
+  if (
+    process.env.BUILD_ENV === 'production' ||
+    process.env.BUILD_ENV === 'dev'
+  ) {
     if (type === 'sekolah-rendah') {
       let SENARAI_INSTITUSI = [];
 
