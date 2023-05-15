@@ -636,7 +636,7 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken } = useGlobalAdminAppContext();
+  const { toast, adminToken, loginInfo } = useGlobalAdminAppContext();
 
   const [bulan, setBulan] = useState('');
 

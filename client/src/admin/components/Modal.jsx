@@ -111,14 +111,29 @@ const AddModal = ({
         noPpJp === 'Tiada juruterapi pergigian dijumpai'
       ) {
         toast.error('Tiada nama');
+        setAddingData(false);
         return;
       }
       if (!regNumber) {
         toast.error('Klik pada butang cari');
+        setAddingData(false);
         return;
       }
       if (!EmailValidator(email)) {
         toast.error('Email tidak sah');
+        setAddingData(false);
+        return;
+      }
+    }
+    if (FType === 'sr' || FType === 'sm') {
+      if (!carianNama) {
+        toast.error('Tiada nama sekolah');
+        setAddingData(false);
+        return;
+      }
+      if (!kodSekolah) {
+        toast.error('Klik pada butang cari');
+        setAddingData(false);
         return;
       }
     }
