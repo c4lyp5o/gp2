@@ -8,7 +8,7 @@ import { RiCloseLine } from 'react-icons/ri';
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
-  const { toast, loginInfo, adminToken, masterDatePicker, Dictionary } =
+  const { toast, adminToken, loginInfo, masterDatePicker, Dictionary } =
     useGlobalAdminAppContext();
   const [startDate, setStartDate] = useState('');
   const [endDate, setEndDate] = useState('');
@@ -785,7 +785,8 @@ const ModalGenerateAdHoc = (props) => {
 };
 
 const ModalGenerateBulanan = (props) => {
-  const { toast, adminToken, Dictionary } = useGlobalAdminAppContext();
+  const { toast, adminToken, loginInfo, Dictionary } =
+    useGlobalAdminAppContext();
 
   const [bulan, setBulan] = useState('');
 
