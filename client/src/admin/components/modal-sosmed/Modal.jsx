@@ -384,7 +384,7 @@ export const ModalSosMed = (props) => {
                     onChange={(e) => {
                       setQuestionState({
                         ...questionState,
-                        kodProgram: e.kodProgram,
+                        kodProgram: e.target.value,
                       });
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
