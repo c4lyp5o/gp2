@@ -51,24 +51,24 @@ const JenisMediaSosial = [
   },
   {
     id: 3,
+    value: 'Twitter',
+    label: 'Twitter',
+    img: Twitter,
+    logo: <SiTwitter />,
+  },
+  {
+    id: 4,
     value: 'Youtube',
     label: 'Youtube',
     img: Youtube,
     logo: <SiYoutube />,
   },
   {
-    id: 4,
+    id: 5,
     value: 'TikTok',
     label: 'TikTok',
     img: Tiktok,
     logo: <SiTiktok />,
-  },
-  {
-    id: 5,
-    value: 'Twitter',
-    label: 'Twitter',
-    img: Twitter,
-    logo: <SiTwitter />,
   },
   {
     id: 6,
@@ -101,7 +101,7 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
       }
     },
     className:
-      'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2',
+      'appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row',
   });
 };
 
@@ -349,116 +349,132 @@ export const ModalSosMed = (props) => {
               AKTIVITI MEDIA SOSIAL
             </h5>
             <div className='grid grid-row-3 mx-auto'>
-              <div className='m-2'>
-                <div className='grid grid-cols-4 gap-10'>
+              <div className='my-2'>
+                <div className='grid grid-cols-[1fr_3fr_1fr_3fr] gap-2'>
                   <label
                     htmlFor='jenis-program'
-                    className='flex flex-row pl-1 text-sm font-semibold'
+                    className='flex flex-row items-center pl-3 text-sm font-semibold'
                   >
                     jenis program :
+                    <span className='font-semibold text-user6'>*</span>
                   </label>
-                  <select
-                    type='text'
-                    name='jenis-program'
-                    id='jenis-program'
-                    value={pilihanJenisProgram}
-                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    onChange={(e) => setPilihanJenisProgram(e.target.value)}
-                  >
-                    <option value=''>Sila Pilih</option>
-                    {programPromosi.jenisProgram.map((j) => (
-                      <option key={j} value={j}>
-                        {j}
-                      </option>
-                    ))}
-                  </select>
+                  <div className='pr-2'>
+                    <select
+                      type='text'
+                      name='jenis-program'
+                      id='jenis-program'
+                      value={pilihanJenisProgram}
+                      className='appearance-none w-full px-2 py-1.5 text-user1 ring-1 ring-user1 ring-opacity-50 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      onChange={(e) => setPilihanJenisProgram(e.target.value)}
+                    >
+                      <option value=''>Sila Pilih</option>
+                      {programPromosi.jenisProgram.map((j) => (
+                        <option key={j} value={j}>
+                          {j}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <label
                     htmlFor='kod-program'
-                    className='flex flex-row pl-1 text-sm font-semibold'
+                    className='flex flex-row items-center pl-3 text-sm font-semibold'
                   >
                     kod program :
+                    <span className='font-semibold text-user6'>*</span>
                   </label>
-                  <select
-                    type='text'
-                    value={questionState.kodProgram}
-                    onChange={(e) => {
-                      setQuestionState({
-                        ...questionState,
-                        kodProgram: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>Sila Pilih</option>
-                    {programPromosi.allProgramPromosi
-                      .filter((p) => p.jenisProgram === pilihanJenisProgram)
-                      .map((p) => {
-                        return (
-                          <option value={p.kodProgram}>
-                            {p.kodProgram} | {p.namaProgram}
-                          </option>
-                        );
-                      })}
-                  </select>
+                  <div className='pr-2'>
+                    <select
+                      type='text'
+                      value={questionState.kodProgram}
+                      onChange={(e) => {
+                        setQuestionState({
+                          ...questionState,
+                          kodProgram: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full px-2 py-1.5 text-user1 ring-1 ring-user1 ring-opacity-50 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    >
+                      <option value=''>Sila Pilih</option>
+                      {programPromosi.allProgramPromosi
+                        .filter((p) => p.jenisProgram === pilihanJenisProgram)
+                        .map((p) => {
+                          return (
+                            <option value={p.kodProgram}>
+                              {p.kodProgram} | {p.namaProgram}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div className='flex justify-center mb-1 pl-3'>
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
+              <div className='grid grid-cols-[1fr_3fr_1fr_3fr] gap-2 mb-1'>
+                <p className='text-xs md:text-sm text-left font-semibold flex pl-3 items-center md:whitespace-nowrap'>
                   tarikh muatnaik:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
-                <CustomDatePicker
-                  jenis='mula'
-                  setQuestionState={setQuestionState}
-                />
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
+                <div className='pr-2'>
+                  <CustomDatePicker
+                    jenis='mula'
+                    setQuestionState={setQuestionState}
+                  />
+                </div>
+                <p className='text-xs md:text-sm text-left font-semibold flex pl-3 items-center md:whitespace-nowrap'>
                   tarikh kemaskini:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
-                <CustomDatePicker
-                  jenis='akhir'
-                  setQuestionState={setQuestionState}
-                />
+                <div className='pr-2'>
+                  <CustomDatePicker
+                    jenis='akhir'
+                    setQuestionState={setQuestionState}
+                  />
+                </div>
               </div>
-              <div className='flex mt-2'>
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-1 md:whitespace-nowrap pl-3'>
+              <div className='grid grid-cols-[1fr_7fr] mt-2'>
+                <p className='text-xs md:text-sm text-right font-semibold flex items-center md:whitespace-nowrap pl-3'>
                   Tajuk Bahan / Aktiviti:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
-                <input
-                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  type='text'
-                  placeholder='Nama Aktiviti'
+                <div className='pr-2 pl-1.5'>
+                  <input
+                    className='appearance-none w-full px-2 py-1.5 text-user1 ring-1 ring-user1 ring-opacity-50 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    type='text'
+                    placeholder='Sila Tulis Tajuk Bahan / Aktiviti'
+                    onChange={(e) => {
+                      setQuestionState({
+                        ...questionState,
+                        namaAktiviti: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className='grid grid-cols-[1fr_7fr] mt-2'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-3'>
+                Jenis Media Sosial :{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <div className='pr-2 pl-1.5'>
+                <Select
+                  isMulti
+                  name='promosi'
+                  options={JenisMediaSosial}
+                  placeholder='Sila Tulis Jenis Media Sosial'
+                  className='basic-multi-select'
+                  classNamePrefix='select'
                   onChange={(e) => {
-                    setQuestionState({
-                      ...questionState,
-                      namaAktiviti: e.target.value,
-                    });
+                    setPilihanMediaSosial(e);
                   }}
                 />
               </div>
             </div>
-            <div className='p-2'>
-              <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-1'>
-                Jenis Media Sosial :{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <Select
-                isMulti
-                name='promosi'
-                options={JenisMediaSosial}
-                placeholder='Sila pilih platform...'
-                className='basic-multi-select'
-                classNamePrefix='select'
-                onChange={(e) => {
-                  setPilihanMediaSosial(e);
-                }}
-              />
+            <div>
               {pilihanMediaSosial.map((item) =>
                 RenderSection(item, propsSosMed)
               )}
             </div>
-            <div className='flex justify-center mb-2'>
+            <div className='flex justify-center my-2'>
               {addingData ? (
                 <BusyButton func='add' />
               ) : (
