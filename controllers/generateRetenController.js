@@ -2183,21 +2183,6 @@ const makePG214 = async (payload) => {
           case '60':
             rowNew = worksheet.getRow(13);
             break;
-          case '61 - 64':
-            rowNew = worksheet.getRow(14);
-            break;
-          case '65':
-            rowNew = worksheet.getRow(15);
-            break;
-          case '66 - 69':
-            rowNew = worksheet.getRow(16);
-            break;
-          case '70 - 74':
-            rowNew = worksheet.getRow(17);
-            break;
-          case '75++':
-            rowNew = worksheet.getRow(18);
-            break;
           default:
             break;
         }
@@ -2227,6 +2212,40 @@ const makePG214 = async (payload) => {
       rowNew.getCell(23).value = data[0].PG214[i].jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
       rowNew.getCell(24).value = data[0].PG214[i].jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
       rowNew.getCell(25).value = data[0].PG214[i].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
+    }
+
+    for (let i = 1; i < data.length; i++) {
+      if (data[i].customPG214[0]) {
+        console.log(data[i].customPG214[0]);
+        let rowNew = worksheet.getRow(13 + i);
+        jumlahReten += data[i].customPG214[0].jumlahReten;
+        jumlahRetenSalah += data[i].customPG214[0].statusReten;
+        rowNew.getCell(3).value = data[i].customPG214[0].jumlahMelayu; //C13	Kategori Umur 60 Tahun
+        rowNew.getCell(4).value = data[i].customPG214[0].jumlahCina; //D13	Kategori Umur 60 Tahun
+        rowNew.getCell(5).value = data[i].customPG214[0].jumlahIndia; //E13	Kategori Umur 60 Tahun
+        rowNew.getCell(6).value = data[i].customPG214[0].jumlahBajau; //F13	Kategori Umur 60 Tahun
+        rowNew.getCell(7).value = data[i].customPG214[0].jumlahDusun; //G13	Kategori Umur 60 Tahun
+        rowNew.getCell(8).value = data[i].customPG214[0].jumlahKadazan; //H13 Kategori Umur 60 Tahun
+        rowNew.getCell(9).value = data[i].customPG214[0].jumlahMurut; //I13	Kategori Umur 60 Tahun
+        rowNew.getCell(10).value = data[i].customPG214[0].jumlahBMSL; //J13 Kategori Umur 60 Tahun
+        rowNew.getCell(11).value = data[i].customPG214[0].jumlahMelanau; //K13 Kategori Umur 60 Tahun
+        rowNew.getCell(12).value = data[i].customPG214[0].jumlahKedayan; //L13 Kategori Umur 60 Tahun
+        rowNew.getCell(13).value = data[i].customPG214[0].jumlahIban; //M13 Kategori Umur 60 Tahun
+        rowNew.getCell(14).value = data[i].customPG214[0].jumlahBidayuh; //N13 Kategori Umur 60 Tahun
+        rowNew.getCell(15).value = data[i].customPG214[0].jumlahPenan; //O13 Kategori Umur 60 Tahun
+        rowNew.getCell(16).value = data[i].customPG214[0].jumlahBMSwL; //P13 Kategori Umur 60 Tahun
+        rowNew.getCell(17).value = data[i].customPG214[0].jumlahOAS; //Q13 Kategori Umur 60 Tahun
+        rowNew.getCell(18).value = data[i].customPG214[0].jumlahLainlain; //R13 Kategori Umur 60 Tahun
+        rowNew.getCell(19).value =
+          data[i].customPG214[0].jumlahBukanWarganegara; //S13 Kategori Umur 60 Tahun
+        rowNew.getCell(20).value = data[i].customPG214[0].jumlahLelaki; //T13 Kategori Umur 60 Tahun
+        rowNew.getCell(21).value = data[i].customPG214[0].jumlahPerempuan; //U13 Kategori Umur 60 Tahun
+        rowNew.getCell(22).value = data[i].customPG214[0].jumlahEdentulous; //V13 Kategori Umur 60 Tahun
+        rowNew.getCell(23).value =
+          data[i].customPG214[0].jumlahGigiLebihAtauSama20; //W13 Kategori Umur 60 Tahun
+        rowNew.getCell(24).value = data[i].customPG214[0].jumlahGigiKurang20; //X13 Kategori Umur 60 Tahun
+        rowNew.getCell(25).value = data[i].customPG214[0].jumlahSemuaGigi; //Y13 Kategori Umur 60 Tahun
+      }
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
@@ -3463,10 +3482,14 @@ const makePGS203P2 = async (payload) => {
         jumlahRetenSalah += data[i][0].jumlahRetenSalah;
         switch (i) {
           case 0:
-            worksheet.getRow(rowNumber).getCell(3).value = data[0][0].Kerajaan;
+            worksheet.getRow(rowNumber).getCell(3).value = data[0][0].Kerajaan
+              ? data[0][0].Kerajaan
+              : 'BELUM DIISI';
             break;
           case 1:
-            worksheet.getRow(rowNumber).getCell(3).value = data[0][0].Swasta;
+            worksheet.getRow(rowNumber + 1).getCell(3).value = data[0][0].Swasta
+              ? data[0][0].Swasta
+              : 'BELUM DIISI';
             break;
           default:
             break;
