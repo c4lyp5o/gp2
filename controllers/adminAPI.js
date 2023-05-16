@@ -1941,11 +1941,12 @@ const getData = async (req, res) => {
             console.log(sekolah.kodSekolah);
             const currentPelajar = await Sekolah.find({
               kodSekolah: sekolah.kodSekolah,
+              sesiTakwimPelajar: sesiTakwimSekolah(),
             });
             for (let i = 0; i < currentPelajar.length; i++) {
               if (currentPelajar[i].pemeriksaanSekolah) {
                 return res.status(409).json({
-                  msg: 'Sekolah tidak boleh dihapus kerana ada murid yang telah di-isi reten',
+                  msg: 'Sekolah tidak boleh dihapus kerana ada murid yang telah di-isi reten.Sila hubungi Meja Bantuan untuk pertanyaan lanjut',
                 });
               }
             }
