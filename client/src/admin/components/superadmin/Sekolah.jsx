@@ -131,17 +131,17 @@ export default function Sekolah(props) {
                       >
                         Kemaskini
                       </button>
-                      {/* <button
-                          className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
-                          id={f._id}
-                          onClick={(e) => {
-                            setShowDeleteModal(true);
-                            setId(f._id);
-                            setDeleteCandidate(f.nama);
-                          }}
-                        >
-                          Hapus
-                        </button> */}
+                      <button
+                        className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2'
+                        id={f._id}
+                        onClick={(e) => {
+                          props.setShowDeleteModal(true);
+                          props.setId(f._id);
+                          props.setDeleteCandidate(f.nama);
+                        }}
+                      >
+                        Hapus
+                      </button>
                     </td>
                   </tr>
                 ))}
