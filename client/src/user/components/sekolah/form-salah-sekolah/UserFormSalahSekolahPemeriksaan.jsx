@@ -1049,7 +1049,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                     <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                       Kedatangan<span className='text-user6'>*</span>
                     </h4>
-                    <div className='grid grid-rows-2'>
+                    {/* <div className='grid grid-rows-2'>
                       <div className='flex items-center flex-row pl-5'>
                         <input
                           disabled={isDisabled}
@@ -1361,7 +1361,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           }`}
                         />
                       </div>
-                    </div>
+                    </div> */}
                     {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
                     engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
                       <div>
@@ -5248,63 +5248,292 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           Melaksanakan saringan merokok melalui Program KOTAK
                           <span className='text-user6'>*</span>
                         </p>
-                        <div className='flex items-center'>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='melaksanakan-saringan-merokok'
-                            id='ya-melaksanakan-saringan-merokok'
-                            value='ya-melaksanakan-saringan-merokok'
-                            checked={
-                              melaksanakanSaringanMerokok ===
-                              'ya-melaksanakan-saringan-merokok'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMelaksanakanSaringanMerokok(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                melaksanakanSaringanMerokok: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-melaksanakan-saringan-merokok'
-                            className='mx-2 text-sm font-m'
+                        <div className='flex flex-col'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.melaksanakanSaringanMerokokCBox &&
+                              'bg-user9 bg-opacity-20 justify-center p-2'
+                            } flex flex-row items-center relative`}
                           >
-                            Ya
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='melaksanakan-saringan-merokok'
-                            id='tidak-melaksanakan-saringan-merokok'
-                            value='tidak-melaksanakan-saringan-merokok'
-                            checked={
-                              melaksanakanSaringanMerokok ===
-                              'tidak-melaksanakan-saringan-merokok'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMelaksanakanSaringanMerokok(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                melaksanakanSaringanMerokok: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-melaksanakan-saringan-merokok'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='melaksanakan-saringan-merokok'
+                              id='ya-melaksanakan-saringan-merokok'
+                              value='ya-melaksanakan-saringan-merokok'
+                              checked={
+                                melaksanakanSaringanMerokok ===
+                                'ya-melaksanakan-saringan-merokok'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMelaksanakanSaringanMerokok(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  melaksanakanSaringanMerokok: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='ya-melaksanakan-saringan-merokok'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='melaksanakan-saringan-merokok'
+                              id='tidak-melaksanakan-saringan-merokok'
+                              value='tidak-melaksanakan-saringan-merokok'
+                              checked={
+                                melaksanakanSaringanMerokok ===
+                                'tidak-melaksanakan-saringan-merokok'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMelaksanakanSaringanMerokok(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  melaksanakanSaringanMerokok: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tidak-melaksanakan-saringan-merokok'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='melaksanakan-saringan-merokok-reten-salah-cbox'
+                                id='melaksanakan-saringan-merokok-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokokCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokokCBox:
+                                      !pilihanDataSalah.melaksanakanSaringanMerokokCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokokCBox:
+                                      !pilihanDataSalah.melaksanakanSaringanMerokokCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokokCBox:
+                                        !pilihanDataSalah.melaksanakanSaringanMerokokCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='melaksanakan-saringan-merokok-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.melaksanakanSaringanMerokokCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        melaksanakanSaringanMerokok: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        melaksanakanSaringanMerokok: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          melaksanakanSaringanMerokok: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.melaksanakanSaringanMerokokCBox ===
+                            true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1 p-2'>
+                              <input
+                                disabled={
+                                  melaksanakanSaringanMerokok ===
+                                  'ya-melaksanakan-saringan-merokok'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='melaksanakan-saringan-merokok-reten-salah'
+                                id='ya-melaksanakan-saringan-merokok-reten-salah'
+                                value='ya-melaksanakan-saringan-merokok-reten-salah'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokok ===
+                                  'ya-melaksanakan-saringan-merokok-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ya-melaksanakan-saringan-merokok-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={
+                                  melaksanakanSaringanMerokok ===
+                                  'tidak-melaksanakan-saringan-merokok'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='melaksanakan-saringan-merokok-reten-salah'
+                                id='tidak-melaksanakan-saringan-merokok-reten-salah'
+                                value='tidak-melaksanakan-saringan-merokok-reten-salah'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokok ===
+                                  'tidak-melaksanakan-saringan-merokok-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-melaksanakan-saringan-merokok-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                disabled={
+                                  melaksanakanSaringanMerokok === ''
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='melaksanakan-saringan-merokok-reten-salah'
+                                id='tiada-melaksanakan-saringan-merokok-reten-salah'
+                                value='tiada-melaksanakan-saringan-merokok-reten-salah'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokok ===
+                                  'tiada-melaksanakan-saringan-merokok-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-melaksanakan-saringan-merokok-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: '',
+                                    melaksanakanSaringanMerokokCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: '',
+                                    melaksanakanSaringanMerokokCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok: '',
+                                      melaksanakanSaringanMerokokCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='text-sm grid grid-cols-[3fr_2fr] '>
@@ -5344,63 +5573,287 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           Pesakit menerima nasihat ringkas?
                           <span className='text-user6'>*</span>
                         </p>
-                        <div className='flex items-center'>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='menerima-nasihat-ringkas'
-                            id='ya-menerima-nasihat-ringkas'
-                            value='ya-menerima-nasihat-ringkas'
-                            checked={
-                              menerimaNasihatRingkas ===
-                              'ya-menerima-nasihat-ringkas'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenerimaNasihatRingkas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                menerimaNasihatRingkas: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-menerima-nasihat-ringkas'
-                            className='mx-2 text-sm font-m'
+                        <div className='flex flex-col'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.menerimaNasihatRingkasCBox &&
+                              'bg-user9 bg-opacity-20 justify-center p-2'
+                            } flex flex-row items-center relative`}
                           >
-                            Ya
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='menerima-nasihat-ringkas'
-                            id='tidak-menerima-nasihat-ringkas'
-                            value='tidak-menerima-nasihat-ringkas'
-                            checked={
-                              menerimaNasihatRingkas ===
-                              'tidak-menerima-nasihat-ringkas'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenerimaNasihatRingkas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                menerimaNasihatRingkas: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-menerima-nasihat-ringkas'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='menerima-nasihat-ringkas'
+                              id='ya-menerima-nasihat-ringkas'
+                              value='ya-menerima-nasihat-ringkas'
+                              checked={
+                                menerimaNasihatRingkas ===
+                                'ya-menerima-nasihat-ringkas'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMenerimaNasihatRingkas(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  menerimaNasihatRingkas: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='ya-menerima-nasihat-ringkas'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='menerima-nasihat-ringkas'
+                              id='tidak-menerima-nasihat-ringkas'
+                              value='tidak-menerima-nasihat-ringkas'
+                              checked={
+                                menerimaNasihatRingkas ===
+                                'tidak-menerima-nasihat-ringkas'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMenerimaNasihatRingkas(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  menerimaNasihatRingkas: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tidak-menerima-nasihat-ringkas'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='menerima-nasihat-ringkas-reten-salah-cbox'
+                                id='menerima-nasihat-ringkas-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkasCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkasCBox:
+                                      !pilihanDataSalah.menerimaNasihatRingkasCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkasCBox:
+                                      !pilihanDataSalah.menerimaNasihatRingkasCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkasCBox:
+                                        !pilihanDataSalah.menerimaNasihatRingkasCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='menerima-nasihat-ringkas-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.menerimaNasihatRingkasCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        menerimaNasihatRingkas: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        menerimaNasihatRingkas: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          menerimaNasihatRingkas: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.menerimaNasihatRingkasCBox ===
+                            true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1 p-2'>
+                              <input
+                                disabled={
+                                  menerimaNasihatRingkas ===
+                                  'ya-menerima-nasihat-ringkas'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='menerima-nasihat-ringkas-reten-salah'
+                                id='ya-menerima-nasihat-ringkas-reten-salah'
+                                value='ya-menerima-nasihat-ringkas-reten-salah'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkas ===
+                                  'ya-menerima-nasihat-ringkas-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ya-menerima-nasihat-ringkas-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={
+                                  menerimaNasihatRingkas ===
+                                  'tidak-menerima-nasihat-ringkas'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='menerima-nasihat-ringkas-reten-salah'
+                                id='tidak-menerima-nasihat-ringkas-reten-salah'
+                                value='tidak-menerima-nasihat-ringkas-reten-salah'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkas ===
+                                  'tidak-menerima-nasihat-ringkas-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-menerima-nasihat-ringkas-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                disabled={
+                                  menerimaNasihatRingkas === '' ? true : false
+                                }
+                                required
+                                type='radio'
+                                name='menerima-nasihat-ringkas-reten-salah'
+                                id='tiada-menerima-nasihat-ringkas-reten-salah'
+                                value='tiada-menerima-nasihat-ringkas-reten-salah'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkas ===
+                                  'tiada-menerima-nasihat-ringkas-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-menerima-nasihat-ringkas-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: '',
+                                    menerimaNasihatRingkasCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: '',
+                                    menerimaNasihatRingkasCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: '',
+                                      menerimaNasihatRingkasCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
@@ -5408,61 +5861,278 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           Murid BERSETUJU untuk dirujuk menjalani intervensi?
                           <span className='text-user6'>*</span>
                         </p>
-                        <div className='flex items-center'>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='bersedia-dirujuk'
-                            id='ya-bersedia-dirujuk'
-                            value='ya-bersedia-dirujuk'
-                            checked={
-                              bersediaDirujuk === 'ya-bersedia-dirujuk'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setBersediaDirujuk(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                bersediaDirujuk: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-bersedia-dirujuk'
-                            className='mx-2 text-sm font-m'
+                        <div className='flex flex-col'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.bersediaDirujukCBox &&
+                              'bg-user9 bg-opacity-20 justify-center p-2'
+                            } flex flex-row items-center relative`}
                           >
-                            Ya
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='bersedia-dirujuk'
-                            id='tidak-bersedia-dirujuk'
-                            value='tidak-bersedia-dirujuk'
-                            checked={
-                              bersediaDirujuk === 'tidak-bersedia-dirujuk'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setBersediaDirujuk(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                bersediaDirujuk: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-menerima-nasihat-ringkas'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='bersedia-dirujuk'
+                              id='ya-bersedia-dirujuk'
+                              value='ya-bersedia-dirujuk'
+                              checked={
+                                bersediaDirujuk === 'ya-bersedia-dirujuk'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setBersediaDirujuk(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  bersediaDirujuk: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='ya-bersedia-dirujuk'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='bersedia-dirujuk'
+                              id='tidak-bersedia-dirujuk'
+                              value='tidak-bersedia-dirujuk'
+                              checked={
+                                bersediaDirujuk === 'tidak-bersedia-dirujuk'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setBersediaDirujuk(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  bersediaDirujuk: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tidak-menerima-nasihat-ringkas'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='bersedia-dirujuk-reten-salah-cbox'
+                                id='bersedia-dirujuk-reten-salah-cbox'
+                                checked={pilihanDataSalah.bersediaDirujukCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujukCBox:
+                                      !pilihanDataSalah.bersediaDirujukCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujukCBox:
+                                      !pilihanDataSalah.bersediaDirujukCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujukCBox:
+                                        !pilihanDataSalah.bersediaDirujukCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='bersedia-dirujuk-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.bersediaDirujukCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        bersediaDirujuk: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        bersediaDirujuk: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          bersediaDirujuk: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.bersediaDirujukCBox === true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1 p-2'>
+                              <input
+                                disabled={
+                                  bersediaDirujuk === 'ya-bersedia-dirujuk'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='bersedia-dirujuk-reten-salah'
+                                id='ya-bersedia-dirujuk-reten-salah'
+                                value='ya-bersedia-dirujuk-reten-salah'
+                                checked={
+                                  pilihanDataSalah.bersediaDirujuk ===
+                                  'ya-bersedia-dirujuk-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ya-bersedia-dirujuk-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={
+                                  bersediaDirujuk === 'tidak-bersedia-dirujuk'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='bersedia-dirujuk-reten-salah'
+                                id='tidak-bersedia-dirujuk-reten-salah'
+                                value='tidak-bersedia-dirujuk-reten-salah'
+                                checked={
+                                  pilihanDataSalah.bersediaDirujuk ===
+                                  'tidak-bersedia-dirujuk-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-bersedia-dirujuk-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                disabled={bersediaDirujuk === '' ? true : false}
+                                required
+                                type='radio'
+                                name='bersedia-dirujuk-reten-salah'
+                                id='tiada-bersedia-dirujuk-reten-salah'
+                                value='tiada-bersedia-dirujuk-reten-salah'
+                                checked={
+                                  pilihanDataSalah.bersediaDirujuk ===
+                                  'tiada-bersedia-dirujuk-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-bersedia-dirujuk-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: '',
+                                    bersediaDirujukCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: '',
+                                    bersediaDirujukCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: '',
+                                      bersediaDirujukCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                       {/* {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
