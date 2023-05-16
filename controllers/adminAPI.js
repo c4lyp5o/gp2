@@ -13,6 +13,7 @@ const Operator = require('../models/Operator');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Event = require('../models/Event');
+const Sekolah = require('../models/Sekolah');
 const Sosmed = require('../models/MediaSosial');
 const Followers = require('../models/Followers');
 const PromosiType = require('../models/PromosiType');
@@ -1846,7 +1847,9 @@ const getData = async (req, res) => {
             theType !== 'klinik' &&
             theType !== 'program' &&
             theType !== 'sosmed' &&
-            theType !== 'followers'
+            theType !== 'followers' &&
+            theType !== 'sekolah-rendah' &&
+            theType !== 'sekolah-menengah'
           ) {
             const data = await Fasiliti.findByIdAndDelete({ _id: Id });
             logger.info(
@@ -1933,6 +1936,28 @@ const getData = async (req, res) => {
             );
             return res.status(200).json(data);
           }
+          if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
+            const sekolah = await Fasiliti.findOne({ _id: Id });
+            console.log(sekolah.kodSekolah);
+            const currentPelajar = await Sekolah.find({
+              kodSekolah: sekolah.kodSekolah,
+              sesiTakwimPelajar: sesiTakwimSekolah(),
+            });
+            for (let i = 0; i < currentPelajar.length; i++) {
+              if (currentPelajar[i].pemeriksaanSekolah) {
+                return res.status(409).json({
+                  msg: 'Sekolah tidak boleh dihapus kerana ada murid yang telah di-isi reten.Sila hubungi Meja Bantuan untuk pertanyaan lanjut',
+                });
+              }
+            }
+            const data = await Fasiliti.findByIdAndDelete({ _id: Id });
+            logger.info(
+              `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
+            );
+            return res.status(200).json(data);
+            // we are here
+          }
+
           if (theType === 'program') {
             const program = await Event.findOne({ _id: Id });
             const exists = await Umum.find({

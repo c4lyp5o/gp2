@@ -922,6 +922,7 @@ const DeleteModal = ({
           break;
         case 'negeriSuperadmin':
         case 'daerahSuperadmin':
+          setDeletingData(true);
           deleteData(FType, id).then((res) => {
             if (res.status === 200) {
               toast.info(`Data berjaya dipadam`);
@@ -931,13 +932,23 @@ const DeleteModal = ({
               return;
             }
             if (res.response.status !== 200) {
-              if (FType === 'program') {
-                toast.error(`${res.response.data.msg}`);
-              }
-              if (FType !== 'program') {
-                toast.error(
-                  `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
-                );
+              switch (FType) {
+                case 'program':
+                  toast.error(`${res.response.data.msg}`);
+                  break;
+
+                case 'sm':
+                case 'sr':
+                  toast.error(`${res.response.data.msg}`);
+                  break;
+
+                case 'kp':
+                  toast.error(
+                    `Data tidak berjaya dipadam. Anda perlu memindah ${res.response.data} ke KP lain sebelum menghapus KP sekarang`
+                  );
+                  break;
+                default:
+                  console.log('Nope');
               }
               setShowDeleteModal(false);
               setDeletingData(false);
@@ -958,7 +969,7 @@ const DeleteModal = ({
           onClick={() => setShowDeleteModal(false)}
         />
         <div className={styles.centered}>
-          <div className={styles.modal}>
+          <div className={styles.modalDelete}>
             <div className={styles.modalHeader}>
               <h5 className={styles.heading}>AWAS!</h5>
             </div>
