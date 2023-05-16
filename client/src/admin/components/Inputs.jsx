@@ -1973,7 +1973,7 @@ export function InputEditFacility(props) {
                 {props.FType === 'sr' && (
                   <div>
                     <p>
-                      Program Kumuran Berflourida{' '}
+                      Program Kumuran Berfluorida{' '}
                       <span className='font-semibold text-lg text-admin3'>
                         *
                       </span>
