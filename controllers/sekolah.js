@@ -69,11 +69,12 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   }
 
   const { kp, kodFasiliti } = req.user;
+  const sesiTakwim = sesiTakwimSekolah();
   const fasilitiSekolahs = await Fasiliti.findOne({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
     kodSekolah: req.params.kodSekolah,
-    sesiTakwimSekolah: sesiTakwimSekolah(),
+    sesiTakwimSekolah: sesiTakwim,
   });
 
   // const namaSekolahs = fasilitiSekolahs.reduce(
@@ -98,7 +99,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
 
   const allPersonSekolahs = await Sekolah.find({
     kodSekolah: req.params.kodSekolah,
-    sesiTakwimPelajar: sesiTakwimSekolah(),
+    sesiTakwimPelajar: sesiTakwim,
   })
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah')
@@ -116,15 +117,15 @@ const getAllPersonSekolahFaceted = async (req, res) => {
   }
 
   const { kodFasiliti } = req.user;
-
   const { kodSekolah } = req.params;
+  const sesiTakwim = sesiTakwimSekolah();
 
   const dataSekolahDenganPelajar = await Fasiliti.aggregate([
     {
       $match: {
         kodFasilitiHandler: kodFasiliti,
         kodSekolah,
-        sesiTakwimSekolah: sesiTakwimSekolah(),
+        sesiTakwimSekolah: sesiTakwim,
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
@@ -147,7 +148,7 @@ const getAllPersonSekolahFaceted = async (req, res) => {
                           $eq: ['$kodSekolah', '$$kodSekolah'],
                         },
                         {
-                          $eq: ['$sesiTakwimPelajar', sesiTakwimSekolah()],
+                          $eq: ['$sesiTakwimPelajar', sesiTakwim],
                         },
                       ],
                     },
@@ -259,9 +260,11 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const personSekolahWithPopulate = await Sekolah.findOne({
     _id: req.params.personSekolahId,
-    sesiTakwimPelajar: sesiTakwimSekolah(),
+    sesiTakwimPelajar: sesiTakwim,
   })
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah');
@@ -282,9 +285,11 @@ const kemaskiniSenaraiPelajar = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const fasilitiSekolah = await Fasiliti.findOne({
     _id: req.params.fasilitiId,
-    sesiTakwimSekolah: sesiTakwimSekolah(),
+    sesiTakwimSekolah: sesiTakwim,
   });
 
   try {
