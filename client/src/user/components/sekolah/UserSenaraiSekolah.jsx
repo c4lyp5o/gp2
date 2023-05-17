@@ -30,9 +30,9 @@ function UserSekolahList() {
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  const [enrolmen, setEnrolmen] = useState([]);
-  const [kedatanganBaru, setKedatanganBaru] = useState([]);
-  const [kesSelesai, setKesSelesai] = useState([]);
+  // const [enrolmen, setEnrolmen] = useState([]);
+  // const [kedatanganBaru, setKedatanganBaru] = useState([]);
+  // const [kesSelesai, setKesSelesai] = useState([]);
   const [sekMenRen, setSekMenRen] = useState('');
 
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
@@ -57,60 +57,60 @@ function UserSekolahList() {
             }`,
           },
         });
+        data.fasilitiSekolahs.sort(
+          (a, b) => a.sekolahSelesaiReten - b.sekolahSelesaiReten
+        );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(data.fasilitiSekolahs);
-        data.fasilitiSekolahs
-          .sort((a, b) => a.sekolahSelesaiReten - b.sekolahSelesaiReten)
-          .forEach((singleSekolah) => {
-            // kira enrolmen
-            const tempEnrolmen = () => {
-              return data.allPersonSekolahs.filter((person) =>
-                person.namaSekolah.includes(singleSekolah.nama)
-              ).length;
-            };
-            setEnrolmen((current) => [...current, tempEnrolmen()]);
+        // data.fasilitiSekolahs
+        //   .sort((a, b) => a.sekolahSelesaiReten - b.sekolahSelesaiReten)
+        //   .forEach((singleSekolah) => {
+        //     // kira enrolmen
+        //     const tempEnrolmen = () => {
+        //       return data.allPersonSekolahs.filter((person) =>
+        //         person.namaSekolah.includes(singleSekolah.nama)
+        //       ).length;
+        //     };
+        //     setEnrolmen((current) => [...current, tempEnrolmen()]);
 
-            // kira kedatangan baru
-            let tempKedatanganBaru = 0;
-            data.allPersonSekolahs
-              .filter((person) =>
-                person.namaSekolah.includes(singleSekolah.nama)
-              )
-              .forEach((person) => {
-                if (person.pemeriksaanSekolah /*&& person.rawatanSekolah[0]*/) {
-                  tempKedatanganBaru += 1;
-                }
-                // if (person.pemeriksaanSekolah && person.rawatanSekolah[0]) {
-                //   if (
-                //     person.pemeriksaanSekolah.tarikhPemeriksaanSemasa ===
-                //     person.rawatanSekolah[0].tarikhRawatanSemasa
-                //   ) {
-                //     tempKedatanganBaru += 1;
-                //   }
-                // }
-              });
-            setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
+        //     // kira kedatangan baru
+        //     let tempKedatanganBaru = 0;
+        //     data.allPersonSekolahs
+        //       .filter((person) =>
+        //         person.namaSekolah.includes(singleSekolah.nama)
+        //       )
+        //       .forEach((person) => {
+        //         if (person.pemeriksaanSekolah /*&& person.rawatanSekolah[0]*/) {
+        //           tempKedatanganBaru += 1;
+        //         }
+        //         // if (person.pemeriksaanSekolah && person.rawatanSekolah[0]) {
+        //         //   if (
+        //         //     person.pemeriksaanSekolah.tarikhPemeriksaanSemasa ===
+        //         //     person.rawatanSekolah[0].tarikhRawatanSemasa
+        //         //   ) {
+        //         //     tempKedatanganBaru += 1;
+        //         //   }
+        //         // }
+        //       });
+        //     setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
 
-            // kira kes selesai from statusRawatan === 'selesai'
-            let tempKesSelesai = 0;
-            data.allPersonSekolahs
-              .filter((person) =>
-                person.namaSekolah.includes(singleSekolah.nama)
-              )
-              .forEach((person) => {
-                if (person.statusRawatan === 'selesai') {
-                  tempKesSelesai += 1;
-                }
-              });
-            setKesSelesai((current) => [...current, tempKesSelesai]);
-          });
+        //     // kira kes selesai from statusRawatan === 'selesai'
+        //     let tempKesSelesai = 0;
+        //     data.allPersonSekolahs
+        //       .filter((person) =>
+        //         person.namaSekolah.includes(singleSekolah.nama)
+        //       )
+        //       .forEach((person) => {
+        //         if (person.statusRawatan === 'selesai') {
+        //           tempKesSelesai += 1;
+        //         }
+        //       });
+        //     setKesSelesai((current) => [...current, tempKesSelesai]);
+        //   });
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-senarai-sekolah-fetchFasilitiSekolahs'
-        // );
       }
     };
     fetchFasilitiSekolahs();
@@ -244,6 +244,28 @@ function UserSekolahList() {
     };
   }, []);
 
+  function kiraEnrolmen(allPersonSekolahs, singleNamaSekolah) {
+    return allPersonSekolahs.filter((person) =>
+      person.namaSekolah.includes(singleNamaSekolah.nama)
+    ).length === 0
+      ? 'Dalam semakan MOEIS'
+      : allPersonSekolahs.filter((person) =>
+          person.namaSekolah.includes(singleNamaSekolah.nama)
+        ).length;
+  }
+
+  function kiraKedatanganBaru(allPersonSekolahs, singleNamaSekolah) {
+    return allPersonSekolahs
+      .filter((person) => person.namaSekolah.includes(singleNamaSekolah.nama))
+      .filter((person) => person.pemeriksaanSekolah).length;
+  }
+
+  function kiraKesSelesai(allPersonSekolahs, singleNamaSekolah) {
+    return allPersonSekolahs
+      .filter((person) => person.namaSekolah.includes(singleNamaSekolah.nama))
+      .filter((person) => person.statusRawatan === 'selesai').length;
+  }
+
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
@@ -279,7 +301,7 @@ function UserSekolahList() {
                 <th className='outline outline-1 outline-offset-1 py-1 w-96'>
                   NAMA SEKOLAH
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
                   ENROLMEN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
@@ -297,11 +319,9 @@ function UserSekolahList() {
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
                   ISI RETEN
                 </th>
-                {userinfo.role === 'admin' && (
-                  <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
-                    TINDAKAN
-                  </th>
-                )}
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-44'>
+                  TINDAKAN
+                </th>
               </tr>
             </thead>
             {isLoading ? (
@@ -331,13 +351,15 @@ function UserSekolahList() {
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
-                  {userinfo.role === 'admin' && (
-                    <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    {userinfo.role === 'admin' && (
+                      <>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                      </>
+                    )}
+                  </td>
                 </tr>
                 <tr>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
@@ -364,13 +386,15 @@ function UserSekolahList() {
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
-                  {userinfo.role === 'admin' && (
-                    <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                    {userinfo.role === 'admin' && (
+                      <>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                      </>
+                    )}
+                  </td>
                 </tr>
               </tbody>
             ) : (
@@ -380,10 +404,6 @@ function UserSekolahList() {
                     if (sekMenRen === 'sekolah-menengah') {
                       return singleNamaSekolah.jenisFasiliti.includes(
                         'sekolah-menengah'
-                      );
-                    } else if (sekMenRen === 'prasekolah') {
-                      return singleNamaSekolah.jenisFasiliti.includes(
-                        'prasekolah'
                       );
                     } else if (sekMenRen === 'sekolah-rendah') {
                       return singleNamaSekolah.jenisFasiliti.includes(
@@ -403,19 +423,28 @@ function UserSekolahList() {
                           {singleNamaSekolah.nama}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 normal-case'>
-                          {enrolmen[index] === 0 ? 'Sedang dikemaskini dengan MOEIS' : enrolmen[index]}
+                          {kiraEnrolmen(allPersonSekolahs, singleNamaSekolah)}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                          {kedatanganBaru[index]}
+                          {kiraKedatanganBaru(
+                            allPersonSekolahs,
+                            singleNamaSekolah
+                          )}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                          {kesSelesai[index]}
+                          {kiraKesSelesai(allPersonSekolahs, singleNamaSekolah)}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <span>
                             {percentageCalc(
-                              kesSelesai[index],
-                              kedatanganBaru[index]
+                              kiraKesSelesai(
+                                allPersonSekolahs,
+                                singleNamaSekolah
+                              ),
+                              kiraKedatanganBaru(
+                                allPersonSekolahs,
+                                singleNamaSekolah
+                              )
                             )}
                             %
                           </span>
@@ -440,160 +469,182 @@ function UserSekolahList() {
                             </button>
                           </Link>
                         </td>
-                        {userinfo.role === 'admin' && (
-                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 flex flex-row justify-center'>
-                            <div
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 flex flex-row justify-center'>
+                          <div
+                            className={`${
+                              isDownload[singleNamaSekolah._id] ? '' : 'mx-0.5'
+                            } ${
+                              isDownloading
+                                ? 'pointer-events-none opacity-50'
+                                : ''
+                            } flex justify-center items-center`}
+                          >
+                            <button
+                              disabled={isDownloading}
+                              title='Cetak senarai murid sekolah'
+                              onClick={() => {
+                                handleDownloadSenaraiSekolah(
+                                  singleNamaSekolah.kodSekolah,
+                                  singleNamaSekolah.nama
+                                );
+                              }}
+                              onMouseEnter={() => {
+                                setIsDownload({
+                                  ...isDownload,
+                                  [singleNamaSekolah._id]: true,
+                                });
+                              }}
+                              onMouseLeave={() => {
+                                setIsDownload({
+                                  ...isDownload,
+                                  [singleNamaSekolah._id]: false,
+                                });
+                              }}
                               className={`${
+                                singleNamaSekolah.sekolahSelesaiReten
+                                  ? 'bg-user3 shadow-md'
+                                  : 'bg-user3 shadow-md'
+                              } ${
                                 isDownload[singleNamaSekolah._id]
                                   ? ''
-                                  : 'mx-0.5'
-                              } ${
-                                isDownloading
-                                  ? 'pointer-events-none opacity-50'
-                                  : ''
-                              } flex justify-center items-center`}
+                                  : 'w-7 h-7'
+                              } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
                             >
-                              <button
-                                disabled={isDownloading}
-                                title='Cetak senarai murid sekolah'
-                                onClick={() => {
-                                  handleDownloadSenaraiSekolah(
-                                    singleNamaSekolah.kodSekolah,
-                                    singleNamaSekolah.nama
-                                  );
-                                }}
-                                onMouseEnter={() => {
-                                  setIsDownload({
-                                    ...isDownload,
-                                    [singleNamaSekolah._id]: true,
-                                  });
-                                }}
-                                onMouseLeave={() => {
-                                  setIsDownload({
-                                    ...isDownload,
-                                    [singleNamaSekolah._id]: false,
-                                  });
-                                }}
+                              <BsDownload className='inline-flex' />
+                              <p
                                 className={`${
-                                  singleNamaSekolah.sekolahSelesaiReten
-                                    ? 'bg-user1 pointer-events-none px-5'
-                                    : 'bg-user3 shadow-md'
-                                } ${
                                   isDownload[singleNamaSekolah._id]
-                                    ? ''
-                                    : 'w-7 h-7'
-                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
+                                    ? 'max-w-min ml-1 transition-all duration-700 '
+                                    : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                }`}
                               >
-                                <BsDownload className='inline-flex' />
-                                <p
-                                  className={`${
-                                    isDownload[singleNamaSekolah._id]
-                                      ? 'max-w-min ml-1 transition-all duration-700 '
-                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
-                                  }`}
-                                >
-                                  CETAK
-                                </p>
-                              </button>
-                            </div>
-                            <div
-                              className={`${
-                                isKemaskini[singleNamaSekolah._id]
-                                  ? ''
-                                  : 'mx-0.5'
-                              } flex justify-center items-center`}
-                            >
-                              <button
-                                title='Kemaskini senarai murid sekolah terkini'
-                                onClick={() => {
-                                  setIdSekolah(singleNamaSekolah._id);
-                                  setModalRefreshPelajar(true);
-                                }}
-                                onMouseEnter={() => {
-                                  setIsKemaskini({
-                                    ...isKemaskini,
-                                    [singleNamaSekolah._id]: true,
-                                  });
-                                }}
-                                onMouseLeave={() => {
-                                  setIsKemaskini({
-                                    ...isKemaskini,
-                                    [singleNamaSekolah._id]: false,
-                                  });
-                                }}
+                                CETAK
+                              </p>
+                            </button>
+                          </div>
+                          {userinfo.role === 'admin' && (
+                            <>
+                              <div
                                 className={`${
-                                  singleNamaSekolah.sekolahSelesaiReten
-                                    ? 'bg-user1 pointer-events-none px-5'
-                                    : 'bg-user3 shadow-md'
-                                } ${
                                   isKemaskini[singleNamaSekolah._id]
                                     ? ''
-                                    : 'w-7 h-7'
-                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
+                                    : 'mx-0.5'
+                                } flex justify-center items-center`}
                               >
-                                <BsHurricane className='inline-flex' />
-                                <p
+                                <button
+                                  title='Kemaskini senarai murid sekolah terkini'
+                                  onClick={() => {
+                                    if (
+                                      kiraEnrolmen(
+                                        allPersonSekolahs,
+                                        singleNamaSekolah
+                                      ) === 'Dalam semakan MOEIS'
+                                    ) {
+                                      return;
+                                    }
+                                    setIdSekolah(singleNamaSekolah._id);
+                                    setModalRefreshPelajar(true);
+                                  }}
+                                  onMouseEnter={() => {
+                                    setIsKemaskini({
+                                      ...isKemaskini,
+                                      [singleNamaSekolah._id]: true,
+                                    });
+                                  }}
+                                  onMouseLeave={() => {
+                                    setIsKemaskini({
+                                      ...isKemaskini,
+                                      [singleNamaSekolah._id]: false,
+                                    });
+                                  }}
                                   className={`${
+                                    singleNamaSekolah.sekolahSelesaiReten
+                                      ? 'bg-user1 pointer-events-none px-5'
+                                      : 'bg-user3 shadow-md'
+                                  } ${
                                     isKemaskini[singleNamaSekolah._id]
-                                      ? 'max-w-min ml-1 transition-all duration-700 '
-                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
-                                  }`}
+                                      ? ''
+                                      : 'w-7 h-7'
+                                  } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
                                 >
-                                  {singleNamaSekolah.sekolahSelesaiReten
-                                    ? 'TELAH DITUTUP'
-                                    : 'KEMASKINI'}
-                                </p>
-                              </button>
-                            </div>
-                            <div
-                              className={`${
-                                isTutup[singleNamaSekolah._id] ? '' : 'mx-0.5'
-                              } flex justify-center items-center`}
-                            >
-                              <button
-                                title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
-                                onClick={() => {
-                                  setIdSekolah(singleNamaSekolah._id);
-                                  setModalSelesaiSekolah(true);
-                                }}
-                                onMouseEnter={() => {
-                                  setIsTutup({
-                                    ...isTutup,
-                                    [singleNamaSekolah._id]: true,
-                                  });
-                                }}
-                                onMouseLeave={() => {
-                                  setIsTutup({
-                                    ...isTutup,
-                                    [singleNamaSekolah._id]: false,
-                                  });
-                                }}
+                                  {kiraEnrolmen(
+                                    allPersonSekolahs,
+                                    singleNamaSekolah
+                                  ) === 'Dalam semakan MOEIS' ? (
+                                    '-'
+                                  ) : (
+                                    <BsHurricane className='inline-flex' />
+                                  )}
+                                  {kiraEnrolmen(
+                                    allPersonSekolahs,
+                                    singleNamaSekolah
+                                  ) === 'Dalam semakan MOEIS' ? (
+                                    '-'
+                                  ) : (
+                                    <p
+                                      className={`${
+                                        isKemaskini[singleNamaSekolah._id]
+                                          ? 'max-w-min ml-1 transition-all duration-700 '
+                                          : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                      }`}
+                                    >
+                                      {singleNamaSekolah.sekolahSelesaiReten
+                                        ? 'TELAH DITUTUP'
+                                        : 'KEMASKINI'}
+                                    </p>
+                                  )}
+                                </button>
+                              </div>
+                              <div
                                 className={`${
-                                  singleNamaSekolah.sekolahSelesaiReten
-                                    ? 'bg-user7 pointer-events-none'
-                                    : 'bg-user3 shadow-md'
-                                } ${
-                                  isTutup[singleNamaSekolah._id]
-                                    ? ''
-                                    : 'w-7 h-7'
-                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700  flex items-center`}
+                                  isTutup[singleNamaSekolah._id] ? '' : 'mx-0.5'
+                                } flex justify-center items-center`}
                               >
-                                <BsEnvelopeX className='inline-flex ' />
-                                <p
+                                <button
+                                  title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
+                                  onClick={() => {
+                                    setIdSekolah(singleNamaSekolah._id);
+                                    setModalSelesaiSekolah(true);
+                                  }}
+                                  onMouseEnter={() => {
+                                    setIsTutup({
+                                      ...isTutup,
+                                      [singleNamaSekolah._id]: true,
+                                    });
+                                  }}
+                                  onMouseLeave={() => {
+                                    setIsTutup({
+                                      ...isTutup,
+                                      [singleNamaSekolah._id]: false,
+                                    });
+                                  }}
                                   className={`${
+                                    singleNamaSekolah.sekolahSelesaiReten
+                                      ? 'bg-user7 pointer-events-none'
+                                      : 'bg-user3 shadow-md'
+                                  } ${
                                     isTutup[singleNamaSekolah._id]
-                                      ? 'max-w-min ml-1 transition-all duration-700 '
-                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
-                                  }`}
+                                      ? ''
+                                      : 'w-7 h-7'
+                                  } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700  flex items-center`}
                                 >
-                                  {singleNamaSekolah.sekolahSelesaiReten
-                                    ? 'TELAH DITUTUP'
-                                    : 'TUTUP'}
-                                </p>
-                              </button>
-                            </div>
-                          </td>
-                        )}
+                                  <BsEnvelopeX className='inline-flex ' />
+                                  <p
+                                    className={`${
+                                      isTutup[singleNamaSekolah._id]
+                                        ? 'max-w-min ml-1 transition-all duration-700 '
+                                        : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                    }`}
+                                  >
+                                    {singleNamaSekolah.sekolahSelesaiReten
+                                      ? 'TELAH DITUTUP'
+                                      : 'TUTUP'}
+                                  </p>
+                                </button>
+                              </div>
+                            </>
+                          )}
+                        </td>
                       </tr>
                     );
                   })}
