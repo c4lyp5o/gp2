@@ -170,7 +170,8 @@ const getManualInsertPelajarMOEIS = async (req, res) => {
           );
           await insertToSekolah(allCurrentSRSM[i], data); // one by one
         } catch (error) {
-          return res.status(503).json({ msg: error.message });
+          logger.error(`[manual-insert-pelajar] ${error.message}`);
+          // return res.status(503).json({ msg: error.message });
         }
       }
     }
@@ -215,7 +216,8 @@ const getManualInsertPelajarMOEIS = async (req, res) => {
           // tasks.push({ twoInOne: [allCurrentSRSM[i], data] });
           // tasks.push(allCurrentSRSM[i], data);
         } catch (error) {
-          return res.status(503).json({ msg: error.message });
+          logger.error(`[manual-insert-pelajar] ${error.message}`);
+          // return res.status(503).json({ msg: error.message });
         }
       }
     }
