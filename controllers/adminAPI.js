@@ -559,7 +559,7 @@ const getDataRoute = async (req, res) => {
       `[adminAPI/getDataRoute] ${user_name} requested ${type} data but no data found`
     );
     return res.status(404).json({
-      message: 'Tiada data ditemui',
+      message: `Tiada data ${type} dijumpai`,
     });
   } else {
     res.status(200).json(data);
@@ -770,10 +770,10 @@ const getDataKpRoute = async (req, res) => {
   // 3rd phase
   if (data.length === 0) {
     logger.info(
-      `[adminAPI/getDataRoute] ${user_name} requested ${type} data with id ${Id} but no data found`
+      `[adminAPI/getDataRoute] ${kp} requested ${type} data but no data found`
     );
     return res.status(404).json({
-      message: `Tiada data ${type} dengan id ${Id}`,
+      message: `Tiada data ${type} dijumpai`,
     });
   } else {
     res.status(200).json(data);
@@ -1946,7 +1946,7 @@ const getData = async (req, res) => {
             for (let i = 0; i < currentPelajar.length; i++) {
               if (currentPelajar[i].pemeriksaanSekolah) {
                 return res.status(409).json({
-                  msg: 'Sekolah tidak boleh dihapus kerana ada murid yang telah di-isi reten.Sila hubungi Meja Bantuan untuk pertanyaan lanjut',
+                  msg: 'Sekolah tidak boleh dihapus kerana ada murid yang telah diisi reten. Sila hubungi Meja Bantuan untuk pertanyaan lanjut',
                 });
               }
             }
