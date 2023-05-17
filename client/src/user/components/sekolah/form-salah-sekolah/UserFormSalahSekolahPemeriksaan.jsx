@@ -1422,51 +1422,191 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                         Cleft Lip/Palate
                       </h4>
                       <div className='grid grid-cols-2'>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='ada-cleft-lip'
-                            id='ada-cleft-lip'
-                            checked={adaCleftLip}
-                            onChange={() => {
-                              setAdaCleftLip(!adaCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                adaCleftLip: !adaCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
-                          <label
-                            htmlFor='ada-cleft-lip'
-                            className='mx-2 text-sm font-m'
+                        <div className='grid grid-rows-2  pl-5 pt-1'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.adaCleftLipCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row justify-center `}
                           >
-                            Ada
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='ada-cleft-lip'
+                              id='ada-cleft-lip'
+                              checked={adaCleftLip}
+                              onChange={() => {
+                                setAdaCleftLip(!adaCleftLip);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaCleftLip: !adaCleftLip,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='ada-cleft-lip'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ada
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='ada-cleft-lip-reten-salah-cbox'
+                                id='ada-cleft-lip-reten-salah-cbox'
+                                checked={pilihanDataSalah.adaCleftLipCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    adaCleftLipCBox:
+                                      !pilihanDataSalah.adaCleftLipCBox,
+                                    adaCleftLip: !adaCleftLip,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    adaCleftLipCBox:
+                                      !pilihanDataSalah.adaCleftLipCBox,
+                                    adaCleftLip: !adaCleftLip,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      adaCleftLipCBox:
+                                        !pilihanDataSalah.adaCleftLipCBox,
+                                      adaCleftLip: !adaCleftLip,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='ada-cleft-lip-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.adaCleftLipCBox === true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.adaCleftLipCBox === true && (
+                            <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50'>
+                              <input
+                                disabled
+                                type='checkbox'
+                                name='ada-cleft-lip-reten-salah'
+                                id='ada-cleft-lip-reten-salah'
+                                checked={pilihanDataSalah.adaCleftLip}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              />
+                              <label
+                                htmlFor='ada-cleft-lip-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ada
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='rujuk-cleft-lip-palate'
-                            id='rujuk-cleft-lip-palate'
-                            checked={rujukCleftLip}
-                            onChange={() => {
-                              setRujukCleftLip(!rujukCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                rujukCleftLip: !rujukCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='rujuk-cleft-lip-palate'
-                            className='mx-2 text-sm font-m'
+                        <div className='grid grid-rows-2  pl-5 pt-1'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.rujukCleftLipCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row justify-center `}
                           >
-                            Rujuk
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='rujuk-cleft-lip-palate'
+                              id='rujuk-cleft-lip-palate'
+                              checked={rujukCleftLip}
+                              onChange={() => {
+                                setRujukCleftLip(!rujukCleftLip);
+                                setConfirmData({
+                                  ...confirmData,
+                                  rujukCleftLip: !rujukCleftLip,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='rujuk-cleft-lip-palate'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Rujuk
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='rujuk-cleft-lip-reten-salah-cbox'
+                                id='rujuk-cleft-lip-reten-salah-cbox'
+                                checked={pilihanDataSalah.rujukCleftLipCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    rujukCleftLipCBox:
+                                      !pilihanDataSalah.rujukCleftLipCBox,
+                                    rujukCleftLip: !rujukCleftLip,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    rujukCleftLipCBox:
+                                      !pilihanDataSalah.rujukCleftLipCBox,
+                                    rujukCleftLip: !rujukCleftLip,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      rujukCleftLipCBox:
+                                        !pilihanDataSalah.rujukCleftLipCBox,
+                                      rujukCleftLip: !rujukCleftLip,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='rujuk-cleft-lip-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.rujukCleftLipCBox === true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.rujukCleftLipCBox === true && (
+                            <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50'>
+                              <input
+                                disabled
+                                type='checkbox'
+                                name='rujuk-cleft-lip-reten-salah'
+                                id='rujuk-cleft-lip-reten-salah'
+                                checked={pilihanDataSalah.rujukCleftLip}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              />
+                              <label
+                                htmlFor='rujuk-cleft-lip-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Rujuk
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </article>
@@ -3434,7 +3574,12 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
                         />
                       </div> */}
-                        <div className='flex items-center flex-row pl-5'>
+                        <div
+                          className={`${
+                            pilihanDataSalah.perluPenskaleranOralHygieneCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5`}
+                        >
                           <input
                             disabled={isDisabled}
                             type='checkbox'
@@ -3459,7 +3604,79 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           >
                             Perlu Penskaleran
                           </label>
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='perlu-penskaleran-reten-salah-cbox'
+                              id='perlu-penskaleran-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.perluPenskaleranOralHygieneCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  perluPenskaleranOralHygieneCBox:
+                                    !pilihanDataSalah.perluPenskaleranOralHygieneCBox,
+                                  perluPenskaleranOralHygiene:
+                                    !perluPenskaleranOralHygiene,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  perluPenskaleranOralHygieneCBox:
+                                    !pilihanDataSalah.perluPenskaleranOralHygieneCBox,
+                                  perluPenskaleranOralHygiene:
+                                    !perluPenskaleranOralHygiene,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    perluPenskaleranOralHygieneCBox:
+                                      !pilihanDataSalah.perluPenskaleranOralHygieneCBox,
+                                    perluPenskaleranOralHygiene:
+                                      !perluPenskaleranOralHygiene,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='perlu-penskaleran-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.perluPenskaleranOralHygieneCBox ===
+                              true ? (
+                                <FaTimes className='text-2xl' />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
                         </div>
+                        {pilihanDataSalah.perluPenskaleranOralHygieneCBox ===
+                          true && (
+                          <div className='flex items-center flex-row pl-5  bg-user11 bg-opacity-50'>
+                            <input
+                              disabled
+                              type='checkbox'
+                              name='perlu-penskaleran-reten-salah'
+                              id='perlu-penskaleran-reten-salah'
+                              checked={
+                                pilihanDataSalah.perluPenskaleranOralHygiene
+                              }
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='perlu-penskaleran-reten-salah'
+                              className='m-2 text-sm font-m'
+                            >
+                              Perlu Penskaleran
+                            </label>
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </article>
                       <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5'>
@@ -3719,33 +3936,107 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           )}
                         </h4>
                         <div className='grid gap-1'>
-                          <div className='flex items-center pl-5'>
-                            <input
-                              disabled={isDisabled}
-                              required={
-                                adaDesidus === true || adaKekal === true
-                                  ? false
-                                  : true
-                              }
-                              type='checkbox'
-                              name='ada-desidus'
-                              id='ada-desidus'
-                              checked={adaDesidus}
-                              onChange={() => {
-                                setAdaDesidus(!adaDesidus);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaDesidus: !adaDesidus,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='ada-desidus'
-                              className='m-2 text-sm font-m'
+                          <div
+                            className={`${
+                              pilihanDataSalah.adaDesidusCBox && 'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.adaDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row justify-center `}
                             >
-                              ada gigi desidus
-                            </label>
+                              <input
+                                disabled={isDisabled}
+                                required={
+                                  adaDesidus === true || adaKekal === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='ada-desidus'
+                                id='ada-desidus'
+                                checked={adaDesidus}
+                                onChange={() => {
+                                  setAdaDesidus(!adaDesidus);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaDesidus: !adaDesidus,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='ada-desidus'
+                                className='m-2 text-sm font-m'
+                              >
+                                ada gigi desidus
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='ada-desidus-reten-salah-cbox'
+                                  id='ada-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.adaDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      adaDesidusCBox:
+                                        !pilihanDataSalah.adaDesidusCBox,
+                                      adaDesidus: !adaDesidus,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      adaDesidusCBox:
+                                        !pilihanDataSalah.adaDesidusCBox,
+                                      adaDesidus: !adaDesidus,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        adaDesidusCBox:
+                                          !pilihanDataSalah.adaDesidusCBox,
+                                        adaDesidus: !adaDesidus,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='ada-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.adaDesidusCBox === true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.adaDesidusCBox === true && (
+                              <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='ada-desidus-reten-salah'
+                                  id='ada-desidus-reten-salah'
+                                  checked={pilihanDataSalah.adaDesidus}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='ada-desidus-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  ada gigi desidus
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                           <div className='grid grid-cols-1'>
                             <div className='flex flex-row items-center pl-5'>
@@ -3831,33 +4122,107 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           )}
                         </h4>
                         <div className='grid grid-cols-1'>
-                          <div className='flex items-center pl-5 peer-active:bg-user3'>
-                            <input
-                              disabled={isDisabled}
-                              required={
-                                adaDesidus === true || adaKekal === true
-                                  ? false
-                                  : true
-                              }
-                              type='checkbox'
-                              name='ada-kekal'
-                              id='ada-kekal'
-                              checked={adaKekal}
-                              onChange={() => {
-                                setAdaKekal(!adaKekal);
-                                setConfirmData({
-                                  ...confirmData,
-                                  adaKekal: !adaKekal,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2'
-                            />
-                            <label
-                              htmlFor='ada-kekal'
-                              className='m-2 text-sm font-m'
+                          <div
+                            className={`${
+                              pilihanDataSalah.adaKekalCBox && 'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.adaKekalCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row justify-center `}
                             >
-                              ada gigi kekal
-                            </label>
+                              <input
+                                disabled={isDisabled}
+                                required={
+                                  adaDesidus === true || adaKekal === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='ada-kekal'
+                                id='ada-kekal'
+                                checked={adaKekal}
+                                onChange={() => {
+                                  setAdaKekal(!adaKekal);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    adaKekal: !adaKekal,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2'
+                              />
+                              <label
+                                htmlFor='ada-kekal'
+                                className='m-2 text-sm font-m'
+                              >
+                                ada gigi kekal
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='ada-kekal-reten-salah-cbox'
+                                  id='ada-kekal-reten-salah-cbox'
+                                  checked={pilihanDataSalah.adaKekalCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      adaKekalCBox:
+                                        !pilihanDataSalah.adaKekalCBox,
+                                      adaKekal: !adaKekal,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      adaKekalCBox:
+                                        !pilihanDataSalah.adaKekalCBox,
+                                      adaKekal: !adaKekal,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        adaKekalCBox:
+                                          !pilihanDataSalah.adaKekalCBox,
+                                        adaKekal: !adaKekal,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='ada-kekal-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.adaKekalCBox === true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.adaKekalCBox === true && (
+                              <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50 mb-1'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='ada-kekal-reten-salah'
+                                  id='ada-kekal-reten-salah'
+                                  checked={pilihanDataSalah.adaKekal}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='ada-kekal-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  ada gigi kekal
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                           <div className='grid grid-cols-1 gap-2'>
                             <article className='grid grid-cols-2 border border-userBlack p-1 rounded-md mx-1'>
@@ -4150,104 +4515,418 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                         <h4 className='font-bold flex flex-row col-span-2  pb-2 pl-5'>
                           Kehilangan Permukaan Gigi (TSL)
                         </h4>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='tooth-surface-loss'
-                            id='tooth-surface-loss'
-                            checked={toothSurfaceLoss}
-                            onChange={(e) => {
-                              setToothSurfaceLoss(!toothSurfaceLoss);
-                              setConfirmData({
-                                ...confirmData,
-                                toothSurfaceLoss: !toothSurfaceLoss,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='tooth-surface-loss'
-                            className='text-sm font-m ml-2'
+                        <div
+                          className={`${
+                            pilihanDataSalah.toothSurfaceLossCBox &&
+                            'grid-rows-2'
+                          } grid px-3 pl pt-1`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.toothSurfaceLossCBox &&
+                              'bg-user9 bg-opacity-20 p-2'
+                            } flex items-center flex-row pl-2`}
                           >
-                            Kehilangan Permukaan Gigi
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='tooth-surface-loss'
+                              id='tooth-surface-loss'
+                              checked={toothSurfaceLoss}
+                              onChange={(e) => {
+                                setToothSurfaceLoss(!toothSurfaceLoss);
+                                setConfirmData({
+                                  ...confirmData,
+                                  toothSurfaceLoss: !toothSurfaceLoss,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='tooth-surface-loss'
+                              className='text-sm font-m ml-2'
+                            >
+                              Kehilangan Permukaan Gigi
+                            </label>
+                            <div className='relative mx-2'>
+                              <input
+                                type='checkbox'
+                                name='tooth-surface-loss-reten-salah-cbox'
+                                id='tooth-surface-loss-reten-salah-cbox'
+                                checked={pilihanDataSalah.toothSurfaceLossCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    toothSurfaceLossCBox:
+                                      !pilihanDataSalah.toothSurfaceLossCBox,
+                                    toothSurfaceLoss: !toothSurfaceLoss,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    toothSurfaceLossCBox:
+                                      !pilihanDataSalah.toothSurfaceLossCBox,
+                                    toothSurfaceLoss: !toothSurfaceLoss,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      toothSurfaceLossCBox:
+                                        !pilihanDataSalah.toothSurfaceLossCBox,
+                                      toothSurfaceLoss: !toothSurfaceLoss,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='tooth-surface-loss-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.toothSurfaceLossCBox ===
+                                true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.toothSurfaceLossCBox === true && (
+                            <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                              <input
+                                disabled
+                                type='checkbox'
+                                name='tooth-surface-loss-reten-salah'
+                                id='tooth-surface-loss-reten-salah'
+                                checked={pilihanDataSalah.toothSurfaceLoss}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              />
+                              <label
+                                htmlFor='tooth-surface-loss-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Kehilangan Permukaan Gigi
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </article>
                       <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                         <div className='grid grid-cols-1 lg:grid-cols-2'>
-                          <div className='flex items-center flex-row pl-5'>
-                            <input
-                              disabled={isDisabled}
-                              type='checkbox'
-                              name='kecederaan-gigi-anterior'
-                              id='kecederaan-gigi-anterior'
-                              checked={kecederaanGigiAnteriorTrauma}
-                              onChange={() => {
-                                setKecederaanGigiAnteriorTrauma(
-                                  !kecederaanGigiAnteriorTrauma
-                                );
-                                setConfirmData({
-                                  ...confirmData,
-                                  kecederaanGigiAnteriorTrauma:
-                                    !kecederaanGigiAnteriorTrauma,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='kecederaan-gigi-anterior'
-                              className='m-2 text-sm font-m'
+                          <div
+                            className={`${
+                              pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
                             >
-                              Kecederaan Gigi
-                            </label>
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='kecederaan-gigi-anterior'
+                                id='kecederaan-gigi-anterior'
+                                checked={kecederaanGigiAnteriorTrauma}
+                                onChange={() => {
+                                  setKecederaanGigiAnteriorTrauma(
+                                    !kecederaanGigiAnteriorTrauma
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    kecederaanGigiAnteriorTrauma:
+                                      !kecederaanGigiAnteriorTrauma,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='kecederaan-gigi-anterior'
+                                className='m-2 text-sm font-m'
+                              >
+                                Kecederaan Gigi
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='kecederaan-gigi-anterior-reten-salah-cbox'
+                                  id='kecederaan-gigi-anterior-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      kecederaanGigiAnteriorTraumaCBox:
+                                        !pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox,
+                                      kecederaanGigiAnteriorTrauma:
+                                        !kecederaanGigiAnteriorTrauma,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      kecederaanGigiAnteriorTraumaCBox:
+                                        !pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox,
+                                      kecederaanGigiAnteriorTrauma:
+                                        !kecederaanGigiAnteriorTrauma,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        kecederaanGigiAnteriorTraumaCBox:
+                                          !pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox,
+                                        kecederaanGigiAnteriorTrauma:
+                                          !kecederaanGigiAnteriorTrauma,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='kecederaan-gigi-anterior-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='kecederaan-gigi-anterior-reten-salah'
+                                  id='kecederaan-gigi-anterior-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.kecederaanGigiAnteriorTrauma
+                                  }
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='kecederaan-gigi-anterior-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  Kecederaan Gigi
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
-                          <div className='flex items-center flex-row pl-5'>
-                            <input
-                              disabled={isDisabled}
-                              type='checkbox'
-                              name='tisu-lembut'
-                              id='tisu-lembut'
-                              checked={tisuLembutTrauma}
-                              onChange={() => {
-                                setTisuLembutTrauma(!tisuLembutTrauma);
-                                setConfirmData({
-                                  ...confirmData,
-                                  tisuLembutTrauma: !tisuLembutTrauma,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='tisu-lembut'
-                              className='m-2 text-sm font-m'
+                          <div
+                            className={`${
+                              pilihanDataSalah.tisuLembutTraumaCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.tisuLembutTraumaCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
                             >
-                              Kecederaan Tisu Lembut
-                            </label>
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='tisu-lembut'
+                                id='tisu-lembut'
+                                checked={tisuLembutTrauma}
+                                onChange={() => {
+                                  setTisuLembutTrauma(!tisuLembutTrauma);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tisuLembutTrauma: !tisuLembutTrauma,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='tisu-lembut'
+                                className='m-2 text-sm font-m'
+                              >
+                                Kecederaan Tisu Lembut
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='tisu-lembut-reten-salah-cbox'
+                                  id='tisu-lembut-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.tisuLembutTraumaCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      tisuLembutTraumaCBox:
+                                        !pilihanDataSalah.tisuLembutTraumaCBox,
+                                      tisuLembutTrauma: !tisuLembutTrauma,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      tisuLembutTraumaCBox:
+                                        !pilihanDataSalah.tisuLembutTraumaCBox,
+                                      tisuLembutTrauma: !tisuLembutTrauma,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        tisuLembutTraumaCBox:
+                                          !pilihanDataSalah.tisuLembutTraumaCBox,
+                                        tisuLembutTrauma: !tisuLembutTrauma,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='tisu-lembut-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.tisuLembutTraumaCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.tisuLembutTraumaCBox === true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='tisu-lembut-reten-salah'
+                                  id='tisu-lembut-reten-salah'
+                                  checked={pilihanDataSalah.tisuLembutTrauma}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='tisu-lembut-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  Kecederaan Tisu Lembut
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
-                          <div className='flex items-center flex-row pl-5'>
-                            <input
-                              disabled={isDisabled}
-                              type='checkbox'
-                              name='tisu-keras'
-                              id='tisu-keras'
-                              checked={tisuKerasTrauma}
-                              onChange={() => {
-                                setTisuKerasTrauma(!tisuKerasTrauma);
-                                setConfirmData({
-                                  ...confirmData,
-                                  tisuKerasTrauma: !tisuKerasTrauma,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                            />
-                            <label
-                              htmlFor='tisu-keras'
-                              className='m-2 text-sm font-m'
+                          <div
+                            className={`${
+                              pilihanDataSalah.tisuKerasTraumaCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.tisuKerasTraumaCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
                             >
-                              kecederaan tulang muka
-                            </label>
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='tisu-keras'
+                                id='tisu-keras'
+                                checked={tisuKerasTrauma}
+                                onChange={() => {
+                                  setTisuKerasTrauma(!tisuKerasTrauma);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tisuKerasTrauma: !tisuKerasTrauma,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='tisu-keras'
+                                className='m-2 text-sm font-m'
+                              >
+                                kecederaan tulang muka
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='tisu-keras-reten-salah-cbox'
+                                  id='tisu-keras-reten-salah-cbox'
+                                  checked={pilihanDataSalah.tisuKerasTraumaCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      tisuKerasTraumaCBox:
+                                        !pilihanDataSalah.tisuKerasTraumaCBox,
+                                      tisuKerasTrauma: !tisuKerasTrauma,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      tisuKerasTraumaCBox:
+                                        !pilihanDataSalah.tisuKerasTraumaCBox,
+                                      tisuKerasTrauma: !tisuKerasTrauma,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        tisuKerasTraumaCBox:
+                                          !pilihanDataSalah.tisuKerasTraumaCBox,
+                                        tisuKerasTrauma: !tisuKerasTrauma,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='tisu-keras-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.tisuKerasTraumaCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.tisuKerasTraumaCBox === true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='tisu-keras-reten-salah'
+                                  id='tisu-keras-reten-salah'
+                                  checked={pilihanDataSalah.tisuKerasTrauma}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='tisu-keras-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  kecederaan tulang muka
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                       </article>
