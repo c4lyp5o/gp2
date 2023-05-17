@@ -1946,7 +1946,7 @@ const getData = async (req, res) => {
             for (let i = 0; i < currentPelajar.length; i++) {
               if (currentPelajar[i].pemeriksaanSekolah) {
                 return res.status(409).json({
-                  msg: 'Sekolah tidak boleh dihapus kerana ada murid yang telah di-isi reten.Sila hubungi Meja Bantuan untuk pertanyaan lanjut',
+                  msg: 'Sekolah tidak boleh dihapus kerana ada murid yang telah diisi reten. Sila hubungi Meja Bantuan untuk pertanyaan lanjut',
                 });
               }
             }
