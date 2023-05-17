@@ -1,5 +1,6 @@
 const https = require('https');
 const axios = require('axios');
+// const async = require('async');
 const Sekolah = require('../models/Sekolah');
 const Fasiliti = require('../models/Fasiliti');
 const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
@@ -128,8 +129,12 @@ const getSinglePelajarMOEIS = async (req, res) => {
 };
 
 // GET /manual-insert-pelajar
-const getRefreshPelajarMOEIS = async (req, res) => {
-  logger.info('[manual-insert-pelajar] started manual-insert-pelajar');
+const getManualInsertPelajarMOEIS = async (req, res) => {
+  const { awaitOrNot } = req.query;
+
+  logger.info(
+    `[manual-insert-pelajar] started manual-insert-pelajar awaitOrNot: ${awaitOrNot}`
+  );
 
   const sesiTakwim = sesiTakwimSekolah();
 
@@ -141,34 +146,104 @@ const getRefreshPelajarMOEIS = async (req, res) => {
   // return dlu response
   res.status(402).json({ msg: 'Tgh running manual insert pelajar. Bayar la' });
 
-  for (let i = 0; i < allCurrentSRSM.length; i++) {
-    const pelajarAlreadyAdded = await Sekolah.find({
-      kodSekolah: allCurrentSRSM[i].kodSekolah,
-      sesiTakwimPelajar: sesiTakwim,
-    });
-    if (pelajarAlreadyAdded.length === 0) {
-      console.log('Sekolah ni tak ada budak: ' + allCurrentSRSM[i].nama);
-      try {
-        const agent = new https.Agent({
-          rejectUnauthorized: false,
-        });
-        const { data } = await axios.get(
-          process.env.MOEIS_INTEGRATION_URL_PELAJAR +
-            `?inid=${allCurrentSRSM[i].idInstitusi}`,
-          {
-            httpsAgent: agent,
-            headers: {
-              APIKEY: process.env.MOEIS_APIKEY,
-            },
-          }
-        );
-        await insertToSekolah(allCurrentSRSM[i], data);
-      } catch (error) {
-        return res.status(503).json({ msg: error.message });
+  if (awaitOrNot === 'true') {
+    for (let i = 0; i < allCurrentSRSM.length; i++) {
+      const pelajarAlreadyAdded = await Sekolah.find({
+        kodSekolah: allCurrentSRSM[i].kodSekolah,
+        sesiTakwimPelajar: sesiTakwim,
+      });
+      if (pelajarAlreadyAdded.length === 0) {
+        console.log('Sekolah ni tak ada budak: ' + allCurrentSRSM[i].nama);
+        try {
+          const agent = new https.Agent({
+            rejectUnauthorized: false,
+          });
+          const { data } = await axios.get(
+            process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+              `?inid=${allCurrentSRSM[i].idInstitusi}`,
+            {
+              httpsAgent: agent,
+              headers: {
+                APIKEY: process.env.MOEIS_APIKEY,
+              },
+            }
+          );
+          await insertToSekolah(allCurrentSRSM[i], data); // one by one
+        } catch (error) {
+          return res.status(503).json({ msg: error.message });
+        }
       }
     }
+    logger.info('[manual-insert-pelajar] finished ALL manual-insert-pelajar');
+    return;
   }
-  logger.info('[manual-insert-pelajar] finished ALL manual-insert-pelajar');
+
+  if (awaitOrNot === 'false') {
+    // let tasks = [];
+
+    // const queue = async.queue((task, executed) => {
+    //   console.log('Executing task: ' + task);
+
+    //   setTimeout(() => {
+    //     const tasksRemaining = queue.length();
+    //     executed(null, { task, tasksRemaining });
+    //   }, 1000);
+    // }, 2);
+
+    for (let i = 0; i < allCurrentSRSM.length; i++) {
+      const pelajarAlreadyAdded = await Sekolah.find({
+        kodSekolah: allCurrentSRSM[i].kodSekolah,
+        sesiTakwimPelajar: sesiTakwim,
+      });
+      if (pelajarAlreadyAdded.length === 0) {
+        console.log('Sekolah ni tak ada budak: ' + allCurrentSRSM[i].nama);
+        try {
+          const agent = new https.Agent({
+            rejectUnauthorized: false,
+          });
+          const { data } = await axios.get(
+            process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+              `?inid=${allCurrentSRSM[i].idInstitusi}`,
+            {
+              httpsAgent: agent,
+              headers: {
+                APIKEY: process.env.MOEIS_APIKEY,
+              },
+            }
+          );
+          insertToSekolah(allCurrentSRSM[i], data); // tamak haloba
+          // tasks.push({ twoInOne: [allCurrentSRSM[i], data] });
+          // tasks.push(allCurrentSRSM[i], data);
+        } catch (error) {
+          return res.status(503).json({ msg: error.message });
+        }
+      }
+    }
+
+    // console.log(tasks);
+
+    // tasks.forEach((task) => {
+    //   queue.push(
+    //     insertToSekolah(task.twoInOne[0], task.twoInOne[1]),
+    //     (error, { task, tasksRemaining }) => {
+    //       if (error) {
+    //         console.log(`An error occurred while processing task ${task}`);
+    //       } else {
+    //         console.log(
+    //           `Finished processing task ${task}. ${tasksRemaining} tasks remaining`
+    //         );
+    //       }
+    //     }
+    //   );
+    // });
+
+    logger.info('[manual-insert-pelajar] finished ALL manual-insert-pelajar');
+    return;
+  }
+
+  logger.error(
+    `[manual-insert-perlajar] your params awaitOrNot: ${awaitOrNot}`
+  );
   return;
 };
 
@@ -178,5 +253,5 @@ module.exports = {
   getSingleSekolahMOEIS,
   getPelajarMOEIS,
   getSinglePelajarMOEIS,
-  getRefreshPelajarMOEIS,
+  getManualInsertPelajarMOEIS,
 };
