@@ -559,7 +559,7 @@ const getDataRoute = async (req, res) => {
       `[adminAPI/getDataRoute] ${user_name} requested ${type} data but no data found`
     );
     return res.status(404).json({
-      message: 'Tiada data ditemui',
+      message: `Tiada data ${type} dijumpai`,
     });
   } else {
     res.status(200).json(data);
@@ -770,10 +770,10 @@ const getDataKpRoute = async (req, res) => {
   // 3rd phase
   if (data.length === 0) {
     logger.info(
-      `[adminAPI/getDataRoute] ${user_name} requested ${type} data with id ${Id} but no data found`
+      `[adminAPI/getDataRoute] ${kp} requested ${type} data but no data found`
     );
     return res.status(404).json({
-      message: `Tiada data ${type} dengan id ${Id}`,
+      message: `Tiada data ${type} dijumpai`,
     });
   } else {
     res.status(200).json(data);
