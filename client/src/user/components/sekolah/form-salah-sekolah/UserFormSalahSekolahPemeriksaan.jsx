@@ -844,120 +844,49 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
   }
 
   const handleSubmit = async (e) => {
-    let mdcMdtbNum = '';
+    let mdcMdtbNumSalah = '';
     if (!userinfo.mdtbNumber) {
-      mdcMdtbNum = userinfo.mdcNumber;
+      mdcMdtbNumSalah = userinfo.mdcNumber;
     }
     if (!userinfo.mdcNumber) {
-      mdcMdtbNum = userinfo.mdtbNumber;
+      mdcMdtbNumSalah = userinfo.mdtbNumber;
     }
-
-    if (sumDMFXDesidus > 20) {
-      toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumDMFXKekal > 32) {
-      toast.error('Jumlah DMFX Kekal tidak boleh lebih dari 32', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumClassD > dAdaGigiKekal) {
-      toast.error('Jumlah Class D tidak boleh lebih dari jumlah d gigi kekal', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumClassF > fAdaGigiKekal) {
-      toast.error('Jumlah Class F tidak boleh lebih dari jumlah f gigi kekal', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumPerluFs > 16) {
-      toast.error('Jumlah Perlu Fs tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumPerluFv > 16) {
-      toast.error('Jumlah Perlu Fv tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumPerluPrr > 16) {
-      toast.error('Jumlah Perlu Prr tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (dAdaGigiKekal > sumGigiKekal) {
-      toast.error(
-        'Jumlah tampalan diperlukan gigi kekal kurang dengan jumlah D gigi kekal',
-        {
-          autoClose: 3000,
-        }
-      );
-      return;
-    }
-    if (sumGigiKekalE !== eAdaGigiKekal) {
-      toast.error(
-        'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
-        {
-          autoClose: 3000,
-        }
-      );
-      return;
-    }
-
-    if (salahReten === 'pemeriksaan-salah') {
-      let mdcMdtbNumSalah = '';
-      if (!userinfo.mdtbNumber) {
-        mdcMdtbNumSalah = userinfo.mdcNumber;
-      }
-      if (!userinfo.mdcNumber) {
-        mdcMdtbNumSalah = userinfo.mdtbNumber;
-      }
-      await toast
-        .promise(
-          axios.patch(
-            `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-            {
-              createdByUsernameSalah: userinfo.nama,
-              createdByMdcMdtbSalah: mdcMdtbNumSalah,
-              dataRetenSalah,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
+    await toast
+      .promise(
+        axios.patch(
+          `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
           {
-            pending: 'Mengemaskini...',
-            success: 'Pemeriksaan pelajar berjaya dikemaskini',
-            error: 'Pemeriksaan pelajar gagal dikemaskini',
+            createdByUsernameSalah: userinfo.nama,
+            createdByMdcMdtbSalah: mdcMdtbNumSalah,
+            dataRetenSalah,
           },
           {
-            autoClose: 2000,
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
           }
-        )
-        .then(() => {
-          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-            autoClose: 2000,
-          });
-          setTimeout(() => {
-            window.opener = null;
-            window.open('', '_self');
-            window.close();
-          }, 3000);
+        ),
+        {
+          pending: 'Mengemaskini...',
+          success: 'Pemeriksaan pelajar berjaya dikemaskini',
+          error: 'Pemeriksaan pelajar gagal dikemaskini',
+        },
+        {
+          autoClose: 2000,
+        }
+      )
+      .then(() => {
+        toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+          autoClose: 2000,
         });
-    }
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 3000);
+      });
   };
 
   return (
@@ -3415,6 +3344,31 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   Tiada
                                 </label>
                               </div>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhBawahPerluDenture: '',
+                                    separaPenuhBawahPerluDentureCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhBawahPerluDenture: '',
+                                    separaPenuhBawahPerluDentureCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahPerluDenture: '',
+                                      separaPenuhBawahPerluDentureCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
                             </div>
                           )}
                         </article>
