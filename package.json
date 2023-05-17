@@ -21,8 +21,8 @@
     "type": "git",
     "url": "git+https://github.com/nocturnalmc/gp2.git"
   },
-  "author": "",
-  "license": "GPL-3.0-or-later",
+  "author": "PKP KKM",
+  "license": "AGPL-3.0-or-later",
   "bugs": {
     "url": "https://github.com/nocturnalmc/gp2/issues"
   },
