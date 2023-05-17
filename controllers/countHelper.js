@@ -79,18 +79,22 @@ const countPG101A = async (payload) => {
   project_stage.push(project);
   sort_stage.push(sort);
 
-  const pipeline = match_stage.concat(project_stage, sort_stage);
+  try {
+    const pipeline = match_stage.concat(project_stage, sort_stage);
 
-  const data = await Umum.aggregate(pipeline);
+    const data = await Umum.aggregate(pipeline);
 
-  if (data.length === 0) {
-    errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. ${error}`
-    );
+    if (data.length === 0) {
+      errorRetenLogger.error(
+        `Error mengira reten: ${payload.jenisReten}. Tiada data yang dijumpai.`
+      );
+      throw new Error('Tiada data yang dijumpai');
+    }
+
+    return data;
+  } catch (error) {
     throw new Error(error);
   }
-
-  return data;
 };
 const countPG101C = async (payload) => {
   let match_stage = [];
@@ -155,18 +159,22 @@ const countPG101C = async (payload) => {
   project_stage.push(project);
   sort_stage.push(sort);
 
-  const pipeline = match_stage.concat(project_stage, sort_stage);
+  try {
+    const pipeline = match_stage.concat(project_stage, sort_stage);
 
-  const data = await Umum.aggregate(pipeline);
+    const data = await Umum.aggregate(pipeline);
 
-  if (data.length === 0) {
-    errorRetenLogger.error(
-      `Error mengira reten: ${payload.jenisReten}. ${error}`
-    );
+    if (data.length === 0) {
+      errorRetenLogger.error(
+        `Error mengira reten: ${payload.jenisReten}. Tiada data yang dijumpai.`
+      );
+      throw new Error('Tiada data yang dijumpai');
+    }
+
+    return data;
+  } catch (error) {
     throw new Error(error);
   }
-
-  return data;
 };
 const countPG211A = async (payload) => {
   let match_stage = [];
@@ -18788,11 +18796,13 @@ const getParams101 = (payload, reten) => {
       createdByNegeri: { $eq: negeri },
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
+      // deleted: false,
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $eq: 'kk-kd' },
+      // deleted: false,
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
