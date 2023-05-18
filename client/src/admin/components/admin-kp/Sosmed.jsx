@@ -87,9 +87,7 @@ export default function Sosmed(props) {
               return (
                 <>
                   <div className='m-2 justify-center'>
-                    <h1>
-                      KOD PROGRAM: {i.kodProgram} {i.jenisProgram}
-                    </h1>
+                    <h1>KOD PROGRAM: {i.kodProgram}</h1>
                   </div>
                   <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
                     <table className='table-auto'>
