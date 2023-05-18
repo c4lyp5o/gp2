@@ -19,7 +19,7 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
 
   if (!MOEISPelajar) {
     logger.error(
-      `[insertToSekolah] error at SENARAI MURID MENGIKUT KELAS / INSTITUSI, MOEISPelajar is: ${MOEISPelajar}`
+      `[insertToSekolah] error at SENARAI MURID MENGIKUT KELAS / INSTITUSI for sekolah ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah}, MOEISPelajar is: ${MOEISPelajar}`
     );
     return;
   }
@@ -103,7 +103,7 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
         objPelajar.warganegara = data.warganegara;
       } catch (error) {
         logger.error(
-          `[insertToSekolah] error at SINGLE_PELAJAR, error message is: ${error.message}`
+          `[insertToSekolah] error at SINGLE_PELAJAR for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} ${i}, error message is: ${error.message}`
         );
         // return error.message;
       }
