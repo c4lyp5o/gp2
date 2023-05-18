@@ -3447,7 +3447,7 @@ const makePGS203P2 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     //get worksheet
     let worksheet = workbook.getWorksheet('PGS203');
-    const monthName = moment(bulan ? bulan : tarikhMula).format('MMMM');
+    const monthName = moment(bulan ?? tarikhMula).format('MMMM');
     const yearNow = moment(new Date()).format('YYYY');
 
     worksheet.getCell('AB5').value = `${monthName.toUpperCase()}`;
@@ -3482,14 +3482,10 @@ const makePGS203P2 = async (payload) => {
         jumlahRetenSalah += data[i][0].jumlahRetenSalah;
         switch (i) {
           case 0:
-            worksheet.getRow(rowNumber).getCell(3).value = data[0][0].Kerajaan
-              ? data[0][0].Kerajaan
-              : 'BELUM DIISI';
-            break;
-          case 1:
-            worksheet.getRow(rowNumber + 1).getCell(3).value = data[0][0].Swasta
-              ? data[0][0].Swasta
-              : 'BELUM DIISI';
+            worksheet.getRow(rowNumber).getCell(3).value =
+              data[0][0].Kerajaan ?? 'BELUM DIISI';
+            worksheet.getRow(rowNumber + 1).getCell(3).value =
+              data[0][0].Swasta ?? 'BELUM DIISI';
             break;
           default:
             break;
@@ -3594,20 +3590,18 @@ const makePGS203P2 = async (payload) => {
         switch (i) {
           case 0:
             worksheet.getRow(rowNumber).getCell(64).value =
-              data[0][0].jumlahTastadKerajaan || 0; //Column BL (64)
+              data[0][0].jumlahTastadKerajaan ?? 0; //Column BL (64)
             break;
           case 1:
             worksheet.getRow(rowNumber).getCell(64).value =
-              data[0][0].jumlahTastadSwasta || 0; //Column BL (64)
+              data[0][0].jumlahTastadSwasta ?? 0; //Column BL (64)
             break;
           default:
             break;
         }
         if (i < 3) {
-          worksheet.getRow(rowNumber).getCell(65).value = data[i][0]
-            .jumlahFasilitiDilawati
-            ? data[i][0].jumlahFasilitiDilawati.length
-            : 0; //Column BM (65)
+          worksheet.getRow(rowNumber).getCell(65).value =
+            data[0][0].jumlahFasilitiDilawati.length ?? 0; //Column BM (65)
         }
       }
       rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
