@@ -3604,7 +3604,6 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Skor Plak<span className='text-user6'>*</span>
                               </p>
                               <select
-                                required
                                 name='kebersihan-mulut'
                                 id='kebersihan-mulut'
                                 value={
@@ -3952,7 +3951,6 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   Skor GIS<span className='text-user6'>*</span>
                                 </p>
                                 <select
-                                  required
                                   name='skor-gis-reten-salah'
                                   id='skor-gis-reten-salah'
                                   value={
@@ -4116,7 +4114,6 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   Skor GIS<span className='text-user6'>*</span>
                                 </p>
                                 <select
-                                  required
                                   name='skor-gis-reten-salah'
                                   id='skor-gis-reten-salah'
                                   value={
@@ -4282,7 +4279,6 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   Skor BPE<span className='text-user6'>*</span>
                                 </p>
                                 <select
-                                  required
                                   name='skor-bpe'
                                   id='skor-bpe'
                                   value={pilihanDataSalah.skorBpeOralHygiene}
@@ -5062,7 +5058,6 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     Jumlah Faktor Risiko:
                                   </p>
                                   <select
-                                    required
                                     name='jumlah-faktor-risiko'
                                     id='jumlah-faktor-risiko'
                                     value={pilihanDataSalah.jumlahFaktorRisiko}
