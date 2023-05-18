@@ -130,37 +130,39 @@ const getSinglePelajarMOEIS = async (req, res) => {
 
 // GET /manual-insert-pelajar
 const getManualInsertPelajarMOEIS = async (req, res) => {
-  const { awaitOrNot } = req.query;
-
-  logger.info(
-    `[manual-insert-pelajar] started manual-insert-pelajar awaitOrNot: ${awaitOrNot}`
-  );
+  const { awaitOrNot, reversed } = req.query;
 
   const sesiTakwim = sesiTakwimSekolah();
-
-  const allCurrentSRSM = await Fasiliti.find({
-    jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
-    sesiTakwimSekolah: sesiTakwim,
-  });
 
   // return dlu response
   res.status(402).json({ msg: 'Tgh running manual insert pelajar. Bayar la' });
 
-  if (awaitOrNot === 'true') {
-    for (let i = 0; i < allCurrentSRSM.length; i++) {
+  if (awaitOrNot === 'true' && reversed === 'false') {
+    logger.info(
+      `[manual-insert-pelajar] started manual-insert-pelajar awaitOrNot: ${awaitOrNot}, reversed: ${reversed}`
+    );
+
+    const allCurrentSRSMNormal = await Fasiliti.find({
+      jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+      sesiTakwimSekolah: sesiTakwim,
+    });
+
+    for (let i = 0; i < allCurrentSRSMNormal.length; i++) {
       const pelajarAlreadyAdded = await Sekolah.find({
-        kodSekolah: allCurrentSRSM[i].kodSekolah,
+        kodSekolah: allCurrentSRSMNormal[i].kodSekolah,
         sesiTakwimPelajar: sesiTakwim,
       });
       if (pelajarAlreadyAdded.length === 0) {
-        console.log('Sekolah ni tak ada budak: ' + allCurrentSRSM[i].nama);
+        console.log(
+          'Sekolah ni tak ada budak: ' + allCurrentSRSMNormal[i].nama
+        );
         try {
           const agent = new https.Agent({
             rejectUnauthorized: false,
           });
           const { data } = await axios.get(
             process.env.MOEIS_INTEGRATION_URL_PELAJAR +
-              `?inid=${allCurrentSRSM[i].idInstitusi}`,
+              `?inid=${allCurrentSRSMNormal[i].idInstitusi}`,
             {
               httpsAgent: agent,
               headers: {
@@ -168,7 +170,51 @@ const getManualInsertPelajarMOEIS = async (req, res) => {
               },
             }
           );
-          await insertToSekolah(allCurrentSRSM[i], data); // one by one
+          await insertToSekolah(allCurrentSRSMNormal[i], data); // one by one
+        } catch (error) {
+          logger.error(`[manual-insert-pelajar] ${error.message}`);
+          // return res.status(503).json({ msg: error.message });
+        }
+      }
+    }
+    logger.info('[manual-insert-pelajar] finished ALL manual-insert-pelajar');
+    return;
+  }
+
+  if (awaitOrNot === 'true' && reversed === 'true') {
+    logger.info(
+      `[manual-insert-pelajar] started manual-insert-pelajar awaitOrNot: ${awaitOrNot}, reversed: ${reversed}`
+    );
+
+    const allCurrentSRSMReversed = await Fasiliti.find({
+      jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+      sesiTakwimSekolah: sesiTakwim,
+    }).sort({ _id: -1 });
+
+    for (let i = 0; i < allCurrentSRSMReversed.length; i++) {
+      const pelajarAlreadyAdded = await Sekolah.find({
+        kodSekolah: allCurrentSRSMReversed[i].kodSekolah,
+        sesiTakwimPelajar: sesiTakwim,
+      });
+      if (pelajarAlreadyAdded.length === 0) {
+        console.log(
+          'Sekolah ni tak ada budak: ' + allCurrentSRSMReversed[i].nama
+        );
+        try {
+          const agent = new https.Agent({
+            rejectUnauthorized: false,
+          });
+          const { data } = await axios.get(
+            process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+              `?inid=${allCurrentSRSMReversed[i].idInstitusi}`,
+            {
+              httpsAgent: agent,
+              headers: {
+                APIKEY: process.env.MOEIS_APIKEY,
+              },
+            }
+          );
+          await insertToSekolah(allCurrentSRSMReversed[i], data); // one by one
         } catch (error) {
           logger.error(`[manual-insert-pelajar] ${error.message}`);
           // return res.status(503).json({ msg: error.message });
@@ -180,16 +226,14 @@ const getManualInsertPelajarMOEIS = async (req, res) => {
   }
 
   if (awaitOrNot === 'false') {
-    // let tasks = [];
+    logger.info(
+      `[manual-insert-pelajar] started manual-insert-pelajar awaitOrNot: ${awaitOrNot}, reversed: ${reversed}`
+    );
 
-    // const queue = async.queue((task, executed) => {
-    //   console.log('Executing task: ' + task);
-
-    //   setTimeout(() => {
-    //     const tasksRemaining = queue.length();
-    //     executed(null, { task, tasksRemaining });
-    //   }, 1000);
-    // }, 2);
+    const allCurrentSRSM = await Fasiliti.find({
+      jenisFasiliti: ['sekolah-rendah', 'sekolah-menengah'],
+      sesiTakwimSekolah: sesiTakwim,
+    });
 
     for (let i = 0; i < allCurrentSRSM.length; i++) {
       const pelajarAlreadyAdded = await Sekolah.find({
@@ -213,38 +257,18 @@ const getManualInsertPelajarMOEIS = async (req, res) => {
             }
           );
           insertToSekolah(allCurrentSRSM[i], data); // tamak haloba
-          // tasks.push({ twoInOne: [allCurrentSRSM[i], data] });
-          // tasks.push(allCurrentSRSM[i], data);
         } catch (error) {
           logger.error(`[manual-insert-pelajar] ${error.message}`);
           // return res.status(503).json({ msg: error.message });
         }
       }
     }
-
-    // console.log(tasks);
-
-    // tasks.forEach((task) => {
-    //   queue.push(
-    //     insertToSekolah(task.twoInOne[0], task.twoInOne[1]),
-    //     (error, { task, tasksRemaining }) => {
-    //       if (error) {
-    //         console.log(`An error occurred while processing task ${task}`);
-    //       } else {
-    //         console.log(
-    //           `Finished processing task ${task}. ${tasksRemaining} tasks remaining`
-    //         );
-    //       }
-    //     }
-    //   );
-    // });
-
     logger.info('[manual-insert-pelajar] finished ALL manual-insert-pelajar');
     return;
   }
 
   logger.error(
-    `[manual-insert-perlajar] your params awaitOrNot: ${awaitOrNot}`
+    `[manual-insert-perlajar] your params awaitOrNot: ${awaitOrNot}, reversed: ${reversed}`
   );
   return;
 };
