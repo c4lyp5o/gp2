@@ -3519,30 +3519,148 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                         <h4 className='font-bold flex flex-row pl-5'>
                           Kebersihan Mulut
                         </h4>
-                        <div className='flex items-center '>
-                          <p className='flex flex-row pl-5 text-sm font-m'>
-                            Skor Plak<span className='text-user6'>*</span>
-                          </p>
-                          <select
-                            disabled={isDisabled}
-                            required
-                            name='kebersihan-mulut'
-                            id='kebersihan-mulut'
-                            value={kebersihanMulutOralHygiene}
-                            onChange={(e) => {
-                              setKebersihanMulutOralHygiene(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kebersihanMulutOralHygiene: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        <div
+                          className={`${
+                            pilihanDataSalah.kebersihanMulutOralHygieneCBox &&
+                            'grid-rows-2'
+                          } grid pt-1`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.kebersihanMulutOralHygieneCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row pl-2`}
                           >
-                            <option value=''></option>
-                            <option value='A'>A</option>
-                            <option value='C'>C</option>
-                            <option value='E'>E</option>
-                          </select>
+                            <p className='flex flex-row pl-5 text-sm font-m'>
+                              Skor Plak<span className='text-user6'>*</span>
+                            </p>
+                            <select
+                              disabled={isDisabled}
+                              required
+                              name='kebersihan-mulut'
+                              id='kebersihan-mulut'
+                              value={kebersihanMulutOralHygiene}
+                              onChange={(e) => {
+                                setKebersihanMulutOralHygiene(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  kebersihanMulutOralHygiene: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='A'>A</option>
+                              <option value='C'>C</option>
+                              <option value='E'>E</option>
+                            </select>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='kebersihan-mulut-reten-salah-cbox'
+                                id='kebersihan-mulut-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.kebersihanMulutOralHygieneCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    kebersihanMulutOralHygieneCBox:
+                                      !pilihanDataSalah.kebersihanMulutOralHygieneCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    kebersihanMulutOralHygieneCBox:
+                                      !pilihanDataSalah.kebersihanMulutOralHygieneCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      kebersihanMulutOralHygieneCBox:
+                                        !pilihanDataSalah.kebersihanMulutOralHygieneCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='kebersihan-mulut-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.kebersihanMulutOralHygieneCBox ===
+                                true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.kebersihanMulutOralHygieneCBox ===
+                            true && (
+                            <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50 mb-1'>
+                              <p className='flex flex-row pl-5 text-sm font-m'>
+                                Skor Plak<span className='text-user6'>*</span>
+                              </p>
+                              <select
+                                required
+                                name='kebersihan-mulut'
+                                id='kebersihan-mulut'
+                                value={
+                                  pilihanDataSalah.kebersihanMulutOralHygiene
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    kebersihanMulutOralHygiene: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    kebersihanMulutOralHygiene: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      kebersihanMulutOralHygiene:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                {kebersihanMulutOralHygiene === 'A' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='C'>C</option>
+                                    <option value='E'>E</option>
+                                  </>
+                                ) : kebersihanMulutOralHygiene === 'C' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='A'>A</option>
+                                    <option value='E'>E</option>
+                                  </>
+                                ) : kebersihanMulutOralHygiene === 'E' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='A'>A</option>
+                                    <option value='C'>C</option>
+                                  </>
+                                ) : (
+                                  <>
+                                    <option value='A'>A</option>
+                                    <option value='C'>C</option>
+                                    <option value='E'>E</option>
+                                  </>
+                                )}
+                              </select>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                         {/* <div
                         className={`${
@@ -3738,104 +3856,351 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                           </div>
                         )}
-                        {singlePersonSekolah.umur >= 15 &&
-                        statusPeriodontium === 'gis-status-periodontium' ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        {singlePersonSekolah.umur >= 15 ? (
+                          <div
+                            className={`${
+                              pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
                             >
-                              <option value=''></option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
+                              <p className='flex text-sm font-m'>
+                                Skor GIS
+                                <span className='text-user6'>*</span>
+                              </p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='skor-gis-reten-salah-cbox'
+                                  id='skor-gis-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.skorGisMulutOralHygieneCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygieneCBox:
+                                          !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='skor-gis-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <p className='flex flex-row text-sm font-m'>
+                                  Skor GIS<span className='text-user6'>*</span>
+                                </p>
+                                <select
+                                  required
+                                  name='skor-gis-reten-salah'
+                                  id='skor-gis-reten-salah'
+                                  value={
+                                    pilihanDataSalah.skorGisMulutOralHygiene
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygiene: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  {skorGisMulutOralHygiene === '0' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '1' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '2' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '3' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  )}
+                                </select>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         ) : singlePersonSekolah.umur < 15 ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          <div
+                            className={`${
+                              pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
                             >
-                              <option value=''></option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
+                              <p className='flex text-sm font-m'>
+                                Skor GIS
+                                <span className='text-user6'>*</span>
+                              </p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='skor-gis-reten-salah-cbox'
+                                  id='skor-gis-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.skorGisMulutOralHygieneCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygieneCBox:
+                                          !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='skor-gis-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <p className='flex flex-row text-sm font-m'>
+                                  Skor GIS<span className='text-user6'>*</span>
+                                </p>
+                                <select
+                                  required
+                                  name='skor-gis-reten-salah'
+                                  id='skor-gis-reten-salah'
+                                  value={
+                                    pilihanDataSalah.skorGisMulutOralHygiene
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygiene: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  {skorGisMulutOralHygiene === '0' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '1' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '2' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '3' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  )}
+                                </select>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         ) : null}
-                        {singlePersonSekolah.umur >= 15 &&
-                          statusPeriodontium === 'bpe-status-periodontium' && (
-                            <div className=' flex items-center flex-row pl-5'>
+                        {singlePersonSekolah.umur >= 15 && (
+                          <div
+                            className={`${
+                              pilihanDataSalah.skorBpeOralHygieneCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.skorBpeOralHygieneCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
+                            >
                               <p className='text-sm font-m'>
                                 Skor BPE
-                                {skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4' ? null : (
-                                  <span className='text-user6'>*</span>
-                                )}
+                                <span className='text-user6'>*</span>
                               </p>
                               <select
                                 disabled={isDisabled}
@@ -3867,8 +4232,135 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <option value='3'>3</option>
                                 <option value='4'>4</option>
                               </select>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='skor-bpe-reten-salah-cbox'
+                                  id='skor-bpe-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.skorBpeOralHygieneCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorBpeOralHygieneCBox:
+                                        !pilihanDataSalah.skorBpeOralHygieneCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorBpeOralHygieneCBox:
+                                        !pilihanDataSalah.skorBpeOralHygieneCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorBpeOralHygieneCBox:
+                                          !pilihanDataSalah.skorBpeOralHygieneCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='skor-bpe-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.skorBpeOralHygieneCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
-                          )}
+                            {pilihanDataSalah.skorBpeOralHygieneCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <p className='flex flex-row text-sm font-m'>
+                                  Skor BPE<span className='text-user6'>*</span>
+                                </p>
+                                <select
+                                  required
+                                  name='skor-bpe'
+                                  id='skor-bpe'
+                                  value={pilihanDataSalah.skorBpeOralHygiene}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorBpeOralHygiene: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorBpeOralHygiene: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorBpeOralHygiene: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  {skorBpeOralHygiene === '0' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '1' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '2' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='3'>3</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '3' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '4' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  )}
+                                </select>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </article>
                     </div>
                     <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min'>
@@ -4443,44 +4935,9 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                     <div className='grid gap-2'>
                       <article className='border border-userBlack pl-3 p-2 rounded-md'>
                         <div className='grid grid-cols-1'>
-                          <h4 className='font-bold flex flex-row pl-5'>
-                            Risiko Karies{' '}
+                          <h4 className='flex flex-row pl-5 items-center'>
+                            <p className='font-bold'>Risiko Karies </p>
                             <span className='text-user6 text-xl'>*</span>
-                          </h4>
-                          <div className='flex flex-row items-center'>
-                            <p className='flex items-center flex-row pl-5'>
-                              Jumlah Faktor Risiko:
-                            </p>
-                            <select
-                              disabled={
-                                yaTidakPesakitMempunyaiGigi === ''
-                                  ? true
-                                  : isDisabled
-                              }
-                              required
-                              name='jumlah-faktor-risiko'
-                              id='jumlah-faktor-risiko'
-                              value={jumlahFaktorRisiko}
-                              onChange={(e) => {
-                                setJumlahFaktorRisiko(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  jumlahFaktorRisiko: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            >
-                              <option value=''></option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                              <option value='4'>4</option>
-                              <option value='5'>5</option>
-                              <option value='6'>6</option>
-                              <option value='7'>7</option>
-                              <option value='8'>8</option>
-                            </select>
                             <input
                               disabled
                               type='text'
@@ -4498,16 +4955,252 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   penandaRisikoKaries: e.target.value,
                                 });
                               }}
-                              className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
+                              className={`appearance-none capitalize ml-3 h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
                                 penandaRisikoKaries === 'rendah'
                                   ? 'bg-user7 w-24 px-2 '
                                   : penandaRisikoKaries === 'sederhana'
                                   ? 'bg-user8 w-24 px-2 '
                                   : penandaRisikoKaries === 'tinggi'
                                   ? 'bg-user9 w-24 px-2 '
-                                  : 'w-40 text-xs px-1'
+                                  : 'w-40 text-xs font-light px-1'
                               }`}
                             />
+                          </h4>
+                          <div className='flex flex-row items-center '>
+                            <div
+                              className={`${
+                                pilihanDataSalah.jumlahFaktorRisikoCBox &&
+                                'grid-rows-2'
+                              } grid pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.jumlahFaktorRisikoCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-2`}
+                              >
+                                <p className='flex items-center flex-row pl-5 text-sm'>
+                                  Jumlah Faktor Risiko:
+                                </p>
+                                <select
+                                  disabled={
+                                    yaTidakPesakitMempunyaiGigi === ''
+                                      ? true
+                                      : isDisabled
+                                  }
+                                  required
+                                  name='jumlah-faktor-risiko'
+                                  id='jumlah-faktor-risiko'
+                                  value={jumlahFaktorRisiko}
+                                  onChange={(e) => {
+                                    setJumlahFaktorRisiko(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      jumlahFaktorRisiko: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  <option value=''></option>
+                                  <option value='0'>0</option>
+                                  <option value='1'>1</option>
+                                  <option value='2'>2</option>
+                                  <option value='3'>3</option>
+                                  <option value='4'>4</option>
+                                  <option value='5'>5</option>
+                                  <option value='6'>6</option>
+                                  <option value='7'>7</option>
+                                  <option value='8'>8</option>
+                                </select>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='jumlah-faktor-risiko-reten-salah-cbox'
+                                    id='jumlah-faktor-risiko-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.jumlahFaktorRisikoCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        jumlahFaktorRisikoCBox:
+                                          !pilihanDataSalah.jumlahFaktorRisikoCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        jumlahFaktorRisikoCBox:
+                                          !pilihanDataSalah.jumlahFaktorRisikoCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          jumlahFaktorRisikoCBox:
+                                            !pilihanDataSalah.jumlahFaktorRisikoCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='jumlah-faktor-risiko-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.jumlahFaktorRisikoCBox ===
+                                    true ? (
+                                      <FaTimes className='text-2xl' />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.jumlahFaktorRisikoCBox ===
+                                true && (
+                                <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='flex flex-row pl-5 text-sm font-m'>
+                                    Jumlah Faktor Risiko:
+                                  </p>
+                                  <select
+                                    required
+                                    name='jumlah-faktor-risiko'
+                                    id='jumlah-faktor-risiko'
+                                    value={pilihanDataSalah.jumlahFaktorRisiko}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        jumlahFaktorRisiko: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        jumlahFaktorRisiko: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          jumlahFaktorRisiko: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  >
+                                    {jumlahFaktorRisiko === '1' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '2' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '3' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '4' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '5' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '6' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '7' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '8' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    )}
+                                  </select>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
+                            </div>
                           </div>
                         </div>
                       </article>
@@ -6174,32 +6867,222 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           htmlFor='statusM'
                           className='flex items-center text-sm normal-case'
                         >
-                          Status Merokok<span className='text-user6'>*</span>
+                          Status Merokok
+                          <span className='text-user6'>*</span>
                         </label>
-                        <select
-                          disabled={isDisabled}
-                          required
-                          name='statusM'
-                          id='statusM'
-                          value={statusM}
-                          onChange={(e) => {
-                            setStatusM(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              statusM: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
+                        <div
+                          className={`${
+                            pilihanDataSalah.statusMCBox && 'grid-rows-2'
+                          } grid pt-1`}
                         >
-                          <option value=''></option>
-                          <option value='perokok-semasa'>Perokok Semasa</option>
-                          <option value='bekas-perokok'>Bekas Perokok</option>
-                          <option value='perokok-pasif'>Perokok Pasif</option>
-                          <option value='bukan-perokok'>Bukan Perokok</option>
-                          <option value='dalam-intervensi'>
-                            Dalam Intervensi
-                          </option>
-                        </select>
+                          <div
+                            className={`${
+                              pilihanDataSalah.statusMCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row pl-2`}
+                          >
+                            <select
+                              disabled={isDisabled}
+                              required
+                              name='statusM'
+                              id='statusM'
+                              value={statusM}
+                              onChange={(e) => {
+                                setStatusM(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  statusM: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='perokok-semasa'>
+                                Perokok Semasa
+                              </option>
+                              <option value='bekas-perokok'>
+                                Bekas Perokok
+                              </option>
+                              <option value='perokok-pasif'>
+                                Perokok Pasif
+                              </option>
+                              <option value='bukan-perokok'>
+                                Bukan Perokok
+                              </option>
+                              <option value='dalam-intervensi'>
+                                Dalam Intervensi
+                              </option>
+                            </select>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='statusM-reten-salah-cbox'
+                                id='statusM-reten-salah-cbox'
+                                checked={pilihanDataSalah.statusMCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    statusMCBox: !pilihanDataSalah.statusMCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    statusMCBox: !pilihanDataSalah.statusMCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      statusMCBox:
+                                        !pilihanDataSalah.statusMCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='statusM-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.statusMCBox === true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.statusMCBox === true && (
+                            <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50 mb-1'>
+                              <select
+                                required
+                                name='statusM'
+                                id='statusM'
+                                value={pilihanDataSalah.statusM}
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    statusM: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    statusM: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      statusM: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                {statusM === 'perokok-semasa' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'bekas-perokok' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'perokok-pasif' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'bukan-perokok' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'dalam-intervensi' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                  </>
+                                ) : (
+                                  <>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                )}
+                              </select>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
+                        </div>
                       </div>
                       <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
                         <p className='flex items-center text-sm normal-case'>
