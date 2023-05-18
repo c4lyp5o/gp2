@@ -826,6 +826,13 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
               data.personSekolahWithPopulate.pemeriksaanSekolah.tarikhPemeriksaanSemasa
             )
           );
+
+          // fetch from createdSalahreten[0].dataRetenSalah
+          const dataRetenSalah =
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .createdSalahreten[0].dataRetenSalah;
+          //set dataRetenSalah to setPilihanData
+          setPilihanDataSalah(dataRetenSalah);
         }
         setIsLoading(false);
       } catch (error) {
