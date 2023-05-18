@@ -326,8 +326,16 @@ const makePG101A = async (payload) => {
   logger.info('[generateRetenController] PG101A');
   try {
     let kkia;
-    let { klinik, daerah, negeri, pilihanKkia, username, tarikhMula, bulan } =
-      payload;
+    let {
+      klinik,
+      daerah,
+      negeri,
+      pilihanKkia,
+      username,
+      tarikhMula,
+      bulan,
+      jenisReten,
+    } = payload;
     //
     const data = await Helper.countPG101A(payload);
     //
@@ -582,9 +590,9 @@ const makePG101A = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePG101] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePG101C = async (payload) => {
@@ -599,6 +607,7 @@ const makePG101C = async (payload) => {
       username,
       tarikhMula,
       bulan,
+      jenisReten,
     } = payload;
     //
     const data = await Helper.countPG101C(payload);
@@ -806,9 +815,9 @@ const makePG101C = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG101C] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePG211A = async (payload) => {
@@ -823,6 +832,7 @@ const makePG211A = async (payload) => {
       bulan,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data = [];
@@ -982,9 +992,9 @@ const makePG211A = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG211A] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePG211C = async (payload) => {
@@ -999,6 +1009,7 @@ const makePG211C = async (payload) => {
       bulan,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -1147,9 +1158,9 @@ const makePG211C = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG211C] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePG206 = async (payload) => {
@@ -1165,6 +1176,7 @@ const makePG206 = async (payload) => {
       pilihanIndividu,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -1554,9 +1566,9 @@ const makePG206 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG206] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePG207 = async (payload) => {
@@ -1572,6 +1584,7 @@ const makePG207 = async (payload) => {
       pilihanIndividu,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -2107,9 +2120,9 @@ const makePG207 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG207] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePG214 = async (payload) => {
@@ -2124,6 +2137,7 @@ const makePG214 = async (payload) => {
       bulan,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -2306,9 +2320,9 @@ const makePG214 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG214] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePGPR201 = async (payload) => {
@@ -2323,6 +2337,7 @@ const makePGPR201 = async (payload) => {
       bulan,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -2506,9 +2521,9 @@ const makePGPR201 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGPR201] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePgPro01 = async (payload) => {
@@ -2524,6 +2539,7 @@ const makePgPro01 = async (payload) => {
       tarikhAkhir,
       bulan,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -2889,9 +2905,9 @@ const makePgPro01 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGPRO01] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePgPro01Combined = async (payload) => {
@@ -2907,6 +2923,7 @@ const makePgPro01Combined = async (payload) => {
       tarikhAkhir,
       bulan,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -3085,9 +3102,9 @@ const makePgPro01Combined = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGPRO01Combined] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePG201P2 = async (payload) => {
@@ -3103,6 +3120,7 @@ const makePG201P2 = async (payload) => {
       pilihanIndividu,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -3400,9 +3418,9 @@ const makePG201P2 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG201P2] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makePGS203P2 = async (payload) => {
@@ -3418,6 +3436,7 @@ const makePGS203P2 = async (payload) => {
       pegawai,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -3666,9 +3685,9 @@ const makePGS203P2 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGS203P2] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makeMasa = async (payload) => {
@@ -3684,6 +3703,7 @@ const makeMasa = async (payload) => {
       pegawai,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -3830,9 +3850,9 @@ const makeMasa = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/MASA] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makeBp = async (payload) => {
@@ -3847,6 +3867,7 @@ const makeBp = async (payload) => {
       bulan,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -4236,9 +4257,9 @@ const makeBp = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/BP] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makeBPE = async (payload) => {
@@ -4254,6 +4275,7 @@ const makeBPE = async (payload) => {
       pegawai,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -4400,9 +4422,9 @@ const makeBPE = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/BPE] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 const makeGender = async (payload) => {
@@ -4417,6 +4439,7 @@ const makeGender = async (payload) => {
       tarikhAkhir,
       username,
       fromEtl,
+      jenisReten,
     } = payload;
     //
     let data;
@@ -4606,12 +4629,9 @@ const makeGender = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/GENDER] Excel making error. Reason: ${err}`
     );
-    penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
-    );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 
@@ -4655,6 +4675,7 @@ const makeTOD = async (payload) => {
       pilihanIndividu,
       username,
       // fromEtl,
+      jenisReten,
     } = payload;
     let data;
     let fromEtl = 'false';
@@ -4853,9 +4874,9 @@ const makeTOD = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController] Excel making error. Reason: ${err}`
+      `[generateRetenController/TOD] Excel making error. Reason: ${err}`
     );
-    excelMakerError(payload.jenisReten);
+    excelMakerError(jenisReten);
   }
 };
 
