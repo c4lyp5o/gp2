@@ -16,6 +16,14 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   // filter the pelajar to only include current sesi & wanted TAHUN_TINGKATAN only
   const MOEISPelajar =
     SRSMPelajarMOEIS['SENARAI MURID MENGIKUT KELAS / INSTITUSI'];
+
+  if (!MOEISPelajar) {
+    logger.error(
+      `[insertToSekolah] error at SENARAI MURID MENGIKUT KELAS / INSTITUSI, MOEISPelajar is: ${MOEISPelajar}`
+    );
+    return;
+  }
+
   const currentSesiPelajarAndWantedClass = MOEISPelajar.filter((sp) => {
     return (
       sp.SESI_TAKWIM === sesiTakwimSekolah() &&
@@ -94,8 +102,10 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
         objPelajar.keturunan = data.keturunan;
         objPelajar.warganegara = data.warganegara;
       } catch (error) {
-        logger.error(`[insertToSekolah] ${error.message}`);
-        return error.message;
+        logger.error(
+          `[insertToSekolah] error at SINGLE_PELAJAR, error message is: ${error.message}`
+        );
+        // return error.message;
       }
     }
 
