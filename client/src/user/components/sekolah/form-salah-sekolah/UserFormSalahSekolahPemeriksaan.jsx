@@ -826,6 +826,13 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
               data.personSekolahWithPopulate.pemeriksaanSekolah.tarikhPemeriksaanSemasa
             )
           );
+
+          // fetch from createdSalahreten[0].dataRetenSalah
+          const dataRetenSalah =
+            data.personSekolahWithPopulate.pemeriksaanSekolah
+              .createdSalahreten[0].dataRetenSalah;
+          //set all dataRetenSalah to setPilihanData
+          setPilihanDataSalah(dataRetenSalah);
         }
         setIsLoading(false);
       } catch (error) {
@@ -844,120 +851,49 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
   }
 
   const handleSubmit = async (e) => {
-    let mdcMdtbNum = '';
+    let mdcMdtbNumSalah = '';
     if (!userinfo.mdtbNumber) {
-      mdcMdtbNum = userinfo.mdcNumber;
+      mdcMdtbNumSalah = userinfo.mdcNumber;
     }
     if (!userinfo.mdcNumber) {
-      mdcMdtbNum = userinfo.mdtbNumber;
+      mdcMdtbNumSalah = userinfo.mdtbNumber;
     }
-
-    if (sumDMFXDesidus > 20) {
-      toast.error('Jumlah DMFX Desidus tidak boleh lebih dari 20', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumDMFXKekal > 32) {
-      toast.error('Jumlah DMFX Kekal tidak boleh lebih dari 32', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumClassD > dAdaGigiKekal) {
-      toast.error('Jumlah Class D tidak boleh lebih dari jumlah d gigi kekal', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumClassF > fAdaGigiKekal) {
-      toast.error('Jumlah Class F tidak boleh lebih dari jumlah f gigi kekal', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumPerluFs > 16) {
-      toast.error('Jumlah Perlu Fs tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumPerluFv > 16) {
-      toast.error('Jumlah Perlu Fv tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (sumPerluPrr > 16) {
-      toast.error('Jumlah Perlu Prr tidak boleh lebih dari 16', {
-        autoClose: 3000,
-      });
-      return;
-    }
-    if (dAdaGigiKekal > sumGigiKekal) {
-      toast.error(
-        'Jumlah tampalan diperlukan gigi kekal kurang dengan jumlah D gigi kekal',
-        {
-          autoClose: 3000,
-        }
-      );
-      return;
-    }
-    if (sumGigiKekalE !== eAdaGigiKekal) {
-      toast.error(
-        'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
-        {
-          autoClose: 3000,
-        }
-      );
-      return;
-    }
-
-    if (salahReten === 'pemeriksaan-salah') {
-      let mdcMdtbNumSalah = '';
-      if (!userinfo.mdtbNumber) {
-        mdcMdtbNumSalah = userinfo.mdcNumber;
-      }
-      if (!userinfo.mdcNumber) {
-        mdcMdtbNumSalah = userinfo.mdtbNumber;
-      }
-      await toast
-        .promise(
-          axios.patch(
-            `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-            {
-              createdByUsernameSalah: userinfo.nama,
-              createdByMdcMdtbSalah: mdcMdtbNumSalah,
-              dataRetenSalah,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
+    await toast
+      .promise(
+        axios.patch(
+          `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
           {
-            pending: 'Mengemaskini...',
-            success: 'Pemeriksaan pelajar berjaya dikemaskini',
-            error: 'Pemeriksaan pelajar gagal dikemaskini',
+            createdByUsernameSalah: userinfo.nama,
+            createdByMdcMdtbSalah: mdcMdtbNumSalah,
+            dataRetenSalah,
           },
           {
-            autoClose: 2000,
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
           }
-        )
-        .then(() => {
-          toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-            autoClose: 2000,
-          });
-          setTimeout(() => {
-            window.opener = null;
-            window.open('', '_self');
-            window.close();
-          }, 3000);
+        ),
+        {
+          pending: 'Mengemaskini...',
+          success: 'Pemeriksaan pelajar berjaya dikemaskini',
+          error: 'Pemeriksaan pelajar gagal dikemaskini',
+        },
+        {
+          autoClose: 2000,
+        }
+      )
+      .then(() => {
+        toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
+          autoClose: 2000,
         });
-    }
+        setTimeout(() => {
+          window.opener = null;
+          window.open('', '_self');
+          window.close();
+        }, 3000);
+      });
   };
 
   return (
@@ -1049,7 +985,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                     <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                       Kedatangan<span className='text-user6'>*</span>
                     </h4>
-                    <div className='grid grid-rows-2'>
+                    {/* <div className='grid grid-rows-2'>
                       <div className='flex items-center flex-row pl-5'>
                         <input
                           disabled={isDisabled}
@@ -1361,7 +1297,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           }`}
                         />
                       </div>
-                    </div>
+                    </div> */}
                     {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
                     engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
                       <div>
@@ -1493,51 +1429,191 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                         Cleft Lip/Palate
                       </h4>
                       <div className='grid grid-cols-2'>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='ada-cleft-lip'
-                            id='ada-cleft-lip'
-                            checked={adaCleftLip}
-                            onChange={() => {
-                              setAdaCleftLip(!adaCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                adaCleftLip: !adaCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                          />
-                          <label
-                            htmlFor='ada-cleft-lip'
-                            className='mx-2 text-sm font-m'
+                        <div className='grid grid-rows-2  pl-5 pt-1'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.adaCleftLipCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row justify-center `}
                           >
-                            Ada
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='ada-cleft-lip'
+                              id='ada-cleft-lip'
+                              checked={adaCleftLip}
+                              onChange={() => {
+                                setAdaCleftLip(!adaCleftLip);
+                                setConfirmData({
+                                  ...confirmData,
+                                  adaCleftLip: !adaCleftLip,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                            />
+                            <label
+                              htmlFor='ada-cleft-lip'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ada
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='ada-cleft-lip-reten-salah-cbox'
+                                id='ada-cleft-lip-reten-salah-cbox'
+                                checked={pilihanDataSalah.adaCleftLipCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    adaCleftLipCBox:
+                                      !pilihanDataSalah.adaCleftLipCBox,
+                                    adaCleftLip: !adaCleftLip,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    adaCleftLipCBox:
+                                      !pilihanDataSalah.adaCleftLipCBox,
+                                    adaCleftLip: !adaCleftLip,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      adaCleftLipCBox:
+                                        !pilihanDataSalah.adaCleftLipCBox,
+                                      adaCleftLip: !adaCleftLip,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='ada-cleft-lip-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.adaCleftLipCBox === true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.adaCleftLipCBox === true && (
+                            <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50'>
+                              <input
+                                disabled
+                                type='checkbox'
+                                name='ada-cleft-lip-reten-salah'
+                                id='ada-cleft-lip-reten-salah'
+                                checked={pilihanDataSalah.adaCleftLip}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              />
+                              <label
+                                htmlFor='ada-cleft-lip-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ada
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
-                        <div className='flex flex-row items-center pl-5 pt-1'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='rujuk-cleft-lip-palate'
-                            id='rujuk-cleft-lip-palate'
-                            checked={rujukCleftLip}
-                            onChange={() => {
-                              setRujukCleftLip(!rujukCleftLip);
-                              setConfirmData({
-                                ...confirmData,
-                                rujukCleftLip: !rujukCleftLip,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='rujuk-cleft-lip-palate'
-                            className='mx-2 text-sm font-m'
+                        <div className='grid grid-rows-2  pl-5 pt-1'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.rujukCleftLipCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row justify-center `}
                           >
-                            Rujuk
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='rujuk-cleft-lip-palate'
+                              id='rujuk-cleft-lip-palate'
+                              checked={rujukCleftLip}
+                              onChange={() => {
+                                setRujukCleftLip(!rujukCleftLip);
+                                setConfirmData({
+                                  ...confirmData,
+                                  rujukCleftLip: !rujukCleftLip,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='rujuk-cleft-lip-palate'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Rujuk
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='rujuk-cleft-lip-reten-salah-cbox'
+                                id='rujuk-cleft-lip-reten-salah-cbox'
+                                checked={pilihanDataSalah.rujukCleftLipCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    rujukCleftLipCBox:
+                                      !pilihanDataSalah.rujukCleftLipCBox,
+                                    rujukCleftLip: !rujukCleftLip,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    rujukCleftLipCBox:
+                                      !pilihanDataSalah.rujukCleftLipCBox,
+                                    rujukCleftLip: !rujukCleftLip,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      rujukCleftLipCBox:
+                                        !pilihanDataSalah.rujukCleftLipCBox,
+                                      rujukCleftLip: !rujukCleftLip,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='rujuk-cleft-lip-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.rujukCleftLipCBox === true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.rujukCleftLipCBox === true && (
+                            <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50'>
+                              <input
+                                disabled
+                                type='checkbox'
+                                name='rujuk-cleft-lip-reten-salah'
+                                id='rujuk-cleft-lip-reten-salah'
+                                checked={pilihanDataSalah.rujukCleftLip}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              />
+                              <label
+                                htmlFor='rujuk-cleft-lip-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Rujuk
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
                     </article>
@@ -1858,6 +1934,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Tidak
                               </label>
                               <input
+                                disabled={
+                                  yaTidakSediaAdaStatusDenture === ''
+                                    ? true
+                                    : false
+                                }
                                 type='radio'
                                 name='sedia-ada-status-denture-reten-salah'
                                 id='tiada-sedia-ada-status-denture-reten-salah'
@@ -2160,6 +2241,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </div>
                               <div className='flex items-center justify-center'>
                                 <input
+                                  disabled={
+                                    separaPenuhAtasSediaAdaDenture === ''
+                                      ? true
+                                      : false
+                                  }
                                   type='radio'
                                   name='separa-penuh-atas-sedia-ada-denture-reten-salah'
                                   id='tiada-atas-sedia-ada-denture-reten-salah'
@@ -2464,8 +2550,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               <div className='flex items-center justify-center'>
                                 <input
                                   disabled={
-                                    separaPenuhBawahSediaAdaDenture ===
-                                    'tiada-ada-bawah-sedia-ada-denture'
+                                    separaPenuhBawahSediaAdaDenture === ''
                                       ? true
                                       : false
                                   }
@@ -2537,7 +2622,12 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           )}
                         </article>
                         <article className='grid grid-cols-1 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                          <div className='flex flex-row items-center pl-5'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.yaTidakPerluStatusDentureCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex flex-row items-center pl-5`}
+                          >
                             <h4 className='font-semibold mr-2 flex items-center'>
                               Perlu
                             </h4>
@@ -2596,9 +2686,230 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               >
                                 Tidak
                               </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='ya-tidak-perlu-denture-reten-salah-cbox'
+                                  id='ya-tidak-perlu-denture-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.yaTidakPerluStatusDentureCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      yaTidakPerluStatusDentureCBox:
+                                        !pilihanDataSalah.yaTidakPerluStatusDentureCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      yaTidakPerluStatusDentureCBox:
+                                        !dataRetenSalah.yaTidakPerluStatusDentureCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        yaTidakPerluStatusDentureCBox:
+                                          !pilihanDataSalah.yaTidakPerluStatusDentureCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='ya-tidak-perlu-denture-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.yaTidakPerluStatusDentureCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          yaTidakPerluStatusDenture: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          yaTidakPerluStatusDenture: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            yaTidakPerluStatusDenture: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
                           </div>
-                          <div className='items-center  grid grid-cols-[3fr_2fr_2fr]'>
+                          {pilihanDataSalah.yaTidakPerluStatusDentureCBox ===
+                            true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1'>
+                              <input
+                                disabled={
+                                  yaTidakPerluStatusDenture ===
+                                  'ya-perlu-status-denture'
+                                    ? true
+                                    : false
+                                }
+                                type='radio'
+                                name='perlu-status-denture-reten-salah'
+                                id='ya-perlu-status-denture-reten-salah'
+                                value='ya-perlu-status-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.yaTidakPerluStatusDenture ===
+                                  'ya-perlu-status-denture-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakPerluStatusDenture: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakPerluStatusDenture: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakPerluStatusDenture: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ya-perlu-status-denture-reten-salah'
+                                className='m-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={
+                                  yaTidakPerluStatusDenture ===
+                                  'tidak-perlu-status-denture'
+                                    ? true
+                                    : false
+                                }
+                                type='radio'
+                                name='perlu-status-denture-reten-salah'
+                                id='tidak-perlu-status-denture-reten-salah'
+                                value='tidak-perlu-status-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.yaTidakPerluStatusDenture ===
+                                  'tidak-perlu-status-denture-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakPerluStatusDenture: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakPerluStatusDenture: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakPerluStatusDenture: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-perlu-status-denture-reten-salah'
+                                className='m-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                disabled={
+                                  yaTidakPerluStatusDenture === ''
+                                    ? true
+                                    : false
+                                }
+                                type='radio'
+                                name='perlu-status-denture-reten-salah'
+                                id='tiada-perlu-status-denture-reten-salah'
+                                value='tiada-perlu-status-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.yaTidakPerluStatusDenture ===
+                                  'tiada-perlu-status-denture-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakPerluStatusDenture: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakPerluStatusDenture: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakPerluStatusDenture: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-perlu-status-denture-reten-salah'
+                                className='m-2 text-sm font-m'
+                              >
+                                Tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    yaTidakPerluStatusDenture: '',
+                                    yaTidakPerluStatusDentureCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    yaTidakPerluStatusDenture: '',
+                                    yaTidakPerluStatusDentureCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      yaTidakPerluStatusDenture: '',
+                                      yaTidakPerluStatusDentureCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
+                          <div
+                            className={`${
+                              pilihanDataSalah.separaPenuhAtasPerluDentureCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } items-center grid grid-cols-[2fr_2fr_2fr_1fr]`}
+                          >
                             <label
                               htmlFor='atas-perlu-denture'
                               className='m-2 text-sm font-m'
@@ -2667,8 +2978,244 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Penuh
                               </label>
                             </div>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='separa-penuh-atas-perlu-denture-reten-salah'
+                                id='separa-penuh-atas-perlu-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.separaPenuhAtasPerluDentureCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhAtasPerluDentureCBox:
+                                      !pilihanDataSalah.separaPenuhAtasPerluDentureCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhAtasPerluDentureCBox:
+                                      !dataRetenSalah.separaPenuhAtasPerluDentureCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasPerluDentureCBox:
+                                        !pilihanDataSalah.separaPenuhAtasPerluDentureCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='separa-penuh-atas-perlu-denture-reten-salah'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.separaPenuhAtasPerluDentureCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasPerluDenture: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        separaPenuhAtasPerluDenture: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          separaPenuhAtasPerluDenture: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
                           </div>
-                          <div className='items-center grid grid-cols-[3fr_2fr_2fr]'>
+                          {pilihanDataSalah.separaPenuhAtasPerluDentureCBox ===
+                            true && (
+                            <div className='items-center grid grid-cols-[2fr_2fr_2fr_1fr] bg-user11 bg-opacity-50 mb-1'>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhAtasPerluDenture ===
+                                    'sepada-atas-perlu-denture'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-atas-perlu-denture-reten-salah'
+                                  id='separa-atas-perlu-denture-reten-salah'
+                                  value='separa-atas-perlu-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhAtasPerluDenture ===
+                                    'separa-atas-perlu-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhAtasPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasPerluDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='separa-atas-perlu-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Separa
+                                </label>
+                              </div>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhAtasPerluDenture ===
+                                    'penuh-atas-perlu-denture'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-atas-perlu-denture-reten-salah'
+                                  id='penuh-atas-perlu-denture-reten-salah'
+                                  value='penuh-atas-perlu-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhAtasPerluDenture ===
+                                    'penuh-atas-perlu-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhAtasPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasPerluDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='penuh-atas-perlu-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Penuh
+                                </label>
+                              </div>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhAtasPerluDenture === ''
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-atas-perlu-denture-reten-salah'
+                                  id='tiada-atas-perlu-denture-reten-salah'
+                                  value='tiada-atas-perlu-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhAtasPerluDenture ===
+                                    'tiada-atas-perlu-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhAtasPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhAtasPerluDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='tiada-atas-perlu-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Tiada
+                                </label>
+                              </div>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhAtasPerluDenture: '',
+                                    separaPenuhAtasPerluDentureCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhAtasPerluDenture: '',
+                                    separaPenuhAtasPerluDentureCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      separaPenuhAtasPerluDenture: '',
+                                      separaPenuhAtasPerluDentureCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
+                          <div
+                            className={` ${
+                              pilihanDataSalah.separaPenuhBawahPerluDentureCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } items-center grid grid-cols-[2fr_2fr_2fr_1fr] `}
+                          >
                             <label
                               htmlFor='bawah-perlu-denture'
                               className='m-2 text-sm font-m'
@@ -2739,39 +3286,406 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Penuh
                               </label>
                             </div>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='bawah-perlu-denture-reten-salah'
+                                id='bawah-perlu-denture-reten-salah'
+                                checked={
+                                  pilihanDataSalah.separaPenuhBawahPerluDentureCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhBawahPerluDentureCBox:
+                                      !pilihanDataSalah.separaPenuhBawahPerluDentureCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhBawahPerluDentureCBox:
+                                      !pilihanDataSalah.separaPenuhBawahPerluDentureCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahPerluDentureCBox:
+                                        !pilihanDataSalah.separaPenuhBawahPerluDentureCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='bawah-perlu-denture-reten-salah'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.separaPenuhBawahPerluDentureCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahPerluDenture: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        separaPenuhBawahPerluDenture: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          separaPenuhBawahPerluDenture: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
                           </div>
+                          {pilihanDataSalah.separaPenuhBawahPerluDentureCBox ===
+                            true && (
+                            <div className='items-center grid grid-cols-[2fr_2fr_2fr_1fr] bg-user11 bg-opacity-50'>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhBawahPerluDenture ===
+                                    'separa-bawah-perlu-denture'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-bawah-perlu-denture-reten-salah'
+                                  id='separa-bawah-perlu-denture-reten-salah'
+                                  value='separa-bawah-perlu-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhBawahPerluDenture ===
+                                    'separa-bawah-perlu-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhBawahPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahPerluDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='separa-bawah-perlu-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Separa
+                                </label>
+                              </div>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhBawahPerluDenture ===
+                                    'penuh-bawah-perlu-denture'
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-bawah-perlu-denture-reten-salah'
+                                  id='penuh-bawah-perlu-denture-reten-salah'
+                                  value='penuh-bawah-perlu-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhBawahPerluDenture ===
+                                    'penuh-bawah-perlu-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhBawahPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahPerluDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='penuh-bawah-perlu-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Penuh
+                                </label>
+                              </div>
+                              <div className='flex items-center justify-center'>
+                                <input
+                                  disabled={
+                                    separaPenuhBawahPerluDenture === ''
+                                      ? true
+                                      : false
+                                  }
+                                  type='radio'
+                                  name='separa-penuh-bawah-perlu-denture-reten-salah'
+                                  id='tiada-bawah-perlu-denture-reten-salah'
+                                  value='tiada-bawah-perlu-denture-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.separaPenuhBawahPerluDenture ===
+                                    'tiada-bawah-perlu-denture-reten-salah'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      separaPenuhBawahPerluDenture:
+                                        e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        separaPenuhBawahPerluDenture:
+                                          e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                                />
+                                <label
+                                  htmlFor='tiada-bawah-perlu-denture-reten-salah'
+                                  className='m-2 text-sm font-m'
+                                >
+                                  Tiada
+                                </label>
+                              </div>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    separaPenuhBawahPerluDenture: '',
+                                    separaPenuhBawahPerluDentureCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    separaPenuhBawahPerluDenture: '',
+                                    separaPenuhBawahPerluDentureCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      separaPenuhBawahPerluDenture: '',
+                                      separaPenuhBawahPerluDentureCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
                         </article>
                       </div>
                     </article>
-                    <div className='grid grid-cols-2 gap-x-2'>
+                    <div className='grid grid-cols-1 lg:grid-cols-2 gap-2'>
                       <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5'>
                           Kebersihan Mulut
                         </h4>
-                        <div className='flex items-center '>
-                          <p className='flex flex-row pl-5 text-sm font-m'>
-                            Skor Plak<span className='text-user6'>*</span>
-                          </p>
-                          <select
-                            disabled={isDisabled}
-                            required
-                            name='kebersihan-mulut'
-                            id='kebersihan-mulut'
-                            value={kebersihanMulutOralHygiene}
-                            onChange={(e) => {
-                              setKebersihanMulutOralHygiene(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kebersihanMulutOralHygiene: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        <div
+                          className={`${
+                            pilihanDataSalah.kebersihanMulutOralHygieneCBox &&
+                            'grid-rows-2'
+                          } grid pt-1`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.kebersihanMulutOralHygieneCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row pl-2`}
                           >
-                            <option value=''></option>
-                            <option value='A'>A</option>
-                            <option value='C'>C</option>
-                            <option value='E'>E</option>
-                          </select>
+                            <p className='flex flex-row pl-5 text-sm font-m'>
+                              Skor Plak<span className='text-user6'>*</span>
+                            </p>
+                            <select
+                              disabled={isDisabled}
+                              required
+                              name='kebersihan-mulut'
+                              id='kebersihan-mulut'
+                              value={kebersihanMulutOralHygiene}
+                              onChange={(e) => {
+                                setKebersihanMulutOralHygiene(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  kebersihanMulutOralHygiene: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='A'>A</option>
+                              <option value='C'>C</option>
+                              <option value='E'>E</option>
+                            </select>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='kebersihan-mulut-reten-salah-cbox'
+                                id='kebersihan-mulut-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.kebersihanMulutOralHygieneCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    kebersihanMulutOralHygieneCBox:
+                                      !pilihanDataSalah.kebersihanMulutOralHygieneCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    kebersihanMulutOralHygieneCBox:
+                                      !pilihanDataSalah.kebersihanMulutOralHygieneCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      kebersihanMulutOralHygieneCBox:
+                                        !pilihanDataSalah.kebersihanMulutOralHygieneCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='kebersihan-mulut-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.kebersihanMulutOralHygieneCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        kebersihanMulutOralHygiene: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        kebersihanMulutOralHygiene: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          kebersihanMulutOralHygiene: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.kebersihanMulutOralHygieneCBox ===
+                            true && (
+                            <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50 mb-1'>
+                              <p className='flex flex-row pl-5 text-sm font-m'>
+                                Skor Plak<span className='text-user6'>*</span>
+                              </p>
+                              <select
+                                name='kebersihan-mulut'
+                                id='kebersihan-mulut'
+                                value={
+                                  pilihanDataSalah.kebersihanMulutOralHygiene
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    kebersihanMulutOralHygiene: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    kebersihanMulutOralHygiene: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      kebersihanMulutOralHygiene:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                {kebersihanMulutOralHygiene === 'A' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='C'>C</option>
+                                    <option value='E'>E</option>
+                                  </>
+                                ) : kebersihanMulutOralHygiene === 'C' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='A'>A</option>
+                                    <option value='E'>E</option>
+                                  </>
+                                ) : kebersihanMulutOralHygiene === 'E' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='A'>A</option>
+                                    <option value='C'>C</option>
+                                  </>
+                                ) : (
+                                  <>
+                                    <option value='A'>A</option>
+                                    <option value='C'>C</option>
+                                    <option value='E'>E</option>
+                                  </>
+                                )}
+                              </select>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                         {/* <div
                         className={`${
@@ -2803,7 +3717,12 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
                         />
                       </div> */}
-                        <div className='flex items-center flex-row pl-5'>
+                        <div
+                          className={`${
+                            pilihanDataSalah.perluPenskaleranOralHygieneCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5`}
+                        >
                           <input
                             disabled={isDisabled}
                             type='checkbox'
@@ -2828,7 +3747,79 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           >
                             Perlu Penskaleran
                           </label>
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='perlu-penskaleran-reten-salah-cbox'
+                              id='perlu-penskaleran-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.perluPenskaleranOralHygieneCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  perluPenskaleranOralHygieneCBox:
+                                    !pilihanDataSalah.perluPenskaleranOralHygieneCBox,
+                                  perluPenskaleranOralHygiene:
+                                    !perluPenskaleranOralHygiene,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  perluPenskaleranOralHygieneCBox:
+                                    !pilihanDataSalah.perluPenskaleranOralHygieneCBox,
+                                  perluPenskaleranOralHygiene:
+                                    !perluPenskaleranOralHygiene,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    perluPenskaleranOralHygieneCBox:
+                                      !pilihanDataSalah.perluPenskaleranOralHygieneCBox,
+                                    perluPenskaleranOralHygiene:
+                                      !perluPenskaleranOralHygiene,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='perlu-penskaleran-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.perluPenskaleranOralHygieneCBox ===
+                              true ? (
+                                <FaTimes className='text-2xl' />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
                         </div>
+                        {pilihanDataSalah.perluPenskaleranOralHygieneCBox ===
+                          true && (
+                          <div className='flex items-center flex-row pl-5  bg-user11 bg-opacity-50'>
+                            <input
+                              disabled
+                              type='checkbox'
+                              name='perlu-penskaleran-reten-salah'
+                              id='perlu-penskaleran-reten-salah'
+                              checked={
+                                pilihanDataSalah.perluPenskaleranOralHygiene
+                              }
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='perlu-penskaleran-reten-salah'
+                              className='m-2 text-sm font-m'
+                            >
+                              Perlu Penskaleran
+                            </label>
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </article>
                       <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5'>
@@ -2890,105 +3881,379 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                           </div>
                         )}
-                        {singlePersonSekolah.umur >= 15 &&
-                        statusPeriodontium === 'gis-status-periodontium' ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                        {singlePersonSekolah.umur >= 15 ? (
+                          <div
+                            className={`${
+                              pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
                             >
-                              <option value=''></option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
+                              <p className='flex text-sm font-m'>Skor GIS</p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='skor-gis-reten-salah-cbox'
+                                  id='skor-gis-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.skorGisMulutOralHygieneCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygieneCBox:
+                                          !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='skor-gis-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            skorGisMulutOralHygiene: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <p className='flex flex-row text-sm font-m'>
+                                  Skor GIS
+                                </p>
+                                <select
+                                  name='skor-gis-reten-salah'
+                                  id='skor-gis-reten-salah'
+                                  value={
+                                    pilihanDataSalah.skorGisMulutOralHygiene
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygiene: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  {skorGisMulutOralHygiene === '0' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '1' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '2' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '3' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  )}
+                                </select>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         ) : singlePersonSekolah.umur < 15 ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          <div
+                            className={`${
+                              pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.skorGisMulutOralHygieneCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
                             >
-                              <option value=''></option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
+                              <p className='flex text-sm font-m'>Skor GIS</p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='skor-gis-reten-salah-cbox'
+                                  id='skor-gis-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.skorGisMulutOralHygieneCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygieneCBox:
+                                        !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygieneCBox:
+                                          !pilihanDataSalah.skorGisMulutOralHygieneCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='skor-gis-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            skorGisMulutOralHygiene: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <p className='flex flex-row text-sm font-m'>
+                                  Skor GIS
+                                </p>
+                                <select
+                                  name='skor-gis-reten-salah'
+                                  id='skor-gis-reten-salah'
+                                  value={
+                                    pilihanDataSalah.skorGisMulutOralHygiene
+                                  }
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorGisMulutOralHygiene: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorGisMulutOralHygiene: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  {skorGisMulutOralHygiene === '0' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '1' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '2' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : skorGisMulutOralHygiene === '3' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  )}
+                                </select>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         ) : null}
-                        {singlePersonSekolah.umur >= 15 &&
-                          statusPeriodontium === 'bpe-status-periodontium' && (
-                            <div className=' flex items-center flex-row pl-5'>
-                              <p className='text-sm font-m'>
-                                Skor BPE
-                                {skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4' ? null : (
-                                  <span className='text-user6'>*</span>
-                                )}
-                              </p>
+                        {singlePersonSekolah.umur >= 15 && (
+                          <div
+                            className={`${
+                              pilihanDataSalah.skorBpeOralHygieneCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.skorBpeOralHygieneCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
+                            >
+                              <p className='text-sm font-m'>Skor BPE</p>
                               <select
                                 disabled={isDisabled}
                                 required={
@@ -3019,12 +4284,157 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <option value='3'>3</option>
                                 <option value='4'>4</option>
                               </select>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='skor-bpe-reten-salah-cbox'
+                                  id='skor-bpe-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.skorBpeOralHygieneCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorBpeOralHygieneCBox:
+                                        !pilihanDataSalah.skorBpeOralHygieneCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorBpeOralHygieneCBox:
+                                        !pilihanDataSalah.skorBpeOralHygieneCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorBpeOralHygieneCBox:
+                                          !pilihanDataSalah.skorBpeOralHygieneCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='skor-bpe-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.skorBpeOralHygieneCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          skorBpeOralHygiene: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          skorBpeOralHygiene: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            skorBpeOralHygiene: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
-                          )}
+                            {pilihanDataSalah.skorBpeOralHygieneCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <p className='flex flex-row text-sm font-m'>
+                                  Skor BPE
+                                </p>
+                                <select
+                                  name='skor-bpe'
+                                  id='skor-bpe'
+                                  value={pilihanDataSalah.skorBpeOralHygiene}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      skorBpeOralHygiene: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      skorBpeOralHygiene: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        skorBpeOralHygiene: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  {skorBpeOralHygiene === '0' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '1' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '2' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='3'>3</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '3' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='4'>4</option>
+                                    </>
+                                  ) : skorBpeOralHygiene === '4' ? (
+                                    <>
+                                      <option value=''></option>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  ) : (
+                                    <>
+                                      <option value='0'>0</option>
+                                      <option value='1'>1</option>
+                                      <option value='2'>2</option>
+                                      <option value='3'>3</option>
+                                    </>
+                                  )}
+                                </select>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                        )}
                       </article>
                     </div>
-                    <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-2 gap-2 auto-rows-min'>
-                      <div className='flex flex-row items-center pl-5 col-span-2'>
+                    <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min'>
+                      <div className='flex flex-row items-center pl-5 lg:col-span-2'>
                         <h4 className='font-bold'>
                           Pesakit Mempunyai Gigi Desidus/Kekal?
                           <span className='text-user6'>*</span>
@@ -3080,17 +4490,25 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           </label>
                         </div>
                       </div>
-                      {yaTidakPesakitMempunyaiGigi ===
-                        'ya-pesakit-mempunyai-gigi' && (
-                        <div className='shadow-lg shadow-user4 rounded-md auto-rows-min'>
-                          <h4 className='font-bold flex flex-row pl-5'>
-                            Status Gigi Desidus
-                            {adaDesidus === true || adaKekal === true ? null : (
-                              <span className='text-user6'>*</span>
-                            )}
-                          </h4>
-                          <div className='grid gap-1'>
-                            <div className='flex items-center pl-5'>
+                      <div className='shadow-lg shadow-user4 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          Status Gigi Desidus
+                          {adaDesidus === true || adaKekal === true ? null : (
+                            <span className='text-user6'>*</span>
+                          )}
+                        </h4>
+                        <div className='grid gap-1'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.adaDesidusCBox && 'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.adaDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row justify-center `}
+                            >
                               <input
                                 disabled={isDisabled}
                                 required={
@@ -3117,99 +4535,466 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               >
                                 ada gigi desidus
                               </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='ada-desidus-reten-salah-cbox'
+                                  id='ada-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.adaDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      adaDesidusCBox:
+                                        !pilihanDataSalah.adaDesidusCBox,
+                                      adaDesidus: !adaDesidus,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      adaDesidusCBox:
+                                        !pilihanDataSalah.adaDesidusCBox,
+                                      adaDesidus: !adaDesidus,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        adaDesidusCBox:
+                                          !pilihanDataSalah.adaDesidusCBox,
+                                        adaDesidus: !adaDesidus,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='ada-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.adaDesidusCBox === true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
+                            {pilihanDataSalah.adaDesidusCBox === true && (
+                              <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='ada-desidus-reten-salah'
+                                  id='ada-desidus-reten-salah'
+                                  checked={pilihanDataSalah.adaDesidus}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='ada-desidus-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  ada gigi desidus
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className='grid grid-cols-1'>
                             <div
                               className={`${
-                                !adaDesidus && 'hidden'
-                              } grid grid-cols-1`}
+                                pilihanDataSalah.dAdaGigiDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5`}
                             >
-                              <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m lowercase'>d: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='d-ada-status-gigi-desidus'
+                                id='d-ada-status-gigi-desidus'
+                                value={dAdaGigiDesidus}
+                                onChange={(e) => {
+                                  setDAdaGigiDesidus(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    dAdaGigiDesidus: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='d-ada-status-gigi-desidus-reten-salah-cbox'
+                                  id='d-ada-status-gigi-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.dAdaGigiDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      dAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.dAdaGigiDesidusCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      dAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.dAdaGigiDesidusCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        dAdaGigiDesidusCBox:
+                                          !pilihanDataSalah.dAdaGigiDesidusCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='d-ada-status-gigi-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.dAdaGigiDesidusCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          dAdaGigiDesidus: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          dAdaGigiDesidus: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            dAdaGigiDesidus: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.dAdaGigiDesidusCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
                                 <p className='text-sm font-m lowercase'>d: </p>
                                 <span className='text-user6'>*</span>
                                 <input
-                                  disabled={isDisabled}
                                   required
                                   min='0'
                                   max='20'
                                   type='number'
                                   name='d-ada-status-gigi-desidus'
                                   id='d-ada-status-gigi-desidus'
-                                  value={dAdaGigiDesidus}
+                                  value={pilihanDataSalah.dAdaGigiDesidus}
                                   onChange={(e) => {
-                                    setDAdaGigiDesidus(e.target.value);
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      dAdaGigiDesidus: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      dAdaGigiDesidus: e.target.value,
+                                    });
                                     setConfirmData({
                                       ...confirmData,
-                                      dAdaGigiDesidus: e.target.value,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        dAdaGigiDesidus: e.target.value,
+                                      },
                                     });
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
                               </div>
-                              <div className='flex flex-row items-center pl-5'>
+                            )}
+                            <div
+                              className={`${
+                                pilihanDataSalah.fAdaGigiDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5`}
+                            >
+                              <p className='text-sm font-m lowercase'>f: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='f-ada-status-gigi-desidus'
+                                id='f-ada-status-gigi-desidus'
+                                value={fAdaGigiDesidus}
+                                onChange={(e) => {
+                                  setFAdaGigiDesidus(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    fAdaGigiDesidus: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='f-ada-status-gigi-desidus-reten-salah-cbox'
+                                  id='f-ada-status-gigi-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.fAdaGigiDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      fAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.fAdaGigiDesidusCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      fAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.fAdaGigiDesidusCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        fAdaGigiDesidusCBox:
+                                          !pilihanDataSalah.fAdaGigiDesidusCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='f-ada-status-gigi-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.fAdaGigiDesidusCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          fAdaGigiDesidus: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          fAdaGigiDesidus: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            fAdaGigiDesidus: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.fAdaGigiDesidusCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
                                 <p className='text-sm font-m lowercase'>f: </p>
                                 <span className='text-user6'>*</span>
                                 <input
-                                  disabled={isDisabled}
                                   required
                                   min='0'
                                   max='20'
                                   type='number'
                                   name='f-ada-status-gigi-desidus'
                                   id='f-ada-status-gigi-desidus'
-                                  value={fAdaGigiDesidus}
+                                  value={pilihanDataSalah.fAdaGigiDesidus}
                                   onChange={(e) => {
-                                    setFAdaGigiDesidus(e.target.value);
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      fAdaGigiDesidus: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      fAdaGigiDesidus: e.target.value,
+                                    });
                                     setConfirmData({
                                       ...confirmData,
-                                      fAdaGigiDesidus: e.target.value,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        fAdaGigiDesidus: e.target.value,
+                                      },
                                     });
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
                               </div>
-                              <div className='flex flex-row items-center pl-5'>
+                            )}
+                            <div
+                              className={`${
+                                pilihanDataSalah.xAdaGigiDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5`}
+                            >
+                              <p className='text-sm font-m lowercase'>x: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='20'
+                                type='number'
+                                name='x-ada-status-gigi-desidus'
+                                id='x-ada-status-gigi-desidus'
+                                value={xAdaGigiDesidus}
+                                onChange={(e) => {
+                                  setXAdaGigiDesidus(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    xAdaGigiDesidus: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='x-ada-status-gigi-desidus-reten-salah-cbox'
+                                  id='x-ada-status-gigi-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.xAdaGigiDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      xAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.xAdaGigiDesidusCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      dAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.xAdaGigiDesidusCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        xAdaGigiDesidusCBox:
+                                          !pilihanDataSalah.xAdaGigiDesidusCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='x-ada-status-gigi-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.xAdaGigiDesidusCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          xAdaGigiDesidus: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          xAdaGigiDesidus: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            xAdaGigiDesidus: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.xAdaGigiDesidusCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
                                 <p className='text-sm font-m lowercase'>x: </p>
                                 <span className='text-user6'>*</span>
                                 <input
-                                  disabled={isDisabled}
                                   required
                                   min='0'
                                   max='20'
                                   type='number'
                                   name='x-ada-status-gigi-desidus'
                                   id='x-ada-status-gigi-desidus'
-                                  value={xAdaGigiDesidus}
+                                  value={pilihanDataSalah.xAdaGigiDesidus}
                                   onChange={(e) => {
-                                    setXAdaGigiDesidus(e.target.value);
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      xAdaGigiDesidus: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      xAdaGigiDesidus: e.target.value,
+                                    });
                                     setConfirmData({
                                       ...confirmData,
-                                      xAdaGigiDesidus: e.target.value,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        xAdaGigiDesidus: e.target.value,
+                                      },
                                     });
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
                               </div>
-                            </div>
-                          </div>
-                          {sumDMFXDesidus > 20 && (
-                            <p className='text-user6 font-semibold'>
-                              jumlah <span className='lowercase'>dmfx</span>
-                              tidak boleh melebihi 20
-                            </p>
-                          )}
-                        </div>
-                      )}
-                      {yaTidakPesakitMempunyaiGigi ===
-                        'ya-pesakit-mempunyai-gigi' && (
-                        <div className='shadow-lg shadow-user4 rounded-md auto-rows-min'>
-                          <h4 className='font-bold flex flex-row pl-5'>
-                            Status Gigi Kekal
-                            {adaDesidus === true || adaKekal === true ? null : (
-                              <span className='text-user6'>*</span>
                             )}
-                          </h4>
-                          <div className='grid grid-cols-1'>
-                            <div className='flex items-center pl-5 peer-active:bg-user3'>
+                          </div>
+                        </div>
+                        {sumDMFXDesidus > 20 && (
+                          <p className='text-user6 font-semibold'>
+                            jumlah <span className='lowercase'>dmfx</span>
+                            tidak boleh melebihi 20
+                          </p>
+                        )}
+                      </div>
+                      <div className='shadow-lg shadow-user4 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          Status Gigi Kekal
+                          {adaDesidus === true || adaKekal === true ? null : (
+                            <span className='text-user6'>*</span>
+                          )}
+                        </h4>
+                        <div className='grid grid-cols-1'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.adaKekalCBox && 'grid-rows-2'
+                            } grid px-3 pt-1`}
+                          >
+                            <div
+                              className={`${
+                                pilihanDataSalah.adaKekalCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row justify-center `}
+                            >
                               <input
                                 disabled={isDisabled}
                                 required={
@@ -3236,96 +5021,75 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               >
                                 ada gigi kekal
                               </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='ada-kekal-reten-salah-cbox'
+                                  id='ada-kekal-reten-salah-cbox'
+                                  checked={pilihanDataSalah.adaKekalCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      adaKekalCBox:
+                                        !pilihanDataSalah.adaKekalCBox,
+                                      adaKekal: !adaKekal,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      adaKekalCBox:
+                                        !pilihanDataSalah.adaKekalCBox,
+                                      adaKekal: !adaKekal,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        adaKekalCBox:
+                                          !pilihanDataSalah.adaKekalCBox,
+                                        adaKekal: !adaKekal,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='ada-kekal-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.adaKekalCBox === true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
-                            <div
-                              className={`${
-                                !adaKekal && 'hidden'
-                              } grid grid-cols-1 gap-2`}
-                            >
-                              <article
-                                className={` ${
-                                  dAdaGigiKekal > 0
-                                    ? 'grid grid-cols-2 border border-userBlack p-1 rounded-md mx-1'
-                                    : ''
-                                } `}
-                              >
-                                <div className='flex flex-row items-center  pl-5 col-span-2'>
-                                  <p className='text-sm font-m '>D: </p>
-                                  <span className='text-user6'>*</span>
-                                  <input
-                                    disabled={isDisabled}
-                                    required
-                                    min='0'
-                                    max='32'
-                                    type='number'
-                                    name='d-ada-status-gigi-kekal'
-                                    id='d-ada-status-gigi-kekal'
-                                    value={dAdaGigiKekal}
-                                    onChange={(e) => {
-                                      setDAdaGigiKekal(e.target.value);
-                                      setConfirmData({
-                                        ...confirmData,
-                                        dAdaGigiKekal: e.target.value,
-                                      });
-                                    }}
-                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                  />
-                                </div>
-                                {dAdaGigiKekal > 0 && (
-                                  <div className='flex flex-row items-center pl-3'>
-                                    <p className='text-sm font-m '>Class I: </p>
-                                    <input
-                                      disabled={isDisabled}
-                                      min='0'
-                                      max='32'
-                                      type='number'
-                                      name='class-1-d'
-                                      id='class-1-d'
-                                      value={classID}
-                                      onChange={(e) => {
-                                        setClassID(e.target.value);
-                                        setConfirmData({
-                                          ...confirmData,
-                                          classID: e.target.value,
-                                        });
-                                      }}
-                                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                    />
-                                  </div>
-                                )}
-                                {dAdaGigiKekal > 0 && (
-                                  <div className='flex flex-row items-center'>
-                                    <p className='text-sm font-m '>
-                                      Class II:{' '}
-                                    </p>
-                                    <input
-                                      disabled={isDisabled}
-                                      min='0'
-                                      max='32'
-                                      type='number'
-                                      name='class-2-d'
-                                      id='class-2-d'
-                                      value={classIID}
-                                      onChange={(e) => {
-                                        setClassIID(e.target.value);
-                                        setConfirmData({
-                                          ...confirmData,
-                                          classIID: e.target.value,
-                                        });
-                                      }}
-                                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                    />
-                                  </div>
-                                )}
-                                {sumClassD > dAdaGigiKekal && (
-                                  <p className='col-span-2 text-user6 font-semibold'>
-                                    jumlah class I + class II D tidak boleh
-                                    melebihi jumlah D
-                                  </p>
-                                )}
-                              </article>
-                              <div className='flex flex-row items-center pl-5'>
-                                <p className='text-sm font-m '>M: </p>
+                            {pilihanDataSalah.adaKekalCBox === true && (
+                              <div className='flex items-center flex-row justify-center bg-user11 bg-opacity-50 mb-1'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='ada-kekal-reten-salah'
+                                  id='ada-kekal-reten-salah'
+                                  checked={pilihanDataSalah.adaKekal}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='ada-kekal-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  ada gigi kekal
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div className='grid grid-cols-1 gap-2'>
+                            <article className='grid grid-cols-2 border border-userBlack p-1 rounded-md mx-1'>
+                              <div className='flex flex-row items-center  pl-5 col-span-2'>
+                                <p className='text-sm font-m '>D: </p>
                                 <span className='text-user6'>*</span>
                                 <input
                                   disabled={isDisabled}
@@ -3333,103 +5097,91 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   min='0'
                                   max='32'
                                   type='number'
-                                  name='m-ada-status-gigi-kekal'
-                                  id='m-ada-status-gigi-kekal'
-                                  value={mAdaGigiKekal}
+                                  name='d-ada-status-gigi-kekal'
+                                  id='d-ada-status-gigi-kekal'
+                                  value={dAdaGigiKekal}
                                   onChange={(e) => {
-                                    setMAdaGigiKekal(e.target.value);
+                                    setDAdaGigiKekal(e.target.value);
                                     setConfirmData({
                                       ...confirmData,
-                                      mAdaGigiKekal: e.target.value,
+                                      dAdaGigiKekal: e.target.value,
                                     });
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                               </div>
-                              <article
-                                className={` ${
-                                  fAdaGigiKekal > 0
-                                    ? 'grid grid-cols-2 border border-userBlack p-2 rounded-md mx-1'
-                                    : ''
-                                } ''`}
-                              >
-                                <div className='flex flex-row items-center pl-5 col-span-2'>
-                                  <p className='text-sm font-m '>F: </p>
-                                  <span className='text-user6'>*</span>
-                                  <input
-                                    disabled={isDisabled}
-                                    required
-                                    min='0'
-                                    max='32'
-                                    type='number'
-                                    name='f-ada-status-gigi-kekal'
-                                    id='f-ada-status-gigi-kekal'
-                                    value={fAdaGigiKekal}
-                                    onChange={(e) => {
-                                      setFAdaGigiKekal(e.target.value);
-                                      setConfirmData({
-                                        ...confirmData,
-                                        fAdaGigiKekal: e.target.value,
-                                      });
-                                    }}
-                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                  />
-                                </div>
-                                {fAdaGigiKekal > 0 && (
-                                  <div className='flex flex-row items-center pl-3'>
-                                    <p className='text-sm font-m '>Class I: </p>
-                                    <input
-                                      disabled={isDisabled}
-                                      min='0'
-                                      max='32'
-                                      type='number'
-                                      name='class-1-f'
-                                      id='class-1-f'
-                                      value={classIF}
-                                      onChange={(e) => {
-                                        setClassIF(e.target.value);
-                                        setConfirmData({
-                                          ...confirmData,
-                                          classIF: e.target.value,
-                                        });
-                                      }}
-                                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                    />
-                                  </div>
-                                )}
-                                {fAdaGigiKekal > 0 && (
-                                  <div className='flex flex-row items-center'>
-                                    <p className='text-sm font-m '>
-                                      Class II:{' '}
-                                    </p>
-                                    <input
-                                      disabled={isDisabled}
-                                      min='0'
-                                      max='32'
-                                      type='number'
-                                      name='class-2-f'
-                                      id='class-2-f'
-                                      value={classIIF}
-                                      onChange={(e) => {
-                                        setClassIIF(e.target.value);
-                                        setConfirmData({
-                                          ...confirmData,
-                                          classIIF: e.target.value,
-                                        });
-                                      }}
-                                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                    />
-                                  </div>
-                                )}
-                                {sumClassF > fAdaGigiKekal && (
-                                  <p className='col-span-2 text-user6 font-semibold'>
-                                    jumlah class I + class II F tidak boleh
-                                    melebihi jumlah F
-                                  </p>
-                                )}
-                              </article>
-                              <div className='flex flex-row items-center pl-5'>
-                                <p className='text-sm font-m '>X: </p>
+                              <div className='flex flex-row items-center pl-3'>
+                                <p className='text-sm font-m '>Class I: </p>
+                                <input
+                                  disabled={isDisabled}
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='class-1-d'
+                                  id='class-1-d'
+                                  value={classID}
+                                  onChange={(e) => {
+                                    setClassID(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      classID: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                              <div className='flex flex-row items-center'>
+                                <p className='text-sm font-m '>Class II: </p>
+                                <input
+                                  disabled={isDisabled}
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='class-2-d'
+                                  id='class-2-d'
+                                  value={classIID}
+                                  onChange={(e) => {
+                                    setClassIID(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      classIID: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                              {sumClassD > dAdaGigiKekal && (
+                                <p className='col-span-2 text-user6 font-semibold'>
+                                  jumlah class I + class II D tidak boleh
+                                  melebihi jumlah D
+                                </p>
+                              )}
+                            </article>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>M: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='m-ada-status-gigi-kekal'
+                                id='m-ada-status-gigi-kekal'
+                                value={mAdaGigiKekal}
+                                onChange={(e) => {
+                                  setMAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    mAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <article className='grid grid-cols-2 border border-userBlack p-2 rounded-md mx-1'>
+                              <div className='flex flex-row items-center pl-5 col-span-2'>
+                                <p className='text-sm font-m '>F: </p>
                                 <span className='text-user6'>*</span>
                                 <input
                                   disabled={isDisabled}
@@ -3437,198 +5189,829 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   min='0'
                                   max='32'
                                   type='number'
-                                  name='x-ada-status-gigi-kekal'
-                                  id='x-ada-status-gigi-kekal'
-                                  value={xAdaGigiKekal}
+                                  name='f-ada-status-gigi-kekal'
+                                  id='f-ada-status-gigi-kekal'
+                                  value={fAdaGigiKekal}
                                   onChange={(e) => {
-                                    setXAdaGigiKekal(e.target.value);
+                                    setFAdaGigiKekal(e.target.value);
                                     setConfirmData({
                                       ...confirmData,
-                                      xAdaGigiKekal: e.target.value,
+                                      fAdaGigiKekal: e.target.value,
                                     });
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                               </div>
-                              <div className='flex flex-row items-center pl-5'>
-                                <p className='text-sm font-m '>E: </p>
-                                <span className='text-user6'>*</span>
+                              <div className='flex flex-row items-center pl-3'>
+                                <p className='text-sm font-m '>Class I: </p>
                                 <input
                                   disabled={isDisabled}
-                                  required
                                   min='0'
                                   max='32'
                                   type='number'
-                                  name='e-ada-status-gigi-kekal'
-                                  id='e-ada-status-gigi-kekal'
-                                  value={eAdaGigiKekal}
+                                  name='class-1-f'
+                                  id='class-1-f'
+                                  value={classIF}
                                   onChange={(e) => {
-                                    setEAdaGigiKekal(e.target.value);
+                                    setClassIF(e.target.value);
                                     setConfirmData({
                                       ...confirmData,
-                                      eAdaGigiKekal: e.target.value,
+                                      classIF: e.target.value,
                                     });
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                               </div>
+                              <div className='flex flex-row items-center'>
+                                <p className='text-sm font-m '>Class II: </p>
+                                <input
+                                  disabled={isDisabled}
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='class-2-f'
+                                  id='class-2-f'
+                                  value={classIIF}
+                                  onChange={(e) => {
+                                    setClassIIF(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      classIIF: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                              </div>
+                              {sumClassF > fAdaGigiKekal && (
+                                <p className='col-span-2 text-user6 font-semibold'>
+                                  jumlah class I + class II F tidak boleh
+                                  melebihi jumlah F
+                                </p>
+                              )}
+                            </article>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>X: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='x-ada-status-gigi-kekal'
+                                id='x-ada-status-gigi-kekal'
+                                value={xAdaGigiKekal}
+                                onChange={(e) => {
+                                  setXAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    xAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                            </div>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='text-sm font-m '>E: </p>
+                              <span className='text-user6'>*</span>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                min='0'
+                                max='32'
+                                type='number'
+                                name='e-ada-status-gigi-kekal'
+                                id='e-ada-status-gigi-kekal'
+                                value={eAdaGigiKekal}
+                                onChange={(e) => {
+                                  setEAdaGigiKekal(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    eAdaGigiKekal: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
                             </div>
                           </div>
-                          {sumDMFXKekal > 32 && (
-                            <p className='text-user6 font-semibold'>
-                              jumlah DMFX tidak boleh melebihi 32
-                            </p>
+                        </div>
+                        {sumDMFXKekal > 32 && (
+                          <p className='text-user6 font-semibold'>
+                            jumlah DMFX tidak boleh melebihi 32
+                          </p>
+                        )}
+                      </div>
+                    </article>
+                    <div className='grid gap-2'>
+                      <article className='border border-userBlack pl-3 p-2 rounded-md'>
+                        <div className='grid grid-cols-1'>
+                          <h4 className='flex flex-row pl-5 items-center'>
+                            <p className='font-bold'>Risiko Karies </p>
+                            <span className='text-user6 text-xl'>*</span>
+                            <input
+                              disabled
+                              type='text'
+                              name='penanda-risiko-karies'
+                              id='penanda-risiko-karies'
+                              value={
+                                penandaRisikoKaries
+                                  ? penandaRisikoKaries
+                                  : 'Sila Isi Jumlah Faktor Risiko'
+                              }
+                              onChange={(e) => {
+                                setPenandaRisikoKaries(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  penandaRisikoKaries: e.target.value,
+                                });
+                              }}
+                              className={`appearance-none capitalize ml-3 h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
+                                penandaRisikoKaries === 'rendah'
+                                  ? 'bg-user7 w-24 px-2 '
+                                  : penandaRisikoKaries === 'sederhana'
+                                  ? 'bg-user8 w-24 px-2 '
+                                  : penandaRisikoKaries === 'tinggi'
+                                  ? 'bg-user9 w-24 px-2 '
+                                  : 'w-40 text-xs font-light px-1'
+                              }`}
+                            />
+                          </h4>
+                          <div className='flex flex-row items-center '>
+                            <div
+                              className={`${
+                                pilihanDataSalah.jumlahFaktorRisikoCBox &&
+                                'grid-rows-2'
+                              } grid pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.jumlahFaktorRisikoCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-2`}
+                              >
+                                <p className='flex items-center flex-row pl-5 text-sm'>
+                                  Jumlah Faktor Risiko:
+                                </p>
+                                <select
+                                  disabled={
+                                    yaTidakPesakitMempunyaiGigi === ''
+                                      ? true
+                                      : isDisabled
+                                  }
+                                  required
+                                  name='jumlah-faktor-risiko'
+                                  id='jumlah-faktor-risiko'
+                                  value={jumlahFaktorRisiko}
+                                  onChange={(e) => {
+                                    setJumlahFaktorRisiko(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      jumlahFaktorRisiko: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  <option value=''></option>
+                                  <option value='0'>0</option>
+                                  <option value='1'>1</option>
+                                  <option value='2'>2</option>
+                                  <option value='3'>3</option>
+                                  <option value='4'>4</option>
+                                  <option value='5'>5</option>
+                                  <option value='6'>6</option>
+                                  <option value='7'>7</option>
+                                  <option value='8'>8</option>
+                                </select>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='jumlah-faktor-risiko-reten-salah-cbox'
+                                    id='jumlah-faktor-risiko-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.jumlahFaktorRisikoCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        jumlahFaktorRisikoCBox:
+                                          !pilihanDataSalah.jumlahFaktorRisikoCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        jumlahFaktorRisikoCBox:
+                                          !pilihanDataSalah.jumlahFaktorRisikoCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          jumlahFaktorRisikoCBox:
+                                            !pilihanDataSalah.jumlahFaktorRisikoCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='jumlah-faktor-risiko-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.jumlahFaktorRisikoCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            jumlahFaktorRisiko: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            jumlahFaktorRisiko: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              jumlahFaktorRisiko: '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.jumlahFaktorRisikoCBox ===
+                                true && (
+                                <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='flex flex-row pl-5 text-sm font-m'>
+                                    Jumlah Faktor Risiko:
+                                  </p>
+                                  <select
+                                    name='jumlah-faktor-risiko'
+                                    id='jumlah-faktor-risiko'
+                                    value={pilihanDataSalah.jumlahFaktorRisiko}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        jumlahFaktorRisiko: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        jumlahFaktorRisiko: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          jumlahFaktorRisiko: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  >
+                                    {jumlahFaktorRisiko === '1' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '2' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '3' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '4' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '5' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '6' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '7' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    ) : jumlahFaktorRisiko === '8' ? (
+                                      <>
+                                        <option value=''></option>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                      </>
+                                    ) : (
+                                      <>
+                                        <option value='0'>0</option>
+                                        <option value='1'>1</option>
+                                        <option value='2'>2</option>
+                                        <option value='3'>3</option>
+                                        <option value='4'>4</option>
+                                        <option value='5'>5</option>
+                                        <option value='6'>6</option>
+                                        <option value='7'>7</option>
+                                        <option value='8'>8</option>
+                                      </>
+                                    )}
+                                  </select>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
+                            </div>
+                          </div>
+                        </div>
+                      </article>
+                      <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row col-span-2  pb-2 pl-5'>
+                          Kehilangan Permukaan Gigi (TSL)
+                        </h4>
+                        <div
+                          className={`${
+                            pilihanDataSalah.toothSurfaceLossCBox &&
+                            'grid-rows-2'
+                          } grid px-3 pl pt-1`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.toothSurfaceLossCBox &&
+                              'bg-user9 bg-opacity-20 p-2'
+                            } flex items-center flex-row pl-2`}
+                          >
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='tooth-surface-loss'
+                              id='tooth-surface-loss'
+                              checked={toothSurfaceLoss}
+                              onChange={(e) => {
+                                setToothSurfaceLoss(!toothSurfaceLoss);
+                                setConfirmData({
+                                  ...confirmData,
+                                  toothSurfaceLoss: !toothSurfaceLoss,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='tooth-surface-loss'
+                              className='text-sm font-m ml-2'
+                            >
+                              Kehilangan Permukaan Gigi
+                            </label>
+                            <div className='relative mx-2'>
+                              <input
+                                type='checkbox'
+                                name='tooth-surface-loss-reten-salah-cbox'
+                                id='tooth-surface-loss-reten-salah-cbox'
+                                checked={pilihanDataSalah.toothSurfaceLossCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    toothSurfaceLossCBox:
+                                      !pilihanDataSalah.toothSurfaceLossCBox,
+                                    toothSurfaceLoss: !toothSurfaceLoss,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    toothSurfaceLossCBox:
+                                      !pilihanDataSalah.toothSurfaceLossCBox,
+                                    toothSurfaceLoss: !toothSurfaceLoss,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      toothSurfaceLossCBox:
+                                        !pilihanDataSalah.toothSurfaceLossCBox,
+                                      toothSurfaceLoss: !toothSurfaceLoss,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='tooth-surface-loss-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.toothSurfaceLossCBox ===
+                                true ? (
+                                  <FaTimes className='text-2xl' />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.toothSurfaceLossCBox === true && (
+                            <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                              <input
+                                disabled
+                                type='checkbox'
+                                name='tooth-surface-loss-reten-salah'
+                                id='tooth-surface-loss-reten-salah'
+                                checked={pilihanDataSalah.toothSurfaceLoss}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                              />
+                              <label
+                                htmlFor='tooth-surface-loss-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Kehilangan Permukaan Gigi
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
                           )}
                         </div>
-                      )}
-                    </article>
-                    <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                      <div className='grid grid-cols-1'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          Risiko Karies{' '}
-                          <span className='text-user6 text-xl'>*</span>
-                        </h4>
-                        <div className='flex flex-row items-center'>
-                          <p className='flex items-center flex-row pl-5'>
-                            Jumlah Faktor Risiko:
-                          </p>
-                          <select
-                            disabled={
-                              yaTidakPesakitMempunyaiGigi === ''
-                                ? true
-                                : isDisabled
-                            }
-                            required
-                            name='jumlah-faktor-risiko'
-                            id='jumlah-faktor-risiko'
-                            value={jumlahFaktorRisiko}
-                            onChange={(e) => {
-                              setJumlahFaktorRisiko(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                jumlahFaktorRisiko: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                      </article>
+                      <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                        <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
+                        <div className='grid grid-cols-1 lg:grid-cols-2'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
                           >
-                            <option value=''></option>
-                            <option value='0'>0</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                            <option value='5'>5</option>
-                            <option value='6'>6</option>
-                            <option value='7'>7</option>
-                            <option value='8'>8</option>
-                          </select>
-                          <input
-                            disabled
-                            type='text'
-                            name='penanda-risiko-karies'
-                            id='penanda-risiko-karies'
-                            value={
-                              penandaRisikoKaries
-                                ? penandaRisikoKaries
-                                : 'Sila Isi Jumlah Faktor Risiko'
-                            }
-                            onChange={(e) => {
-                              setPenandaRisikoKaries(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                penandaRisikoKaries: e.target.value,
-                              });
-                            }}
-                            className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
-                              penandaRisikoKaries === 'rendah'
-                                ? 'bg-user7 w-24 px-2 '
-                                : penandaRisikoKaries === 'sederhana'
-                                ? 'bg-user8 w-24 px-2 '
-                                : penandaRisikoKaries === 'tinggi'
-                                ? 'bg-user9 w-24 px-2 '
-                                : 'w-40 text-xs px-1'
-                            }`}
-                          />
-                        </div>
-                      </div>
-                    </article>
-                    <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
-                      <div className='grid grid-cols-1 lg:grid-cols-2'>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='kecederaan-gigi-anterior'
-                            id='kecederaan-gigi-anterior'
-                            checked={kecederaanGigiAnteriorTrauma}
-                            onChange={() => {
-                              setKecederaanGigiAnteriorTrauma(
-                                !kecederaanGigiAnteriorTrauma
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                kecederaanGigiAnteriorTrauma:
-                                  !kecederaanGigiAnteriorTrauma,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='kecederaan-gigi-anterior'
-                            className='m-2 text-sm font-m'
+                            <div
+                              className={`${
+                                pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
+                            >
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='kecederaan-gigi-anterior'
+                                id='kecederaan-gigi-anterior'
+                                checked={kecederaanGigiAnteriorTrauma}
+                                onChange={() => {
+                                  setKecederaanGigiAnteriorTrauma(
+                                    !kecederaanGigiAnteriorTrauma
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    kecederaanGigiAnteriorTrauma:
+                                      !kecederaanGigiAnteriorTrauma,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='kecederaan-gigi-anterior'
+                                className='m-2 text-sm font-m'
+                              >
+                                Kecederaan Gigi
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='kecederaan-gigi-anterior-reten-salah-cbox'
+                                  id='kecederaan-gigi-anterior-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      kecederaanGigiAnteriorTraumaCBox:
+                                        !pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox,
+                                      kecederaanGigiAnteriorTrauma:
+                                        !kecederaanGigiAnteriorTrauma,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      kecederaanGigiAnteriorTraumaCBox:
+                                        !pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox,
+                                      kecederaanGigiAnteriorTrauma:
+                                        !kecederaanGigiAnteriorTrauma,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        kecederaanGigiAnteriorTraumaCBox:
+                                          !pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox,
+                                        kecederaanGigiAnteriorTrauma:
+                                          !kecederaanGigiAnteriorTrauma,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='kecederaan-gigi-anterior-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox ===
+                              true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='kecederaan-gigi-anterior-reten-salah'
+                                  id='kecederaan-gigi-anterior-reten-salah'
+                                  checked={
+                                    pilihanDataSalah.kecederaanGigiAnteriorTrauma
+                                  }
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='kecederaan-gigi-anterior-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  Kecederaan Gigi
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div
+                            className={`${
+                              pilihanDataSalah.tisuLembutTraumaCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
                           >
-                            Kecederaan Gigi
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='tisu-lembut'
-                            id='tisu-lembut'
-                            checked={tisuLembutTrauma}
-                            onChange={() => {
-                              setTisuLembutTrauma(!tisuLembutTrauma);
-                              setConfirmData({
-                                ...confirmData,
-                                tisuLembutTrauma: !tisuLembutTrauma,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='tisu-lembut'
-                            className='m-2 text-sm font-m'
+                            <div
+                              className={`${
+                                pilihanDataSalah.tisuLembutTraumaCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
+                            >
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='tisu-lembut'
+                                id='tisu-lembut'
+                                checked={tisuLembutTrauma}
+                                onChange={() => {
+                                  setTisuLembutTrauma(!tisuLembutTrauma);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tisuLembutTrauma: !tisuLembutTrauma,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='tisu-lembut'
+                                className='m-2 text-sm font-m'
+                              >
+                                Kecederaan Tisu Lembut
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='tisu-lembut-reten-salah-cbox'
+                                  id='tisu-lembut-reten-salah-cbox'
+                                  checked={
+                                    pilihanDataSalah.tisuLembutTraumaCBox
+                                  }
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      tisuLembutTraumaCBox:
+                                        !pilihanDataSalah.tisuLembutTraumaCBox,
+                                      tisuLembutTrauma: !tisuLembutTrauma,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      tisuLembutTraumaCBox:
+                                        !pilihanDataSalah.tisuLembutTraumaCBox,
+                                      tisuLembutTrauma: !tisuLembutTrauma,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        tisuLembutTraumaCBox:
+                                          !pilihanDataSalah.tisuLembutTraumaCBox,
+                                        tisuLembutTrauma: !tisuLembutTrauma,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='tisu-lembut-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.tisuLembutTraumaCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.tisuLembutTraumaCBox === true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='tisu-lembut-reten-salah'
+                                  id='tisu-lembut-reten-salah'
+                                  checked={pilihanDataSalah.tisuLembutTrauma}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='tisu-lembut-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  Kecederaan Tisu Lembut
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                          </div>
+                          <div
+                            className={`${
+                              pilihanDataSalah.tisuKerasTraumaCBox &&
+                              'grid-rows-2'
+                            } grid px-3 pt-1`}
                           >
-                            Kecederaan Tisu Lembut
-                          </label>
+                            <div
+                              className={`${
+                                pilihanDataSalah.tisuKerasTraumaCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-2`}
+                            >
+                              <input
+                                disabled={isDisabled}
+                                type='checkbox'
+                                name='tisu-keras'
+                                id='tisu-keras'
+                                checked={tisuKerasTrauma}
+                                onChange={() => {
+                                  setTisuKerasTrauma(!tisuKerasTrauma);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    tisuKerasTrauma: !tisuKerasTrauma,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='tisu-keras'
+                                className='m-2 text-sm font-m'
+                              >
+                                kecederaan tulang muka
+                              </label>
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='tisu-keras-reten-salah-cbox'
+                                  id='tisu-keras-reten-salah-cbox'
+                                  checked={pilihanDataSalah.tisuKerasTraumaCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      tisuKerasTraumaCBox:
+                                        !pilihanDataSalah.tisuKerasTraumaCBox,
+                                      tisuKerasTrauma: !tisuKerasTrauma,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      tisuKerasTraumaCBox:
+                                        !pilihanDataSalah.tisuKerasTraumaCBox,
+                                      tisuKerasTrauma: !tisuKerasTrauma,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        tisuKerasTraumaCBox:
+                                          !pilihanDataSalah.tisuKerasTraumaCBox,
+                                        tisuKerasTrauma: !tisuKerasTrauma,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='tisu-keras-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.tisuKerasTraumaCBox ===
+                                  true ? (
+                                    <FaTimes className='text-2xl' />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
+                            </div>
+                            {pilihanDataSalah.tisuKerasTraumaCBox === true && (
+                              <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='tisu-keras-reten-salah'
+                                  id='tisu-keras-reten-salah'
+                                  checked={pilihanDataSalah.tisuKerasTrauma}
+                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                />
+                                <label
+                                  htmlFor='tisu-keras-reten-salah'
+                                  className='mx-2 text-sm font-m'
+                                >
+                                  kecederaan tulang muka
+                                </label>
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                          </div>
                         </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='tisu-keras'
-                            id='tisu-keras'
-                            checked={tisuKerasTrauma}
-                            onChange={() => {
-                              setTisuKerasTrauma(!tisuKerasTrauma);
-                              setConfirmData({
-                                ...confirmData,
-                                tisuKerasTrauma: !tisuKerasTrauma,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='tisu-keras'
-                            className='m-2 text-sm font-m'
-                          >
-                            kecederaan tulang muka
-                          </label>
-                        </div>
-                      </div>
-                    </article>
+                      </article>
+                    </div>
                     <article className='grid grid-cols-3 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5 text-left col-span-3'>
                         Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
@@ -3816,34 +6199,6 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           }}
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         />
-                      </div>
-                    </article>
-                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      <h4 className='font-bold flex flex-row col-span-2  pb-2 pl-5'>
-                        Kehilangan Permukaan Gigi (TSL)
-                      </h4>
-                      <div className='flex items-center flex-row pl-5'>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='tooth-surface-loss'
-                          id='tooth-surface-loss'
-                          checked={toothSurfaceLoss}
-                          onChange={(e) => {
-                            setToothSurfaceLoss(!toothSurfaceLoss);
-                            setConfirmData({
-                              ...confirmData,
-                              toothSurfaceLoss: !toothSurfaceLoss,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                        />
-                        <label
-                          htmlFor='tooth-surface-loss'
-                          className='text-sm font-m ml-2'
-                        >
-                          Kehilangan Permukaan Gigi
-                        </label>
                       </div>
                     </article>
                   </section>
@@ -4607,110 +6962,546 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           Melaksanakan saringan merokok melalui Program KOTAK
                           <span className='text-user6'>*</span>
                         </p>
-                        <div className='flex items-center'>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='melaksanakan-saringan-merokok'
-                            id='ya-melaksanakan-saringan-merokok'
-                            value='ya-melaksanakan-saringan-merokok'
-                            checked={
-                              melaksanakanSaringanMerokok ===
-                              'ya-melaksanakan-saringan-merokok'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMelaksanakanSaringanMerokok(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                melaksanakanSaringanMerokok: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='ya-melaksanakan-saringan-merokok'
-                            className='mx-2 text-sm font-m'
+                        <div className='flex flex-col'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.melaksanakanSaringanMerokokCBox &&
+                              'bg-user9 bg-opacity-20 justify-center p-2'
+                            } flex flex-row items-center relative`}
                           >
-                            Ya
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='melaksanakan-saringan-merokok'
-                            id='tidak-melaksanakan-saringan-merokok'
-                            value='tidak-melaksanakan-saringan-merokok'
-                            checked={
-                              melaksanakanSaringanMerokok ===
-                              'tidak-melaksanakan-saringan-merokok'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMelaksanakanSaringanMerokok(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                melaksanakanSaringanMerokok: e.target.value,
-                              });
-                            }}
-                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                          />
-                          <label
-                            htmlFor='tidak-melaksanakan-saringan-merokok'
-                            className='mx-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='melaksanakan-saringan-merokok'
+                              id='ya-melaksanakan-saringan-merokok'
+                              value='ya-melaksanakan-saringan-merokok'
+                              checked={
+                                melaksanakanSaringanMerokok ===
+                                'ya-melaksanakan-saringan-merokok'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMelaksanakanSaringanMerokok(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  melaksanakanSaringanMerokok: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='ya-melaksanakan-saringan-merokok'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Ya
+                            </label>
+                            <input
+                              disabled={isDisabled}
+                              required
+                              type='radio'
+                              name='melaksanakan-saringan-merokok'
+                              id='tidak-melaksanakan-saringan-merokok'
+                              value='tidak-melaksanakan-saringan-merokok'
+                              checked={
+                                melaksanakanSaringanMerokok ===
+                                'tidak-melaksanakan-saringan-merokok'
+                                  ? true
+                                  : false
+                              }
+                              onChange={(e) => {
+                                setMelaksanakanSaringanMerokok(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  melaksanakanSaringanMerokok: e.target.value,
+                                });
+                              }}
+                              className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                            />
+                            <label
+                              htmlFor='tidak-melaksanakan-saringan-merokok'
+                              className='mx-2 text-sm font-m'
+                            >
+                              Tidak
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='melaksanakan-saringan-merokok-reten-salah-cbox'
+                                id='melaksanakan-saringan-merokok-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokokCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokokCBox:
+                                      !pilihanDataSalah.melaksanakanSaringanMerokokCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokokCBox:
+                                      !pilihanDataSalah.melaksanakanSaringanMerokokCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokokCBox:
+                                        !pilihanDataSalah.melaksanakanSaringanMerokokCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='melaksanakan-saringan-merokok-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.melaksanakanSaringanMerokokCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        melaksanakanSaringanMerokok: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        melaksanakanSaringanMerokok: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          melaksanakanSaringanMerokok: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.melaksanakanSaringanMerokokCBox ===
+                            true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1 p-2'>
+                              <input
+                                disabled={
+                                  melaksanakanSaringanMerokok ===
+                                  'ya-melaksanakan-saringan-merokok'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='melaksanakan-saringan-merokok-reten-salah'
+                                id='ya-melaksanakan-saringan-merokok-reten-salah'
+                                value='ya-melaksanakan-saringan-merokok-reten-salah'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokok ===
+                                  'ya-melaksanakan-saringan-merokok-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ya-melaksanakan-saringan-merokok-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={
+                                  melaksanakanSaringanMerokok ===
+                                  'tidak-melaksanakan-saringan-merokok'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='melaksanakan-saringan-merokok-reten-salah'
+                                id='tidak-melaksanakan-saringan-merokok-reten-salah'
+                                value='tidak-melaksanakan-saringan-merokok-reten-salah'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokok ===
+                                  'tidak-melaksanakan-saringan-merokok-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-melaksanakan-saringan-merokok-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                disabled={
+                                  melaksanakanSaringanMerokok === ''
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='melaksanakan-saringan-merokok-reten-salah'
+                                id='tiada-melaksanakan-saringan-merokok-reten-salah'
+                                value='tiada-melaksanakan-saringan-merokok-reten-salah'
+                                checked={
+                                  pilihanDataSalah.melaksanakanSaringanMerokok ===
+                                  'tiada-melaksanakan-saringan-merokok-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-melaksanakan-saringan-merokok-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    melaksanakanSaringanMerokok: '',
+                                    melaksanakanSaringanMerokokCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    melaksanakanSaringanMerokok: '',
+                                    melaksanakanSaringanMerokokCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      melaksanakanSaringanMerokok: '',
+                                      melaksanakanSaringanMerokokCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                       </div>
-                      {melaksanakanSaringanMerokok ===
-                        'ya-melaksanakan-saringan-merokok' && (
-                        <div className='text-sm grid grid-cols-[3fr_2fr] '>
-                          <label
-                            htmlFor='statusM'
-                            className='flex items-center text-sm normal-case'
+                      <div className='text-sm grid grid-cols-[3fr_2fr] '>
+                        <label
+                          htmlFor='statusM'
+                          className='flex items-center text-sm normal-case'
+                        >
+                          Status Merokok
+                          <span className='text-user6'>*</span>
+                        </label>
+                        <div
+                          className={`${
+                            pilihanDataSalah.statusMCBox && 'grid-rows-2'
+                          } grid pt-1`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.statusMCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row pl-2`}
                           >
-                            Status Merokok<span className='text-user6'>*</span>
-                          </label>
-                          <select
-                            disabled={isDisabled}
-                            required
-                            name='statusM'
-                            id='statusM'
-                            value={statusM}
-                            onChange={(e) => {
-                              setStatusM(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                statusM: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
-                          >
-                            <option value=''></option>
-                            <option value='perokok-semasa'>
-                              Perokok Semasa
-                            </option>
-                            <option value='bekas-perokok'>Bekas Perokok</option>
-                            <option value='perokok-pasif'>Perokok Pasif</option>
-                            <option value='bukan-perokok'>Bukan Perokok</option>
-                            <option value='dalam-intervensi'>
-                              Dalam Intervensi
-                            </option>
-                          </select>
+                            <select
+                              disabled={isDisabled}
+                              required
+                              name='statusM'
+                              id='statusM'
+                              value={statusM}
+                              onChange={(e) => {
+                                setStatusM(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  statusM: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='perokok-semasa'>
+                                Perokok Semasa
+                              </option>
+                              <option value='bekas-perokok'>
+                                Bekas Perokok
+                              </option>
+                              <option value='perokok-pasif'>
+                                Perokok Pasif
+                              </option>
+                              <option value='bukan-perokok'>
+                                Bukan Perokok
+                              </option>
+                              <option value='dalam-intervensi'>
+                                Dalam Intervensi
+                              </option>
+                            </select>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='statusM-reten-salah-cbox'
+                                id='statusM-reten-salah-cbox'
+                                checked={pilihanDataSalah.statusMCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    statusMCBox: !pilihanDataSalah.statusMCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    statusMCBox: !pilihanDataSalah.statusMCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      statusMCBox:
+                                        !pilihanDataSalah.statusMCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='statusM-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.statusMCBox === true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        statusM: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        statusM: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          statusM: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.statusMCBox === true && (
+                            <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50 mb-1'>
+                              <select
+                                name='statusM'
+                                id='statusM'
+                                value={pilihanDataSalah.statusM}
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    statusM: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    statusM: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      statusM: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                {statusM === 'perokok-semasa' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'bekas-perokok' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'perokok-pasif' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'bukan-perokok' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                ) : statusM === 'dalam-intervensi' ? (
+                                  <>
+                                    <option value=''></option>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                  </>
+                                ) : (
+                                  <>
+                                    <option value='perokok-semasa'>
+                                      Perokok Semasa
+                                    </option>
+                                    <option value='bekas-perokok'>
+                                      Bekas Perokok
+                                    </option>
+                                    <option value='perokok-pasif'>
+                                      Perokok Pasif
+                                    </option>
+                                    <option value='bukan-perokok'>
+                                      Bukan Perokok
+                                    </option>
+                                    <option value='dalam-intervensi'>
+                                      Dalam Intervensi
+                                    </option>
+                                  </>
+                                )}
+                              </select>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {melaksanakanSaringanMerokok ===
-                        'ya-melaksanakan-saringan-merokok' && (
-                        <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
-                          <p className='flex items-center text-sm normal-case'>
-                            Pesakit menerima nasihat ringkas?
-                            <span className='text-user6'>*</span>
-                          </p>
-                          <div className='flex items-center'>
+                      </div>
+                      <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
+                        <p className='flex items-center text-sm normal-case'>
+                          Pesakit menerima nasihat ringkas?
+                          <span className='text-user6'>*</span>
+                        </p>
+                        <div className='flex flex-col'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.menerimaNasihatRingkasCBox &&
+                              'bg-user9 bg-opacity-20 justify-center p-2'
+                            } flex flex-row items-center relative`}
+                          >
                             <input
                               disabled={isDisabled}
                               required
@@ -4767,16 +7558,238 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             >
                               Tidak
                             </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='menerima-nasihat-ringkas-reten-salah-cbox'
+                                id='menerima-nasihat-ringkas-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkasCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkasCBox:
+                                      !pilihanDataSalah.menerimaNasihatRingkasCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkasCBox:
+                                      !pilihanDataSalah.menerimaNasihatRingkasCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkasCBox:
+                                        !pilihanDataSalah.menerimaNasihatRingkasCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='menerima-nasihat-ringkas-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.menerimaNasihatRingkasCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        menerimaNasihatRingkas: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        menerimaNasihatRingkas: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          menerimaNasihatRingkas: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
                           </div>
+                          {pilihanDataSalah.menerimaNasihatRingkasCBox ===
+                            true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1 p-2'>
+                              <input
+                                disabled={
+                                  menerimaNasihatRingkas ===
+                                  'ya-menerima-nasihat-ringkas'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='menerima-nasihat-ringkas-reten-salah'
+                                id='ya-menerima-nasihat-ringkas-reten-salah'
+                                value='ya-menerima-nasihat-ringkas-reten-salah'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkas ===
+                                  'ya-menerima-nasihat-ringkas-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ya-menerima-nasihat-ringkas-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={
+                                  menerimaNasihatRingkas ===
+                                  'tidak-menerima-nasihat-ringkas'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='menerima-nasihat-ringkas-reten-salah'
+                                id='tidak-menerima-nasihat-ringkas-reten-salah'
+                                value='tidak-menerima-nasihat-ringkas-reten-salah'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkas ===
+                                  'tidak-menerima-nasihat-ringkas-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-menerima-nasihat-ringkas-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                disabled={
+                                  menerimaNasihatRingkas === '' ? true : false
+                                }
+                                required
+                                type='radio'
+                                name='menerima-nasihat-ringkas-reten-salah'
+                                id='tiada-menerima-nasihat-ringkas-reten-salah'
+                                value='tiada-menerima-nasihat-ringkas-reten-salah'
+                                checked={
+                                  pilihanDataSalah.menerimaNasihatRingkas ===
+                                  'tiada-menerima-nasihat-ringkas-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-menerima-nasihat-ringkas-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    menerimaNasihatRingkas: '',
+                                    menerimaNasihatRingkasCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    menerimaNasihatRingkas: '',
+                                    menerimaNasihatRingkasCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      menerimaNasihatRingkas: '',
+                                      menerimaNasihatRingkasCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
-                      )}
-                      {statusM === 'perokok-semasa' && (
-                        <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
-                          <p className='flex items-center text-sm normal-case'>
-                            Murid BERSETUJU untuk dirujuk menjalani intervensi?
-                            <span className='text-user6'>*</span>
-                          </p>
-                          <div className='flex items-center'>
+                      </div>
+                      <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
+                        <p className='flex items-center text-sm normal-case'>
+                          Murid BERSETUJU untuk dirujuk menjalani intervensi?
+                          <span className='text-user6'>*</span>
+                        </p>
+                        <div className='flex flex-col'>
+                          <div
+                            className={`${
+                              pilihanDataSalah.bersediaDirujukCBox &&
+                              'bg-user9 bg-opacity-20 justify-center p-2'
+                            } flex flex-row items-center relative`}
+                          >
                             <input
                               disabled={isDisabled}
                               required
@@ -4831,9 +7844,219 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             >
                               Tidak
                             </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='bersedia-dirujuk-reten-salah-cbox'
+                                id='bersedia-dirujuk-reten-salah-cbox'
+                                checked={pilihanDataSalah.bersediaDirujukCBox}
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujukCBox:
+                                      !pilihanDataSalah.bersediaDirujukCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujukCBox:
+                                      !pilihanDataSalah.bersediaDirujukCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujukCBox:
+                                        !pilihanDataSalah.bersediaDirujukCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='bersedia-dirujuk-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.bersediaDirujukCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        bersediaDirujuk: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        bersediaDirujuk: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          bersediaDirujuk: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
                           </div>
+                          {pilihanDataSalah.bersediaDirujukCBox === true && (
+                            <div className='flex items-center justify-center bg-user11 bg-opacity-50 mb-1 p-2'>
+                              <input
+                                disabled={
+                                  bersediaDirujuk === 'ya-bersedia-dirujuk'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='bersedia-dirujuk-reten-salah'
+                                id='ya-bersedia-dirujuk-reten-salah'
+                                value='ya-bersedia-dirujuk-reten-salah'
+                                checked={
+                                  pilihanDataSalah.bersediaDirujuk ===
+                                  'ya-bersedia-dirujuk-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='ya-bersedia-dirujuk-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={
+                                  bersediaDirujuk === 'tidak-bersedia-dirujuk'
+                                    ? true
+                                    : false
+                                }
+                                required
+                                type='radio'
+                                name='bersedia-dirujuk-reten-salah'
+                                id='tidak-bersedia-dirujuk-reten-salah'
+                                value='tidak-bersedia-dirujuk-reten-salah'
+                                checked={
+                                  pilihanDataSalah.bersediaDirujuk ===
+                                  'tidak-bersedia-dirujuk-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tidak-bersedia-dirujuk-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                              <input
+                                disabled={bersediaDirujuk === '' ? true : false}
+                                required
+                                type='radio'
+                                name='bersedia-dirujuk-reten-salah'
+                                id='tiada-bersedia-dirujuk-reten-salah'
+                                value='tiada-bersedia-dirujuk-reten-salah'
+                                checked={
+                                  pilihanDataSalah.bersediaDirujuk ===
+                                  'tiada-bersedia-dirujuk-reten-salah'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                              />
+                              <label
+                                htmlFor='tiada-bersedia-dirujuk-reten-salah'
+                                className='mx-2 text-sm font-m'
+                              >
+                                tiada
+                              </label>
+                              <span
+                                className='text-kaunter4'
+                                onClick={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    bersediaDirujuk: '',
+                                    bersediaDirujukCBox: false,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    bersediaDirujuk: '',
+                                    bersediaDirujukCBox: false,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      bersediaDirujuk: '',
+                                      bersediaDirujukCBox: false,
+                                    },
+                                  });
+                                }}
+                              >
+                                <FaCheck className='text-xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
-                      )}
+                      </div>
                       {/* {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
                         <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
                           <p className='flex items-center text-sm'>
