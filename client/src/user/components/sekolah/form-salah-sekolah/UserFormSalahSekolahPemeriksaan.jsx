@@ -831,7 +831,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
           const dataRetenSalah =
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .createdSalahreten[0].dataRetenSalah;
-          //set dataRetenSalah to setPilihanData
+          //set all dataRetenSalah to setPilihanData
           setPilihanDataSalah(dataRetenSalah);
         }
         setIsLoading(false);
@@ -3597,7 +3597,26 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               >
                                 {pilihanDataSalah.kebersihanMulutOralHygieneCBox ===
                                 true ? (
-                                  <FaTimes className='text-2xl' />
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        kebersihanMulutOralHygiene: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        kebersihanMulutOralHygiene: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          kebersihanMulutOralHygiene: '',
+                                        },
+                                      });
+                                    }}
+                                  />
                                 ) : (
                                   <FaRegHandPointLeft className='text-2xl' />
                                 )}
@@ -3941,7 +3960,26 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 >
                                   {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
                                   true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            skorGisMulutOralHygiene: '',
+                                          },
+                                        });
+                                      }}
+                                    />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -4101,7 +4139,26 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 >
                                   {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
                                   true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          skorGisMulutOralHygiene: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            skorGisMulutOralHygiene: '',
+                                          },
+                                        });
+                                      }}
+                                    />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -4263,7 +4320,26 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 >
                                   {pilihanDataSalah.skorBpeOralHygieneCBox ===
                                   true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          skorBpeOralHygiene: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          skorBpeOralHygiene: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            skorBpeOralHygiene: '',
+                                          },
+                                        });
+                                      }}
+                                    />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -4525,7 +4601,12 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             )}
                           </div>
                           <div className='grid grid-cols-1'>
-                            <div className='flex flex-row items-center pl-5'>
+                            <div
+                              className={`${
+                                pilihanDataSalah.dAdaGigiDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5`}
+                            >
                               <p className='text-sm font-m lowercase'>d: </p>
                               <span className='text-user6'>*</span>
                               <input
@@ -4546,8 +4627,108 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='d-ada-status-gigi-desidus-reten-salah-cbox'
+                                  id='d-ada-status-gigi-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.dAdaGigiDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      dAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.dAdaGigiDesidusCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      dAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.dAdaGigiDesidusCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        dAdaGigiDesidusCBox:
+                                          !pilihanDataSalah.dAdaGigiDesidusCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='d-ada-status-gigi-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.dAdaGigiDesidusCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          dAdaGigiDesidus: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          dAdaGigiDesidus: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            dAdaGigiDesidus: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
+                            {pilihanDataSalah.dAdaGigiDesidusCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                <p className='text-sm font-m lowercase'>d: </p>
+                                <span className='text-user6'>*</span>
+                                <input
+                                  required
+                                  min='0'
+                                  max='20'
+                                  type='number'
+                                  name='d-ada-status-gigi-desidus'
+                                  id='d-ada-status-gigi-desidus'
+                                  value={pilihanDataSalah.dAdaGigiDesidus}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      dAdaGigiDesidus: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      dAdaGigiDesidus: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        dAdaGigiDesidus: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                            <div
+                              className={`${
+                                pilihanDataSalah.fAdaGigiDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5`}
+                            >
                               <p className='text-sm font-m lowercase'>f: </p>
                               <span className='text-user6'>*</span>
                               <input
@@ -4568,8 +4749,108 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='f-ada-status-gigi-desidus-reten-salah-cbox'
+                                  id='f-ada-status-gigi-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.fAdaGigiDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      fAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.fAdaGigiDesidusCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      fAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.fAdaGigiDesidusCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        fAdaGigiDesidusCBox:
+                                          !pilihanDataSalah.fAdaGigiDesidusCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='f-ada-status-gigi-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.fAdaGigiDesidusCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          fAdaGigiDesidus: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          fAdaGigiDesidus: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            fAdaGigiDesidus: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
+                            {pilihanDataSalah.fAdaGigiDesidusCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                <p className='text-sm font-m lowercase'>f: </p>
+                                <span className='text-user6'>*</span>
+                                <input
+                                  required
+                                  min='0'
+                                  max='20'
+                                  type='number'
+                                  name='f-ada-status-gigi-desidus'
+                                  id='f-ada-status-gigi-desidus'
+                                  value={pilihanDataSalah.fAdaGigiDesidus}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      fAdaGigiDesidus: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      fAdaGigiDesidus: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        fAdaGigiDesidus: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                            <div
+                              className={`${
+                                pilihanDataSalah.xAdaGigiDesidusCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5`}
+                            >
                               <p className='text-sm font-m lowercase'>x: </p>
                               <span className='text-user6'>*</span>
                               <input
@@ -4590,7 +4871,102 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='x-ada-status-gigi-desidus-reten-salah-cbox'
+                                  id='x-ada-status-gigi-desidus-reten-salah-cbox'
+                                  checked={pilihanDataSalah.xAdaGigiDesidusCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      xAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.xAdaGigiDesidusCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      dAdaGigiDesidusCBox:
+                                        !pilihanDataSalah.xAdaGigiDesidusCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        xAdaGigiDesidusCBox:
+                                          !pilihanDataSalah.xAdaGigiDesidusCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='x-ada-status-gigi-desidus-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.xAdaGigiDesidusCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          xAdaGigiDesidus: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          xAdaGigiDesidus: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            xAdaGigiDesidus: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
+                            {pilihanDataSalah.xAdaGigiDesidusCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                <p className='text-sm font-m lowercase'>x: </p>
+                                <span className='text-user6'>*</span>
+                                <input
+                                  required
+                                  min='0'
+                                  max='20'
+                                  type='number'
+                                  name='x-ada-status-gigi-desidus'
+                                  id='x-ada-status-gigi-desidus'
+                                  value={pilihanDataSalah.xAdaGigiDesidus}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      xAdaGigiDesidus: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      xAdaGigiDesidus: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        xAdaGigiDesidus: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                         {sumDMFXDesidus > 20 && (
@@ -5042,7 +5418,26 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   >
                                     {pilihanDataSalah.jumlahFaktorRisikoCBox ===
                                     true ? (
-                                      <FaTimes className='text-2xl' />
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            jumlahFaktorRisiko: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            jumlahFaktorRisiko: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              jumlahFaktorRisiko: '',
+                                            },
+                                          });
+                                        }}
+                                      />
                                     ) : (
                                       <FaRegHandPointLeft className='text-2xl' />
                                     )}
@@ -6937,7 +7332,26 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
                               >
                                 {pilihanDataSalah.statusMCBox === true ? (
-                                  <FaTimes className='text-2xl' />
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        statusM: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        statusM: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          statusM: '',
+                                        },
+                                      });
+                                    }}
+                                  />
                                 ) : (
                                   <FaRegHandPointLeft className='text-2xl' />
                                 )}
@@ -6947,7 +7361,6 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           {pilihanDataSalah.statusMCBox === true && (
                             <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50 mb-1'>
                               <select
-                                required
                                 name='statusM'
                                 id='statusM'
                                 value={pilihanDataSalah.statusM}
