@@ -3868,10 +3868,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 'bg-user9 bg-opacity-20'
                               } flex items-center flex-row pl-2`}
                             >
-                              <p className='flex text-sm font-m'>
-                                Skor GIS
-                                <span className='text-user6'>*</span>
-                              </p>
+                              <p className='flex text-sm font-m'>Skor GIS</p>
                               <select
                                 disabled={isDisabled}
                                 required={
@@ -3948,7 +3945,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               true && (
                               <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
                                 <p className='flex flex-row text-sm font-m'>
-                                  Skor GIS<span className='text-user6'>*</span>
+                                  Skor GIS
                                 </p>
                                 <select
                                   name='skor-gis-reten-salah'
@@ -4031,10 +4028,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 'bg-user9 bg-opacity-20'
                               } flex items-center flex-row pl-2`}
                             >
-                              <p className='flex text-sm font-m'>
-                                Skor GIS
-                                <span className='text-user6'>*</span>
-                              </p>
+                              <p className='flex text-sm font-m'>Skor GIS</p>
                               <select
                                 disabled={isDisabled}
                                 required={
@@ -4111,7 +4105,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               true && (
                               <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
                                 <p className='flex flex-row text-sm font-m'>
-                                  Skor GIS<span className='text-user6'>*</span>
+                                  Skor GIS
                                 </p>
                                 <select
                                   name='skor-gis-reten-salah'
@@ -4195,10 +4189,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 'bg-user9 bg-opacity-20'
                               } flex items-center flex-row pl-2`}
                             >
-                              <p className='text-sm font-m'>
-                                Skor BPE
-                                <span className='text-user6'>*</span>
-                              </p>
+                              <p className='text-sm font-m'>Skor BPE</p>
                               <select
                                 disabled={isDisabled}
                                 required={
@@ -4276,7 +4267,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               true && (
                               <div className='flex items-center flex-row pl-2 bg-user11 bg-opacity-50'>
                                 <p className='flex flex-row text-sm font-m'>
-                                  Skor BPE<span className='text-user6'>*</span>
+                                  Skor BPE
                                 </p>
                                 <select
                                   name='skor-bpe'
