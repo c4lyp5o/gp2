@@ -1,14 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import axios from 'axios';
-import moment from 'moment';
-import {
-  FaWindowClose,
-  FaMinus,
-  FaPlus,
-  FaTooth,
-  FaCheckCircle,
-} from 'react-icons/fa';
+import { FaWindowClose } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -19,70 +11,8 @@ export default function UserModalSalahSekolah({
   const { userToken, userinfo, reliefUserToken, toast } =
     useGlobalUserAppContext();
 
-  const [otpQuestion, setOtpQuestion] = useState(false);
-  const [otpInput, setOtpInput] = useState('');
-  const [showBothForm, setShowBothForm] = useState(false);
-  const [hilangSekolah, setHilangSekolah] = useState(false);
-
   //accordian
   const [accordian, setAccordian] = useState([]);
-
-  // const handleOtpRequest = async () => {
-  //   await toast.promise(
-  //     axios.get(`/api/v1/getotp?id=${userinfo._id}&op=salah-reten-sekolah`, {
-  //       headers: {
-  //         Authorization: `Bearer ${
-  //           reliefUserToken ? reliefUserToken : userToken
-  //         }`,
-  //       },
-  //     }),
-  //     {
-  //       pending: `Menghantar OTP ke emel ${userinfo.email}`,
-  //       success: `OTP telah dihantar ke emel ${userinfo.email}`,
-  //       error: `OTP gagal dihantar`,
-  //     },
-  //     {
-  //       autoClose: 5000,
-  //     }
-  //   );
-  //   setOtpQuestion(true);
-  // };
-
-  // const handleOtpVerify = async () => {
-  //   await toast
-  //     .promise(
-  //       axios.get(`/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`, {
-  //         headers: {
-  //           Authorization: `Bearer ${
-  //             reliefUserToken ? reliefUserToken : userToken
-  //           }`,
-  //         },
-  //       }),
-  //       {
-  //         pending: 'Mengesahkan OTP...',
-  //         success: 'OTP berjaya disahkan',
-  //         error: 'OTP gagal disahkan',
-  //       },
-  //       { autoClose: 3000 }
-  //     )
-  //     .then((res) => {
-  //       if (res.data.msg === 'OTP verified') {
-  //         setShowBothForm(true);
-  //         setOtpQuestion(false);
-  //         setHilangSekolah(true);
-  //       }
-  //     });
-  // };
-
-  // const handleSubmit = (e) => {
-  //   e.preventDefault();
-  //   if (!otpQuestion) {
-  //     handleOtpRequest();
-  //   }
-  //   if (otpQuestion) {
-  //     handleOtpVerify();
-  //   }
-  // };
 
   const handleAccordian = (e) => {
     if (accordian.includes(e)) {
@@ -109,35 +39,6 @@ export default function UserModalSalahSekolah({
           <h1 className='text-2xl font-bold text-center mt-3 border-b border-b-user1 py-3'>
             Anda perlu memilih reten untuk menanda reten salah murid ini
           </h1>
-          {/* <div>
-            {otpQuestion ? (
-              <>
-                <div className='normal-case mt-4'>
-                  Sila Masukkan OTP Yang Telah Dihantar Ke Emel {userinfo.email}
-                </div>
-                <div className='flex flex-col items-center justify-center mt-3'>
-                  <label htmlFor='otpInput' className='sr-only'>
-                    OTP
-                  </label>
-                  <input
-                    type='text'
-                    name='otpInput'
-                    id='otpInput'
-                    className='w-1/2 p-2 border border-userBlack rounded-md'
-                    value={otpInput}
-                    onChange={(e) => setOtpInput(e.target.value)}
-                  />
-                </div>
-              </>
-            ) : (
-              !showBothForm && (
-                <div className='text-center mt-4'>
-                  sila masukkan kod OTP bagi menandakan reten salah sekolah di
-                  pilihan anda
-                </div>
-              )
-            )}
-          </div> */}
           <div className='mt-5 flex flex-col'>
             <p className='my-2 font-semibold'>
               Sila pilih mengikut pilihan anda
@@ -212,26 +113,6 @@ export default function UserModalSalahSekolah({
                 : 'Lihat rawatan'}
             </Link>
           </div>
-          {/* <div className='grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
-            <span
-              className='capitalize bg-userWhite text-userBlack rounded-md p-2 mr-3 hover:bg-user5 hover:cursor-pointer transition-all'
-              onClick={() => setModalSalahRetenSekolah(false)}
-            >
-              Batal
-            </span>
-            {hilangSekolah ? null : (
-              <button
-                type='submit'
-                className={`capitalize text-userWhite rounded-md p-2 ml-3 hover:cursor-pointer transition-all ${
-                  otpQuestion
-                    ? 'bg-user2 hover:bg-user3 '
-                    : 'bg-user9 hover:bg-user5 hover:text-userBlack'
-                }`}
-              >
-                {otpQuestion ? 'VERIFIKASI' : 'DAPATKAN OTP'}
-              </button>
-            )}
-          </div> */}
         </div>
       </form>
       <div
