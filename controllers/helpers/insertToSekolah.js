@@ -109,7 +109,9 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
       }
     }
 
-    allConvertedPelajar.push({ ...objPelajar });
+    if (objPelajar.umur !== 7777777) {
+      allConvertedPelajar.push({ ...objPelajar });
+    }
   }
 
   // get already registered pelajar
