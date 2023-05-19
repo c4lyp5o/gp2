@@ -4,8 +4,8 @@ const Umum = require('../models/Umum');
 const Sekolah = require('../models/Sekolah');
 const Pemeriksaan = require('../models/Pemeriksaansekolah');
 const Rawatan = require('../models/Rawatansekolah');
-const Kotak = require('../models/Kotaksekolah');
 const Promosi = require('../models/Promosi');
+const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 const MediaSosial = require('../models/MediaSosial');
 const { errorRetenLogger } = require('../logs/logger');
@@ -1824,7 +1824,9 @@ const countPG214 = async (payload) => {
       _id: {
         ic: '$ic',
         visitMonth: {
-          $month: { $dateFromString: { dateString: '$tarikhKedatangan' } },
+          $month: {
+            $dateFromString: { dateString: '$tarikhKedatangan' },
+          },
         },
       },
       //
@@ -2154,7 +2156,11 @@ const countPG214 = async (payload) => {
                           { $lt: ['$age', 75] },
                           '70 - 74',
                           {
-                            $cond: [{ $eq: ['$age', 75] }, 75, '75++'],
+                            $cond: [
+                              { $eq: ['$age', 75] },
+                              75,
+                              '75++',
+                            ],
                           },
                         ],
                       },
@@ -2630,11 +2636,18 @@ const countPG214 = async (payload) => {
 
   let bigData = [];
 
-  const pipeline = [match_stage, first_group_stage, second_group_stage];
+  const pipeline = [
+    match_stage,
+    first_group_stage,
+    second_group_stage,
+  ];
   const PG214 = await Umum.aggregate(pipeline);
   bigData.push({ PG214 });
   for (let i = 0; i < match_stage_custom.length; i++) {
-    const custom_pipeline = [match_stage_custom[i], first_custom_group_stage];
+    const custom_pipeline = [
+      match_stage_custom[i],
+      first_custom_group_stage,
+    ];
     const customPG214 = await Umum.aggregate(custom_pipeline);
     bigData.push({ customPG214 });
   }
@@ -2892,7 +2905,12 @@ const countPG206 = async (payload) => {
                     { $eq: ['$adaKekalPemeriksaanUmum', false] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                   ],
                 },
                 {
@@ -2905,7 +2923,12 @@ const countPG206 = async (payload) => {
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                   ],
                 },
                 {
@@ -2916,7 +2939,12 @@ const countPG206 = async (payload) => {
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                   ],
                 },
                 {
@@ -2927,14 +2955,25 @@ const countPG206 = async (payload) => {
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                     {
                       $or: [
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
                         },
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '2',
+                          ],
                         },
                       ],
                     },
@@ -2947,17 +2986,31 @@ const countPG206 = async (payload) => {
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                     {
                       $or: [
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
                         },
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '2',
+                          ],
                         },
                         {
-                          $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                          $eq: [
+                            '$skorBpeOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
                         },
                       ],
                     },
@@ -3013,7 +3066,10 @@ const countPG206 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              $gte: [
+                '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                1,
+              ],
             },
             1,
             0,
@@ -3034,7 +3090,9 @@ const countPG206 = async (payload) => {
           ],
         },
       },
-      perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
+      perluJumlahGigiFS: {
+        $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum',
+      },
       perluPenskaleran: {
         $sum: {
           $cond: [
@@ -3152,7 +3210,10 @@ const countPG206 = async (payload) => {
             {
               $and: [
                 {
-                  $gte: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 1],
+                  $gte: [
+                    '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                    1,
+                  ],
                 },
               ],
             },
@@ -3171,7 +3232,10 @@ const countPG206 = async (payload) => {
             {
               $and: [
                 {
-                  $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
+                  $gte: [
+                    '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                    1,
+                  ],
                 },
               ],
             },
@@ -3180,7 +3244,9 @@ const countPG206 = async (payload) => {
           ],
         },
       },
-      jumlahGigiDibuatFs: { $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+      jumlahGigiDibuatFs: {
+        $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+      },
       tampalanAntGdBaru: {
         $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
@@ -3316,7 +3382,9 @@ const countPG206 = async (payload) => {
   match_stage_sekolah.push(match_pemeriksaan_sekolah_13to14years);
   match_stage_sekolah.push(match_pemeriksaan_sekolah_15to17years);
   match_stage_sekolah.push(match_pemeriksaan_sekolah_oku);
-  match_stage_sekolah.push(match_pemeriksaan_sekolah_bukanWarganegara);
+  match_stage_sekolah.push(
+    match_pemeriksaan_sekolah_bukanWarganegara
+  );
 
   let pipeline_sekolah = [
     {
@@ -3458,14 +3526,42 @@ const countPG206 = async (payload) => {
                   $and: [
                     { $gte: ['$merge.umur', 1] },
                     { $lte: ['$merge.umur', 59] },
-                    { $eq: ['$merge.dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.mAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.dAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.mAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.fAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.xAdaGigiKekalPemeriksaanUmum', 0] },
+                    {
+                      $eq: [
+                        '$merge.dAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$merge.mAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$merge.fAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$merge.xAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: ['$merge.dAdaGigiKekalPemeriksaanUmum', 0],
+                    },
+                    {
+                      $eq: ['$merge.mAdaGigiKekalPemeriksaanUmum', 0],
+                    },
+                    {
+                      $eq: ['$merge.fAdaGigiKekalPemeriksaanUmum', 0],
+                    },
+                    {
+                      $eq: ['$merge.xAdaGigiKekalPemeriksaanUmum', 0],
+                    },
                   ],
                 },
                 // {
@@ -3513,21 +3609,42 @@ const countPG206 = async (payload) => {
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                     {
                       $or: [
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
                         },
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '2',
+                          ],
                         },
                       ],
                     },
                     {
                       $or: [
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
-                        { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] },
+                        {
+                          $eq: [
+                            '$skorBpeOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$skorBpeOralHygienePemeriksaanUmum',
+                            '2',
+                          ],
+                        },
                       ],
                     },
                   ],
@@ -3587,7 +3704,10 @@ const countPG206 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$merged.BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              $gte: [
+                '$merged.BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                1,
+              ],
             },
             1,
             0,
@@ -3601,7 +3721,10 @@ const countPG206 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$merged.baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+              $gte: [
+                '$merged.baruJumlahGigiKekalPerluFSRawatanUmum',
+                1,
+              ],
             },
             1,
             0,
@@ -3645,7 +3768,10 @@ const countPG206 = async (payload) => {
                       $gt: ['$merged.baruJumlahGigiKekalDiberiFV', 0],
                     },
                     {
-                      $gt: ['$merged.semulaJumlahGigiKekalDiberiFV', 0],
+                      $gt: [
+                        '$merged.semulaJumlahGigiKekalDiberiFV',
+                        0,
+                      ],
                     },
                   ],
                 },
@@ -3911,9 +4037,17 @@ const countPG206 = async (payload) => {
       jumlahGigiPrrJenis1: {
         $sum: {
           $cond: [
-            { $eq: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', ''] },
+            {
+              $eq: [
+                '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                '',
+              ],
+            },
             0,
-            { $toInt: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum' },
+            {
+              $toInt:
+                '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+            },
           ],
         },
       },
@@ -3928,10 +4062,16 @@ const countPG206 = async (payload) => {
                     {
                       $cond: [
                         {
-                          $eq: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', ''],
+                          $eq: [
+                            '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                            '',
+                          ],
                         },
                         0,
-                        { $toInt: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+                        {
+                          $toInt:
+                            '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                        },
                       ],
                     },
                     1,
@@ -3965,7 +4105,10 @@ const countPG206 = async (payload) => {
               ],
             },
             0,
-            { $toInt: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum' },
+            {
+              $toInt:
+                '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
           ],
         },
       },
@@ -3980,7 +4123,8 @@ const countPG206 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -3995,7 +4139,10 @@ const countPG206 = async (payload) => {
               ],
             },
             0,
-            { $toInt: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum' },
+            {
+              $toInt:
+                '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+            },
           ],
         },
       },
@@ -4010,7 +4157,8 @@ const countPG206 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -4026,7 +4174,8 @@ const countPG206 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -4059,7 +4208,8 @@ const countPG206 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -4092,7 +4242,8 @@ const countPG206 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -4125,7 +4276,8 @@ const countPG206 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -4158,7 +4310,8 @@ const countPG206 = async (payload) => {
             },
             0,
             {
-              $toInt: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -4212,7 +4365,9 @@ const countPG206 = async (payload) => {
         match_stage_pemeriksaan[i],
         group_pemeriksaan,
       ];
-      const queryPemeriksaan = await Umum.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Umum.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -4560,7 +4715,12 @@ const countPG207 = async (payload) => {
                     { $eq: ['$adaKekalPemeriksaanUmum', false] },
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                   ],
                 },
                 {
@@ -4573,7 +4733,12 @@ const countPG207 = async (payload) => {
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                   ],
                 },
                 {
@@ -4584,7 +4749,12 @@ const countPG207 = async (payload) => {
                     { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                   ],
                 },
                 {
@@ -4595,14 +4765,25 @@ const countPG207 = async (payload) => {
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                     {
                       $or: [
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
                         },
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '2',
+                          ],
                         },
                       ],
                     },
@@ -4615,17 +4796,31 @@ const countPG207 = async (payload) => {
                     { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                     { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    {
+                      $eq: [
+                        '$perluPenskaleranPemeriksaanUmum',
+                        false,
+                      ],
+                    },
                     {
                       $or: [
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
                         },
                         {
-                          $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                          $eq: [
+                            '$skorGisMulutOralHygienePemeriksaanUmum',
+                            '2',
+                          ],
                         },
                         {
-                          $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                          $eq: [
+                            '$skorBpeOralHygienePemeriksaanUmum',
+                            '0',
+                          ],
                         },
                       ],
                     },
@@ -4647,7 +4842,11 @@ const countPG207 = async (payload) => {
       },
       skorBPEZero: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
+          $cond: [
+            { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+            1,
+            0,
+          ],
         },
       },
       skorBPEMoreThanZero: {
@@ -4679,7 +4878,10 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              $gte: [
+                '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                1,
+              ],
             },
             1,
             0,
@@ -4700,10 +4902,16 @@ const countPG207 = async (payload) => {
           ],
         },
       },
-      perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
+      perluJumlahGigiFS: {
+        $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum',
+      },
       perluPenskaleran: {
         $sum: {
-          $cond: [{ $eq: ['$perluPenskaleranPemeriksaanUmum', true] }, 1, 0],
+          $cond: [
+            { $eq: ['$perluPenskaleranPemeriksaanUmum', true] },
+            1,
+            0,
+          ],
         },
       },
       perluEndoAnterior: {
@@ -4911,7 +5119,10 @@ const countPG207 = async (payload) => {
             {
               $and: [
                 {
-                  $gte: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 1],
+                  $gte: [
+                    '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                    1,
+                  ],
                 },
               ],
             },
@@ -4929,7 +5140,10 @@ const countPG207 = async (payload) => {
             {
               $and: [
                 {
-                  $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
+                  $gte: [
+                    '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                    1,
+                  ],
                 },
               ],
             },
@@ -4938,7 +5152,9 @@ const countPG207 = async (payload) => {
           ],
         },
       },
-      jumlahGigiDibuatFs: { $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+      jumlahGigiDibuatFs: {
+        $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+      },
       tampalanAntGdBaru: {
         $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
       },
@@ -5004,7 +5220,9 @@ const countPG207 = async (payload) => {
           ],
         },
       },
-      rawatanPerioLain: { $sum: '$rawatanLainPeriodontikRawatanUmum' },
+      rawatanPerioLain: {
+        $sum: '$rawatanLainPeriodontikRawatanUmum',
+      },
       rawatanEndoAnterior: {
         $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
       },
@@ -5449,14 +5667,42 @@ const countPG207 = async (payload) => {
                   $and: [
                     { $gte: ['$merge.umur', 1] },
                     { $lte: ['$merge.umur', 59] },
-                    { $eq: ['$merge.dAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.mAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.fAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.xAdaGigiDesidusPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.dAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.mAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.fAdaGigiKekalPemeriksaanUmum', 0] },
-                    { $eq: ['$merge.xAdaGigiKekalPemeriksaanUmum', 0] },
+                    {
+                      $eq: [
+                        '$merge.dAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$merge.mAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$merge.fAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$merge.xAdaGigiDesidusPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                    {
+                      $eq: ['$merge.dAdaGigiKekalPemeriksaanUmum', 0],
+                    },
+                    {
+                      $eq: ['$merge.mAdaGigiKekalPemeriksaanUmum', 0],
+                    },
+                    {
+                      $eq: ['$merge.fAdaGigiKekalPemeriksaanUmum', 0],
+                    },
+                    {
+                      $eq: ['$merge.xAdaGigiKekalPemeriksaanUmum', 0],
+                    },
                   ],
                 },
                 // {
@@ -5509,8 +5755,18 @@ const countPG207 = async (payload) => {
                     { $eq: ['$merged.xAdaGigiDesidus', 0] },
                     {
                       $or: [
-                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
-                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
+                        {
+                          $eq: [
+                            '$merged.skorGisMulutOralHygiene',
+                            '0',
+                          ],
+                        },
+                        {
+                          $eq: [
+                            '$merged.skorGisMulutOralHygiene',
+                            '2',
+                          ],
+                        },
                       ],
                     },
                   ],
@@ -5563,7 +5819,10 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gt: ['$merged.BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+              $gt: [
+                '$merged.BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                1,
+              ],
             },
             1,
             0,
@@ -5678,7 +5937,10 @@ const countPG207 = async (payload) => {
                       $gt: ['$merged.baruJumlahGigiKekalDiberiFV', 0],
                     },
                     {
-                      $gt: ['$merged.semulaJumlahGigiKekalDiberiFV', 0],
+                      $gt: [
+                        '$merged.semulaJumlahGigiKekalDiberiFV',
+                        0,
+                      ],
                     },
                   ],
                 },
@@ -6173,11 +6435,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', ''],
+              $eq: [
+                '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+              $toInt:
+                '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
             },
           ],
         },
@@ -6192,11 +6458,15 @@ const countPG207 = async (payload) => {
                     {
                       $cond: [
                         {
-                          $eq: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', ''],
+                          $eq: [
+                            '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                            '',
+                          ],
                         },
                         0,
                         {
-                          $toInt: '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                          $toInt:
+                            '$baruJumlahGigiKekalDibuatFSRawatanUmum',
                         },
                       ],
                     },
@@ -6234,7 +6504,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6250,7 +6521,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6266,7 +6538,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6282,7 +6555,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6298,7 +6572,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6331,7 +6606,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6364,7 +6640,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6397,7 +6674,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6423,11 +6701,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$baruInlayOnlayJumlahTampalanDibuatRawatanUmum', ''],
+              $eq: [
+                '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6436,11 +6718,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum', ''],
+              $eq: [
+                '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6456,7 +6742,8 @@ const countPG207 = async (payload) => {
             },
             0,
             {
-              $toInt: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
+              $toInt:
+                '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
             },
           ],
         },
@@ -6526,11 +6813,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$jumlahAnteriorKesEndodontikSelesaiRawatanUmum', ''],
+              $eq: [
+                '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
+              $toInt:
+                '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
             },
           ],
         },
@@ -6539,11 +6830,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$jumlahPremolarKesEndodontikSelesaiRawatanUmum', ''],
+              $eq: [
+                '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
+              $toInt:
+                '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
             },
           ],
         },
@@ -6552,7 +6847,10 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$jumlahMolarKesEndodontikSelesaiRawatanUmum', ''],
+              $eq: [
+                '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
+                '',
+              ],
             },
             0,
             {
@@ -6735,7 +7033,10 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$baruPenuhJumlahDenturProstodontikRawatanUmum', ''],
+              $eq: [
+                '$baruPenuhJumlahDenturProstodontikRawatanUmum',
+                '',
+              ],
             },
             0,
             {
@@ -6748,11 +7049,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$semulaPenuhJumlahDenturProstodontikRawatanUmum', ''],
+              $eq: [
+                '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+              $toInt:
+                '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
             },
           ],
         },
@@ -6763,22 +7068,30 @@ const countPG207 = async (payload) => {
             {
               $cond: [
                 {
-                  $eq: ['$baruPenuhJumlahDenturProstodontikRawatanUmum', ''],
+                  $eq: [
+                    '$baruPenuhJumlahDenturProstodontikRawatanUmum',
+                    '',
+                  ],
                 },
                 0,
                 {
-                  $toInt: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
+                  $toInt:
+                    '$baruPenuhJumlahDenturProstodontikRawatanUmum',
                 },
               ],
             },
             {
               $cond: [
                 {
-                  $eq: ['$semulaPenuhJumlahDenturProstodontikRawatanUmum', ''],
+                  $eq: [
+                    '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+                    '',
+                  ],
                 },
                 0,
                 {
-                  $toInt: '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
+                  $toInt:
+                    '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
                 },
               ],
             },
@@ -6789,11 +7102,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$baruSeparaJumlahDenturProstodontikRawatanUmum', ''],
+              $eq: [
+                '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+              $toInt:
+                '$baruSeparaJumlahDenturProstodontikRawatanUmum',
             },
           ],
         },
@@ -6802,11 +7119,15 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$baruSeparaJumlahDenturProstodontikRawatanUmum', ''],
+              $eq: [
+                '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+                '',
+              ],
             },
             0,
             {
-              $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+              $toInt:
+                '$baruSeparaJumlahDenturProstodontikRawatanUmum',
             },
           ],
         },
@@ -6817,22 +7138,30 @@ const countPG207 = async (payload) => {
             {
               $cond: [
                 {
-                  $eq: ['$baruSeparaJumlahDenturProstodontikRawatanUmum', ''],
+                  $eq: [
+                    '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+                    '',
+                  ],
                 },
                 0,
                 {
-                  $toInt: '$baruSeparaJumlahDenturProstodontikRawatanUmum',
+                  $toInt:
+                    '$baruSeparaJumlahDenturProstodontikRawatanUmum',
                 },
               ],
             },
             {
               $cond: [
                 {
-                  $eq: ['$semulaSeparaJumlahDenturProstodontikRawatanUmum', ''],
+                  $eq: [
+                    '$semulaSeparaJumlahDenturProstodontikRawatanUmum',
+                    '',
+                  ],
                 },
                 0,
                 {
-                  $toInt: '$semulaSeparaJumlahDenturProstodontikRawatanUmum',
+                  $toInt:
+                    '$semulaSeparaJumlahDenturProstodontikRawatanUmum',
                 },
               ],
             },
@@ -6914,7 +7243,9 @@ const countPG207 = async (payload) => {
         match_stage_pemeriksaan[i],
         group_pemeriksaan,
       ];
-      const queryPemeriksaan = await Umum.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Umum.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -7161,7 +7492,10 @@ const countPGPR201Lama = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$plakGigiNasihatPergigianIndividuPromosiUmum', true],
+              $eq: [
+                '$plakGigiNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -7188,7 +7522,10 @@ const countPGPR201Lama = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
+              $eq: [
+                '$dietPemakananNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -7200,7 +7537,10 @@ const countPGPR201Lama = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$kanserMulutNasihatPergigianIndividuPromosiUmum', true],
+              $eq: [
+                '$kanserMulutNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -7458,7 +7798,10 @@ const countPGPR201Baru = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$plakGigiNasihatPergigianIndividuPromosiUmum', true],
+              $eq: [
+                '$plakGigiNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -7485,7 +7828,10 @@ const countPGPR201Baru = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
+              $eq: [
+                '$dietPemakananNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -7497,7 +7843,10 @@ const countPGPR201Baru = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$kanserMulutNasihatPergigianIndividuPromosiUmum', true],
+              $eq: [
+                '$kanserMulutNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -7718,7 +8067,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.engganKedatanganPendaftaran', true],
+              $eq: [
+                '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                true,
+              ],
             },
             1,
             0,
@@ -7783,7 +8135,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'A'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'A',
+              ],
             },
             1,
             0,
@@ -7794,7 +8149,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'C'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'C',
+              ],
             },
             1,
             0,
@@ -7805,7 +8163,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'E'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'E',
+              ],
             },
             1,
             0,
@@ -7950,7 +8311,10 @@ const countPG201 = async (payload) => {
             {
               $and: [
                 {
-                  $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+                  $eq: [
+                    '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                    '0',
+                  ],
                 },
               ],
             },
@@ -7970,26 +8334,45 @@ const countPG201 = async (payload) => {
                 { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
-                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                {
+                  $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+                },
                 { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
-                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $gte: [
+                    '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                    1,
+                  ],
+                },
                 {
                   $or: [
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
                 {
                   $or: [
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
@@ -8002,7 +8385,8 @@ const countPG201 = async (payload) => {
       },
       kecederaanGigiAnterior: {
         $sum: {
-          $toDouble: '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+          $toDouble:
+            '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
         },
         // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
       },
@@ -8020,7 +8404,10 @@ const countPG201 = async (payload) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFs', 'true'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFs',
+                    'true',
+                  ],
                 },
                 {
                   $eq: [
@@ -8050,7 +8437,10 @@ const countPG201 = async (payload) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFv', 'true'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFv',
+                    'true',
+                  ],
                 },
                 {
                   $eq: [
@@ -8071,7 +8461,10 @@ const countPG201 = async (payload) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv', 0],
+                  $gt: [
+                    '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                    0,
+                  ],
                 },
               ],
             },
@@ -8168,7 +8561,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '0',
+              ],
             },
             1,
             0,
@@ -8179,7 +8575,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '1'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '1',
+              ],
             },
             1,
             0,
@@ -8190,7 +8589,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '2',
+              ],
             },
             1,
             0,
@@ -8201,7 +8603,10 @@ const countPG201 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '3'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '3',
+              ],
             },
             1,
             0,
@@ -8548,7 +8953,10 @@ const countPG201 = async (payload) => {
               ],
             },
             cabutKekal: {
-              $add: ['$$value.cabutKekal', '$$this.cabutKekalSekolahRawatan'],
+              $add: [
+                '$$value.cabutKekal',
+                '$$this.cabutKekalSekolahRawatan',
+              ],
             },
             tampalanSementara: {
               $add: [
@@ -8557,16 +8965,25 @@ const countPG201 = async (payload) => {
               ],
             },
             pulpotomi: {
-              $add: ['$$value.pulpotomi', '$$this.pulpotomiSekolahRawatan'],
+              $add: [
+                '$$value.pulpotomi',
+                '$$this.pulpotomiSekolahRawatan',
+              ],
             },
             endodontik: {
-              $add: ['$$value.endodontik', '$$this.endodontikSekolahRawatan'],
+              $add: [
+                '$$value.endodontik',
+                '$$this.endodontikSekolahRawatan',
+              ],
             },
             abses: {
               $add: ['$$value.abses', '$$this.absesSekolahRawatan'],
             },
             penskaleran: {
-              $add: ['$$value.penskaleran', '$$this.penskaleranSekolahRawatan'],
+              $add: [
+                '$$value.penskaleran',
+                '$$this.penskaleranSekolahRawatan',
+              ],
             },
           },
         },
@@ -8698,7 +9115,9 @@ const countPG201 = async (payload) => {
         unwind_stage_3,
         group_stage_1,
       ];
-      const queryPemeriksaan = await Sekolah.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Sekolah.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -8853,7 +9272,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.engganKedatanganPendaftaran', true],
+              $eq: [
+                '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                true,
+              ],
             },
             1,
             0,
@@ -8922,7 +9344,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'A'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'A',
+              ],
             },
             1,
             0,
@@ -8933,7 +9358,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'C'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'C',
+              ],
             },
             1,
             0,
@@ -8944,7 +9372,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'E'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'E',
+              ],
             },
             1,
             0,
@@ -9058,7 +9489,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+                  $eq: [
+                    '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                    '0',
+                  ],
                 },
               ],
             },
@@ -9081,20 +9515,32 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
                 {
                   $or: [
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
                 {
                   $or: [
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
@@ -9106,7 +9552,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         },
       },
       kecederaanGigiAnterior: {
-        $sum: { $toDouble: '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma' },
+        $sum: {
+          $toDouble:
+            '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+        },
         // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
       },
       cleftAda: {
@@ -9122,7 +9571,12 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
           $cond: [
             {
               $and: [
-                { $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs', 0] },
+                {
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
+                    0,
+                  ],
+                },
                 {
                   $gt: [
                     '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFs',
@@ -9197,7 +9651,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '0',
+              ],
             },
             1,
             0,
@@ -9208,7 +9665,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '1'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '1',
+              ],
             },
             1,
             0,
@@ -9219,7 +9679,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '2',
+              ],
             },
             1,
             0,
@@ -9230,7 +9693,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '3'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '3',
+              ],
             },
             1,
             0,
@@ -9476,7 +9942,10 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$rawatanSekolah.kesSelesaiIcdasSekolahRawatan', true],
+              $eq: [
+                '$rawatanSekolah.kesSelesaiIcdasSekolahRawatan',
+                true,
+              ],
             },
             1,
             0,
@@ -9503,7 +9972,9 @@ const countSMKPG201 = async (klinik, bulan, sekolah) => {
         unwind_stage_3,
         group_stage_1,
       ];
-      const queryPemeriksaan = await Sekolah.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Sekolah.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -9657,7 +10128,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.engganKedatanganPendaftaran', true],
+              $eq: [
+                '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                true,
+              ],
             },
             1,
             0,
@@ -9722,7 +10196,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'A'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'A',
+              ],
             },
             1,
             0,
@@ -9733,7 +10210,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'C'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'C',
+              ],
             },
             1,
             0,
@@ -9744,7 +10224,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'E'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'E',
+              ],
             },
             1,
             0,
@@ -9796,7 +10279,9 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $and: [{ $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] }],
+              $and: [
+                { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+              ],
             },
             1,
             0,
@@ -9873,7 +10358,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+                  $eq: [
+                    '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                    '0',
+                  ],
                 },
               ],
             },
@@ -9893,26 +10381,45 @@ const countPG201A = async (klinik, bulan, sekolah) => {
                 { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
-                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                {
+                  $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+                },
                 { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
-                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $gte: [
+                    '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                    1,
+                  ],
+                },
                 {
                   $or: [
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
                 {
                   $or: [
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
@@ -9925,7 +10432,8 @@ const countPG201A = async (klinik, bulan, sekolah) => {
       },
       kecederaanGigiAnterior: {
         $sum: {
-          $toDouble: '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+          $toDouble:
+            '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
         },
         // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
       },
@@ -9943,7 +10451,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFs', 'true'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFs',
+                    'true',
+                  ],
                 },
                 {
                   $eq: [
@@ -9973,7 +10484,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFv', 'true'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFv',
+                    'true',
+                  ],
                 },
                 {
                   $eq: [
@@ -9994,7 +10508,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv', 0],
+                  $gt: [
+                    '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                    0,
+                  ],
                 },
               ],
             },
@@ -10091,7 +10608,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '0',
+              ],
             },
             1,
             0,
@@ -10102,7 +10622,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '1'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '1',
+              ],
             },
             1,
             0,
@@ -10113,7 +10636,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '2',
+              ],
             },
             1,
             0,
@@ -10124,7 +10650,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '3'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '3',
+              ],
             },
             1,
             0,
@@ -10471,7 +11000,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
               ],
             },
             cabutKekal: {
-              $add: ['$$value.cabutKekal', '$$this.cabutKekalSekolahRawatan'],
+              $add: [
+                '$$value.cabutKekal',
+                '$$this.cabutKekalSekolahRawatan',
+              ],
             },
             tampalanSementara: {
               $add: [
@@ -10480,16 +11012,25 @@ const countPG201A = async (klinik, bulan, sekolah) => {
               ],
             },
             pulpotomi: {
-              $add: ['$$value.pulpotomi', '$$this.pulpotomiSekolahRawatan'],
+              $add: [
+                '$$value.pulpotomi',
+                '$$this.pulpotomiSekolahRawatan',
+              ],
             },
             endodontik: {
-              $add: ['$$value.endodontik', '$$this.endodontikSekolahRawatan'],
+              $add: [
+                '$$value.endodontik',
+                '$$this.endodontikSekolahRawatan',
+              ],
             },
             abses: {
               $add: ['$$value.abses', '$$this.absesSekolahRawatan'],
             },
             penskaleran: {
-              $add: ['$$value.penskaleran', '$$this.penskaleranSekolahRawatan'],
+              $add: [
+                '$$value.penskaleran',
+                '$$this.penskaleranSekolahRawatan',
+              ],
             },
           },
         },
@@ -10585,7 +11126,10 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$rawatanSekolah.kesSelesaiIcdasSekolahRawatan', true],
+              $eq: [
+                '$rawatanSekolah.kesSelesaiIcdasSekolahRawatan',
+                true,
+              ],
             },
             1,
             0,
@@ -10612,7 +11156,9 @@ const countPG201A = async (klinik, bulan, sekolah) => {
         unwind_stage_3,
         group_stage_1,
       ];
-      const queryPemeriksaan = await Sekolah.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Sekolah.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -10767,7 +11313,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.engganKedatanganPendaftaran', true],
+              $eq: [
+                '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                true,
+              ],
             },
             1,
             0,
@@ -10832,7 +11381,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'A'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'A',
+              ],
             },
             1,
             0,
@@ -10843,7 +11395,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'C'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'C',
+              ],
             },
             1,
             0,
@@ -10854,7 +11409,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'E'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'E',
+              ],
             },
             1,
             0,
@@ -10967,7 +11525,9 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [{ $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] }],
+              $and: [
+                { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+              ],
             },
             1,
             0,
@@ -10996,7 +11556,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '0',
+              ],
             },
             1,
             0,
@@ -11007,7 +11570,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '1'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '1',
+              ],
             },
             1,
             0,
@@ -11018,7 +11584,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '2',
+              ],
             },
             1,
             0,
@@ -11029,7 +11598,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '3'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '3',
+              ],
             },
             1,
             0,
@@ -11047,26 +11619,45 @@ const countPG201PindSatu2022 = async (payload) => {
                 { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
-                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                {
+                  $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+                },
                 { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
-                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $gte: [
+                    '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                    1,
+                  ],
+                },
                 {
                   $or: [
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
                 {
                   $or: [
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
@@ -11091,20 +11682,32 @@ const countPG201PindSatu2022 = async (payload) => {
                 {
                   $or: [
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
                 {
                   $or: [
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
@@ -11120,7 +11723,8 @@ const countPG201PindSatu2022 = async (payload) => {
       },
       kecederaanGigi: {
         $sum: {
-          $toDouble: '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+          $toDouble:
+            '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
         },
         // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
       },
@@ -11144,13 +11748,22 @@ const countPG201PindSatu2022 = async (payload) => {
             {
               $or: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFv', '0'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFv',
+                    '0',
+                  ],
                 },
                 {
-                  $gt: ['$pemeriksaanSekolah.semulaJumlahMuridPerluFv', '0'],
+                  $gt: [
+                    '$pemeriksaanSekolah.semulaJumlahMuridPerluFv',
+                    '0',
+                  ],
                 },
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv', '0'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv',
+                    '0',
+                  ],
                 },
                 {
                   $gt: [
@@ -11215,13 +11828,22 @@ const countPG201PindSatu2022 = async (payload) => {
             {
               $or: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFs', '0'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFs',
+                    '0',
+                  ],
                 },
                 {
-                  $gt: ['$pemeriksaanSekolah.semulaJumlahMuridPerluFs', '0'],
+                  $gt: [
+                    '$pemeriksaanSekolah.semulaJumlahMuridPerluFs',
+                    '0',
+                  ],
                 },
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs', '0'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
+                    '0',
+                  ],
                 },
                 {
                   $gt: [
@@ -11503,7 +12125,10 @@ const countPG201PindSatu2022 = async (payload) => {
               ],
             },
             cabutKekal: {
-              $add: ['$$value.cabutKekal', '$$this.cabutKekalSekolahRawatan'],
+              $add: [
+                '$$value.cabutKekal',
+                '$$this.cabutKekalSekolahRawatan',
+              ],
             },
             tampalanSementara: {
               $add: [
@@ -11512,16 +12137,25 @@ const countPG201PindSatu2022 = async (payload) => {
               ],
             },
             pulpotomi: {
-              $add: ['$$value.pulpotomi', '$$this.pulpotomiSekolahRawatan'],
+              $add: [
+                '$$value.pulpotomi',
+                '$$this.pulpotomiSekolahRawatan',
+              ],
             },
             endodontik: {
-              $add: ['$$value.endodontik', '$$this.endodontikSekolahRawatan'],
+              $add: [
+                '$$value.endodontik',
+                '$$this.endodontikSekolahRawatan',
+              ],
             },
             abses: {
               $add: ['$$value.abses', '$$this.absesSekolahRawatan'],
             },
             penskaleran: {
-              $add: ['$$value.penskaleran', '$$this.penskaleranSekolahRawatan'],
+              $add: [
+                '$$value.penskaleran',
+                '$$this.penskaleranSekolahRawatan',
+              ],
             },
           },
         },
@@ -11623,7 +12257,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$rawatanSekolah.kesSelesaiIcdasSekolahRawatan', true],
+              $eq: [
+                '$rawatanSekolah.kesSelesaiIcdasSekolahRawatan',
+                true,
+              ],
             },
             1,
             0,
@@ -11634,7 +12271,10 @@ const countPG201PindSatu2022 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$rawatanSekolah.kesSelesaiIcdasSekolahRawatan', true],
+              $eq: [
+                '$rawatanSekolah.kesSelesaiIcdasSekolahRawatan',
+                true,
+              ],
             },
             1,
             0,
@@ -11661,7 +12301,9 @@ const countPG201PindSatu2022 = async (payload) => {
         unwind_stage_3,
         group_stage_1,
       ];
-      const queryPemeriksaan = await Sekolah.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Sekolah.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -11984,16 +12626,28 @@ const countPGS203 = async (payload) => {
         _id: placeModifier(payload),
         jumlahReten: { $sum: 1 },
         jumlahRetenSalah: {
-          $sum: { $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0] },
+          $sum: {
+            $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0],
+          },
         },
         //enrolment - dpt dari fasiliti?
         //kedatangan
         kedatanganTahunSemasaBaru: {
-          $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+          $sum: {
+            $cond: [
+              { $eq: ['$kedatangan', 'baru-kedatangan'] },
+              1,
+              0,
+            ],
+          },
         },
         kedatanganTahunSemasaUlangan: {
           $sum: {
-            $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0],
+            $cond: [
+              { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
+              1,
+              0,
+            ],
           },
         },
         //status gigi desidus
@@ -12092,7 +12746,11 @@ const countPGS203 = async (payload) => {
         },
         eLebihAtauSamaDenganSatu: {
           $sum: {
-            $cond: [{ $gt: ['$eAdaGigiKekalPemeriksaanUmum', 0] }, 1, 0],
+            $cond: [
+              { $gt: ['$eAdaGigiKekalPemeriksaanUmum', 0] },
+              1,
+              0,
+            ],
           },
         },
         bebasKariesTetapiElebihAtauSamaDenganSatu: {
@@ -12115,7 +12773,9 @@ const countPGS203 = async (payload) => {
         skorGIS0: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+              },
               1,
               0,
             ],
@@ -12124,7 +12784,9 @@ const countPGS203 = async (payload) => {
         skorGIS1: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'],
+              },
               1,
               0,
             ],
@@ -12133,7 +12795,9 @@ const countPGS203 = async (payload) => {
         skorGIS2: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+              },
               1,
               0,
             ],
@@ -12142,7 +12806,9 @@ const countPGS203 = async (payload) => {
         skorGIS3: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '3'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '3'],
+              },
               1,
               0,
             ],
@@ -12150,27 +12816,47 @@ const countPGS203 = async (payload) => {
         },
         skorBPE0: {
           $sum: {
-            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
+            $cond: [
+              { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+              1,
+              0,
+            ],
           },
         },
         skorBPE1: {
           $sum: {
-            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] }, 1, 0],
+            $cond: [
+              { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] },
+              1,
+              0,
+            ],
           },
         },
         skorBPE2: {
           $sum: {
-            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] }, 1, 0],
+            $cond: [
+              { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] },
+              1,
+              0,
+            ],
           },
         },
         skorBPE3: {
           $sum: {
-            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] }, 1, 0],
+            $cond: [
+              { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] },
+              1,
+              0,
+            ],
           },
         },
         skorBPE4: {
           $sum: {
-            $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] }, 1, 0],
+            $cond: [
+              { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] },
+              1,
+              0,
+            ],
           },
         },
         jumlahTPR: {
@@ -12185,10 +12871,16 @@ const countPGS203 = async (payload) => {
                   {
                     $or: [
                       {
-                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                        $eq: [
+                          '$skorGisMulutOralHygienePemeriksaanUmum',
+                          '0',
+                        ],
                       },
                       {
-                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                        $eq: [
+                          '$skorGisMulutOralHygienePemeriksaanUmum',
+                          '2',
+                        ],
                       },
                     ],
                   },
@@ -12218,7 +12910,10 @@ const countPGS203 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $gte: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+                $gte: [
+                  '$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                  1,
+                ],
               },
               1,
               0,
@@ -12239,7 +12934,9 @@ const countPGS203 = async (payload) => {
             ],
           },
         },
-        perluJumlahGigiFS: { $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum' },
+        perluJumlahGigiFS: {
+          $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum',
+        },
         //jenis rawatan diberi
         telahSapuanFluorida: {
           $sum: {
@@ -12263,7 +12960,10 @@ const countPGS203 = async (payload) => {
               {
                 $and: [
                   {
-                    $gte: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 1],
+                    $gte: [
+                      '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                      1,
+                    ],
                   },
                 ],
               },
@@ -12282,7 +12982,10 @@ const countPGS203 = async (payload) => {
               {
                 $and: [
                   {
-                    $gte: ['$baruJumlahGigiKekalDibuatFSRawatanUmum', 1],
+                    $gte: [
+                      '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+                      1,
+                    ],
                   },
                 ],
               },
@@ -12291,7 +12994,9 @@ const countPGS203 = async (payload) => {
             ],
           },
         },
-        jumlahGigiDibuatFs: { $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum' },
+        jumlahGigiDibuatFs: {
+          $sum: '$baruJumlahGigiKekalDibuatFSRawatanUmum',
+        },
         tampalanAntGdBaru: {
           $sum: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
         },
@@ -12346,7 +13051,9 @@ const countPGS203 = async (payload) => {
             $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
           },
         },
-        jumlahFasilitiDilawati: { $addToSet: '$kodFasilitiTaskaTadika' },
+        jumlahFasilitiDilawati: {
+          $addToSet: '$kodFasilitiTaskaTadika',
+        },
       },
     },
   ];
@@ -12356,7 +13063,10 @@ const countPGS203 = async (payload) => {
 
   try {
     for (const stage of match_stage) {
-      const dataPGS203 = await Umum.aggregate([...stage, ...group_stage]);
+      const dataPGS203 = await Umum.aggregate([
+        ...stage,
+        ...group_stage,
+      ]);
       bigData.push(dataPGS203);
     }
 
@@ -12390,19 +13100,25 @@ const countPGS203 = async (payload) => {
             $sum: { $cond: [{ $eq: ['$govKe', null] }, 1, 0] },
           },
           jumlahTastadTiadaEnrolmen: {
-            $sum: { $cond: [{ $eq: ['$enrolmenTastad', null] }, 1, 0] },
+            $sum: {
+              $cond: [{ $eq: ['$enrolmenTastad', null] }, 1, 0],
+            },
           },
         },
       },
     ]);
 
     const allFasilitiDilawati = await Promise.all(
-      bigData[0][0]?.jumlahFasilitiDilawati?.map(async (kodTastad) => {
-        const dataFasiliti = await Fasiliti.find({ kodTastad })
-          .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
-          .lean();
-        return dataFasiliti;
-      }) ?? []
+      bigData[0][0]?.jumlahFasilitiDilawati?.map(
+        async (kodTastad) => {
+          const dataFasiliti = await Fasiliti.find({ kodTastad })
+            .select(
+              'jenisFasiliti govKe enrolmenTastad statusPerkhidmatan'
+            )
+            .lean();
+          return dataFasiliti;
+        }
+      ) ?? []
     );
     const flattenedFasilitiDilawati = allFasilitiDilawati.flat();
 
@@ -12412,9 +13128,15 @@ const countPGS203 = async (payload) => {
         totals,
         { jenisFasiliti, govKe, enrolmenTastad, statusPerkhidmatan }
       ) => {
-        if (jenisFasiliti === 'tadika' && statusPerkhidmatan === 'active') {
+        if (
+          jenisFasiliti === 'tadika' &&
+          statusPerkhidmatan === 'active'
+        ) {
           const kategori = !govKe ? 'tiadaStatus' : govKe;
-          if (enrolmenTastad !== 'NOT APPLICABLE' || !enrolmenTastad) {
+          if (
+            enrolmenTastad !== 'NOT APPLICABLE' ||
+            !enrolmenTastad
+          ) {
             const enrolment = parseInt(enrolmenTastad) || 0;
             totals[kategori] = (totals[kategori] || 0) + enrolment;
           }
@@ -12829,7 +13551,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.engganKedatanganPendaftaran', true],
+              $eq: [
+                '$pemeriksaanSekolah.engganKedatanganPendaftaran',
+                true,
+              ],
             },
             1,
             0,
@@ -12894,7 +13619,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'A'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'A',
+              ],
             },
             1,
             0,
@@ -12905,7 +13633,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'C'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'C',
+              ],
             },
             1,
             0,
@@ -12916,7 +13647,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.kebersihanMulutOralHygiene', 'E'],
+              $eq: [
+                '$pemeriksaanSekolah.kebersihanMulutOralHygiene',
+                'E',
+              ],
             },
             1,
             0,
@@ -12968,7 +13702,9 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $and: [{ $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] }],
+              $and: [
+                { $gte: ['$pemeriksaanSekolah.eAdaGigiKekal', 1] },
+              ],
             },
             1,
             0,
@@ -13045,7 +13781,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+                  $eq: [
+                    '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                    '0',
+                  ],
                 },
               ],
             },
@@ -13065,26 +13804,45 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
                 { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
                 { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
                 { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
-                { $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1] },
+                {
+                  $gte: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 1],
+                },
                 { $gte: ['$fvPerluSapuanPemeriksaanUmum', 1] },
-                { $gte: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1] },
+                {
+                  $gte: [
+                    '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                    1,
+                  ],
+                },
                 {
                   $or: [
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorGisMulutOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
                 {
                   $or: [
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '0',
+                      ],
                     },
                     {
-                      $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'],
+                      $eq: [
+                        '$skorBpeOralHygienePemeriksaanUmum',
+                        '2',
+                      ],
                     },
                   ],
                 },
@@ -13097,7 +13855,8 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
       },
       kecederaanGigiAnterior: {
         $sum: {
-          $toDouble: '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
+          $toDouble:
+            '$pemeriksaanSekolah.kecederaanGigiAnteriorTrauma',
         },
         // $sum: { $kecederaanGigiAnteriorTrauma: 0 },
       },
@@ -13115,7 +13874,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFs', 'true'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFs',
+                    'true',
+                  ],
                 },
                 {
                   $eq: [
@@ -13145,7 +13907,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.baruJumlahMuridPerluFv', 'true'],
+                  $gt: [
+                    '$pemeriksaanSekolah.baruJumlahMuridPerluFv',
+                    'true',
+                  ],
                 },
                 {
                   $eq: [
@@ -13166,7 +13931,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 {
-                  $gt: ['$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv', 0],
+                  $gt: [
+                    '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFv',
+                    0,
+                  ],
                 },
               ],
             },
@@ -13263,7 +14031,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '0',
+              ],
             },
             1,
             0,
@@ -13274,7 +14045,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '1'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '1',
+              ],
             },
             1,
             0,
@@ -13285,7 +14059,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '2',
+              ],
             },
             1,
             0,
@@ -13296,7 +14073,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '3'],
+              $eq: [
+                '$pemeriksaanSekolah.skorGisMulutOralHygiene',
+                '3',
+              ],
             },
             1,
             0,
@@ -13644,7 +14424,10 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
               ],
             },
             cabutKekal: {
-              $add: ['$$value.cabutKekal', '$$this.cabutKekalSekolahRawatan'],
+              $add: [
+                '$$value.cabutKekal',
+                '$$this.cabutKekalSekolahRawatan',
+              ],
             },
             tampalanSementara: {
               $add: [
@@ -13653,16 +14436,25 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
               ],
             },
             pulpotomi: {
-              $add: ['$$value.pulpotomi', '$$this.pulpotomiSekolahRawatan'],
+              $add: [
+                '$$value.pulpotomi',
+                '$$this.pulpotomiSekolahRawatan',
+              ],
             },
             endodontik: {
-              $add: ['$$value.endodontik', '$$this.endodontikSekolahRawatan'],
+              $add: [
+                '$$value.endodontik',
+                '$$this.endodontikSekolahRawatan',
+              ],
             },
             abses: {
               $add: ['$$value.abses', '$$this.absesSekolahRawatan'],
             },
             penskaleran: {
-              $add: ['$$value.penskaleran', '$$this.penskaleranSekolahRawatan'],
+              $add: [
+                '$$value.penskaleran',
+                '$$this.penskaleranSekolahRawatan',
+              ],
             },
           },
         },
@@ -13795,7 +14587,9 @@ const countPGS203Sek = async (klinik, bulan, sekolah) => {
         unwind_stage_3,
         group_stage_1,
       ];
-      const queryPemeriksaan = await Sekolah.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Sekolah.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -13927,7 +14721,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'L'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 { $eq: ['$kaum', 'MELAYU'] },
               ],
             },
@@ -13942,7 +14741,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'L'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 { $eq: ['kaum', 'CINA'] },
               ],
             },
@@ -13957,7 +14761,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'L'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 { $eq: ['$kaum', 'INDIA'] },
               ],
             },
@@ -13973,7 +14782,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'L'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 {
                   $or: [
                     // { $ne: ['kaum', 'MELAYU'] },
@@ -14011,7 +14825,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
                     { $eq: ['$kaum', 'MURUT'] },
                     { $eq: ['$kaum', 'JAWA'] },
                     { $eq: ['$kaum', 'KEMBOJA'] },
-                    { $eq: ['$kaum', 'LAIN-LAIN ASIA/BUKAN WARGANEGARA'] },
+                    {
+                      $eq: [
+                        '$kaum',
+                        'LAIN-LAIN ASIA/BUKAN WARGANEGARA',
+                      ],
+                    },
                     { $eq: ['$kaum', 'KAYAN'] },
                     { $eq: ['$kaum', 'FILIPINOS'] },
                     { $eq: ['$kaum', 'NIGERIA'] },
@@ -14049,7 +14868,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'P'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 { $eq: ['$kumpulanEtnik', 'melayu'] },
               ],
             },
@@ -14064,7 +14888,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'P'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 { $eq: ['$kumpulanEtnik', 'cina'] },
               ],
             },
@@ -14079,7 +14908,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'P'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 { $eq: ['$kumpulanEtnik', 'india'] },
               ],
             },
@@ -14095,7 +14929,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'P'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-semasa'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-semasa',
+                  ],
+                },
                 {
                   $or: [
                     // { $ne: ['kaum', 'MELAYU'] },
@@ -14133,7 +14972,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
                     { $eq: ['$kaum', 'MURUT'] },
                     { $eq: ['$kaum', 'JAWA'] },
                     { $eq: ['$kaum', 'KEMBOJA'] },
-                    { $eq: ['$kaum', 'LAIN-LAIN ASIA/BUKAN WARGANEGARA'] },
+                    {
+                      $eq: [
+                        '$kaum',
+                        'LAIN-LAIN ASIA/BUKAN WARGANEGARA',
+                      ],
+                    },
                     { $eq: ['$kaum', 'KAYAN'] },
                     { $eq: ['$kaum', 'FILIPINOS'] },
                     { $eq: ['$kaum', 'NIGERIA'] },
@@ -14215,7 +15059,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'L'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'bekas-perokok'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'bekas-perokok',
+                  ],
+                },
               ],
             },
             1,
@@ -14229,7 +15078,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$jantina', 'perempuan'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'bekas-perokok'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'bekas-perokok',
+                  ],
+                },
               ],
             },
             1,
@@ -14243,7 +15097,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'L'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-pasif'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-pasif',
+                  ],
+                },
               ],
             },
             1,
@@ -14257,7 +15116,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'P'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'perokok-pasif'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'perokok-pasif',
+                  ],
+                },
               ],
             },
             1,
@@ -14271,7 +15135,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'L'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'bukan-perokok'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'bukan-perokok',
+                  ],
+                },
               ],
             },
             1,
@@ -14285,7 +15154,12 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
             {
               $and: [
                 { $eq: ['$kodJantina', 'P'] },
-                { $eq: ['$pemeriksaanSekolah.statusM', 'bukan-perokok'] },
+                {
+                  $eq: [
+                    '$pemeriksaanSekolah.statusM',
+                    'bukan-perokok',
+                  ],
+                },
               ],
             },
             1,
@@ -14313,7 +15187,9 @@ const countPPIM03 = async (klinik, bulan, sekolah) => {
         unwind_stage_3,
         group_stage_1,
       ];
-      const queryPemeriksaan = await Sekolah.aggregate(pipeline_pemeriksaan);
+      const queryPemeriksaan = await Sekolah.aggregate(
+        pipeline_pemeriksaan
+      );
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -14729,7 +15605,10 @@ const countPGPro02 = async (payload) => {
     },
   };
   // bismillah
-  let bigData = await MediaSosial.aggregate([...match_stage, group_stage]);
+  let bigData = await MediaSosial.aggregate([
+    ...match_stage,
+    group_stage,
+  ]);
   return bigData;
 };
 const countPGPro01Combined = async (payload) => {
@@ -15412,7 +16291,12 @@ const countMasa = async (payload) => {
           $cond: [
             {
               $lt: [
-                { $subtract: ['$waktuDipanggilUnix', '$waktuSampaiUnix'] },
+                {
+                  $subtract: [
+                    '$waktuDipanggilUnix',
+                    '$waktuSampaiUnix',
+                  ],
+                },
                 30 * 60 * 1000,
               ],
             },
@@ -15747,7 +16631,10 @@ const countBp = async (payload) => {
       melayu.push(dataMelayu);
     }
     for (let i = 0; i < match_stage_cina.length; i++) {
-      const dataCina = await Umum.aggregate([match_stage_cina[i], group_stage]);
+      const dataCina = await Umum.aggregate([
+        match_stage_cina[i],
+        group_stage,
+      ]);
       cina.push(dataCina);
     }
     for (let i = 0; i < match_stage_india.length; i++) {
@@ -15771,7 +16658,11 @@ const countBp = async (payload) => {
       ]);
       bumiputeraSarawak.push(dataBumiputeraSarawak);
     }
-    for (let i = 0; i < match_stage_orangAsliSemenanjung.length; i++) {
+    for (
+      let i = 0;
+      i < match_stage_orangAsliSemenanjung.length;
+      i++
+    ) {
       const dataOrangAsliSemenanjung = await Umum.aggregate([
         match_stage_orangAsliSemenanjung[i],
         group_stage,
@@ -15779,7 +16670,10 @@ const countBp = async (payload) => {
       orangAsliSemenanjung.push(dataOrangAsliSemenanjung);
     }
     for (let i = 0; i < match_stage_lain.length; i++) {
-      const dataLain = await Umum.aggregate([match_stage_lain[i], group_stage]);
+      const dataLain = await Umum.aggregate([
+        match_stage_lain[i],
+        group_stage,
+      ]);
       lain2.push(dataLain);
     }
 
@@ -16025,7 +16919,10 @@ const countGender = async (payload) => {
 
   try {
     for (let i = 0; i < match_stage_lelaki.length; i++) {
-      const result = await Umum.aggregate([match_stage_lelaki[i], group_stage]);
+      const result = await Umum.aggregate([
+        match_stage_lelaki[i],
+        group_stage,
+      ]);
       dataLelaki.push(result[0]);
     }
 
@@ -16180,7 +17077,12 @@ const countBPE = async (payload) => {
             {
               $and: [
                 { $eq: ['$kedatangan', 'baru-kedatangan'] },
-                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                {
+                  $ne: [
+                    '$skorBpeOralHygienePemeriksaanUmum',
+                    'tiada',
+                  ],
+                },
                 { $ne: ['$engganBpeImplan', true] },
               ],
             },
@@ -16195,7 +17097,12 @@ const countBPE = async (payload) => {
             {
               $and: [
                 { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
-                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                {
+                  $ne: [
+                    '$skorBpeOralHygienePemeriksaanUmum',
+                    'tiada',
+                  ],
+                },
               ],
             },
             1,
@@ -16216,7 +17123,9 @@ const countBPE = async (payload) => {
         },
       },
       adaRujukanT2DMdariLainLain: {
-        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'lain-lain'] }, 1, 0] },
+        $sum: {
+          $cond: [{ $eq: ['$puncaRujukan', 'lain-lain'] }, 1, 0],
+        },
       },
       tiadaRujukanT2DM: {
         $sum: {
@@ -16226,13 +17135,23 @@ const countBPE = async (payload) => {
       //Risiko Perio - Perio Risk
       risikoBpeDiabetes: {
         // $sum: { $cond: [{ $eq: ['$diabetesFaktorRisikoBpe', true] }, 1, 0] },
-        $sum: { $cond: [{ $eq: ['$puncaRujukan', 'klinik-kesihatan'] }, 1, 0] },
+        $sum: {
+          $cond: [
+            { $eq: ['$puncaRujukan', 'klinik-kesihatan'] },
+            1,
+            0,
+          ],
+        },
       },
       risikoBpePerokok: {
-        $sum: { $cond: [{ $eq: ['$perokokFaktorRisikoBpe', true] }, 1, 0] },
+        $sum: {
+          $cond: [{ $eq: ['$perokokFaktorRisikoBpe', true] }, 1, 0],
+        },
       },
       risikoBpeLainLain: {
-        $sum: { $cond: [{ $eq: ['$lainLainFaktorRisikoBpe', true] }, 1, 0] },
+        $sum: {
+          $cond: [{ $eq: ['$lainLainFaktorRisikoBpe', true] }, 1, 0],
+        },
       },
       //Basic Periodontal Examination (BPE)
       engganBPE: {
@@ -16240,31 +17159,53 @@ const countBPE = async (payload) => {
       },
       skorBPE0: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] }, 1, 0],
+          $cond: [
+            { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+            1,
+            0,
+          ],
         },
       },
       skorBPE1: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] }, 1, 0],
+          $cond: [
+            { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '1'] },
+            1,
+            0,
+          ],
         },
       },
       skorBPE2: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] }, 1, 0],
+          $cond: [
+            { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '2'] },
+            1,
+            0,
+          ],
         },
       },
       skorBPE3: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] }, 1, 0],
+          $cond: [
+            { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '3'] },
+            1,
+            0,
+          ],
         },
       },
       skorBPE4: {
         $sum: {
-          $cond: [{ $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] }, 1, 0],
+          $cond: [
+            { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '4'] },
+            1,
+            0,
+          ],
         },
       },
       adaPeriImplantMucositis: {
-        $sum: { $cond: [{ $eq: ['$periImplantMucositis', true] }, 1, 0] },
+        $sum: {
+          $cond: [{ $eq: ['$periImplantMucositis', true] }, 1, 0],
+        },
       },
       adaPeriImplantitis: {
         $sum: { $cond: [{ $eq: ['$periImplantitis', true] }, 1, 0] },
@@ -16277,7 +17218,10 @@ const countBPE = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$dietPemakananNasihatPergigianIndividuPromosiUmum', true],
+              $eq: [
+                '$dietPemakananNasihatPergigianIndividuPromosiUmum',
+                true,
+              ],
             },
             1,
             0,
@@ -16286,11 +17230,17 @@ const countBPE = async (payload) => {
       },
 
       nasihatBerhentiMerokok: {
-        $sum: { $cond: [{ $eq: ['$nasihatBerhentiMerokok', true] }, 1, 0] },
+        $sum: {
+          $cond: [{ $eq: ['$nasihatBerhentiMerokok', true] }, 1, 0],
+        },
       },
       nasihatLainlain: {
         $sum: {
-          $cond: [{ $eq: ['$lainLainPengurusanFaktorRisiko', true] }, 1, 0],
+          $cond: [
+            { $eq: ['$lainLainPengurusanFaktorRisiko', true] },
+            1,
+            0,
+          ],
         },
       },
 
@@ -16300,7 +17250,12 @@ const countBPE = async (payload) => {
           $cond: [
             {
               $or: [
-                { $eq: ['plakGigiNasihatPergigianIndividuPromosiUmum', true] },
+                {
+                  $eq: [
+                    'plakGigiNasihatPergigianIndividuPromosiUmum',
+                    true,
+                  ],
+                },
                 {
                   $eq: [
                     '$penjagaanKesihatanOralNasihatPergigianIndividuPromosiUmum',
@@ -16325,7 +17280,13 @@ const countBPE = async (payload) => {
       },
       telahPengilapanTampalanRungkup: {
         //telah remove overhang filling
-        $sum: { $cond: [{ $eq: ['$pengilapanTampalanRungkup', true] }, 1, 0] },
+        $sum: {
+          $cond: [
+            { $eq: ['$pengilapanTampalanRungkup', true] },
+            1,
+            0,
+          ],
+        },
       },
       telahAdjustasiOklusi: {
         $sum: { $cond: [{ $eq: ['$adjustasiOklusi', true] }, 1, 0] },
@@ -16338,7 +17299,11 @@ const countBPE = async (payload) => {
       },
       telahRawatanPerioLain: {
         $sum: {
-          $cond: [{ $eq: ['$rawatanLainPeriodontikRawatanUmum', true] }, 1, 0],
+          $cond: [
+            { $eq: ['$rawatanLainPeriodontikRawatanUmum', true] },
+            1,
+            0,
+          ],
         },
       },
 
@@ -16347,7 +17312,10 @@ const countBPE = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$rujukanPakarPeriodontik', 'ya-rujukan-pakar-periodontik'],
+              $eq: [
+                '$rujukanPakarPeriodontik',
+                'ya-rujukan-pakar-periodontik',
+              ],
             },
             1,
             0,
@@ -16949,7 +17917,9 @@ const countPG201P2 = async (payload) => {
         _id: placeModifier(payload),
         jumlahReten: { $sum: 1 },
         jumlahRetenSalah: {
-          $sum: { $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0] },
+          $sum: {
+            $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0],
+          },
         },
 
         //enrolment - dpt dari fasiliti?
@@ -16967,18 +17937,33 @@ const countPG201P2 = async (payload) => {
         tidakHadirKehadiran: {
           $sum: {
             $cond: [
-              { $eq: ['$tidakHadirTaskaTadika', 'tidak-hadir-taska-tadika'] },
+              {
+                $eq: [
+                  '$tidakHadirTaskaTadika',
+                  'tidak-hadir-taska-tadika',
+                ],
+              },
               1,
               0,
             ],
           },
         },
         kedatanganTahunSemasaBaru: {
-          $sum: { $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0] },
+          $sum: {
+            $cond: [
+              { $eq: ['$kedatangan', 'baru-kedatangan'] },
+              1,
+              0,
+            ],
+          },
         },
         kedatanganTahunSemasaUlangan: {
           $sum: {
-            $cond: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }, 1, 0],
+            $cond: [
+              { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
+              1,
+              0,
+            ],
           },
         },
 
@@ -16987,7 +17972,10 @@ const countPG201P2 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'A'],
+                $eq: [
+                  '$kebersihanMulutOralHygienePemeriksaanUmum',
+                  'A',
+                ],
               },
               1,
               0,
@@ -16998,7 +17986,10 @@ const countPG201P2 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'C'],
+                $eq: [
+                  '$kebersihanMulutOralHygienePemeriksaanUmum',
+                  'C',
+                ],
               },
               1,
               0,
@@ -17009,7 +18000,10 @@ const countPG201P2 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'E'],
+                $eq: [
+                  '$kebersihanMulutOralHygienePemeriksaanUmum',
+                  'E',
+                ],
               },
               1,
               0,
@@ -17149,7 +18143,11 @@ const countPG201P2 = async (payload) => {
         },
         eLebihAtauSamaDenganSatu: {
           $sum: {
-            $cond: [{ $gt: ['$eAdaGigiKekalPemeriksaanUmum', 0] }, 1, 0],
+            $cond: [
+              { $gt: ['$eAdaGigiKekalPemeriksaanUmum', 0] },
+              1,
+              0,
+            ],
           },
         },
         bebasKariesTetapiElebihAtauSamaDenganSatu: {
@@ -17172,7 +18170,9 @@ const countPG201P2 = async (payload) => {
         skorGIS0: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+              },
               1,
               0,
             ],
@@ -17181,7 +18181,9 @@ const countPG201P2 = async (payload) => {
         skorGIS1: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'],
+              },
               1,
               0,
             ],
@@ -17190,7 +18192,9 @@ const countPG201P2 = async (payload) => {
         skorGIS2: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+              },
               1,
               0,
             ],
@@ -17199,7 +18203,9 @@ const countPG201P2 = async (payload) => {
         skorGIS3: {
           $sum: {
             $cond: [
-              { $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '3'] },
+              {
+                $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '3'],
+              },
               1,
               0,
             ],
@@ -17249,8 +18255,18 @@ const countPG201P2 = async (payload) => {
                       'tidak-fv-perlu-sapuan-pemeriksaan-umum',
                     ],
                   },
-                  { $eq: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 0] },
-                  { $eq: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 0] },
+                  {
+                    $eq: [
+                      '$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                      0,
+                    ],
+                  },
+                  {
+                    $eq: [
+                      '$baruJumlahGigiKekalPerluFSRawatanUmum',
+                      0,
+                    ],
+                  },
                 ],
               },
               1,
@@ -17275,7 +18291,11 @@ const countPG201P2 = async (payload) => {
         },
         jumlahKecederaanTulangMuka: {
           $sum: {
-            $cond: [{ $eq: ['$kecederaanTulangMukaUmum', true] }, 1, 0],
+            $cond: [
+              { $eq: ['$kecederaanTulangMukaUmum', true] },
+              1,
+              0,
+            ],
           },
         },
         jumlahKecederaanGigi: {
@@ -17285,13 +18305,19 @@ const countPG201P2 = async (payload) => {
         },
         jumlahKecederaanTisuLembut: {
           $sum: {
-            $cond: [{ $eq: ['$kecederaanTisuLembutUmum', true] }, 1, 0],
+            $cond: [
+              { $eq: ['$kecederaanTisuLembutUmum', true] },
+              1,
+              0,
+            ],
           },
         },
         jumlahPatientAdaTSL: {
           $sum: {
             $cond: [
-              { $eq: ['$toothSurfaceLossTraumaPemeriksaanUmum', true] },
+              {
+                $eq: ['$toothSurfaceLossTraumaPemeriksaanUmum', true],
+              },
               1,
               0,
             ],
@@ -17299,12 +18325,20 @@ const countPG201P2 = async (payload) => {
         },
         jumlahCleftMurid: {
           $sum: {
-            $cond: [{ $eq: ['$adaCleftLipPemeriksaanUmum', true] }, 1, 0],
+            $cond: [
+              { $eq: ['$adaCleftLipPemeriksaanUmum', true] },
+              1,
+              0,
+            ],
           },
         },
         jumlahCleftDirujuk: {
           $sum: {
-            $cond: [{ $eq: ['$rujukCleftLipPemeriksaanUmum', true] }, 1, 0],
+            $cond: [
+              { $eq: ['$rujukCleftLipPemeriksaanUmum', true] },
+              1,
+              0,
+            ],
           },
         },
 
@@ -17327,7 +18361,10 @@ const countPG201P2 = async (payload) => {
           $sum: {
             $cond: [
               {
-                $gte: ['$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 1],
+                $gte: [
+                  '$BaruJumlahGigiKekalPerluPRRJenis1RawatanUmum',
+                  1,
+                ],
               },
               1,
               0,
@@ -17412,7 +18449,10 @@ const countPG201P2 = async (payload) => {
               {
                 $and: [
                   {
-                    $gte: ['$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum', 1],
+                    $gte: [
+                      '$baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum',
+                      1,
+                    ],
                   },
                 ],
               },
@@ -17502,7 +18542,9 @@ const countPG201P2 = async (payload) => {
             $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
           },
         },
-        jumlahFasilitiDilawati: { $addToSet: '$kodFasilitiTaskaTadika' },
+        jumlahFasilitiDilawati: {
+          $addToSet: '$kodFasilitiTaskaTadika',
+        },
       },
     },
   ];
@@ -17512,28 +18554,45 @@ const countPG201P2 = async (payload) => {
 
   try {
     for (const stage of match_stage) {
-      const dataPG201P2 = await Umum.aggregate([...stage, ...group_stage]);
+      const dataPG201P2 = await Umum.aggregate([
+        ...stage,
+        ...group_stage,
+      ]);
       bigData.push(dataPG201P2);
     }
 
     const dataFasiliti = await Fasiliti.find({
-      ...(payload.negeri != 'all' && { createdByNegeri: payload.negeri }),
-      ...(payload.daerah != 'all' && { createdByDaerah: payload.daerah }),
+      ...(payload.negeri != 'all' && {
+        createdByNegeri: payload.negeri,
+      }),
+      ...(payload.daerah != 'all' && {
+        createdByDaerah: payload.daerah,
+      }),
       ...(payload.klinik != 'all' && {
         kodFasilitiHandler: payload.klinik,
       }),
       jenisFasiliti: { $in: ['taska', 'tadika'] },
     })
-      .select('jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan')
+      .select(
+        'jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan'
+      )
       .lean();
 
     // nnt nk kena masuk taska
     const totalEnrolmentTastadPra = dataFasiliti.reduce(
       (
         totals,
-        { jenisFasiliti, enrolmen5Tahun, enrolmen6Tahun, statusPerkhidmatan }
+        {
+          jenisFasiliti,
+          enrolmen5Tahun,
+          enrolmen6Tahun,
+          statusPerkhidmatan,
+        }
       ) => {
-        if (jenisFasiliti === 'tadika' && statusPerkhidmatan === 'active') {
+        if (
+          jenisFasiliti === 'tadika' &&
+          statusPerkhidmatan === 'active'
+        ) {
           totals = {
             ...totals,
             enrolmen5Tahun:
@@ -17567,7 +18626,11 @@ const countKEPP = async (payload) => {
   let all_kepp = [];
   let bigData = [];
 
-  const kepps = await User.find({ statusRoleKlinik: 'kepp', negeri, daerah })
+  const kepps = await User.find({
+    statusRoleKlinik: 'kepp',
+    negeri,
+    daerah,
+  })
     .select('kodFasiliti')
     .lean();
   console.log(kepps);
@@ -17632,7 +18695,10 @@ const countKEPP = async (payload) => {
             $sum: {
               $cond: [
                 {
-                  $eq: ['$memenuhiRditnKod3KesRujukUpprRawatanUmum', true],
+                  $eq: [
+                    '$memenuhiRditnKod3KesRujukUpprRawatanUmum',
+                    true,
+                  ],
                 },
                 1,
                 0,
@@ -17817,7 +18883,11 @@ const countTOD = async (payload) => {
         // pemeriksaan
         kedatanganTahunSemasaBaru: {
           $sum: {
-            $cond: [{ $eq: ['$kedatangan', 'baru-kedatangan'] }, 1, 0],
+            $cond: [
+              { $eq: ['$kedatangan', 'baru-kedatangan'] },
+              1,
+              0,
+            ],
           },
         },
         // perlu rawatan
@@ -17861,7 +18931,10 @@ const countTOD = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    $eq: [
+                      '$skorGisMulutOralHygienePemeriksaanUmum',
+                      '0',
+                    ],
                   },
                   {
                     $eq: [
@@ -17882,7 +18955,10 @@ const countTOD = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'],
+                    $eq: [
+                      '$skorGisMulutOralHygienePemeriksaanUmum',
+                      '1',
+                    ],
                   },
                   {
                     $eq: [
@@ -17903,7 +18979,10 @@ const countTOD = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    $eq: [
+                      '$skorGisMulutOralHygienePemeriksaanUmum',
+                      '2',
+                    ],
                   },
                   {
                     $eq: [
@@ -17953,7 +19032,12 @@ const countTOD = async (payload) => {
                       { $eq: ['$adaKekalPemeriksaanUmum', false] },
                       { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                       { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
-                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                      {
+                        $eq: [
+                          '$perluPenskaleranPemeriksaanUmum',
+                          false,
+                        ],
+                      },
                     ],
                   },
                 ],
@@ -18064,14 +19148,28 @@ const countTOD = async (payload) => {
                               'ya-pesakit-mempunyai-gigi',
                             ],
                           },
-                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
-                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                          {
+                            $eq: ['$adaDesidusPemeriksaanUmum', true],
+                          },
+                          {
+                            $eq: ['$adaKekalPemeriksaanUmum', false],
+                          },
                         ],
                       },
                       {
                         $or: [
-                          { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
-                          { $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                          {
+                            $gte: [
+                              '$dAdaGigiDesidusPemeriksaanUmum',
+                              0,
+                            ],
+                          },
+                          {
+                            $gte: [
+                              '$xAdaGigiDesidusPemeriksaanUmum',
+                              0,
+                            ],
+                          },
                         ],
                       },
                       {
@@ -18089,14 +19187,28 @@ const countTOD = async (payload) => {
                               'ya-pesakit-mempunyai-gigi',
                             ],
                           },
-                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
-                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                          {
+                            $eq: ['$adaDesidusPemeriksaanUmum', true],
+                          },
+                          {
+                            $eq: ['$adaKekalPemeriksaanUmum', false],
+                          },
                         ],
                       },
                       {
                         $or: [
-                          { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
-                          { $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1] },
+                          {
+                            $gte: [
+                              '$dAdaGigiDesidusPemeriksaanUmum',
+                              1,
+                            ],
+                          },
+                          {
+                            $gte: [
+                              '$xAdaGigiDesidusPemeriksaanUmum',
+                              1,
+                            ],
+                          },
                         ],
                       },
                       {
@@ -18126,23 +19238,43 @@ const countTOD = async (payload) => {
                               'ya-pesakit-mempunyai-gigi',
                             ],
                           },
-                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
-                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                          {
+                            $eq: ['$adaDesidusPemeriksaanUmum', true],
+                          },
+                          {
+                            $eq: ['$adaKekalPemeriksaanUmum', false],
+                          },
                         ],
                       },
                       {
                         $or: [
-                          { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
-                          { $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1] },
+                          {
+                            $gte: [
+                              '$dAdaGigiDesidusPemeriksaanUmum',
+                              1,
+                            ],
+                          },
+                          {
+                            $gte: [
+                              '$xAdaGigiDesidusPemeriksaanUmum',
+                              1,
+                            ],
+                          },
                         ],
                       },
                       {
                         $and: [
                           {
-                            $gte: [{ $toInt: '$jumlahFaktorRisiko' }, 1],
+                            $gte: [
+                              { $toInt: '$jumlahFaktorRisiko' },
+                              1,
+                            ],
                           },
                           {
-                            $lte: [{ $toInt: '$jumlahFaktorRisiko' }, 2],
+                            $lte: [
+                              { $toInt: '$jumlahFaktorRisiko' },
+                              2,
+                            ],
                           },
                         ],
                       },
@@ -18158,14 +19290,28 @@ const countTOD = async (payload) => {
                               'ya-pesakit-mempunyai-gigi',
                             ],
                           },
-                          { $eq: ['$adaDesidusPemeriksaanUmum', true] },
-                          { $eq: ['$adaKekalPemeriksaanUmum', false] },
+                          {
+                            $eq: ['$adaDesidusPemeriksaanUmum', true],
+                          },
+                          {
+                            $eq: ['$adaKekalPemeriksaanUmum', false],
+                          },
                         ],
                       },
                       {
                         $or: [
-                          { $gte: ['$dAdaGigiDesidusPemeriksaanUmum', 1] },
-                          { $gte: ['$xAdaGigiDesidusPemeriksaanUmum', 1] },
+                          {
+                            $gte: [
+                              '$dAdaGigiDesidusPemeriksaanUmum',
+                              1,
+                            ],
+                          },
+                          {
+                            $gte: [
+                              '$xAdaGigiDesidusPemeriksaanUmum',
+                              1,
+                            ],
+                          },
                         ],
                       },
                       {
@@ -18301,7 +19447,9 @@ const countTOD = async (payload) => {
           $cond: {
             if: {
               $eq: [
-                { $ifNull: ['$jumlahFaktorRisikoPemeriksaanUmum', ''] },
+                {
+                  $ifNull: ['$jumlahFaktorRisikoPemeriksaanUmum', ''],
+                },
                 '',
               ],
             },
@@ -18321,7 +19469,9 @@ const countTOD = async (payload) => {
           $sum: {
             $cond: [
               {
-                $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
+                $and: [
+                  { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
+                ],
               },
               1,
               0,
@@ -18416,7 +19566,12 @@ const countTOD = async (payload) => {
             $cond: [
               {
                 $or: [
-                  { $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'] },
+                  {
+                    $eq: [
+                      '$rujukDaripada',
+                      'hospital/institusi-kerajaan',
+                    ],
+                  },
                   { $eq: ['$rujukDaripada', 'swasta'] },
                   { $eq: ['$rujukDaripada', 'lain-lain'] },
                 ],
@@ -18533,7 +19688,10 @@ const countTOD = async (payload) => {
     }
 
     for (const stage of match_stage_1836) {
-      const query1836 = await Umum.aggregate([...stage, ...group_1836]);
+      const query1836 = await Umum.aggregate([
+        ...stage,
+        ...group_1836,
+      ]);
       data1836.push({ query1836 });
     }
 
@@ -18546,6 +19704,39 @@ const countTOD = async (payload) => {
     errorRetenLogger.error(
       `Error mengira reten: ${payload.jenisReten}. ${error}`
     );
+    throw new Error(error);
+  }
+};
+const countPPIM04 = async (payload) => {
+  let match_stage = [];
+  let sort_stage = [];
+
+  let match = { $match: getParamsPPIM04(payload) };
+
+  const sort = {
+    $sort: {
+      tarikhKedatangan: 1,
+    },
+  };
+
+  match_stage.push(match);
+  sort_stage.push(sort);
+
+  try {
+    const data = await KohortKotak.aggregate([
+      ...match_stage,
+      ...sort_stage,
+    ]);
+
+    if (data.length === 0) {
+      errorRetenLogger.error(
+        `Error mengira reten: ${payload.jenisReten}. Tiada data yang dijumpai.`
+      );
+      throw new Error('Tiada data yang dijumpai');
+    }
+
+    return data;
+  } catch (error) {
     throw new Error(error);
   }
 };
@@ -19482,7 +20673,13 @@ const getParamsBp = (payload, kaum, jantina) => {
       break;
     case 'bumiputeraSabah':
       pilihanKaum = {
-        $in: ['bajau', 'dusun', 'kadazan', 'murut', 'bumiputera sabah lain'],
+        $in: [
+          'bajau',
+          'dusun',
+          'kadazan',
+          'murut',
+          'bumiputera sabah lain',
+        ],
       };
       break;
     case 'bumiputeraSarawak':
@@ -19917,6 +21114,31 @@ const getParamsTOD = (payload) => {
   }
 };
 
+// new lagi
+const getParamsPPIM04 = (payload, reten) => {
+  const { negeri, daerah, klinik, sekolah, pilihanIndividu } =
+    payload;
+
+  const bySekolah = () => {
+    const forSekolah = {
+      createdByKodFasiliti: { $eq: klinik },
+    };
+  };
+
+  const byPegawai = () => {
+    const forPegawai = {
+      createdByKodFasiliti: { $eq: klinik },
+      createdByNameMdcMdtb: { $eq: pilihanIndividu },
+    };
+  };
+
+  if (pilihanIndividu === 'all') {
+    return bySekolah(payload);
+  } else {
+    return byPegawai(payload);
+  }
+};
+
 // operator lain punya hal
 const getParamsOperatorLain = [
   {
@@ -20024,4 +21246,6 @@ module.exports = {
   countBPE,
   countKEPP,
   countTOD,
+  // new
+  countPPIM04,
 };

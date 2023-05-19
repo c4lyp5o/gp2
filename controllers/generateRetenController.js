@@ -10,6 +10,7 @@ const Operator = require('../models/Operator');
 const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
+const KohortKotak = require('../models/KohortKotak');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
 const { logger, penjanaanRetenLogger } = require('../logs/logger');
@@ -5613,7 +5614,7 @@ const makePPIM03 = async (payload) => {
         data = await Reservoir.find(query).sort({ createdAt: -1 });
         break;
       default:
-        data = await Helper.countPPIM03SR(payload);
+        data = await Helper.countPPIM03(payload);
         break;
     }
     //
@@ -5633,7 +5634,7 @@ const makePPIM03 = async (payload) => {
       '..',
       'public',
       'exports',
-      'KOTAK PPIM 03 SR.xlsx'
+      'KOTAK PPIM 03.xlsx'
     );
     //
     let workbook = new Excel.Workbook();
@@ -5696,33 +5697,23 @@ const makePPIM03 = async (payload) => {
           data[0][i].queryPPIM03[0].jumlahPerokokPasifLelaki;
         // skipping cells - BUKAN PEROKOK
         row.getCell(25).value =
-          data[0][i].queryPPIM03[0].jumlahBekasPerokokLelaki;
+          data[0][i].queryPPIM03[0].jumlahBukanPerokokLelaki;
         row.getCell(26).value =
-          data[0][i].queryPPIM03[0].jumlahBekasPerokokLelaki;
+          data[0][i].queryPPIM03[0].jumlahBukanPerokokLelaki;
         // skipping cells - DALAM INTERVENSI
         row.getCell(25).value =
-          data[0][i].queryPPIM03[0].jumlahBekasPerokokLelaki;
+          data[0][i].queryPPIM03[0].jumlahDalamIntervensiLelaki;
         row.getCell(26).value =
-          data[0][i].queryPPIM03[0].jumlahBekasPerokokLelaki;
-        if (i < 2) {
-          row.getCell(9).value =
-            data[0][i].queryPPIM03[0].jumlahMuridMelaksanakanBegin;
-        }
-        if (i > 2) {
-          row.getCell(9).value =
-            data[0][
-              i
-            ].queryPPIM03[0].jumlahMuridRisikoTinggiMelaksanakanBegin;
-        }
+          data[0][i].queryPPIM03[0].jumlahDalamIntervensiLelaki;
       }
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
     worksheet.getCell(
-      'M10'
+      'AL7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
-    worksheet.getCell('M11').value = `Maklumat dari ${
+    worksheet.getCell('AL8').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan)
             .startOf('month')
@@ -5734,47 +5725,57 @@ const makePPIM03 = async (payload) => {
           ).format('DD-MM-YYYY')}`
     }`;
     worksheet.getCell(
-      'M12'
+      'AL9'
     ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
     worksheet.getCell(
-      'M13'
+      'AL10'
     ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
       'DD-MM-YYYY'
     )} - ${moment(new Date()).format('HH:mm:ss')})`;
 
-    worksheet.getCell('M10').alignment = {
+    worksheet.getCell('AL7').alignment = {
       wrapText: false,
       shrinkToFit: false,
       horizontal: 'right',
     };
-    worksheet.getCell('M11').alignment = {
+    worksheet.getCell('AL8').alignment = {
       wrapText: false,
       shrinkToFit: false,
       horizontal: 'right',
     };
-    worksheet.getCell('M12').alignment = {
+    worksheet.getCell('AL9').alignment = {
       wrapText: false,
       shrinkToFit: false,
       horizontal: 'right',
     };
-    worksheet.getCell('M13').alignment = {
+    worksheet.getCell('AL10').alignment = {
       wrapText: false,
       shrinkToFit: false,
       horizontal: 'right',
     };
-
-    worksheet.name = 'BEGIN';
+    // oter nama form dan nama worksheet
+    const { jenisFasiliti } = Fasiliti.findOne({
+      kodSekolah: sekolah,
+    });
+    worksheet.getCell('AI1').value =
+      jenisFasiliti === 'sekolah-rendah'
+        ? 'BORANG PPIM 03-2023 (SR)'
+        : 'BORANG PPIM 03-2023 (SM)';
+    worksheet.name =
+      jenisFasiliti === 'sekolah-rendah'
+        ? 'BORANG PPIM 03-2023 (SR)'
+        : 'BORANG PPIM 03-2023 (SM)';
 
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
     logger.info(
-      `[generateRetenController/BEGIN] writing file ${newfile}`
+      `[generateRetenController/makePPIM03] writing file ${newfile}`
     );
     setTimeout(() => {
       fs.unlinkSync(newfile);
       logger.info(
-        `[generateRetenController/BEGIN] deleting file ${newfile}`
+        `[generateRetenController/makePPIM03] deleting file ${newfile}`
       );
     }, 1000);
     const file = fs.readFileSync(
@@ -5784,7 +5785,1580 @@ const makePPIM03 = async (payload) => {
     return file;
   } catch (err) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/BEGIN] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePPIM03] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makePPIM04 = async (payload) => {
+  logger.info('[generateRetenController/makePPIM04] makePPIM04');
+  try {
+    let {
+      sekolah,
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanIndividu,
+      username,
+      fromEtl,
+      jenisReten,
+    } = payload;
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countPPIM04(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'KOTAK PPIM 04.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('BORANG PPIM 04-2023');
+    //
+    worksheet.getCell('H4').value = moment(new Date()).format('YYYY');
+    worksheet.getCell('E4').value = moment(
+      bulan ? bulan : tarikhMula
+    ).format('MMMM');
+    worksheet.getCell('B6').value = `${sekolah.toUpperCase()}`;
+    worksheet.getCell('B7').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('B8').value = `${pegawai.toUpperCase()}`;
+    // jumlah perokok semasa berhenti merokok dalam tempoh 6 bulan
+    // worksheet.getCell('B10').value = `${pegawai.toUpperCase()}`;
+    //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    for (let i = 0; i < data.length; i++) {
+      let row = worksheet.getRow(15 + i);
+      if (data[i]) {
+        row.getCell(1).value = data[i].nama;
+        row.getCell(2).value = data[i].kelasPelajar;
+        row.getCell(3).value = data[i].noTelefon;
+        row.getCell(4).value = data[i].tarikhIntervensi1;
+        row.getCell(5).value = data[i].tarikhIntervensi2;
+        row.getCell(6).value = data[i].tarikhIntervensi3;
+        row.getCell(7).value = data[i].tarikhIntervensi4;
+        row.getCell(8).value =
+          data[i].adaTiadaQTarikh1 &&
+          data[i].adaTiadaQTarikh2 &&
+          data[i].adaTiadaQTarikh3 &&
+          data[i].adaTiadaQTarikh4
+            ? '1'
+            : '';
+        row.getCell(9).value =
+          !data[i].adaTiadaQTarikh1 &&
+          !data[i].adaTiadaQTarikh2 &&
+          !data[i].adaTiadaQTarikh3 &&
+          !data[i].adaTiadaQTarikh4
+            ? '1'
+            : '';
+        row.getCell(10).value = data[i].tarikhQ;
+        row.getCell(11).value =
+          data[i].tarikhIntervensi1 &&
+          data[i].tarikhIntervensi2 &&
+          data[i].tarikhIntervensi3 &&
+          data[i].tarikhIntervensi4
+            ? '1'
+            : '';
+        row.getCell(12).value =
+          data[i].statusSelepas6Bulan === 'berhenti' ? '1' : '';
+        row.getCell(13).value =
+          data[i].statusSelepas6Bulan === 'berhenti' ? '' : '1';
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'M5'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('M6').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan)
+            .startOf('month')
+            .format('DD-MM-YYYY')} - ${moment(bulan)
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'M7'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell(
+      'M8'
+    ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('M5').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('M6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('M7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('M8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    // oter nama form dan nama worksheet
+    const { jenisFasiliti } = Fasiliti.findOne({
+      kodSekolah: sekolah,
+    });
+    worksheet.getCell('A1').value =
+      jenisFasiliti === 'sekolah-rendah'
+        ? 'BORANG PPIM 04-2023 (SR) (SULIT)'
+        : 'BORANG PPIM 04-2023 (SM) (SULIT)';
+    worksheet.name =
+      jenisFasiliti === 'sekolah-rendah'
+        ? 'BORANG PPIM 04-2023 (SR)(SULIT)'
+        : 'BORANG PPIM 04-2023 (SM)(SULIT)';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makePPIM04] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makePPIM04] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(
+      path.resolve(process.cwd(), newfile)
+    );
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makePPIM04] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makePPIM05 = async (payload) => {
+  logger.info('[generateRetenController/makePPIM05] makePPIM05');
+  try {
+    let {
+      sekolah,
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanIndividu,
+      username,
+      fromEtl,
+      jenisReten,
+    } = payload;
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countPPIM05(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'KOTAK PPIM 05.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('BORANG PPIM 05-2023');
+    //
+    worksheet.getCell('I4').value = moment(new Date()).format('YYYY');
+    worksheet.getCell('F4').value = moment(
+      bulan ? bulan : tarikhMula
+    ).format('MMMM');
+    worksheet.getCell('B6').value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('B7').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('B8').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
+    //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    for (let i = 0; i < data[0].length; i++) {
+      let row = worksheet.getRow(14 + i);
+      if (data[0][i].queryPPIM05[0]) {
+        row.getCell(2).value =
+          data[0][i].queryPPIM05[0].bilPerokokSemasa;
+        row.getCell(3).value =
+          data[0][i].queryPPIM05[0].bilPerokokMenyertaiIntervensi;
+        row.getCell(4).value =
+          data[0][i].queryPPIM05[0].jumlahAdaQuitDateLebih3Int;
+        // skipping cells
+        row.getCell(6).value =
+          data[0][i].queryPPIM05[0].jumlahTiadaQuitDateLebih3Int;
+        // skipping cells
+        row.getCell(8).value =
+          data[0][i].queryPPIM05[0].jumlahAdaQuitDateKurang3Int;
+        // skipping cells
+        row.getCell(10).value =
+          data[0][i].queryPPIM05[0].jumlahTiadaQuitDateKurang3Int;
+        //skipping cells
+        row.getCell(12).value =
+          data[0][i].queryPPIM05[0].bilanganDirujukGuruKaunseling;
+        row.getCell(13).value =
+          data[0][
+            i
+          ].queryPPIM05[0].jumlahBerhentiMerokokSelepas6Bulan;
+        row.getCell(14).value =
+          data[0][
+            i
+          ].queryPPIM05[0].jumlahTidakBerhentiMerokokSelepas6Bulan;
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'N6'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('N7').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan)
+            .startOf('month')
+            .format('DD-MM-YYYY')} - ${moment(bulan)
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'N8'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell(
+      'N9'
+    ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('N6').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('N7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('N8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('N9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makePPIM05] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makePPIM05] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(
+      path.resolve(process.cwd(), newfile)
+    );
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makePPIM05] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeDEWASAMUDA = async (payload) => {
+  logger.info(
+    '[generateRetenController/makeDEWASAMUDA] makeDEWASAMUDA'
+  );
+  try {
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanProgram,
+      username,
+      fromEtl,
+      jenisReten,
+    } = payload;
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countDEWASAMUDA(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'DEWASA MUDA.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('DEWASA MUDA');
+    //
+    worksheet.getCell('B6').value = `BAGI BULAN ${moment(
+      bulan ? bulan : tarikhMula
+    ).format('MMMM')} TAHUN ${moment(new Date()).format('YYYY')}`;
+
+    worksheet.getCell('C8').value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('C9').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell(
+      'C11'
+    ).value = `${pilihanProgram.toUpperCase()}`;
+    //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    let j = 0;
+
+    for (let i = 0; i < data[0].length; i++) {
+      let row = worksheet.getRow(20 + j);
+      if (data[0][i].queryDMPemeriksaan[0]) {
+        jumlahReten += data[0][i].queryDMPemeriksaan[0].jumlahReten;
+        jumlahRetenSalah +=
+          data[0][i].queryDMPemeriksaan[0].statusReten;
+        // pemeriksaan
+        row.getCell(3).value =
+          data[0][i].queryDMPemeriksaan[0].kedatanganTahunSemasaBaru;
+        row.getCell(6).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahPerempuan;
+        row.getCell(7).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahd;
+        row.getCell(8).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahf;
+        row.getCell(9).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahx;
+        // skipping cells
+        row.getCell(11).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahD;
+        row.getCell(12).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahM;
+        row.getCell(13).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahF;
+        row.getCell(14).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahX;
+        // skipping cells
+        row.getCell(16).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahMBK;
+        row.getCell(17).value =
+          data[0][i].queryDMPemeriksaan[0].statusBebasKaries;
+        row.getCell(18).value = data[0][i].queryDMPemeriksaan[0].TPR;
+        row.getCell(19).value =
+          data[0][i].queryDMPemeriksaan[0].skorBPEZero;
+        row.getCell(20).value =
+          data[0][i].queryDMPemeriksaan[0].skorBPEMoreThanZero;
+        row.getCell(21).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahTSL;
+        row.getCell(22).value =
+          data[0][i].queryDMPemeriksaan[0].perluSapuanFluorida;
+        row.getCell(23).value =
+          data[0][
+            i
+          ].queryDMPemeriksaan[0].perluJumlahPesakitPrrJenis1;
+        row.getCell(24).value =
+          data[0][i].queryDMPemeriksaan[0].perluJumlahGigiPrrJenis1;
+        row.getCell(25).value =
+          data[0][i].queryDMPemeriksaan[0].perluJumlahPesakitFS;
+        row.getCell(26).value =
+          data[0][i].queryDMPemeriksaan[0].perluJumlahGigiFS;
+        row.getCell(27).value =
+          data[0][i].queryDMPemeriksaan[0].perluPenskaleran;
+        row.getCell(28).value =
+          data[0][i].queryDMPemeriksaan[0].perluEndoAnterior;
+        row.getCell(29).value =
+          data[0][i].queryDMPemeriksaan[0].perluEndoPremolar;
+        row.getCell(30).value =
+          data[0][i].queryDMPemeriksaan[0].perluEndoMolar;
+        row.getCell(31).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahPerluDenturPenuh;
+        row.getCell(32).value =
+          data[0][i].queryDMPemeriksaan[0].jumlahPerluDenturSepara;
+      }
+      j++;
+      if (i === 3) {
+        j++;
+      }
+    }
+
+    j = 0;
+    for (let i = 0; i < data[1].length; i++) {
+      let row = worksheet.getRow(20 + j);
+      if (data[1][i].queryDMRawatan[0]) {
+        // rawatan
+        row.getCell(4).value =
+          data[1][i].queryDMRawatan[0].kedatanganTahunSemasaUlangan;
+        row.getCell(33).value =
+          data[1][i].queryDMRawatan[0].sapuanFluorida;
+        row.getCell(34).value =
+          data[1][i].queryDMRawatan[0].jumlahPesakitPrrJenis1;
+        row.getCell(35).value =
+          data[1][i].queryDMRawatan[0].jumlahGigiPrrJenis1;
+        row.getCell(36).value =
+          data[1][i].queryDMRawatan[0].jumlahPesakitDiBuatFs;
+        row.getCell(37).value =
+          data[1][i].queryDMRawatan[0].jumlahGigiDibuatFs;
+        row.getCell(38).value =
+          data[1][i].queryDMRawatan[0].tampalanAntGdBaru;
+        row.getCell(39).value =
+          data[1][i].queryDMRawatan[0].tampalanAntGdSemula;
+        row.getCell(40).value =
+          data[1][i].queryDMRawatan[0].tampalanAntGkBaru;
+        row.getCell(41).value =
+          data[1][i].queryDMRawatan[0].tampalanAntGkSemula;
+        row.getCell(42).value =
+          data[1][i].queryDMRawatan[0].tampalanPostGdBaru;
+        row.getCell(43).value =
+          data[1][i].queryDMRawatan[0].tampalanPostGdSemula;
+        row.getCell(44).value =
+          data[1][i].queryDMRawatan[0].tampalanPostGkBaru;
+        row.getCell(45).value =
+          data[1][i].queryDMRawatan[0].tampalanPostGkSemula;
+        row.getCell(46).value =
+          data[1][i].queryDMRawatan[0].tampalanPostAmgGdBaru;
+        row.getCell(47).value =
+          data[1][i].queryDMRawatan[0].tampalanPostAmgGdSemula;
+        row.getCell(48).value =
+          data[1][i].queryDMRawatan[0].tampalanPostAmgGkBaru;
+        row.getCell(49).value =
+          data[1][i].queryDMRawatan[0].tampalanPostAmgGkSemula;
+        // skipping cells
+        row.getCell(52).value =
+          data[1][i].queryDMRawatan[0].tampalanSementara;
+        row.getCell(53).value =
+          data[1][i].queryDMRawatan[0].cabutanGd;
+        row.getCell(54).value =
+          data[1][i].queryDMRawatan[0].cabutanGk;
+        row.getCell(55).value =
+          data[1][i].queryDMRawatan[0].komplikasiSelepasCabutan;
+        row.getCell(56).value =
+          data[1][i].queryDMRawatan[0].penskaleran;
+        row.getCell(57).value = data[1][i].queryDMRawatan[0].abses;
+        row.getCell(58).value =
+          data[1][i].queryDMRawatan[0].kecederaanTulangMuka;
+        row.getCell(59).value =
+          data[1][i].queryDMRawatan[0].kecederaanGigi;
+        row.getCell(60).value =
+          data[1][i].queryDMRawatan[0].kecederaanTisuLembut;
+        //
+        row.getCell(61).value =
+          data[1][i].queryDMRawatan[0].prosthodontikPenuhDenturBaru;
+        row.getCell(62).value =
+          data[1][i].queryDMRawatan[0].prosthodontikPenuhDenturSemula;
+        row.getCell(63).value =
+          data[1][i].queryDMRawatan[0].jumlahPesakitBuatDenturPenuh;
+        row.getCell(64).value =
+          data[1][i].queryDMRawatan[0].prosthodontikSeparaDenturBaru;
+        row.getCell(65).value =
+          data[1][
+            i
+          ].queryDMRawatan[0].prosthodontikSeparaDenturSemula;
+        row.getCell(66).value =
+          data[1][i].queryDMRawatan[0].jumlahPesakitBuatDenturSepara;
+        //
+        row.getCell(67).value =
+          data[1][i].queryDMRawatan[0].immediateDenture;
+        row.getCell(68).value =
+          data[1][i].queryDMRawatan[0].pembaikanDenture;
+        row.getCell(69).value =
+          data[1][i].queryDMRawatan[0].kesSelesai;
+        row.getCell(70).value =
+          data[1][i].queryDMRawatan[0].xrayDiambil;
+        row.getCell(71).value =
+          data[1][i].queryDMRawatan[0].pesakitDisaringOC;
+      }
+      j++;
+      if (i === 3) {
+        j++;
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'AL7'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('AL8').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan)
+            .startOf('month')
+            .format('DD-MM-YYYY')} - ${moment(bulan)
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'AL9'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell(
+      'AL10'
+    ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AL7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    worksheet.name = 'DEWASA MUDA';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makeDEWASAMUDA] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeDEWASAMUDA] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(
+      path.resolve(process.cwd(), newfile)
+    );
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeDEWASAMUDA] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeOAP = async (payload) => {
+  logger.info('[generateRetenController/makeOAP] makeOAP');
+  try {
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanProgram,
+      username,
+      fromEtl,
+      jenisReten,
+    } = payload;
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countOAP(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'OAP.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('OAP');
+    //
+    worksheet.getCell('B6').value = `BAGI BULAN ${moment(
+      bulan ? bulan : tarikhMula
+    ).format('MMMM')} TAHUN ${moment(new Date()).format('YYYY')}`;
+
+    worksheet.getCell('C8').value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('C9').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
+    //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    let j = 0;
+
+    for (const item of data[0]) {
+      const { queryOAPPemeriksaan } = item;
+      if (queryOAPPemeriksaan?.[0]) {
+        const {
+          jumlahReten,
+          statusReten,
+          kedatanganTahunSemasaBaru,
+          jumlahd,
+          jumlahf,
+          jumlahx,
+          jumlahD,
+          jumlahM,
+          jumlahF,
+          jumlahX,
+          jumlahMBK,
+          statusBebasKaries,
+          TPR,
+          skorBPEZero,
+          skorBPEMoreThanZero,
+          jumlahTSL,
+          perluSapuanFluorida,
+          perluJumlahPesakitPrrJenis1,
+          perluJumlahGigiPrrJenis1,
+          perluJumlahPesakitFS,
+          perluJumlahGigiFS,
+          perluPenskaleran,
+          perluEndoAnterior,
+          perluEndoPremolar,
+          perluEndoMolar,
+          jumlahPerluDenturPenuh,
+          jumlahPerluDenturSepara,
+        } = queryOAPPemeriksaan[0];
+        const row = worksheet.getRow(20 + j);
+        jumlahReten += jumlahReten;
+        jumlahRetenSalah += statusReten;
+        row.getCell(3).value = kedatanganTahunSemasaBaru;
+        row.getCell(5).value = jumlahd;
+        row.getCell(6).value = jumlahf;
+        row.getCell(7).value = jumlahx;
+        if (i > 1) {
+          row.getCell(11).value = jumlahD;
+          row.getCell(12).value = jumlahM;
+          row.getCell(13).value = jumlahF;
+          row.getCell(14).value = jumlahX;
+        }
+        row.getCell(16).value = jumlahMBK;
+        if (i > 1) {
+          row.getCell(17).value = statusBebasKaries;
+        }
+        row.getCell(18).value = TPR;
+        if (i > 5) {
+          row.getCell(19).value = skorBPEZero;
+          row.getCell(20).value = skorBPEMoreThanZero;
+        }
+        row.getCell(21).value = jumlahTSL;
+        row.getCell(22).value = perluSapuanFluorida;
+        if (i > 1) {
+          row.getCell(23).value = perluJumlahPesakitPrrJenis1;
+          row.getCell(24).value = perluJumlahGigiPrrJenis1;
+          row.getCell(25).value = perluJumlahPesakitFS;
+          row.getCell(26).value = perluJumlahGigiFS;
+        }
+        row.getCell(27).value = perluPenskaleran;
+        if (i > 1) {
+          row.getCell(28).value = perluEndoAnterior;
+          row.getCell(29).value = perluEndoPremolar;
+          row.getCell(30).value = perluEndoMolar;
+          row.getCell(31).value = jumlahPerluDenturPenuh;
+          row.getCell(32).value = jumlahPerluDenturSepara;
+        }
+      }
+      j++;
+      if (i === 11) {
+        j++;
+      }
+    }
+
+    j = 0;
+    for (let i = 0; i < data[1].length; i++) {
+      const row = worksheet.getRow(20 + j);
+      const [rawatan] = data[1][i].queryOAPRawatan || [];
+
+      if (rawatan) {
+        // rawatan
+        row.getCell(4).value = rawatan.kedatanganTahunSemasaUlangan;
+        row.getCell(31).value = rawatan.sapuanFluorida;
+
+        for (let k = 32; k <= 35; k++) {
+          if (i > 1) {
+            row.getCell(k).value =
+              rawatan[`jumlahPesakitPrrJenis${k - 31}`];
+          }
+        }
+
+        for (let k = 36; k <= 47; k++) {
+          row.getCell(k).value =
+            rawatan[
+              `tampalan${
+                k === 44 ? 'PostAmg' : k < 44 ? 'AntGd' : 'PostGk'
+              }${k % 2 === 0 ? 'Baru' : 'Semula'}`
+            ];
+        }
+
+        row.getCell(50).value = rawatan.tampalanSementara;
+        row.getCell(51).value = rawatan.cabutanGd;
+        row.getCell(52).value = rawatan.cabutanGk;
+        row.getCell(53).value = rawatan.komplikasiSelepasCabutan;
+        row.getCell(54).value = rawatan.penskaleran;
+        row.getCell(55).value =
+          data[1][i].queryRawatan[0].rawatanPerioLain;
+        row.getCell(56).value =
+          data[1][i].queryRawatan[0].rawatanEndoAnterior;
+        row.getCell(57).value =
+          data[1][i].queryRawatan[0].rawatanEndoPremolar;
+        row.getCell(58).value =
+          data[1][i].queryRawatan[0].rawatanEndoMolar;
+        row.getCell(59).value =
+          data[1][i].queryRawatan[0].rawatanOrtho;
+        row.getCell(60).value =
+          data[1][i].queryRawatan[0].kesPerubatan;
+        row.getCell(61).value = rawatan.abses;
+        row.getCell(62).value = rawatan.kecederaanTulangMuka;
+        row.getCell(63).value = rawatan.kecederaanGigi;
+        row.getCell(64).value = rawatan.kecederaanTisuLembut;
+        row.getCell(65).value =
+          data[1][i].queryRawatan[0].cabutanSurgical;
+        row.getCell(66).value =
+          data[1][i].queryRawatan[0].pembedahanKecilMulut;
+
+        for (let k = 67; k <= 76; k++) {
+          if (i > 1) {
+            row.getCell(k).value =
+              data[1][i].queryRawatan[0][
+                k % 2 === 1 ? 'crownBridgeSemula' : 'crownBridgeBaru'
+              ];
+          }
+        }
+
+        row.getCell(77).value = rawatan.immediateDenture;
+        row.getCell(78).value = rawatan.pembaikanDenture;
+        row.getCell(79).value = rawatan.kesSelesai;
+        row.getCell(80).value = rawatan.xrayDiambil;
+        row.getCell(81).value = rawatan.pesakitDisaringOC;
+      }
+
+      j++;
+      if (i === 11) {
+        j++;
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'AL7'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('AL8').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan)
+            .startOf('month')
+            .format('DD-MM-YYYY')} - ${moment(bulan)
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'AL9'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell(
+      'AL10'
+    ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AL7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    worksheet.name = 'OAP';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makeOAP] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeOAP] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(
+      path.resolve(process.cwd(), newfile)
+    );
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeOAP] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeLiputanOAP = async (payload) => {
+  logger.info(
+    '[generateRetenController/makeLiputanOAP] makeLiputanOAP'
+  );
+  try {
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanProgram,
+      username,
+      fromEtl,
+      jenisReten,
+    } = payload;
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countOAP(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'OAP.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('OAP');
+    //
+    worksheet.getCell('B7').value = `BAGI BULAN ${moment(
+      bulan ? bulan : tarikhMula
+    ).format('MMMM')} TAHUN ${moment(new Date()).format('YYYY')}`;
+    //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    for (let i = 0; i < data.length; i++) {
+      let row = worksheet.getRow(10 + i);
+      if (data[i]) {
+        row.getCell(4).value = data[i].jumlah;
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'AL7'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('AL8').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan)
+            .startOf('month')
+            .format('DD-MM-YYYY')} - ${moment(bulan)
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'AL9'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell(
+      'AL10'
+    ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AL7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    worksheet.name = 'OAP';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makeLiputanOAP] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeLiputanOAP] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(
+      path.resolve(process.cwd(), newfile)
+    );
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeLiputanOAP] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeKPBMPB = async (payload) => {
+  logger.info('[generateRetenController/makeKPBMPB] makeKPBMPB');
+  try {
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanKpbMpb,
+      username,
+      fromEtl,
+      jenisReten,
+    } = payload;
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countKPBMPB(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'KPB MPB.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('BULANAN');
+    //
+    worksheet.getCell('B6').value = `BAGI BULAN ${moment(
+      bulan ? bulan : tarikhMula
+    ).format('MMMM')} TAHUN ${moment(new Date()).format('YYYY')}`;
+
+    worksheet.getCell('C9').value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('C10').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('C11').value = `${klinik.toUpperCase()}`;
+    //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    // kpb
+    for (let i = 0; i < data.length; i++) {
+      let row = worksheet.getRow(16 + i);
+      if (data[i]) {
+        jumlahReten += data[i].jumlahReten;
+        jumlahRetenSalah += data[i].statusReten;
+        // pemeriksaan
+        // row.getCell(3).value = data[i].nasihatBerhentiMerokok;
+        // row.getCell(6).value = data[i].bahanApiKenderaan;
+        // row.getCell(7).value = data[i].bahanApiGenerator;
+        // row.getCell(8).value = data[i].repairKenderaan;
+        // row.getCell(9).value = data[i].repairGenerator;
+        // row.getCell(10).value = data[i].repairAlatan;
+        // row.getCell(11).value = data[i].tuntutanElaun;
+        // skipping cell
+        row.getCell(13).value = data[i].jumlahHariBeroperasi;
+        row.getCell(14).value = data[i].jumlahPesakitBaru;
+        row.getCell(15).value = data[i].jumlahPesakitUlangan;
+        row.getCell(18).value = data[i].catatan;
+      }
+    }
+    // mpb
+    for (let i = 0; i < data.length; i++) {
+      let row = worksheet.getRow(16 + i);
+      if (data[i]) {
+        jumlahReten += data[i].jumlahReten;
+        jumlahRetenSalah += data[i].statusReten;
+        // pemeriksaan
+        row.getCell(3).value = data[i].nasihatBerhentiMerokok;
+        row.getCell(6).value = data[i].bahanApiKenderaan;
+        row.getCell(7).value = data[i].bahanApiGenerator;
+        row.getCell(8).value = data[i].repairKenderaan;
+        row.getCell(9).value = data[i].repairGenerator;
+        row.getCell(10).value = data[i].repairAlatan;
+        row.getCell(11).value = data[i].tuntutanElaun;
+        // skipping cell
+        row.getCell(13).value = data[i].jumlahHariBeroperasi;
+        row.getCell(14).value = data[i].jumlahPesakitBaru;
+        row.getCell(15).value = data[i].jumlahPesakitUlangan;
+        row.getCell(16).value = data[i].jumlahDenturPenuh;
+        row.getCell(17).value = data[i].jumlahDenturSebahagian;
+        row.getCell(18).value = data[i].catatan;
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'AL7'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('AL8').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan)
+            .startOf('month')
+            .format('DD-MM-YYYY')} - ${moment(bulan)
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'AL9'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell(
+      'AL10'
+    ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AL7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    worksheet.name = 'BULANAN';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makeKPBMPB] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeKPBMPB] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(
+      path.resolve(process.cwd(), newfile)
+    );
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeKPBMPB] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeKOM = async (payload) => {
+  logger.info('[generateRetenController/makeKOM] makeKOM');
+  try {
+    let {
+      klinik,
+      daerah,
+      negeri,
+      tarikhMula,
+      tarikhAkhir,
+      bulan,
+      pilihanProgram,
+      username,
+      fromEtl,
+      jenisReten,
+    } = payload;
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countDEWASAMUDA(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    if (klinik !== 'all') {
+      const currentKlinik = await User.findOne({
+        kodFasiliti: klinik,
+      });
+      klinik = currentKlinik.kp;
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'KOM.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('KOM');
+    //
+    worksheet.getCell('B6').value = `BAGI BULAN ${moment(
+      bulan ? bulan : tarikhMula
+    ).format('MMMM')} TAHUN ${moment(new Date()).format('YYYY')}`;
+
+    worksheet.getCell('C8').value = `${negeri.toUpperCase()}`;
+    worksheet.getCell('C9').value = `${daerah.toUpperCase()}`;
+    worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell(
+      'C11'
+    ).value = `${pilihanProgram.toUpperCase()}`;
+    //
+    let jumlahReten = 0;
+    let jumlahRetenSalah = 0;
+    //
+    let j = 0;
+
+    for (let i = 0; i < data[0].length; i++) {
+      let row = worksheet.getRow(20 + j);
+      if (data[0][i].queryKOMPemeriksaan[0]) {
+        jumlahReten += data[0][i].queryKOMPemeriksaan[0].jumlahReten;
+        jumlahRetenSalah +=
+          data[0][i].queryKOMPemeriksaan[0].statusReten;
+        // pemeriksaan
+        row.getCell(3).value =
+          data[0][i].queryKOMPemeriksaan[0].kedatanganTahunSemasaBaru;
+        row.getCell(5).value =
+          data[0][i].queryKOMPemeriksaan[0].jumlahd;
+        row.getCell(6).value =
+          data[0][i].queryKOMPemeriksaan[0].jumlahf;
+        row.getCell(7).value =
+          data[0][i].queryKOMPemeriksaan[0].jumlahx;
+        // skipping cells
+        if (i > 1) {
+          row.getCell(9).value =
+            data[0][i].queryKOMPemeriksaan[0].jumlahD;
+          row.getCell(10).value =
+            data[0][i].queryKOMPemeriksaan[0].jumlahM;
+          row.getCell(11).value =
+            data[0][i].queryKOMPemeriksaan[0].jumlahF;
+          row.getCell(12).value =
+            data[0][i].queryKOMPemeriksaan[0].jumlahX;
+        }
+        // skipping cells
+        row.getCell(14).value =
+          data[0][i].queryKOMPemeriksaan[0].jumlahMBK;
+        if (i > 1) {
+          row.getCell(15).value =
+            data[0][i].queryKOMPemeriksaan[0].statusBebasKaries;
+        }
+        row.getCell(16).value = data[0][i].queryKOMPemeriksaan[0].TPR;
+        if (i > 1) {
+          row.getCell(17).value =
+            data[0][i].queryKOMPemeriksaan[0].skorBPEZero;
+          row.getCell(18).value =
+            data[0][i].queryKOMPemeriksaan[0].skorBPEMoreThanZero;
+        }
+        row.getCell(19).value =
+          data[0][i].queryKOMPemeriksaan[0].perluSapuanFluorida;
+        if (i > 1) {
+          row.getCell(20).value =
+            data[0][
+              i
+            ].queryDMPemeriksaan[0].perluJumlahPesakitPrrJenis1;
+          row.getCell(21).value =
+            data[0][
+              i
+            ].queryKOMPemeriksaan[0].perluJumlahGigiPrrJenis1;
+          row.getCell(22).value =
+            data[0][i].queryKOMPemeriksaan[0].perluJumlahPesakitFS;
+          row.getCell(23).value =
+            data[0][i].queryKOMPemeriksaan[0].perluJumlahGigiFS;
+        }
+        row.getCell(24).value =
+          data[0][i].queryKOMPemeriksaan[0].perluPenskaleran;
+        row.getCell(25).value =
+          data[0][i].queryKOMPemeriksaan[0].perluEndoAnterior;
+        row.getCell(26).value =
+          data[0][i].queryKOMPemeriksaan[0].perluEndoPremolar;
+        row.getCell(27).value =
+          data[0][i].queryKOMPemeriksaan[0].perluEndoMolar;
+        if (i > 1) {
+          row.getCell(28).value =
+            data[0][i].queryKOMPemeriksaan[0].jumlahPerluDenturPenuh;
+          row.getCell(29).value =
+            data[0][i].queryKOMPemeriksaan[0].jumlahPerluDenturSepara;
+        }
+      }
+      j++;
+      if (i === 11) {
+        j++;
+      }
+    }
+
+    j = 0;
+    for (let i = 0; i < data[1].length; i++) {
+      let row = worksheet.getRow(20 + j);
+      if (data[1][i].queryKOMRawatan[0]) {
+        // rawatan
+        row.getCell(4).value =
+          data[1][i].queryKOMRawatan[0].kedatanganTahunSemasaUlangan;
+        row.getCell(30).value =
+          data[1][i].queryKOMRawatan[0].sapuanFluorida;
+        if (i > 1) {
+          row.getCell(31).value =
+            data[1][i].queryKOMRawatan[0].jumlahPesakitPrrJenis1;
+          row.getCell(32).value =
+            data[1][i].queryKOMRawatan[0].jumlahGigiPrrJenis1;
+          row.getCell(33).value =
+            data[1][i].queryKOMRawatan[0].jumlahPesakitDiBuatFs;
+          row.getCell(34).value =
+            data[1][i].queryKOMRawatan[0].jumlahGigiDibuatFs;
+        }
+        row.getCell(35).value =
+          data[1][i].queryKOMRawatan[0].tampalanAntGdBaru;
+        row.getCell(36).value =
+          data[1][i].queryKOMRawatan[0].tampalanAntGdSemula;
+        if (i > 1) {
+          row.getCell(37).value =
+            data[1][i].queryKOMRawatan[0].tampalanAntGkBaru;
+          row.getCell(38).value =
+            data[1][i].queryKOMRawatan[0].tampalanAntGkSemula;
+        }
+        row.getCell(39).value =
+          data[1][i].queryKOMRawatan[0].tampalanPostGdBaru;
+        row.getCell(40).value =
+          data[1][i].queryKOMRawatan[0].tampalanPostGdSemula;
+        if (i > 1) {
+          row.getCell(41).value =
+            data[1][i].queryKOMRawatan[0].tampalanPostGkBaru;
+          row.getCell(42).value =
+            data[1][i].queryKOMRawatan[0].tampalanPostGkSemula;
+        }
+        row.getCell(43).value =
+          data[1][i].queryKOMRawatan[0].tampalanPostAmgGdBaru;
+        row.getCell(44).value =
+          data[1][i].queryKOMRawatan[0].tampalanPostAmgGdSemula;
+        if (i > 1) {
+          row.getCell(45).value =
+            data[1][i].queryKOMRawatan[0].tampalanPostAmgGkBaru;
+          row.getCell(46).value =
+            data[1][i].queryKOMRawatan[0].tampalanPostAmgGkSemula;
+        }
+        // skipping cells
+        row.getCell(47).value =
+          data[1][i].queryKOMRawatan[0].tampalanSementara;
+        row.getCell(48).value =
+          data[1][i].queryKOMRawatan[0].cabutanGd;
+        row.getCell(49).value =
+          data[1][i].queryKOMRawatan[0].cabutanGk;
+        row.getCell(50).value =
+          data[1][i].queryKOMRawatan[0].komplikasiSelepasCabutan;
+        row.getCell(51).value =
+          data[1][i].queryKOMRawatan[0].penskaleran;
+        row.getCell(52).value = data[1][i].queryKOMRawatan[0].abses;
+        row.getCell(53).value =
+          data[1][i].queryKOMRawatan[0].kecederaanTulangMuka;
+        row.getCell(54).value =
+          data[1][i].queryKOMRawatan[0].kecederaanGigi;
+        row.getCell(55).value =
+          data[1][i].queryKOMRawatan[0].kecederaanTisuLembut;
+        //
+        if (i > 1) {
+          row.getCell(56).value =
+            data[1][
+              i
+            ].queryKOMRawatan[0].prosthodontikPenuhDenturBaru;
+          row.getCell(57).value =
+            data[1][
+              i
+            ].queryKOMRawatan[0].prosthodontikPenuhDenturSemula;
+          row.getCell(58).value =
+            data[1][
+              i
+            ].queryKOMRawatan[0].jumlahPesakitBuatDenturPenuh;
+          row.getCell(59).value =
+            data[1][
+              i
+            ].queryKOMRawatan[0].prosthodontikSeparaDenturBaru;
+          row.getCell(60).value =
+            data[1][
+              i
+            ].queryDMRawatan[0].prosthodontikSeparaDenturSemula;
+          row.getCell(61).value =
+            data[1][
+              i
+            ].queryKOMRawatan[0].jumlahPesakitBuatDenturSepara;
+          //
+          row.getCell(62).value =
+            data[1][i].queryKOMRawatan[0].immediateDenture;
+          row.getCell(63).value =
+            data[1][i].queryKOMRawatan[0].pembaikanDenture;
+        }
+        row.getCell(64).value =
+          data[1][i].queryKOMRawatan[0].kesSelesai;
+        row.getCell(65).value =
+          data[1][i].queryKOMRawatan[0].xrayDiambil;
+        row.getCell(66).value =
+          data[1][i].queryKOMRawatan[0].pesakitDisaringOC;
+      }
+      j++;
+      if (i === 11) {
+        j++;
+      }
+    }
+
+    let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.getCell(
+      'AL7'
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    worksheet.getCell('AL8').value = `Maklumat dari ${
+      bulan
+        ? `${moment(bulan)
+            .startOf('month')
+            .format('DD-MM-YYYY')} - ${moment(bulan)
+            .endOf('month')
+            .format('DD-MM-YYYY')}`
+        : `${moment(tarikhMula).format('DD-MM-YYYY')} - ${moment(
+            tarikhAkhir
+          ).format('DD-MM-YYYY')}`
+    }`;
+    worksheet.getCell(
+      'AL9'
+    ).value = `Peratus reten salah: ${peratusRetenSalah.toFixed(2)}%`;
+    worksheet.getCell(
+      'AL10'
+    ).value = `Dijana oleh: ${username} (${moment(new Date()).format(
+      'DD-MM-YYYY'
+    )} - ${moment(new Date()).format('HH:mm:ss')})`;
+
+    worksheet.getCell('AL7').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL8').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL9').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+    worksheet.getCell('AL10').alignment = {
+      wrapText: false,
+      shrinkToFit: false,
+      horizontal: 'right',
+    };
+
+    worksheet.name = 'KOM';
+
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(
+      `[generateRetenController/makeKOM] writing file ${newfile}`
+    );
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeKOM] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(
+      path.resolve(process.cwd(), newfile)
+    );
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeKOM] Excel making error. Reason: ${err}`
     );
     excelMakerError(jenisReten);
   }
@@ -5958,4 +7532,8 @@ const mapsOfSeveralRetens = new Map([
   ['BP', makeBp],
   ['BPE', makeBPE],
   ['GENDER', makeGender],
+  ['BEGIN', makeBEGIN],
+  ['PPIM03', makePPIM03],
+  ['PPIM04', makePPIM04],
+  ['PPIM05', makePPIM05],
 ]);
