@@ -103,13 +103,19 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
         objPelajar.warganegara = data.warganegara;
       } catch (error) {
         logger.error(
-          `[insertToSekolah] error at SINGLE_PELAJAR for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} ${i}, error message is: ${error.message}`
+          `[insertToSekolah] error at SINGLE_PELAJAR for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, error message is: ${error.message}`
         );
         // return error.message;
       }
     }
 
-    if (objPelajar.umur !== 7777777) {
+    if (objPelajar.umur === 7777777 || objPelajar.umur === 0) {
+      logger.error(
+          `[insertToSekolah] error at objPelajar.umur for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, error message is: ${error.message}`
+        );
+    }
+
+    if (objPelajar.umur !== 7777777 || objPelajar.umur !== 0) {
       allConvertedPelajar.push({ ...objPelajar });
     }
   }
