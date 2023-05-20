@@ -4,6 +4,7 @@ import {
   FaTimes,
   FaCheck,
   FaRegHandPointLeft,
+  FaGlobeAsia,
 } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
@@ -858,6 +859,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
     if (!userinfo.mdcNumber) {
       mdcMdtbNumSalah = userinfo.mdtbNumber;
     }
+    setIsSubmitting(true);
     await toast
       .promise(
         axios.patch(
@@ -5086,9 +5088,14 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </div>
                             )}
                           </div>
-                          <div className='grid grid-cols-1 gap-2'>
-                            <article className='grid grid-cols-2 border border-userBlack p-1 rounded-md mx-1'>
-                              <div className='flex flex-row items-center  pl-5 col-span-2'>
+                          <div className='grid grid-cols-1 px-1'>
+                            <article className='grid grid-cols-1 border border-userBlack p-1 rounded-md m-1'>
+                              <div
+                                className={`${
+                                  pilihanDataSalah.dAdaGigiKekalCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-5`}
+                              >
                                 <p className='text-sm font-m '>D: </p>
                                 <span className='text-user6'>*</span>
                                 <input
@@ -5109,8 +5116,108 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='d-ada-status-gigi-kekal-reten-salah-cbox'
+                                    id='d-ada-status-gigi-kekal-reten-salah-cbox'
+                                    checked={pilihanDataSalah.dAdaGigiKekalCBox}
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        dAdaGigiKekalCBox:
+                                          !pilihanDataSalah.dAdaGigiKekalCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        dAdaGigiKekalCBox:
+                                          !pilihanDataSalah.dAdaGigiKekalCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          dAdaGigiKekalCBox:
+                                            !pilihanDataSalah.dAdaGigiKekalCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='d-ada-status-gigi-kekal-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.dAdaGigiKekalCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            dAdaGigiKekal: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            dAdaGigiKekal: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              dAdaGigiKekal: '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
                               </div>
-                              <div className='flex flex-row items-center pl-3'>
+                              {pilihanDataSalah.dAdaGigiKekalCBox === true && (
+                                <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='text-sm font-m'>D: </p>
+                                  <span className='text-user6'>*</span>
+                                  <input
+                                    required
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='d-ada-status-gigi-kekal'
+                                    id='d-ada-status-gigi-kekal'
+                                    value={pilihanDataSalah.dAdaGigiKekal}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        dAdaGigiKekal: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        dAdaGigiKekal: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          dAdaGigiKekal: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  />
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
+                              <div
+                                className={`${
+                                  pilihanDataSalah.classIDCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-5`}
+                              >
                                 <p className='text-sm font-m '>Class I: </p>
                                 <input
                                   disabled={isDisabled}
@@ -5129,8 +5236,106 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='class-1-d-reten-salah-cbox'
+                                    id='class-1-d-reten-salah-cbox'
+                                    checked={pilihanDataSalah.classIDCBox}
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classIDCBox:
+                                          !pilihanDataSalah.classIDCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classIDCBox:
+                                          !pilihanDataSalah.classIDCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classIDCBox:
+                                            !pilihanDataSalah.classIDCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='class-1-d-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.classIDCBox === true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            classID: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            classID: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              classID: '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
                               </div>
-                              <div className='flex flex-row items-center'>
+                              {pilihanDataSalah.classIDCBox === true && (
+                                <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='text-sm font-m'>Class I: </p>
+                                  <input
+                                    required
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='class-1-d'
+                                    id='class-1-d'
+                                    value={pilihanDataSalah.classID}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classID: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classID: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classID: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  />
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
+                              <div
+                                className={`${
+                                  pilihanDataSalah.classIIDCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-5`}
+                              >
                                 <p className='text-sm font-m '>Class II: </p>
                                 <input
                                   disabled={isDisabled}
@@ -5149,15 +5354,113 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='class-2-d-reten-salah-cbox'
+                                    id='class-2-d-reten-salah-cbox'
+                                    checked={pilihanDataSalah.classIIDCBox}
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classIIDCBox:
+                                          !pilihanDataSalah.classIIDCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classIIDCBox:
+                                          !pilihanDataSalah.classIIDCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classIIDCBox:
+                                            !pilihanDataSalah.classIIDCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='class-2-d-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.classIIDCBox === true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            classIID: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            classIID: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              classIID: '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
                               </div>
+                              {pilihanDataSalah.classIIDCBox === true && (
+                                <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='text-sm font-m'>Class II: </p>
+                                  <input
+                                    required
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='class-2-d'
+                                    id='class-2-d'
+                                    value={pilihanDataSalah.classIID}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classIID: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classIID: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classIID: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  />
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
                               {sumClassD > dAdaGigiKekal && (
-                                <p className='col-span-2 text-user6 font-semibold'>
+                                <p className='text-user6 font-semibold'>
                                   jumlah class I + class II D tidak boleh
                                   melebihi jumlah D
                                 </p>
                               )}
                             </article>
-                            <div className='flex flex-row items-center pl-5'>
+                            <div
+                              className={`${
+                                pilihanDataSalah.mAdaGigiKekalCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5 mt-1`}
+                            >
                               <p className='text-sm font-m '>M: </p>
                               <span className='text-user6'>*</span>
                               <input
@@ -5178,9 +5481,109 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='m-ada-status-gigi-kekal-reten-salah-cbox'
+                                  id='m-ada-status-gigi-kekal-reten-salah-cbox'
+                                  checked={pilihanDataSalah.mAdaGigiKekalCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      mAdaGigiKekalCBox:
+                                        !pilihanDataSalah.mAdaGigiKekalCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      mAdaGigiKekalCBox:
+                                        !pilihanDataSalah.mAdaGigiKekalCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        mAdaGigiKekalCBox:
+                                          !pilihanDataSalah.mAdaGigiKekalCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='m-ada-status-gigi-kekal-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.mAdaGigiKekalCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          mAdaGigiKekal: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          mAdaGigiKekal: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            mAdaGigiKekal: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
-                            <article className='grid grid-cols-2 border border-userBlack p-2 rounded-md mx-1'>
-                              <div className='flex flex-row items-center pl-5 col-span-2'>
+                            {pilihanDataSalah.mAdaGigiKekalCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                <p className='text-sm font-m'>M: </p>
+                                <span className='text-user6'>*</span>
+                                <input
+                                  required
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='m-ada-status-gigi-kekal'
+                                  id='m-ada-status-gigi-kekal'
+                                  value={pilihanDataSalah.mAdaGigiKekal}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      mAdaGigiKekal: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      mAdaGigiKekal: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        mAdaGigiKekal: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                            <article className='grid grid-cols-1 border border-userBlack p-2 rounded-md m-1'>
+                              <div
+                                className={`${
+                                  pilihanDataSalah.fAdaGigiKekalCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-5`}
+                              >
                                 <p className='text-sm font-m '>F: </p>
                                 <span className='text-user6'>*</span>
                                 <input
@@ -5201,8 +5604,108 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='f-ada-status-gigi-kekal-reten-salah-cbox'
+                                    id='f-ada-status-gigi-kekal-reten-salah-cbox'
+                                    checked={pilihanDataSalah.fAdaGigiKekalCBox}
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        fAdaGigiKekalCBox:
+                                          !pilihanDataSalah.fAdaGigiKekalCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        fAdaGigiKekalCBox:
+                                          !pilihanDataSalah.fAdaGigiKekalCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          fAdaGigiKekalCBox:
+                                            !pilihanDataSalah.fAdaGigiKekalCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='f-ada-status-gigi-kekal-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.fAdaGigiKekalCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            fAdaGigiKekal: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            fAdaGigiKekal: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              fAdaGigiKekal: '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
                               </div>
-                              <div className='flex flex-row items-center pl-3'>
+                              {pilihanDataSalah.fAdaGigiKekalCBox === true && (
+                                <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='text-sm font-m'>D: </p>
+                                  <span className='text-user6'>*</span>
+                                  <input
+                                    required
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='f-ada-status-gigi-kekal'
+                                    id='f-ada-status-gigi-kekal'
+                                    value={pilihanDataSalah.fAdaGigiKekal}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        fAdaGigiKekal: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        fAdaGigiKekal: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          fAdaGigiKekal: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  />
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
+                              <div
+                                className={`${
+                                  pilihanDataSalah.classIFCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-5`}
+                              >
                                 <p className='text-sm font-m '>Class I: </p>
                                 <input
                                   disabled={isDisabled}
@@ -5221,8 +5724,106 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='class-1-f-reten-salah-cbox'
+                                    id='class-1-f-reten-salah-cbox'
+                                    checked={pilihanDataSalah.classIFCBox}
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classIFCBox:
+                                          !pilihanDataSalah.classIFCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classIFCBox:
+                                          !pilihanDataSalah.classIFCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classIFCBox:
+                                            !pilihanDataSalah.classIFCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='class-1-f-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.classIFCBox === true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            classIF: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            classIF: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              classIF: '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
                               </div>
-                              <div className='flex flex-row items-center'>
+                              {pilihanDataSalah.classIFCBox === true && (
+                                <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='text-sm font-m'>Class I: </p>
+                                  <input
+                                    required
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='class-1-f'
+                                    id='class-1-f'
+                                    value={pilihanDataSalah.classIF}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classIF: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classIF: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classIF: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  />
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
+                              <div
+                                className={`${
+                                  pilihanDataSalah.classIIFCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row pl-5`}
+                              >
                                 <p className='text-sm font-m '>Class II: </p>
                                 <input
                                   disabled={isDisabled}
@@ -5241,15 +5842,113 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='class-2-f-reten-salah-cbox'
+                                    id='class-2-f-reten-salah-cbox'
+                                    checked={pilihanDataSalah.classIIFCBox}
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classIIFCBox:
+                                          !pilihanDataSalah.classIIFCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classIIFCBox:
+                                          !pilihanDataSalah.classIIFCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classIIFCBox:
+                                            !pilihanDataSalah.classIIFCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='class-2-f-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.classIIFCBox === true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            classIIF: '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            classIIF: '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              classIIF: '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
                               </div>
+                              {pilihanDataSalah.classIIFCBox === true && (
+                                <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                  <p className='text-sm font-m'>Class II: </p>
+                                  <input
+                                    required
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='class-2-f'
+                                    id='class-2-f'
+                                    value={pilihanDataSalah.classIIF}
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        classIIF: e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        classIIF: e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          classIIF: e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  />
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
                               {sumClassF > fAdaGigiKekal && (
-                                <p className='col-span-2 text-user6 font-semibold'>
+                                <p className='text-user6 font-semibold'>
                                   jumlah class I + class II F tidak boleh
                                   melebihi jumlah F
                                 </p>
                               )}
                             </article>
-                            <div className='flex flex-row items-center pl-5'>
+                            <div
+                              className={`${
+                                pilihanDataSalah.xAdaGigiKekalCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5 mt-1`}
+                            >
                               <p className='text-sm font-m '>X: </p>
                               <span className='text-user6'>*</span>
                               <input
@@ -5270,8 +5969,108 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='x-ada-status-gigi-kekal-reten-salah-cbox'
+                                  id='x-ada-status-gigi-kekal-reten-salah-cbox'
+                                  checked={pilihanDataSalah.xAdaGigiKekalCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      xAdaGigiKekalCBox:
+                                        !pilihanDataSalah.xAdaGigiKekalCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      xAdaGigiKekalCBox:
+                                        !pilihanDataSalah.xAdaGigiKekalCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        xAdaGigiKekalCBox:
+                                          !pilihanDataSalah.xAdaGigiKekalCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='x-ada-status-gigi-kekal-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.xAdaGigiKekalCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          xAdaGigiKekal: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          xAdaGigiKekal: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            xAdaGigiKekal: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
+                            {pilihanDataSalah.xAdaGigiKekalCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                <p className='text-sm font-m'>M: </p>
+                                <span className='text-user6'>*</span>
+                                <input
+                                  required
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='x-ada-status-gigi-kekal'
+                                  id='x-ada-status-gigi-kekal'
+                                  value={pilihanDataSalah.xAdaGigiKekal}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      xAdaGigiKekal: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      xAdaGigiKekal: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        xAdaGigiKekal: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
+                            <div
+                              className={`${
+                                pilihanDataSalah.eAdaGigiKekalCBox &&
+                                'bg-user9 bg-opacity-20'
+                              } flex items-center flex-row pl-5 mt-1`}
+                            >
                               <p className='text-sm font-m '>E: </p>
                               <span className='text-user6'>*</span>
                               <input
@@ -5292,7 +6091,102 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               />
+                              <div className='relative'>
+                                <input
+                                  type='checkbox'
+                                  name='e-ada-status-gigi-kekal-reten-salah-cbox'
+                                  id='e-ada-status-gigi-kekal-reten-salah-cbox'
+                                  checked={pilihanDataSalah.eAdaGigiKekalCBox}
+                                  onChange={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      eAdaGigiKekalCBox:
+                                        !pilihanDataSalah.eAdaGigiKekalCBox,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      eAdaGigiKekalCBox:
+                                        !pilihanDataSalah.eAdaGigiKekalCBox,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        eAdaGigiKekalCBox:
+                                          !pilihanDataSalah.eAdaGigiKekalCBox,
+                                      },
+                                    });
+                                  }}
+                                  className='peer hidden'
+                                />
+                                <label
+                                  htmlFor='e-ada-status-gigi-kekal-reten-salah-cbox'
+                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                >
+                                  {pilihanDataSalah.eAdaGigiKekalCBox ===
+                                  true ? (
+                                    <FaTimes
+                                      className='text-2xl'
+                                      onClick={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          eAdaGigiKekal: '',
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          eAdaGigiKekal: '',
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            eAdaGigiKekal: '',
+                                          },
+                                        });
+                                      }}
+                                    />
+                                  ) : (
+                                    <FaRegHandPointLeft className='text-2xl' />
+                                  )}
+                                </label>
+                              </div>
                             </div>
+                            {pilihanDataSalah.eAdaGigiKekalCBox === true && (
+                              <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
+                                <p className='text-sm font-m'>M: </p>
+                                <span className='text-user6'>*</span>
+                                <input
+                                  required
+                                  min='0'
+                                  max='32'
+                                  type='number'
+                                  name='e-ada-status-gigi-kekal'
+                                  id='e-ada-status-gigi-kekal'
+                                  value={pilihanDataSalah.eAdaGigiKekal}
+                                  onChange={(e) => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      eAdaGigiKekal: e.target.value,
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      eAdaGigiKekal: e.target.value,
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        eAdaGigiKekal: e.target.value,
+                                      },
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                />
+                                <span className='text-kaunter4'>
+                                  <FaCheck className='text-2xl' />
+                                </span>
+                              </div>
+                            )}
                           </div>
                         </div>
                         {sumDMFXKekal > 32 && (
@@ -6016,189 +6910,1096 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                       <h4 className='font-bold flex flex-row pl-5 text-left col-span-3'>
                         Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
                       </h4>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='gic-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={gicBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setGicBilanganFsDibuat3TahunLepas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              gicBilanganFsDibuat3TahunLepas: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>GIC</p>
+                      <div
+                        className={`${
+                          pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                            id='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                            value={gicBilanganFsDibuat3TahunLepas}
+                            onChange={(e) => {
+                              setGicBilanganFsDibuat3TahunLepas(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                gicBilanganFsDibuat3TahunLepas: e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                          />
+                          <p className='text-sm font-m '>GIC</p>
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='gic-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              id='gic-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  gicBilanganFsDibuat3TahunLepasCBox:
+                                    !pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  gicBilanganFsDibuat3TahunLepasCBox:
+                                    !pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    gicBilanganFsDibuat3TahunLepasCBox:
+                                      !pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='gic-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      gicBilanganFsDibuat3TahunLepas: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      gicBilanganFsDibuat3TahunLepas: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        gicBilanganFsDibuat3TahunLepas: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='gic-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={
+                                pilihanDataSalah.gicBilanganFsDibuat3TahunLepas
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  gicBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  gicBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    gicBilanganFsDibuat3TahunLepas:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>GIC</p>
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='resin-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={resinBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setResinBilanganFsDibuat3TahunLepas(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              resinBilanganFsDibuat3TahunLepas: e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>Resin</p>
+                      <div
+                        className={`${
+                          pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                            id='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                            value={resinBilanganFsDibuat3TahunLepas}
+                            onChange={(e) => {
+                              setResinBilanganFsDibuat3TahunLepas(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                resinBilanganFsDibuat3TahunLepas:
+                                  e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                          />
+                          <p className='text-sm font-m '>Resin</p>
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='resin-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              id='resin-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  resinBilanganFsDibuat3TahunLepasCBox:
+                                    !pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  resinBilanganFsDibuat3TahunLepasCBox:
+                                    !pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    resinBilanganFsDibuat3TahunLepasCBox:
+                                      !pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='resin-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      resinBilanganFsDibuat3TahunLepas: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      resinBilanganFsDibuat3TahunLepas: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        resinBilanganFsDibuat3TahunLepas: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='resin-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={
+                                pilihanDataSalah.resinBilanganFsDibuat3TahunLepas
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  resinBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  resinBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    resinBilanganFsDibuat3TahunLepas:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>Resin</p>
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className='flex flex-row pl-5 items-center mt-2'>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                          id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
-                          value={lainLainBilanganFsDibuat3TahunLepas}
-                          onChange={(e) => {
-                            setLainLainBilanganFsDibuat3TahunLepas(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              lainLainBilanganFsDibuat3TahunLepas:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
-                        />
-                        <p className='text-sm font-m '>Lain-lain</p>
+                      <div
+                        className={`${
+                          pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                            id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                            value={lainLainBilanganFsDibuat3TahunLepas}
+                            onChange={(e) => {
+                              setLainLainBilanganFsDibuat3TahunLepas(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                lainLainBilanganFsDibuat3TahunLepas:
+                                  e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                          />
+                          <p className='text-sm font-m '>Lain-lain</p>
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  lainLainBilanganFsDibuat3TahunLepasCBox:
+                                    !pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  lainLainBilanganFsDibuat3TahunLepasCBox:
+                                    !pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    lainLainBilanganFsDibuat3TahunLepasCBox:
+                                      !pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='lain-lain-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      lainLainBilanganFsDibuat3TahunLepas: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      lainLainBilanganFsDibuat3TahunLepas: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        lainLainBilanganFsDibuat3TahunLepas: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                              id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas'
+                              value={
+                                pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepas
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  lainLainBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  lainLainBilanganFsDibuat3TahunLepas:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    lainLainBilanganFsDibuat3TahunLepas:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <p className='text-sm font-m '>Lain-lain</p>
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </article>
-                    <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <article className='grid grid-cols-2 md:grid-cols-3 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row text-left pl-3 col-span-2 md:col-span-3'>
                         Bilangan Gigi Kekal Dibuat Pengapan Fisur 3 Tahun Lepas
                         Berubah Menjadi Seperti Di Bawah :
                       </h4>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>D: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={dBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setDBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              dBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
+                      <div
+                        className={`${
+                          pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <p className='text-sm font-m '>D: </p>
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            value={dBilanganFsDibuat3TahunLepasTerjadi}
+                            onChange={(e) => {
+                              setDBilanganFsDibuat3TahunLepasTerjadi(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                dBilanganFsDibuat3TahunLepasTerjadi:
+                                  e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          />
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  dBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  dBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    dBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                      !pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      dBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      dBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        dBilanganFsDibuat3TahunLepasTerjadi: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <p className='text-sm font-m '>D: </p>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={
+                                pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadi
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  dBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  dBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    dBilanganFsDibuat3TahunLepasTerjadi:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>M: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={mBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setMBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              mBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
+                      <div
+                        className={`${
+                          pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <p className='text-sm font-m '>M: </p>
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            value={mBilanganFsDibuat3TahunLepasTerjadi}
+                            onChange={(e) => {
+                              setMBilanganFsDibuat3TahunLepasTerjadi(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                mBilanganFsDibuat3TahunLepasTerjadi:
+                                  e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          />
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  mBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  mBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    mBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                      !pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      mBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      mBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        mBilanganFsDibuat3TahunLepasTerjadi: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <p className='text-sm font-m '>M: </p>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={
+                                pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadi
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  mBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  mBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    mBilanganFsDibuat3TahunLepasTerjadi:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>F: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={fBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setFBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              fBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
+                      <div
+                        className={`${
+                          pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <p className='text-sm font-m '>F: </p>
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            value={fBilanganFsDibuat3TahunLepasTerjadi}
+                            onChange={(e) => {
+                              setFBilanganFsDibuat3TahunLepasTerjadi(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                fBilanganFsDibuat3TahunLepasTerjadi:
+                                  e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          />
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  fBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  fBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    fBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                      !pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      fBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      fBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        fBilanganFsDibuat3TahunLepasTerjadi: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <p className='text-sm font-m '>F: </p>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={
+                                pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadi
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  fBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  fBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    fBilanganFsDibuat3TahunLepasTerjadi:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>X: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={xBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setXBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              xBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
+                      <div
+                        className={`${
+                          pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <p className='text-sm font-m '>X: </p>
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            value={xBilanganFsDibuat3TahunLepasTerjadi}
+                            onChange={(e) => {
+                              setXBilanganFsDibuat3TahunLepasTerjadi(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                xBilanganFsDibuat3TahunLepasTerjadi:
+                                  e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          />
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  xBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  xBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    xBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                      !pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      xBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      xBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        xBilanganFsDibuat3TahunLepasTerjadi: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <p className='text-sm font-m '>X: </p>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={
+                                pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadi
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  xBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  xBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    xBilanganFsDibuat3TahunLepasTerjadi:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
-                      <div className='flex flex-row pl-5 items-center'>
-                        <p className='text-sm font-m '>E: </p>
-                        <input
-                          disabled={isDisabled}
-                          min='0'
-                          max='32'
-                          type='number'
-                          name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
-                          value={eBilanganFsDibuat3TahunLepasTerjadi}
-                          onChange={(e) => {
-                            setEBilanganFsDibuat3TahunLepasTerjadi(
-                              e.target.value
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              eBilanganFsDibuat3TahunLepasTerjadi:
-                                e.target.value,
-                            });
-                          }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                        />
+                      <div
+                        className={`${
+                          pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                          'grid-rows-2'
+                        } grid px-3 pt-1`}
+                      >
+                        <div
+                          className={`${
+                            pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox &&
+                            'bg-user9 bg-opacity-20'
+                          } flex items-center flex-row pl-5 mt-2`}
+                        >
+                          <p className='text-sm font-m '>E: </p>
+                          <input
+                            disabled={isDisabled}
+                            min='0'
+                            max='32'
+                            type='number'
+                            name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                            value={eBilanganFsDibuat3TahunLepasTerjadi}
+                            onChange={(e) => {
+                              setEBilanganFsDibuat3TahunLepasTerjadi(
+                                e.target.value
+                              );
+                              setConfirmData({
+                                ...confirmData,
+                                eBilanganFsDibuat3TahunLepasTerjadi:
+                                  e.target.value,
+                              });
+                            }}
+                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          />
+                          <div className='relative'>
+                            <input
+                              type='checkbox'
+                              name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              checked={
+                                pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox
+                              }
+                              onChange={() => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  eBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  eBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                    !pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    eBilanganFsDibuat3TahunLepasTerjadiCBox:
+                                      !pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox,
+                                  },
+                                });
+                              }}
+                              className='peer hidden'
+                            />
+                            <label
+                              htmlFor='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
+                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                            >
+                              {pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                              true ? (
+                                <FaTimes
+                                  className='text-2xl'
+                                  onClick={() => {
+                                    setPilihanDataSalah({
+                                      ...pilihanDataSalah,
+                                      eBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setDataRetenSalah({
+                                      ...dataRetenSalah,
+                                      eBilanganFsDibuat3TahunLepasTerjadi: '',
+                                    });
+                                    setConfirmData({
+                                      ...confirmData,
+                                      pilihanDataSalah: {
+                                        ...pilihanDataSalah,
+                                        eBilanganFsDibuat3TahunLepasTerjadi: '',
+                                      },
+                                    });
+                                  }}
+                                />
+                              ) : (
+                                <FaRegHandPointLeft className='text-2xl' />
+                              )}
+                            </label>
+                          </div>
+                        </div>
+                        {pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox ===
+                          true && (
+                          <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
+                            <p className='text-sm font-m '>E: </p>
+                            <input
+                              min='0'
+                              max='32'
+                              type='number'
+                              name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi'
+                              value={
+                                pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadi
+                              }
+                              onChange={(e) => {
+                                setPilihanDataSalah({
+                                  ...pilihanDataSalah,
+                                  eBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setDataRetenSalah({
+                                  ...dataRetenSalah,
+                                  eBilanganFsDibuat3TahunLepasTerjadi:
+                                    e.target.value,
+                                });
+                                setConfirmData({
+                                  ...confirmData,
+                                  pilihanDataSalah: {
+                                    ...pilihanDataSalah,
+                                    eBilanganFsDibuat3TahunLepasTerjadi:
+                                      e.target.value,
+                                  },
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                            />
+                            <span className='text-kaunter4'>
+                              <FaCheck className='text-2xl' />
+                            </span>
+                          </div>
+                        )}
                       </div>
                     </article>
                   </section>
@@ -6259,30 +8060,146 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             murid perlu pengapan fisur
                           </label>
                         </div> */}
-                        <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
-                          <input
-                            disabled={isDisabled}
-                            min='0'
-                            max='16'
-                            type='number'
-                            name='baru-jumlah-gigi-kekal-perlu-fs'
-                            id='baru-jumlah-gigi-kekal-perlu-fs'
-                            value={baruJumlahGigiKekalPerluFs}
-                            onChange={(e) => {
-                              setBaruJumlahGigiKekalPerluFs(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahGigiKekalPerluFs: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
-                          <label
-                            htmlFor='baru-jumlah-gigi-kekal-perlu-fs'
-                            className='text-sm font-m'
+                        <div
+                          className={`${
+                            pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox &&
+                            'grid-rows-2'
+                          } grid px-3 pt-1 col-span-2`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row pl-5 mt-2 `}
                           >
-                            jumlah gigi kekal perlu Pengapan Fisur (E10)
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='16'
+                              type='number'
+                              name='baru-jumlah-gigi-kekal-perlu-fs'
+                              id='baru-jumlah-gigi-kekal-perlu-fs'
+                              value={baruJumlahGigiKekalPerluFs}
+                              onChange={(e) => {
+                                setBaruJumlahGigiKekalPerluFs(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  baruJumlahGigiKekalPerluFs: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                            <label
+                              htmlFor='baru-jumlah-gigi-kekal-perlu-fs'
+                              className='text-sm font-m'
+                            >
+                              jumlah gigi kekal perlu Pengapan Fisur (E10)
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='baru-jumlah-gigi-kekal-perlu-fs-reten-salah-cbox'
+                                id='baru-jumlah-gigi-kekal-perlu-fs-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    baruJumlahGigiKekalPerluFsCBox:
+                                      !pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    baruJumlahGigiKekalPerluFsCBox:
+                                      !pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      baruJumlahGigiKekalPerluFsCBox:
+                                        !pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='baru-jumlah-gigi-kekal-perlu-fs-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruJumlahGigiKekalPerluFs: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruJumlahGigiKekalPerluFs: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruJumlahGigiKekalPerluFs: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox ===
+                            true && (
+                            <div className='flex flex-row items-center pl-5 pb-2  bg-user11 bg-opacity-50'>
+                              <input
+                                min='0'
+                                max='16'
+                                type='number'
+                                name='baru-jumlah-gigi-kekal-perlu-fs-reten-salah'
+                                id='baru-jumlah-gigi-kekal-perlu-fs-reten-salah'
+                                value={
+                                  pilihanDataSalah.baruJumlahGigiKekalPerluFs
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    baruJumlahGigiKekalPerluFs: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    baruJumlahGigiKekalPerluFs: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      baruJumlahGigiKekalPerluFs:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                              <label
+                                htmlFor='baru-jumlah-gigi-kekal-perlu-fs-reten-salah'
+                                className='text-sm font-m'
+                              >
+                                jumlah gigi kekal perlu Pengapan Fisur (E10)
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                         {sumPerluFs > 16 && (
                           <p className='col-span-2 text-user6 font-semibold'>
@@ -6334,30 +8251,147 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             murid perlu Sapuan Fluorida(FV)
                           </label>
                         </div> */}
-                        <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
-                          <input
-                            disabled={isDisabled}
-                            min='0'
-                            max='16'
-                            type='number'
-                            name='baru-jumlah-gigi-kekal-perlu-fv'
-                            id='baru-jumlah-gigi-kekal-perlu-fv'
-                            value={baruJumlahGigiKekalPerluFv}
-                            onChange={(e) => {
-                              setBaruJumlahGigiKekalPerluFv(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahGigiKekalPerluFv: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
-                          <label
-                            className='text-sm font-m'
-                            htmlFor='baru-jumlah-gigi-kekal-perlu-fv'
+                        <div
+                          className={`${
+                            pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox &&
+                            'grid-rows-2'
+                          } grid px-3 pt-1 col-span-2`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row pl-5 mt-2 col-span-2`}
                           >
-                            jumlah gigi kekal perlu Sapuan Fluorida(FV) (E13)
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='16'
+                              type='number'
+                              name='baru-jumlah-gigi-kekal-perlu-fv'
+                              id='baru-jumlah-gigi-kekal-perlu-fv'
+                              value={baruJumlahGigiKekalPerluFv}
+                              onChange={(e) => {
+                                setBaruJumlahGigiKekalPerluFv(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  baruJumlahGigiKekalPerluFv: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                            <label
+                              className='text-sm font-m'
+                              htmlFor='baru-jumlah-gigi-kekal-perlu-fv'
+                            >
+                              jumlah gigi kekal perlu Sapuan Fluorida(FV) (E13)
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='baru-jumlah-gigi-kekal-perlu-fv-reten-salah-cbox'
+                                id='baru-jumlah-gigi-kekal-perlu-fv-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    baruJumlahGigiKekalPerluFvCBox:
+                                      !pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    baruJumlahGigiKekalPerluFvCBox:
+                                      !pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      baruJumlahGigiKekalPerluFvCBox:
+                                        !pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='baru-jumlah-gigi-kekal-perlu-fv-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruJumlahGigiKekalPerluFv: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruJumlahGigiKekalPerluFv: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruJumlahGigiKekalPerluFv: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox ===
+                            true && (
+                            <div className='flex flex-row items-center pl-5 col-span-2 pb-2 bg-user11 bg-opacity-50'>
+                              <input
+                                min='0'
+                                max='16'
+                                type='number'
+                                name='baru-jumlah-gigi-kekal-perlu-fv-reten-salah'
+                                id='baru-jumlah-gigi-kekal-perlu-fv-reten-salah'
+                                value={
+                                  pilihanDataSalah.baruJumlahGigiKekalPerluFv
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    baruJumlahGigiKekalPerluFv: e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    baruJumlahGigiKekalPerluFv: e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      baruJumlahGigiKekalPerluFv:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                              <label
+                                className='text-sm font-m'
+                                htmlFor='baru-jumlah-gigi-kekal-perlu-fv-reten-salah'
+                              >
+                                jumlah gigi kekal perlu Sapuan Fluorida(FV)
+                                (E13)
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                         {sumPerluFv > 16 && (
                           <p className='col-span-2 text-user6 font-semibold'>
@@ -6408,34 +8442,153 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
                           />
                         </div> */}
-                        <div className='flex flex-row items-center pl-5 col-span-2 pb-2'>
-                          <input
-                            disabled={isDisabled}
-                            min='0'
-                            max='16'
-                            type='number'
-                            name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                            id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                            value={baruJumlahGigiKekalPerluPrrJenis1}
-                            onChange={(e) => {
-                              setBaruJumlahGigiKekalPerluPrrJenis1(
-                                e.target.value
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                baruJumlahGigiKekalPerluPrrJenis1:
-                                  e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          />
-                          <label
-                            htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
-                            className='text-sm font-m'
+                        <div
+                          className={`${
+                            pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox &&
+                            'grid-rows-2'
+                          } grid px-3 pt-1 col-span-2`}
+                        >
+                          <div
+                            className={`${
+                              pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox &&
+                              'bg-user9 bg-opacity-20'
+                            } flex items-center flex-row pl-5 mt-2 col-span-2`}
                           >
-                            jumlah gigi kekal perlu Resin Pencegahan Jenis 1
-                            (PRR Type I) (E12)
-                          </label>
+                            <input
+                              disabled={isDisabled}
+                              min='0'
+                              max='16'
+                              type='number'
+                              name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
+                              id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
+                              value={baruJumlahGigiKekalPerluPrrJenis1}
+                              onChange={(e) => {
+                                setBaruJumlahGigiKekalPerluPrrJenis1(
+                                  e.target.value
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  baruJumlahGigiKekalPerluPrrJenis1:
+                                    e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            />
+                            <label
+                              htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1'
+                              className='text-sm font-m'
+                            >
+                              jumlah gigi kekal perlu Resin Pencegahan Jenis 1
+                              (PRR Type I) (E12)
+                            </label>
+                            <div className='relative'>
+                              <input
+                                type='checkbox'
+                                name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah-cbox'
+                                id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah-cbox'
+                                checked={
+                                  pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox
+                                }
+                                onChange={() => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    baruJumlahGigiKekalPerluPrrJenis1CBox:
+                                      !pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    baruJumlahGigiKekalPerluPrrJenis1CBox:
+                                      !pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      baruJumlahGigiKekalPerluPrrJenis1CBox:
+                                        !pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox,
+                                    },
+                                  });
+                                }}
+                                className='peer hidden'
+                              />
+                              <label
+                                htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah-cbox'
+                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              >
+                                {pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox ===
+                                true ? (
+                                  <FaTimes
+                                    className='text-2xl'
+                                    onClick={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruJumlahGigiKekalPerluPrrJenis1: '',
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruJumlahGigiKekalPerluPrrJenis1: '',
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruJumlahGigiKekalPerluPrrJenis1: '',
+                                        },
+                                      });
+                                    }}
+                                  />
+                                ) : (
+                                  <FaRegHandPointLeft className='text-2xl' />
+                                )}
+                              </label>
+                            </div>
+                          </div>
+                          {pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox ===
+                            true && (
+                            <div className='flex flex-row items-center pl-5 col-span-2 pb-2  bg-user11 bg-opacity-50'>
+                              <input
+                                min='0'
+                                max='16'
+                                type='number'
+                                name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah'
+                                id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah'
+                                value={
+                                  pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1
+                                }
+                                onChange={(e) => {
+                                  setPilihanDataSalah({
+                                    ...pilihanDataSalah,
+                                    baruJumlahGigiKekalPerluPrrJenis1:
+                                      e.target.value,
+                                  });
+                                  setDataRetenSalah({
+                                    ...dataRetenSalah,
+                                    baruJumlahGigiKekalPerluPrrJenis1:
+                                      e.target.value,
+                                  });
+                                  setConfirmData({
+                                    ...confirmData,
+                                    pilihanDataSalah: {
+                                      ...pilihanDataSalah,
+                                      baruJumlahGigiKekalPerluPrrJenis1:
+                                        e.target.value,
+                                    },
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 mr-3 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              />
+                              <label
+                                htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah'
+                                className='text-sm font-m'
+                              >
+                                jumlah gigi kekal perlu Resin Pencegahan Jenis 1
+                                (PRR Type I) (E12)
+                              </label>
+                              <span className='text-kaunter4'>
+                                <FaCheck className='text-2xl' />
+                              </span>
+                            </div>
+                          )}
                         </div>
                         {sumPerluPrr > 16 && (
                           <p className='col-span-2 text-user6 font-semibold'>
@@ -6543,399 +8696,1791 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             <h4 className='font-semibold flex flex-row pl-5 col-span-2'>
                               Anterior Sewarna
                             </h4>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  baruGDAnteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setBaruGDAnteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GD Baru
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    baruGDAnteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setBaruGDAnteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GD Baru
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GD Baru</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  semulaGDAnteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setSemulaGDAnteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GD Semula
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    semulaGDAnteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setSemulaGDAnteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GD Semula
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGDAnteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GD Semula</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  baruGKAnteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setBaruGKAnteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GK Baru
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    baruGKAnteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setBaruGKAnteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GK Baru
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GK Baru</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  semulaGKAnteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setSemulaGKAnteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GK Semula
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    semulaGKAnteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setSemulaGKAnteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GK Semula
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGKAnteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GK Semula</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </article>
                           <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                             <h4 className='font-semibold flex flex-row pl-5 col-span-2'>
                               Posterior Sewarna
                             </h4>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  baruGDPosteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setBaruGDPosteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GD Baru
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    baruGDPosteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setBaruGDPosteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GD Baru
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GD Baru</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  semulaGDPosteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setSemulaGDPosteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GD Semula
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    semulaGDPosteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setSemulaGDPosteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GD Semula
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGDPosteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GD Semula</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  baruGKPosteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setBaruGKPosteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GK Baru
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    baruGKPosteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setBaruGKPosteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GK Baru
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GK Baru</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                value={
-                                  semulaGKPosteriorSewarnaJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setSemulaGKPosteriorSewarnaJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GK Semula
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  value={
+                                    semulaGKPosteriorSewarnaJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setSemulaGKPosteriorSewarnaJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GK Semula
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGKPosteriorSewarnaJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GK Semula</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </article>
                           <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                             <h4 className='font-semibold flex flex-row pl-5 col-span-2'>
                               Posterior Amalgam
                             </h4>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                value={
-                                  baruGDPosteriorAmalgamJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setBaruGDPosteriorAmalgamJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GD Baru
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  value={
+                                    baruGDPosteriorAmalgamJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setBaruGDPosteriorAmalgamJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GD Baru
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GD Baru</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                value={
-                                  semulaGDPosteriorAmalgamJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setSemulaGDPosteriorAmalgamJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GD Semula
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  value={
+                                    semulaGDPosteriorAmalgamJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setSemulaGDPosteriorAmalgamJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GD Semula
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGDPosteriorAmalgamJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GD Semula</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                value={
-                                  baruGKPosteriorAmalgamJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setBaruGKPosteriorAmalgamJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GK Baru
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  value={
+                                    baruGKPosteriorAmalgamJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setBaruGKPosteriorAmalgamJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GK Baru
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          baruGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GK Baru</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
-                            <div className='flex flex-row items-center pl-5'>
-                              <input
-                                disabled={isDisabled}
-                                type='number'
-                                name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                value={
-                                  semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
-                                }
-                                onChange={(e) => {
-                                  setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan(
-                                    e.target.value
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
-                                      e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                min='0'
-                                max='32'
-                                required
-                              />
-                              <label
-                                htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
-                                className='text-sm font-m ml-2 m-1'
+                            <div
+                              className={`${
+                                pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox &&
+                                  'bg-user9 bg-opacity-20'
+                                } flex items-center flex-row `}
                               >
-                                GK Semula
-                                <span className='text-user6'>*</span>
-                              </label>
+                                <input
+                                  disabled={isDisabled}
+                                  type='number'
+                                  name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  value={
+                                    semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
+                                  }
+                                  onChange={(e) => {
+                                    setSemulaGKPosteriorAmalgamJumlahTampalanDiperlukan(
+                                      e.target.value
+                                    );
+                                    setConfirmData({
+                                      ...confirmData,
+                                      semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                        e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                  min='0'
+                                  max='32'
+                                  required
+                                />
+                                <label
+                                  htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                  className='text-sm font-m ml-2 m-1'
+                                >
+                                  GK Semula
+                                  <span className='text-user6'>*</span>
+                                </label>
+                                <div className='relative'>
+                                  <input
+                                    type='checkbox'
+                                    name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    checked={
+                                      pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox
+                                    }
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                          !pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox:
+                                            !pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                    true ? (
+                                      <FaTimes
+                                        className='text-2xl'
+                                        onClick={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                              '',
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                                '',
+                                            },
+                                          });
+                                        }}
+                                      />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
+                                true && (
+                                <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
+                                  <input
+                                    min='0'
+                                    max='32'
+                                    type='number'
+                                    name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan'
+                                    value={
+                                      pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukan
+                                    }
+                                    onChange={(e) => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                          e.target.value,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          semulaGKPosteriorAmalgamJumlahTampalanDiperlukan:
+                                            e.target.value,
+                                        },
+                                      });
+                                    }}
+                                    className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
+                                  />
+                                  <p className='text-sm font-m '>GK Semula</p>
+                                  <span className='text-kaunter4'>
+                                    <FaCheck className='text-2xl ml-2' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
                           </article>
                         </div>
@@ -8277,37 +11822,16 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                       className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
                       disabled
                     >
-                      <svg
-                        className='animate-spin ml-1 mr-3 h-5 w-5 text-white'
-                        xmlns='http://www.w3.org/2000/svg'
-                        fill='none'
-                        viewBox='0 0 24 24'
-                      >
-                        <circle
-                          className='opacity-25'
-                          cx='12'
-                          cy='12'
-                          r='10'
-                          stroke='currentColor'
-                          strokeWidth='4'
-                        ></circle>
-                        <path
-                          className='opacity-75'
-                          fill='currentColor'
-                          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-                        ></path>
-                      </svg>
+                      <FaGlobeAsia className='mr-2 my-auto animate-spin' />
                       Menghantar Data
                     </button>
                   ) : (
-                    salahReten === 'pemeriksaan-salah' && (
-                      <button
-                        type='submit'
-                        className='flex bg-user9 p-2 w-full capitalize justify-center hover:bg-user14 hover:text-userWhite transition-all'
-                      >
-                        SALAH RETEN
-                      </button>
-                    )
+                    <button
+                      type='submit'
+                      className='flex bg-user9 p-2 w-full capitalize justify-center hover:bg-user14 hover:text-userWhite transition-all'
+                    >
+                      SALAH RETEN
+                    </button>
                   )}
                 </div>
               </form>
