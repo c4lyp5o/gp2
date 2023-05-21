@@ -5,6 +5,7 @@ import {
   FaCheck,
   FaRegHandPointLeft,
   FaGlobeAsia,
+  FaYinYang,
 } from 'react-icons/fa';
 import axios from 'axios';
 import { Spinner } from 'react-awesome-spinners';
@@ -836,11 +837,13 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
           setRetenSalahLength(lengthOfCreatedSalahreten);
 
           // fetch from createdSalahreten[0].dataRetenSalah
-          const dataRetenSalah =
-            data.personSekolahWithPopulate.pemeriksaanSekolah
-              .createdSalahreten[0].dataRetenSalah;
-          //set all dataRetenSalah to setPilihanData
-          setPilihanDataSalah(dataRetenSalah);
+          if (lengthOfCreatedSalahreten > 0) {
+            const dataRetenSalah =
+              data.personSekolahWithPopulate.pemeriksaanSekolah
+                .createdSalahreten[0].dataRetenSalah;
+            //set all dataRetenSalah to setPilihanData
+            setPilihanDataSalah(dataRetenSalah);
+          }
         }
         setIsLoading(false);
       } catch (error) {
@@ -12229,11 +12232,20 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                   {isSubmitting ? (
                     <button
                       type='button'
-                      className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                      className='capitalize bg-user9 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
                       disabled
                     >
                       <FaGlobeAsia className='mr-2 my-auto animate-spin' />
                       Menghantar Data
+                    </button>
+                  ) : disableSalah === true ? (
+                    <button
+                      type='button'
+                      className='capitalize bg-user9 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                      disabled
+                    >
+                      <FaYinYang className='mr-2 my-auto animate-spin' />
+                      <strike>SALAH RETEN</strike>
                     </button>
                   ) : (
                     <button
