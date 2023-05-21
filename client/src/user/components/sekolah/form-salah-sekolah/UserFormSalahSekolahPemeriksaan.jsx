@@ -226,6 +226,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
     useState(null);
 
   //reten salah
+  const [retenSalahLength, setRetenSalahLength] = useState('');
   const [dataRetenSalah, setDataRetenSalah] = useState({});
   const [pilihanDataSalah, setPilihanDataSalah] = useState({
     yaTidakSediaAdaStatusDenture: '',
@@ -828,6 +829,12 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
             )
           );
 
+          //length of createdSalahreten
+          const lengthOfCreatedSalahreten =
+            data.personSekolahWithPopulate.pemeriksaanSekolah.createdSalahreten
+              .length;
+          setRetenSalahLength(lengthOfCreatedSalahreten);
+
           // fetch from createdSalahreten[0].dataRetenSalah
           const dataRetenSalah =
             data.personSekolahWithPopulate.pemeriksaanSekolah
@@ -849,6 +856,17 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
   let isDisabled = false;
   if (singlePersonSekolah.statusRawatan !== 'belum mula') {
     isDisabled = true;
+  }
+
+  let disableSalah = false;
+  if (retenSalahLength > 0 && salahReten !== 'pemeriksaan-salah') {
+    disableSalah = true;
+  } else if (retenSalahLength > 0 && salahReten === 'pemeriksaan-salah') {
+    disableSalah = true;
+  } else if (retenSalahLength === 0 && salahReten !== 'pemeriksaan-salah') {
+    disableSalah = true;
+  } else if (retenSalahLength === 0 && salahReten === 'pemeriksaan-salah') {
+    disableSalah = false;
   }
 
   const handleSubmit = async (e) => {
@@ -1461,6 +1479,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='ada-cleft-lip-reten-salah-cbox'
                                 id='ada-cleft-lip-reten-salah-cbox'
@@ -1554,6 +1573,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='rujuk-cleft-lip-reten-salah-cbox'
                                 id='rujuk-cleft-lip-reten-salah-cbox'
@@ -1781,6 +1801,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='separa-penuh-atas-sedia-ada-denture-reten-salah-cbox'
                                   id='separa-atas-sedia-ada-denture-reten-salah-cbox'
@@ -1811,7 +1832,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='separa-atas-sedia-ada-denture-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox ===
                                   true ? (
@@ -1849,6 +1874,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   yaTidakSediaAdaStatusDenture ===
                                   'ya-sedia-ada-status-denture'
+                                    ? true
+                                    : disableSalah === true
                                     ? true
                                     : false
                                 }
@@ -1895,6 +1922,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   yaTidakSediaAdaStatusDenture ===
                                   'tidak-sedia-ada-status-denture'
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 type='radio'
@@ -1939,6 +1968,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   yaTidakSediaAdaStatusDenture === ''
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 type='radio'
@@ -1980,7 +2011,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Tiada
                               </label>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -2084,6 +2119,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </div>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='separa-penuh-atas-sedia-ada-denture-reten-salah'
                                 id='separa-penuh-atas-sedia-ada-denture-reten-salah'
@@ -2114,7 +2150,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='separa-penuh-atas-sedia-ada-denture-reten-salah'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox ===
                                 true ? (
@@ -2152,6 +2192,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhAtasSediaAdaDenture ===
                                     'separa-atas-sedia-ada-denture'
+                                      ? true
+                                      : disableSalah === true
                                       ? true
                                       : false
                                   }
@@ -2200,6 +2242,10 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     separaPenuhAtasSediaAdaDenture ===
                                     'penuh-atas-sedia-ada-denture'
                                       ? true
+                                      : disableSalah === true
+                                      ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -2246,6 +2292,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhAtasSediaAdaDenture === ''
                                       ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -2288,7 +2336,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                               </div>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -2392,6 +2444,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </div>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='bawah-sedia-ada-denture-reten-salah'
                                 id='bawah-sedia-ada-denture-reten-salah'
@@ -2422,7 +2475,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='bawah-sedia-ada-denture-reten-salah'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox ===
                                 true ? (
@@ -2460,6 +2517,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhBawahSediaAdaDenture ===
                                     'separa-bawah-sedia-ada-denture'
+                                      ? true
+                                      : disableSalah === true
                                       ? true
                                       : false
                                   }
@@ -2508,6 +2567,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     separaPenuhBawahSediaAdaDenture ===
                                     'penuh-bawah-sedia-ada-denture'
                                       ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -2554,6 +2615,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhBawahSediaAdaDenture === ''
                                       ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -2596,7 +2659,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                               </div>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -2690,6 +2757,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='ya-tidak-perlu-denture-reten-salah-cbox'
                                   id='ya-tidak-perlu-denture-reten-salah-cbox'
@@ -2720,7 +2788,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='ya-tidak-perlu-denture-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.yaTidakPerluStatusDentureCBox ===
                                   true ? (
@@ -2758,6 +2830,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   yaTidakPerluStatusDenture ===
                                   'ya-perlu-status-denture'
+                                    ? true
+                                    : disableSalah === true
                                     ? true
                                     : false
                                 }
@@ -2801,6 +2875,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   yaTidakPerluStatusDenture ===
                                   'tidak-perlu-status-denture'
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 type='radio'
@@ -2842,6 +2918,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   yaTidakPerluStatusDenture === ''
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 type='radio'
@@ -2880,7 +2958,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Tiada
                               </label>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -2982,6 +3064,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </div>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='separa-penuh-atas-perlu-denture-reten-salah'
                                 id='separa-penuh-atas-perlu-denture-reten-salah'
@@ -3012,7 +3095,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='separa-penuh-atas-perlu-denture-reten-salah'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.separaPenuhAtasPerluDentureCBox ===
                                 true ? (
@@ -3050,6 +3137,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhAtasPerluDenture ===
                                     'sepada-atas-perlu-denture'
+                                      ? true
+                                      : disableSalah === true
                                       ? true
                                       : false
                                   }
@@ -3098,6 +3187,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     separaPenuhAtasPerluDenture ===
                                     'penuh-atas-perlu-denture'
                                       ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -3144,6 +3235,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhAtasPerluDenture === ''
                                       ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -3186,7 +3279,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                               </div>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -3290,6 +3387,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </div>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='bawah-perlu-denture-reten-salah'
                                 id='bawah-perlu-denture-reten-salah'
@@ -3320,7 +3418,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='bawah-perlu-denture-reten-salah'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.separaPenuhBawahPerluDentureCBox ===
                                 true ? (
@@ -3358,6 +3460,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhBawahPerluDenture ===
                                     'separa-bawah-perlu-denture'
+                                      ? true
+                                      : disableSalah === true
                                       ? true
                                       : false
                                   }
@@ -3406,6 +3510,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     separaPenuhBawahPerluDenture ===
                                     'penuh-bawah-perlu-denture'
                                       ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -3452,6 +3558,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   disabled={
                                     separaPenuhBawahPerluDenture === ''
                                       ? true
+                                      : disableSalah === true
+                                      ? true
                                       : false
                                   }
                                   type='radio'
@@ -3494,7 +3602,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                               </div>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -3565,6 +3677,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </select>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='kebersihan-mulut-reten-salah-cbox'
                                 id='kebersihan-mulut-reten-salah-cbox'
@@ -3595,7 +3708,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='kebersihan-mulut-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.kebersihanMulutOralHygieneCBox ===
                                 true ? (
@@ -3751,6 +3868,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           </label>
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='perlu-penskaleran-reten-salah-cbox'
                               id='perlu-penskaleran-reten-salah-cbox'
@@ -3928,6 +4046,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </select>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='skor-gis-reten-salah-cbox'
                                   id='skor-gis-reten-salah-cbox'
@@ -3958,7 +4077,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='skor-gis-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
                                   true ? (
@@ -4107,6 +4230,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </select>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='skor-gis-reten-salah-cbox'
                                   id='skor-gis-reten-salah-cbox'
@@ -4137,7 +4261,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='skor-gis-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
                                   true ? (
@@ -4288,6 +4416,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </select>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='skor-bpe-reten-salah-cbox'
                                   id='skor-bpe-reten-salah-cbox'
@@ -4318,7 +4447,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='skor-bpe-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.skorBpeOralHygieneCBox ===
                                   true ? (
@@ -4539,6 +4672,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='ada-desidus-reten-salah-cbox'
                                   id='ada-desidus-reten-salah-cbox'
@@ -4631,6 +4765,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='d-ada-status-gigi-desidus-reten-salah-cbox'
                                   id='d-ada-status-gigi-desidus-reten-salah-cbox'
@@ -4659,7 +4794,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='d-ada-status-gigi-desidus-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.dAdaGigiDesidusCBox ===
                                   true ? (
@@ -4694,6 +4833,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <p className='text-sm font-m lowercase'>d: </p>
                                 <span className='text-user6'>*</span>
                                 <input
+                                  disabled={disableSalah}
                                   required
                                   min='0'
                                   max='20'
@@ -4753,6 +4893,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='f-ada-status-gigi-desidus-reten-salah-cbox'
                                   id='f-ada-status-gigi-desidus-reten-salah-cbox'
@@ -4781,7 +4922,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='f-ada-status-gigi-desidus-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.fAdaGigiDesidusCBox ===
                                   true ? (
@@ -4816,6 +4961,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <p className='text-sm font-m lowercase'>f: </p>
                                 <span className='text-user6'>*</span>
                                 <input
+                                  disabled={disableSalah}
                                   required
                                   min='0'
                                   max='20'
@@ -4875,6 +5021,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='x-ada-status-gigi-desidus-reten-salah-cbox'
                                   id='x-ada-status-gigi-desidus-reten-salah-cbox'
@@ -4903,7 +5050,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='x-ada-status-gigi-desidus-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.xAdaGigiDesidusCBox ===
                                   true ? (
@@ -4938,6 +5089,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <p className='text-sm font-m lowercase'>x: </p>
                                 <span className='text-user6'>*</span>
                                 <input
+                                  disabled={disableSalah}
                                   required
                                   min='0'
                                   max='20'
@@ -5025,6 +5177,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='ada-kekal-reten-salah-cbox'
                                   id='ada-kekal-reten-salah-cbox'
@@ -5118,6 +5271,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='d-ada-status-gigi-kekal-reten-salah-cbox'
                                     id='d-ada-status-gigi-kekal-reten-salah-cbox'
@@ -5146,7 +5300,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='d-ada-status-gigi-kekal-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.dAdaGigiKekalCBox ===
                                     true ? (
@@ -5181,6 +5339,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   <p className='text-sm font-m'>D: </p>
                                   <span className='text-user6'>*</span>
                                   <input
+                                    disabled={disableSalah}
                                     required
                                     min='0'
                                     max='32'
@@ -5238,6 +5397,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='class-1-d-reten-salah-cbox'
                                     id='class-1-d-reten-salah-cbox'
@@ -5266,7 +5426,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='class-1-d-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.classIDCBox === true ? (
                                       <FaTimes
@@ -5299,6 +5463,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
                                   <p className='text-sm font-m'>Class I: </p>
                                   <input
+                                    disabled={disableSalah}
                                     required
                                     min='0'
                                     max='32'
@@ -5356,6 +5521,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='class-2-d-reten-salah-cbox'
                                     id='class-2-d-reten-salah-cbox'
@@ -5384,7 +5550,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='class-2-d-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.classIIDCBox === true ? (
                                       <FaTimes
@@ -5417,6 +5587,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
                                   <p className='text-sm font-m'>Class II: </p>
                                   <input
+                                    disabled={disableSalah}
                                     required
                                     min='0'
                                     max='32'
@@ -5483,6 +5654,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='m-ada-status-gigi-kekal-reten-salah-cbox'
                                   id='m-ada-status-gigi-kekal-reten-salah-cbox'
@@ -5511,7 +5683,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='m-ada-status-gigi-kekal-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.mAdaGigiKekalCBox ===
                                   true ? (
@@ -5546,6 +5722,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <p className='text-sm font-m'>M: </p>
                                 <span className='text-user6'>*</span>
                                 <input
+                                  disabled={disableSalah}
                                   required
                                   min='0'
                                   max='32'
@@ -5606,6 +5783,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='f-ada-status-gigi-kekal-reten-salah-cbox'
                                     id='f-ada-status-gigi-kekal-reten-salah-cbox'
@@ -5634,7 +5812,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='f-ada-status-gigi-kekal-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.fAdaGigiKekalCBox ===
                                     true ? (
@@ -5669,6 +5851,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   <p className='text-sm font-m'>D: </p>
                                   <span className='text-user6'>*</span>
                                   <input
+                                    disabled={disableSalah}
                                     required
                                     min='0'
                                     max='32'
@@ -5726,6 +5909,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='class-1-f-reten-salah-cbox'
                                     id='class-1-f-reten-salah-cbox'
@@ -5754,7 +5938,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='class-1-f-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.classIFCBox === true ? (
                                       <FaTimes
@@ -5787,6 +5975,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
                                   <p className='text-sm font-m'>Class I: </p>
                                   <input
+                                    disabled={disableSalah}
                                     required
                                     min='0'
                                     max='32'
@@ -5844,6 +6033,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='class-2-f-reten-salah-cbox'
                                     id='class-2-f-reten-salah-cbox'
@@ -5872,7 +6062,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='class-2-f-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.classIIFCBox === true ? (
                                       <FaTimes
@@ -5905,6 +6099,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
                                   <p className='text-sm font-m'>Class II: </p>
                                   <input
+                                    disabled={disableSalah}
                                     required
                                     min='0'
                                     max='32'
@@ -5971,6 +6166,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='x-ada-status-gigi-kekal-reten-salah-cbox'
                                   id='x-ada-status-gigi-kekal-reten-salah-cbox'
@@ -5999,7 +6195,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='x-ada-status-gigi-kekal-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.xAdaGigiKekalCBox ===
                                   true ? (
@@ -6034,6 +6234,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <p className='text-sm font-m'>M: </p>
                                 <span className='text-user6'>*</span>
                                 <input
+                                  disabled={disableSalah}
                                   required
                                   min='0'
                                   max='32'
@@ -6093,6 +6294,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='e-ada-status-gigi-kekal-reten-salah-cbox'
                                   id='e-ada-status-gigi-kekal-reten-salah-cbox'
@@ -6121,7 +6323,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 />
                                 <label
                                   htmlFor='e-ada-status-gigi-kekal-reten-salah-cbox'
-                                  className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  className={` ${
+                                    disableSalah === true
+                                      ? 'pointer-events-none'
+                                      : 'cursor-pointer '
+                                  } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                 >
                                   {pilihanDataSalah.eAdaGigiKekalCBox ===
                                   true ? (
@@ -6156,6 +6362,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 <p className='text-sm font-m'>M: </p>
                                 <span className='text-user6'>*</span>
                                 <input
+                                  disabled={disableSalah}
                                   required
                                   min='0'
                                   max='32'
@@ -6278,6 +6485,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </select>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='jumlah-faktor-risiko-reten-salah-cbox'
                                     id='jumlah-faktor-risiko-reten-salah-cbox'
@@ -6308,7 +6516,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='jumlah-faktor-risiko-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.jumlahFaktorRisikoCBox ===
                                     true ? (
@@ -6525,6 +6737,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative mx-2'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='tooth-surface-loss-reten-salah-cbox'
                                 id='tooth-surface-loss-reten-salah-cbox'
@@ -6631,6 +6844,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='kecederaan-gigi-anterior-reten-salah-cbox'
                                   id='kecederaan-gigi-anterior-reten-salah-cbox'
@@ -6738,6 +6952,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='tisu-lembut-reten-salah-cbox'
                                   id='tisu-lembut-reten-salah-cbox'
@@ -6839,6 +7054,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <div className='relative'>
                                 <input
+                                  disabled={disableSalah}
                                   type='checkbox'
                                   name='tisu-keras-reten-salah-cbox'
                                   id='tisu-keras-reten-salah-cbox'
@@ -6942,6 +7158,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <p className='text-sm font-m '>GIC</p>
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='gic-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
                               id='gic-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
@@ -6972,7 +7189,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='gic-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox ===
                               true ? (
@@ -7006,6 +7227,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           true && (
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -7078,6 +7300,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <p className='text-sm font-m '>Resin</p>
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='resin-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
                               id='resin-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
@@ -7108,7 +7331,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='resin-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox ===
                               true ? (
@@ -7142,6 +7369,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           true && (
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -7214,6 +7442,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <p className='text-sm font-m '>Lain-lain</p>
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='lain-lain-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
                               id='lain-lain-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
@@ -7244,7 +7473,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='lain-lain-bilangan-fs-dibuat-3-tahun-lepas-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox ===
                               true ? (
@@ -7278,6 +7511,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           true && (
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -7356,6 +7590,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           />
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
                               id='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
@@ -7386,7 +7621,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='d-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
@@ -7421,6 +7660,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <p className='text-sm font-m '>D: </p>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -7492,6 +7732,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           />
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
                               id='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
@@ -7522,7 +7763,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='m-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
@@ -7557,6 +7802,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <p className='text-sm font-m '>M: </p>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -7628,6 +7874,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           />
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
                               id='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
@@ -7658,7 +7905,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='f-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
@@ -7693,6 +7944,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <p className='text-sm font-m '>F: </p>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -7764,6 +8016,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           />
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
                               id='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
@@ -7794,7 +8047,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='x-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
@@ -7829,6 +8086,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <p className='text-sm font-m '>X: </p>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -7900,6 +8158,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           />
                           <div className='relative'>
                             <input
+                              disabled={disableSalah}
                               type='checkbox'
                               name='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
                               id='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
@@ -7930,7 +8189,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <label
                               htmlFor='e-bilangan-fs-dibuat-3-tahun-lepas-terjadi-reten-salah-cbox'
-                              className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                              className={` ${
+                                disableSalah === true
+                                  ? 'pointer-events-none'
+                                  : 'cursor-pointer '
+                              } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                             >
                               {pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
@@ -7965,6 +8228,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                           <div className='flex flex-row pl-5 items-center bg-user11 bg-opacity-50 mb-1'>
                             <p className='text-sm font-m '>E: </p>
                             <input
+                              disabled={disableSalah}
                               min='0'
                               max='32'
                               type='number'
@@ -8097,6 +8361,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='baru-jumlah-gigi-kekal-perlu-fs-reten-salah-cbox'
                                 id='baru-jumlah-gigi-kekal-perlu-fs-reten-salah-cbox'
@@ -8127,7 +8392,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='baru-jumlah-gigi-kekal-perlu-fs-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox ===
                                 true ? (
@@ -8161,6 +8430,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             true && (
                             <div className='flex flex-row items-center pl-5 pb-2  bg-user11 bg-opacity-50'>
                               <input
+                                disabled={disableSalah}
                                 min='0'
                                 max='16'
                                 type='number'
@@ -8288,6 +8558,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='baru-jumlah-gigi-kekal-perlu-fv-reten-salah-cbox'
                                 id='baru-jumlah-gigi-kekal-perlu-fv-reten-salah-cbox'
@@ -8318,7 +8589,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='baru-jumlah-gigi-kekal-perlu-fv-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox ===
                                 true ? (
@@ -8352,6 +8627,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             true && (
                             <div className='flex flex-row items-center pl-5 col-span-2 pb-2 bg-user11 bg-opacity-50'>
                               <input
+                                disabled={disableSalah}
                                 min='0'
                                 max='16'
                                 type='number'
@@ -8483,6 +8759,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah-cbox'
                                 id='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah-cbox'
@@ -8513,7 +8790,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='baru-jumlah-gigi-kekal-perlu-prr-jenis-1-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox ===
                                 true ? (
@@ -8547,6 +8828,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             true && (
                             <div className='flex flex-row items-center pl-5 col-span-2 pb-2  bg-user11 bg-opacity-50'>
                               <input
+                                disabled={disableSalah}
                                 min='0'
                                 max='16'
                                 type='number'
@@ -8740,6 +9022,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -8770,7 +9053,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -8807,6 +9094,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -8888,6 +9176,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -8918,7 +9207,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -8955,6 +9248,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -9036,6 +9330,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -9066,7 +9361,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -9103,6 +9402,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -9184,6 +9484,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -9214,7 +9515,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -9251,6 +9556,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -9337,6 +9643,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -9367,7 +9674,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -9404,6 +9715,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -9485,6 +9797,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -9515,7 +9828,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -9552,6 +9869,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -9633,6 +9951,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -9663,7 +9982,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -9700,6 +10023,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -9781,6 +10105,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -9811,7 +10136,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -9848,6 +10177,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -9934,6 +10264,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -9964,7 +10295,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -10001,6 +10336,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -10082,6 +10418,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -10112,7 +10449,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -10149,6 +10490,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -10230,6 +10572,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -10260,7 +10603,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -10297,6 +10644,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -10378,6 +10726,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 </label>
                                 <div className='relative'>
                                   <input
+                                    disabled={disableSalah}
                                     type='checkbox'
                                     name='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
                                     id='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
@@ -10408,7 +10757,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <label
                                     htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-diperlukan-reten-salah-cbox'
-                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    className={` ${
+                                      disableSalah === true
+                                        ? 'pointer-events-none'
+                                        : 'cursor-pointer '
+                                    } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                                   >
                                     {pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
@@ -10445,6 +10798,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 true && (
                                 <div className='flex flex-row pl-1 items-center bg-user11 bg-opacity-50 mb-1'>
                                   <input
+                                    disabled={disableSalah}
                                     min='0'
                                     max='32'
                                     type='number'
@@ -10572,6 +10926,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='melaksanakan-saringan-merokok-reten-salah-cbox'
                                 id='melaksanakan-saringan-merokok-reten-salah-cbox'
@@ -10602,7 +10957,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='melaksanakan-saringan-merokok-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.melaksanakanSaringanMerokokCBox ===
                                 true ? (
@@ -10639,6 +10998,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   melaksanakanSaringanMerokok ===
                                   'ya-melaksanakan-saringan-merokok'
+                                    ? true
+                                    : disableSalah === true
                                     ? true
                                     : false
                                 }
@@ -10684,6 +11045,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   melaksanakanSaringanMerokok ===
                                   'tidak-melaksanakan-saringan-merokok'
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 required
@@ -10727,6 +11090,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   melaksanakanSaringanMerokok === ''
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 required
@@ -10767,7 +11132,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Tiada
                               </label>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -10848,6 +11217,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </select>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='statusM-reten-salah-cbox'
                                 id='statusM-reten-salah-cbox'
@@ -10874,7 +11244,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='statusM-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.statusMCBox === true ? (
                                   <FaTimes
@@ -11105,6 +11479,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='menerima-nasihat-ringkas-reten-salah-cbox'
                                 id='menerima-nasihat-ringkas-reten-salah-cbox'
@@ -11135,7 +11510,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='menerima-nasihat-ringkas-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.menerimaNasihatRingkasCBox ===
                                 true ? (
@@ -11172,6 +11551,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   menerimaNasihatRingkas ===
                                   'ya-menerima-nasihat-ringkas'
+                                    ? true
+                                    : disableSalah === true
                                     ? true
                                     : false
                                 }
@@ -11216,6 +11597,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   menerimaNasihatRingkas ===
                                   'tidak-menerima-nasihat-ringkas'
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 required
@@ -11256,7 +11639,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </label>
                               <input
                                 disabled={
-                                  menerimaNasihatRingkas === '' ? true : false
+                                  menerimaNasihatRingkas === ''
+                                    ? true
+                                    : disableSalah === true
+                                    ? true
+                                    : false
                                 }
                                 required
                                 type='radio'
@@ -11295,7 +11682,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 tiada
                               </label>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
@@ -11391,6 +11782,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </label>
                             <div className='relative'>
                               <input
+                                disabled={disableSalah}
                                 type='checkbox'
                                 name='bersedia-dirujuk-reten-salah-cbox'
                                 id='bersedia-dirujuk-reten-salah-cbox'
@@ -11419,7 +11811,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               />
                               <label
                                 htmlFor='bersedia-dirujuk-reten-salah-cbox'
-                                className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-user9 h-6 w-6 rounded-full flex items-center justify-center `}
                               >
                                 {pilihanDataSalah.bersediaDirujukCBox ===
                                 true ? (
@@ -11454,6 +11850,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               <input
                                 disabled={
                                   bersediaDirujuk === 'ya-bersedia-dirujuk'
+                                    ? true
+                                    : disableSalah === true
                                     ? true
                                     : false
                                 }
@@ -11497,6 +11895,8 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 disabled={
                                   bersediaDirujuk === 'tidak-bersedia-dirujuk'
                                     ? true
+                                    : disableSalah === true
+                                    ? true
                                     : false
                                 }
                                 required
@@ -11536,7 +11936,13 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Tidak
                               </label>
                               <input
-                                disabled={bersediaDirujuk === '' ? true : false}
+                                disabled={
+                                  bersediaDirujuk === ''
+                                    ? true
+                                    : disableSalah === true
+                                    ? true
+                                    : false
+                                }
                                 required
                                 type='radio'
                                 name='bersedia-dirujuk-reten-salah'
@@ -11574,7 +11980,11 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 tiada
                               </label>
                               <span
-                                className='text-kaunter4'
+                                className={` ${
+                                  disableSalah === true
+                                    ? 'pointer-events-none'
+                                    : 'cursor-pointer '
+                                } text-kaunter4`}
                                 onClick={() => {
                                   setPilihanDataSalah({
                                     ...pilihanDataSalah,
