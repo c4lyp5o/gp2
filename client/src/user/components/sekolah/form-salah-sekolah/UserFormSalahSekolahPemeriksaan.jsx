@@ -5851,7 +5851,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               </div>
                               {pilihanDataSalah.fAdaGigiKekalCBox === true && (
                                 <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
-                                  <p className='text-sm font-m'>D: </p>
+                                  <p className='text-sm font-m'>F: </p>
                                   <span className='text-user6'>*</span>
                                   <input
                                     disabled={disableSalah}
@@ -6234,7 +6234,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </div>
                             {pilihanDataSalah.xAdaGigiKekalCBox === true && (
                               <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
-                                <p className='text-sm font-m'>M: </p>
+                                <p className='text-sm font-m'>X: </p>
                                 <span className='text-user6'>*</span>
                                 <input
                                   disabled={disableSalah}
@@ -6362,7 +6362,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             </div>
                             {pilihanDataSalah.eAdaGigiKekalCBox === true && (
                               <div className='flex flex-row items-center pl-5 bg-user11 bg-opacity-50 mb-1'>
-                                <p className='text-sm font-m'>M: </p>
+                                <p className='text-sm font-m'>E: </p>
                                 <span className='text-user6'>*</span>
                                 <input
                                   disabled={disableSalah}
