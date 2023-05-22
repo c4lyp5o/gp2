@@ -789,7 +789,9 @@ const queryPersonSekolah = async (req, res) => {
     user: { kp },
     query: { nama, nomborId, namaSekolah, tahunTingkatan, kelasPelajar },
   } = req;
-  const queryObject = {};
+  const queryObject = {
+    statusRawatan: { $ne: 'belum mula' },
+  };
 
   if (namaSekolah) {
     queryObject.namaSekolah = namaSekolah;
