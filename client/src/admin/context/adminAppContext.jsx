@@ -132,13 +132,16 @@ function AdminAppProvider({ children }) {
   // main data
   const createData = async (type, data) => {
     try {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        main: 'DataCenter',
-        Fn: 'create',
-        FType: type,
-        Data: data,
-        token: adminToken,
-      });
+      const response = await axios.post(
+        `/api/v1/superadmin/newroute`,
+        {
+          main: 'DataCenter',
+          Fn: 'create',
+          FType: type,
+          Data: data,
+          token: adminToken,
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -186,14 +189,17 @@ function AdminAppProvider({ children }) {
   };
   const updateData = async (type, id, data) => {
     try {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        main: 'DataCenter',
-        Fn: 'update',
-        FType: type,
-        Id: id,
-        Data: data,
-        token: adminToken,
-      });
+      const response = await axios.post(
+        `/api/v1/superadmin/newroute`,
+        {
+          main: 'DataCenter',
+          Fn: 'update',
+          FType: type,
+          Id: id,
+          Data: data,
+          token: adminToken,
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -219,13 +225,16 @@ function AdminAppProvider({ children }) {
   };
   const deleteData = async (type, id) => {
     try {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        main: 'DataCenter',
-        Fn: 'delete',
-        FType: type,
-        Id: id,
-        token: adminToken,
-      });
+      const response = await axios.post(
+        `/api/v1/superadmin/newroute`,
+        {
+          main: 'DataCenter',
+          Fn: 'delete',
+          FType: type,
+          Id: id,
+          token: adminToken,
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -252,13 +261,16 @@ function AdminAppProvider({ children }) {
   // main kp data
   const createDataForKp = async (FType, data) => {
     try {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        main: 'KpCenter',
-        Fn: 'create',
-        FType: FType,
-        Data: data,
-        token: adminToken,
-      });
+      const response = await axios.post(
+        `/api/v1/superadmin/newroute`,
+        {
+          main: 'KpCenter',
+          Fn: 'create',
+          FType: FType,
+          Data: data,
+          token: adminToken,
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -289,14 +301,17 @@ function AdminAppProvider({ children }) {
   };
   const updateDataForKp = async (FType, id, data) => {
     try {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        main: 'KpCenter',
-        Fn: 'update',
-        FType: FType,
-        Id: id,
-        Data: data,
-        token: adminToken,
-      });
+      const response = await axios.post(
+        `/api/v1/superadmin/newroute`,
+        {
+          main: 'KpCenter',
+          Fn: 'update',
+          FType: FType,
+          Id: id,
+          Data: data,
+          token: adminToken,
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -305,13 +320,16 @@ function AdminAppProvider({ children }) {
   };
   const deleteDataForKp = async (FType, id) => {
     try {
-      const response = await axios.post(`/api/v1/superadmin/newroute`, {
-        main: 'KpCenter',
-        Fn: 'delete',
-        FType: FType,
-        Id: id,
-        token: adminToken,
-      });
+      const response = await axios.post(
+        `/api/v1/superadmin/newroute`,
+        {
+          main: 'KpCenter',
+          Fn: 'delete',
+          FType: FType,
+          Id: id,
+          token: adminToken,
+        }
+      );
       return response;
     } catch (err) {
       console.log(err);
@@ -577,7 +595,11 @@ function AdminAppProvider({ children }) {
   };
   const getDetailedData = async ({ type, idn, idd, id }) => {
     const endpoint = '/api/v1/superadmin/newroute';
-    const params = { main: 'HqCenter', Fn: 'readOne', token: adminToken };
+    const params = {
+      main: 'HqCenter',
+      Fn: 'readOne',
+      token: adminToken,
+    };
 
     switch (type) {
       case 'negeri':
@@ -624,7 +646,8 @@ function AdminAppProvider({ children }) {
       kodRingkas: 'PG101C',
       deskripsi:
         'Daftar Kehadiran Harian Pesakit Warganegara/ Bukan Warganegara',
-      deskripsi2: '- Program Outreach dan Klinik Pergigian Sekolah (Statik)',
+      deskripsi2:
+        '- Program Outreach dan Klinik Pergigian Sekolah (Statik)',
     },
     {
       kod: 'PG211A Pind. 1/2022',
@@ -677,8 +700,8 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
     },
     {
-      kod: 'PG201 Pind. 2/2022',
-      kodRingkas: 'PG201P2',
+      kod: 'PGS201',
+      kodRingkas: 'PGS201',
       deskripsi:
         'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
@@ -743,7 +766,9 @@ function AdminAppProvider({ children }) {
   };
   const encryptEmail = (email) => {
     if (!email) return 'No email provided';
-    const letterToEncrypt = Math.round(email.split('@')[0].length / 1.5);
+    const letterToEncrypt = Math.round(
+      email.split('@')[0].length / 1.5
+    );
     const encrypted =
       email
         .split('@')[0]
@@ -767,7 +792,9 @@ function AdminAppProvider({ children }) {
   const formatTime = (timeString) => {
     const [hourString, minute] = timeString.split(':');
     const hour = +hourString % 24;
-    return (hour % 12 || 12) + ':' + minute + (hour < 12 ? ' AM' : ' PM');
+    return (
+      (hour % 12 || 12) + ':' + minute + (hour < 12 ? ' AM' : ' PM')
+    );
   };
   // const resizeImage = async (data) => {
   //   const response = await axios.post('/api/v1/superadmin/newroute', {
@@ -795,11 +822,11 @@ function AdminAppProvider({ children }) {
     return (
       <DatePicker
         showPopperArrow={false}
-        dateFormat='dd/MM/yyyy'
+        dateFormat="dd/MM/yyyy"
         peekNextMonth
         showMonthDropdown
         showYearDropdown
-        dropdownMode='select'
+        dropdownMode="select"
         value={value}
         selected={selected}
         onChange={onChange}
@@ -832,8 +859,14 @@ function AdminAppProvider({ children }) {
       data = data.replace('live_', 'Facebook LIVE: ');
       data = data.replace('video_', 'Facebook Video: ');
       data = data.replace('poster_', 'Facebook Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace(
+        'bilAktivitiShareKurang10',
+        'Share kurang dari 10'
+      );
+      data = data.replace(
+        'bilAktivitiShareLebih10',
+        'Share lebih dari 10'
+      );
       data = data.replace('bilPenonton', 'Penonton');
       data = data.replace('bilReach', 'Reach');
       data = data.replace('bilShare', 'Share');
@@ -844,8 +877,14 @@ function AdminAppProvider({ children }) {
       data = data.replace('live_', 'Instagram LIVE: ');
       data = data.replace('video_', 'Instagram Video: ');
       data = data.replace('poster_', 'Instagram Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace(
+        'bilAktivitiShareKurang10',
+        'Share kurang dari 10'
+      );
+      data = data.replace(
+        'bilAktivitiShareLebih10',
+        'Share lebih dari 10'
+      );
       data = data.replace('bilPenonton', 'Penonton');
       data = data.replace('bilReach', 'Reach');
       data = data.replace('bilShare', 'Share');
@@ -856,8 +895,14 @@ function AdminAppProvider({ children }) {
       data = data.replace('live_', 'Twitter LIVE: ');
       data = data.replace('video_', 'Twitter Video: ');
       data = data.replace('poster_', 'Twitter Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace(
+        'bilAktivitiShareKurang10',
+        'Share kurang dari 10'
+      );
+      data = data.replace(
+        'bilAktivitiShareLebih10',
+        'Share lebih dari 10'
+      );
       data = data.replace('bilPenonton', 'Penonton');
       data = data.replace('bilReach', 'Reach');
       data = data.replace('bilShare', 'Share');
@@ -868,8 +913,14 @@ function AdminAppProvider({ children }) {
       data = data.replace('live_', 'Youtube LIVE: ');
       data = data.replace('video_', 'Youtube Video: ');
       data = data.replace('poster_', 'Youtube Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace(
+        'bilAktivitiShareKurang10',
+        'Share kurang dari 10'
+      );
+      data = data.replace(
+        'bilAktivitiShareLebih10',
+        'Share lebih dari 10'
+      );
       data = data.replace('bilPenonton', 'Penonton');
       data = data.replace('bilReach', 'Reach');
       data = data.replace('bilShare', 'Share');
@@ -880,8 +931,14 @@ function AdminAppProvider({ children }) {
       data = data.replace('live_', 'TikTok LIVE: ');
       data = data.replace('video_', 'TikTok Video: ');
       data = data.replace('poster_', 'TikTok Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace(
+        'bilAktivitiShareKurang10',
+        'Share kurang dari 10'
+      );
+      data = data.replace(
+        'bilAktivitiShareLebih10',
+        'Share lebih dari 10'
+      );
       data = data.replace('bilPenonton', 'Penonton');
       data = data.replace('bilReach', 'Reach');
       data = data.replace('bilShare', 'Share');
@@ -892,8 +949,14 @@ function AdminAppProvider({ children }) {
       data = data.replace('live_', 'Lain LIVE: ');
       data = data.replace('video_', 'Lain Video: ');
       data = data.replace('poster_', 'Lain Poster: ');
-      data = data.replace('bilAktivitiShareKurang10', 'Share kurang dari 10');
-      data = data.replace('bilAktivitiShareLebih10', 'Share lebih dari 10');
+      data = data.replace(
+        'bilAktivitiShareKurang10',
+        'Share kurang dari 10'
+      );
+      data = data.replace(
+        'bilAktivitiShareLebih10',
+        'Share lebih dari 10'
+      );
       data = data.replace('bilPenonton', 'Penonton');
       data = data.replace('bilReach', 'Reach');
       data = data.replace('bilShare', 'Share');
