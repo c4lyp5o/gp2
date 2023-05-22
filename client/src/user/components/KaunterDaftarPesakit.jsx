@@ -200,6 +200,11 @@ export default function DaftarPesakit({ createdByKp }) {
           }
         );
         setSearchResults(data.kaunterResultQuery);
+        if (data.kaunterResultQuery.length === 0) {
+          toast.error('Tiada rekod ditemui di klinik ini');
+        } else {
+          toast.success('Rekod ditemui');
+        }
       } catch (error) {
         console.log(error);
         setSearchResults([]);
@@ -218,6 +223,11 @@ export default function DaftarPesakit({ createdByKp }) {
           }
         );
         setSearchResults(data.kaunterResultQuery);
+        if (data.kaunterResultQuery.length === 0) {
+          toast.error('Tiada rekod ditemui di klinik ini');
+        } else {
+          toast.success('Rekod ditemui');
+        }
       } catch (error) {
         console.log(error);
         setSearchResults([]);
