@@ -2,6 +2,12 @@ import { useEffect, useState } from 'react';
 import { Spinner } from 'react-awesome-spinners';
 import axios from 'axios';
 import { BsFilePerson, BsFillFilePersonFill } from 'react-icons/bs';
+import {
+  GiTakeMyMoney,
+  GiMedicalPack,
+  GiMustache,
+  GiBeehive,
+} from 'react-icons/gi';
 import { FaSort, FaSortUp, FaSortDown, FaInfoCircle } from 'react-icons/fa';
 import moment from 'moment';
 
@@ -21,6 +27,7 @@ export default function DaftarPesakit({ createdByKp }) {
     formatTime,
     noPendaftaranSplitter,
     statusPesakit,
+    percentageCalc,
     masterDatePicker,
     Dictionary,
     toast,
@@ -53,6 +60,15 @@ export default function DaftarPesakit({ createdByKp }) {
     nama: false,
     noPid: false,
     jenisFasiliti: false,
+  });
+
+  const [totalPesakit, setTotalPesakit] = useState({
+    totalPesakit: 0,
+    totalBaru: 0,
+    totalUlangan: 0,
+    totalEgl: 0,
+    totalBayaran: 0,
+    totalStatus: 0,
   });
 
   // state untuk kemaskini resit pt bagi 3 hari yang lepas
@@ -125,6 +141,38 @@ export default function DaftarPesakit({ createdByKp }) {
             }
           );
           setAllPersonKaunter(data);
+
+          //calculate total pesakit if ada tarikh kedatangan same
+          const totalPesakit = data.kaunterResultQuery.filter(
+            (item) => item.tarikhKedatangan === tarikhKedatangan
+          );
+          const totalBaru = totalPesakit.filter(
+            (item) => item.kedatangan === 'baru-kedatangan'
+          );
+          const totalLama = totalPesakit.filter(
+            (item) => item.kedatangan === 'ulangan-kedatangan'
+          );
+          const totalEgl = totalPesakit.filter(
+            (item) => item.kakitanganKerajaan === true
+          );
+          let sum = 0;
+          totalPesakit.forEach((obj) => {
+            sum += parseFloat(obj.noBayaran.replace('RM ', '')) || 0;
+            sum += parseFloat(obj.noBayaran2.replace('RM ', '')) || 0;
+            sum += parseFloat(obj.noBayaran3.replace('RM ', '')) || 0;
+          });
+          const totalStatus = totalPesakit.filter(
+            (item) => item.statusReten === 'telah diisi'
+          );
+
+          setTotalPesakit({
+            totalPesakit: totalPesakit.length,
+            totalBaru: totalBaru.length,
+            totalUlangan: totalLama.length,
+            totalEgl: totalEgl.length,
+            totalBayaran: sum,
+            totalStatus: totalStatus.length,
+          });
         } catch (error) {
           console.log(error);
           // toast.error(
@@ -569,8 +617,88 @@ export default function DaftarPesakit({ createdByKp }) {
             </table>
           </div>
         ) : (
-          <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
-            <table className='table-auto'>
+          <div className='m-auto overflow-x-auto text-xs lg:text-sm h-min max-w-max'>
+            <div className='grid grid-cols-1 lg:grid-cols-3 gap-2 p-2 my-2'>
+              <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
+                <div className='flex flex-row items-center'>
+                  <div className='grid grid-rows-2 gap-y-2'>
+                    <BsFillFilePersonFill className='text-kaunter1 t-user2 text-5xl m-1' />
+                    <GiBeehive className='text-kaunter1 t-user2 text-5xl m-1' />
+                  </div>
+                  <div>
+                    <p className='text-xs flex flex-row'>Jumlah Pesakit</p>
+                    <span className='font-mono text-5xl flex flex-row'>
+                      {totalPesakit.totalPesakit}
+                    </span>
+                    <p className='text-xs flex flex-row'>
+                      Peratus Reten Telah Diisi
+                    </p>
+                    <span className='font-mono text-5xl flex flex-row'>
+                      {percentageCalc(
+                        totalPesakit.totalStatus,
+                        totalPesakit.totalPesakit
+                      )}
+                      %
+                    </span>
+                  </div>
+                </div>
+              </div>
+              <div className='grid  gap-2 items-center'>
+                <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
+                  <div className='flex flex-row items-center'>
+                    <GiMedicalPack className='text-kaunter1  text-3xl m-1' />
+                    <div>
+                      <p className='text-xs flex flex-row'>
+                        Jumlah Pesakit Baru
+                      </p>
+                      <span className='font-mono text-3xl flex flex-row'>
+                        {totalPesakit.totalBaru}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
+                  <div className='flex flex-row items-center'>
+                    <GiMedicalPack className='text-kaunter1  text-3xl m-1' />
+                    <div>
+                      <p className='text-xs flex flex-row'>
+                        Jumlah Pesakit Ulangan
+                      </p>
+                      <span className='font-mono text-3xl flex flex-row'>
+                        {totalPesakit.totalUlangan}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className='grid  gap-2 items-center'>
+                <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
+                  <div className='flex flex-row items-center'>
+                    <GiTakeMyMoney className='text-kaunter1  text-3xl m-1' />
+                    <div>
+                      <p className='text-xs flex flex-row'>Jumlah Bayaran</p>
+                      <span className='font-mono text-3xl flex flex-row'>
+                        RM {totalPesakit.totalBayaran}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+                <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
+                  <div className='flex flex-row items-center'>
+                    <GiMustache className='text-kaunter1 text-3xl m-1' />
+                    <div>
+                      <p className='text-xs flex flex-row normal-case'>
+                        Jumlah Pesakit e-GL
+                      </p>
+                      <span className='font-mono text-3xl flex flex-row'>
+                        {totalPesakit.totalEgl}
+                      </span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <table className='table-auto rounded-md'>
               <thead className='text-userWhite bg-kaunter2'>
                 <tr>
                   <th className='px-2 py-1 outline outline-1 outline-offset-1'>
