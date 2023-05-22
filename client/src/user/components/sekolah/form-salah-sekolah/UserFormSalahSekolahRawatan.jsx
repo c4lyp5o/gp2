@@ -555,17 +555,17 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                               </span>
                             )}
                             {rawatan.cabutKekalSekolahRawatan >= 1 && (
-                              <span className='font-medium text-left'>
+                              <span className='font-medium text-left flex flex-row items-center'>
                                 cabut Kekal :{rawatan.cabutKekalSekolahRawatan}
                               </span>
                             )}
                             {sumGigiDesidus >= 1 && (
-                              <span className='font-medium text-left'>
+                              <span className='font-medium text-left flex flex-row items-center'>
                                 tampalan gigi desidus : {sumGigiDesidus}
                               </span>
                             )}
                             {sumGigiKekal >= 1 && (
-                              <span className='font-medium text-left'>
+                              <span className='font-medium text-left flex flex-row items-center'>
                                 tampalan gigi kekal : {sumGigiKekal}
                               </span>
                             )}
@@ -576,56 +576,72 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                             )}
                             {rawatan.jumlahTampalanSementaraSekolahRawatan >=
                               1 && (
-                              <span className='font-medium text-left'>
+                              <span className='font-medium text-left flex flex-row items-center'>
                                 tampalan sementara :{' '}
                                 {rawatan.jumlahTampalanSementaraSekolahRawatan}
                               </span>
                             )}
                             {rawatan.pulpotomiSekolahRawatan >= 1 && (
-                              <span className='font-medium text-left'>
+                              <span className='font-medium text-left flex flex-row items-center'>
                                 pulpotomi : {rawatan.pulpotomiSekolahRawatan}
                               </span>
                             )}
                             {rawatan.endodontikSekolahRawatan >= 1 && (
-                              <span className='font-medium text-left'>
+                              <span className='font-medium text-left flex flex-row items-center'>
                                 endodontik : {rawatan.endodontikSekolahRawatan}
                               </span>
                             )}
-                            {rawatan.absesSekolahRawatan >= 1 && (
-                              <span className='font-medium text-left'>
-                                abses : {rawatan.absesSekolahRawatan}
-                              </span>
-                            )}
-                            {rawatan.penskaleranSekolahRawatan >= 1 && (
-                              <span className='font-medium text-left'>
-                                penskaleran :{' '}
-                                {rawatan.penskaleranSekolahRawatan}
-                              </span>
-                            )}
-                            {rawatan.rujukSekolahRawatan === true && (
-                              <span className='font-medium text-left flex items-center flex-wrap'>
-                                Dirujuk{' '}
+                            {rawatan.absesSekolahRawatan === true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                abses :{' '}
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
-                                untuk{' '}
-                                {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
-                                true
-                                  ? 'cabutan ,'
-                                  : ''}
-                                {rawatan.rujukRawatanEndodontikSekolahRawatan ===
-                                true
-                                  ? 'rawatan endodontik ,'
-                                  : ''}
-                                {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                                true
-                                  ? 'rawatan penskaleran ,'
-                                  : ''}
-                                {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
-                                true
-                                  ? 'rawatan periodontik ,'
-                                  : ''}
-                                {rawatan.rujukLainLainSekolahRawatan === true
-                                  ? rawatan.rujukLainLainTulisSekolahRawatan
-                                  : ''}
+                              </span>
+                            )}
+                            {rawatan.penskaleranSekolahRawatan === true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                penskaleran :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </span>
+                            )}
+                            {rawatan.rujukKlinikSekolahRawatan === true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                rujuk klinik :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </span>
+                            )}
+                            {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                              true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                rujuk ortodontik :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </span>
+                            )}
+                            {rawatan.rujukPakarPatologiSekolahRawatan ===
+                              true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                rujuk pakar patologi :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </span>
+                            )}
+                            {rawatan.rujukPakarRestoratifSekolahRawatan ===
+                              true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                rujuk pakar restoratif :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </span>
+                            )}
+                            {rawatan.rujukPakarBedahMulutSekolahRawatan ===
+                              true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                rujuk pakar bedah mulut :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
+                              </span>
+                            )}
+                            {rawatan.rujukPakarPediatrikSekolahRawatan ===
+                              true && (
+                              <span className='font-medium text-left flex flex-row items-center'>
+                                rujuk pakar pediatrik :{' '}
+                                <FaCheckCircle className='text-user7 text-center mx-1' />
                               </span>
                             )}
                             {rawatan.kesSelesaiSekolahRawatan ===
@@ -1212,36 +1228,113 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                               )}
                             </div>
                           </article>
-                          <article className='grid grid-cols-2 auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                            <h4 className='font-bold flex flex-row pl-5 col-span-2'>
+                          <article className='grid auto-rows-min gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                            <h4 className='font-bold flex flex-row pl-5'>
                               Sapuan Fluorida (FV)
                               <FaInfoCircle
                                 title='Fluoride Varnish Application'
                                 className='m-2'
                               />
                             </h4>
-                            <div className='flex flex-row items-center pl-5 col-span-2'>
-                              <input
-                                disabled
-                                type='checkbox'
-                                name='murid-diberi-fv'
-                                id='murid-diberi-fv'
-                                checked={rawatan.muridDiberiFv}
-                                onChange={() => {
-                                  setMuridDiberiFv(!muridDiberiFv);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    muridDiberiFv: !muridDiberiFv,
-                                  });
-                                }}
-                                className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
-                              />
-                              <label
-                                htmlFor='murid-diberi-fv'
-                                className='text-sm font-m'
+                            <div
+                              className={`${
+                                pilihanDataSalah.muridDiberiFvCBox &&
+                                'grid-rows-2'
+                              } grid px-3 pl pt-1`}
+                            >
+                              <div
+                                className={`${
+                                  pilihanDataSalah.muridDiberiFvCBox &&
+                                  'bg-user9 bg-opacity-20 p-2'
+                                } flex items-center flex-row pl-2`}
                               >
-                                murid diberi Sapuan Florida(FV)
-                              </label>
+                                <input
+                                  disabled
+                                  type='checkbox'
+                                  name='murid-diberi-fv'
+                                  id='murid-diberi-fv'
+                                  checked={rawatan.muridDiberiFv}
+                                  onChange={() => {
+                                    setMuridDiberiFv(!muridDiberiFv);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      muridDiberiFv: !muridDiberiFv,
+                                    });
+                                  }}
+                                  className='w-4 h-4 bg-user4 rounded focus:ring-user2 mr-3'
+                                />
+                                <label
+                                  htmlFor='murid-diberi-fv'
+                                  className='text-sm font-m'
+                                >
+                                  murid diberi Sapuan Florida(FV)
+                                </label>
+                                <div className='relative mx-2'>
+                                  <input
+                                    // disabled={disableSalah}
+                                    type='checkbox'
+                                    name='murid-diberi-fv-reten-salah-cbox'
+                                    id='murid-diberi-fv-reten-salah-cbox'
+                                    checked={pilihanDataSalah.muridDiberiFvCBox}
+                                    onChange={() => {
+                                      setPilihanDataSalah({
+                                        ...pilihanDataSalah,
+                                        muridDiberiFvCBox:
+                                          !pilihanDataSalah.muridDiberiFvCBox,
+                                        muridDiberiFv: !rawatan.muridDiberiFv,
+                                      });
+                                      setDataRetenSalah({
+                                        ...dataRetenSalah,
+                                        muridDiberiFvCBox:
+                                          !pilihanDataSalah.muridDiberiFvCBox,
+                                        muridDiberiFv: !rawatan.muridDiberiFv,
+                                      });
+                                      setConfirmData({
+                                        ...confirmData,
+                                        pilihanDataSalah: {
+                                          ...pilihanDataSalah,
+                                          muridDiberiFvCBox:
+                                            !pilihanDataSalah.muridDiberiFvCBox,
+                                          muridDiberiFv: !rawatan.muridDiberiFv,
+                                        },
+                                      });
+                                    }}
+                                    className='peer hidden'
+                                  />
+                                  <label
+                                    htmlFor='murid-diberi-fv-reten-salah-cbox'
+                                    className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                  >
+                                    {pilihanDataSalah.muridDiberiFvCBox ===
+                                    true ? (
+                                      <FaTimes className='text-2xl' />
+                                    ) : (
+                                      <FaRegHandPointLeft className='text-2xl' />
+                                    )}
+                                  </label>
+                                </div>
+                              </div>
+                              {pilihanDataSalah.muridDiberiFvCBox === true && (
+                                <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                  <input
+                                    disabled
+                                    type='checkbox'
+                                    name='murid-diberi-fv-reten-salah'
+                                    id='murid-diberi-fv-reten-salah'
+                                    checked={pilihanDataSalah.muridDiberiFv}
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-3'
+                                  />
+                                  <label
+                                    htmlFor='murid-diberi-fv-reten-salah'
+                                    className='text-sm font-m'
+                                  >
+                                    murid diberi Sapuan Florida(FV)
+                                  </label>
+                                  <span className='text-kaunter4 mx-2'>
+                                    <FaCheck className='text-2xl' />
+                                  </span>
+                                </div>
+                              )}
                             </div>
                             {/* <div className='flex flex-row items-center pl-5 col-span-2'>
                           <label
@@ -3836,58 +3929,228 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                               max='32'
                             />
                           </div> */}
-                                <div className='flex items-center flex-row pl-5'>
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.absesSekolahRawatanCBox &&
+                                    'grid-rows-2'
+                                  } grid px-3 pl pt-1`}
+                                >
+                                  <div
+                                    className={`${
+                                      pilihanDataSalah.absesSekolahRawatanCBox &&
+                                      'bg-user9 bg-opacity-20 p-2'
+                                    } flex items-center flex-row pl-2`}
+                                  >
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='abses-penyata-akhir-2'
+                                      id='abses-penyata-akhir-2'
+                                      checked={rawatan.absesSekolahRawatan}
+                                      onChange={(e) => {
+                                        setAbsesSekolahRawatan(
+                                          !absesSekolahRawatan
+                                        );
+                                        setConfirmData({
+                                          ...confirmData,
+                                          absesSekolahRawatan:
+                                            !absesSekolahRawatan,
+                                        });
+                                      }}
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-3'
+                                    />
+                                    <label
+                                      htmlFor='abses-penyata-akhir-2'
+                                      className='text-sm font-m'
+                                    >
+                                      abses
+                                    </label>
+                                    <div className='relative mx-2'>
+                                      <input
+                                        // disabled={disableSalah}
+                                        type='checkbox'
+                                        name='abses-penyata-akhir-2-reten-salah-cbox'
+                                        id='abses-penyata-akhir-2-reten-salah-cbox'
+                                        checked={
+                                          pilihanDataSalah.absesSekolahRawatanCBox
+                                        }
+                                        onChange={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            absesSekolahRawatanCBox:
+                                              !pilihanDataSalah.absesSekolahRawatanCBox,
+                                            absesSekolahRawatan:
+                                              !rawatan.absesSekolahRawatan,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            absesSekolahRawatanCBox:
+                                              !pilihanDataSalah.absesSekolahRawatanCBox,
+                                            absesSekolahRawatan:
+                                              !rawatan.absesSekolahRawatan,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              absesSekolahRawatanCBox:
+                                                !pilihanDataSalah.absesSekolahRawatanCBox,
+                                              absesSekolahRawatan:
+                                                !rawatan.absesSekolahRawatan,
+                                            },
+                                          });
+                                        }}
+                                        className='peer hidden'
+                                      />
+                                      <label
+                                        htmlFor='abses-penyata-akhir-2-reten-salah-cbox'
+                                        className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                      >
+                                        {pilihanDataSalah.absesSekolahRawatanCBox ===
+                                        true ? (
+                                          <FaTimes className='text-2xl' />
+                                        ) : (
+                                          <FaRegHandPointLeft className='text-2xl' />
+                                        )}
+                                      </label>
+                                    </div>
+                                  </div>
+                                  {pilihanDataSalah.absesSekolahRawatanCBox ===
+                                    true && (
+                                    <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                      <input
+                                        disabled
+                                        type='checkbox'
+                                        name='abses-penyata-akhir-2-reten-salah'
+                                        id='abses-penyata-akhir-2-reten-salah'
+                                        checked={
+                                          pilihanDataSalah.absesSekolahRawatan
+                                        }
+                                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-3'
+                                      />
+                                      <label
+                                        htmlFor='abses-penyata-akhir-2-reten-salah'
+                                        className='text-sm font-m'
+                                      >
+                                        abses
+                                      </label>
+                                      <span className='text-kaunter4 mx-2'>
+                                        <FaCheck className='text-2xl' />
+                                      </span>
+                                    </div>
+                                  )}
+                                </div>
+                              </div>
+                              <div
+                                className={`${
+                                  pilihanDataSalah.penskaleranSekolahRawatanCBox &&
+                                  'grid-rows-2'
+                                } grid px-3 pl pt-1`}
+                              >
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.penskaleranSekolahRawatanCBox &&
+                                    'bg-user9 bg-opacity-20 p-2'
+                                  } flex items-center flex-row pl-2`}
+                                >
                                   <input
                                     disabled
                                     type='checkbox'
-                                    name='abses-penyata-akhir-2'
-                                    id='abses-penyata-akhir-2'
-                                    checked={rawatan.absesSekolahRawatan}
+                                    name='penskaleran-penyata-akhir-2'
+                                    id='penskaleran-penyata-akhir-2'
+                                    checked={rawatan.penskaleranSekolahRawatan}
                                     onChange={(e) => {
-                                      setAbsesSekolahRawatan(
-                                        !absesSekolahRawatan
+                                      setPenskaleranSekolahRawatan(
+                                        !penskaleranSekolahRawatan
                                       );
                                       setConfirmData({
                                         ...confirmData,
-                                        absesSekolahRawatan:
-                                          !absesSekolahRawatan,
+                                        penskaleranSekolahRawatan:
+                                          !penskaleranSekolahRawatan,
                                       });
                                     }}
-                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-3'
                                   />
                                   <label
-                                    htmlFor='abses-penyata-akhir-2'
-                                    className='text-sm font-m mx-2'
+                                    htmlFor='penskaleran-penyata-akhir-2'
+                                    className='text-sm font-m'
                                   >
-                                    abses
+                                    Penskaleran
                                   </label>
+                                  <div className='relative mx-2'>
+                                    <input
+                                      // disabled={disableSalah}
+                                      type='checkbox'
+                                      name='penskaleran-penyata-akhir-2-reten-salah-cbox'
+                                      id='penskaleran-penyata-akhir-2-reten-salah-cbox'
+                                      checked={
+                                        pilihanDataSalah.penskaleranSekolahRawatanCBox
+                                      }
+                                      onChange={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          penskaleranSekolahRawatanCBox:
+                                            !pilihanDataSalah.penskaleranSekolahRawatanCBox,
+                                          penskaleranSekolahRawatan:
+                                            !rawatan.penskaleranSekolahRawatan,
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          penskaleranSekolahRawatanCBox:
+                                            !pilihanDataSalah.penskaleranSekolahRawatanCBox,
+                                          penskaleranSekolahRawatan:
+                                            !rawatan.penskaleranSekolahRawatan,
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            penskaleranSekolahRawatanCBox:
+                                              !pilihanDataSalah.penskaleranSekolahRawatanCBox,
+                                            penskaleranSekolahRawatan:
+                                              !rawatan.penskaleranSekolahRawatan,
+                                          },
+                                        });
+                                      }}
+                                      className='peer hidden'
+                                    />
+                                    <label
+                                      htmlFor='penskaleran-penyata-akhir-2-reten-salah-cbox'
+                                      className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    >
+                                      {pilihanDataSalah.penskaleranSekolahRawatanCBox ===
+                                      true ? (
+                                        <FaTimes className='text-2xl' />
+                                      ) : (
+                                        <FaRegHandPointLeft className='text-2xl' />
+                                      )}
+                                    </label>
+                                  </div>
                                 </div>
-                              </div>
-                              <div className='flex flex-row items-center pl-5 col-start-1'>
-                                <input
-                                  disabled
-                                  type='checkbox'
-                                  name='penskaleran-penyata-akhir-2'
-                                  id='penskaleran-penyata-akhir-2'
-                                  checked={rawatan.penskaleranSekolahRawatan}
-                                  onChange={(e) => {
-                                    setPenskaleranSekolahRawatan(
-                                      !penskaleranSekolahRawatan
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      penskaleranSekolahRawatan:
-                                        !penskaleranSekolahRawatan,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                                />
-                                <label
-                                  htmlFor='penskaleran-penyata-akhir-2'
-                                  className='text-sm font-m mx-2'
-                                >
-                                  Penskaleran
-                                </label>
+                                {pilihanDataSalah.penskaleranSekolahRawatanCBox ===
+                                  true && (
+                                  <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='penskaleran-penyata-akhir-2-reten-salah'
+                                      id='penskaleran-penyata-akhir-2-reten-salah'
+                                      checked={
+                                        pilihanDataSalah.penskaleranSekolahRawatan
+                                      }
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 mr-3'
+                                    />
+                                    <label
+                                      htmlFor='penskaleran-penyata-akhir-2-reten-salah'
+                                      className='text-sm font-m'
+                                    >
+                                      Penskaleran
+                                    </label>
+                                    <span className='text-kaunter4 mx-2'>
+                                      <FaCheck className='text-2xl' />
+                                    </span>
+                                  </div>
+                                )}
                               </div>
                             </article>
                             <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
@@ -3913,172 +4176,688 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                               rujukan
                             </label>
                           </div> */}
-                              <div className=' flex flex-row items-center m-2 pl-5 mt-3'>
-                                <input
-                                  disabled
-                                  type='checkbox'
-                                  name='rujukan-ke-klinik'
-                                  id='rujukan-ke-klinik'
-                                  checked={rawatan.rujukKlinikSekolahRawatan}
-                                  onChange={() => {
-                                    setRujukKlinikSekolahRawatan(
-                                      !rujukKlinikSekolahRawatan
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      rujukKlinikSekolahRawatan:
-                                        !rujukKlinikSekolahRawatan,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                                />
-                                <label
-                                  htmlFor='rujukan-ke-klinik'
-                                  className='mx-2 text-sm font-m'
+                              <h1 className='font-bold flex flex-row pl-5'>
+                                Rujukan
+                              </h1>
+                              <div
+                                className={`${
+                                  pilihanDataSalah.rujukKlinikSekolahRawatanCBox &&
+                                  'grid-rows-2'
+                                } grid px-3 pl pt-1`}
+                              >
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.rujukKlinikSekolahRawatanCBox &&
+                                    'bg-user9 bg-opacity-20 p-2'
+                                  } flex items-center flex-row pl-2`}
                                 >
-                                  Rujukan Ke Klinik Pergigian
-                                </label>
+                                  <input
+                                    disabled
+                                    type='checkbox'
+                                    name='rujukan-ke-klinik'
+                                    id='rujukan-ke-klinik'
+                                    checked={rawatan.rujukKlinikSekolahRawatan}
+                                    onChange={() => {
+                                      setRujukKlinikSekolahRawatan(
+                                        !rujukKlinikSekolahRawatan
+                                      );
+                                      setConfirmData({
+                                        ...confirmData,
+                                        rujukKlinikSekolahRawatan:
+                                          !rujukKlinikSekolahRawatan,
+                                      });
+                                    }}
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                  />
+                                  <label
+                                    htmlFor='rujukan-ke-klinik'
+                                    className='mx-2 text-sm font-m'
+                                  >
+                                    Rujukan Ke Klinik Pergigian
+                                  </label>
+                                  <div className='relative mx-2'>
+                                    <input
+                                      // disabled={disableSalah}
+                                      type='checkbox'
+                                      name='rujukan-ke-klinik-reten-salah-cbox'
+                                      id='rujukan-ke-klinik-reten-salah-cbox'
+                                      checked={
+                                        pilihanDataSalah.rujukKlinikSekolahRawatanCBox
+                                      }
+                                      onChange={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          rujukKlinikSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukKlinikSekolahRawatanCBox,
+                                          rujukKlinikSekolahRawatan:
+                                            !rawatan.rujukKlinikSekolahRawatan,
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          rujukKlinikSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukKlinikSekolahRawatanCBox,
+                                          rujukKlinikSekolahRawatan:
+                                            !rawatan.rujukKlinikSekolahRawatan,
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            rujukKlinikSekolahRawatanCBox:
+                                              !pilihanDataSalah.rujukKlinikSekolahRawatanCBox,
+                                            rujukKlinikSekolahRawatan:
+                                              !rawatan.rujukKlinikSekolahRawatan,
+                                          },
+                                        });
+                                      }}
+                                      className='peer hidden'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-ke-klinik-reten-salah-cbox'
+                                      className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    >
+                                      {pilihanDataSalah.rujukKlinikSekolahRawatanCBox ===
+                                      true ? (
+                                        <FaTimes className='text-2xl' />
+                                      ) : (
+                                        <FaRegHandPointLeft className='text-2xl' />
+                                      )}
+                                    </label>
+                                  </div>
+                                </div>
+                                {pilihanDataSalah.rujukKlinikSekolahRawatanCBox ===
+                                  true && (
+                                  <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='rujukan-ke-klinik-reten-salah'
+                                      id='rujukan-ke-klinik-reten-salah'
+                                      checked={
+                                        pilihanDataSalah.rujukKlinikSekolahRawatan
+                                      }
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-ke-klinik-reten-salah'
+                                      className='text-sm font-m mx-2'
+                                    >
+                                      Rujukan Ke Klinik Pergigian
+                                    </label>
+                                    <span className='text-kaunter4 mx-2'>
+                                      <FaCheck className='text-2xl' />
+                                    </span>
+                                  </div>
+                                )}
                               </div>
-                              <div className=' flex flex-row items-center m-2 pl-5'>
-                                <input
-                                  disabled
-                                  type='checkbox'
-                                  name='rawatan-ortodontik-penyata-akhir-2'
-                                  id='rawatan-ortodontik-penyata-akhir-2'
-                                  checked={
-                                    rawatan.rujukRawatanOrtodontikSekolahRawatan
-                                  }
-                                  onChange={() => {
-                                    setRujukRawatanOrtodontikSekolahRawatan(
-                                      !rujukRawatanOrtodontikSekolahRawatan
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      rujukRawatanOrtodontikSekolahRawatan:
-                                        !rujukRawatanOrtodontikSekolahRawatan,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                                />
-                                <label
-                                  htmlFor='rawatan-ortodontik-penyata-akhir-2'
-                                  className='mx-2 text-sm font-m'
+                              <div
+                                className={`${
+                                  pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox &&
+                                  'grid-rows-2'
+                                } grid px-3 pl pt-1`}
+                              >
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox &&
+                                    'bg-user9 bg-opacity-20 p-2'
+                                  } flex items-center flex-row pl-2`}
                                 >
-                                  Rujukan Ke Pakar ortodontik
-                                </label>
+                                  <input
+                                    disabled
+                                    type='checkbox'
+                                    name='rawatan-ortodontik-penyata-akhir-2'
+                                    id='rawatan-ortodontik-penyata-akhir-2'
+                                    checked={
+                                      rawatan.rujukRawatanOrtodontikSekolahRawatan
+                                    }
+                                    onChange={() => {
+                                      setRujukRawatanOrtodontikSekolahRawatan(
+                                        !rujukRawatanOrtodontikSekolahRawatan
+                                      );
+                                      setConfirmData({
+                                        ...confirmData,
+                                        rujukRawatanOrtodontikSekolahRawatan:
+                                          !rujukRawatanOrtodontikSekolahRawatan,
+                                      });
+                                    }}
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                  />
+                                  <label
+                                    htmlFor='rawatan-ortodontik-penyata-akhir-2'
+                                    className='mx-2 text-sm font-m'
+                                  >
+                                    Rujukan Ke Pakar ortodontik
+                                  </label>
+                                  <div className='relative mx-2'>
+                                    <input
+                                      // disabled={disableSalah}
+                                      type='checkbox'
+                                      name='rawatan-ortodontik-penyata-akhir-2-reten-salah-cbox'
+                                      id='rawatan-ortodontik-penyata-akhir-2-reten-salah-cbox'
+                                      checked={
+                                        pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox
+                                      }
+                                      onChange={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          rujukRawatanOrtodontikSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox,
+                                          rujukRawatanOrtodontikSekolahRawatan:
+                                            !rawatan.rujukRawatanOrtodontikSekolahRawatan,
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          rujukRawatanOrtodontikSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox,
+                                          rujukRawatanOrtodontikSekolahRawatan:
+                                            !rawatan.rujukRawatanOrtodontikSekolahRawatan,
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            rujukRawatanOrtodontikSekolahRawatanCBox:
+                                              !pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox,
+                                            rujukRawatanOrtodontikSekolahRawatan:
+                                              !rawatan.rujukRawatanOrtodontikSekolahRawatan,
+                                          },
+                                        });
+                                      }}
+                                      className='peer hidden'
+                                    />
+                                    <label
+                                      htmlFor='rawatan-ortodontik-penyata-akhir-2-reten-salah-cbox'
+                                      className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    >
+                                      {pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox ===
+                                      true ? (
+                                        <FaTimes className='text-2xl' />
+                                      ) : (
+                                        <FaRegHandPointLeft className='text-2xl' />
+                                      )}
+                                    </label>
+                                  </div>
+                                </div>
+                                {pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatanCBox ===
+                                  true && (
+                                  <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='rawatan-ortodontik-penyata-akhir-2-reten-salah'
+                                      id='rawatan-ortodontik-penyata-akhir-2-reten-salah'
+                                      checked={
+                                        pilihanDataSalah.rujukRawatanOrtodontikSekolahRawatan
+                                      }
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                    />
+                                    <label
+                                      htmlFor='rawatan-ortodontik-penyata-akhir-2-reten-salah'
+                                      className='text-sm font-m mx-2'
+                                    >
+                                      Rujukan Ke Pakar ortodontik
+                                    </label>
+                                    <span className='text-kaunter4 mx-2'>
+                                      <FaCheck className='text-2xl' />
+                                    </span>
+                                  </div>
+                                )}
                               </div>
-                              <div className=' flex flex-row items-center m-2 pl-5'>
-                                <input
-                                  disabled
-                                  type='checkbox'
-                                  name='rujukan-pakar-patologi'
-                                  id='rujukan-pakar-patologi'
-                                  checked={
-                                    rawatan.rujukPakarPatologiSekolahRawatan
-                                  }
-                                  onChange={() => {
-                                    setRujukPakarPatologiSekolahRawatan(
-                                      !rujukPakarPatologiSekolahRawatan
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      rujukPakarPatologiSekolahRawatan:
-                                        !rujukPakarPatologiSekolahRawatan,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                                />
-                                <label
-                                  htmlFor='rujukan-pakar-patologi'
-                                  className='mx-2 text-sm font-m'
+                              <div
+                                className={`${
+                                  pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox &&
+                                  'grid-rows-2'
+                                } grid px-3 pl pt-1`}
+                              >
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox &&
+                                    'bg-user9 bg-opacity-20 p-2'
+                                  } flex items-center flex-row pl-2`}
                                 >
-                                  Rujukan Ke Pakar Patologi Mulut dan Perubatan
-                                  Mulut
-                                </label>
+                                  <input
+                                    disabled
+                                    type='checkbox'
+                                    name='rujukan-pakar-patologi'
+                                    id='rujukan-pakar-patologi'
+                                    checked={
+                                      rawatan.rujukPakarPatologiSekolahRawatan
+                                    }
+                                    onChange={() => {
+                                      setRujukPakarPatologiSekolahRawatan(
+                                        !rujukPakarPatologiSekolahRawatan
+                                      );
+                                      setConfirmData({
+                                        ...confirmData,
+                                        rujukPakarPatologiSekolahRawatan:
+                                          !rujukPakarPatologiSekolahRawatan,
+                                      });
+                                    }}
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                  />
+                                  <label
+                                    htmlFor='rujukan-pakar-patologi'
+                                    className='mx-2 text-sm font-m'
+                                  >
+                                    Rujukan Ke Pakar Patologi Mulut dan
+                                    Perubatan Mulut
+                                  </label>
+                                  <div className='relative mx-2'>
+                                    <input
+                                      // disabled={disableSalah}
+                                      type='checkbox'
+                                      name='rujukan-pakar-patologi-reten-salah-cbox'
+                                      id='rujukan-pakar-patologi-reten-salah-cbox'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox
+                                      }
+                                      onChange={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          rujukPakarPatologiSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox,
+                                          rujukPakarPatologiSekolahRawatan:
+                                            !rawatan.rujukPakarPatologiSekolahRawatan,
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          rujukPakarPatologiSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox,
+                                          rujukPakarPatologiSekolahRawatan:
+                                            !rawatan.rujukPakarPatologiSekolahRawatan,
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            rujukPakarPatologiSekolahRawatanCBox:
+                                              !pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox,
+                                            rujukPakarPatologiSekolahRawatan:
+                                              !rawatan.rujukPakarPatologiSekolahRawatan,
+                                          },
+                                        });
+                                      }}
+                                      className='peer hidden'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-patologi-reten-salah-cbox'
+                                      className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    >
+                                      {pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox ===
+                                      true ? (
+                                        <FaTimes className='text-2xl' />
+                                      ) : (
+                                        <FaRegHandPointLeft className='text-2xl' />
+                                      )}
+                                    </label>
+                                  </div>
+                                </div>
+                                {pilihanDataSalah.rujukPakarPatologiSekolahRawatanCBox ===
+                                  true && (
+                                  <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='rujukan-pakar-patologi-reten-salah'
+                                      id='rujukan-pakar-patologi-reten-salah'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarPatologiSekolahRawatan
+                                      }
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-patologi-reten-salah'
+                                      className='text-sm font-m mx-2'
+                                    >
+                                      Rujukan Ke Pakar Patologi Mulut dan
+                                      Perubatan Mulut
+                                    </label>
+                                    <span className='text-kaunter4 mx-2'>
+                                      <FaCheck className='text-2xl' />
+                                    </span>
+                                  </div>
+                                )}
                               </div>
-                              <div className=' flex flex-row items-center m-2 pl-5'>
-                                <input
-                                  disabled
-                                  type='checkbox'
-                                  name='rujukan-pakar-restoratif'
-                                  id='rujukan-pakar-restoratif'
-                                  checked={
-                                    rawatan.rujukPakarRestoratifSekolahRawatan
-                                  }
-                                  onChange={() => {
-                                    setRujukPakarRestoratifSekolahRawatan(
-                                      !rujukPakarRestoratifSekolahRawatan
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      rujukPakarRestoratifSekolahRawatan:
-                                        !rujukPakarRestoratifSekolahRawatan,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                                />
-                                <label
-                                  htmlFor='rujukan-pakar-restoratif'
-                                  className='mx-2 text-sm font-m'
+                              <div
+                                className={`${
+                                  pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox &&
+                                  'grid-rows-2'
+                                } grid px-3 pl pt-1`}
+                              >
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox &&
+                                    'bg-user9 bg-opacity-20 p-2'
+                                  } flex items-center flex-row pl-2`}
                                 >
-                                  Rujukan Ke Pakar Restoratif
-                                </label>
+                                  <input
+                                    disabled
+                                    type='checkbox'
+                                    name='rujukan-pakar-restoratif'
+                                    id='rujukan-pakar-restoratif'
+                                    checked={
+                                      rawatan.rujukPakarRestoratifSekolahRawatan
+                                    }
+                                    onChange={() => {
+                                      setRujukPakarRestoratifSekolahRawatan(
+                                        !rujukPakarRestoratifSekolahRawatan
+                                      );
+                                      setConfirmData({
+                                        ...confirmData,
+                                        rujukPakarRestoratifSekolahRawatan:
+                                          !rujukPakarRestoratifSekolahRawatan,
+                                      });
+                                    }}
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                  />
+                                  <label
+                                    htmlFor='rujukan-pakar-restoratif'
+                                    className='mx-2 text-sm font-m'
+                                  >
+                                    Rujukan Ke Pakar Restoratif
+                                  </label>
+                                  <div className='relative mx-2'>
+                                    <input
+                                      // disabled={disableSalah}
+                                      type='checkbox'
+                                      name='rujukan-pakar-restoratif-reten-salah-cbox'
+                                      id='rujukan-pakar-restoratif-reten-salah-cbox'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox
+                                      }
+                                      onChange={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          rujukPakarRestoratifSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox,
+                                          rujukPakarRestoratifSekolahRawatan:
+                                            !rawatan.rujukPakarRestoratifSekolahRawatan,
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          rujukPakarRestoratifSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox,
+                                          rujukPakarRestoratifSekolahRawatan:
+                                            !rawatan.rujukPakarRestoratifSekolahRawatan,
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            rujukPakarRestoratifSekolahRawatanCBox:
+                                              !pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox,
+                                            rujukPakarRestoratifSekolahRawatan:
+                                              !rawatan.rujukPakarRestoratifSekolahRawatan,
+                                          },
+                                        });
+                                      }}
+                                      className='peer hidden'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-restoratif-reten-salah-cbox'
+                                      className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    >
+                                      {pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox ===
+                                      true ? (
+                                        <FaTimes className='text-2xl' />
+                                      ) : (
+                                        <FaRegHandPointLeft className='text-2xl' />
+                                      )}
+                                    </label>
+                                  </div>
+                                </div>
+                                {pilihanDataSalah.rujukPakarRestoratifSekolahRawatanCBox ===
+                                  true && (
+                                  <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='rujukan-pakar-restoratif-reten-salah'
+                                      id='rujukan-pakar-restoratif-reten-salah'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarRestoratifSekolahRawatan
+                                      }
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-restoratif-reten-salah'
+                                      className='text-sm font-m mx-2'
+                                    >
+                                      Rujukan Ke Pakar Restoratif
+                                    </label>
+                                    <span className='text-kaunter4 mx-2'>
+                                      <FaCheck className='text-2xl' />
+                                    </span>
+                                  </div>
+                                )}
                               </div>
-                              <div className=' flex flex-row items-center m-2 pl-5'>
-                                <input
-                                  disabled
-                                  type='checkbox'
-                                  name='rujukan-pakar-bedah-mulut'
-                                  id='rujukan-pakar-bedah-mulut'
-                                  checked={
-                                    rawatan.rujukPakarBedahMulutSekolahRawatan
-                                  }
-                                  onChange={() => {
-                                    setRujukPakarBedahMulutSekolahRawatan(
-                                      !rujukPakarBedahMulutSekolahRawatan
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      rujukPakarBedahMulutSekolahRawatan:
-                                        !rujukPakarBedahMulutSekolahRawatan,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                                />
-                                <label
-                                  htmlFor='rujukan-pakar-bedah-mulut'
-                                  className='mx-2 text-sm font-m'
+                              <div
+                                className={`${
+                                  pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox &&
+                                  'grid-rows-2'
+                                } grid px-3 pl pt-1`}
+                              >
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox &&
+                                    'bg-user9 bg-opacity-20 p-2'
+                                  } flex items-center flex-row pl-2`}
                                 >
-                                  Rujukan Ke Pakar bedah mulut dan maksilofasial
-                                </label>
+                                  <input
+                                    disabled
+                                    type='checkbox'
+                                    name='rujukan-pakar-bedah-mulut'
+                                    id='rujukan-pakar-bedah-mulut'
+                                    checked={
+                                      rawatan.rujukPakarBedahMulutSekolahRawatan
+                                    }
+                                    onChange={() => {
+                                      setRujukPakarBedahMulutSekolahRawatan(
+                                        !rujukPakarBedahMulutSekolahRawatan
+                                      );
+                                      setConfirmData({
+                                        ...confirmData,
+                                        rujukPakarBedahMulutSekolahRawatan:
+                                          !rujukPakarBedahMulutSekolahRawatan,
+                                      });
+                                    }}
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                  />
+                                  <label
+                                    htmlFor='rujukan-pakar-bedah-mulut'
+                                    className='mx-2 text-sm font-m'
+                                  >
+                                    Rujukan Ke Pakar bedah mulut dan
+                                    maksilofasial
+                                  </label>
+                                  <div className='relative mx-2'>
+                                    <input
+                                      // disabled={disableSalah}
+                                      type='checkbox'
+                                      name='rujukan-pakar-bedah-mulut-reten-salah-cbox'
+                                      id='rujukan-pakar-bedah-mulut-reten-salah-cbox'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox
+                                      }
+                                      onChange={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          rujukPakarBedahMulutSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox,
+                                          rujukPakarBedahMulutSekolahRawatan:
+                                            !rawatan.rujukPakarBedahMulutSekolahRawatan,
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          rujukPakarBedahMulutSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox,
+                                          rujukPakarBedahMulutSekolahRawatan:
+                                            !rawatan.rujukPakarBedahMulutSekolahRawatan,
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            rujukPakarBedahMulutSekolahRawatanCBox:
+                                              !pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox,
+                                            rujukPakarBedahMulutSekolahRawatan:
+                                              !rawatan.rujukPakarBedahMulutSekolahRawatan,
+                                          },
+                                        });
+                                      }}
+                                      className='peer hidden'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-bedah-mulut-reten-salah-cbox'
+                                      className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    >
+                                      {pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox ===
+                                      true ? (
+                                        <FaTimes className='text-2xl' />
+                                      ) : (
+                                        <FaRegHandPointLeft className='text-2xl' />
+                                      )}
+                                    </label>
+                                  </div>
+                                </div>
+                                {pilihanDataSalah.rujukPakarBedahMulutSekolahRawatanCBox ===
+                                  true && (
+                                  <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='rujukan-pakar-bedah-mulut-reten-salah'
+                                      id='rujukan-pakar-bedah-mulut-reten-salah'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarBedahMulutSekolahRawatan
+                                      }
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-bedah-mulut-reten-salah'
+                                      className='text-sm font-m mx-2'
+                                    >
+                                      Rujukan Ke Pakar bedah mulut dan
+                                      maksilofasial
+                                    </label>
+                                    <span className='text-kaunter4 mx-2'>
+                                      <FaCheck className='text-2xl' />
+                                    </span>
+                                  </div>
+                                )}
                               </div>
-                              <div className=' flex flex-row items-center m-2 pl-5'>
-                                <input
-                                  disabled
-                                  type='checkbox'
-                                  name='rujukan-pakar-pediatrik'
-                                  id='rujukan-pakar-pediatrik'
-                                  checked={
-                                    rawatan.rujukPakarPediatrikSekolahRawatan
-                                  }
-                                  onChange={() => {
-                                    setRujukPakarPediatrikSekolahRawatan(
-                                      !rujukPakarPediatrikSekolahRawatan
-                                    );
-                                    setConfirmData({
-                                      ...confirmData,
-                                      rujukPakarPediatrikSekolahRawatan:
-                                        !rujukPakarPediatrikSekolahRawatan,
-                                    });
-                                  }}
-                                  className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                                />
-                                <label
-                                  htmlFor='rujukan-pakar-pediatrik'
-                                  className='mx-2 text-sm font-m'
+                              <div
+                                className={`${
+                                  pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox &&
+                                  'grid-rows-2'
+                                } grid px-3 pl pt-1`}
+                              >
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox &&
+                                    'bg-user9 bg-opacity-20 p-2'
+                                  } flex items-center flex-row pl-2`}
                                 >
-                                  Rujukan Ke Pakar Pergigian Pediatrik
-                                </label>
+                                  <input
+                                    disabled
+                                    type='checkbox'
+                                    name='rujukan-pakar-pediatrik'
+                                    id='rujukan-pakar-pediatrik'
+                                    checked={
+                                      rawatan.rujukPakarPediatrikSekolahRawatan
+                                    }
+                                    onChange={() => {
+                                      setRujukPakarPediatrikSekolahRawatan(
+                                        !rujukPakarPediatrikSekolahRawatan
+                                      );
+                                      setConfirmData({
+                                        ...confirmData,
+                                        rujukPakarPediatrikSekolahRawatan:
+                                          !rujukPakarPediatrikSekolahRawatan,
+                                      });
+                                    }}
+                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                  />
+                                  <label
+                                    htmlFor='rujukan-pakar-pediatrik'
+                                    className='mx-2 text-sm font-m'
+                                  >
+                                    Rujukan Ke Pakar Pergigian Pediatrik
+                                  </label>
+                                  <div className='relative mx-2'>
+                                    <input
+                                      // disabled={disableSalah}
+                                      type='checkbox'
+                                      name='rujukan-pakar-pediatrik-reten-salah-cbox'
+                                      id='rujukan-pakar-pediatrik-reten-salah-cbox'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox
+                                      }
+                                      onChange={() => {
+                                        setPilihanDataSalah({
+                                          ...pilihanDataSalah,
+                                          rujukPakarPediatrikSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox,
+                                          rujukPakarPediatrikSekolahRawatan:
+                                            !rawatan.rujukPakarPediatrikSekolahRawatan,
+                                        });
+                                        setDataRetenSalah({
+                                          ...dataRetenSalah,
+                                          rujukPakarPediatrikSekolahRawatanCBox:
+                                            !pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox,
+                                          rujukPakarPediatrikSekolahRawatan:
+                                            !rawatan.rujukPakarPediatrikSekolahRawatan,
+                                        });
+                                        setConfirmData({
+                                          ...confirmData,
+                                          pilihanDataSalah: {
+                                            ...pilihanDataSalah,
+                                            rujukPakarPediatrikSekolahRawatanCBox:
+                                              !pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox,
+                                            rujukPakarPediatrikSekolahRawatan:
+                                              !rawatan.rujukPakarPediatrikSekolahRawatan,
+                                          },
+                                        });
+                                      }}
+                                      className='peer hidden'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-pediatrik-reten-salah-cbox'
+                                      className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                    >
+                                      {pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox ===
+                                      true ? (
+                                        <FaTimes className='text-2xl' />
+                                      ) : (
+                                        <FaRegHandPointLeft className='text-2xl' />
+                                      )}
+                                    </label>
+                                  </div>
+                                </div>
+                                {pilihanDataSalah.rujukPakarPediatrikSekolahRawatanCBox ===
+                                  true && (
+                                  <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='rujukan-pakar-pediatrik-reten-salah'
+                                      id='rujukan-pakar-pediatrik-reten-salah'
+                                      checked={
+                                        pilihanDataSalah.rujukPakarPediatrikSekolahRawatan
+                                      }
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                    />
+                                    <label
+                                      htmlFor='rujukan-pakar-pediatrik-reten-salah'
+                                      className='text-sm font-m mx-2'
+                                    >
+                                      Rujukan Ke Pakar Pergigian Pediatrik
+                                    </label>
+                                    <span className='text-kaunter4 mx-2'>
+                                      <FaCheck className='text-2xl' />
+                                    </span>
+                                  </div>
+                                )}
                               </div>
                             </article>
                           </div>
@@ -4366,117 +5145,458 @@ function UserFormSekolahRawatan({ pilihRawatan }) {
                                 menerima aktiviti nasihat pergigian individu
                               </h4>
                               <div className='grid grid-cols-1'>
-                                <div className='flex items-center flex-row pl-5'>
-                                  <input
-                                    disabled
-                                    type='checkbox'
-                                    name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    checked={
-                                      rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                                    }
-                                    onChange={() => {
-                                      setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
-                                        !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                                      );
-                                      setConfirmData({
-                                        ...confirmData,
-                                        plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
-                                          !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
-                                      });
-                                    }}
-                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                                  />
-                                  <label
-                                    htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    className='m-2 text-sm font-m'
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                    'grid-rows-2'
+                                  } grid px-3 pl pt-1`}
+                                >
+                                  <div
+                                    className={`${
+                                      pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                      'bg-user9 bg-opacity-20 p-2'
+                                    } flex items-center flex-row pl-2`}
                                   >
-                                    nasihat berkaitan plak gigi
-                                  </label>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      checked={
+                                        rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                                      }
+                                      onChange={() => {
+                                        setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
+                                          !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                                        );
+                                        setConfirmData({
+                                          ...confirmData,
+                                          plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
+                                            !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+                                        });
+                                      }}
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                                    />
+                                    <label
+                                      htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      className='m-2 text-sm font-m'
+                                    >
+                                      nasihat berkaitan plak gigi
+                                    </label>
+                                    <div className='relative mx-2'>
+                                      <input
+                                        // disabled={disableSalah}
+                                        type='checkbox'
+                                        name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        checked={
+                                          pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox
+                                        }
+                                        onChange={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                                !pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                              plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
+                                                !rawatan.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+                                            },
+                                          });
+                                        }}
+                                        className='peer hidden'
+                                      />
+                                      <label
+                                        htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                      >
+                                        {pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                        true ? (
+                                          <FaTimes className='text-2xl' />
+                                        ) : (
+                                          <FaRegHandPointLeft className='text-2xl' />
+                                        )}
+                                      </label>
+                                    </div>
+                                  </div>
+                                  {pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                    true && (
+                                    <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                      <input
+                                        disabled
+                                        type='checkbox'
+                                        name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        checked={
+                                          pilihanDataSalah.plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                                        }
+                                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                      />
+                                      <label
+                                        htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        className='text-sm font-m mx-2'
+                                      >
+                                        nasihat berkaitan plak gigi
+                                      </label>
+                                      <span className='text-kaunter4 mx-2'>
+                                        <FaCheck className='text-2xl' />
+                                      </span>
+                                    </div>
+                                  )}
                                 </div>
-                                <div className='flex items-center flex-row pl-5'>
-                                  <input
-                                    disabled
-                                    type='checkbox'
-                                    name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    checked={
-                                      rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                                    }
-                                    onChange={() => {
-                                      setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
-                                        !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                                      );
-                                      setConfirmData({
-                                        ...confirmData,
-                                        dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
-                                          !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
-                                      });
-                                    }}
-                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                                  />
-                                  <label
-                                    htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    className='m-2 text-sm font-m'
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                    'grid-rows-2'
+                                  } grid px-3 pl pt-1`}
+                                >
+                                  <div
+                                    className={`${
+                                      pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                      'bg-user9 bg-opacity-20 p-2'
+                                    } flex items-center flex-row pl-2`}
                                   >
-                                    nasihat berkaitan diet pemakanan
-                                  </label>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      checked={
+                                        rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                                      }
+                                      onChange={() => {
+                                        setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
+                                          !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                                        );
+                                        setConfirmData({
+                                          ...confirmData,
+                                          dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
+                                            !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+                                        });
+                                      }}
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                                    />
+                                    <label
+                                      htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      className='m-2 text-sm font-m'
+                                    >
+                                      nasihat berkaitan diet pemakanan
+                                    </label>
+                                    <div className='relative mx-2'>
+                                      <input
+                                        // disabled={disableSalah}
+                                        type='checkbox'
+                                        name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        checked={
+                                          pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox
+                                        }
+                                        onChange={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                                !pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                              dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
+                                                !rawatan.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+                                            },
+                                          });
+                                        }}
+                                        className='peer hidden'
+                                      />
+                                      <label
+                                        htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                      >
+                                        {pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                        true ? (
+                                          <FaTimes className='text-2xl' />
+                                        ) : (
+                                          <FaRegHandPointLeft className='text-2xl' />
+                                        )}
+                                      </label>
+                                    </div>
+                                  </div>
+                                  {pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                    true && (
+                                    <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                      <input
+                                        disabled
+                                        type='checkbox'
+                                        name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        checked={
+                                          pilihanDataSalah.dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                                        }
+                                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                      />
+                                      <label
+                                        htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        className='text-sm font-m mx-2'
+                                      >
+                                        nasihat berkaitan diet pemakanan
+                                      </label>
+                                      <span className='text-kaunter4 mx-2'>
+                                        <FaCheck className='text-2xl' />
+                                      </span>
+                                    </div>
+                                  )}
                                 </div>
-                                <div className='flex items-center flex-row pl-5'>
-                                  <input
-                                    disabled
-                                    type='checkbox'
-                                    name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    checked={
-                                      rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                                    }
-                                    onChange={() => {
-                                      setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                        !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                                      );
-                                      setConfirmData({
-                                        ...confirmData,
-                                        penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                          !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                                      });
-                                    }}
-                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                                  />
-                                  <label
-                                    htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    className='m-2 text-sm font-m'
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                    'grid-rows-2'
+                                  } grid px-3 pl pt-1`}
+                                >
+                                  <div
+                                    className={`${
+                                      pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                      'bg-user9 bg-opacity-20 p-2'
+                                    } flex items-center flex-row pl-2`}
                                   >
-                                    nasihat berkaitan penjagaan kesihatan oral
-                                  </label>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      checked={
+                                        rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                      }
+                                      onChange={() => {
+                                        setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                                          !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                        );
+                                        setConfirmData({
+                                          ...confirmData,
+                                          penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                            !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                        });
+                                      }}
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                                    />
+                                    <label
+                                      htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      className='m-2 text-sm font-m'
+                                    >
+                                      nasihat berkaitan penjagaan kesihatan oral
+                                    </label>
+                                    <div className='relative mx-2'>
+                                      <input
+                                        // disabled={disableSalah}
+                                        type='checkbox'
+                                        name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        checked={
+                                          pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox
+                                        }
+                                        onChange={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                                !pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                              penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                                !rawatan.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                            },
+                                          });
+                                        }}
+                                        className='peer hidden'
+                                      />
+                                      <label
+                                        htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                      >
+                                        {pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                        true ? (
+                                          <FaTimes className='text-2xl' />
+                                        ) : (
+                                          <FaRegHandPointLeft className='text-2xl' />
+                                        )}
+                                      </label>
+                                    </div>
+                                  </div>
+                                  {pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                    true && (
+                                    <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                      <input
+                                        disabled
+                                        type='checkbox'
+                                        name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        checked={
+                                          pilihanDataSalah.penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                        }
+                                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                      />
+                                      <label
+                                        htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        className='text-sm font-m mx-2'
+                                      >
+                                        nasihat berkaitan penjagaan kesihatan
+                                        oral
+                                      </label>
+                                      <span className='text-kaunter4 mx-2'>
+                                        <FaCheck className='text-2xl' />
+                                      </span>
+                                    </div>
+                                  )}
                                 </div>
-                                <div className='flex items-center flex-row pl-5'>
-                                  <input
-                                    disabled
-                                    type='checkbox'
-                                    name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    checked={
-                                      rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                                    }
-                                    onChange={() => {
-                                      setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                        !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                                      );
-                                      setConfirmData({
-                                        ...confirmData,
-                                        kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                          !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                                      });
-                                    }}
-                                    className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                                  />
-                                  <label
-                                    htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                                    className='m-2 text-sm font-m'
+                                <div
+                                  className={`${
+                                    pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                    'grid-rows-2'
+                                  } grid px-3 pl pt-1`}
+                                >
+                                  <div
+                                    className={`${
+                                      pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox &&
+                                      'bg-user9 bg-opacity-20 p-2'
+                                    } flex items-center flex-row pl-2`}
                                   >
-                                    nasihat berkaitan kanser mulut
-                                  </label>
+                                    <input
+                                      disabled
+                                      type='checkbox'
+                                      name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      checked={
+                                        rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                      }
+                                      onChange={() => {
+                                        setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                                          !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                        );
+                                        setConfirmData({
+                                          ...confirmData,
+                                          kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                            !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                        });
+                                      }}
+                                      className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                                    />
+                                    <label
+                                      htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                                      className='m-2 text-sm font-m'
+                                    >
+                                      nasihat berkaitan kanser mulut
+                                    </label>
+                                    <div className='relative mx-2'>
+                                      <input
+                                        // disabled={disableSalah}
+                                        type='checkbox'
+                                        name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        checked={
+                                          pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox
+                                        }
+                                        onChange={() => {
+                                          setPilihanDataSalah({
+                                            ...pilihanDataSalah,
+                                            kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setDataRetenSalah({
+                                            ...dataRetenSalah,
+                                            kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                              !pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                            kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                              !rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                          });
+                                          setConfirmData({
+                                            ...confirmData,
+                                            pilihanDataSalah: {
+                                              ...pilihanDataSalah,
+                                              kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox:
+                                                !pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox,
+                                              kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                                !rawatan.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                                            },
+                                          });
+                                        }}
+                                        className='peer hidden'
+                                      />
+                                      <label
+                                        htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah-cbox'
+                                        className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
+                                      >
+                                        {pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                        true ? (
+                                          <FaTimes className='text-2xl' />
+                                        ) : (
+                                          <FaRegHandPointLeft className='text-2xl' />
+                                        )}
+                                      </label>
+                                    </div>
+                                  </div>
+                                  {pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatanCBox ===
+                                    true && (
+                                    <div className='flex items-center flex-row bg-user11 bg-opacity-50 p-2'>
+                                      <input
+                                        disabled
+                                        type='checkbox'
+                                        name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        checked={
+                                          pilihanDataSalah.kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                                        }
+                                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
+                                      />
+                                      <label
+                                        htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2-reten-salah'
+                                        className='text-sm font-m mx-2'
+                                      >
+                                        nasihat berkaitan kanser mulut
+                                      </label>
+                                      <span className='text-kaunter4 mx-2'>
+                                        <FaCheck className='text-2xl' />
+                                      </span>
+                                    </div>
+                                  )}
                                 </div>
                               </div>
                             </article>
