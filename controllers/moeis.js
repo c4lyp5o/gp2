@@ -323,7 +323,9 @@ const getPrioritySekolahMOEIS = async (req, res) => {
           );
           await insertToSekolah(allCurrentSRSMNormal[i], data); // one by one
         } catch (error) {
-          logger.error(`[priority-sekolah] error for sekolah ${allCurrentSRSMNormal[i].nama} ${allCurrentSRSMNormal[i].idInstitusi} ${allCurrentSRSMNormal[i].kodSekolah}, error is: ${error}`);
+          logger.error(
+            `[priority-sekolah] error for sekolah ${allCurrentSRSMNormal[i].nama} ${allCurrentSRSMNormal[i].idInstitusi} ${allCurrentSRSMNormal[i].kodSekolah}, error is: ${error}`
+          );
           // return res.status(503).json({ msg: error.message });
         }
       }
@@ -368,7 +370,9 @@ const getPrioritySekolahMOEIS = async (req, res) => {
           );
           await insertToSekolah(allCurrentSRSMReversed[i], data); // one by one
         } catch (error) {
-          logger.error(`[priority-sekolah] error for sekolah ${allCurrentSRSMReversed[i].nama} ${allCurrentSRSMReversed[i].idInstitusi} ${allCurrentSRSMReversed[i].kodSekolah}, error is: ${error}`);
+          logger.error(
+            `[priority-sekolah] error for sekolah ${allCurrentSRSMReversed[i].nama} ${allCurrentSRSMReversed[i].idInstitusi} ${allCurrentSRSMReversed[i].kodSekolah}, error is: ${error}`
+          );
           // return res.status(503).json({ msg: error.message });
         }
       }
@@ -413,7 +417,9 @@ const getPrioritySekolahMOEIS = async (req, res) => {
           );
           insertToSekolah(allCurrentSRSM[i], data); // tamak haloba
         } catch (error) {
-          logger.error(`[priority-sekolah] error for sekolah ${allCurrentSRSM[i].nama} ${allCurrentSRSM[i].idInstitusi} ${allCurrentSRSM[i].kodSekolah}, error is: ${error}`);
+          logger.error(
+            `[priority-sekolah] error for sekolah ${allCurrentSRSM[i].nama} ${allCurrentSRSM[i].idInstitusi} ${allCurrentSRSM[i].kodSekolah}, error is: ${error}`
+          );
           // return res.status(503).json({ msg: error.message });
         }
       }
