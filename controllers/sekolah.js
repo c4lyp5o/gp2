@@ -727,9 +727,23 @@ const updateRawatanSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  console.log(req.params.rawatanSekolahId);
+  const createdSalahreten = {
+    createdByUsernameSalah: req.body.createdByUsernameSalah,
+    createdByMdcMdtbSalah: req.body.createdByMdcMdtbSalah,
+    dataRetenSalah: req.body.dataRetenSalah,
+  };
+
   const updatedSingleRawatan = await Rawatansekolah.findOneAndUpdate(
     { _id: req.params.rawatanSekolahId },
-    req.body,
+    {
+      $set: {
+        ...req.body,
+      },
+      $push: {
+        createdSalahreten: createdSalahreten,
+      },
+    },
     { new: true }
   );
 
