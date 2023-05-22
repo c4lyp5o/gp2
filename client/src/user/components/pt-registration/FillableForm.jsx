@@ -2487,7 +2487,7 @@ export default function FillableForm({
                               name='no-bayaran'
                               id='no-bayaran'
                               placeholder=' '
-                              decimalScale={0}
+                              decimalScale={jenisIc === 'passport' ? 2 : 0}
                               className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
                               onChange={(e) => {
                                 setNoBayaran(e.target.value);
@@ -2572,7 +2572,7 @@ export default function FillableForm({
                                 name='no-bayaran-2'
                                 id='no-bayaran-2'
                                 placeholder=' '
-                                decimalScale={0}
+                                decimalScale={jenisIc === 'passport' ? 2 : 0}
                                 className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
                                 onChange={(e) => {
                                   setNoBayaran2(e.target.value);
@@ -2652,7 +2652,7 @@ export default function FillableForm({
                                 name='no-bayaran-3'
                                 id='no-bayaran-3'
                                 placeholder=' '
-                                decimalScale={0}
+                                decimalScale={jenisIc === 'passport' ? 2 : 0}
                                 className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
                                 onChange={(e) => {
                                   setNoBayaran3(e.target.value);
