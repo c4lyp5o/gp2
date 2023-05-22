@@ -79,7 +79,9 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
       process.env.BUILD_ENV === 'dev'
     ) {
       try {
-        console.log('Pelajar ' + fromDbFasilitiSRSM.nama + ' ' + i);
+        console.log(
+          `Pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}`
+        );
         const agent = new https.Agent({
           rejectUnauthorized: false,
         });
@@ -111,8 +113,8 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
 
     if (objPelajar.umur === 7777777 || objPelajar.umur === 0) {
       logger.error(
-          `[insertToSekolah] error at objPelajar.umur for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, error message is: ${error.message}`
-        );
+        `[insertToSekolah] error at objPelajar.umur for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, error message is: ${error.message}`
+      );
     }
 
     if (objPelajar.umur !== 7777777 || objPelajar.umur !== 0) {
