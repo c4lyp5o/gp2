@@ -113,8 +113,9 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
 
     if (objPelajar.umur === 7777777 || objPelajar.umur === 0) {
       logger.error(
-        `[insertToSekolah] error at objPelajar.umur for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, error message is: ${error.message}`
+        `[insertToSekolah] error at objPelajar.umur for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, objPelajar.umur is: ${objPelajar.umur}`
       );
+      return; // cut off terus sekolah ni kalau ada masuk condition ni
     }
 
     if (objPelajar.umur !== 7777777 || objPelajar.umur !== 0) {
