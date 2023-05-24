@@ -189,7 +189,7 @@ function UserSekolahList() {
     } catch (error) {
       toast.update(id, {
         render: 'Harap maaf, senarai pelajar tidak dapat dimuatturun',
-        type: 'success',
+        type: 'error',
         isLoading: false,
         autoClose: 2000,
       });
