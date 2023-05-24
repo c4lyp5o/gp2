@@ -39,7 +39,7 @@ router
 router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
 
 // GET muatturun
-router.route('/muatturun/:fasilitiId').get(muatturunSenaraiPelajar);
+router.route('/muatturun/:kodSekolah').get(muatturunSenaraiPelajar);
 
 // POST
 router
