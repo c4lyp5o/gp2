@@ -630,13 +630,15 @@ const ConfirmModal = ({ children, data }) => {
                                 {data.statusM}
                               </p>
                             ) : null}
-                            {data.menerimaNasihatRingkas ? (
+                            {data.menerimaNasihatRingkas ===
+                            'ya-menerima-nasihat-ringkas' ? (
                               <p className='flex flex-row items-center'>
                                 Menerima Nasihat Ringkas :{' '}
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
                               </p>
                             ) : null}
-                            {data.melaksanakanSaringanMerokok ? (
+                            {data.melaksanakanSaringanMerokok ===
+                            'ya-melaksanakan-saringan-merokok' ? (
                               <p className='flex flex-row items-center'>
                                 Melaksanakan Saringan Merokok :{' '}
                                 <FaCheckCircle className='text-user7 text-center mx-1' />
