@@ -209,13 +209,13 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
-                      {data.perluPenskaleranOralHygiene ? (
+                      {data.perluPenskaleranOralHygiene === true ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Perlu Penskaleran:
                           </p>
                           <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
-                            {data.perluPenskaleranOralHygiene ? (
+                            {data.perluPenskaleranOralHygiene === true ? (
                               <FaCheckCircle className='text-user7 text-center mx-1' />
                             ) : (
                               <FaTimesCircle className='text-user9 text-center mx-1' />
@@ -223,7 +223,7 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
-                      {data.adaDesidus ? (
+                      {data.adaDesidus === true ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Status Gigi Desidus:
@@ -243,7 +243,7 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
-                      {data.adaKekal ? (
+                      {data.adaKekal === true ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Status Gigi Kekal:
@@ -276,7 +276,7 @@ const ConfirmModal = ({ children, data }) => {
                           </p>
                         </div>
                       ) : null}
-                      {data.adaCleftLip ? (
+                      {data.adaCleftLip === true ? (
                         <div className='grid grid-cols-[1fr_2fr]'>
                           <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                             Cleft Lip/Palate:
