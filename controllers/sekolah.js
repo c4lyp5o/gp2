@@ -32,10 +32,11 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   const kodSekolahs = new Set();
   fasilitiSekolahs.forEach((fasiliti) => kodSekolahs.add(fasiliti.kodSekolah));
 
+  // just query kodSekolah, statusRawatan & pemeriksaanSekolah to save network bandwith because UserSenaraiSekolah will pull all sekolah for that kp
   const allPersonSekolahs = await Sekolah.find({
     kodSekolah: { $in: [...kodSekolahs] },
     sesiTakwimPelajar: sesiTakwim,
-  }).lean();
+  }).select('kodSekolah statusRawatan pemeriksaanSekolah');
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
@@ -315,13 +316,13 @@ const kemaskiniSenaraiPelajar = async (req, res) => {
   }
 };
 
-// GET /muatturun/:fasilitiId
+// GET /muatturun/:kodSekolah
 const muatturunSenaraiPelajar = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { fasilitiId } = req.params;
+  const { kodSekolah } = req.params;
 
   const makeFile = () => {
     return path.join(
@@ -335,7 +336,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
 
   let match_stage = {
     $match: {
-      kodSekolah: fasilitiId,
+      kodSekolah: kodSekolah,
     },
   };
 
