@@ -155,12 +155,16 @@ function UserSekolahList() {
     }
   };
 
-  const handleDownloadSenaraiSekolah = async (currentId, currentName) => {
+  const handleDownloadSenaraiSekolah = async (
+    kodSekolah,
+    namaSekolah,
+    sesiTakwimSekolah
+  ) => {
+    const id = toast.loading('Sedang mencetak senarai pelajar...');
     try {
       setIsDownloading(true);
-      const id = toast.loading('Sedang mencetak senarai pelajar...');
       const { data } = await axios.get(
-        `/api/v1/sekolah/muatturun/${currentId}`,
+        `/api/v1/sekolah/muatturun/${kodSekolah}`,
         {
           headers: {
             Authorization: `Bearer ${reliefUserToken ?? userToken}`,
@@ -168,19 +172,16 @@ function UserSekolahList() {
           responseType: 'blob',
         }
       );
-      const currentTakwim = allPersonSekolahs[0].sesiTakwimPelajar.replace(
-        '/',
-        '-'
-      );
+      const currentTakwim = sesiTakwimSekolah.replace('/', '-');
       const link = document.createElement('a');
-      link.download = `SENARAI PELAJAR ${currentName} - ${currentTakwim}.xlsx`;
+      link.download = `SENARAI PELAJAR ${namaSekolah} - ${currentTakwim}.xlsx`;
       link.href = URL.createObjectURL(new Blob([data]));
       link.addEventListener('click', (e) => {
         setTimeout(() => URL.revokeObjectURL(link.href), 100);
       });
       link.click();
       toast.update(id, {
-        render: `Berjaya mencetak senarai pelajar ${currentName}`,
+        render: `Berjaya mencetak senarai pelajar ${namaSekolah}`,
         type: 'success',
         isLoading: false,
         autoClose: 2000,
@@ -188,7 +189,7 @@ function UserSekolahList() {
     } catch (error) {
       toast.update(id, {
         render: 'Harap maaf, senarai pelajar tidak dapat dimuatturun',
-        type: 'success',
+        type: 'error',
         isLoading: false,
         autoClose: 2000,
       });
@@ -246,23 +247,27 @@ function UserSekolahList() {
 
   function kiraEnrolmen(allPersonSekolahs, singleNamaSekolah) {
     return allPersonSekolahs.filter((person) =>
-      person.namaSekolah.includes(singleNamaSekolah.nama)
+      person.kodSekolah.includes(singleNamaSekolah.kodSekolah)
     ).length === 0
       ? 'Dalam semakan MOEIS'
       : allPersonSekolahs.filter((person) =>
-          person.namaSekolah.includes(singleNamaSekolah.nama)
+          person.kodSekolah.includes(singleNamaSekolah.kodSekolah)
         ).length;
   }
 
   function kiraKedatanganBaru(allPersonSekolahs, singleNamaSekolah) {
     return allPersonSekolahs
-      .filter((person) => person.namaSekolah.includes(singleNamaSekolah.nama))
+      .filter((person) =>
+        person.kodSekolah.includes(singleNamaSekolah.kodSekolah)
+      )
       .filter((person) => person.pemeriksaanSekolah).length;
   }
 
   function kiraKesSelesai(allPersonSekolahs, singleNamaSekolah) {
     return allPersonSekolahs
-      .filter((person) => person.namaSekolah.includes(singleNamaSekolah.nama))
+      .filter((person) =>
+        person.kodSekolah.includes(singleNamaSekolah.kodSekolah)
+      )
       .filter((person) => person.statusRawatan === 'selesai').length;
   }
 
@@ -485,7 +490,8 @@ function UserSekolahList() {
                               onClick={() => {
                                 handleDownloadSenaraiSekolah(
                                   singleNamaSekolah.kodSekolah,
-                                  singleNamaSekolah.nama
+                                  singleNamaSekolah.nama,
+                                  singleNamaSekolah.sesiTakwimSekolah
                                 );
                               }}
                               onMouseEnter={() => {
