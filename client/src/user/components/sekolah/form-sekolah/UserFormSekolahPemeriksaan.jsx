@@ -15,6 +15,7 @@ function UserFormSekolahPemeriksaan() {
     username,
     userinfo,
     useParams,
+    dateToday,
     masterDatePicker,
     toast,
   } = useGlobalUserAppContext();
@@ -238,6 +239,7 @@ function UserFormSekolahPemeriksaan() {
       filterDate: (date) => {
         return moment() > date;
       },
+      minDate: moment(moment(dateToday).format('YYYY') + '-03-19').toDate(), // bulan disember nnti kena buang line ni
       disabled: isDisabled,
       className:
         'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
