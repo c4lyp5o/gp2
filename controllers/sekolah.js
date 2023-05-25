@@ -355,133 +355,128 @@ const muatturunSenaraiPelajar = async (req, res) => {
     },
   };
 
-  try {
-    const semuaPelajarSatuSekolah = await Sekolah.aggregate([
-      match_stage,
-      project_stage,
-    ]);
-    const semuaTahun = new Set(
-      semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+  const semuaPelajarSatuSekolah = await Sekolah.aggregate([
+    match_stage,
+    project_stage,
+  ]);
+  const semuaTahun = new Set(
+    semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+  );
+
+  let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
+  let workbook = new Excel.Workbook();
+  await workbook.xlsx.readFile(blank);
+
+  workbook.removeWorksheet('Sheet1');
+
+  for (const tahun of semuaTahun) {
+    const worksheet = workbook.addWorksheet(tahun);
+
+    const studentsInClass = semuaPelajarSatuSekolah.filter(
+      (student) => student.tahunTingkatan === tahun
     );
 
-    let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
-    let workbook = new Excel.Workbook();
-    await workbook.xlsx.readFile(blank);
+    studentsInClass.sort((a, b) => {
+      if (a.kelasPelajar < b.kelasPelajar) {
+        return -1;
+      }
+      if (a.kelasPelajar > b.kelasPelajar) {
+        return 1;
+      }
+      if (a.nama < b.nama) {
+        return -1;
+      }
+      if (a.nama > b.nama) {
+        return 1;
+      }
+      return 0;
+    });
 
-    workbook.removeWorksheet('Sheet1');
+    worksheet.columns = [
+      { header: 'BIL', key: 'bil', width: 5, height: 26 },
+      { header: 'NAMA', key: 'nama', width: 60, height: 26 },
+      // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
+      {
+        header: 'TAHUN/TINGKATAN',
+        key: 'tahunTingkatan',
+        width: 35,
+        height: 26,
+      },
+      { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
+      // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
+      // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+      { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+      {
+        header: 'WARGANEGARA',
+        key: 'warganegara',
+        width: 40,
+        height: 26,
+      },
+      // {
+      //   header: 'SESI TAKWIM',
+      //   key: 'sesiTakwimPelajar',
+      //   width: 18,
+      //   height: 26,
+      // },
+    ];
 
-    for (const tahun of semuaTahun) {
-      const worksheet = workbook.addWorksheet(tahun);
+    worksheet.addRows(studentsInClass);
 
-      const studentsInClass = semuaPelajarSatuSekolah.filter(
-        (student) => student.tahunTingkatan === tahun
-      );
+    worksheet.getColumn('bil').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.value = number - 1;
+      }
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
 
-      studentsInClass.sort((a, b) => {
-        if (a.kelasPelajar < b.kelasPelajar) {
-          return -1;
-        }
-        if (a.kelasPelajar > b.kelasPelajar) {
-          return 1;
-        }
-        if (a.nama < b.nama) {
-          return -1;
-        }
-        if (a.nama > b.nama) {
-          return 1;
-        }
-        return 0;
-      });
+    worksheet.getColumn('warganegara').eachCell((cell) => {
+      cell.value = cell.value || 'BUKAN WARGANEGARA';
+    });
 
-      worksheet.columns = [
-        { header: 'BIL', key: 'bil', width: 5, height: 26 },
-        { header: 'NAMA', key: 'nama', width: 60, height: 26 },
-        // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
-        {
-          header: 'TAHUN/TINGKATAN',
-          key: 'tahunTingkatan',
-          width: 35,
-          height: 26,
-        },
-        { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
-        // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
-        // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
-        { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
-        {
-          header: 'WARGANEGARA',
-          key: 'warganegara',
-          width: 40,
-          height: 26,
-        },
-        // {
-        //   header: 'SESI TAKWIM',
-        //   key: 'sesiTakwimPelajar',
-        //   width: 18,
-        //   height: 26,
-        // },
-      ];
-
-      worksheet.addRows(studentsInClass);
-
-      worksheet.getColumn('bil').eachCell((cell, number) => {
-        if (number !== 1) {
-          cell.value = number - 1;
-        }
+    worksheet.columns.forEach((column) => {
+      column.eachCell((cell) => {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
-
-      worksheet.getColumn('warganegara').eachCell((cell) => {
-        cell.value = cell.value || 'BUKAN WARGANEGARA';
-      });
-
-      worksheet.columns.forEach((column) => {
-        column.eachCell((cell) => {
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
-        });
-      });
-
-      worksheet.getColumn('nama').eachCell((cell, number) => {
-        if (number !== 1) {
-          cell.alignment = { vertical: 'middle', horizontal: 'left' };
-        }
-      });
-
-      worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
-      worksheet.getRow(1).alignment = {
-        vertical: 'middle',
-        horizontal: 'center',
-      };
-
-      worksheet.eachRow((row) => {
-        row.height = 15;
-        row.eachCell((cell) => {
-          cell.border = {
-            top: { style: 'thin' },
-            left: { style: 'thin' },
-            bottom: { style: 'thin' },
-            right: { style: 'thin' },
-          };
-        });
-      });
-    }
-
-    const listPelajar = makeFile();
-
-    await workbook.xlsx.writeFile(listPelajar);
-
-    res.setHeader(
-      'Content-Type',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    );
-    const fileStream = fs.createReadStream(listPelajar);
-    fileStream.pipe(res);
-    fileStream.on('close', () => {
-      fs.unlinkSync(listPelajar);
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: error.message });
+
+    worksheet.getColumn('nama').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
+      }
+    });
+
+    worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+    worksheet.getRow(1).alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+    };
+
+    worksheet.eachRow((row) => {
+      row.height = 15;
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
   }
+
+  const listPelajar = makeFile();
+
+  await workbook.xlsx.writeFile(listPelajar);
+
+  res.setHeader(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  );
+  const fileStream = fs.createReadStream(listPelajar);
+  fileStream.pipe(res);
+  fileStream.on('close', () => {
+    return fs.unlinkSync(listPelajar);
+  });
 };
 
 // not used
