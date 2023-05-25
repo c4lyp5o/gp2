@@ -577,7 +577,11 @@ function AdminAppProvider({ children }) {
   };
   const getDetailedData = async ({ type, idn, idd, id }) => {
     const endpoint = '/api/v1/superadmin/newroute';
-    const params = { main: 'HqCenter', Fn: 'readOne', token: adminToken };
+    const params = {
+      main: 'HqCenter',
+      Fn: 'readOne',
+      token: adminToken,
+    };
 
     switch (type) {
       case 'negeri':
@@ -668,17 +672,17 @@ function AdminAppProvider({ children }) {
       kod: 'PGPRO 01 Pind. 2/2022 FFR',
       kodRingkas: 'PGPRO01',
       deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
     },
     {
       kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
       kodRingkas: 'PGPRO01Combined',
       deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
     },
     {
-      kod: 'PG201 Pind. 2/2022',
-      kodRingkas: 'PG201P2',
+      kod: 'PGS201',
+      kodRingkas: 'PGS201',
       deskripsi:
         'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
@@ -714,6 +718,112 @@ function AdminAppProvider({ children }) {
       kodRingkas: 'GENDER',
       deskripsi: 'Laporan Gender',
     },
+    {
+      kod: 'KEPP',
+      kodRingkas: 'KEPP',
+      deskripsi: '(TEST) KEPP',
+    },
+    {
+      kod: 'BEGIN',
+      kodRingkas: 'BEGIN',
+      deskripsi: '(TEST) BEGIN',
+    },
+    {
+      kod: 'PPIM 03',
+      kodRingkas: 'PPIM03',
+      deskripsi: '(TEST) PPIM03',
+    },
+    {
+      kod: 'PPIM 04',
+      kodRingkas: 'PPIM04',
+      deskripsi: '(TEST) PPIM04',
+    },
+    {
+      kod: 'PPIM 05',
+      kodRingkas: 'PPIM05',
+      deskripsi: '(TEST) PPIM05',
+    },
+    {
+      kod: 'Dewasa Muda',
+      kodRingkas: 'DEWASAMUDA',
+      deskripsi: '(TEST) Program Dewasa Muda',
+    },
+    {
+      kod: 'KOM-OAP',
+      kodRingkas: 'KOM-OAP',
+      deskripsi: '(TEST) Program Orang Asli dan Penan di Komuniti',
+    },
+    {
+      kod: 'PPR',
+      kodRingkas: 'PPR',
+      deskripsi: '(TEST) Projek Perumahan Rakyat (PPR)',
+    },
+    {
+      kod: 'PPKPS',
+      kodRingkas: 'PPKPS',
+      deskripsi:
+        '(TEST) Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah (PPKPS)',
+    },
+    // {
+    //   kod: 'PKAP1',
+    //   kodRingkas: 'PKAP1',
+    //   deskripsi: '(TEST) PKAP1',
+    // },
+    {
+      kod: 'PKAP2',
+      kodRingkas: 'PKAP2',
+      deskripsi: '(TEST) Program Kampung Angkat Pergigian (PKAP)',
+    },
+    {
+      kod: 'KOM-WE',
+      kodRingkas: 'KOM-WE',
+      deskripsi: '(TEST) Institusi Warga Emas',
+    },
+    {
+      kod: 'KOM-OKU-PDK',
+      kodRingkas: 'KOM-OKU-PDK',
+      deskripsi: '(TEST) Institusi OKU / PDK',
+    },
+    {
+      kod: 'KOM-Komuniti',
+      kodRingkas: 'KOM-Komuniti',
+      deskripsi: '(TEST) Projek Komuniti',
+    },
+    {
+      kod: 'KOM-Penjara',
+      kodRingkas: 'KOM-Penjara',
+      deskripsi: '(TEST) Institusi Penjara',
+    },
+    {
+      kod: 'KOM',
+      kodRingkas: 'KOM',
+      deskripsi: '(TEST) Semua Program Komuniti',
+    },
+    {
+      kod: 'OAP',
+      kodRingkas: 'OAP',
+      deskripsi: '(TEST) Etnik Orang Asli dan Penan',
+    },
+    {
+      kod: 'Liputan OAP',
+      kodRingkas: 'LiputanOAP',
+      deskripsi: '(TEST) Liputan Orang Asli dan Penan',
+    },
+    {
+      kod: 'UTC/RTC',
+      kodRingkas: 'UTCRTC',
+      deskripsi: '(TEST) Urban / Rural Transformation Center (UTC / RTC)',
+    },
+    // {
+    //   kod: 'KPBMPB Harian',
+    //   kodRingkas: 'KPBMPBHarian',
+    //   deskripsi: '(TEST) KPB MPB Harian',
+    // },
+    // {
+    //   kod: 'KPBMPB Bulanan',
+    //   kodRingkas: 'KPBMPBBulanan',
+    //   deskripsi: '(TEST) KPB MPB Harian',
+    // },
   ];
 
   // misc
