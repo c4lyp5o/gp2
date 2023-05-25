@@ -21,7 +21,9 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   }
 
   const { kp, kodFasiliti } = req.user;
+
   const sesiTakwim = sesiTakwimSekolah();
+
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
@@ -483,6 +485,19 @@ const muatturunSenaraiPelajar = async (req, res) => {
 const createPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const personSekolahExist = await Sekolah.findOne({
+    nomborId: req.body.nomborId,
+    sesiTakwimPelajar: sesiTakwim,
+  });
+
+  if (personSekolahExist) {
+    return res.status(409).json({
+      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+    });
   }
 
   const personSekolah = await Sekolah.create(req.body);
