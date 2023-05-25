@@ -25,7 +25,7 @@ const insertToSekolah = require('./helpers/insertToSekolah');
 const { logger } = require('../logs/logger');
 
 // helper
-const Helper = require('../controllers/countHelper');
+const Helper = require('./countHelperRegular');
 
 const Dictionary = {
   kp: 'klinik',
@@ -104,7 +104,9 @@ const transporter = mailer.createTransport({
 });
 
 const initialDataNegeri = async (req, res) => {
-  const all = await Superadmin.find({ accountType: 'negeriSuperadmin' });
+  const all = await Superadmin.find({
+    accountType: 'negeriSuperadmin',
+  });
   const allNegeri = _.uniqBy(all, 'negeri');
   let negeri = [];
   allNegeri.forEach((item) => {
@@ -414,7 +416,10 @@ const getDataRoute = async (req, res) => {
         .lean();
       break;
     case 'pegawai-spesifik':
-      data = await Operator.find({ kodFasiliti: kp, activationStatus: true })
+      data = await Operator.find({
+        kodFasiliti: kp,
+        activationStatus: true,
+      })
         .select('nama mdcNumber mdtbNumber statusPegawai')
         .lean();
       break;
@@ -490,7 +495,7 @@ const getDataRoute = async (req, res) => {
       data = await Event.find({
         createdByKodFasiliti: kp,
       })
-        .select('nama jenisEvent')
+        .select('nama jenisEvent tarikhStart tarikhEnd')
         .lean();
       break;
     case 'sosmed':
@@ -896,7 +901,11 @@ const postRoute = async (req, res) => {
           `[adminAPI/DataCenter] ${user_name} reactivated ${type} - ${Data.nama}`
         );
       } else {
-        Data = { ...Data, createdByDaerah: daerah, createdByNegeri: negeri };
+        Data = {
+          ...Data,
+          createdByDaerah: daerah,
+          createdByNegeri: negeri,
+        };
         data = await Operator.create(Data);
         logger.info(
           `[adminAPI/DataCenter] ${user_name} created ${type} - ${Data.nama}`
@@ -1243,7 +1252,9 @@ const patchRouteKp = async (req, res) => {
       );
       break;
     case 'tastad':
-      data = await Fasiliti.findByIdAndUpdate(Id, Data, { new: true });
+      data = await Fasiliti.findByIdAndUpdate(Id, Data, {
+        new: true,
+      });
       logger.info(
         `[adminAPI/patchRouteKp] ${kp} updated enrolmen ${type} - ${data.nama}`
       );
@@ -1851,7 +1862,9 @@ const getData = async (req, res) => {
             theType !== 'sekolah-rendah' &&
             theType !== 'sekolah-menengah'
           ) {
-            const data = await Fasiliti.findByIdAndDelete({ _id: Id });
+            const data = await Fasiliti.findByIdAndDelete({
+              _id: Id,
+            });
             logger.info(
               `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
             );
@@ -1905,17 +1918,17 @@ const getData = async (req, res) => {
               acronym += simplifiedKlinikName[i].charAt(0);
             }
             // deleting kaunter and klinik
-            const data = await User.findByIdAndDelete({ _id: Id }).then(
-              async () => {
-                const negeriNum = emailGen[data.negeri].kodNegeri;
-                const daerahNum = emailGen[data.negeri].daerah[klinik.daerah];
-                await User.findOneAndDelete({
-                  username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}${
-                    Data.kodFasiliti
-                  }`,
-                });
-              }
-            );
+            const data = await User.findByIdAndDelete({
+              _id: Id,
+            }).then(async () => {
+              const negeriNum = emailGen[data.negeri].kodNegeri;
+              const daerahNum = emailGen[data.negeri].daerah[klinik.daerah];
+              await User.findOneAndDelete({
+                username: `daftar${acronym.toLowerCase()}${negeriNum}${daerahNum}${
+                  Data.kodFasiliti
+                }`,
+              });
+            });
             // deleting events
             const events = await Event.find({
               createdByKp: data.kp,
@@ -1950,7 +1963,9 @@ const getData = async (req, res) => {
                 });
               }
             }
-            const data = await Fasiliti.findByIdAndDelete({ _id: Id });
+            const data = await Fasiliti.findByIdAndDelete({
+              _id: Id,
+            });
             logger.info(
               `[adminAPI/DataCenter] ${currentUser.user_name} deleted ${theType} - ${data.nama}`
             );
@@ -2360,11 +2375,15 @@ const getData = async (req, res) => {
           logger.info(
             `[adminAPI/UserCenter] ${username} being checked in readOne`
           );
-          const tempUser = await Superadmin.findOne({ user_name: username });
+          const tempUser = await Superadmin.findOne({
+            user_name: username,
+          });
           // if no superadmin
           if (!tempUser) {
             // check kp user
-            const tempKpUser = await User.findOne({ username: username });
+            const tempKpUser = await User.findOne({
+              username: username,
+            });
             if (!tempKpUser && !tempUser) {
               return res.status(401).json({
                 status: 'error',
@@ -2394,7 +2413,9 @@ const getData = async (req, res) => {
           break;
         case 'update':
           logger.info(`[adminAPI/UserCenter] ${username} submitting in update`);
-          const adminUser = await Superadmin.findOne({ user_name: username });
+          const adminUser = await Superadmin.findOne({
+            user_name: username,
+          });
           // if kp
           if (!adminUser) {
             const kpUser = await User.findOne({ username: username });
@@ -2616,7 +2637,10 @@ const getData = async (req, res) => {
               kedatangan: pt2HariLepas,
               tarikh: moment().subtract(1, 'days').format('YYYY-MM-DD'),
             },
-            { kedatangan: ptHariIni, tarikh: moment().format('YYYY-MM-DD') },
+            {
+              kedatangan: ptHariIni,
+              tarikh: moment().format('YYYY-MM-DD'),
+            },
           ];
           const jumlahPt = ptData.length;
           const result = {
@@ -3260,9 +3284,9 @@ const jnskodSR = [
 ];
 
 const jnskodSM = [
-  // for sm ada 20
-  11, 13, 19, 403, 107, 108, 201, 203, 204, 205, 206, 207, 208, 209, 25, 415,
-  416, 417, 413, 419,
+  // for sm ada 21
+  11, 13, 19, 403, 107, 108, 201, 203, 204, 205, 206, 207, 208, 209, 210, 25,
+  415, 416, 417, 413, 419,
 ];
 
 const processSekolahQuery = async (req, res) => {

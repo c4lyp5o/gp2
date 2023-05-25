@@ -48,7 +48,7 @@ router
 router
   .route('/rawatan/:personSekolahId')
   .post(createRawatanWithPushPersonSekolah);
-router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
+// router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
 
 // PATCH
 router.route('/fasiliti/:fasilitiId').patch(updateFasiliti);
@@ -57,6 +57,6 @@ router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);
 router.route('/rawatan/ubah/:rawatanSekolahId').patch(updateRawatanSekolah);
-router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
+// router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
 
 module.exports = router;

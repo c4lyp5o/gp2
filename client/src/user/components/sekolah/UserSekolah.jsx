@@ -13,7 +13,11 @@ import {
   FaPlus,
 } from 'react-icons/fa';
 
+import UserTambahKemaskiniPelajarSekolah from './UserTambahKemaskiniPelajarSekolah';
+
 import { useGlobalUserAppContext } from '../../context/userAppContext';
+
+import UserDeleteModal from '../UserDeleteModal';
 
 function UserSekolah() {
   const {
@@ -42,14 +46,23 @@ function UserSekolah() {
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
   const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
-  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [filterNama, setFilterNama] = useState('');
+
+  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
   const [tarikhMelaksanakanBegin, setTarikhMelaksanakanBegin] = useState('');
   const [tarikhMelaksanakanBeginDP, setTarikhMelaksanakanBeginDP] =
     useState(null);
   const [submittingBegin, setSubmittingBegin] = useState(false);
+
+  const [modalTambahKemaskiniPelajar, setModalTambahKemaskiniPelajar] =
+    useState(false);
+  const [kemaskiniPelajarId, setKemaskiniPelajarId] = useState('');
+  const [submittingTambahPelajar, setSubmittingTambahPelajar] = useState(false);
+
+  const [modalHapus, setModalHapus] = useState(false);
+  const [operasiHapus, setOperasiHapus] = useState(false);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
@@ -161,6 +174,48 @@ function UserSekolah() {
         console.log(err);
         setModalBegin(false);
       });
+  };
+
+  const handleDelete = async (singlePerson, reason) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.patch(
+          `/api/v1/umum/delete/${singlePerson}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
+    }
   };
 
   //reset value tarikhMelaksanakanBegin & tarikhMelaksanakanBeginDP when modalBegin false
@@ -345,6 +400,13 @@ function UserSekolah() {
     }
   };
 
+  useEffect(() => {
+    if (modalHapus === false) {
+      // setPilih('');
+      // setResultPilih([]);
+    }
+  });
+
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
@@ -518,10 +580,23 @@ function UserSekolah() {
                   <input
                     type='text'
                     className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='SILA PILIH SEKOLAH'
+                    value='SEDANG MEMUAT...'
                     readOnly
                   />
                 )}
+              </p>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span />
+                <span className=' uppercase text-xs lg:text-sm w-full'>
+                  <button
+                    // onChange={(e) => {
+                    //   setFilterNama(e.target.value.toUpperCase());
+                    // }}
+                    className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                  >
+                    Tambah pelajar
+                  </button>
+                </span>
               </p>
             </div>
           </div>
@@ -536,7 +611,10 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 py-1 px-2 w-96'>
                   NAMA
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap w-72'>
+                <th className='outline outline-1 outline-offset-1 py-1 px-2 w-96'>
+                  MAKLUMAT TAMBAHAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap w-41'>
                   OPERATOR PEMERIKSAAN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-5 py-1 w-36'>
@@ -558,6 +636,11 @@ function UserSekolah() {
                     AKTIVITI BEGIN
                   </th>
                 ) : null}
+                {userinfo.role === 'admin' && (
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
+                    HAPUS
+                  </th>
+                )}
               </tr>
             </thead>
             {/* TODO disable semua data input if person sekolah berpindah === true */}
@@ -582,6 +665,32 @@ function UserSekolah() {
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.nama}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
+                            <div className='text-justify'>
+                              <p>
+                                NOMBOR PENGENALAN :{' '}
+                                {singlePersonSekolah.nomborId}
+                              </p>
+                              <p>JANTINA : {singlePersonSekolah.jantina}</p>
+                              <p>
+                                TARIKH LAHIR :{' '}
+                                {singlePersonSekolah.tarikhLahir.split(' ')[0]}
+                              </p>
+                              <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
+                              <p>
+                                WARGANEGARA : {singlePersonSekolah.warganegara}
+                              </p>
+                              <span>
+                                <p>
+                                  <div className='text-center py-2'>
+                                    <button class='bg-user3 hover:bg-user7 text-userWhite font-bold py-2 px-4 rounded border border-userBlack'>
+                                      Kemaskini
+                                    </button>
+                                  </div>
+                                </p>
+                              </span>
+                            </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.pemeriksaanSekolah
@@ -1014,6 +1123,7 @@ function UserSekolah() {
                                   Sila Tambah Pemeriksaan
                                 </p>
                               )}
+                              {/* modal BEGIN */}
                               <div
                                 className={`${
                                   modalBegin[singlePersonSekolah._id]
@@ -1114,8 +1224,24 @@ function UserSekolah() {
                                   </div>
                                 </form>
                               </div>
+                              {/* end of modal BEGIN */}
                             </td>
                           ) : null}
+                          {userinfo.role === 'admin' && (
+                            <td
+                              // onClick={() => {
+                              // setOperasiHapus(true);
+                              // setPilih(singlePersonSekolah._id);
+                              // scrollBawah();
+                              // }}
+                              // className={`${
+                              //   pilih === singlePersonSekolah._id && 'bg-user3'
+                              // } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                              className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2'
+                            >
+                              <u>HAPUS</u>
+                            </td>
+                          )}
                         </tr>
                       </tbody>
                     </>
@@ -1131,6 +1257,9 @@ function UserSekolah() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1152,10 +1281,18 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
+                  {userinfo.role === 'admin' && (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  )}
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
@@ -1182,6 +1319,49 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
+                  {userinfo.role === 'admin' && (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  )}
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  {pilihanSekolah &&
+                  pilihanTahunTingkatan &&
+                  !pilihanTahunTingkatan.includes('TINGKATAN') ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  ) : null}
+                  {userinfo.role === 'admin' && (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  )}
                 </tr>
               </tbody>
             ) : (
@@ -1189,14 +1369,10 @@ function UserSekolah() {
                 <tbody className='bg-user4'>
                   <tr>
                     <td
-                      colSpan={7}
+                      colSpan={9}
                       className='px-2 py-2 outline outline-1 outline-userWhite font-semibold text-lg outline-offset-1 '
                     >
-                      Sila pilih{' '}
-                      {pilihanSekolah.includes('MENENGAH')
-                        ? 'Tingkatan'
-                        : 'Tahun'}{' '}
-                      dahulu
+                      Sila pilih tahun/tingkatan dahulu
                     </td>
                   </tr>
                 </tbody>
@@ -1218,6 +1394,26 @@ function UserSekolah() {
             onClick={() => setIsShown(false)}
           />
         </div>
+        {modalTambahKemaskiniPelajar && (
+          <UserTambahKemaskiniPelajarSekolah
+            modalTambahKemaskiniPelajar={modalTambahKemaskiniPelajar}
+            setModalTambahKemaskiniPelajar={setModalTambahKemaskiniPelajar}
+            kemaskiniPelajarId={kemaskiniPelajarId}
+            setKemaskiniPelajarId={setKemaskiniPelajarId}
+            submittingTambahPelajar={submittingTambahPelajar}
+            setSubmittingTambahPelajar={setSubmittingTambahPelajar}
+            reloadState={reloadState}
+            setReloadState={setReloadState}
+          />
+        )}
+        {modalHapus && (
+          <UserDeleteModal
+          // handleDelete={handleDelete}
+          // setModalHapus={setModalHapus}
+          // id={singlePersonUmum._id}
+          // nama={singlePersonUmum.nama}
+          />
+        )}
       </div>
     </>
   );
