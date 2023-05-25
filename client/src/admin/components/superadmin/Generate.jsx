@@ -10,12 +10,44 @@ import styles from '../../Modal.module.css';
 const ModalGenerateAdHoc = (props) => {
   const { toast, adminToken, loginInfo, masterDatePicker, Dictionary } =
     useGlobalAdminAppContext();
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  // const [startDate, setStartDate] = useState('');
+  // const [endDate, setEndDate] = useState('');
+  const startDateRef = useRef('');
+  const endDateRef = useRef('');
 
   //datepicker range
   const [startDatePicker, setStartDatePicker] = useState(null);
   const [endDatePicker, setEndDatePicker] = useState(null);
+
+  const pilihanRetenAdaProgram = [
+    'PG101C',
+    'PG211C',
+    'DEWASAMUDA',
+    'KOM-OAP',
+    'KOM-OKU-PDK',
+    'KOM-Komuniti',
+    'KOM-Penjara',
+    'KOM-WE',
+    'OAP',
+    'PPR',
+    'PPKPS',
+    'PKAP2',
+  ].includes(props.jenisReten);
+  const pilihanRetenTunjukProgram =
+    [
+      'PG101C',
+      'PG211C',
+      'DEWASAMUDA',
+      'KOM-OAP',
+      'KOM-OKU-PDK',
+      'KOM-Komuniti',
+      'KOM-Penjara',
+      'KOM-WE',
+      'OAP',
+      'PPR',
+      'PPKPS',
+      'PKAP2',
+    ].includes(props.jenisReten) && props.pilihanFasiliti === 'program';
 
   const TarikhAwal = () => {
     return masterDatePicker({
@@ -24,7 +56,7 @@ const ModalGenerateAdHoc = (props) => {
       startDate: startDatePicker,
       endDate: endDatePicker,
       onChange: (startDate) => {
-        setStartDate(moment(startDate).format('YYYY-MM-DD'));
+        startDateRef.current = moment(startDate).format('YYYY-MM-DD');
         setStartDatePicker(startDate);
       },
       filterDate: (date) => {
@@ -44,7 +76,7 @@ const ModalGenerateAdHoc = (props) => {
       endDate: endDatePicker,
       minDate: startDatePicker,
       onChange: (endDate) => {
-        setEndDate(moment(endDate).format('YYYY-MM-DD'));
+        endDateRef.current = moment(endDate).format('YYYY-MM-DD');
         setEndDatePicker(endDate);
       },
       filterDate: (date) => {
@@ -131,37 +163,40 @@ const ModalGenerateAdHoc = (props) => {
 
   const penjanaanReten = async (e) => {
     try {
-      const res = await axios.get(
-        `/api/v1/generate/download?jenisReten=${props.jenisReten}&negeri=${
-          loginInfo.accountType === 'hqSuperadmin'
-            ? Dictionary[props.pilihanNegeri]
-            : loginInfo.negeri
-        }&daerah=${
-          props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
-        }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
-          props.pilihanFasiliti === 'kkiakd'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
-            : ''
-        }${
-          props.pilihanFasiliti === 'program'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
-            : ''
-        }${
-          props.pilihanFasiliti === 'kpbmpb'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
-            : ''
-        }${
-          props.pilihanFasiliti === 'individu'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
-            : ''
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
-        {
-          headers: {
-            Authorization: adminToken,
-          },
-          responseType: 'blob',
-        }
-      );
+      const url = `/api/v1/generate/download?jenisReten=${
+        props.jenisReten
+      }&negeri=${
+        loginInfo.accountType === 'hqSuperadmin'
+          ? Dictionary[props.pilihanNegeri]
+          : loginInfo.negeri
+      }&daerah=${
+        props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
+      }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
+        props.pilihanFasiliti === 'kkiakd'
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
+          : ''
+      }${
+        props.pilihanFasiliti === 'program'
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
+          : ''
+      }${
+        props.pilihanFasiliti === 'kpbmpb'
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
+          : ''
+      }${
+        props.pilihanFasiliti === 'individu'
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
+          : ''
+      }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
+        endDateRef.current
+      }&fromEtl=false`;
+      console.log(url);
+      const res = await axios.get(url, {
+        headers: {
+          Authorization: adminToken,
+        },
+        responseType: 'blob',
+      });
       return res;
     } catch (err) {
       switch (err.response.status) {
@@ -233,9 +268,9 @@ const ModalGenerateAdHoc = (props) => {
 
   // reset endDate if change startDate
   useEffect(() => {
-    setEndDate('');
+    endDateRef.current = '';
     setEndDatePicker(null);
-  }, [startDate]);
+  }, [startDateRef.current]);
 
   return (
     <>
@@ -462,7 +497,7 @@ const ModalGenerateAdHoc = (props) => {
                       {props.pilihanKlinik !== '' &&
                       props.pilihanKlinik !== 'all' &&
                       props.pilihanDaerah !== 'all' &&
-                      props.jenisReten === 'PG101C' ? (
+                      pilihanRetenAdaProgram ? (
                         <div className='px-3 py-1'>
                           <label
                             htmlFor='factype'
@@ -474,6 +509,7 @@ const ModalGenerateAdHoc = (props) => {
                             required
                             name='factype'
                             id='factype'
+                            value={props.pilihanFasiliti}
                             onChange={(e) => {
                               props.handleGetProgramEnKPBMPB(e.target.value);
                             }}
@@ -481,44 +517,91 @@ const ModalGenerateAdHoc = (props) => {
                           >
                             <option value=''>Sila pilih..</option>
                             <option value='program'>Program</option>
-                            <option value='kpbmpb'>KPB / MPB</option>
+                            {props.jenisReten === 'PG101C' && (
+                              <option value='kpbmpb'>KPB / MPB</option>
+                            )}
                           </select>
                         </div>
                       ) : null}
-                      {props.jenisReten === 'PG101C' &&
-                        props.pilihanFasiliti === 'program' && (
-                          <div className='px-3 py-1'>
-                            <label
-                              htmlFor='program'
-                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                            >
-                              Program
-                            </label>
-                            <select
-                              required
-                              name='program'
-                              id='program'
-                              value={props.pilihanProgram}
-                              onChange={(e) => {
-                                props.setPilihanProgram(e.target.value);
-                              }}
-                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                            >
-                              <option value=''>Sila pilih..</option>
-                              {props.programData.map((p, index) => {
-                                return (
-                                  <option
-                                    key={index}
-                                    value={p.nama}
-                                    className='capitalize'
-                                  >
-                                    {p.nama}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-                        )}
+                      {pilihanRetenTunjukProgram && (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='program'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Program
+                          </label>
+                          <select
+                            required
+                            name='program'
+                            id='program'
+                            value={props.pilihanProgram}
+                            onChange={(e) => {
+                              props.setPilihanProgram(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            <option value='all'>Semua Program</option>
+                            {props.programData &&
+                              props.programData
+                                .filter(
+                                  (p) =>
+                                    p &&
+                                    p.tarikhStart >= startDateRef.current &&
+                                    p.tarikhStart <= endDateRef.current
+                                )
+                                .filter((p) => {
+                                  if (p) {
+                                    switch (props.jenisReten) {
+                                      case 'DEWASAMUDA':
+                                        return (
+                                          p.jenisEvent === 'programDewasaMuda'
+                                        );
+                                      case 'KOM-WE':
+                                        return p.jenisEvent === 'we';
+                                      case 'KOM-OKU-PDK':
+                                        return p.jenisEvent === 'oku';
+                                      case 'KOM-Komuniti':
+                                        return (
+                                          p.jenisEvent === 'projek-komuniti'
+                                        );
+                                      case 'KOM-Penjara':
+                                        return (
+                                          p.jenisEvent === 'penjara-koreksional'
+                                        );
+                                      case 'KOM-OAP':
+                                        return p.jenisEvent !== 'incremental';
+                                      case 'PPR':
+                                        return p.jenisEvent === 'ppr';
+                                      case 'PPKPS':
+                                        return p.jenisEvent === 'ppkps';
+                                      case 'PKAP2':
+                                        return (
+                                          p.jenisEvent ===
+                                          'kampungAngkatPergigian'
+                                        );
+                                      default:
+                                        return [];
+                                    }
+                                  } else {
+                                    return [];
+                                  }
+                                })
+                                .map((p, index) => {
+                                  return (
+                                    <option
+                                      key={index}
+                                      value={p.nama}
+                                      className='capitalize'
+                                    >
+                                      {p.nama}
+                                    </option>
+                                  );
+                                })}
+                          </select>
+                        </div>
+                      )}
                       {props.jenisReten === 'PG101C' &&
                         props.pilihanFasiliti === 'kpbmpb' && (
                           <div className='px-3 py-1'>
@@ -1600,6 +1683,20 @@ const Generate = (props) => {
   const [pilihanKpbMpb, setPilihanKpbMpb] = useState('');
   const [pilihanIndividu, setPilihanIndividu] = useState('');
 
+  const pilihanRetenAdaProgram = [
+    'DEWASAMUDA',
+    'KOM-OAP',
+    'KOM-OKU-PDK',
+    'KOM-Komuniti',
+    'KOM-Penjara',
+    'KOM-WE',
+    'KOM',
+    'OAP',
+    'PPR',
+    'PPKPS',
+    'PKAP2',
+  ].includes(jenisReten);
+
   const handleGetKkia = async (e) => {
     setPilihanFasiliti(e);
     if (e === 'klinik') {
@@ -1611,9 +1708,7 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kkiakd'
-          // );
+          toast.error('Sila cuba lagi');
         });
     }
   };
@@ -1627,9 +1722,7 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-program'
-          // );
+          toast.error('Sila cuba lagi');
         });
     } else if (e === 'kpbmpb') {
       await readSpesifikKPBMPBData(pilihanKlinik)
@@ -1638,9 +1731,7 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-kpbmpb'
-          // );
+          toast.error('Sila cuba lagi');
         });
     }
   };
@@ -1656,9 +1747,7 @@ const Generate = (props) => {
         })
         .catch((err) => {
           console.log(err);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: ga-data-individu'
-          // );
+          toast.error('Sila cuba lagi');
         });
     }
   };
@@ -1707,11 +1796,24 @@ const Generate = (props) => {
   const handlePilihKlinik = (e) => {
     setPilihanKlinik(e.target.value);
     if (e.target.value === 'all') {
+      console.log('all');
+      if (pilihanRetenAdaProgram) {
+        console.log('setting program');
+        setPilihanFasiliti('program');
+      }
       return;
     }
     if (e.target.value === '') {
       setNamaKlinik('');
       resetPilihanBiasa();
+      return;
+    }
+    if (e.target.value !== '' && e.target.value !== 'all') {
+      console.log('ada klinik');
+      if (pilihanRetenAdaProgram) {
+        console.log('setting program');
+        setPilihanFasiliti('program');
+      }
       return;
     }
     resetPilihanBiasa();
