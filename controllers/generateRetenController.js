@@ -10,10 +10,12 @@ const Operator = require('../models/Operator');
 // const Event = require('../models/Event');
 const Fasiliti = require('../models/Fasiliti');
 const Reservoir = require('../models/Reservoir');
-// const KohortKotak = require('../models/KohortKotak');
 const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
 const { logger, penjanaanRetenLogger } = require('../logs/logger');
+const { reten_engine_version } = require('./countHelperFuser');
+// helper
+const Helper = require('../controllers/countHelperFuser');
 
 const borderStyle = {
   top: { style: 'thin' },
@@ -236,9 +238,6 @@ exports.startQueueKp = async function (req, res) {
   return result;
 };
 
-// helper
-const Helper = require('../controllers/countHelperFuser');
-
 // gateway
 const downloader = async (req, res) => {
   // check query
@@ -305,6 +304,8 @@ const downloader = async (req, res) => {
     fromEtl,
   };
 
+  process.env.BUILD_ENV && console.table(payload);
+
   const excelFile = await mapsOfSeveralRetens.get(jenisReten)(payload);
 
   if (excelFile === 'No data found') {
@@ -324,7 +325,7 @@ const downloader = async (req, res) => {
 
 // functions
 const makePG101A = async (payload) => {
-  logger.info('[generateRetenController] PG101A');
+  logger.info('[generateRetenController/makePG101A] PG101A');
   try {
     let kkia;
     let {
@@ -577,7 +578,7 @@ const makePG101A = async (payload) => {
     worksheet.getCell('AI6').style = noBorderStyle;
     worksheet.getCell(
       'AI7'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AI8').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
@@ -601,7 +602,7 @@ const makePG101A = async (payload) => {
   }
 };
 const makePG101C = async (payload) => {
-  logger.info('[generateRetenController] PG101C');
+  logger.info('[generateRetenController/makePG101C] PG101C');
   try {
     let {
       klinik,
@@ -803,7 +804,7 @@ const makePG101C = async (payload) => {
 
     worksheet.getCell(
       'AI7'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AI8').value = `Dijana oleh: ${username} (${moment(
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
@@ -828,7 +829,7 @@ const makePG101C = async (payload) => {
   }
 };
 const makePG211A = async (payload) => {
-  logger.info('[generateRetenController] PG211A');
+  logger.info('[generateRetenController/makePG211A] PG211A');
   try {
     let {
       klinik,
@@ -956,7 +957,7 @@ const makePG211A = async (payload) => {
 
     worksheet.getCell(
       'AG6'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AG7').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -1009,7 +1010,7 @@ const makePG211A = async (payload) => {
   }
 };
 const makePG211C = async (payload) => {
-  logger.info('[generateRetenController] PG211C');
+  logger.info('[generateRetenController/makePG211C] PG211C');
   try {
     let {
       klinik,
@@ -1125,7 +1126,7 @@ const makePG211C = async (payload) => {
 
     worksheet.getCell(
       'AG6'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AG7').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -1179,7 +1180,7 @@ const makePG211C = async (payload) => {
   }
 };
 const makePG206 = async (payload) => {
-  logger.info('[generateRetenController] PG206');
+  logger.info('[generateRetenController/makePG206] PG206');
   try {
     let {
       klinik,
@@ -1529,7 +1530,7 @@ const makePG206 = async (payload) => {
 
     worksheet.getCell(
       'AU5'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AU6').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -1591,21 +1592,20 @@ const makePG206 = async (payload) => {
   }
 };
 const makePG207 = async (payload) => {
-  logger.info('[generateRetenController] PG207');
+  logger.info('[generateRetenController/makePG207] PG207');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanIndividu,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanIndividu,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -2095,7 +2095,7 @@ const makePG207 = async (payload) => {
 
     worksheet.getCell(
       'CC5'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('CC6').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -2157,7 +2157,7 @@ const makePG207 = async (payload) => {
   }
 };
 const makePG214 = async (payload) => {
-  logger.info('[generateRetenController] PG214');
+  logger.info('[generateRetenController/makePG214] PG214');
   try {
     let {
       klinik,
@@ -2301,7 +2301,7 @@ const makePG214 = async (payload) => {
 
     worksheet.getCell(
       'Z5'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('Z6').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -2361,7 +2361,7 @@ const makePG214 = async (payload) => {
   }
 };
 const makePGPR201 = async (payload) => {
-  logger.info('[generateRetenController] PGPR201Baru');
+  logger.info('[generateRetenController/makePGPR201] PGPR201Baru');
   try {
     let {
       klinik,
@@ -2508,7 +2508,7 @@ const makePGPR201 = async (payload) => {
 
     worksheet.getCell(
       'J8'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('J9').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -2566,7 +2566,7 @@ const makePGPR201 = async (payload) => {
   }
 };
 const makePgPro01 = async (payload) => {
-  logger.info('[generateRetenController] makePgPro01');
+  logger.info('[generateRetenController/makePgPro01] makePgPro01');
   try {
     let {
       username,
@@ -2903,7 +2903,7 @@ const makePgPro01 = async (payload) => {
 
     worksheet.getCell(
       'BG9'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('BG10').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -2954,7 +2954,9 @@ const makePgPro01 = async (payload) => {
   }
 };
 const makePgPro01Combined = async (payload) => {
-  logger.info('[generateRetenController] makePgPro01Combined');
+  logger.info(
+    '[generateRetenController/makePgPro01Combined] makePgPro01Combined'
+  );
   try {
     let {
       username,
@@ -3104,7 +3106,7 @@ const makePgPro01Combined = async (payload) => {
 
     worksheet.getCell(
       'BE9'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('BE10').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -3155,7 +3157,7 @@ const makePgPro01Combined = async (payload) => {
   }
 };
 const makePGS201 = async (payload) => {
-  logger.info('[generateRetenController] PG201 Pind. 2/2022 ');
+  logger.info('[generateRetenController/PGS201] PGS201 Pind. 2/2022 ');
   try {
     let {
       klinik,
@@ -3437,7 +3439,7 @@ const makePGS201 = async (payload) => {
 
     setCellValue(
       worksheet.getCell('CJ2'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('CJ3'),
@@ -3484,7 +3486,7 @@ const makePGS201 = async (payload) => {
   }
 };
 const makePGS203P2 = async (payload) => {
-  logger.info('[generateRetenController] PGS203P2');
+  logger.info('[generateRetenController/PGS203] PGS203P2');
   try {
     let {
       klinik,
@@ -3693,7 +3695,7 @@ const makePGS203P2 = async (payload) => {
 
     worksheet.getCell(
       'BP4'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('BP5').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -3753,20 +3755,20 @@ const makePGS203P2 = async (payload) => {
   }
 };
 const makeMasa = async (payload) => {
-  logger.info('[generateRetenController] makeMasa');
+  logger.info('[generateRetenController/makeMasa] makeMasa');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pegawai,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pegawai,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     //
     let data;
     switch (fromEtl) {
@@ -3868,7 +3870,7 @@ const makeMasa = async (payload) => {
 
     worksheet.getCell(
       'H3'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('H4').value = `Maklumat dari ${
       bulan
         ? `01-01-${new Date().getFullYear()} - ${moment().format('DD-MM-YYYY')}`
@@ -3922,20 +3924,19 @@ const makeMasa = async (payload) => {
   }
 };
 const makeBp = async (payload) => {
-  logger.info('[generateRetenController] Reten BP');
+  logger.info('[generateRetenController/makeBp] Reten BP');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -4020,7 +4021,7 @@ const makeBp = async (payload) => {
 
     worksheet.getCell(
       'N4'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('N5').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -4333,21 +4334,20 @@ const makeBp = async (payload) => {
   }
 };
 const makeBPE = async (payload) => {
-  logger.info('[generateRetenController] Reten BPE');
+  logger.info('[generateRetenController/makeBPE] Reten BPE');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pegawai,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pegawai,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -4444,7 +4444,7 @@ const makeBPE = async (payload) => {
 
     worksheet.getCell(
       'AI3'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AI4').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -4502,20 +4502,19 @@ const makeBPE = async (payload) => {
   }
 };
 const makeGender = async (payload) => {
-  logger.info('[generateRetenController] makeGender');
+  logger.info('[generateRetenController/makeGender] makeGender');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    bulan,
+    tarikhMula,
+    tarikhAkhir,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      bulan,
-      tarikhMula,
-      tarikhAkhir,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -4659,7 +4658,7 @@ const makeGender = async (payload) => {
     // info
     worksheet.getCell(
       'Y3'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('Y4').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -4715,18 +4714,17 @@ const makeGender = async (payload) => {
 
 // new
 const makeKEPP = async (payload) => {
-  logger.info('[generateRetenController] makeKEPP');
+  logger.info('[generateRetenController/makeKEPP] makeKEPP');
+  let {
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -4808,7 +4806,7 @@ const makeKEPP = async (payload) => {
 
     setCellValue(
       worksheet.getCell('T3'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('T4'),
@@ -4857,22 +4855,21 @@ const makeKEPP = async (payload) => {
   }
 };
 const makeTOD = async (payload) => {
-  logger.info('[generateRetenController] makeTOD');
+  logger.info('[generateRetenController/makeTOD] makeTOD');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanIndividu,
+    username,
+    // fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanIndividu,
-      username,
-      // fromEtl,
-      jenisReten,
-    } = payload;
     let data;
-    let fromEtl = 'false';
     switch (fromEtl) {
       case 'true':
         const query = createQuery(payload);
@@ -5002,7 +4999,7 @@ const makeTOD = async (payload) => {
 
     worksheet.getCell(
       'AF7'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AF8').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -5076,21 +5073,20 @@ const makeTOD = async (payload) => {
   }
 };
 const makeBEGIN = async (payload) => {
-  logger.info('[generateRetenController] makeBEGIN');
+  logger.info('[generateRetenController/makeBEGIN] makeBEGIN');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanIndividu,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanIndividu,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-
     let data;
 
     switch (fromEtl) {
@@ -5175,7 +5171,7 @@ const makeBEGIN = async (payload) => {
 
     worksheet.getCell(
       'M10'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('M11').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -5237,20 +5233,20 @@ const makeBEGIN = async (payload) => {
 };
 const makePPIM03 = async (payload) => {
   logger.info('[generateRetenController/makePPIM03] makePPIM03');
+  let {
+    sekolah,
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanIndividu,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      sekolah,
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanIndividu,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -5349,7 +5345,7 @@ const makePPIM03 = async (payload) => {
 
     worksheet.getCell(
       'AL7'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('AL8').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -5423,20 +5419,20 @@ const makePPIM03 = async (payload) => {
 };
 const makePPIM04 = async (payload) => {
   logger.info('[generateRetenController/makePPIM04] makePPIM04');
+  let {
+    sekolah,
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanIndividu,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      sekolah,
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanIndividu,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -5527,7 +5523,7 @@ const makePPIM04 = async (payload) => {
 
     worksheet.getCell(
       'M5'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('M6').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -5601,20 +5597,20 @@ const makePPIM04 = async (payload) => {
 };
 const makePPIM05 = async (payload) => {
   logger.info('[generateRetenController/makePPIM05] makePPIM05');
+  let {
+    sekolah,
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanIndividu,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      sekolah,
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanIndividu,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -5692,7 +5688,7 @@ const makePPIM05 = async (payload) => {
 
     worksheet.getCell(
       'N6'
-    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version})`;
+    ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
     worksheet.getCell('N7').value = `Maklumat dari ${
       bulan
         ? `${moment(bulan).startOf('month').format('DD-MM-YYYY')} - ${moment(
@@ -6036,7 +6032,7 @@ const makeDEWASAMUDA = async (payload) => {
 
     setCellValue(
       worksheet.getCell('BS8'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('BS9'),
@@ -6081,6 +6077,7 @@ const makeDEWASAMUDA = async (payload) => {
 
     return file;
   } catch (err) {
+    console.log(err);
     penjanaanRetenLogger.error(
       `[generateRetenController/makeDEWASAMUDA] Excel making error. Reason: ${err}`
     );
@@ -6116,6 +6113,7 @@ const makeOAP = async (payload) => {
     if (data.length === 0) {
       return 'No data found';
     }
+    // return data;
     //
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({
@@ -6141,211 +6139,127 @@ const makeOAP = async (payload) => {
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
+    let j = 0;
     // berdasarkan umur
     for (let i = 0; i < data[0].length; i++) {
       const [pemeriksaan] = data[0][i].queryOAPPemeriksaan || [];
 
       if (pemeriksaan) {
-        const row = worksheet.getRow(20 + i);
+        const row = worksheet.getRow(20 + j);
         jumlahReten += pemeriksaan.jumlahReten;
         jumlahRetenSalah += pemeriksaan.statusReten;
         row.getCell(3).value = pemeriksaan.kedatanganTahunSemasaBaru;
         row.getCell(5).value = pemeriksaan.jumlahd;
         row.getCell(6).value = pemeriksaan.jumlahf;
         row.getCell(7).value = pemeriksaan.jumlahx;
+        // skipping cells
         if (i > 1) {
-          row.getCell(11).value = pemeriksaan.jumlahD;
-          row.getCell(12).value = pemeriksaan.jumlahM;
-          row.getCell(13).value = pemeriksaan.jumlahF;
-          row.getCell(14).value = pemeriksaan.jumlahX;
+          row.getCell(9).value = pemeriksaan.jumlahD;
+          row.getCell(10).value = pemeriksaan.jumlahM;
+          row.getCell(11).value = pemeriksaan.jumlahF;
+          row.getCell(12).value = pemeriksaan.jumlahX;
         }
-        row.getCell(16).value = pemeriksaan.jumlahMBK;
+        // skipping cells
+        row.getCell(14).value = pemeriksaan.jumlahMBK;
         if (i > 1) {
-          row.getCell(17).value = pemeriksaan.statusBebasKaries;
+          row.getCell(15).value = pemeriksaan.statusBebasKaries;
         }
-        row.getCell(18).value = pemeriksaan.TPR;
+        row.getCell(16).value = pemeriksaan.TPR;
         if (i > 5) {
-          row.getCell(19).value = pemeriksaan.skorBPEZero;
-          row.getCell(20).value = pemeriksaan.skorBPEMoreThanZero;
+          row.getCell(17).value = pemeriksaan.skorBPEZero;
+          row.getCell(18).value = pemeriksaan.skorBPEMoreThanZero;
         }
-        row.getCell(21).value = pemeriksaan.jumlahTSL;
-        row.getCell(22).value = pemeriksaan.perluSapuanFluorida;
+        row.getCell(19).value = pemeriksaan.adaTSL;
+        row.getCell(20).value = pemeriksaan.perluSapuanFluorida;
         if (i > 1) {
-          row.getCell(23).value = pemeriksaan.perluJumlahPesakitPrrJenis1;
-          row.getCell(24).value = pemeriksaan.perluJumlahGigiPrrJenis1;
-          row.getCell(25).value = pemeriksaan.perluJumlahPesakitFS;
-          row.getCell(26).value = pemeriksaan.perluJumlahGigiFS;
+          row.getCell(21).value = pemeriksaan.perluJumlahPesakitPrrJenis1;
+          row.getCell(22).value = pemeriksaan.perluJumlahGigiPrrJenis1;
+          row.getCell(23).value = pemeriksaan.perluJumlahPesakitFS;
+          row.getCell(24).value = pemeriksaan.perluJumlahGigiFS;
         }
-        row.getCell(27).value = pemeriksaan.perluPenskaleran;
+        row.getCell(25).value = pemeriksaan.perluPenskaleran;
         if (i > 1) {
-          row.getCell(28).value = pemeriksaan.perluEndoAnterior;
-          row.getCell(29).value = pemeriksaan.perluEndoPremolar;
-          row.getCell(30).value = pemeriksaan.perluEndoMolar;
-          row.getCell(31).value = pemeriksaan.jumlahPerluDenturPenuh;
-          row.getCell(32).value = pemeriksaan.jumlahPerluDenturSepara;
+          row.getCell(26).value = pemeriksaan.perluEndoAnterior;
+          row.getCell(27).value = pemeriksaan.perluEndoPremolar;
+          row.getCell(28).value = pemeriksaan.perluEndoMolar;
+          row.getCell(29).value = pemeriksaan.jumlahPerluDenturPenuh;
+          row.getCell(30).value = pemeriksaan.jumlahPerluDenturSepara;
         }
       }
+      j++;
+      if (i === 11) {
+        j++;
+      }
     }
+
+    j = 0;
+
     for (let i = 0; i < data[1].length; i++) {
       const [rawatan] = data[1][i].queryOAPRawatan || [];
 
       if (rawatan) {
-        const row = worksheet.getRow(20 + i);
+        const row = worksheet.getRow(20 + j);
         // rawatan
         row.getCell(4).value = rawatan.kedatanganTahunSemasaUlangan;
         row.getCell(31).value = rawatan.sapuanFluorida;
+        row.getCell(32).value = rawatan.jumlahPesakitPrrJenis1;
+        row.getCell(33).value = rawatan.jumlahGigiPrrJenis1;
+        row.getCell(34).value = rawatan.jumlahPesakitDiBuatFs;
+        row.getCell(35).value = rawatan.jumlahGigiDibuatFs;
 
-        for (let k = 32; k <= 35; k++) {
-          if (i > 1) {
-            row.getCell(k).value = rawatan[`jumlahPesakitPrrJenis${k - 31}`];
-          }
-        }
-
-        for (let k = 36; k <= 47; k++) {
-          row.getCell(k).value =
-            rawatan[
-              `tampalan${k === 44 ? 'PostAmg' : k < 44 ? 'AntGd' : 'PostGk'}${
-                k % 2 === 0 ? 'Baru' : 'Semula'
-              }`
-            ];
-        }
-
-        row.getCell(50).value = rawatan.tampalanSementara;
-        row.getCell(51).value = rawatan.cabutanGd;
-        row.getCell(52).value = rawatan.cabutanGk;
-        row.getCell(53).value = rawatan.komplikasiSelepasCabutan;
-        row.getCell(54).value = rawatan.penskaleran;
-        row.getCell(55).value = data[1][i].queryRawatan[0].rawatanPerioLain;
-        row.getCell(56).value = data[1][i].queryRawatan[0].rawatanEndoAnterior;
-        row.getCell(57).value = data[1][i].queryRawatan[0].rawatanEndoPremolar;
-        row.getCell(58).value = data[1][i].queryRawatan[0].rawatanEndoMolar;
-        row.getCell(59).value = data[1][i].queryRawatan[0].rawatanOrtho;
-        row.getCell(60).value = data[1][i].queryRawatan[0].kesPerubatan;
-        row.getCell(61).value = rawatan.abses;
-        row.getCell(62).value = rawatan.kecederaanTulangMuka;
-        row.getCell(63).value = rawatan.kecederaanGigi;
-        row.getCell(64).value = rawatan.kecederaanTisuLembut;
-        row.getCell(65).value = data[1][i].queryRawatan[0].cabutanSurgical;
-        row.getCell(66).value = data[1][i].queryRawatan[0].pembedahanKecilMulut;
-
-        for (let k = 67; k <= 76; k++) {
+        for (let k = 36; k <= 49; k++) {
           if (i > 1) {
             row.getCell(k).value =
-              data[1][i].queryRawatan[0][
-                k % 2 === 1 ? 'crownBridgeSemula' : 'crownBridgeBaru'
+              rawatan[
+                `tampalan${k === 44 ? 'PostAmg' : k < 44 ? 'AntGd' : 'PostGk'}${
+                  k % 2 === 0 ? 'Baru' : 'Semula'
+                }`
               ];
           }
         }
 
-        row.getCell(77).value = rawatan.immediateDenture;
-        row.getCell(78).value = rawatan.pembaikanDenture;
-        row.getCell(79).value = rawatan.kesSelesai;
-        row.getCell(80).value = rawatan.xrayDiambil;
-        row.getCell(81).value = rawatan.pesakitDisaringOC;
-      }
-    }
-    // berdasarkan kategori
-    for (let i = 0; i < data[2].length; i++) {
-      const [pemeriksaan] = data[2][i].queryOAPPemeriksaan || [];
+        row.getCell(52).value = rawatan.tampalanSementara;
+        row.getCell(53).value = rawatan.cabutanGd;
+        row.getCell(54).value = rawatan.cabutanGk;
+        row.getCell(55).value = rawatan.komplikasiSelepasCabutan;
+        row.getCell(56).value = rawatan.penskaleran;
+        row.getCell(57).value = rawatan.rawatanPerioLain;
+        row.getCell(58).value = rawatan.rawatanEndoAnterior;
+        row.getCell(59).value = rawatan.rawatanEndoPremolar;
+        row.getCell(60).value = rawatan.rawatanEndoMolar;
+        row.getCell(61).value = rawatan.rawatanOrtho;
+        row.getCell(62).value = rawatan.kesPerubatan;
+        row.getCell(63).value = rawatan.abses;
+        row.getCell(64).value = rawatan.kecederaanTulangMuka;
+        row.getCell(65).value = rawatan.kecederaanGigi;
+        row.getCell(66).value = rawatan.kecederaanTisuLembut;
+        row.getCell(67).value = rawatan.cabutanSurgical;
+        row.getCell(68).value = rawatan.pembedahanKecilMulut;
 
-      if (pemeriksaan) {
-        // pemeriksaan
-        const row = worksheet.getRow(20 + i);
-        jumlahReten += pemeriksaan.jumlahReten;
-        jumlahRetenSalah += pemeriksaan.statusReten;
-        row.getCell(3).value = pemeriksaan.kedatanganTahunSemasaBaru;
-        row.getCell(5).value = pemeriksaan.jumlahd;
-        row.getCell(6).value = pemeriksaan.jumlahf;
-        row.getCell(7).value = pemeriksaan.jumlahx;
-        if (i > 1) {
-          row.getCell(11).value = pemeriksaan.jumlahD;
-          row.getCell(12).value = pemeriksaan.jumlahM;
-          row.getCell(13).value = pemeriksaan.jumlahF;
-          row.getCell(14).value = pemeriksaan.jumlahX;
-        }
-        row.getCell(16).value = pemeriksaan.jumlahMBK;
-        if (i > 1) {
-          row.getCell(17).value = pemeriksaan.statusBebasKaries;
-        }
-        row.getCell(18).value = pemeriksaan.TPR;
-        if (i > 5) {
-          row.getCell(19).value = pemeriksaan.skorBPEZero;
-          row.getCell(20).value = pemeriksaan.skorBPEMoreThanZero;
-        }
-        row.getCell(21).value = pemeriksaan.jumlahTSL;
-        row.getCell(22).value = pemeriksaan.perluSapuanFluorida;
-        if (i > 1) {
-          row.getCell(23).value = pemeriksaan.perluJumlahPesakitPrrJenis1;
-          row.getCell(24).value = pemeriksaan.perluJumlahGigiPrrJenis1;
-          row.getCell(25).value = pemeriksaan.perluJumlahPesakitFS;
-          row.getCell(26).value = pemeriksaan.perluJumlahGigiFS;
-        }
-        row.getCell(27).value = pemeriksaan.perluPenskaleran;
-        if (i > 1) {
-          row.getCell(28).value = pemeriksaan.perluEndoAnterior;
-          row.getCell(29).value = pemeriksaan.perluEndoPremolar;
-          row.getCell(30).value = pemeriksaan.perluEndoMolar;
-          row.getCell(31).value = pemeriksaan.jumlahPerluDenturPenuh;
-          row.getCell(32).value = pemeriksaan.jumlahPerluDenturSepara;
-        }
-      }
-    }
-    for (let i = 0; i < data[3].length; i++) {
-      const [rawatan] = data[3][i].queryOAPRawatan || [];
-
-      if (rawatan) {
-        // rawatan
-        const row = worksheet.getRow(20 + i);
-        row.getCell(4).value = rawatan.kedatanganTahunSemasaUlangan;
-        row.getCell(31).value = rawatan.sapuanFluorida;
-
-        for (let k = 32; k <= 35; k++) {
-          if (i > 1) {
-            row.getCell(k).value = rawatan[`jumlahPesakitPrrJenis${k - 31}`];
-          }
-        }
-
-        for (let k = 36; k <= 47; k++) {
-          row.getCell(k).value =
-            rawatan[
-              `tampalan${k === 44 ? 'PostAmg' : k < 44 ? 'AntGd' : 'PostGk'}${
-                k % 2 === 0 ? 'Baru' : 'Semula'
-              }`
-            ];
-        }
-
-        row.getCell(50).value = rawatan.tampalanSementara;
-        row.getCell(51).value = rawatan.cabutanGd;
-        row.getCell(52).value = rawatan.cabutanGk;
-        row.getCell(53).value = rawatan.komplikasiSelepasCabutan;
-        row.getCell(54).value = rawatan.penskaleran;
-        row.getCell(55).value = data[1][i].queryRawatan[0].rawatanPerioLain;
-        row.getCell(56).value = data[1][i].queryRawatan[0].rawatanEndoAnterior;
-        row.getCell(57).value = data[1][i].queryRawatan[0].rawatanEndoPremolar;
-        row.getCell(58).value = data[1][i].queryRawatan[0].rawatanEndoMolar;
-        row.getCell(59).value = data[1][i].queryRawatan[0].rawatanOrtho;
-        row.getCell(60).value = data[1][i].queryRawatan[0].kesPerubatan;
-        row.getCell(61).value = rawatan.abses;
-        row.getCell(62).value = rawatan.kecederaanTulangMuka;
-        row.getCell(63).value = rawatan.kecederaanGigi;
-        row.getCell(64).value = rawatan.kecederaanTisuLembut;
-        row.getCell(65).value = data[1][i].queryRawatan[0].cabutanSurgical;
-        row.getCell(66).value = data[1][i].queryRawatan[0].pembedahanKecilMulut;
-
-        for (let k = 67; k <= 76; k++) {
+        for (let k = 69; k <= 72; k++) {
           if (i > 1) {
             row.getCell(k).value =
-              data[1][i].queryRawatan[0][
-                k % 2 === 1 ? 'crownBridgeSemula' : 'crownBridgeBaru'
-              ];
+              rawatan[k % 2 === 1 ? 'crownBridgeSemula' : 'crownBridgeBaru'];
           }
         }
 
-        row.getCell(77).value = rawatan.immediateDenture;
-        row.getCell(78).value = rawatan.pembaikanDenture;
-        row.getCell(79).value = rawatan.kesSelesai;
-        row.getCell(80).value = rawatan.xrayDiambil;
-        row.getCell(81).value = rawatan.pesakitDisaringOC;
+        if (i > 1) {
+          row.getCell(73).value = rawatan.prosthodontikPenuhDenturBaru;
+          row.getCell(74).value = rawatan.prosthodontikPenuhDenturSemula;
+          row.getCell(75).value = rawatan.jumlahPesakitBuatDenturPenuh;
+          row.getCell(76).value = rawatan.prosthodontikSeparaDenturBaru;
+          row.getCell(77).value = rawatan.prosthodontikSeparaDenturSemula;
+          row.getCell(78).value = rawatan.jumlahPesakitBuatDenturSepara;
+          row.getCell(79).value = rawatan.immediateDenture;
+          row.getCell(80).value = rawatan.pembaikanDenture;
+        }
+        row.getCell(81).value = rawatan.kesSelesai;
+        row.getCell(82).value = rawatan.xrayDiambil;
+        row.getCell(83).value = rawatan.pesakitDisaringOC;
+      }
+      j++;
+      if (i === 11) {
+        j++;
       }
     }
 
@@ -6363,7 +6277,7 @@ const makeOAP = async (payload) => {
 
     setCellValue(
       worksheet.getCell('CE8'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('CE9'),
@@ -6519,7 +6433,7 @@ const makeLiputanOAP = async (payload) => {
 
     setCellValue(
       worksheet.getCell('E2'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('E3'),
@@ -6690,7 +6604,7 @@ const makeKPBMPBHarian = async (payload) => {
 
     setCellValue(
       worksheet.getCell('Q9'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('Q10'),
@@ -6852,7 +6766,7 @@ const makeKPBMPBBulanan = async (payload) => {
 
     setCellValue(
       worksheet.getCell('P9'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('P10'),
@@ -6897,22 +6811,22 @@ const makeKPBMPBBulanan = async (payload) => {
     excelMakerError(jenisReten);
   }
 };
-// khusus (OKU, WE, OAP, PENJARA, PROJEK KOMUNITI)
+// khusus (OAP, WE, OKU, PROJEK KOMUNITI, PENJARA)
 const makeKOM = async (payload) => {
   logger.info('[generateRetenController/makeKOM] makeKOM');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanProgram,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanProgram,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -6949,7 +6863,9 @@ const makeKOM = async (payload) => {
     worksheet.getCell('C8').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('C9').value = `${daerah.toUpperCase()}`;
     worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('C11').value = `${pilihanProgram.toUpperCase()}`;
+    worksheet.getCell('C11').value = `${
+      pilihanProgram ? pilihanProgram.toUpperCase() : 'ALL'
+    }`;
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -6990,7 +6906,7 @@ const makeKOM = async (payload) => {
           data[0][i].queryKOMPemeriksaan[0].perluSapuanFluorida;
         if (i > 1) {
           row.getCell(20).value =
-            data[0][i].queryDMPemeriksaan[0].perluJumlahPesakitPrrJenis1;
+            data[0][i].queryKOMPemeriksaan[0].perluJumlahPesakitPrrJenis1;
           row.getCell(21).value =
             data[0][i].queryKOMPemeriksaan[0].perluJumlahGigiPrrJenis1;
           row.getCell(22).value =
@@ -7014,7 +6930,10 @@ const makeKOM = async (payload) => {
         }
       }
       j++;
-      if (i === 11 || i === 15) {
+      if (i === 11) {
+        j++;
+      }
+      if (i === 15) {
         j++;
       }
     }
@@ -7090,7 +7009,7 @@ const makeKOM = async (payload) => {
           row.getCell(59).value =
             data[1][i].queryKOMRawatan[0].prosthodontikSeparaDenturBaru;
           row.getCell(60).value =
-            data[1][i].queryDMRawatan[0].prosthodontikSeparaDenturSemula;
+            data[1][i].queryKOMRawatan[0].prosthodontikSeparaDenturSemula;
           row.getCell(61).value =
             data[1][i].queryKOMRawatan[0].jumlahPesakitBuatDenturSepara;
           //
@@ -7123,7 +7042,7 @@ const makeKOM = async (payload) => {
 
     setCellValue(
       worksheet.getCell('BP8'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('BP9'),
@@ -7164,6 +7083,7 @@ const makeKOM = async (payload) => {
 
     return file;
   } catch (err) {
+    console.log(err);
     penjanaanRetenLogger.error(
       `[generateRetenController/makeKOM] Excel making error. Reason: ${err}`
     );
@@ -7395,7 +7315,7 @@ const makePPR = async (payload) => {
 
     setCellValue(
       worksheet.getCell('BP8'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('BP9'),
@@ -7444,19 +7364,18 @@ const makePPR = async (payload) => {
 };
 const makeUTCRTC = async (payload) => {
   logger.info('[generateRetenController/makeUTCRTC] makeUTCRTC');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanProgram,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -7471,6 +7390,7 @@ const makeUTCRTC = async (payload) => {
     if (data.length === 0) {
       return 'No data found';
     }
+    // console.log(data);
     //
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({
@@ -7498,7 +7418,7 @@ const makeUTCRTC = async (payload) => {
 
     worksheet.getCell('C9').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('C10').value = `${daerah.toUpperCase()}`;
-    worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
+    worksheet.getCell('C11').value = `${klinik.toUpperCase()}`;
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -7540,7 +7460,7 @@ const makeUTCRTC = async (payload) => {
           data[0][i].queryUTCRTCPemeriksaan[0].perluSapuanFluorida;
         if (i > 1) {
           row.getCell(20).value =
-            data[0][i].queryDMPemeriksaan[0].perluJumlahPesakitPrrJenis1;
+            data[0][i].queryUTCRTCPemeriksaan[0].perluJumlahPesakitPrrJenis1;
           row.getCell(21).value =
             data[0][i].queryUTCRTCPemeriksaan[0].perluJumlahGigiPrrJenis1;
           row.getCell(22).value =
@@ -7642,7 +7562,7 @@ const makeUTCRTC = async (payload) => {
           row.getCell(59).value =
             data[1][i].queryUTCRTCRawatan[0].prosthodontikSeparaDenturBaru;
           row.getCell(60).value =
-            data[1][i].queryDMRawatan[0].prosthodontikSeparaDenturSemula;
+            data[1][i].queryUTCRTCRawatan[0].prosthodontikSeparaDenturSemula;
           row.getCell(61).value =
             data[1][i].queryUTCRTCRawatan[0].jumlahPesakitBuatDenturSepara;
           //
@@ -7676,7 +7596,7 @@ const makeUTCRTC = async (payload) => {
 
     setCellValue(
       worksheet.getCell('CD8'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('CD9'),
@@ -7719,6 +7639,7 @@ const makeUTCRTC = async (payload) => {
 
     return file;
   } catch (err) {
+    console.log(err);
     penjanaanRetenLogger.error(
       `[generateRetenController/makeUTCRTC] Excel making error. Reason: ${err}`
     );
@@ -7727,19 +7648,19 @@ const makeUTCRTC = async (payload) => {
 };
 const makePPKPS = async (payload) => {
   logger.info('[generateRetenController/makePPKPS] makePPKPS');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanProgram,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanProgram,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -7960,7 +7881,7 @@ const makePPKPS = async (payload) => {
 
     setCellValue(
       worksheet.getCell('BP8'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('BP9'),
@@ -8011,19 +7932,18 @@ const makePPKPS = async (payload) => {
 };
 const makePKAP1 = async (payload) => {
   logger.info('[generateRetenController] makePKAP1');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -8103,7 +8023,7 @@ const makePKAP1 = async (payload) => {
 
     setCellValue(
       worksheet.getCell('I6'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('I7'),
@@ -8137,19 +8057,19 @@ const makePKAP1 = async (payload) => {
 };
 const makePKAP2 = async (payload) => {
   logger.info('[generateRetenController/makePKAP2] makePKAP2');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanProgram,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanProgram,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -8234,7 +8154,7 @@ const makePKAP2 = async (payload) => {
           data[0][i].queryPKAPPemeriksaan[0].perluSapuanFluorida;
         if (i > 1) {
           row.getCell(20).value =
-            data[0][i].queryDMPemeriksaan[0].perluJumlahPesakitPrrJenis1;
+            data[0][i].queryPKAPPemeriksaan[0].perluJumlahPesakitPrrJenis1;
           row.getCell(21).value =
             data[0][i].queryPKAPPemeriksaan[0].perluJumlahGigiPrrJenis1;
           row.getCell(22).value =
@@ -8336,7 +8256,7 @@ const makePKAP2 = async (payload) => {
           row.getCell(59).value =
             data[1][i].queryPKAPRawatan[0].prosthodontikSeparaDenturBaru;
           row.getCell(60).value =
-            data[1][i].queryDMRawatan[0].prosthodontikSeparaDenturSemula;
+            data[1][i].queryPKAPRawatan[0].prosthodontikSeparaDenturSemula;
           row.getCell(61).value =
             data[1][i].queryPKAPRawatan[0].jumlahPesakitBuatDenturSepara;
           //
@@ -8370,7 +8290,7 @@ const makePKAP2 = async (payload) => {
 
     setCellValue(
       worksheet.getCell('BP7'),
-      `Gi-Ret 2.0 (${process.env.npm_package_version})`
+      `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`
     );
     setCellValue(
       worksheet.getCell('BP8'),
@@ -8422,27 +8342,27 @@ const makePKAP2 = async (payload) => {
 
 // debug
 exports.debug = async (req, res) => {
-  logger.info('[generateRetenController] debug test');
+  logger.info('[generateRetenController/debugTest] debug test');
   let payload = {
-    negeri: 'WP Labuan',
+    negeri: 'Selangor',
     // daerah: 'Arau',
-    daerah: 'WP Labuan',
+    daerah: 'all',
     // klinik: 'Klinik Pergigian Kaki Bukit',
     klinik: 'all',
     // bulan: '2023-04-01',
     tarikhMula: '2023-01-01',
-    tarikhAkhir: '2023-03-31',
-    jenisReten: 'DEWASAMUDA',
+    tarikhAkhir: '2023-01-31',
+    jenisReten: 'OAP',
     fromEtl: false,
   };
-  console.table(payload);
-  const data = await makeDEWASAMUDA(payload);
+  // console.table(payload);
+  const data = await makeOAP(payload);
   // const data = await makePG214(payload);
   // const data = await makePGPR201(klinik);
   // const data = await makePGS203(klinik, bulan, sekolah);
-  res.setHeader('Content-Type', 'application/vnd.ms-excel');
-  res.status(200).send(data);
-  // res.status(200).json(data);
+  // res.setHeader('Content-Type', 'application/vnd.ms-excel');
+  // res.status(200).send(data);
+  res.status(200).json(data);
 };
 
 // helper
@@ -8584,22 +8504,29 @@ const mapsOfSeveralRetens = new Map([
   ['PGPRO01Combined', makePgPro01Combined],
   ['PGS201', makePGS201],
   ['PGS203P2', makePGS203P2],
+  ['TODP1', makeTOD],
   ['MASA', makeMasa],
   ['BP', makeBp],
   ['BPE', makeBPE],
   ['GENDER', makeGender],
   ['KEPP', makeKEPP],
-  ['TODP1', makeTOD],
+  // new
   ['BEGIN', makeBEGIN],
   ['PPIM03', makePPIM03],
   ['PPIM04', makePPIM04],
   ['PPIM05', makePPIM05],
-  // new
   ['DEWASAMUDA', makeDEWASAMUDA],
   ['OAP', makeOAP],
   ['LiputanOAP', makeLiputanOAP],
   ['KPBMPBHarian', makeKPBMPBHarian],
   ['KPBMPBBulanan', makeKPBMPBBulanan],
+  // variasi reten kom
+  ['KOM-OAP', makeKOM],
+  ['KOM-WE', makeKOM],
+  ['KOM-OKU-PDK', makeKOM],
+  ['KOM-Komuniti', makeKOM],
+  ['KOM-Penjara', makeKOM],
+  // induk kom
   ['KOM', makeKOM],
   ['PPR', makePPR],
   ['UTCRTC', makeUTCRTC],

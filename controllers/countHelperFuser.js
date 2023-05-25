@@ -19,7 +19,7 @@ const {
   countKEPP,
   countTOD,
   countAdHocQuery,
-} = require('../controllers/countHelper');
+} = require('./countHelperRegular');
 const {
   countPPIM03,
   countPPIM04,
@@ -30,9 +30,18 @@ const {
   countKPBMPBHarian,
   countKPBMPBBulanan,
   countKOM,
-} = require('../controllers/countHelperKomuniti');
+  countPPR,
+  countUTCRTC,
+  countPPKPS,
+  countPKAP2,
+} = require('./countHelperKomuniti');
+
+const reten_engine_version = '1.8.0';
 
 module.exports = {
+  // version
+  reten_engine_version,
+  // funcs
   countPG101A,
   countPG101C,
   countPG211A,
@@ -63,4 +72,8 @@ module.exports = {
   countKPBMPBHarian,
   countKPBMPBBulanan,
   countKOM,
+  countPPR,
+  countUTCRTC,
+  countPPKPS,
+  countPKAP2,
 };
