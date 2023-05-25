@@ -15,6 +15,8 @@ import {
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
+import UserDeleteModal from '../UserDeleteModal';
+
 function UserSekolah() {
   const {
     userToken,
@@ -50,6 +52,9 @@ function UserSekolah() {
   const [tarikhMelaksanakanBeginDP, setTarikhMelaksanakanBeginDP] =
     useState(null);
   const [submittingBegin, setSubmittingBegin] = useState(false);
+
+  const [operasiHapus, setOperasiHapus] = useState(false);
+  const [modalHapus, setModalHapus] = useState(false);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
@@ -345,6 +350,55 @@ function UserSekolah() {
     }
   };
 
+  useEffect(() => {
+    if (modalHapus === false) {
+      // setPilih('');
+      // setResultPilih([]);
+    }
+  });
+
+  const handleDelete = async (singlePerson, reason) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.patch(
+          `/api/v1/umum/delete/${singlePerson}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
+    }
+  };
+
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
@@ -536,6 +590,9 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 py-1 px-2 w-96'>
                   NAMA
                 </th>
+                <th className='outline outline-1 outline-offset-1 py-1 px-2 w-50'>
+                  MAKLUMAT TAMBAHAN
+                </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap w-72'>
                   OPERATOR PEMERIKSAAN
                 </th>
@@ -558,6 +615,11 @@ function UserSekolah() {
                     AKTIVITI BEGIN
                   </th>
                 ) : null}
+                {userinfo.role === 'admin' && (
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
+                    HAPUS
+                  </th>
+                )}
               </tr>
             </thead>
             {/* TODO disable semua data input if person sekolah berpindah === true */}
@@ -582,6 +644,9 @@ function UserSekolah() {
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.nama}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
+                            {}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.pemeriksaanSekolah
@@ -1124,6 +1189,21 @@ function UserSekolah() {
                               </div>
                             </td>
                           ) : null}
+                          {userinfo.role === 'admin' && (
+                            <td
+                              // onClick={() => {
+                              // setOperasiHapus(true);
+                              // setPilih(singlePersonSekolah._id);
+                              // scrollBawah();
+                              // }}
+                              // className={`${
+                              //   pilih === singlePersonSekolah._id && 'bg-user3'
+                              // } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                              className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2'
+                            >
+                              <u>HAPUS</u>
+                            </td>
+                          )}
                         </tr>
                       </tbody>
                     </>
@@ -1134,6 +1214,9 @@ function UserSekolah() {
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
@@ -1160,6 +1243,11 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
+                  {userinfo.role === 'admin' && (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  )}
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1197,14 +1285,10 @@ function UserSekolah() {
                 <tbody className='bg-user4'>
                   <tr>
                     <td
-                      colSpan={7}
+                      colSpan={9}
                       className='px-2 py-2 outline outline-1 outline-userWhite font-semibold text-lg outline-offset-1 '
                     >
-                      Sila pilih{' '}
-                      {pilihanSekolah.includes('MENENGAH')
-                        ? 'Tingkatan'
-                        : 'Tahun'}{' '}
-                      dahulu
+                      Sila pilih tahun/tingkatan dahulu
                     </td>
                   </tr>
                 </tbody>
@@ -1227,6 +1311,14 @@ function UserSekolah() {
           />
         </div>
       </div>
+      {modalHapus && (
+        <UserDeleteModal
+        // handleDelete={handleDelete}
+        // setModalHapus={setModalHapus}
+        // id={singlePersonUmum._id}
+        // nama={singlePersonUmum.nama}
+        />
+      )}
     </>
   );
 }
