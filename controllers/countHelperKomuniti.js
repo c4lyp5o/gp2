@@ -5645,7 +5645,6 @@ const countOAP = async (payload) => {
         match_stage_pemeriksaan[i],
         group_pemeriksaan,
       ];
-      console.log(pipeline_pemeriksaan);
       const queryOAPPemeriksaan = await Umum.aggregate(pipeline_pemeriksaan);
       dataPemeriksaan.push({ queryOAPPemeriksaan });
     }
