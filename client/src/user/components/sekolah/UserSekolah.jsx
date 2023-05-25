@@ -667,7 +667,30 @@ function UserSekolah() {
                             {singlePersonSekolah.nama}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
-                            {}
+                            <div className='text-justify'>
+                              <p>
+                                NOMBOR PENGENALAN :{' '}
+                                {singlePersonSekolah.nomborId}
+                              </p>
+                              <p>JANTINA : {singlePersonSekolah.jantina}</p>
+                              <p>
+                                TARIKH LAHIR :{' '}
+                                {singlePersonSekolah.tarikhLahir.split(' ')[0]}
+                              </p>
+                              <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
+                              <p>
+                                WARGANEGARA : {singlePersonSekolah.warganegara}
+                              </p>
+                              <span>
+                                <p>
+                                  <div className='text-center py-2'>
+                                    <button class='bg-user3 hover:bg-user7 text-userWhite font-bold py-2 px-4 rounded border border-userBlack'>
+                                      Kemaskini
+                                    </button>
+                                  </div>
+                                </p>
+                              </span>
+                            </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.pemeriksaanSekolah
