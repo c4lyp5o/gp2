@@ -41,18 +41,17 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
-// not used
 // GET /:personSekolahId
 const getSinglePersonSekolahVanilla = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const {
-    params: { id: personSekolahId },
-  } = req;
+  console.log('getSinglePersonSekolahVanilla ' + req.params.personSekolahId);
 
-  const singlePersonSekolah = await Sekolah.findOne({ _id: personSekolahId });
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+  });
 
   if (!singlePersonSekolah) {
     return res
@@ -61,6 +60,31 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
   }
 
   res.status(200).json({ singlePersonSekolah });
+};
+
+// GET /populate/:personSekolahId
+const getSinglePersonSekolahWithPopulate = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const personSekolahWithPopulate = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+  })
+    .populate('pemeriksaanSekolah')
+    .populate('rawatanSekolah');
+  // .populate('kotakSekolah');
+
+  if (!personSekolahWithPopulate) {
+    return res
+      .status(404)
+      .json({ msg: `No person with id ${req.params.personSekolahId}` });
+  }
+
+  res.status(201).json({ personSekolahWithPopulate });
 };
 
 // GET /populate-satu-sekolah/:kodSekolah
@@ -255,31 +279,7 @@ const getAllPersonSekolahFaceted = async (req, res) => {
   });
 };
 
-// GET /populate/:personSekolahId
-const getSinglePersonSekolahWithPopulate = async (req, res) => {
-  if (req.user.accountType !== 'kpUser') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
-
-  const sesiTakwim = sesiTakwimSekolah();
-
-  const personSekolahWithPopulate = await Sekolah.findOne({
-    _id: req.params.personSekolahId,
-    sesiTakwimPelajar: sesiTakwim,
-  })
-    .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah');
-  // .populate('kotakSekolah');
-
-  if (!personSekolahWithPopulate) {
-    return res
-      .status(404)
-      .json({ msg: `No person with id ${req.params.personSekolahId}` });
-  }
-
-  res.status(201).json({ personSekolahWithPopulate });
-};
-
+// not used
 // GET /kemaskini/:fasilitiId
 const kemaskiniSenaraiPelajar = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -479,7 +479,6 @@ const muatturunSenaraiPelajar = async (req, res) => {
   });
 };
 
-// not used
 // POST /
 const createPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -519,7 +518,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest
+  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working is intended or not?
   if (req.body.tarikhPemeriksaanSemasa > 0) {
     await Fasiliti.findOneAndUpdate(
       {
@@ -595,7 +594,7 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  // set fasilitiSekolah's begin to true
+  // set fasilitiSekolah's begin to true // TODO macam dah tak pakai je begin dalam Fasiliti
   if (
     req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
     'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
@@ -678,7 +677,7 @@ const updatePersonSekolah = async (req, res) => {
   res.status(200).json({ updatedPersonSekolah });
 };
 
-// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
+// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
 const updatePemeriksaanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -708,11 +707,6 @@ const updatePemeriksaanSekolah = async (req, res) => {
       .status(404)
       .json({ msg: `No document with id ${req.params.pemeriksaanSekolahId}` });
   }
-
-  // const personSekolah = await Sekolah.findOneAndUpdate(
-  //   { _id: req.query.personSekolahId },
-  //   { $set: { statusRawatan: 'belum selesai' } }
-  // );
 
   res.status(200).json({ updatedSinglePemeriksaan });
 };
