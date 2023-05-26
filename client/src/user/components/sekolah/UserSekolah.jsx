@@ -947,68 +947,60 @@ function UserSekolah() {
                                                     }
                                                   </span>
                                                 )}
-                                                {rawatan.pulpotomiSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    pulpotomi :{' '}
-                                                    {
-                                                      rawatan.pulpotomiSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.endodontikSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    endodontik :{' '}
-                                                    {
-                                                      rawatan.endodontikSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.absesSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    abses :{' '}
-                                                    {
-                                                      rawatan.absesSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.penskaleranSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    penskaleran :{' '}
-                                                    {
-                                                      rawatan.penskaleranSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukSekolahRawatan ===
+                                                {rawatan.absesSekolahRawatan ===
                                                   true && (
-                                                  <span className='text-xs font-medium text-start flex items-center flex-wrap'>
-                                                    Dirujuk{' '}
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    abses :{' '}
                                                     <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                    untuk{' '}
-                                                    {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
-                                                    true
-                                                      ? 'cabutan ,'
-                                                      : ''}
-                                                    {rawatan.rujukRawatanEndodontikSekolahRawatan ===
-                                                    true
-                                                      ? 'rawatan endodontik ,'
-                                                      : ''}
-                                                    {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                                                    true
-                                                      ? 'rawatan penskaleran ,'
-                                                      : ''}
-                                                    {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
-                                                    true
-                                                      ? 'rawatan periodontik ,'
-                                                      : ''}
-                                                    {rawatan.rujukLainLainSekolahRawatan ===
-                                                    true
-                                                      ? rawatan.rujukLainLainTulisSekolahRawatan
-                                                      : ''}
+                                                  </span>
+                                                )}
+                                                {rawatan.penskaleranSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    penskaleran :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukKlinikSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk klinik :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk ortodontik :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarPatologiSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar patologi :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarRestoratifSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar restoratif :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarBedahMulutSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar bedah mulut :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarPediatrikSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar pediatrik :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
                                                   </span>
                                                 )}
                                                 {rawatan.kesSelesaiSekolahRawatan ===
