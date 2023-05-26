@@ -1,5 +1,28 @@
 # Changelog
 
+### 26/5/2023 (v1.6.2)
+
+[countHelper]
+Deprecated
+
+[countHelperRegular]
+Isi sama mcm countHelper lama sans params
+Fix BPE nk tgk first BPE je
+Fix TPR MMI di 201
+Fix masa buang reten salah
+Fix 214
+Ah berapa bnyk fix da aku x ingt sila tgk code
+
+[countHelperKomuniti]
+Tambah reten KOM
+
+[countHelperFuser]
+Fuse countHelperRegular dan countHelperKomuniti
+Tambah version kononnya
+
+[generateRetenController]
+Tambah pembuatan reten KOM
+
 ### 18/5/2023 (v1.6.1)
 
 [countHelper]
