@@ -35,83 +35,125 @@ export default function UserModalSalahSekolah({
         <div className='h-10 bg-user9 flex justify-center items-center text-userWhite uppercase font-bold text-lg rounded-t-md'>
           Pengesahan
         </div>
-        <div className='flex flex-col items-center justify-center px-3'>
-          <h1 className='text-2xl font-bold text-center mt-3 border-b border-b-user1 py-3'>
+        <div className='flex flex-col items-center justify-center '>
+          <h1 className='text-2xl font-bold text-center mt-3 p-3'>
             Anda perlu memilih reten untuk menanda reten salah murid ini
           </h1>
+        </div>
+        <div className='grid '>
+          <div className='grid grid-cols-[1fr_2fr]'>
+            <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+              Nama
+            </p>
+            <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+              {carianSekolah.nama}
+            </p>
+            <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+              Sekolah
+            </p>
+            <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+              {carianSekolah.namaSekolah}
+            </p>
+            <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+              Kelas
+            </p>
+            <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+              {carianSekolah.tahunTingkatan} {carianSekolah.kelasPelajar}
+            </p>
+            <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+              warganegara
+            </p>
+            <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+              {carianSekolah.warganegara}
+            </p>
+            <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+              Operator pemeriksaan
+            </p>
+            <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+              {carianSekolah.pemeriksaanSekolah
+                ? carianSekolah.pemeriksaanSekolah.createdByUsername
+                : null}
+            </p>
+            <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+              Status Rawatan
+            </p>
+            <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10 uppercase'>
+              {carianSekolah.statusRawatan}
+            </p>
+          </div>
           <div className='mt-5 flex flex-col'>
             <p className='my-2 font-semibold'>
               Sila pilih mengikut pilihan anda
             </p>
-            <Link
-              target='_blank'
-              rel='noreferrer'
-              to={`/pengguna/landing/carian/sekolah/form-sekolah/pemeriksaan/${
-                carianSekolah._id
-              }/${
-                carianSekolah.pemeriksaanSekolah
-                  ? carianSekolah.pemeriksaanSekolah._id
-                  : 'tambah-pemeriksaan'
-              }`}
-              className={`${
-                carianSekolah.statusRawatan === 'enggan'
-                  ? 'pointer-events-none text-userBlack shadow-none'
+            <div className='grid grid-cols-2 gap-2 px-3'>
+              <Link
+                target='_blank'
+                rel='noreferrer'
+                to={`/pengguna/landing/carian/sekolah/form-sekolah/pemeriksaan/${
+                  carianSekolah._id
+                }/${
+                  carianSekolah.pemeriksaanSekolah
+                    ? carianSekolah.pemeriksaanSekolah._id
+                    : 'tambah-pemeriksaan'
+                }`}
+                className={`${
+                  carianSekolah.statusRawatan === 'enggan'
+                    ? 'pointer-events-none text-userWhite shadow-none bg-user9'
+                    : carianSekolah.statusRawatan === 'tidak hadir'
+                    ? 'pointer-events-none text-userWhite shadow-none bg-user9'
+                    : carianSekolah.pemeriksaanSekolah
+                    ? 'bg-user7 text-userWhite shadow-md'
+                    : filteredFasilitiSekolah.sekolahSelesaiReten === true
+                    ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                    : 'bg-user6 text-userWhite shadow-md'
+                } hover:bg-user8 rounded-md p-1 m-1 transition-all`}
+                onClick={() => setModalSalahRetenSekolah(false)}
+              >
+                {carianSekolah.statusRawatan === 'enggan'
+                  ? 'Enggan'
                   : carianSekolah.statusRawatan === 'tidak hadir'
-                  ? 'pointer-events-none text-userBlack shadow-none'
+                  ? 'Tidak Hadir'
                   : carianSekolah.pemeriksaanSekolah
-                  ? 'bg-user7 text-userWhite shadow-md'
-                  : filteredFasilitiSekolah.sekolahSelesaiReten === true
-                  ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
-                  : 'bg-user6 text-userWhite shadow-md'
-              } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
-              onClick={() => setModalSalahRetenSekolah(false)}
-            >
-              {carianSekolah.statusRawatan === 'enggan'
-                ? 'Enggan'
-                : carianSekolah.statusRawatan === 'tidak hadir'
-                ? 'Tidak Hadir'
-                : carianSekolah.pemeriksaanSekolah
-                ? 'lihat pemeriksaan'
-                : 'Tambah Pemeriksaan'}
-            </Link>
-            <Link
-              target='_blank'
-              rel='noreferrer'
-              to={`/pengguna/landing/carian/sekolah/form-sekolah/rawatan/${
-                carianSekolah._id
-              }/${
-                carianSekolah.rawatanSekolah
-                  ? carianSekolah.rawatanSekolah._id
-                  : 'tambah-rawatan'
-              }`}
-              className={`${
-                carianSekolah.statusRawatan === 'enggan'
-                  ? 'pointer-events-none text-userBlack shadow-none'
+                  ? 'Pemeriksaan'
+                  : 'Pemeriksaan'}
+              </Link>
+              <Link
+                target='_blank'
+                rel='noreferrer'
+                to={`/pengguna/landing/carian/sekolah/form-sekolah/rawatan/${carianSekolah._id}`}
+                className={`${
+                  carianSekolah.statusRawatan === 'enggan'
+                    ? 'pointer-events-none text-userWhite shadow-none bg-user9'
+                    : carianSekolah.statusRawatan === 'tidak hadir'
+                    ? 'pointer-events-none text-userWhite shadow-none bg-user9'
+                    : carianSekolah.statusRawatan === 'enggan rawatan'
+                    ? 'pointer-events-none text-userWhite shadow-none bg-user9'
+                    : carianSekolah.statusRawatan === 'tidak hadir rawatan'
+                    ? 'pointer-events-none text-userWhite shadow-none bg-user9'
+                    : carianSekolah.rawatanSekolah.length === 0
+                    ? 'pointer-events-none text-userWhite shadow-none bg-user9'
+                    : carianSekolah.statusRawatan === 'selesai'
+                    ? ' bg-user7 text-userWhite shadow-md hover:bg-user8'
+                    : !carianSekolah.pemeriksaanSekolah
+                    ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
+                    : 'bg-user3 text-userWhite hover:bg-user2 shadow-md'
+                } rounded-md  p-1 m-1 transition-all`}
+              >
+                {carianSekolah.statusRawatan === 'enggan'
+                  ? 'Enggan'
                   : carianSekolah.statusRawatan === 'tidak hadir'
-                  ? 'pointer-events-none text-userBlack shadow-none'
+                  ? 'Tidak Hadir'
                   : carianSekolah.statusRawatan === 'enggan rawatan'
-                  ? 'pointer-events-none text-userBlack shadow-none'
+                  ? 'Enggan Rawatan'
                   : carianSekolah.statusRawatan === 'tidak hadir rawatan'
-                  ? 'pointer-events-none text-userBlack shadow-none'
+                  ? 'Tidak Hadir Rawatan'
+                  : carianSekolah.rawatanSekolah.length === 0
+                  ? 'Tiada Rawatan'
                   : carianSekolah.statusRawatan === 'selesai'
-                  ? ' bg-user7 text-userWhite shadow-md hover:bg-user8'
-                  : !carianSekolah.pemeriksaanSekolah
-                  ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
-                  : 'bg-user3 text-userWhite hover:bg-user2 shadow-md'
-              } rounded-sm  p-1 m-1 transition-all`}
-            >
-              {carianSekolah.statusRawatan === 'enggan'
-                ? 'Enggan'
-                : carianSekolah.statusRawatan === 'tidak hadir'
-                ? 'Tidak Hadir'
-                : carianSekolah.statusRawatan === 'enggan rawatan'
-                ? 'Enggan Rawatan'
-                : carianSekolah.statusRawatan === 'tidak hadir rawatan'
-                ? 'Tidak Hadir Rawatan'
-                : carianSekolah.statusRawatan === 'selesai'
-                ? 'selesai rawatan'
-                : 'Lihat rawatan'}
-            </Link>
+                  ? 'Rawatan'
+                  : 'Rawatan'}
+              </Link>
+            </div>
           </div>
         </div>
       </form>
