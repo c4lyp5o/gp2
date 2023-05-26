@@ -667,8 +667,9 @@ function UserSekolah() {
                             {singlePersonSekolah.nama}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
+                            {/* <div className='md:flex'> */}
                             <div className='text-justify'>
-                              <p>
+                              <p className='whitespace-nowrap'>
                                 NOMBOR PENGENALAN :{' '}
                                 {singlePersonSekolah.nomborId}
                               </p>
@@ -683,13 +684,14 @@ function UserSekolah() {
                               </p>
                               <span>
                                 <p>
-                                  <div className='text-center py-2'>
+                                  <div className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     <button class='bg-user3 hover:bg-user7 text-userWhite font-bold py-2 px-4 rounded border border-userBlack'>
                                       Kemaskini
                                     </button>
                                   </div>
                                 </p>
                               </span>
+                              {/* </div> */}
                             </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
