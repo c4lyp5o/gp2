@@ -61,8 +61,8 @@ function UserSekolah() {
   const [kemaskiniPelajarId, setKemaskiniPelajarId] = useState('');
   const [submittingTambahPelajar, setSubmittingTambahPelajar] = useState(false);
 
+  const [pilih, setPilih] = useState('');
   const [modalHapus, setModalHapus] = useState(false);
-  const [operasiHapus, setOperasiHapus] = useState(false);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
@@ -191,7 +191,7 @@ function UserSekolah() {
       }
       await toast.promise(
         axios.patch(
-          `/api/v1/umum/delete/${singlePerson}`,
+          // `/api/v1/umum/delete/${singlePerson}`, TO DO, CHANGE ROUTE
           {
             deleteReason: reason,
             createdByMdcMdtb: mdcMdtbNum,
@@ -400,12 +400,12 @@ function UserSekolah() {
     }
   };
 
-  useEffect(() => {
-    if (modalHapus === false) {
-      // setPilih('');
-      // setResultPilih([]);
-    }
-  });
+  // useEffect(() => {
+  //   if (modalHapus === false) {
+  //     setPilih('');
+  //     setResultPilih([]);
+  //   }
+  // });
 
   return (
     <>
@@ -684,11 +684,11 @@ function UserSekolah() {
                               </p>
                               <span>
                                 <p>
-                                  <div className='md:flex md:shrink-0 text-center sm:text-left py-2'>
+                                  <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     <button class='bg-user3 hover:bg-user7 text-userWhite font-bold py-2 px-4 rounded border border-userBlack'>
                                       Kemaskini
                                     </button>
-                                  </div>
+                                  </p>
                                 </p>
                               </span>
                               {/* </div> */}
@@ -1239,17 +1239,23 @@ function UserSekolah() {
                           ) : null}
                           {userinfo.role === 'admin' && (
                             <td
-                              // onClick={() => {
-                              // setOperasiHapus(true);
-                              // setPilih(singlePersonSekolah._id);
-                              // scrollBawah();
-                              // }}
-                              // className={`${
-                              //   pilih === singlePersonSekolah._id && 'bg-user3'
-                              // } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
-                              className='px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2'
+                              onClick={() => {
+                                setModalHapus(true);
+                                setPilih(singlePersonSekolah._id);
+                                scrollBawah();
+                              }}
+                              className={`${
+                                pilih === singlePersonSekolah._id && 'bg-user3'
+                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                             >
-                              <u>HAPUS</u>
+                              <button
+                                className='bg-user9 text-sm text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                                onClick={() => {
+                                  setModalHapus(true);
+                                }}
+                              >
+                                Hapus pelajar?
+                              </button>
                             </td>
                           )}
                         </tr>
@@ -1418,10 +1424,8 @@ function UserSekolah() {
         )}
         {modalHapus && (
           <UserDeleteModal
-          // handleDelete={handleDelete}
-          // setModalHapus={setModalHapus}
-          // id={singlePersonUmum._id}
-          // nama={singlePersonUmum.nama}
+            handleDelete={handleDelete}
+            setModalHapus={setModalHapus}
           />
         )}
       </div>
