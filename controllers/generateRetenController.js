@@ -1181,20 +1181,19 @@ const makePG211C = async (payload) => {
 };
 const makePG206 = async (payload) => {
   logger.info('[generateRetenController/makePG206] PG206');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanIndividu,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanIndividu,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -1958,6 +1957,23 @@ const makePG207 = async (payload) => {
       }
     }
 
+    j = 0;
+    for (let i = 0; i < data[4].length; i++) {
+      const [skorBpe] = data[4][i].skorBpe || [];
+
+      if (skorBpe) {
+        const row = worksheet.getRow(17 + j);
+        if (i > 5) {
+          row.getCell(16).value = skorBpe.skorBPEZero;
+          row.getCell(17).value = skorBpe.skorBPEMoreThanZero;
+        }
+      }
+      j++;
+      if (i === 11) {
+        j++;
+      }
+    }
+
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
     worksheet.getCell(
@@ -2024,19 +2040,18 @@ const makePG207 = async (payload) => {
 };
 const makePG214 = async (payload) => {
   logger.info('[generateRetenController/makePG214] PG214');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -2228,19 +2243,18 @@ const makePG214 = async (payload) => {
 };
 const makePGPR201 = async (payload) => {
   logger.info('[generateRetenController/makePGPR201] PGPR201Baru');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -2433,20 +2447,19 @@ const makePGPR201 = async (payload) => {
 };
 const makePgPro01 = async (payload) => {
   logger.info('[generateRetenController/makePgPro01] makePgPro01');
+  let {
+    username,
+    pilihanIndividu,
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      username,
-      pilihanIndividu,
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -2823,20 +2836,19 @@ const makePgPro01Combined = async (payload) => {
   logger.info(
     '[generateRetenController/makePgPro01Combined] makePgPro01Combined'
   );
+  let {
+    username,
+    pilihanIndividu,
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      username,
-      pilihanIndividu,
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -3024,20 +3036,19 @@ const makePgPro01Combined = async (payload) => {
 };
 const makePGS201 = async (payload) => {
   logger.info('[generateRetenController/PGS201] PGS201 Pind. 2/2022 ');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanSekolah,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanSekolah,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -3353,20 +3364,19 @@ const makePGS201 = async (payload) => {
 };
 const makePGS203P2 = async (payload) => {
   logger.info('[generateRetenController/PGS203] PGS203P2');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    bulan,
+    tarikhMula,
+    tarikhAkhir,
+    pegawai,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      bulan,
-      tarikhMula,
-      tarikhAkhir,
-      pegawai,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -3549,8 +3559,10 @@ const makePGS203P2 = async (payload) => {
             break;
         }
         if (i < 3) {
-          worksheet.getRow(rowNumber).getCell(65).value =
-            data[0][0].jumlahFasilitiDilawati.length ?? 0; //Column BM (65)
+          worksheet.getRow(rowNumber).getCell(65).value = data[0][0]
+            .jumlahFasilitiDilawati
+            ? data[0][0].jumlahFasilitiDilawati.length
+            : 0; //Column BM (65)
         }
       }
       rowNumber += rowsToIncrement.includes(i) ? 2 : 1;
@@ -3668,28 +3680,28 @@ const makeMasa = async (payload) => {
     worksheet.getCell('B5').value = `${klinik.toUpperCase()}`;
     // end intro
 
-    let jumlahRetenSalah = 0;
-    let jumlahReten = 0;
+    // let jumlahRetenSalah = 0;
+    // let jumlahReten = 0;
 
     let cellNumber = 2;
 
     for (let i = 0; i < data[0].opData.length; i++) {
       if (data[0].opData[i]) {
-        jumlahRetenSalah += data[0].opData[i].statusReten;
-        jumlahReten += data[0].opData[i].jumlahReten;
+        // jumlahRetenSalah += data[0].opData[i].statusReten;
+        // jumlahReten += data[0].opData[i].jumlahReten;
         worksheet.getRow(i + 15).getCell(cellNumber).value =
           data[0].opData[i].jumlahPesakit;
         cellNumber = cellNumber + 3;
         worksheet.getRow(i + 15).getCell(cellNumber).value =
           data[0].opData[i].jumlahPesakitYangDipanggilSebelum30Minit;
         cellNumber = cellNumber + 3;
-        worksheet.getRow(i + 15).getCell(cellNumber).value = (
-          (jumlahRetenSalah / jumlahReten) *
-          100
-        ).toFixed(2);
+        // worksheet.getRow(i + 15).getCell(cellNumber).value = (
+        //   (jumlahRetenSalah / jumlahReten) *
+        //   100
+        // ).toFixed(2);
       }
-      jumlahReten = 0;
-      jumlahRetenSalah = 0;
+      // jumlahReten = 0;
+      // jumlahRetenSalah = 0;
       if (i === 5) {
         i += 2;
       }
@@ -3700,8 +3712,8 @@ const makeMasa = async (payload) => {
 
     for (let i = 0; i < data[1].temujanjiData.length; i++) {
       if (data[1].temujanjiData[i]) {
-        jumlahRetenSalah += data[1].temujanjiData[i].statusReten;
-        jumlahReten += data[1].temujanjiData[i].jumlahReten;
+        // jumlahRetenSalah += data[1].temujanjiData[i].statusReten;
+        // jumlahReten += data[1].temujanjiData[i].jumlahReten;
         worksheet.getRow(i + 15).getCell(cellNumber).value =
           data[1].temujanjiData[i].jumlahPesakit;
         cellNumber = cellNumber + 3;
@@ -3713,8 +3725,8 @@ const makeMasa = async (payload) => {
         //   100
         // ).toFixed(2);
       }
-      jumlahReten = 0;
-      jumlahRetenSalah = 0;
+      // jumlahReten = 0;
+      // jumlahRetenSalah = 0;
       if (i === 5) {
         i += 2;
       }
@@ -3876,7 +3888,7 @@ const makeBp = async (payload) => {
         retenSalah += data[0].melayu[i].statusReten;
         worksheet.getRow(rowNumber).getCell(cellNumber).value =
           data[0].melayu[i].jumlahReten;
-        if (j < 5) {
+        if (i < 5) {
           cellNumber += 2;
         } else {
           cellNumber += 3;
@@ -3905,7 +3917,7 @@ const makeBp = async (payload) => {
 
     cellNumber = 3;
     rowNumber = 17;
-    for (let i = 0; i < data[1].cina.length; j++) {
+    for (let i = 0; i < data[1].cina.length; i++) {
       if (data[1].cina[i]) {
         jumlahReten += data[1].cina[i].jumlahReten;
         retenSalah += data[1].cina[i].statusReten;
@@ -3940,7 +3952,7 @@ const makeBp = async (payload) => {
 
     cellNumber = 3;
     rowNumber = 23;
-    for (let i = 0; i < data[2].india.length; j++) {
+    for (let i = 0; i < data[2].india.length; i++) {
       if (data[2].india[i]) {
         jumlahReten += data[2].india[i].jumlahReten;
         retenSalah += data[2].india[i].statusReten;
@@ -3975,7 +3987,7 @@ const makeBp = async (payload) => {
 
     cellNumber = 3;
     rowNumber = 29;
-    for (let i = 0; i < data[3].bumiputeraSabah.length; j++) {
+    for (let i = 0; i < data[3].bumiputeraSabah.length; i++) {
       if (data[3].bumiputeraSabah[i]) {
         jumlahReten += data[3].bumiputeraSabah[i].jumlahReten;
         retenSalah += data[3].bumiputeraSabah[i].statusReten;
@@ -4253,7 +4265,7 @@ const makeBPE = async (payload) => {
         jumlahRetenSalah += data[i].statusReten;
         row.getCell(4).value =
           i % 2 === 0
-            ? data[i].kedatanganTahunSemasaBaru
+            ? data[i].jumlahReten
             : data[i].kedatanganTahunSemasaUlangan; // leong, since match kita odd numbers adalah baru, dan even adalah ulangan, jd aku ckp ngn dia, kalau i/2 xde remainder, dia baru, kalau ada remainder dia ulangan
         row.getCell(5).value = i % 2 === 0 ? data[i].adaRujukanT2DMdariKK : 0; //Column E (5)
         row.getCell(6).value =
@@ -4715,7 +4727,7 @@ const makeTOD = async (payload) => {
     bulan,
     pilihanIndividu,
     username,
-    // fromEtl,
+    fromEtl,
     jenisReten,
   } = payload;
   try {
@@ -5763,56 +5775,56 @@ const makeDEWASAMUDA = async (payload) => {
       }
     }
 
-    j = 0;
-    for (let i = 0; i < data[2].length; i++) {
-      const [operatorLain] = data[1][i].queryOperatorLain || [];
+    // j = 0;
+    // for (let i = 0; i < data[2].length; i++) {
+    //   const [operatorLain] = data[1][i].queryOperatorLain || [];
 
-      if (operatorLain) {
-        const row = worksheet.getRow(20 + j);
-        // rawatan
-        row.getCell(33).value += operatorLain.sapuanFluorida;
-        row.getCell(34).value += operatorLain.jumlahPesakitPrrJenis1;
-        row.getCell(35).value += operatorLain.jumlahGigiPrrJenis1;
-        row.getCell(36).value += operatorLain.jumlahPesakitDiBuatFs;
-        row.getCell(37).value += operatorLain.jumlahGigiDibuatFs;
-        row.getCell(38).value += operatorLain.tampalanAntGdBaru;
-        row.getCell(39).value += operatorLain.tampalanAntGdSemula;
-        row.getCell(40).value += operatorLain.tampalanAntGkBaru;
-        row.getCell(41).value += operatorLain.tampalanAntGkSemula;
-        row.getCell(42).value += operatorLain.tampalanPostGdBaru;
-        row.getCell(43).value += operatorLain.tampalanPostGdSemula;
-        row.getCell(44).value += operatorLain.tampalanPostGkBaru;
-        row.getCell(45).value += operatorLain.tampalanPostGkSemula;
-        row.getCell(46).value += operatorLain.tampalanPostAmgGdBaru;
-        row.getCell(47).value += operatorLain.tampalanPostAmgGdSemula;
-        row.getCell(48).value += operatorLain.tampalanPostAmgGkBaru;
-        row.getCell(49).value += operatorLain.tampalanPostAmgGkSemula;
-        // skipping cells
-        row.getCell(52).value += operatorLain.tampalanSementara;
-        row.getCell(53).value += operatorLain.cabutanGd;
-        row.getCell(54).value += operatorLain.cabutanGk;
-        row.getCell(55).value += operatorLain.komplikasiSelepasCabutan;
-        row.getCell(56).value += operatorLain.penskaleran;
-        row.getCell(57).value += operatorLain.abses;
-        row.getCell(58).value += operatorLain.kecederaanTulangMuka;
-        row.getCell(59).value += operatorLain.kecederaanGigi;
-        row.getCell(60).value += operatorLain.kecederaanTisuLembut;
-        row.getCell(61).value += operatorLain.prosthodontikPenuhDenturBaru;
-        row.getCell(62).value += operatorLain.prosthodontikPenuhDenturSemula;
-        row.getCell(63).value += operatorLain.jumlahPesakitBuatDenturPenuh;
-        row.getCell(64).value += operatorLain.prosthodontikSeparaDenturBaru;
-        row.getCell(65).value += operatorLain.prosthodontikSeparaDenturSemula;
-        row.getCell(66).value += operatorLain.jumlahPesakitBuatDenturSepara;
-        row.getCell(67).value += operatorLain.immediateDenture;
-        row.getCell(68).value += operatorLain.pembaikanDenture;
-        row.getCell(69).value += operatorLain.kesSelesai;
-        row.getCell(70).value += operatorLain.xrayDiambil;
-      }
-      j++;
-      if (i === 2) {
-        j++;
-      }
-    }
+    //   if (operatorLain) {
+    //     const row = worksheet.getRow(20 + j);
+    //     // rawatan
+    //     row.getCell(33).value += operatorLain.sapuanFluorida;
+    //     row.getCell(34).value += operatorLain.jumlahPesakitPrrJenis1;
+    //     row.getCell(35).value += operatorLain.jumlahGigiPrrJenis1;
+    //     row.getCell(36).value += operatorLain.jumlahPesakitDiBuatFs;
+    //     row.getCell(37).value += operatorLain.jumlahGigiDibuatFs;
+    //     row.getCell(38).value += operatorLain.tampalanAntGdBaru;
+    //     row.getCell(39).value += operatorLain.tampalanAntGdSemula;
+    //     row.getCell(40).value += operatorLain.tampalanAntGkBaru;
+    //     row.getCell(41).value += operatorLain.tampalanAntGkSemula;
+    //     row.getCell(42).value += operatorLain.tampalanPostGdBaru;
+    //     row.getCell(43).value += operatorLain.tampalanPostGdSemula;
+    //     row.getCell(44).value += operatorLain.tampalanPostGkBaru;
+    //     row.getCell(45).value += operatorLain.tampalanPostGkSemula;
+    //     row.getCell(46).value += operatorLain.tampalanPostAmgGdBaru;
+    //     row.getCell(47).value += operatorLain.tampalanPostAmgGdSemula;
+    //     row.getCell(48).value += operatorLain.tampalanPostAmgGkBaru;
+    //     row.getCell(49).value += operatorLain.tampalanPostAmgGkSemula;
+    //     // skipping cells
+    //     row.getCell(52).value += operatorLain.tampalanSementara;
+    //     row.getCell(53).value += operatorLain.cabutanGd;
+    //     row.getCell(54).value += operatorLain.cabutanGk;
+    //     row.getCell(55).value += operatorLain.komplikasiSelepasCabutan;
+    //     row.getCell(56).value += operatorLain.penskaleran;
+    //     row.getCell(57).value += operatorLain.abses;
+    //     row.getCell(58).value += operatorLain.kecederaanTulangMuka;
+    //     row.getCell(59).value += operatorLain.kecederaanGigi;
+    //     row.getCell(60).value += operatorLain.kecederaanTisuLembut;
+    //     row.getCell(61).value += operatorLain.prosthodontikPenuhDenturBaru;
+    //     row.getCell(62).value += operatorLain.prosthodontikPenuhDenturSemula;
+    //     row.getCell(63).value += operatorLain.jumlahPesakitBuatDenturPenuh;
+    //     row.getCell(64).value += operatorLain.prosthodontikSeparaDenturBaru;
+    //     row.getCell(65).value += operatorLain.prosthodontikSeparaDenturSemula;
+    //     row.getCell(66).value += operatorLain.jumlahPesakitBuatDenturSepara;
+    //     row.getCell(67).value += operatorLain.immediateDenture;
+    //     row.getCell(68).value += operatorLain.pembaikanDenture;
+    //     row.getCell(69).value += operatorLain.kesSelesai;
+    //     row.getCell(70).value += operatorLain.xrayDiambil;
+    //   }
+    //   j++;
+    //   if (i === 2) {
+    //     j++;
+    //   }
+    // }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
@@ -6281,20 +6293,20 @@ const makeLiputanOAP = async (payload) => {
   }
 };
 const makeKPBMPBHarian = async (payload) => {
-  logger.info('[generateRetenController/makeKPBMPB] makeKPBMPB');
+  logger.info('[generateRetenController/makeKPBMPBHarian] makeKPBMPBHarian');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanKpbMpb,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanKpbMpb,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -6446,20 +6458,20 @@ const makeKPBMPBHarian = async (payload) => {
   }
 };
 const makeKPBMPBBulanan = async (payload) => {
-  logger.info('[generateRetenController/makeKPBMPB] makeKPBMPB');
+  logger.info('[generateRetenController/makeKPBMPBBulanan] makeKPBMPBBulanan');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    pilihanKpbMpb,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      pilihanKpbMpb,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
     let data;
     switch (fromEtl) {
       case 'true':
@@ -6900,7 +6912,9 @@ const makePPR = async (payload) => {
     worksheet.getCell('D8').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('D9').value = `${daerah.toUpperCase()}`;
     worksheet.getCell('D10').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('D11').value = `${pilihanProgram.toUpperCase()}`;
+    worksheet.getCell('D11').value = pilihanProgram
+      ? `${pilihanProgram.toUpperCase()}`
+      : 'ALL';
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -7380,7 +7394,9 @@ const makePPKPS = async (payload) => {
     worksheet.getCell('D8').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('D9').value = `${daerah.toUpperCase()}`;
     worksheet.getCell('D10').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('D11').value = `${pilihanProgram.toUpperCase()}`;
+    worksheet.getCell('D11').value = pilihanProgram
+      ? `${pilihanProgram.toUpperCase()}`
+      : 'ALL';
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -7748,7 +7764,9 @@ const makePKAP2 = async (payload) => {
     worksheet.getCell('C8').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('C9').value = `${daerah.toUpperCase()}`;
     worksheet.getCell('C10').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('C11').value = `${pilihanProgram.toUpperCase()}`;
+    worksheet.getCell('C11').value = pilihanProgram
+      ? `${pilihanProgram.toUpperCase()}`
+      : 'ALL';
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
@@ -7756,7 +7774,7 @@ const makePKAP2 = async (payload) => {
     let j = 0;
 
     for (let i = 0; i < data[0].length; i++) {
-      const [pemeriksaan] = data[0][i].queryPKAPPemeriksaan || [];
+      const [pemeriksaan] = data[0][i].queryPKAP2Pemeriksaan || [];
 
       if (pemeriksaan) {
         const row = worksheet.getRow(20 + j);
@@ -7808,7 +7826,7 @@ const makePKAP2 = async (payload) => {
 
     j = 0;
     for (let i = 0; i < data[1].length; i++) {
-      const [rawatan] = data[1][i].queryPKAPRawatan || [];
+      const [rawatan] = data[1][i].queryPKAP2Rawatan || [];
 
       if (rawatan) {
         const row = worksheet.getRow(20 + j);

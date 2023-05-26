@@ -2093,11 +2093,27 @@ const countPG214 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
+              $or: [
                 {
                   $eq: [
                     '$yaTidakPesakitMempunyaiGigi',
                     'tidak-pesakit-mempunyai-gigi',
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'ya-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                        0,
+                      ],
+                    },
                   ],
                 },
               ],
@@ -2145,7 +2161,13 @@ const countPG214 = async (payload) => {
                   ],
                 },
                 {
-                  $gte: [
+                  $lt: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    20,
+                  ],
+                },
+                {
+                  $gt: [
                     '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
                     0,
                   ],
@@ -2579,9 +2601,32 @@ const countPG214 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                0,
+              $or: [
+                {
+                  $eq: ['$yaTidakPesakitMempunyaiGigi', ''],
+                },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'tidak-pesakit-mempunyai-gigi',
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'ya-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                    {
+                      $eq: [
+                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                        0,
+                      ],
+                    },
+                  ],
+                },
               ],
             },
             1,
@@ -2594,9 +2639,29 @@ const countPG214 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: [
-                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                20,
+              $or: [
+                {
+                  $eq: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    null,
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $eq: [
+                        '$yaTidakPesakitMempunyaiGigi',
+                        'ya-pesakit-mempunyai-gigi',
+                      ],
+                    },
+                    {
+                      $gte: [
+                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                        20,
+                      ],
+                    },
+                  ],
+                },
               ],
             },
             1,
@@ -2611,15 +2676,25 @@ const countPG214 = async (payload) => {
             {
               $and: [
                 {
-                  $lt: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    20,
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
                   ],
                 },
                 {
-                  $gte: [
-                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                    0,
+                  $and: [
+                    {
+                      $lt: [
+                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                        20,
+                      ],
+                    },
+                    {
+                      $gt: [
+                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                        0,
+                      ],
+                    },
                   ],
                 },
               ],
@@ -6986,6 +7061,97 @@ const countPG207 = async (payload) => {
     },
   };
 
+  // BPE BUAT HAL
+  const switch_bpe = [
+    {
+      $match: {
+        ...getParamsBPE(payload),
+      },
+    },
+    {
+      $sort: {
+        skorBpeOralHygienePemeriksaanUmum: -1,
+      },
+    },
+    {
+      $group: {
+        _id: '$nama',
+        firstDocument: { $first: '$$ROOT' },
+      },
+    },
+    {
+      $match: {
+        'firstDocument.skorBpeOralHygienePemeriksaanUmum': { $ne: 'tiada' },
+      },
+    },
+    {
+      $replaceRoot: {
+        newRoot: '$firstDocument',
+      },
+    },
+  ];
+
+  const group_bpe = {
+    $group: {
+      _id: placeModifier(payload),
+      skorBPEZero: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
+                  ],
+                },
+                {
+                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'],
+                },
+                {
+                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''],
+                },
+                {
+                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', null],
+                },
+                { $ne: ['$engganBpeImplan', true] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      skorBPEMoreThanZero: {
+        $sum: {
+          $cond: [
+            {
+              $and: [
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                {
+                  $eq: [
+                    '$yaTidakPesakitMempunyaiGigi',
+                    'ya-pesakit-mempunyai-gigi',
+                  ],
+                },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                {
+                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''],
+                },
+                {
+                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', null],
+                },
+                { $ne: ['$engganBpeImplan', true] },
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
   //
 
   try {
@@ -6993,6 +7159,7 @@ const countPG207 = async (payload) => {
     let dataRawatan = [];
     let dataSekolah = [];
     let dataOperatorLain = [];
+    let skorBpe = [];
     let bigData = [];
 
     for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
@@ -7036,10 +7203,17 @@ const countPG207 = async (payload) => {
       }
     }
 
+    for (let i = 0; i < match_stage.length; i++) {
+      const pipeline_pemeriksaan = [...switch_bpe, match_stage[i], group_bpe];
+      const skorBpe = await Umum.aggregate(pipeline_pemeriksaan);
+      skorBpe.push({ skorBpe });
+    }
+
     bigData.push(dataPemeriksaan);
     bigData.push(dataRawatan);
     bigData.push(dataSekolah);
     bigData.push(dataOperatorLain);
+    bigData.push(skorBpe);
 
     return bigData;
   } catch (error) {
@@ -7355,7 +7529,6 @@ const countPGS201 = async (payload) => {
   let match_stage = [];
   //
   const pra_tad_Lima_Tahun = [
-    //ada masalah nak tahu patient tu tahun semasa / darjah mana
     {
       $match: {
         ...getParamsPGS201(payload),
@@ -7379,7 +7552,7 @@ const countPGS201 = async (payload) => {
           ],
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
-        // orangKurangUpaya: false,
+        orangKurangUpaya: false,
       },
     },
     {
@@ -7410,7 +7583,6 @@ const countPGS201 = async (payload) => {
     },
   ];
   const pra_Enam_tahun = [
-    //ada masalah nak tahu patient tu tahun semasa / darjah mana
     {
       $match: {
         ...getParamsPGS201(payload),
@@ -7434,7 +7606,7 @@ const countPGS201 = async (payload) => {
           ],
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
-        // orangKurangUpaya: false,
+        orangKurangUpaya: false,
       },
     },
     {
@@ -7620,10 +7792,6 @@ const countPGS201 = async (payload) => {
             $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0],
           },
         },
-
-        //enrolment - dpt dari fasiliti?
-
-        //kedatangan
         engganKedatangan: {
           $sum: {
             $cond: [{ $eq: ['$engganTaskaTadika', true] }, 1, 0],
@@ -7720,7 +7888,6 @@ const countPGS201 = async (payload) => {
         jumlahM: { $sum: '$mAdaGigiKekalPemeriksaanUmum' },
         jumlahF: { $sum: '$fAdaGigiKekalPemeriksaanUmum' },
         jumlahX: { $sum: '$xAdaGigiKekalPemeriksaanUmum' },
-
         //status kesihatan mulut murid
         dfxSamaKosong: {
           //dfx=0
@@ -7937,23 +8104,21 @@ const countPGS201 = async (payload) => {
             $cond: [
               {
                 $and: [
+                  { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                  { $eq: ['$eAdaGigiKekalPemeriksaanUmum', 0] },
                   {
-                    $eq: [
-                      '$tidakPerluRawatanPemeriksaanUmum',
-                      'tidak-perlu-rawatan-pemeriksaan-umum',
+                    $or: [
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      },
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      },
                     ],
-                  },
-                  {
-                    $eq: [
-                      '$fvPerluSapuanPemeriksaanUmum',
-                      'tidak-fv-perlu-sapuan-pemeriksaan-umum',
-                    ],
-                  },
-                  {
-                    $eq: ['$baruJumlahGigiKekalPerluPRRJenis1RawatanUmum', 0],
-                  },
-                  {
-                    $eq: ['$baruJumlahGigiKekalPerluFSRawatanUmum', 0],
                   },
                 ],
               },
@@ -7963,13 +8128,24 @@ const countPGS201 = async (payload) => {
           },
         },
         jumlahTPRbiasa: {
-          //tarik dari TPR kotak
           $sum: {
             $cond: [
               {
-                $eq: [
-                  '$tidakPerluRawatanPemeriksaanUmum',
-                  'tidak-perlu-rawatan-pemeriksaan-umum',
+                $and: [
+                  { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                  { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                  {
+                    $or: [
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                      },
+                      {
+                        $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                      },
+                    ],
+                  },
                 ],
               },
               1,
@@ -8313,7 +8489,6 @@ const countPGS203 = async (payload) => {
           ],
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
-        // orangKurangUpaya: false,
       },
     },
     {
@@ -8384,7 +8559,6 @@ const countPGS203 = async (payload) => {
           ],
         },
         jenisFasiliti: { $eq: 'taska-tadika' },
-        // orangKurangUpaya: false,
       },
     },
     {
@@ -8420,7 +8594,6 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        // umur: { $lt: 7 },
         $expr: {
           $and: [
             {
@@ -8489,7 +8662,6 @@ const countPGS203 = async (payload) => {
     {
       $match: {
         ...getParamsPGS203(payload),
-        // umur: { $lt: 7 },
         $expr: {
           $and: [
             {
@@ -8570,8 +8742,6 @@ const countPGS203 = async (payload) => {
             $cond: [{ $eq: ['$statusReten', 'reten salah'] }, 1, 0],
           },
         },
-        //enrolment - dpt dari fasiliti?
-        //kedatangan
         kedatanganTahunSemasaBaru: {
           $sum: {
             $cond: [
@@ -10753,81 +10923,135 @@ const countBPE = async (payload) => {
     },
   };
   //
+  const getParamsFirstDocOnly = [
+    {
+      $sort: {
+        skorBpeOralHygienePemeriksaanUmum: -1,
+      },
+    },
+    {
+      $group: {
+        _id: '$nama',
+        firstDocument: { $first: '$$ROOT' },
+      },
+    },
+    {
+      $match: {
+        'firstDocument.skorBpeOralHygienePemeriksaanUmum': { $ne: 'tiada' },
+      },
+    },
+    {
+      $replaceRoot: {
+        newRoot: '$firstDocument',
+      },
+    },
+  ];
+  //
   let match_stage = [];
   //
-  const bKurang18 = {
-    $match: {
-      umur: { $gt: 14, $lt: 18 },
-      kedatangan: { $eq: 'baru-kedatangan' },
+  const bKurang18 = [
+    ...getParamsFirstDocOnly,
+    {
+      $match: {
+        umur: { $gt: 14, $lt: 18 },
+        // kedatangan: { $eq: 'baru-kedatangan' },
+      },
     },
-  };
-  const bUmur1819 = {
-    $match: {
-      umur: { $gte: 18, $lte: 19 },
-      kedatangan: { $eq: 'baru-kedatangan' },
+  ];
+  const bUmur1819 = [
+    ...getParamsFirstDocOnly,
+    {
+      $match: {
+        umur: { $gte: 18, $lte: 19 },
+        // kedatangan: { $eq: 'baru-kedatangan' },
+      },
     },
-  };
-  const bUmur2029 = {
-    $match: {
-      umur: { $gte: 20, $lte: 29 },
-      kedatangan: { $eq: 'baru-kedatangan' },
+  ];
+  const bUmur2029 = [
+    ...getParamsFirstDocOnly,
+    {
+      $match: {
+        umur: { $gte: 20, $lte: 29 },
+        // kedatangan: { $eq: 'baru-kedatangan' },
+      },
     },
-  };
-  const bUmur3049 = {
-    $match: {
-      umur: { $gte: 30, $lte: 49 },
-      kedatangan: { $eq: 'baru-kedatangan' },
+  ];
+  const bUmur3049 = [
+    ...getParamsFirstDocOnly,
+    {
+      $match: {
+        umur: { $gte: 30, $lte: 49 },
+        // kedatangan: { $eq: 'baru-kedatangan' },
+      },
     },
-  };
-  const bUmur5059 = {
-    $match: {
-      umur: { $gte: 50, $lte: 59 },
-      kedatangan: { $eq: 'baru-kedatangan' },
+  ];
+  const bUmur5059 = [
+    ...getParamsFirstDocOnly,
+    {
+      $match: {
+        umur: { $gte: 50, $lte: 59 },
+        // kedatangan: { $eq: 'baru-kedatangan' },
+      },
     },
-  };
-  const bUmur60keatas = {
-    $match: {
-      umur: { $gte: 60 },
-      kedatangan: { $eq: 'baru-kedatangan' },
+  ];
+  const bUmur60keatas = [
+    ...getParamsFirstDocOnly,
+    {
+      $match: {
+        umur: { $gte: 60 },
+        // kedatangan: { $eq: 'baru-kedatangan' },
+      },
     },
-  };
+  ];
 
-  const uKurang18 = {
-    $match: {
-      umur: { $lt: 18 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
+  const uKurang18 = [
+    {
+      $match: {
+        umur: { $lt: 18 },
+        kedatangan: { $eq: 'ulangan-kedatangan' },
+      },
     },
-  };
-  const uUmur1819 = {
-    $match: {
-      umur: { $gte: 18, $lte: 19 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
+  ];
+  const uUmur1819 = [
+    {
+      $match: {
+        umur: { $gte: 18, $lte: 19 },
+        kedatangan: { $eq: 'ulangan-kedatangan' },
+      },
     },
-  };
-  const uUmur2029 = {
-    $match: {
-      umur: { $gte: 20, $lte: 29 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
+  ];
+  const uUmur2029 = [
+    {
+      $match: {
+        umur: { $gte: 20, $lte: 29 },
+        kedatangan: { $eq: 'ulangan-kedatangan' },
+      },
     },
-  };
-  const uUmur3049 = {
-    $match: {
-      umur: { $gte: 30, $lte: 49 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
+  ];
+  const uUmur3049 = [
+    {
+      $match: {
+        umur: { $gte: 30, $lte: 49 },
+        kedatangan: { $eq: 'ulangan-kedatangan' },
+      },
     },
-  };
-  const uUmur5059 = {
-    $match: {
-      umur: { $gte: 50, $lte: 59 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
+  ];
+  const uUmur5059 = [
+    {
+      $match: {
+        umur: { $gte: 50, $lte: 59 },
+        kedatangan: { $eq: 'ulangan-kedatangan' },
+      },
     },
-  };
-  const uUmur60keatas = {
-    $match: {
-      umur: { $gte: 60 },
-      kedatangan: { $eq: 'ulangan-kedatangan' },
+  ];
+  const uUmur60keatas = [
+    {
+      $match: {
+        umur: { $gte: 60 },
+        kedatangan: { $eq: 'ulangan-kedatangan' },
+      },
     },
-  };
+  ];
 
   match_stage.push(
     bKurang18,
@@ -10867,13 +11091,7 @@ const countBPE = async (payload) => {
           $cond: [
             {
               $and: [
-                { $eq: ['$kedatangan', 'baru-kedatangan'] },
-                {
-                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'],
-                },
-                {
-                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''],
-                },
+                //{ $eq: ['$kedatangan', 'baru-kedatangan'] },
                 { $ne: ['$engganBpeImplan', true] },
               ],
             },
@@ -10886,12 +11104,7 @@ const countBPE = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                { $eq: ['$kedatangan', 'ulangan-kedatangan'] },
-                {
-                  $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'],
-                },
-              ],
+              $and: [{ $eq: ['$kedatangan', 'ulangan-kedatangan'] }],
             },
             1,
             0,
@@ -10939,7 +11152,9 @@ const countBPE = async (payload) => {
       },
       //Basic Periodontal Examination (BPE)
       engganBPE: {
-        $sum: { $cond: [{ $eq: ['$engganBpeImplan', true] }, 1, 0] },
+        $sum: {
+          $cond: [{ $eq: ['$engganBpeImplan', true] }, 1, 0],
+        },
       },
       skorBPE0: {
         $sum: {
@@ -11155,7 +11370,7 @@ const countBPE = async (payload) => {
 
   try {
     for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [main_switch, match_stage[i], group_stage];
+      const pipeline = [main_switch, ...match_stage[i], group_stage];
       const dataBPE = await Umum.aggregate(pipeline);
       bigData.push(dataBPE[0]);
     }
