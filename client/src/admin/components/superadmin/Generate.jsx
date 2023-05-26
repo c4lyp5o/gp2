@@ -542,7 +542,7 @@ const ModalGenerateAdHoc = (props) => {
                             className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                           >
                             <option value=''>Sila pilih..</option>
-                            <option value='all'>Semua Program</option>
+                            {/* <option value='all'>Semua Program</option> - tutup dulu */}
                             {props.programData &&
                               props.programData
                                 .filter(
