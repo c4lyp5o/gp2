@@ -678,6 +678,7 @@ function UserSekolah() {
                                 TARIKH LAHIR :{' '}
                                 {singlePersonSekolah.tarikhLahir.split(' ')[0]}
                               </p>
+                              <p>UMUR :{singlePersonSekolah.umur}</p>
                               <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
                               <p>
                                 WARGANEGARA : {singlePersonSekolah.warganegara}
@@ -1241,7 +1242,7 @@ function UserSekolah() {
                               } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                             >
                               <button
-                                className='bg-user9 text-sm text-userWhite rounded-md shadow-md hover:bg-user1 transition-all'
+                                className='bg-user9 p-2 text- text-userWhite rounded-lg shadow-md hover:bg-user1 transition-all'
                                 onClick={() => {
                                   setModalHapus(true);
                                 }}
