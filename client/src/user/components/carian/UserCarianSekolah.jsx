@@ -42,10 +42,14 @@ export default function UserCarianSekolah() {
           }
         );
         setSearchResults(data.sekolahResultQuery);
+        if (data.sekolahResultQuery.length === 0) {
+          toast.error('Tiada pemeriksaan dijalankan atau tiada rekod ditemui');
+        } else {
+          toast.success('Rekod murid ditemui');
+        }
       } catch (error) {
         console.log(error);
         setSearchResults([]);
-        toast.error('Tiada rekod ditemui');
       }
     }
     if (pilihQuery === 'nama') {
@@ -63,10 +67,14 @@ export default function UserCarianSekolah() {
           }
         );
         setSearchResults(data.sekolahResultQuery);
+        if (data.sekolahResultQuery.length === 0) {
+          toast.error('Tiada pemeriksaan dijalankan atau tiada rekod ditemui');
+        } else {
+          toast.success('Rekod murid ditemui');
+        }
       } catch (error) {
         console.log(error);
         setSearchResults([]);
-        toast.error('Tiada rekod ditemui');
       }
     }
   };

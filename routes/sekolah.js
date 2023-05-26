@@ -56,7 +56,7 @@ router.route('/ubah/:personSekolahId').patch(updatePersonSekolah);
 router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);
-router.route('rawatan/ubah/:rawatanSekolahId').patch(updateRawatanSekolah);
+router.route('/rawatan/ubah/:rawatanSekolahId').patch(updateRawatanSekolah);
 // router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
 
 module.exports = router;

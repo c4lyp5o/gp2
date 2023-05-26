@@ -342,7 +342,7 @@ function UserAfterLogin() {
                 }
               />
               <Route
-                path='carian/sekolah/form-sekolah/rawatan/:personSekolahId/:rawatanSekolahId'
+                path='carian/sekolah/form-sekolah/rawatan/:personSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
                     <UserFormSalahSekolahRawatan
