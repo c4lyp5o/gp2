@@ -21,27 +21,24 @@ const {
 } = require('../controllers/sekolah');
 
 // GET
-router
-  .route('/')
-  .get(getAllPersonSekolahsVanilla) /*.post(createPersonSekolah)*/;
-router
-  .route('/populate-satu-sekolah/:kodSekolah')
-  .get(getAllPersonSekolahsWithPopulate);
+router.route('/').get(getAllPersonSekolahsVanilla);
+router.route('/:personSekolahId').get(getSinglePersonSekolahVanilla);
 router
   .route('/populate/:personSekolahId')
   .get(getSinglePersonSekolahWithPopulate);
+router
+  .route('/populate-satu-sekolah/:kodSekolah')
+  .get(getAllPersonSekolahsWithPopulate);
 
 // expertimental
 // GET
 // router.route('/faceted/:kodSekolah').get(getAllPersonSekolahFaceted);
 
-// GET kemaskini
-router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
-
-// GET muatturun
+// router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
 router.route('/muatturun/:kodSekolah').get(muatturunSenaraiPelajar);
 
 // POST
+router.route('/').post(createPersonSekolah);
 router
   .route('/pemeriksaan/:personSekolahId')
   .post(createPemeriksaanWithSetPersonSekolah);
