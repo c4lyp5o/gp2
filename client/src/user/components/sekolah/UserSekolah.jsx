@@ -74,15 +74,14 @@ function UserSekolah() {
 
   const init = useRef(false);
 
-  const TarikhBegin = (singlePersonSekolah) => {
+  const TarikhBegin = () => {
     return masterDatePicker({
       selected: tarikhMelaksanakanBeginDP,
+      required: true,
       onChange: (tarikhMelaksanakanBegin) => {
         const tempDate = moment(tarikhMelaksanakanBegin).format('YYYY-MM-DD');
         setTarikhMelaksanakanBeginDP(tarikhMelaksanakanBegin);
         setTarikhMelaksanakanBegin(tempDate);
-        const tempId = singlePersonSekolah.singlePersonSekolah._id;
-        setMuridBeginCurrentId(tempId);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -128,9 +127,6 @@ function UserSekolah() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchAllPersonSekolahs'
-        // );
       }
     };
     init.current = false;
@@ -166,12 +162,14 @@ function UserSekolah() {
         }
       )
       .then((res) => {
-        setModalBegin(false);
         setReloadState(!reloadState);
         setSubmittingBegin(false);
+        setModalBegin(false);
       })
       .catch((err) => {
         console.log(err);
+        setReloadState(!reloadState);
+        setSubmittingBegin(false);
         setModalBegin(false);
       });
   };
@@ -1103,6 +1101,9 @@ function UserSekolah() {
                               {singlePersonSekolah.pemeriksaanSekolah ? (
                                 <button
                                   onClick={() => {
+                                    setMuridBeginCurrentId(
+                                      singlePersonSekolah._id
+                                    );
                                     setModalBegin({
                                       ...modalBegin,
                                       [singlePersonSekolah._id]: true,
@@ -1158,11 +1159,7 @@ function UserSekolah() {
                                         </p>
                                       </div>
                                     ) : (
-                                      <TarikhBegin
-                                        singlePersonSekolah={
-                                          singlePersonSekolah
-                                        }
-                                      />
+                                      <TarikhBegin />
                                     )}
                                   </div>
                                   <div className='grid justify-center pt-5'>
@@ -1182,6 +1179,7 @@ function UserSekolah() {
                                   <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
                                     <span
                                       onClick={() => {
+                                        setMuridBeginCurrentId('');
                                         setModalBegin(false);
                                       }}
                                       className='text-sm text-userBlack bg-userWhite py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user5 ml-2'
@@ -1393,7 +1391,10 @@ function UserSekolah() {
               className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
                 modalBegin ? 'block' : 'hidden'
               }`}
-              onClick={() => setModalBegin(false)}
+              onClick={() => {
+                setMuridBeginCurrentId('');
+                setModalBegin(false);
+              }}
             />
           )}
           <div

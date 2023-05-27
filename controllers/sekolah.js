@@ -21,7 +21,9 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   }
 
   const { kp, kodFasiliti } = req.user;
+
   const sesiTakwim = sesiTakwimSekolah();
+
   const fasilitiSekolahs = await Fasiliti.find({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
@@ -41,18 +43,17 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
 };
 
-// not used
 // GET /:personSekolahId
 const getSinglePersonSekolahVanilla = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const {
-    params: { id: personSekolahId },
-  } = req;
+  console.log('getSinglePersonSekolahVanilla ' + req.params.personSekolahId);
 
-  const singlePersonSekolah = await Sekolah.findOne({ _id: personSekolahId });
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+  });
 
   if (!singlePersonSekolah) {
     return res
@@ -61,6 +62,31 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
   }
 
   res.status(200).json({ singlePersonSekolah });
+};
+
+// GET /populate/:personSekolahId
+const getSinglePersonSekolahWithPopulate = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const personSekolahWithPopulate = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+  })
+    .populate('pemeriksaanSekolah')
+    .populate('rawatanSekolah');
+  // .populate('kotakSekolah');
+
+  if (!personSekolahWithPopulate) {
+    return res
+      .status(404)
+      .json({ msg: `No person with id ${req.params.personSekolahId}` });
+  }
+
+  res.status(201).json({ personSekolahWithPopulate });
 };
 
 // GET /populate-satu-sekolah/:kodSekolah
@@ -255,31 +281,7 @@ const getAllPersonSekolahFaceted = async (req, res) => {
   });
 };
 
-// GET /populate/:personSekolahId
-const getSinglePersonSekolahWithPopulate = async (req, res) => {
-  if (req.user.accountType !== 'kpUser') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
-
-  const sesiTakwim = sesiTakwimSekolah();
-
-  const personSekolahWithPopulate = await Sekolah.findOne({
-    _id: req.params.personSekolahId,
-    sesiTakwimPelajar: sesiTakwim,
-  })
-    .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah');
-  // .populate('kotakSekolah');
-
-  if (!personSekolahWithPopulate) {
-    return res
-      .status(404)
-      .json({ msg: `No person with id ${req.params.personSekolahId}` });
-  }
-
-  res.status(201).json({ personSekolahWithPopulate });
-};
-
+// not used
 // GET /kemaskini/:fasilitiId
 const kemaskiniSenaraiPelajar = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -355,140 +357,147 @@ const muatturunSenaraiPelajar = async (req, res) => {
     },
   };
 
-  try {
-    const semuaPelajarSatuSekolah = await Sekolah.aggregate([
-      match_stage,
-      project_stage,
-    ]);
-    const semuaTahun = new Set(
-      semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+  const semuaPelajarSatuSekolah = await Sekolah.aggregate([
+    match_stage,
+    project_stage,
+  ]);
+  const semuaTahun = new Set(
+    semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+  );
+
+  let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
+  let workbook = new Excel.Workbook();
+  await workbook.xlsx.readFile(blank);
+
+  workbook.removeWorksheet('Sheet1');
+
+  for (const tahun of semuaTahun) {
+    const worksheet = workbook.addWorksheet(tahun);
+
+    const studentsInClass = semuaPelajarSatuSekolah.filter(
+      (student) => student.tahunTingkatan === tahun
     );
 
-    let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
-    let workbook = new Excel.Workbook();
-    await workbook.xlsx.readFile(blank);
+    studentsInClass.sort((a, b) => {
+      if (a.kelasPelajar < b.kelasPelajar) {
+        return -1;
+      }
+      if (a.kelasPelajar > b.kelasPelajar) {
+        return 1;
+      }
+      if (a.nama < b.nama) {
+        return -1;
+      }
+      if (a.nama > b.nama) {
+        return 1;
+      }
+      return 0;
+    });
 
-    workbook.removeWorksheet('Sheet1');
+    worksheet.columns = [
+      { header: 'BIL', key: 'bil', width: 5, height: 26 },
+      { header: 'NAMA', key: 'nama', width: 60, height: 26 },
+      // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
+      {
+        header: 'TAHUN/TINGKATAN',
+        key: 'tahunTingkatan',
+        width: 35,
+        height: 26,
+      },
+      { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
+      // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
+      // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+      { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+      {
+        header: 'WARGANEGARA',
+        key: 'warganegara',
+        width: 40,
+        height: 26,
+      },
+      // {
+      //   header: 'SESI TAKWIM',
+      //   key: 'sesiTakwimPelajar',
+      //   width: 18,
+      //   height: 26,
+      // },
+    ];
 
-    for (const tahun of semuaTahun) {
-      const worksheet = workbook.addWorksheet(tahun);
+    worksheet.addRows(studentsInClass);
 
-      const studentsInClass = semuaPelajarSatuSekolah.filter(
-        (student) => student.tahunTingkatan === tahun
-      );
+    worksheet.getColumn('bil').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.value = number - 1;
+      }
+      cell.alignment = { vertical: 'middle', horizontal: 'center' };
+    });
 
-      studentsInClass.sort((a, b) => {
-        if (a.kelasPelajar < b.kelasPelajar) {
-          return -1;
-        }
-        if (a.kelasPelajar > b.kelasPelajar) {
-          return 1;
-        }
-        if (a.nama < b.nama) {
-          return -1;
-        }
-        if (a.nama > b.nama) {
-          return 1;
-        }
-        return 0;
-      });
+    worksheet.getColumn('warganegara').eachCell((cell) => {
+      cell.value = cell.value || 'BUKAN WARGANEGARA';
+    });
 
-      worksheet.columns = [
-        { header: 'BIL', key: 'bil', width: 5, height: 26 },
-        { header: 'NAMA', key: 'nama', width: 60, height: 26 },
-        // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
-        {
-          header: 'TAHUN/TINGKATAN',
-          key: 'tahunTingkatan',
-          width: 35,
-          height: 26,
-        },
-        { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
-        // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
-        // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
-        { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
-        {
-          header: 'WARGANEGARA',
-          key: 'warganegara',
-          width: 40,
-          height: 26,
-        },
-        // {
-        //   header: 'SESI TAKWIM',
-        //   key: 'sesiTakwimPelajar',
-        //   width: 18,
-        //   height: 26,
-        // },
-      ];
-
-      worksheet.addRows(studentsInClass);
-
-      worksheet.getColumn('bil').eachCell((cell, number) => {
-        if (number !== 1) {
-          cell.value = number - 1;
-        }
+    worksheet.columns.forEach((column) => {
+      column.eachCell((cell) => {
         cell.alignment = { vertical: 'middle', horizontal: 'center' };
       });
-
-      worksheet.getColumn('warganegara').eachCell((cell) => {
-        cell.value = cell.value || 'BUKAN WARGANEGARA';
-      });
-
-      worksheet.columns.forEach((column) => {
-        column.eachCell((cell) => {
-          cell.alignment = { vertical: 'middle', horizontal: 'center' };
-        });
-      });
-
-      worksheet.getColumn('nama').eachCell((cell, number) => {
-        if (number !== 1) {
-          cell.alignment = { vertical: 'middle', horizontal: 'left' };
-        }
-      });
-
-      worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
-      worksheet.getRow(1).alignment = {
-        vertical: 'middle',
-        horizontal: 'center',
-      };
-
-      worksheet.eachRow((row) => {
-        row.height = 15;
-        row.eachCell((cell) => {
-          cell.border = {
-            top: { style: 'thin' },
-            left: { style: 'thin' },
-            bottom: { style: 'thin' },
-            right: { style: 'thin' },
-          };
-        });
-      });
-    }
-
-    const listPelajar = makeFile();
-
-    await workbook.xlsx.writeFile(listPelajar);
-
-    res.setHeader(
-      'Content-Type',
-      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
-    );
-    const fileStream = fs.createReadStream(listPelajar);
-    fileStream.pipe(res);
-    fileStream.on('close', () => {
-      fs.unlinkSync(listPelajar);
     });
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ msg: error.message });
+
+    worksheet.getColumn('nama').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
+      }
+    });
+
+    worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+    worksheet.getRow(1).alignment = {
+      vertical: 'middle',
+      horizontal: 'center',
+    };
+
+    worksheet.eachRow((row) => {
+      row.height = 15;
+      row.eachCell((cell) => {
+        cell.border = {
+          top: { style: 'thin' },
+          left: { style: 'thin' },
+          bottom: { style: 'thin' },
+          right: { style: 'thin' },
+        };
+      });
+    });
   }
+
+  const listPelajar = makeFile();
+
+  await workbook.xlsx.writeFile(listPelajar);
+
+  res.setHeader(
+    'Content-Type',
+    'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+  );
+  const fileStream = fs.createReadStream(listPelajar);
+  fileStream.pipe(res);
+  fileStream.on('close', () => {
+    return fs.unlinkSync(listPelajar);
+  });
 };
 
-// not used
 // POST /
 const createPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const personSekolahExist = await Sekolah.findOne({
+    nomborId: req.body.nomborId,
+    sesiTakwimPelajar: sesiTakwim,
+  });
+
+  if (personSekolahExist) {
+    return res.status(409).json({
+      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+    });
   }
 
   const personSekolah = await Sekolah.create(req.body);
@@ -524,7 +533,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest
+  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working is intended or not?
   if (req.body.tarikhPemeriksaanSemasa > 0) {
     await Fasiliti.findOneAndUpdate(
       {
@@ -600,7 +609,7 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  // set fasilitiSekolah's begin to true
+  // set fasilitiSekolah's begin to true // TODO macam dah tak pakai je begin dalam Fasiliti
   if (
     req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
     'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
@@ -683,7 +692,7 @@ const updatePersonSekolah = async (req, res) => {
   res.status(200).json({ updatedPersonSekolah });
 };
 
-// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId?personSekolahId=
+// PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
 const updatePemeriksaanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -713,11 +722,6 @@ const updatePemeriksaanSekolah = async (req, res) => {
       .status(404)
       .json({ msg: `No document with id ${req.params.pemeriksaanSekolahId}` });
   }
-
-  // const personSekolah = await Sekolah.findOneAndUpdate(
-  //   { _id: req.query.personSekolahId },
-  //   { $set: { statusRawatan: 'belum selesai' } }
-  // );
 
   res.status(200).json({ updatedSinglePemeriksaan });
 };
