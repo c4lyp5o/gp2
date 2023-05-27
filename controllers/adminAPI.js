@@ -974,7 +974,7 @@ const postRoute = async (req, res) => {
         kodTastad: Data.kodTastad,
       });
       if (exists) {
-        return res.status(400).json({
+        return res.status(409).json({
           message: 'Kod Taska/Tadika ini telah wujud',
         });
       } else {
@@ -1034,7 +1034,7 @@ const postRoute = async (req, res) => {
         jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
       });
       if (exists) {
-        return res.status(400).json({
+        return res.status(409).json({
           message: 'No plat KPB/MPB ini telah wujud',
         });
       } else {
@@ -1642,7 +1642,7 @@ const getData = async (req, res) => {
               kodTastad: Data.kodTastad,
             });
             if (exists) {
-              return res.status(400).json({
+              return res.status(409).json({
                 message: 'Kod Taska/Tadika ini telah wujud',
               });
             } else {
@@ -1714,7 +1714,7 @@ const getData = async (req, res) => {
               jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
             });
             if (exists) {
-              return res.status(400).json({
+              return res.status(409).json({
                 message: 'No plat KPB/MPB ini telah wujud',
               });
             } else {
