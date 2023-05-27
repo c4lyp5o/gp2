@@ -14,7 +14,7 @@ import {
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import UserModalSelesaiSekolah from './UserModalSelesaiSekolah';
-import UserModalRefreshPelajar from './UserModalRefreshPelajar';
+// import UserModalRefreshPelajar from './UserModalRefreshPelajar';
 
 function UserSekolahList() {
   const {
@@ -36,11 +36,11 @@ function UserSekolahList() {
   const [sekMenRen, setSekMenRen] = useState('');
 
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
-  const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
+  // const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
 
   const [isTutup, setIsTutup] = useState(false);
-  const [isKemaskini, setIsKemaskini] = useState(false);
+  // const [isKemaskini, setIsKemaskini] = useState(false);
   const [isDownload, setIsDownload] = useState(false);
 
   const [isDownloading, setIsDownloading] = useState(false);
@@ -201,40 +201,40 @@ function UserSekolahList() {
     }
   };
 
-  const handleRefreshPelajar = async () => {
-    if (!modalRefreshPelajar) {
-      setModalRefreshPelajar(true);
-      return;
-    }
-    if (modalRefreshPelajar) {
-      let mdcMdtbNum = '';
-      if (!userinfo.mdtbNumber) {
-        mdcMdtbNum = userinfo.mdcNumber;
-      }
-      if (!userinfo.mdcNumber) {
-        mdcMdtbNum = userinfo.mdtbNumber;
-      }
-      await toast.promise(
-        axios.get(`/api/v1/sekolah/kemaskini/${idSekolah}`, {
-          headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
-          },
-        }),
-        {
-          pending: 'Sedang mengesahkan pengemaskinian pelajar...',
-          success: 'Pengemaskinian pelajar akan dilakukan',
-          error: 'Gagal untuk kemaskini pelajar. Sila cuba lagi.',
-        },
-        {
-          autoClose: 3000,
-        }
-      );
-      setModalRefreshPelajar(false);
-      setReloadState(!reloadState);
-    }
-  };
+  // const handleRefreshPelajar = async () => {
+  //   if (!modalRefreshPelajar) {
+  //     setModalRefreshPelajar(true);
+  //     return;
+  //   }
+  //   if (modalRefreshPelajar) {
+  //     let mdcMdtbNum = '';
+  //     if (!userinfo.mdtbNumber) {
+  //       mdcMdtbNum = userinfo.mdcNumber;
+  //     }
+  //     if (!userinfo.mdcNumber) {
+  //       mdcMdtbNum = userinfo.mdtbNumber;
+  //     }
+  //     await toast.promise(
+  //       axios.get(`/api/v1/sekolah/kemaskini/${idSekolah}`, {
+  //         headers: {
+  //           Authorization: `Bearer ${
+  //             reliefUserToken ? reliefUserToken : userToken
+  //           }`,
+  //         },
+  //       }),
+  //       {
+  //         pending: 'Sedang mengesahkan pengemaskinian pelajar...',
+  //         success: 'Pengemaskinian pelajar akan dilakukan',
+  //         error: 'Gagal untuk kemaskini pelajar. Sila cuba lagi.',
+  //       },
+  //       {
+  //         autoClose: 3000,
+  //       }
+  //     );
+  //     setModalRefreshPelajar(false);
+  //     setReloadState(!reloadState);
+  //   }
+  // };
 
   // on tab focus reload data
   useEffect(() => {
@@ -530,7 +530,7 @@ function UserSekolahList() {
                           </div>
                           {userinfo.role === 'admin' && (
                             <>
-                              <div
+                              {/* <div
                                 className={`${
                                   isKemaskini[singleNamaSekolah._id]
                                     ? ''
@@ -600,7 +600,7 @@ function UserSekolahList() {
                                     </p>
                                   )}
                                 </button>
-                              </div>
+                              </div> */}
                               <div
                                 className={`${
                                   isTutup[singleNamaSekolah._id] ? '' : 'mx-0.5'
@@ -665,13 +665,13 @@ function UserSekolahList() {
             id={idSekolah}
           />
         )}
-        {modalRefreshPelajar && (
+        {/* {modalRefreshPelajar && (
           <UserModalRefreshPelajar
             setModalRefreshPelajar={setModalRefreshPelajar}
             handleRefreshPelajar={handleRefreshPelajar}
             id={idSekolah}
           />
-        )}
+        )} */}
       </div>
     </>
   );
