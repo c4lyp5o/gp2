@@ -427,11 +427,23 @@ function UserSekolah() {
                 CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
+                {pilihanTahunTingkatan && (
+                  <span className=' uppercase text-xs lg:text-sm w-full'>
+                    <button
+                      onClick={() => {
+                        setModalTambahKemaskiniPelajar(true);
+                      }}
+                      className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
+                    >
+                      Tambah pelajar
+                    </button>
+                  </span>
+                )}
                 <button
                   onClick={() => {
                     navigate(-1);
                   }}
-                  className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                  className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
                 >
                   kembali ke senarai sekolah
                 </button>
@@ -597,18 +609,6 @@ function UserSekolah() {
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span />
-                {pilihanTahunTingkatan && (
-                  <span className=' uppercase text-xs lg:text-sm w-full'>
-                    <button
-                      onClick={() => {
-                        setModalTambahKemaskiniPelajar(true);
-                      }}
-                      className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                    >
-                      Tambah pelajar
-                    </button>
-                  </span>
-                )}
               </p>
             </div>
           </div>
