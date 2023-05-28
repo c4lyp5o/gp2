@@ -60,6 +60,8 @@ function UserSekolah() {
     useState(false);
   const [kemaskiniPelajarId, setKemaskiniPelajarId] = useState('');
   const [submittingTambahPelajar, setSubmittingTambahPelajar] = useState(false);
+  const [dataFromPilihanTahunTingkatan, setDataFromPilihanTahunTingkatan] =
+    useState({});
 
   const [pilih, setPilih] = useState('');
   const [modalHapus, setModalHapus] = useState(false);
@@ -223,6 +225,16 @@ function UserSekolah() {
       setTarikhMelaksanakanBeginDP(null);
     }
   }, [modalBegin]);
+
+  //find first person of pilihanTahunTingkatan and setDataFromPilihanTahunTingkatan
+  useEffect(() => {
+    if (pilihanTahunTingkatan) {
+      const firstPerson = allPersonSekolahs.find(
+        (person) => person.tahunTingkatan === pilihanTahunTingkatan
+      );
+      setDataFromPilihanTahunTingkatan(firstPerson);
+    }
+  }, [pilihanTahunTingkatan]);
 
   useEffect(() => {
     // const filteredSekolahs = allPersonSekolahs.filter((person) =>
@@ -585,16 +597,18 @@ function UserSekolah() {
               </p>
               <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span />
-                <span className=' uppercase text-xs lg:text-sm w-full'>
-                  <button
-                    // onChange={(e) => {
-                    //   setFilterNama(e.target.value.toUpperCase());
-                    // }}
-                    className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                  >
-                    Tambah pelajar
-                  </button>
-                </span>
+                {pilihanTahunTingkatan && (
+                  <span className=' uppercase text-xs lg:text-sm w-full'>
+                    <button
+                      onClick={() => {
+                        setModalTambahKemaskiniPelajar(true);
+                      }}
+                      className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                    >
+                      Tambah pelajar
+                    </button>
+                  </span>
+                )}
               </p>
             </div>
           </div>
@@ -674,7 +688,9 @@ function UserSekolah() {
                               <p>JANTINA : {singlePersonSekolah.jantina}</p>
                               <p>
                                 TARIKH LAHIR :{' '}
-                                {singlePersonSekolah.tarikhLahir.split(' ')[0]}
+                                {moment(singlePersonSekolah.tarikhLahir).format(
+                                  'DD/MM/YYYY'
+                                )}
                               </p>
                               <p>UMUR :{singlePersonSekolah.umur}</p>
                               <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
@@ -684,7 +700,18 @@ function UserSekolah() {
                               <span>
                                 <p>
                                   <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
-                                    <button class='bg-user3 hover:bg-user7 text-userWhite font-bold py-2 px-4 rounded border border-userBlack'>
+                                    <button
+                                      onClick={() => {
+                                        setModalTambahKemaskiniPelajar({
+                                          ...modalTambahKemaskiniPelajar,
+                                          [singlePersonSekolah._id]: true,
+                                        });
+                                        setKemaskiniPelajarId(
+                                          singlePersonSekolah._id
+                                        );
+                                      }}
+                                      className='bg-user3 hover:bg-user7 text-userWhite font-bold py-2 px-4 rounded border border-userBlack'
+                                    >
                                       Kemaskini
                                     </button>
                                   </p>
@@ -1414,6 +1441,7 @@ function UserSekolah() {
             setSubmittingTambahPelajar={setSubmittingTambahPelajar}
             reloadState={reloadState}
             setReloadState={setReloadState}
+            dataFromPilihanTahunTingkatan={dataFromPilihanTahunTingkatan}
           />
         )}
         {modalHapus && (
