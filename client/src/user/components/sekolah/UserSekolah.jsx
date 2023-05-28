@@ -494,7 +494,7 @@ function UserSekolah() {
                   </select>
                 </span>
               </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Kelas:
                 </span>{' '}
@@ -522,7 +522,7 @@ function UserSekolah() {
                       : null}
                   </select>
                 </span>
-              </p>
+              </p> */}
               {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tarikh Mula:
