@@ -13,6 +13,7 @@ const Fasiliti = require('../models/Fasiliti');
 const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 const insertToSekolah = require('../controllers/helpers/insertToSekolah');
 const { generateRandomString } = require('./adminAPI');
+const { logger, unauthorizedLogger } = require('../logs/logger');
 
 // GET /
 const getAllPersonSekolahsVanilla = async (req, res) => {
@@ -629,7 +630,6 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
 
 // not used
 // POST /kotak/:personSekolahId
-// kotak tak handle statusRawatan
 const createKotakWithSetPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -662,13 +662,26 @@ const updateFasiliti = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const fasilitiSekolah = await Fasiliti.findOne({
+    _id: req.params.fasilitiId,
+  });
+
+  if (fasilitiSekolah.sekolahSelesaiReten === true) {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [sekolahController] Unauthorized fasilitiSekolah ${fasilitiSekolah.nama} has TUTUP RETEN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+    );
+    return res.status(403).json({
+      msg: `${fasilitiSekolah.nama} telah ditutup reten`,
+    });
+  }
+
   const updatedFasiliti = await Fasiliti.findOneAndUpdate(
     { _id: req.params.fasilitiId },
-    req.body,
+    { $set: { sekolahSelesaiReten: req.body.sekolahSelesaiReten } },
     { new: true }
   );
 
-  res.status(201).json({ updatedFasiliti });
+  res.status(200).json({ updatedFasiliti });
 };
 
 // PATCH /ubah/:personSekolahId
@@ -677,6 +690,54 @@ const updatePersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+  });
+
+  if (
+    singlePersonSekolah.pemeriksaanSekolah &&
+    !req.body.tarikhMelaksanakanBegin
+  ) {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [sekolahController] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+    );
+    return res.status(403).json({
+      msg: `${singlePersonSekolah.nama} telah diisi reten`,
+    });
+  }
+
+  // begin PATCH
+  if (req.body.tarikhMelaksanakanBegin) {
+    if (singlePersonSekolah.tarikhMelaksanakanBegin) {
+      unauthorizedLogger.warn(
+        `${req.method} ${req.url} [sekolahController] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      );
+      return res.status(403).json({
+        msg: `${singlePersonSekolah.nama} telah diisi BEGIN`,
+      });
+    }
+    if (!singlePersonSekolah.pemeriksaanSekolah) {
+      unauthorizedLogger.warn(
+        `${req.method} ${req.url} [sekolahController] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} no PEMERIKSAAN for BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      );
+      return res.status(403).json({
+        msg: `${singlePersonSekolah.nama} belum diisi reten`,
+      });
+    }
+    const updatedPersonSekolahBegin = await Sekolah.findOneAndUpdate(
+      { _id: req.params.personSekolahId },
+      {
+        $set: {
+          tarikhMelaksanakanBegin: req.body.tarikhMelaksanakanBegin,
+          namaPelaksanaBegin: req.body.namaPelaksanaBegin,
+        },
+      },
+      { new: true }
+    );
+    return res.status(200).json({ updatedPersonSekolahBegin });
+  }
+
+  // kemaskini pelajar PATCH
   const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
     { _id: req.params.personSekolahId },
     req.body,
