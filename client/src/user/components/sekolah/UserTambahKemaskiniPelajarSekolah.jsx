@@ -195,7 +195,7 @@ function UserTambahKemaskiniPelajarSekolah({
                   Tarikh Lahir
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {moment(singlePersonSekolah.tarikhLahir).format('DD/MM/YYYY')}
+                  {singlePersonSekolah.tarikhLahir.split(' ')[0]}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Jantina

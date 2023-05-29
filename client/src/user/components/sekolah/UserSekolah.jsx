@@ -688,9 +688,7 @@ function UserSekolah() {
                               <p>JANTINA : {singlePersonSekolah.jantina}</p>
                               <p>
                                 TARIKH LAHIR :{' '}
-                                {moment(singlePersonSekolah.tarikhLahir).format(
-                                  'DD/MM/YYYY'
-                                )}
+                                {singlePersonSekolah.tarikhLahir.split(' ')[0]}
                               </p>
                               <p>UMUR :{singlePersonSekolah.umur}</p>
                               <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
