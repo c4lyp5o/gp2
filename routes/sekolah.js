@@ -30,7 +30,7 @@ router
   .route('/populate-satu-sekolah/:kodSekolah')
   .get(getAllPersonSekolahsWithPopulate);
 
-// expertimental
+// experimental
 // GET
 // router.route('/faceted/:kodSekolah').get(getAllPersonSekolahFaceted);
 

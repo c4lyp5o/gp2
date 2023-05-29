@@ -702,10 +702,7 @@ function UserSekolah() {
                                   <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     <button
                                       onClick={() => {
-                                        setModalTambahKemaskiniPelajar({
-                                          ...modalTambahKemaskiniPelajar,
-                                          [singlePersonSekolah._id]: true,
-                                        });
+                                        setModalTambahKemaskiniPelajar(true);
                                         setKemaskiniPelajarId(
                                           singlePersonSekolah._id
                                         );
