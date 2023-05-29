@@ -702,7 +702,10 @@ function UserSekolah() {
                                   <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     <button
                                       onClick={() => {
-                                        setModalTambahKemaskiniPelajar(true);
+                                        setModalTambahKemaskiniPelajar({
+                                          ...modalTambahKemaskiniPelajar,
+                                          [singlePersonSekolah._id]: true,
+                                        });
                                         setKemaskiniPelajarId(
                                           singlePersonSekolah._id
                                         );
@@ -1093,7 +1096,7 @@ function UserSekolah() {
                               </Link>
                             </td> */}
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2'>
-                            {singlePersonSekolah.pemeriksaanSekolah ? (
+                            {!singlePersonSekolah.pemeriksaanSekolah && (
                               <p className='text-sm text-userBlack text-center flex items-center justify-center'>
                                 {
                                   singlePersonSekolah.pemeriksaanSekolah
@@ -1260,17 +1263,19 @@ function UserSekolah() {
                                 scrollBawah();
                               }}
                               className={`${
-                                pilih === singlePersonSekolah._id && 'bg-user3'
+                                pilih === singlePersonSekolah._id && ''
                               } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
                             >
-                              <button
-                                className='bg-user9 p-2 text- text-userWhite rounded-lg shadow-md hover:bg-user1 transition-all'
-                                onClick={() => {
-                                  setModalHapus(true);
-                                }}
-                              >
-                                Hapus pelajar?
-                              </button>
+                              {!singlePersonSekolah.pemeriksaanSekolah && (
+                                <button
+                                  className='bg-user9 p-2 text- text-userWhite rounded-lg'
+                                  onClick={() => {
+                                    setModalHapus(true);
+                                  }}
+                                >
+                                  Hapus pelajar?
+                                </button>
+                              )}
                             </td>
                           )}
                         </tr>
