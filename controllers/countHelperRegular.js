@@ -193,6 +193,12 @@ const countPG101C = async (payload) => {
   }
 };
 const countPG211A = async (payload) => {
+  const main_switch = {
+    $match: {
+      ...getParams211(payload, 'A'),
+    },
+  };
+
   let match_stage = [];
 
   const bage_below_1 = {
@@ -204,7 +210,6 @@ const countPG211A = async (payload) => {
         $lt: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_1_4 = {
@@ -214,7 +219,6 @@ const countPG211A = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_5_6 = {
@@ -224,7 +228,6 @@ const countPG211A = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_7_9 = {
@@ -234,7 +237,6 @@ const countPG211A = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_10_12 = {
@@ -244,7 +246,6 @@ const countPG211A = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_13_14 = {
@@ -254,7 +255,6 @@ const countPG211A = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_15_17 = {
@@ -264,7 +264,6 @@ const countPG211A = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_18_19 = {
@@ -274,7 +273,6 @@ const countPG211A = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_20_29 = {
@@ -284,7 +282,6 @@ const countPG211A = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_30_39 = {
@@ -294,7 +291,6 @@ const countPG211A = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_40_49 = {
@@ -304,7 +300,6 @@ const countPG211A = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_50_59 = {
@@ -314,7 +309,6 @@ const countPG211A = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_60 = {
@@ -323,7 +317,6 @@ const countPG211A = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_61_64 = {
@@ -333,7 +326,6 @@ const countPG211A = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_65 = {
@@ -342,7 +334,6 @@ const countPG211A = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_66_69 = {
@@ -352,7 +343,6 @@ const countPG211A = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_70_74 = {
@@ -362,7 +352,6 @@ const countPG211A = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const bage_lebih_75 = {
@@ -371,7 +360,6 @@ const countPG211A = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
 
@@ -384,7 +372,6 @@ const countPG211A = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_1_4 = {
@@ -394,7 +381,6 @@ const countPG211A = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_5_6 = {
@@ -404,7 +390,6 @@ const countPG211A = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_7_9 = {
@@ -414,7 +399,6 @@ const countPG211A = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_10_12 = {
@@ -424,7 +408,6 @@ const countPG211A = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_13_14 = {
@@ -434,7 +417,6 @@ const countPG211A = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_15_17 = {
@@ -444,7 +426,6 @@ const countPG211A = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_18_19 = {
@@ -454,7 +435,6 @@ const countPG211A = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_20_29 = {
@@ -464,7 +444,6 @@ const countPG211A = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_30_39 = {
@@ -474,7 +453,6 @@ const countPG211A = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_40_49 = {
@@ -484,7 +462,6 @@ const countPG211A = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_50_59 = {
@@ -494,7 +471,6 @@ const countPG211A = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_60 = {
@@ -503,7 +479,6 @@ const countPG211A = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_61_64 = {
@@ -513,7 +488,6 @@ const countPG211A = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_65 = {
@@ -522,7 +496,6 @@ const countPG211A = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_66_69 = {
@@ -532,7 +505,6 @@ const countPG211A = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_70_74 = {
@@ -542,7 +514,6 @@ const countPG211A = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
   const uage_lebih_75 = {
@@ -551,7 +522,6 @@ const countPG211A = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'A'),
     },
   };
 
@@ -999,7 +969,7 @@ const countPG211A = async (payload) => {
 
   try {
     for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [match_stage[i], group_stage];
+      const pipeline = [main_switch, match_stage[i], group_stage];
       const query = await Umum.aggregate(pipeline);
       data.push(query);
     }
@@ -1012,6 +982,12 @@ const countPG211A = async (payload) => {
   }
 };
 const countPG211C = async (payload) => {
+  const main_switch = {
+    $match: {
+      ...getParams211(payload, 'C'),
+    },
+  };
+
   let match_stage = [];
 
   const bage_below_1 = {
@@ -1023,7 +999,6 @@ const countPG211C = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_1_4 = {
@@ -1033,7 +1008,6 @@ const countPG211C = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_5_6 = {
@@ -1043,7 +1017,6 @@ const countPG211C = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_7_9 = {
@@ -1053,7 +1026,6 @@ const countPG211C = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_10_12 = {
@@ -1063,7 +1035,6 @@ const countPG211C = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_13_14 = {
@@ -1073,7 +1044,6 @@ const countPG211C = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_15_17 = {
@@ -1083,7 +1053,6 @@ const countPG211C = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_18_19 = {
@@ -1093,7 +1062,6 @@ const countPG211C = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_20_29 = {
@@ -1103,7 +1071,6 @@ const countPG211C = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_30_39 = {
@@ -1113,7 +1080,6 @@ const countPG211C = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_40_49 = {
@@ -1123,7 +1089,6 @@ const countPG211C = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_50_59 = {
@@ -1133,7 +1098,6 @@ const countPG211C = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_60 = {
@@ -1142,7 +1106,6 @@ const countPG211C = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_61_64 = {
@@ -1152,7 +1115,6 @@ const countPG211C = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_65 = {
@@ -1161,7 +1123,6 @@ const countPG211C = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_66_69 = {
@@ -1171,7 +1132,6 @@ const countPG211C = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_70_74 = {
@@ -1181,7 +1141,6 @@ const countPG211C = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const bage_lebih_75 = {
@@ -1190,7 +1149,6 @@ const countPG211C = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'baru-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
 
@@ -1203,7 +1161,6 @@ const countPG211C = async (payload) => {
         $lt: 13,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_1_4 = {
@@ -1213,7 +1170,6 @@ const countPG211C = async (payload) => {
         $lte: 4,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_5_6 = {
@@ -1223,7 +1179,6 @@ const countPG211C = async (payload) => {
         $lte: 6,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_7_9 = {
@@ -1233,7 +1188,6 @@ const countPG211C = async (payload) => {
         $lte: 9,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_10_12 = {
@@ -1243,7 +1197,6 @@ const countPG211C = async (payload) => {
         $lte: 12,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_13_14 = {
@@ -1253,7 +1206,6 @@ const countPG211C = async (payload) => {
         $lte: 14,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_15_17 = {
@@ -1263,7 +1215,6 @@ const countPG211C = async (payload) => {
         $lte: 17,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_18_19 = {
@@ -1273,7 +1224,6 @@ const countPG211C = async (payload) => {
         $lte: 19,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_20_29 = {
@@ -1283,7 +1233,6 @@ const countPG211C = async (payload) => {
         $lte: 29,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_30_39 = {
@@ -1293,7 +1242,6 @@ const countPG211C = async (payload) => {
         $lte: 39,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_40_49 = {
@@ -1303,7 +1251,6 @@ const countPG211C = async (payload) => {
         $lte: 49,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_50_59 = {
@@ -1313,7 +1260,6 @@ const countPG211C = async (payload) => {
         $lte: 59,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_60 = {
@@ -1322,7 +1268,6 @@ const countPG211C = async (payload) => {
         $eq: 60,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_61_64 = {
@@ -1332,7 +1277,6 @@ const countPG211C = async (payload) => {
         $lte: 64,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_65 = {
@@ -1341,7 +1285,6 @@ const countPG211C = async (payload) => {
         $eq: 65,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_66_69 = {
@@ -1351,7 +1294,6 @@ const countPG211C = async (payload) => {
         $lte: 69,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_70_74 = {
@@ -1361,7 +1303,6 @@ const countPG211C = async (payload) => {
         $lte: 74,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
   const uage_lebih_75 = {
@@ -1370,7 +1311,6 @@ const countPG211C = async (payload) => {
         $gte: 75,
       },
       kedatangan: { $eq: 'ulangan-kedatangan' },
-      ...getParams211(payload, 'C'),
     },
   };
 
@@ -1811,7 +1751,7 @@ const countPG211C = async (payload) => {
 
   try {
     for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [match_stage[i], group_stage];
+      const pipeline = [main_switch, match_stage[i], group_stage];
       const query = await Umum.aggregate(pipeline);
       data.push(query);
     }
