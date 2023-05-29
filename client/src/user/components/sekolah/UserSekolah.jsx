@@ -700,20 +700,19 @@ function UserSekolah() {
                               <span>
                                 <p>
                                   <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
-                                    <button
-                                      onClick={() => {
-                                        setModalTambahKemaskiniPelajar({
-                                          ...modalTambahKemaskiniPelajar,
-                                          [singlePersonSekolah._id]: true,
-                                        });
-                                        setKemaskiniPelajarId(
-                                          singlePersonSekolah._id
-                                        );
-                                      }}
-                                      className='bg-user3 hover:bg-user7 text-userWhite font-bold py-2 px-4 rounded border border-userBlack'
-                                    >
-                                      Kemaskini
-                                    </button>
+                                    {singlePersonSekolah.pemeriksaanSekolah ? null : (
+                                      <button
+                                        onClick={() => {
+                                          setModalTambahKemaskiniPelajar(true);
+                                          setKemaskiniPelajarId(
+                                            singlePersonSekolah._id
+                                          );
+                                        }}
+                                        className='bg-user3 hover:bg-user7 text-userWhite transition-all font-bold py-2 px-4 rounded shadow-md'
+                                      >
+                                        Kemaskini
+                                      </button>
+                                    )}
                                   </p>
                                 </p>
                               </span>
@@ -1096,7 +1095,7 @@ function UserSekolah() {
                               </Link>
                             </td> */}
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2'>
-                            {!singlePersonSekolah.pemeriksaanSekolah && (
+                            {singlePersonSekolah.pemeriksaanSekolah ? (
                               <p className='text-sm text-userBlack text-center flex items-center justify-center'>
                                 {
                                   singlePersonSekolah.pemeriksaanSekolah
@@ -1257,18 +1256,12 @@ function UserSekolah() {
                           ) : null}
                           {userinfo.role === 'admin' && (
                             <td
-                              onClick={() => {
-                                setModalHapus(true);
-                                setPilih(singlePersonSekolah._id);
-                                scrollBawah();
-                              }}
-                              className={`${
-                                pilih === singlePersonSekolah._id && ''
-                              } px-2 py-1 outline outline-1 outline-userWhite outline-offset-1 hover:cursor-pointer text-user2`}
+                              className='
+                               px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'
                             >
-                              {!singlePersonSekolah.pemeriksaanSekolah && (
+                              {singlePersonSekolah.pemeriksaanSekolah ? null : (
                                 <button
-                                  className='bg-user9 p-2 text- text-userWhite rounded-lg'
+                                  className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
                                   onClick={() => {
                                     setModalHapus(true);
                                   }}
