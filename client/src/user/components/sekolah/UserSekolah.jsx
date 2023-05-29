@@ -688,7 +688,9 @@ function UserSekolah() {
                               <p>JANTINA : {singlePersonSekolah.jantina}</p>
                               <p>
                                 TARIKH LAHIR :{' '}
-                                {singlePersonSekolah.tarikhLahir.split(' ')[0]}
+                                {moment(singlePersonSekolah.tarikhLahir).format(
+                                  'DD/MM/YYYY'
+                                )}
                               </p>
                               <p>UMUR :{singlePersonSekolah.umur}</p>
                               <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
@@ -700,10 +702,7 @@ function UserSekolah() {
                                   <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     <button
                                       onClick={() => {
-                                        setModalTambahKemaskiniPelajar({
-                                          ...modalTambahKemaskiniPelajar,
-                                          [singlePersonSekolah._id]: true,
-                                        });
+                                        setModalTambahKemaskiniPelajar(true);
                                         setKemaskiniPelajarId(
                                           singlePersonSekolah._id
                                         );
