@@ -30,14 +30,26 @@ function Followers(props) {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                   Bil.
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
                   Jenis Platform
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
                   Follower Bulan Terdahulu
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
                   Follower Bulan Ini
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Jumlah peningkatan atau penurunan
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Peratus peningkatan atau penurunan
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Tarikh Mula
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Tarikh Akhir
                 </th>
               </tr>
             </thead>
@@ -72,6 +84,24 @@ function Followers(props) {
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                       {item.jumlahFollowerBulanIni}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      {item.jumlahFollowerBulanIni -
+                        item.jumlahFollowerBulanTerdahulu}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      {Math.round(
+                        (item.jumlahFollowerBulanIni /
+                          item.jumlahFollowerBulanTerdahulu) *
+                          100
+                      )}
+                      %
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      1/5/2023
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      31/5/2023
                     </td>
                   </tr>
                 );
