@@ -82,7 +82,7 @@ export default function Sosmed(props) {
           <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max px-48'>
             {data
               //sort by kodProgram from 1000 to 9999
-              .sort((a, b) => a.kodProgram > b.kodProgram)
+              .sort((a, b) => (a.kodProgram > b.kodProgram ? 1 : -1))
               .map((i, dataIndex) => {
                 if (i.data.length === 0) {
                   return null;
