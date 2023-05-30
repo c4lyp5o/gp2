@@ -21,6 +21,19 @@ const SekolahSchema = new mongoose.Schema(
       },
       default: 'belum mula',
     },
+    // soft delete ----------------------------------------------
+    deleted: {
+      type: Boolean,
+      default: false,
+    },
+    deleteReason: {
+      type: String,
+      default: '',
+    },
+    deletedForOfficer: {
+      type: String,
+      default: '',
+    },
     // supplied by MOEIS --------------------------------------------------
     idInstitusi: {
       type: String,

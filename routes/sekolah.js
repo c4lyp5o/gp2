@@ -14,6 +14,7 @@ const {
   createKotakWithSetPersonSekolah,
   updateFasiliti,
   updatePersonSekolah,
+  softDeletePersonSekolah,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
   updateKotakSekolah,
@@ -50,6 +51,7 @@ router
 // PATCH
 router.route('/fasiliti/:fasilitiId').patch(updateFasiliti);
 router.route('/ubah/:personSekolahId').patch(updatePersonSekolah);
+router.route('/delete/:personSekolahId').patch(softDeletePersonSekolah);
 router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);
