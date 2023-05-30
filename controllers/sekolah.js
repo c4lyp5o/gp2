@@ -50,8 +50,6 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  console.log('getSinglePersonSekolahVanilla ' + req.params.personSekolahId);
-
   const singlePersonSekolah = await Sekolah.findOne({
     _id: req.params.personSekolahId,
   });
@@ -668,7 +666,7 @@ const updateFasiliti = async (req, res) => {
 
   if (fasilitiSekolah.sekolahSelesaiReten === true) {
     unauthorizedLogger.warn(
-      `${req.method} ${req.url} [sekolahController] Unauthorized fasilitiSekolah ${fasilitiSekolah.nama} has TUTUP RETEN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      `${req.method} ${req.url} [sekolahController - updateFasiliti] Unauthorized fasilitiSekolah ${fasilitiSekolah.nama} has TUTUP RETEN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
     );
     return res.status(403).json({
       msg: `${fasilitiSekolah.nama} telah ditutup reten`,
@@ -699,7 +697,7 @@ const updatePersonSekolah = async (req, res) => {
     !req.body.tarikhMelaksanakanBegin
   ) {
     unauthorizedLogger.warn(
-      `${req.method} ${req.url} [sekolahController] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
     );
     return res.status(403).json({
       msg: `${singlePersonSekolah.nama} telah diisi reten`,
@@ -710,7 +708,7 @@ const updatePersonSekolah = async (req, res) => {
   if (req.body.tarikhMelaksanakanBegin) {
     if (singlePersonSekolah.tarikhMelaksanakanBegin) {
       unauthorizedLogger.warn(
-        `${req.method} ${req.url} [sekolahController] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+        `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
       );
       return res.status(403).json({
         msg: `${singlePersonSekolah.nama} telah diisi BEGIN`,
@@ -718,7 +716,7 @@ const updatePersonSekolah = async (req, res) => {
     }
     if (!singlePersonSekolah.pemeriksaanSekolah) {
       unauthorizedLogger.warn(
-        `${req.method} ${req.url} [sekolahController] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} no PEMERIKSAAN for BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+        `${req.method} ${req.url} [sekolahController - updatePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} no PEMERIKSAAN for BEGIN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
       );
       return res.status(403).json({
         msg: `${singlePersonSekolah.nama} belum diisi reten`,
@@ -747,7 +745,7 @@ const updatePersonSekolah = async (req, res) => {
   if (!updatedPersonSekolah) {
     return res
       .status(404)
-      .json({ msg: `No document with id ${req.params.personSekolahId}` });
+      .json({ msg: `No person with id ${req.params.personSekolahId}` });
   }
 
   res.status(200).json({ updatedPersonSekolah });
