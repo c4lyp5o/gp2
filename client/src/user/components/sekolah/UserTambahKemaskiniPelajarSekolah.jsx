@@ -24,8 +24,14 @@ function UserTambahKemaskiniPelajarSekolah({
   setReloadState,
   dataFromPilihanTahunTingkatan,
 }) {
-  const { userToken, userinfo, reliefUserToken, masterDatePicker, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    userinfo,
+    reliefUserToken,
+    masterDatePicker,
+    toast,
+    dateToday,
+  } = useGlobalUserAppContext();
 
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
@@ -37,8 +43,65 @@ function UserTambahKemaskiniPelajarSekolah({
   const [tarikhLahir, setTarikhLahir] = useState('');
   const [jantina, setJantina] = useState('');
   const [umur, setUmur] = useState('');
+  const [umurBulan, setUmurBulan] = useState('');
+  const [umurHari, setUmurHari] = useState('');
   const [keturunan, setKeturunan] = useState('');
   const [warganegara, setWarganegara] = useState('');
+
+  //datepicker issues
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
+
+  const TarikhLahir = () => {
+    return masterDatePicker({
+      selected: tarikhLahirDP,
+      required: true,
+      onChange: (tarikhLahir) => {
+        const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+        const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahir));
+        const bulan = parseInt(howOldAreYouMyFriendbulanV2(tarikhLahir));
+        const hari = parseInt(howOldAreYouMyFrienddaysV2(tarikhLahir));
+        setTarikhLahir(tempDate);
+        setTarikhLahirDP(tarikhLahir);
+        setUmur(tahun);
+        setUmurBulan(bulan);
+        setUmurHari(hari);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
+    });
+  };
+
+  const howOldAreYouMyFriendtahunV2 = (date) => {
+    const years = moment(dateToday, moment.ISO_8601).diff(
+      moment(date),
+      'years'
+    );
+    return years;
+  };
+
+  const howOldAreYouMyFriendbulanV2 = (date) => {
+    const months =
+      moment(dateToday, moment.ISO_8601).diff(moment(date), 'months') % 12;
+    return months;
+  };
+
+  const howOldAreYouMyFrienddaysV2 = (date) => {
+    const duration = moment.duration(
+      moment(dateToday, moment.ISO_8601).diff(moment(date))
+    );
+    const days = duration.days();
+    // guarding days to always return 0 if birthday month & day same as dateToday
+    if (
+      moment(dateToday, moment.ISO_8601).month() === moment(date).month() &&
+      moment(dateToday, moment.ISO_8601).date() === moment(date).date()
+    ) {
+      return 0;
+    }
+    return days;
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -70,6 +133,8 @@ function UserTambahKemaskiniPelajarSekolah({
               tarikhLahir,
               jantina,
               umur,
+              umurBulan,
+              umurHari,
               keturunan: keturunan.toUpperCase(),
               warganegara,
             },
@@ -268,15 +333,19 @@ function UserTambahKemaskiniPelajarSekolah({
             showForm &&
             !kemaskiniPelajarId && (
               <div className='mt-1 py-1'>
-                <form className='p-3'>
-                  <div className='relative'>
+                <form
+                  onSubmit={handleSubmit}
+                  className='p-2 grid grid-cols-2 gap-2'
+                >
+                  <div className='relative col-span-2'>
                     <label
                       htmlFor='nama'
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
-                      Nama
+                      Nama<span className='font-semibold text-user6'>*</span>
                     </label>
                     <input
+                      required
                       type='text'
                       name='nama'
                       id='nama'
@@ -305,12 +374,70 @@ function UserTambahKemaskiniPelajarSekolah({
                   </div>
                   <div className='relative'>
                     <label
+                      htmlFor='tarikhLahir'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Tarikh Lahir
+                      <span className='font-semibold text-user6'>*</span>
+                    </label>
+                    <TarikhLahir />
+                  </div>
+                  <div className='relative grid grid-cols-3'>
+                    <label
+                      htmlFor='umur'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Umur
+                    </label>
+                    <label
+                      htmlFor='umurBulan'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Bulan
+                    </label>
+                    <label
+                      htmlFor='umurHari'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Hari
+                    </label>
+                    <input
+                      disabled
+                      type='number'
+                      name='umur'
+                      id='umur'
+                      placeholder=' '
+                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-l-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={umur}
+                    />
+                    <input
+                      disabled
+                      type='number'
+                      name='umurBulan'
+                      id='umurBulan'
+                      placeholder=' '
+                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={umurBulan}
+                    />
+                    <input
+                      disabled
+                      type='number'
+                      name='umurHari'
+                      id='umurHari'
+                      placeholder=' '
+                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-r-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={umurHari}
+                    />
+                  </div>
+                  <div className='relative'>
+                    <label
                       htmlFor='jantina'
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
-                      Jantina
+                      Jantina<span className='font-semibold text-user6'>*</span>
                     </label>
                     <select
+                      required
                       name='jantina'
                       id='jantina'
                       className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -328,8 +455,10 @@ function UserTambahKemaskiniPelajarSekolah({
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
                       Keturunan
+                      <span className='font-semibold text-user6'>*</span>
                     </label>
                     <select
+                      required
                       name='keturunan'
                       id='keturunan'
                       placeholder=' '
@@ -371,8 +500,10 @@ function UserTambahKemaskiniPelajarSekolah({
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
                       Warganegara
+                      <span className='font-semibold text-user6'>*</span>
                     </label>
                     <select
+                      required
                       name='warganegara'
                       id='warganegara'
                       placeholder=' '
@@ -380,7 +511,7 @@ function UserTambahKemaskiniPelajarSekolah({
                       value={warganegara}
                       onChange={(e) => setWarganegara(e.target.value)}
                     >
-                      <option value=''>SILA PILIH</option>
+                      <option value=''>Sila Pilih</option>
                       <option value='MALAYSIA'>MALAYSIA</option>
                       <option value='BUKAN WARGANEGARA'>
                         BUKAN WARGANEGARA
@@ -394,6 +525,7 @@ function UserTambahKemaskiniPelajarSekolah({
           <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
             {showForm ? (
               <button
+                type='submit'
                 className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
                 onClick={handleSubmit}
               >
