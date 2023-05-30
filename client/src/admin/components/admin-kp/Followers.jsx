@@ -5,6 +5,8 @@ import Tiktok from '../../assets/socmed/tiktok.svg';
 import Youtube from '../../assets/socmed/youtube.svg';
 import Lain from '../../assets/socmed/lain-lain.svg';
 
+import moment from 'moment';
+
 import { FaYoutube, FaTiktok } from 'react-icons/fa';
 
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
@@ -100,10 +102,14 @@ function Followers(props) {
                       %
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
-                      {item.tarikhMula}
+                      {item.tarikhMula
+                        ? moment(item.tarikhMula).format('DD/MM/YYYY')
+                        : '-'}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
-                      {item.tarikhAkhir}
+                      {item.tarikhAkhir
+                        ? moment(item.tarikhAkhir).format('DD/MM/YYYY')
+                        : '-'}
                     </td>
                   </tr>
                 );
