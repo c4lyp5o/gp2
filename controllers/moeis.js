@@ -454,6 +454,10 @@ const getRefreshPelajarMOEIS = async (req, res) => {
     }. Bayar la`,
   });
 
+  logger.info(
+    `[refresh-pelajar] started refresh-pelajar idInstitusi: ${idInstitusi}, kodSekolah: ${kodSekolah}`
+  );
+
   let fasilitiSekolah = {};
 
   if (idInstitusi) {
@@ -490,7 +494,7 @@ const getRefreshPelajarMOEIS = async (req, res) => {
     );
   }
 
-  logger.error(
+  logger.info(
     `[refresh-pelajar] your params idInstitusi: ${idInstitusi}, kodSekolah: ${kodSekolah}`
   );
   return;
