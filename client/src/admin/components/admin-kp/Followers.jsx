@@ -7,6 +7,8 @@ import Lain from '../../assets/socmed/lain-lain.svg';
 
 import { FaYoutube, FaTiktok } from 'react-icons/fa';
 
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
+
 const socmed = [
   { name: 'facebook', img: Facebook },
   { name: 'instagram', img: Instagram },
@@ -17,6 +19,7 @@ const socmed = [
 ];
 
 function Followers(props) {
+  const { percentageCalc } = useGlobalAdminAppContext();
   return (
     <>
       <div className='flex flex-col items-center'>
@@ -90,18 +93,17 @@ function Followers(props) {
                         item.jumlahFollowerBulanTerdahulu}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
-                      {Math.round(
-                        (item.jumlahFollowerBulanIni /
-                          item.jumlahFollowerBulanTerdahulu) *
-                          100
+                      {percentageCalc(
+                        item.jumlahFollowerBulanIni,
+                        item.jumlahFollowerBulanTerdahulu
                       )}
                       %
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
-                      1/5/2023
+                      {item.tarikhMula}
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
-                      31/5/2023
+                      {item.tarikhAkhir}
                     </td>
                   </tr>
                 );
