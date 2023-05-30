@@ -15,6 +15,7 @@ import {
   FaMinusCircle,
   FaClock,
   FaInfoCircle,
+  FaSearch,
 } from 'react-icons/fa';
 import moment from 'moment';
 import Datetime from 'react-datetime';
@@ -1568,27 +1569,51 @@ export default function FillableForm({
                     {jenisIc !== 'mykad-mykid' &&
                       jenisIc !== 'tiada-pengenalan' &&
                       jenisIc !== '' && (
-                        <input
-                          disabled={editId ? true : false}
-                          required
-                          type='text'
-                          name='ic'
-                          value={ic}
-                          onChange={(e) => {
-                            setIc(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              ic: e.target.value,
-                            });
-                          }}
-                          placeholder={
-                            jenisIc === 'birth-of'
-                              ? 'Isi pengenalan ibu..'
-                              : 'Isi pengenalan diri..'
-                          }
-                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
-                          data-cy='not-ic-mykad-mykid'
-                        />
+                        <div className='flex flex-row items-center'>
+                          <input
+                            disabled={editId ? true : false}
+                            required
+                            type='text'
+                            name='ic'
+                            value={ic}
+                            onChange={(e) => {
+                              setIc(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                ic: e.target.value,
+                              });
+                            }}
+                            placeholder={
+                              jenisIc === 'birth-of'
+                                ? 'Isi pengenalan ibu..'
+                                : 'Isi pengenalan diri..'
+                            }
+                            className='appearance-none uppercase w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                            data-cy='not-ic-mykad-mykid'
+                          />
+                          {jenisIc === 'passport' && (
+                            <span
+                              title='Carian Maklumat'
+                              onClick={() => {
+                                checkCache(ic);
+                              }}
+                              className={` ${
+                                ic.length >= 5
+                                  ? 'bg-user7 cursor-pointer w-16'
+                                  : 'pointer-events-none bg-user9 w-8'
+                              } h-8 bg-user1 text-userWhite rounded-full text-sm px-1.5 py-1 hover:shadow-md hover:shadow-user1 hover:drop-shadow flex justify-center items-center mx-2`}
+                            >
+                              <FaSearch className='text-lg' />
+                              <p
+                                className={`${
+                                  ic.length >= 5 ? 'block' : 'hidden'
+                                } text-xs`}
+                              >
+                                Carian
+                              </p>
+                            </span>
+                          )}
+                        </div>
                       )}
                   </div>
                 </div>
