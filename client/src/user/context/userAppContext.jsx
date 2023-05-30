@@ -111,6 +111,7 @@ function masterDatePicker({
       minDate={minDate}
       disabled={disabled}
       className={className}
+      portalId='root-portal'
     />
   );
 }
