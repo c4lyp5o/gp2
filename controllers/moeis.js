@@ -489,6 +489,10 @@ const getRefreshPelajarMOEIS = async (req, res) => {
       `[refresh-pelajar] error for sekolah ${fasilitiSekolah.nama} ${fasilitiSekolah.idInstitusi} ${fasilitiSekolah.kodSekolah}, error is: ${error}`
     );
   }
+
+  logger.error(
+    `[refresh-pelajar] your params idInstitusi: ${idInstitusi}, kodSekolah: ${kodSekolah}`
+  );
   return;
 };
 
