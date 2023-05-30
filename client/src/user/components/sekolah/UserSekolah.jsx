@@ -63,7 +63,8 @@ function UserSekolah() {
   const [dataFromPilihanTahunTingkatan, setDataFromPilihanTahunTingkatan] =
     useState({});
 
-  const [pilih, setPilih] = useState('');
+  const [pilihanHapusId, setPilihanHapusId] = useState('');
+  const [pilihanHapusNama, setPilihanHapusNama] = useState('');
   const [modalHapus, setModalHapus] = useState(false);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
@@ -176,7 +177,7 @@ function UserSekolah() {
       });
   };
 
-  const handleDelete = async (singlePerson, reason) => {
+  const handleDelete = async (singlePelajar, reason) => {
     if (!modalHapus) {
       setModalHapus(true);
       return;
@@ -191,7 +192,7 @@ function UserSekolah() {
       }
       await toast.promise(
         axios.patch(
-          // `/api/v1/umum/delete/${singlePerson}`, TO DO, CHANGE ROUTE
+          `/api/v1/sekolah/delete/${singlePelajar}`,
           {
             deleteReason: reason,
             createdByMdcMdtb: mdcMdtbNum,
@@ -1264,6 +1265,10 @@ function UserSekolah() {
                                   className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
                                   onClick={() => {
                                     setModalHapus(true);
+                                    setPilihanHapusId(singlePersonSekolah._id);
+                                    setPilihanHapusNama(
+                                      singlePersonSekolah.nama
+                                    );
                                   }}
                                 >
                                   Hapus pelajar?
@@ -1443,6 +1448,8 @@ function UserSekolah() {
           <UserDeleteModal
             handleDelete={handleDelete}
             setModalHapus={setModalHapus}
+            id={pilihanHapusId}
+            nama={pilihanHapusNama}
           />
         )}
       </div>
