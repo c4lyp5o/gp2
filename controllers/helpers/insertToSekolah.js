@@ -161,7 +161,12 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   if (pelajarFromDbtoMOEIS.length > 0) {
     for (let i = 0; i < pelajarFromDbtoMOEIS.length; i++) {
       const pelajarSetToBerpindah = await Sekolah.findOneAndUpdate(
-        pelajarFromDbtoMOEIS[i],
+        {
+          idIndividu: pelajarFromDbtoMOEIS[i].idIndividu,
+          idInstitusi: pelajarFromDbtoMOEIS[i].idInstitusi,
+          kodSekolah: pelajarFromDbtoMOEIS[i].kodSekolah,
+          sesiTakwimPelajar: sesiTakwimSekolah(),
+        },
         {
           $set: { berpindah: true },
         },
