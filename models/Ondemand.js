@@ -5,6 +5,8 @@ const ondemandSchema = new Schema(
   {
     name: { type: String, required: true },
     adminPage: { type: Boolean, required: true, default: false },
+    janaTarikh: { type: Boolean, required: true, default: false },
+    janaBulan: { type: Boolean, required: true, default: false },
     PG101A: { type: Boolean, required: true, default: false },
     PG101C: { type: Boolean, required: true, default: false },
     PG211A: { type: Boolean, required: true, default: false },
