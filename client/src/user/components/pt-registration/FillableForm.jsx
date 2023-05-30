@@ -539,6 +539,25 @@ export default function FillableForm({
         'Menggunakan maklumat pesakit yang pernah didaftarkan di dalam Sistem Gi-Ret 2.0, sila semak semula untuk memastikan maklumat adalah tepat',
         { autoClose: 10000 }
       );
+
+      // refetch again if orangKurangUpaya is true
+      if (orangKurangUpaya) {
+        const res = await axios.get(`/api/v1/kaunter/check/${ic}`, {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        });
+        const { noOku } = res.data.person;
+        setNoOku(noOku);
+      }
+
+      // refetch again if statusPesara !== ''
+      if (statusPesara !== '') {
+        const res = await axios.get(`/api/v1/kaunter/check/${ic}`, {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        });
+        const { noPesara } = res.data.person;
+        setNoPesara(noPesara);
+      }
+
       return true;
     } catch (error) {
       toast.warning('Pesakit tidak pernah didaftarkan sebelum ini');
