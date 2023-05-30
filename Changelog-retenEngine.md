@@ -1,5 +1,17 @@
 # Changelog
 
+### 30/5/2023 (v1.6.3)
+
+[countHelperRegular]
+PG101A untuk KP skrg keluar KKIA skali
+PG101A kalau tiada jantina, auto lelaki
+
+[countHelperFuser]
+Tambah version kononnya
+
+[generateRetenController]
+Buat worksheet setiap kkia/kd kalau generate adalah klinik
+
 ### 26/5/2023 (v1.6.2)
 
 [countHelper]
