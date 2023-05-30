@@ -442,6 +442,56 @@ const getPrioritySekolahMOEIS = async (req, res) => {
   return;
 };
 
+// GET /refresh-pelajar
+const getRefreshPelajarMOEIS = async (req, res) => {
+  const { idInstitusi, kodSekolah } = req.query;
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  res.status(402).json({
+    msg: `Tgh running refresh pelajar untuk sekolah ${
+      idInstitusi || kodSekolah
+    }. Bayar la`,
+  });
+
+  let fasilitiSekolah = {};
+
+  if (idInstitusi) {
+    fasilitiSekolah = await Fasiliti.findOne({
+      idInstitusi: idInstitusi,
+      sesiTakwimSekolah: sesiTakwim,
+    });
+  }
+  if (kodSekolah) {
+    fasilitiSekolah = await Fasiliti.findOne({
+      kodSekolah: kodSekolah,
+      sesiTakwimSekolah: sesiTakwim,
+    });
+  }
+
+  try {
+    const agent = new https.Agent({
+      rejectUnauthorized: false,
+    });
+    const { data } = await axios.get(
+      process.env.MOEIS_INTEGRATION_URL_PELAJAR +
+        `?inid=${fasilitiSekolah.idInstitusi}`,
+      {
+        httpsAgent: agent,
+        headers: {
+          APIKEY: process.env.MOEIS_APIKEY,
+        },
+      }
+    );
+    await insertToSekolah(fasilitiSekolah, data);
+  } catch (error) {
+    logger.error(
+      `[refresh-pelajar] error for sekolah ${fasilitiSekolah.nama} ${fasilitiSekolah.idInstitusi} ${fasilitiSekolah.kodSekolah}, error is: ${error}`
+    );
+  }
+  return;
+};
+
 module.exports = {
   getJPNMOEIS,
   getSekolahMOEIS,
@@ -450,4 +500,5 @@ module.exports = {
   getSinglePelajarMOEIS,
   getManualInsertPelajarMOEIS,
   getPrioritySekolahMOEIS,
+  getRefreshPelajarMOEIS,
 };
