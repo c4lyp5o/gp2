@@ -39,6 +39,7 @@ const getAllPersonSekolahsVanilla = async (req, res) => {
   const allPersonSekolahs = await Sekolah.find({
     kodSekolah: { $in: [...kodSekolahs] },
     sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
   }).select('kodSekolah statusRawatan pemeriksaanSekolah');
 
   res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
@@ -50,8 +51,12 @@ const getSinglePersonSekolahVanilla = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const singlePersonSekolah = await Sekolah.findOne({
     _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
   });
 
   if (!singlePersonSekolah) {
@@ -74,6 +79,7 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
   const personSekolahWithPopulate = await Sekolah.findOne({
     _id: req.params.personSekolahId,
     sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
   })
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah');
@@ -126,6 +132,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   const allPersonSekolahs = await Sekolah.find({
     kodSekolah: req.params.kodSekolah,
     sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
   })
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah')
@@ -491,6 +498,7 @@ const createPersonSekolah = async (req, res) => {
   const personSekolahExist = await Sekolah.findOne({
     nomborId: req.body.nomborId,
     sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
   });
 
   if (personSekolahExist) {
@@ -511,6 +519,8 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
@@ -521,7 +531,11 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
 
   // masukkan pemeriksaan ID dalam personSekolah
   const personSekolah = await Sekolah.findOneAndUpdate(
-    { _id: req.params.personSekolahId },
+    {
+      _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
+      deleted: false,
+    },
     {
       $set: {
         pemeriksaanSekolah: pemeriksaanSekolah._id,
@@ -587,6 +601,8 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   // associate negeri, daerah & kp to each person sekolah when creating rawatan
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
@@ -597,7 +613,11 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
 
   // masukkan rawatan ID dalam personSekolah
   const personSekolah = await Sekolah.findOneAndUpdate(
-    { _id: req.params.personSekolahId },
+    {
+      _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
+      deleted: false,
+    },
     {
       $push: { rawatanSekolah: rawatanSekolah._id },
       $set: {
@@ -688,8 +708,12 @@ const updatePersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const singlePersonSekolah = await Sekolah.findOne({
     _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
   });
 
   if (
@@ -723,7 +747,11 @@ const updatePersonSekolah = async (req, res) => {
       });
     }
     const updatedPersonSekolahBegin = await Sekolah.findOneAndUpdate(
-      { _id: req.params.personSekolahId },
+      {
+        _id: req.params.personSekolahId,
+        sesiTakwimPelajar: sesiTakwim,
+        deleted: false,
+      },
       {
         $set: {
           tarikhMelaksanakanBegin: req.body.tarikhMelaksanakanBegin,
@@ -737,7 +765,11 @@ const updatePersonSekolah = async (req, res) => {
 
   // kemaskini pelajar PATCH
   const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
-    { _id: req.params.personSekolahId },
+    {
+      _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
+      deleted: false,
+    },
     req.body,
     { new: true }
   );
@@ -757,10 +789,13 @@ const softDeletePersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const { deleteReason } = req.body;
 
   const singlePersonSekolah = await Sekolah.findOne({
     _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
     deleted: false,
   }).populate('pemeriksaanSekolah');
 
@@ -782,6 +817,7 @@ const softDeletePersonSekolah = async (req, res) => {
   const singlePersonSekolahToDelete = await Sekolah.findOneAndUpdate(
     {
       _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
       deleted: false,
     },
     {
@@ -893,12 +929,16 @@ const queryPersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const {
     user: { kp },
     query: { nama, nomborId, namaSekolah, tahunTingkatan, kelasPelajar },
   } = req;
   const queryObject = {
     statusRawatan: { $ne: 'belum mula' },
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
   };
 
   if (namaSekolah) {
@@ -923,8 +963,8 @@ const queryPersonSekolah = async (req, res) => {
 
   const sekolahResultQuery = await Sekolah.find(queryObject)
     .populate('pemeriksaanSekolah')
-    .populate('rawatanSekolah')
-    .populate('kotakSekolah');
+    .populate('rawatanSekolah');
+  // .populate('kotakSekolah');
 
   res.status(200).json({ sekolahResultQuery });
 };
