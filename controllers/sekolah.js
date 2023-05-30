@@ -751,6 +751,50 @@ const updatePersonSekolah = async (req, res) => {
   res.status(200).json({ updatedPersonSekolah });
 };
 
+// PATCH /delete/:personSekolahId
+const softDeletePersonSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const { deleteReason } = req.body;
+
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+    deleted: false,
+  }).populate('pemeriksaanSekolah');
+
+  if (!singlePersonSekolah) {
+    return res
+      .status(404)
+      .json({ msg: `No person with id ${req.params.personSekolahId}` });
+  }
+
+  if (singlePersonSekolah.pemeriksaanSekolah) {
+    unauthorizedLogger.warn(
+      `${req.method} ${req.url} [sekolahController - softDeletePersonSekolah] Unauthorized singlePersonSekolah ${singlePersonSekolah.nama} has PEMERIKSAAN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+    );
+    return res.status(403).json({
+      msg: `${singlePersonSekolah.nama} telah diisi reten`,
+    });
+  }
+
+  const singlePersonSekolahToDelete = await Sekolah.findOneAndUpdate(
+    {
+      _id: req.params.personSekolahId,
+      deleted: false,
+    },
+    {
+      deleted: true,
+      deleteReason,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this pelajar`,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({ singlePersonSekolahToDelete });
+};
+
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
 const updatePemeriksaanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -899,6 +943,7 @@ module.exports = {
   createKotakWithSetPersonSekolah,
   updateFasiliti,
   updatePersonSekolah,
+  softDeletePersonSekolah,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
   updateKotakSekolah,
