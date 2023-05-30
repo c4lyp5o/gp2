@@ -1,3 +1,4 @@
+const moment = require('moment');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
 const Sekolah = require('../models/Sekolah');
@@ -28,12 +29,11 @@ const {
 
 //Reten Kaunter
 const countPG101A = async (payload) => {
-  let match_stage = [];
-  let project_stage = [];
-  let sort_stage = [];
+  const { daerah, klinik, tarikhMula, tarikhAkhir, jenisReten } = payload;
 
-  let match = { $match: getParams101(payload, 'A') };
+  const bigData = [];
 
+  const match = { $match: getParams101(payload, 'A') };
   const project = {
     $project: {
       _id: placeModifier(payload),
@@ -84,30 +84,93 @@ const countPG101A = async (payload) => {
       },
     },
   };
-
   const sort = {
     $sort: {
       tarikhKedatangan: 1,
     },
   };
 
-  match_stage.push(match);
-  project_stage.push(project);
-  sort_stage.push(sort);
+  let kkiaMatch;
+
+  if (daerah !== 'all' && klinik !== 'all') {
+    kkiaMatch = await Fasiliti.find({
+      jenisFasiliti: 'kkiakd',
+      kodFasilitiHandler: klinik,
+    })
+      .select('nama kodKkiaKd createdByNegeri createdByDaerah')
+      .lean();
+  }
+  if (daerah !== 'all' && klinik === 'all') {
+    // kkiaMatch = await Fasiliti.find({
+    //   jenisFasiliti: 'kkiakd',
+    //   createdByDaerah: daerah,
+    // })
+    //   .select('nama kodKkiaKd createdByNegeri createdByDaerah')
+    //   .lean();
+    console.log('KKIA find for DAERAH not yet implemented');
+  }
+  if (daerah === 'all') {
+    // kkiaMatch = await Fasiliti.find({
+    //   jenisFasiliti: 'kkiakd',
+    //   createdByNegeri: negeri,
+    // })
+    //   .select('nama kodKkiaKd createdByNegeri createdByDaerah')
+    //   .lean();
+    console.log('KKIA find for NEGERI not yet implemented');
+  }
+
+  let kkiaData = [];
 
   try {
-    const pipeline = match_stage.concat(project_stage, sort_stage);
+    // cari pt kp
+    const pipeline = [match, project, sort];
+    const kpData = await Umum.aggregate(pipeline);
 
-    const data = await Umum.aggregate(pipeline);
+    // cari pt kkiakd
+    for (let i = 0; i < kkiaMatch.length; i++) {
+      const kkiaMatchPipeline = [
+        {
+          $match: {
+            jenisFasiliti: 'kk-kd',
+            kodFasilitiKkKd: kkiaMatch[i].kodKkiaKd,
+            tarikhKedatangan: {
+              $gte: moment(tarikhMula).format('YYYY-MM-DD'),
+              $lte: moment(tarikhAkhir).format('YYYY-MM-DD'),
+            },
+            oncall: { $in: [false, null] },
+          },
+        },
+        {
+          ...project,
+        },
+        {
+          ...sort,
+        },
+      ];
+      let temp = await Umum.aggregate(kkiaMatchPipeline);
+      temp = [
+        {
+          nama: kkiaMatch[i].nama,
+          kodKkiaKd: kkiaMatch[i].kodKkiaKd,
+          createdByNegeri: kkiaMatch[i].createdByNegeri,
+          createdByDaerah: kkiaMatch[i].createdByDaerah,
+        },
+        ...temp,
+      ];
+      kkiaData.push(temp);
+    }
 
-    if (data.length === 0) {
+    if (kpData.length === 0 && kkiaData.length === 0) {
       errorRetenLogger.error(
-        `Error mengira reten: ${payload.jenisReten}. Tiada data yang dijumpai.`
+        `Error mengira reten: ${jenisReten}. Tiada data yang dijumpai.`
       );
       throw new Error('Tiada data yang dijumpai');
     }
 
-    return data;
+    bigData.push(kpData);
+    bigData.push(kkiaData);
+
+    return bigData;
   } catch (error) {
     throw new Error(error);
   }
@@ -600,7 +663,10 @@ const countPG211A = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$jantina', 'lelaki'],
+              $or: [
+                { $eq: ['$jantina', 'lelaki'] },
+                { $eq: ['$jantina', ''] }, // sementara waktu
+              ],
             },
             1,
             0,

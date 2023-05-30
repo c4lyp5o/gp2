@@ -326,19 +326,9 @@ const downloader = async (req, res) => {
 // functions
 const makePG101A = async (payload) => {
   logger.info('[generateRetenController/makePG101A] PG101A');
+  let { klinik, daerah, negeri, username, tarikhMula, bulan, jenisReten } =
+    payload;
   try {
-    let kkia;
-    let {
-      klinik,
-      daerah,
-      negeri,
-      pilihanKkia,
-      username,
-      tarikhMula,
-      bulan,
-      jenisReten,
-    } = payload;
-    //
     const data = await Helper.countPG101A(payload);
     //
     if (data.length === 0) {
@@ -350,12 +340,6 @@ const makePG101A = async (payload) => {
         kodFasiliti: klinik,
       });
       klinik = currentKlinik.kp;
-    }
-    if (pilihanKkia) {
-      const currentKkia = await Fasiliti.findOne({
-        kodKkiaKd: pilihanKkia,
-      });
-      kkia = currentKkia.nama;
     }
     let filename = path.join(
       __dirname,
@@ -378,6 +362,27 @@ const makePG101A = async (payload) => {
       /utc/i.test(klinik) ? 'PG101C' : 'PG101A'
     );
     //
+    // copy worksheet[0] to worksheet[1]
+    const copyWorksheet = workbook.addWorksheet('NEW COPY');
+    copyWorksheet.model = Object.assign(worksheet.model, {
+      mergeCells: worksheet.model.merges,
+    });
+    worksheet.columns.forEach((column, colNumber) => {
+      const copyColumn = copyWorksheet.getColumn(colNumber + 1);
+      copyColumn.width = column.width;
+      copyColumn.style = Object.assign({}, column.style);
+    });
+    worksheet.eachRow((row, rowNumber) => {
+      const copyRow = copyWorksheet.getRow(rowNumber);
+      row.eachCell((cell, colNumber) => {
+        const copyCell = copyRow.getCell(colNumber);
+        copyCell.value = cell.value;
+        copyCell.style = Object.assign({}, cell.style);
+        copyCell.alignment = Object.assign({}, cell.alignment);
+      });
+    });
+    copyWorksheet.name = 'COPY OF PG101A';
+    //
     const monthName = moment(bulan ? bulan : tarikhMula).format('MMMM');
     const yearNow = moment().format('YYYY');
 
@@ -390,9 +395,7 @@ const makePG101A = async (payload) => {
       : (intro1.getCell(2).value = 'PRIMER');
 
     let intro2 = worksheet.getRow(7);
-    intro2.getCell(2).value = `${klinik.toUpperCase()} ${
-      kkia ? ` / ${kkia.split(' | ')[1].toUpperCase()}` : ''
-    }`;
+    intro2.getCell(2).value = `${klinik.toUpperCase()}`;
 
     let intro3 = worksheet.getRow(8);
     intro3.getCell(2).value = `${daerah ? daerah.toUpperCase() : ''}`;
@@ -400,32 +403,32 @@ const makePG101A = async (payload) => {
     let intro4 = worksheet.getRow(9);
     intro4.getCell(2).value = `${negeri ? negeri.toUpperCase() : ''}`;
     //
-    for (let i = 0; i < data.length; i++) {
+    for (let i = 0; i < data[0].length; i++) {
       worksheet.getRow(16 + i).height = 33;
       worksheet.getRow(16 + i).font = { name: 'Arial', size: 10 };
       let rowNew = worksheet.getRow(16 + i);
-      rowNew.getCell(1).value = moment(data[i].tarikhKedatangan).format(
+      rowNew.getCell(1).value = moment(data[0][i].tarikhKedatangan).format(
         'DD/MM/YYYY'
       );
-      rowNew.getCell(2).value = data[i].noSiri;
-      rowNew.getCell(3).value = data[i].waktuSampai;
-      if (data[i].noPendaftaranBaru) {
-        rowNew.getCell(4).value = data[i].noPendaftaranBaru;
+      rowNew.getCell(2).value = data[0][i].noSiri;
+      rowNew.getCell(3).value = data[0][i].waktuSampai;
+      if (data[0][i].noPendaftaranBaru) {
+        rowNew.getCell(4).value = data[0][i].noPendaftaranBaru;
       }
-      if (data[i].noPendaftaranUlangan) {
-        rowNew.getCell(5).value = data[i].noPendaftaranUlangan;
+      if (data[0][i].noPendaftaranUlangan) {
+        rowNew.getCell(5).value = data[0][i].noPendaftaranUlangan;
       }
-      rowNew.getCell(6).value = data[i].ic;
-      rowNew.getCell(7).value = data[i].nama.toUpperCase();
-      rowNew.getCell(8).value = data[i].alamat.toUpperCase();
-      rowNew.getCell(9).value = data[i].umur;
-      if (data[i].jantina == 'lelaki') {
+      rowNew.getCell(6).value = data[0][i].ic;
+      rowNew.getCell(7).value = data[0][i].nama.toUpperCase();
+      rowNew.getCell(8).value = data[0][i].alamat.toUpperCase();
+      rowNew.getCell(9).value = data[0][i].umur;
+      if (data[0][i].jantina == 'lelaki' || data[0][i].jantina == '') {
         rowNew.getCell(10).value = 1;
       }
-      if (data[i].jantina == 'perempuan') {
+      if (data[0][i].jantina == 'perempuan') {
         rowNew.getCell(11).value = 1;
       }
-      switch (data[i].kumpulanEtnik) {
+      switch (data[0][i].kumpulanEtnik) {
         case 'melayu':
           rowNew.getCell(12).value = 1;
           break;
@@ -480,16 +483,16 @@ const makePG101A = async (payload) => {
         default:
           console.log('');
       }
-      if (data[i].ibuMengandung) {
+      if (data[0][i].ibuMengandung) {
         rowNew.getCell(29).value = 1;
       }
-      if (data[i].bersekolah) {
+      if (data[0][i].bersekolah) {
         rowNew.getCell(30).value = 1;
       }
-      if (data[i].orangKurangUpaya) {
+      if (data[0][i].orangKurangUpaya) {
         rowNew.getCell(31).value = 1;
       }
-      switch (data[i].statusPesara) {
+      switch (data[0][i].statusPesara) {
         case 'pesara-kerajaan':
           rowNew.getCell(32).value = 1;
           break;
@@ -499,74 +502,39 @@ const makePG101A = async (payload) => {
         default:
           console.log('');
       }
-      rowNew.getCell(34).value = data[i].rujukDaripada.toUpperCase(); //rujukDaripada
-      if (data[i].deleted) {
+      rowNew.getCell(34).value = data[0][i].rujukDaripada.toUpperCase(); //rujukDaripada
+      if (data[0][i].deleted) {
         rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
       } else {
-        // let catatan = `${
-        //   data[i].createdByUsername !== 'kaunter'
-        //     ? `Operator: ${data[i].createdByUsername} `
-        //     : ''
-        // } ${
-        //   data[i].rawatanDibuatOperatorLain
-        //     ? `Operator Lain: ${data[i].maklumatOperatorLain[0]} ${
-        //         data[i].maklumatOperatorLain[0]
-        //           ? `${data[i].maklumatOperatorLain[0]}`
-        //           : ''
-        //       } `
-        //     : ''
-        // } ${
-        //   data[i].rawatanDibuatOperatorLain
-        //     ? `Operator Lain: ${data[i].maklumatOperatorLain[1]} ${
-        //         data[i].maklumatOperatorLain[1]
-        //           ? `${data[i].maklumatOperatorLain[1]}`
-        //           : ''
-        //       } `
-        //     : ''
-        // } ${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
-        //   data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
-        // } ${
-        //   data[i].noBayaran && data[i].noResit
-        //     ? `No. Resit dan bayaran: ${data[i].noResit} - ${data[i].noBayaran}`
-        //     : ''
-        // } ${
-        //   data[i].noBayaran2 && data[i].noResit2
-        //     ? `No. Resit dan bayaran: ${data[i].noResit2} - ${data[i].noBayaran2}`
-        //     : ''
-        // } ${
-        //   data[i].noBayaran3 && data[i].noResit3
-        //     ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
-        //     : ''
-        // } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
         let catatan = `${
-          data[i].createdByUsername !== 'kaunter'
-            ? `Operator: ${data[i].createdByUsername}. `
+          data[0][i].createdByUsername !== 'kaunter'
+            ? `Operator: ${data[0][i].createdByUsername}. `
             : ''
         }`;
 
-        if (data[i].rawatanDibuatOperatorLain) {
-          for (let j = 0; j < data[i].maklumatOperatorLain.length; j++) {
-            if (data[i].maklumatOperatorLain[j]) {
-              catatan += `Operator Lain: ${data[i].maklumatOperatorLain[j]}. `;
+        if (data[0][i].rawatanDibuatOperatorLain) {
+          for (let j = 0; j < data[0][i].maklumatOperatorLain.length; j++) {
+            if (data[0][i].maklumatOperatorLain[j]) {
+              catatan += `Operator Lain: ${data[0][i].maklumatOperatorLain[j]}. `;
             }
           }
         }
 
-        catatan += `${data[i].noOku ? `No. Oku: ${data[i].noOku} ` : ''} ${
-          data[i].noPesara ? `No. Pesara: ${data[i].noPesara}` : ''
-        } ${
-          data[i].noBayaran && data[i].noResit
-            ? `No. Resit dan bayaran: ${data[i].noResit} - ${data[i].noBayaran}`
+        catatan += `${
+          data[0][i].noOku ? `No. Oku: ${data[0][i].noOku} ` : ''
+        } ${data[0][i].noPesara ? `No. Pesara: ${data[0][i].noPesara}` : ''} ${
+          data[0][i].noBayaran && data[0][i].noResit
+            ? `No. Resit dan bayaran: ${data[0][i].noResit} - ${data[0][i].noBayaran}`
             : ''
         } ${
-          data[i].noBayaran2 && data[i].noResit2
-            ? `No. Resit dan bayaran: ${data[i].noResit2} - ${data[i].noBayaran2}`
+          data[0][i].noBayaran2 && data[0][i].noResit2
+            ? `No. Resit dan bayaran: ${data[0][i].noResit2} - ${data[0][i].noBayaran2}`
             : ''
         } ${
-          data[i].noBayaran3 && data[i].noResit3
-            ? `No. Resit dan bayaran: ${data[i].noResit3} - ${data[i].noBayaran3}`
+          data[0][i].noBayaran3 && data[0][i].noResit3
+            ? `No. Resit dan bayaran: ${data[0][i].noResit3} - ${data[0][i].noBayaran3}`
             : ''
-        } ${data[i].catatan ? `Catatan: ${data[i].catatan}` : ''}`;
+        } ${data[0][i].catatan ? `Catatan: ${data[0][i].catatan}` : ''}`;
 
         rowNew.getCell(35).value = catatan;
       }
@@ -574,8 +542,193 @@ const makePG101A = async (payload) => {
         rowNew.getCell(z).border = borderStyle;
       }
     }
-    //
     worksheet.getCell('AI6').style = noBorderStyle;
+    worksheet.name = `PG101A`;
+    //
+    if (data[1].length > 0) {
+      for (const kkia of data[1]) {
+        const kkiaName = kkia[0].nama.split('| ')[1];
+        const kkiaCopy = workbook.addWorksheet('COPYLEFT');
+        kkiaCopy.model = Object.assign(copyWorksheet.model, {
+          mergeCells: copyWorksheet.model.merges,
+        });
+        copyWorksheet.columns.forEach((column, colNumber) => {
+          const copyColumn = kkiaCopy.getColumn(colNumber + 1);
+          copyColumn.width = column.width;
+          copyColumn.style = Object.assign({}, column.style);
+        });
+        copyWorksheet.eachRow((row, rowNumber) => {
+          const copyRow = kkiaCopy.getRow(rowNumber);
+          row.eachCell((cell, colNumber) => {
+            const copyCell = copyRow.getCell(colNumber);
+            copyCell.value = cell.value;
+            copyCell.style = Object.assign({}, cell.style);
+            copyCell.alignment = Object.assign({}, cell.alignment);
+          });
+        });
+        // dump it
+        for (let i = 1; i < kkia.length; i++) {
+          const rowNew = kkiaCopy.getRow(15 + i);
+          rowNew.height = 33;
+          rowNew.font = { name: 'Arial', size: 10 };
+          rowNew.getCell(1).value = i;
+          rowNew.getCell(1).value = moment(kkia[i].tarikhKedatangan).format(
+            'DD/MM/YYYY'
+          );
+          rowNew.getCell(2).value = kkia[i].noSiri;
+          rowNew.getCell(3).value = kkia[i].waktuSampai;
+          if (kkia[i].noPendaftaranBaru) {
+            rowNew.getCell(4).value = kkia[i].noPendaftaranBaru;
+          }
+          if (kkia[i].noPendaftaranUlangan) {
+            rowNew.getCell(5).value = kkia[i].noPendaftaranUlangan;
+          }
+          rowNew.getCell(6).value = kkia[i].ic;
+          rowNew.getCell(7).value = kkia[i].nama.toUpperCase();
+          rowNew.getCell(8).value = kkia[i].alamat.toUpperCase();
+          rowNew.getCell(9).value = kkia[i].umur;
+          if (kkia[i].jantina == 'lelaki') {
+            rowNew.getCell(10).value = 1;
+          }
+          if (kkia[i].jantina == 'perempuan') {
+            rowNew.getCell(11).value = 1;
+          }
+          switch (kkia[i].kumpulanEtnik) {
+            case 'melayu':
+              rowNew.getCell(12).value = 1;
+              break;
+            case 'cina':
+              rowNew.getCell(13).value = 1;
+              break;
+            case 'india':
+              rowNew.getCell(14).value = 1;
+              break;
+            case 'bajau':
+              rowNew.getCell(15).value = 1;
+              break;
+            case 'dusun':
+              rowNew.getCell(16).value = 1;
+              break;
+            case 'kadazan':
+              rowNew.getCell(17).value = 1;
+              break;
+            case 'murut':
+              rowNew.getCell(18).value = 1;
+              break;
+            case 'bumiputera sabah lain':
+              rowNew.getCell(19).value = 1;
+              break;
+            case 'melanau':
+              rowNew.getCell(20).value = 1;
+              break;
+            case 'kedayan':
+              rowNew.getCell(21).value = 1;
+              break;
+            case 'iban':
+              rowNew.getCell(22).value = 1;
+              break;
+            case 'bidayuh':
+              rowNew.getCell(23).value = 1;
+              break;
+            case 'penan':
+              rowNew.getCell(24).value = 1;
+              break;
+            case 'bumiputera sarawak lain':
+              rowNew.getCell(25).value = 1;
+              break;
+            case 'orang asli semenanjung':
+              rowNew.getCell(26).value = 1;
+              break;
+            case 'lain-lain':
+              rowNew.getCell(27).value = 1;
+              break;
+            case 'bukan warganegara':
+              rowNew.getCell(28).value = 1;
+              break;
+            default:
+              console.log('');
+          }
+          if (kkia[i].ibuMengandung) {
+            rowNew.getCell(29).value = 1;
+          }
+          if (kkia[i].bersekolah) {
+            rowNew.getCell(30).value = 1;
+          }
+          if (kkia[i].orangKurangUpaya) {
+            rowNew.getCell(31).value = 1;
+          }
+          switch (kkia[i].statusPesara) {
+            case 'pesara-kerajaan':
+              rowNew.getCell(32).value = 1;
+              break;
+            case 'pesara-atm':
+              rowNew.getCell(33).value = 1;
+              break;
+            default:
+              console.log('');
+          }
+          rowNew.getCell(34).value = kkia[i].rujukDaripada.toUpperCase(); //rujukDaripada
+          if (kkia[i].deleted) {
+            rowNew.getCell(35).value = 'PESAKIT YANG DIHAPUS';
+          } else {
+            let catatan = `${
+              kkia[i].createdByUsername !== 'kaunter'
+                ? `Operator: ${kkia[i].createdByUsername}. `
+                : ''
+            }`;
+
+            if (kkia[i].rawatanDibuatOperatorLain) {
+              for (let j = 0; j < kkia[i].maklumatOperatorLain.length; j++) {
+                if (kkia[i].maklumatOperatorLain[j]) {
+                  catatan += `Operator Lain: ${kkia[i].maklumatOperatorLain[j]}. `;
+                }
+              }
+            }
+
+            catatan += `${kkia[i].noOku ? `No. Oku: ${kkia[i].noOku} ` : ''} ${
+              kkia[i].noPesara ? `No. Pesara: ${kkia[i].noPesara}` : ''
+            } ${
+              kkia[i].noBayaran && kkia[i].noResit
+                ? `No. Resit dan bayaran: ${kkia[i].noResit} - ${kkia[i].noBayaran}`
+                : ''
+            } ${
+              kkia[i].noBayaran2 && kkia[i].noResit2
+                ? `No. Resit dan bayaran: ${kkia[i].noResit2} - ${kkia[i].noBayaran2}`
+                : ''
+            } ${
+              kkia[i].noBayaran3 && kkia[i].noResit3
+                ? `No. Resit dan bayaran: ${kkia[i].noResit3} - ${kkia[i].noBayaran3}`
+                : ''
+            } ${kkia[i].catatan ? `Catatan: ${kkia[i].catatan}` : ''}`;
+
+            rowNew.getCell(35).value = catatan;
+          }
+          for (let z = 1; z < 36; z++) {
+            rowNew.getCell(z).border = borderStyle;
+          }
+        }
+        kkiaCopy.getCell('AI6').style = noBorderStyle;
+        kkiaCopy.name = `${kkiaName}`;
+        kkiaCopy.getCell('I5').value = monthName;
+        kkiaCopy.getCell('M5').value = yearNow;
+        kkiaCopy.getCell('B6').value = 'PRIMER';
+        kkiaCopy.getCell('B7').value = `${kkiaName.toUpperCase()}`;
+        kkiaCopy.getCell(
+          'B8'
+        ).value = `${kkia[0].createdByDaerah.toUpperCase()}`;
+        kkiaCopy.getCell(
+          'B9'
+        ).value = `${kkia[0].createdByNegeri.toUpperCase()}`;
+        kkiaCopy.getCell(
+          'AI7'
+        ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
+        kkiaCopy.getCell('AI8').value = `Dijana oleh: ${username} (${moment(
+          new Date()
+        ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
+      }
+    }
+
+    // stamping
     worksheet.getCell(
       'AI7'
     ).value = `Gi-Ret 2.0 (${process.env.npm_package_version}) / Reten Engine: ${reten_engine_version}`;
@@ -583,7 +736,7 @@ const makePG101A = async (payload) => {
       new Date()
     ).format('DD-MM-YYYY')} - ${moment(new Date()).format('HH:mm:ss')})`;
 
-    worksheet.name = 'PG101A';
+    copyWorksheet.destroy();
 
     const newfile = makeFile();
 
@@ -595,6 +748,7 @@ const makePG101A = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
   } catch (err) {
+    console.log(err);
     penjanaanRetenLogger.error(
       `[generateRetenController/makePG101] Excel making error. Reason: ${err}`
     );
@@ -603,19 +757,18 @@ const makePG101A = async (payload) => {
 };
 const makePG101C = async (payload) => {
   logger.info('[generateRetenController/makePG101C] PG101C');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    pilihanProgram,
+    pilihanKpbMpb,
+    username,
+    tarikhMula,
+    bulan,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      pilihanProgram,
-      pilihanKpbMpb,
-      username,
-      tarikhMula,
-      bulan,
-      jenisReten,
-    } = payload;
-    //
     const data = await Helper.countPG101C(payload);
     //
     if (data.length === 0) {
@@ -830,19 +983,18 @@ const makePG101C = async (payload) => {
 };
 const makePG211A = async (payload) => {
   logger.info('[generateRetenController/makePG211A] PG211A');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data = [];
     switch (fromEtl) {
       case 'true':
@@ -1011,19 +1163,18 @@ const makePG211A = async (payload) => {
 };
 const makePG211C = async (payload) => {
   logger.info('[generateRetenController/makePG211C] PG211C');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    fromEtl,
+    jenisReten,
+  } = payload;
   try {
-    let {
-      klinik,
-      daerah,
-      negeri,
-      tarikhMula,
-      tarikhAkhir,
-      bulan,
-      username,
-      fromEtl,
-      jenisReten,
-    } = payload;
-    //
     let data;
     switch (fromEtl) {
       case 'true':
@@ -5610,7 +5761,7 @@ const makePPIM05 = async (payload) => {
     excelMakerError(jenisReten);
   }
 };
-// data harus dari sekolah sahaja bagi 15 - 17 (by umur)
+// data dari sekolah harus ambil bagi 15 - 17 (by umur)
 const makeDEWASAMUDA = async (payload) => {
   logger.info('[generateRetenController/makeDEWASAMUDA] makeDEWASAMUDA');
   let {
