@@ -105,9 +105,36 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
   });
 };
 
+const TarikhFollowers = ({ jenis, setQuestionState }) => {
+  const { masterDatePicker } = useGlobalAdminAppContext();
+  const [date, setDate] = useState(null);
+  return masterDatePicker({
+    selected: date,
+    onChange: (date) => {
+      const tempDate = moment(date).format('YYYY-MM-DD');
+      setDate(date);
+      if (jenis === 'mula') {
+        setQuestionState((prev) => ({
+          ...prev,
+          tarikhMula: tempDate,
+        }));
+      }
+      if (jenis === 'akhir') {
+        setQuestionState((prev) => ({
+          ...prev,
+          tarikhAkhir: tempDate,
+        }));
+      }
+    },
+    className:
+      'appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row',
+  });
+};
+
 // modal add followers
 export const ModalAddFollowers = (props) => {
   const { createDataForKp } = useGlobalAdminAppContext();
+  const [questionState, setQuestionState] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -121,6 +148,8 @@ export const ModalAddFollowers = (props) => {
       namaPlatform: props.namaPlatform,
       jumlahFollowerBulanTerdahulu: props.jumlahBulanTerdahulu,
       jumlahFollowerBulanIni: props.jumlahBulanIni,
+      tarikhMula: questionState.tarikhMula,
+      tarikhAkhir: questionState.tarikhAkhir,
     };
     if (props.kp) {
       Data = {
@@ -149,7 +178,7 @@ export const ModalAddFollowers = (props) => {
     // <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
     //   {(confirm) => (
     <form onSubmit={handleSubmit}>
-      <div className='absolute inset-36 inset-x-96 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'>
         <FaWindowClose
           className='absolute mr-1 mt-1 text-xl text-adminWhite right-0 hover:cursor-pointer hover:text-admin4 transition-all'
           onClick={() => {
@@ -159,14 +188,14 @@ export const ModalAddFollowers = (props) => {
         <h5 className='bg-admin2 text-userWhite font-semibold text-xl'>
           <i>FOLLOWERS</i> MEDIA SOSIAL
         </h5>
-        <div className='grid mx-auto items-center justify-center'>
+        <div className='grid mx-1 items-center justify-center'>
           <div className='grid grid-cols-1'>
-            <div className='flex flex-row justify-center items-center m-2'>
-              <label className='text-sm font-semibold text-admin2'>
+            <div className='grid grid-cols-2 gap-2 mx-1 items-center my-3'>
+              <label className='text-sm font-semibold'>
                 Jenis Media Sosial :
               </label>
               <select
-                className='appearance-none w-56 text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2'
+                className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row'
                 onChange={(e) => {
                   props.setNamaPlatform(e.target.value);
                 }}
@@ -180,12 +209,27 @@ export const ModalAddFollowers = (props) => {
                 <option value='lain-lain'>Lain-lain</option>
               </select>
             </div>
+            <div className='grid grid-cols-2 gap-2 mx-1 items-center mb-3'>
+              <p>tarikh mula</p>
+              <TarikhFollowers
+                jenis='mula'
+                setQuestionState={setQuestionState}
+              />
+            </div>
+            <div className='grid grid-cols-2 gap-2 mx-1 items-center mb-3'>
+              <p>tarikh akhir</p>
+              <TarikhFollowers
+                jenis='akhir'
+                setQuestionState={setQuestionState}
+              />
+            </div>
             <div className='grid grid-cols-[2fr_1fr] gap-2 mx-auto items-center mb-3'>
               <p>bilangan followers bulan terdahulu</p>
               <input
                 type='number'
                 name='past-followers'
                 id='past-followers'
+                min={0}
                 className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
                 onChange={(e) => {
                   props.setJumlahBulanTerdahulu(e.target.value);
@@ -196,6 +240,7 @@ export const ModalAddFollowers = (props) => {
                 type='number'
                 name='current-followers'
                 id='current-followers'
+                min={0}
                 className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
                 onChange={(e) => {
                   props.setJumlahBulanIni(e.target.value);

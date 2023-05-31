@@ -2050,10 +2050,10 @@ export default function Pemeriksaan(props) {
                               e.target.value
                             );
                           }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-sm focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         >
                           <option value=''></option>
-                          <option value='tiada'>-</option>
+                          <option value='tiada'>- (Tidak Disaring)</option>
                           <option value='A'>A</option>
                           <option value='C'>C</option>
                           <option value='E'>E</option>
@@ -2091,10 +2091,10 @@ export default function Pemeriksaan(props) {
                               props.setTidakPerluRawatanPemeriksaanUmum(false);
                             }
                           }}
-                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                          className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-sm focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                         >
                           <option value=''></option>
-                          <option value='tiada'>-</option>
+                          <option value='tiada'>- (Tidak Disaring)</option>
                           <option value='0'>0</option>
                           <option value='1'>1</option>
                           <option value='2'>2</option>
@@ -2482,10 +2482,10 @@ export default function Pemeriksaan(props) {
                                   );
                                 }
                               }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-sm focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             >
                               <option value=''></option>
-                              <option value='tiada'>-</option>
+                              <option value='tiada'>- (Tidak Disaring)</option>
                               <option value='0'>0</option>
                               <option value='1'>1</option>
                               <option value='2'>2</option>
