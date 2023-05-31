@@ -762,12 +762,6 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Program Dewasa Muda',
     },
     {
-      kod: 'KOM-OAP',
-      kodRingkas: 'KOM-OAP',
-      deskripsi:
-        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Program Orang Asli dan Penan di Komuniti',
-    },
-    {
       kod: 'PPR',
       kodRingkas: 'PPR',
       deskripsi: 'Projek Perumahan Rakyat (PPR)',
@@ -786,6 +780,12 @@ function AdminAppProvider({ children }) {
       kod: 'PKAP2',
       kodRingkas: 'PKAP2',
       deskripsi: 'Program Kampung Angkat Pergigian (PKAP)',
+    },
+    {
+      kod: 'KOM-OAP',
+      kodRingkas: 'KOM-OAP',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Program Orang Asli dan Penan di Komuniti',
     },
     {
       kod: 'KOM-WE',
