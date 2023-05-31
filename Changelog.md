@@ -1,5 +1,23 @@
 # Changelog
 
+### 31/5/2023 (v2.1.1)
+
+#### Added
+
+- Boleh mencari pesakit dengan jenis pengenalan passport ketika mendaftarkan pesakit
+- No. OKU & no. Pesara akan ada sekiranya pesakit pernah didaftarkan di dalam sistem Gi-Ret 2.0
+- Menambah ruangan rumusan di submodul senarai daftar pesakit di modul Pendaftaran
+
+#### Changed
+
+- Boleh menambah sen di dalam bayaran sekiranya jenis pengenalan adalah Passport/MyPR/MyKAS/UNHCR
+- Pilihan jantina, kumpulan etnik dan negeri mestilah diisi ketika mendaftarkan pesakit kerana keperluan maklumat di dalam reten
+
+#### e-Reporting
+
+- Penjanaan PG101A untuk klinik pergigian mengeluarkan sekali helaian KKIA & KD
+- Menambah reten KEPP, BEGIN, PPIM 03, PPIM 04, PPIM 05, Dewasa Muda, KOM-OAP, PPR, PPKPS, PKAP2, KOM-WE, KOM-OKU-PDK, KOM-Komuniti, KOM-Penjara, KOM, OAP, Liputan OAP, UTC/RTC
+
 ### 11/5/2023 (v2.1.0)
 
 #### Added
