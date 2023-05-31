@@ -122,27 +122,27 @@ const ModalGenerateAdHoc = (props) => {
         props.jenisReten
       }&negeri=${loginInfo.negeri}&daerah=${loginInfo.daerah}&klinik=${
         loginInfo.kodFasiliti
-        }${
-          props.pilihanFasiliti === 'program'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
-            : ''
-        }${
-          props.pilihanFasiliti === 'kpbmpb'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
-            : ''
-        }${
-          props.pilihanFasiliti === 'individu'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
-            : ''
+      }${
+        props.pilihanFasiliti === 'program'
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
+          : ''
+      }${
+        props.pilihanFasiliti === 'kpbmpb'
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKpbMpb=${props.pilihanKpbMpb}`
+          : ''
+      }${
+        props.pilihanFasiliti === 'individu'
+          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
+          : ''
       }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
         endDateRef.current
       }&fromEtl=false`;
       // console.log(url);
       const res = await axios.get(url, {
-          headers: {
-            Authorization: adminToken,
-          },
-          responseType: 'blob',
+        headers: {
+          Authorization: adminToken,
+        },
+        responseType: 'blob',
       });
       return res;
     } catch (err) {
@@ -1523,7 +1523,7 @@ const Generate = () => {
                             ) : (
                               <span
                                 className='text-admin2 text-5xl hover:cursor-not-allowed'
-                                title='Penjanaan bulanan ditutup sementara'
+                                title='Penjanaan mengikut tarikh ditutup sementara'
                               >
                                 <AiOutlineStop />
                               </span>
@@ -1532,27 +1532,29 @@ const Generate = () => {
                         </div>
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {statusReten.janaBulan &&
-                        statusReten[jenis.kodRingkas] ? (
-                          <button
-                            type='button'
-                            className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
-                            onClick={() => {
-                              setJenisReten(jenis.kodRingkas);
-                              setOpenModalGenerateAdHoc(false);
-                              setOpenModalGenerateBulanan(true);
-                            }}
-                          >
-                            Jana
-                          </button>
-                        ) : (
-                          <span
-                            className='text-admin2 text-5xl hover:cursor-not-allowed'
-                            title='Penjanaan bulanan ditutup sementara'
-                          >
-                            <AiOutlineStop />
-                          </span>
-                        )}
+                        <div className='flex flex-col py-3 items-center gap-1 text-center border-l-adminWhite border-off'>
+                          {statusReten.janaBulan &&
+                          statusReten[jenis.kodRingkas] ? (
+                            <button
+                              type='button'
+                              className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
+                              onClick={() => {
+                                setJenisReten(jenis.kodRingkas);
+                                setOpenModalGenerateAdHoc(false);
+                                setOpenModalGenerateBulanan(true);
+                              }}
+                            >
+                              Jana
+                            </button>
+                          ) : (
+                            <span
+                              className='text-admin2 text-5xl hover:cursor-not-allowed'
+                              title='Penjanaan bulanan ditutup sementara'
+                            >
+                              <AiOutlineStop />
+                            </span>
+                          )}
+                        </div>
                       </td>
                     </tr>
                   </>
