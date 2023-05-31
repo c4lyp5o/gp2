@@ -320,7 +320,7 @@ const ModalGenerateAdHoc = (props) => {
                                     p.tarikhStart <= endDateRef.current
                                 )
                                 .filter((p) => {
-                                  if (p) {
+                                  if (p && props.jenisReten !== 'PG101C') {
                                     const eventMap = {
                                       DEWASAMUDA: 'programDewasaMuda',
                                       'KOM-WE': 'we',
@@ -338,6 +338,11 @@ const ModalGenerateAdHoc = (props) => {
                                       p.jenisEvent ===
                                         eventMap[props.jenisReten]
                                     );
+                                  } else if (
+                                    p &&
+                                    props.jenisReten === 'PG101C'
+                                  ) {
+                                    return p;
                                   } else {
                                     return [];
                                   }
