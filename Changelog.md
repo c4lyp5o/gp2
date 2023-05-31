@@ -4,7 +4,7 @@
 
 #### Added
 
-- Boleh mencari pesakit dengan jenis pengenalan passport ketika mendaftarkan pesakit
+- Boleh mencari pesakit dengan jenis pengenalan Passport/MyPR/MyKAS/UNHCR ketika mendaftarkan pesakit
 - No. OKU & no. Pesara akan ada sekiranya pesakit pernah didaftarkan di dalam sistem Gi-Ret 2.0
 - Menambah ruangan rumusan di submodul senarai daftar pesakit di modul Pendaftaran
 
