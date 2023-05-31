@@ -118,13 +118,10 @@ const ModalGenerateAdHoc = (props) => {
 
   const penjanaanReten = async (e) => {
     try {
-      const res = await axios.get(
-        `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          loginInfo.negeri
-        }&daerah=${loginInfo.daerah}&klinik=${loginInfo.kodFasiliti}${
-          props.pilihanFasiliti === 'kkiakd'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
-            : ''
+      const url = `/api/v1/generatekp/download?jenisReten=${
+        props.jenisReten
+      }&negeri=${loginInfo.negeri}&daerah=${loginInfo.daerah}&klinik=${
+        loginInfo.kodFasiliti
         }${
           props.pilihanFasiliti === 'program'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
@@ -137,14 +134,16 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanFasiliti === 'individu'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
             : ''
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
-        {
+      }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
+        endDateRef.current
+      }&fromEtl=false`;
+      // console.log(url);
+      const res = await axios.get(url, {
           headers: {
             Authorization: adminToken,
           },
           responseType: 'blob',
-        }
-      );
+      });
       return res;
     } catch (err) {
       switch (err.response.status) {
