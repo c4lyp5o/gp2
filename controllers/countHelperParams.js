@@ -27,24 +27,28 @@ const getParams101 = (payload, reten) => {
       createdByKodFasiliti: { $eq: klinik },
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
+      oncall: { $in: [false, null] },
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       kodFasilitiKkKd: { $eq: pilihanKkia },
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: { $eq: 'kk-kd' },
+      oncall: { $in: [false, null] },
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       jenisFasiliti: { $eq: 'projek-komuniti-lain' },
       namaProgram: { $eq: pilihanProgram },
+      oncall: { $in: [false, null] },
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
       // createdByKodFasiliti: { $eq: klinik },
       // jenisFasiliti: { $eq: 'projek-komuniti-lain' },
       penggunaanKPBMPB: { $eq: pilihanKpbMpb },
+      oncall: { $in: [false, null] },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -199,6 +203,7 @@ const getParams211 = (payload, reten) => {
       jenisFasiliti: AorC(reten),
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       deleted: false,
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -211,6 +216,7 @@ const getParams211 = (payload, reten) => {
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       deleted: false,
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -222,6 +228,7 @@ const getParams211 = (payload, reten) => {
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       deleted: false,
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -232,6 +239,75 @@ const getParams211 = (payload, reten) => {
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       deleted: false,
+      oncall: { $in: [false, null] },
+    };
+    return param;
+  };
+
+  if (negeri === 'all') {
+    return satuMalaysia(payload);
+  }
+  if (daerah !== 'all' && klinik !== 'all') {
+    return byKp(payload);
+  }
+  if (daerah !== 'all' && klinik === 'all') {
+    return byDaerah(payload);
+  }
+  if (daerah === 'all') {
+    return byNegeri(payload);
+  }
+};
+const getParams214 = (payload, reten) => {
+  const { negeri, daerah, klinik } = payload;
+
+  const byKp = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByKodFasiliti: { $eq: klinik },
+      jenisFasiliti: 'kp',
+      kedatangan: 'baru-kedatangan',
+      deleted: false,
+      statusKehadiran: false,
+      oncall: { $in: [false, null] },
+    };
+    return param;
+  };
+
+  const byDaerah = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByNegeri: { $eq: negeri },
+      createdByDaerah: { $eq: daerah },
+      jenisFasiliti: 'kp',
+      kedatangan: 'baru-kedatangan',
+      deleted: false,
+      statusKehadiran: false,
+      oncall: { $in: [false, null] },
+    };
+    return param;
+  };
+
+  const byNegeri = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      createdByNegeri: { $eq: negeri },
+      jenisFasiliti: 'kp',
+      kedatangan: 'baru-kedatangan',
+      deleted: false,
+      statusKehadiran: false,
+      oncall: { $in: [false, null] },
+    };
+    return param;
+  };
+
+  const satuMalaysia = () => {
+    let param = {
+      tarikhKedatangan: dateModifier(payload),
+      jenisFasiliti: 'kp',
+      kedatangan: 'baru-kedatangan',
+      deleted: false,
+      statusKehadiran: false,
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -821,6 +897,7 @@ const getParamsGender = (payload) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -833,6 +910,7 @@ const getParamsGender = (payload) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -844,6 +922,7 @@ const getParamsGender = (payload) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -854,6 +933,7 @@ const getParamsGender = (payload) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -882,6 +962,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -896,6 +977,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -909,6 +991,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -921,6 +1004,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -992,6 +1076,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1008,6 +1093,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1023,6 +1109,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1036,6 +1123,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
       statusReten: 'telah diisi',
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1059,11 +1147,13 @@ const getParamsBPE = (payload) => {
     let param = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
+      //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
+      skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1072,11 +1162,13 @@ const getParamsBPE = (payload) => {
     let param = {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
+      //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
+      skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1086,11 +1178,13 @@ const getParamsBPE = (payload) => {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
+      //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
+      skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1099,11 +1193,13 @@ const getParamsBPE = (payload) => {
     let param = {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
+      //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
+      skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1111,11 +1207,13 @@ const getParamsBPE = (payload) => {
   const satuMalaysia = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: { $eq: 'kp' },
+      //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
+      skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
+      oncall: { $in: [false, null] },
     };
     return param;
   };
@@ -1628,6 +1726,7 @@ module.exports = {
   // countHelper regular
   getParams101,
   getParams211,
+  getParams214,
   getParams206,
   getParams206sekolah,
   getParams207,
