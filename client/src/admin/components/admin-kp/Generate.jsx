@@ -21,6 +21,36 @@ const ModalGenerateAdHoc = (props) => {
   const [startDatePicker, setStartDatePicker] = useState(null);
   const [endDatePicker, setEndDatePicker] = useState(null);
 
+  const pilihanRetenAdaProgram = [
+    'PG101C',
+    'PG211C',
+    'DEWASAMUDA',
+    'KOM-OAP',
+    'KOM-OKU-PDK',
+    'KOM-Komuniti',
+    'KOM-Penjara',
+    'KOM-WE',
+    'OAP',
+    'PPR',
+    'PPKPS',
+    'PKAP2',
+  ].includes(props.jenisReten);
+  const pilihanRetenTunjukProgram =
+    [
+      'PG101C',
+      'PG211C',
+      'DEWASAMUDA',
+      'KOM-OAP',
+      'KOM-OKU-PDK',
+      'KOM-Komuniti',
+      'KOM-Penjara',
+      'KOM-WE',
+      'OAP',
+      'PPR',
+      'PPKPS',
+      'PKAP2',
+    ].includes(props.jenisReten) && props.pilihanFasiliti === 'program';
+
   const TarikhAwal = () => {
     return masterDatePicker({
       selected: startDatePicker,
