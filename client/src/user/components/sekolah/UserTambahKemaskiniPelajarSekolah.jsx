@@ -24,8 +24,14 @@ function UserTambahKemaskiniPelajarSekolah({
   setReloadState,
   dataFromPilihanTahunTingkatan,
 }) {
-  const { userToken, userinfo, reliefUserToken, masterDatePicker, toast } =
-    useGlobalUserAppContext();
+  const {
+    userToken,
+    userinfo,
+    reliefUserToken,
+    masterDatePicker,
+    toast,
+    dateToday,
+  } = useGlobalUserAppContext();
 
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
@@ -39,6 +45,85 @@ function UserTambahKemaskiniPelajarSekolah({
   const [umur, setUmur] = useState('');
   const [keturunan, setKeturunan] = useState('');
   const [warganegara, setWarganegara] = useState('');
+
+  //datepicker issues
+  const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
+
+  const TarikhLahir = () => {
+    return masterDatePicker({
+      selected: tarikhLahirDP,
+      required: true,
+      onChange: (tarikhLahir) => {
+        const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+        const tahun = parseInt(howOldAreYouMyFriendtahunV2(tarikhLahir));
+        setTarikhLahir(tempDate);
+        setTarikhLahirDP(tarikhLahir);
+        setUmur(tahun);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
+    });
+  };
+
+  const howOldAreYouMyFriendtahunV2 = (date) => {
+    const years = moment(dateToday, moment.ISO_8601).diff(
+      moment(date),
+      'years'
+    );
+    return years;
+  };
+
+  const findAgeFromIc = (ic) => {
+    const year = ic.substring(0, 2);
+    const month = ic.substring(2, 4);
+    const day = ic.substring(4, 6);
+    const today = moment(dateToday, moment.ISO_8601).toDate();
+    const dob19 = moment(`19${year}-${month}-${day}`).toDate(); // year 1900
+    const dob20 = moment(`20${year}-${month}-${day}`).toDate(); // year 2000
+    const diff = today.getTime() - dob19.getTime();
+    const years = Math.floor(diff / 31556736000);
+    let value;
+    // it's year 1900 for years 99 and below
+    if (years <= 99) {
+      value = {
+        dob: dob19,
+      };
+    }
+    // it's year 2000 for years 100 and above
+    if (years >= 100) {
+      value = {
+        dob: dob20,
+      };
+    }
+    return value;
+  };
+
+  const handleIc = (ic) => {
+    const icLength = ic.length;
+    if (icLength === 12) {
+      const age = findAgeFromIc(ic);
+      const tempDate = moment(age.dob).format('YYYY-MM-DD');
+      const tahun = parseInt(howOldAreYouMyFriendtahunV2(age.dob));
+      const lasttwo = ic.substring(10, 12);
+      const jantina = lasttwo % 2 === 0 ? 'PEREMPUAN' : 'LELAKI';
+      setTarikhLahir(tempDate);
+      setTarikhLahirDP(age.dob);
+      setUmur(tahun);
+      setJantina(jantina);
+      // setConfirmData({
+      //   ...confirmData,
+      //   ic: ic,
+      //   tarikhLahir: tempDate,
+      //   umur: tahun,
+      //   umurBulan: bulan,
+      //   umurHari: hari,
+      //   jantina: jantina,
+      // });
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -170,8 +255,8 @@ function UserTambahKemaskiniPelajarSekolah({
           className='absolute mr-1 mt-1 text-xl text-userBlack right-0 hover:cursor-pointer hover:text-user2 transition-all'
         />
         <div className='grid grid-rows-[1fr_8fr_1fr] h-full'>
-          <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7'>
-            PERHATIAN
+          <h5 className='bg-user3 text-userWhite font-semibold text-xl h-7'>
+            {kemaskiniPelajarId ? 'Kemaskini Pelajar' : 'Tambah Pelajar'}
           </h5>
           {kemaskiniPelajarId && !showForm ? (
             <div className='mt-1 py-1'>
@@ -268,23 +353,54 @@ function UserTambahKemaskiniPelajarSekolah({
             showForm &&
             !kemaskiniPelajarId && (
               <div className='mt-1 py-1'>
-                <form className='p-3'>
-                  <div className='relative'>
+                <form
+                  onSubmit={handleSubmit}
+                  className='px-2 grid grid-cols-2 gap-2'
+                >
+                  <h1 className='col-span-2 text-base uppercase font-bold text-center text-user1 bg-userWhite rounded-md'>
+                    Sila isi semua maklumat murid
+                  </h1>
+                  <div className='relative col-span-2'>
                     <label
                       htmlFor='nama'
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
-                      Nama
+                      Nama<span className='font-semibold text-user6'>*</span>
                     </label>
                     <input
+                      required
                       type='text'
                       name='nama'
                       id='nama'
                       placeholder=' '
-                      className='appearance-none uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      className='appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={nama}
                       onChange={(e) => setNama(e.target.value)}
                     />
+                  </div>
+                  <div className='relative'>
+                    <label
+                      htmlFor='warganegara'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Warganegara
+                      <span className='font-semibold text-user6'>*</span>
+                    </label>
+                    <select
+                      required
+                      name='warganegara'
+                      id='warganegara'
+                      placeholder=' '
+                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={warganegara}
+                      onChange={(e) => setWarganegara(e.target.value)}
+                    >
+                      <option value=''>Sila Pilih</option>
+                      <option value='MALAYSIA'>MALAYSIA</option>
+                      <option value='BUKAN WARGANEGARA'>
+                        BUKAN WARGANEGARA
+                      </option>
+                    </select>
                   </div>
                   <div className='relative'>
                     <label
@@ -293,27 +409,108 @@ function UserTambahKemaskiniPelajarSekolah({
                     >
                       Nombor Kad Pengenalan
                     </label>
+                    {warganegara === 'MALAYSIA' ? (
+                      <input
+                        disabled={warganegara === '' ? true : false}
+                        type='text'
+                        name='nomborId'
+                        id='nomborId'
+                        placeholder=' '
+                        pattern='[0-9]+'
+                        title='12 numbers MyKad / MyKid'
+                        minLength={12}
+                        maxLength={12}
+                        className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={nomborId}
+                        onChange={(e) => {
+                          setNomborId(e.target.value);
+                          handleIc(e.target.value);
+                        }}
+                      />
+                    ) : (
+                      <input
+                        disabled={warganegara === '' ? true : false}
+                        type='text'
+                        name='nomborId'
+                        id='nomborId'
+                        placeholder=' '
+                        className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={nomborId}
+                        onChange={(e) => {
+                          setNomborId(e.target.value);
+                        }}
+                      />
+                    )}
+                  </div>
+                  <div className='relative'>
+                    <label
+                      htmlFor='tarikhLahir'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Tarikh Lahir
+                      <span className='font-semibold text-user6'>*</span>
+                    </label>
+                    <TarikhLahir />
+                  </div>
+                  <div className='relative '>
+                    <label
+                      htmlFor='umur'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Umur
+                    </label>
+                    {/* <label
+                      htmlFor='umurBulan'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Bulan
+                    </label>
+                    <label
+                      htmlFor='umurHari'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Hari
+                    </label> */}
                     <input
-                      type='text'
-                      name='nomborId'
-                      id='nomborId'
+                      disabled
+                      type='number'
+                      name='umur'
+                      id='umur'
                       placeholder=' '
-                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={nomborId}
-                      onChange={(e) => setNomborId(e.target.value)}
+                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={umur}
                     />
+                    {/* <input
+                      disabled
+                      type='number'
+                      name='umurBulan'
+                      id='umurBulan'
+                      placeholder=' '
+                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={umurBulan}
+                    />
+                    <input
+                      disabled
+                      type='number'
+                      name='umurHari'
+                      id='umurHari'
+                      placeholder=' '
+                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-r-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={umurHari}
+                    /> */}
                   </div>
                   <div className='relative'>
                     <label
                       htmlFor='jantina'
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
-                      Jantina
+                      Jantina<span className='font-semibold text-user6'>*</span>
                     </label>
                     <select
+                      required
                       name='jantina'
                       id='jantina'
-                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={jantina}
                       onChange={(e) => setJantina(e.target.value)}
                     >
@@ -328,12 +525,14 @@ function UserTambahKemaskiniPelajarSekolah({
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
                       Keturunan
+                      <span className='font-semibold text-user6'>*</span>
                     </label>
                     <select
+                      required
                       name='keturunan'
                       id='keturunan'
                       placeholder=' '
-                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={keturunan}
                       onChange={(e) => setKeturunan(e.target.value)}
                     >
@@ -365,28 +564,6 @@ function UserTambahKemaskiniPelajarSekolah({
                       </option>
                     </select>
                   </div>
-                  <div className='relative'>
-                    <label
-                      htmlFor='warganegara'
-                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
-                    >
-                      Warganegara
-                    </label>
-                    <select
-                      name='warganegara'
-                      id='warganegara'
-                      placeholder=' '
-                      className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={warganegara}
-                      onChange={(e) => setWarganegara(e.target.value)}
-                    >
-                      <option value=''>SILA PILIH</option>
-                      <option value='MALAYSIA'>MALAYSIA</option>
-                      <option value='BUKAN WARGANEGARA'>
-                        BUKAN WARGANEGARA
-                      </option>
-                    </select>
-                  </div>
                 </form>
               </div>
             )
@@ -394,6 +571,7 @@ function UserTambahKemaskiniPelajarSekolah({
           <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
             {showForm ? (
               <button
+                type='submit'
                 className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
                 onClick={handleSubmit}
               >
@@ -402,13 +580,12 @@ function UserTambahKemaskiniPelajarSekolah({
               </button>
             ) : (
               <button
-                className='capitalize bg-user9 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
+                className='capitalize bg-user3 text-userWhite rounded-md shadow-xl p-2 mr-3 hover:bg-user1 transition-all flex justify-center items-center'
                 onClick={() => {
                   setShowForm(true);
                 }}
               >
                 Teruskan
-                <FaRegPaperPlane className='inline-flex ml-1' />
               </button>
             )}
             <button
