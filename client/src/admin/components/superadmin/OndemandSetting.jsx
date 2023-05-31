@@ -52,6 +52,54 @@ export default function OndemandSetting() {
             />
           </div>
         </div>
+        <div className='grid grid-cols-2 outline outline-1 outline-adminWhite rounded-md gap-5'>
+          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
+            <h1 className='text-2xl font-bold'>Status Penjanaan Tarikh</h1>
+            <div
+              className={`${
+                ondemandSetting?.janaTarikh ? 'bg-user7' : 'bg-user9'
+              } rounded-full w-full h-10 flex items-center justify-center`}
+            >
+              <h1 className='text-2xl font-bold'>
+                {ondemandSetting?.janaTarikh ? 'Buka' : 'Tutup'}
+              </h1>
+              <input
+                type='checkbox'
+                className='ml-10'
+                checked={ondemandSetting?.janaTarikh}
+                onChange={(e) => {
+                  setOndemandSetting({
+                    ...ondemandSetting,
+                    janaTarikh: e.target.checked,
+                  });
+                }}
+              />
+            </div>
+          </div>
+          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
+            <h1 className='text-2xl font-bold'>Status Penjanaan Bulan</h1>
+            <div
+              className={`${
+                ondemandSetting?.janaBulan ? 'bg-user7' : 'bg-user9'
+              } rounded-full w-full h-10 flex items-center justify-center`}
+            >
+              <h1 className='text-2xl font-bold'>
+                {ondemandSetting?.janaBulan ? 'Buka' : 'Tutup'}
+              </h1>
+              <input
+                type='checkbox'
+                className='ml-10'
+                checked={ondemandSetting?.janaBulan}
+                onChange={(e) => {
+                  setOndemandSetting({
+                    ...ondemandSetting,
+                    janaBulan: e.target.checked,
+                  });
+                }}
+              />
+            </div>
+          </div>
+        </div>
         <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
           <table className='table-auto'>
             <thead className='text-adminWhite bg-admin3'>

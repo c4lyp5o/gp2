@@ -678,13 +678,13 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
     },
     {
-      kod: 'PGPRO 01 Pind. 2/2022 FFR',
+      kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
       kodRingkas: 'PGPRO01',
       deskripsi:
         'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
     },
     {
-      kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
+      kod: 'PGPRO 01 Pind. 2/2022 FFR',
       kodRingkas: 'PGPRO01Combined',
       deskripsi:
         'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
@@ -730,108 +730,118 @@ function AdminAppProvider({ children }) {
     {
       kod: 'KEPP',
       kodRingkas: 'KEPP',
-      deskripsi: '(TEST) KEPP',
+      deskripsi: 'KEPP',
     },
     {
       kod: 'BEGIN',
       kodRingkas: 'BEGIN',
-      deskripsi: '(TEST) BEGIN',
+      deskripsi:
+        'Laporan Aktiviti Latihan Memberus Gigi Berkesan (Begin) Di Taska, Pra-Sekolah Dan Sekolah Rendah',
     },
     {
       kod: 'PPIM 03',
       kodRingkas: 'PPIM03',
-      deskripsi: '(TEST) PPIM03',
+      deskripsi:
+        'Rekod Saringan Dan Intervensi Merokok Melalui Perkhidmatan Pergigian Sekolah Rendah',
     },
     {
       kod: 'PPIM 04',
       kodRingkas: 'PPIM04',
-      deskripsi: '(TEST) PPIM04',
+      deskripsi:
+        'Daftar Murid Menjalani Intervensi Program Kotak Di Sekolah Rendah',
     },
     {
       kod: 'PPIM 05',
       kodRingkas: 'PPIM05',
-      deskripsi: '(TEST) PPIM05',
+      deskripsi: 'Rekod Intervensi Program Kotak Di Sekolah Rendah',
     },
     {
       kod: 'Dewasa Muda',
       kodRingkas: 'DEWASAMUDA',
-      deskripsi: '(TEST) Program Dewasa Muda',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Program Dewasa Muda',
     },
     {
       kod: 'KOM-OAP',
       kodRingkas: 'KOM-OAP',
-      deskripsi: '(TEST) Program Orang Asli dan Penan di Komuniti',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Program Orang Asli dan Penan di Komuniti',
     },
     {
       kod: 'PPR',
       kodRingkas: 'PPR',
-      deskripsi: '(TEST) Projek Perumahan Rakyat (PPR)',
+      deskripsi: 'Projek Perumahan Rakyat (PPR)',
     },
     {
       kod: 'PPKPS',
       kodRingkas: 'PPKPS',
-      deskripsi:
-        '(TEST) Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah (PPKPS)',
+      deskripsi: 'Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah (PPKPS)',
     },
     // {
     //   kod: 'PKAP1',
     //   kodRingkas: 'PKAP1',
-    //   deskripsi: '(TEST) PKAP1',
+    //   deskripsi: 'PKAP1',
     // },
     {
       kod: 'PKAP2',
       kodRingkas: 'PKAP2',
-      deskripsi: '(TEST) Program Kampung Angkat Pergigian (PKAP)',
+      deskripsi: 'Program Kampung Angkat Pergigian (PKAP)',
     },
     {
       kod: 'KOM-WE',
       kodRingkas: 'KOM-WE',
-      deskripsi: '(TEST) Institusi Warga Emas',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi Warga Emas',
     },
     {
       kod: 'KOM-OKU-PDK',
       kodRingkas: 'KOM-OKU-PDK',
-      deskripsi: '(TEST) Institusi OKU / PDK',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi OKU / PDK',
     },
     {
       kod: 'KOM-Komuniti',
       kodRingkas: 'KOM-Komuniti',
-      deskripsi: '(TEST) Projek Komuniti',
+      deskripsi: 'Laporan Bulanan Klinik/Daerah/Negeri Bagi Projek Komuniti',
     },
     {
       kod: 'KOM-Penjara',
       kodRingkas: 'KOM-Penjara',
-      deskripsi: '(TEST) Institusi Penjara',
+      deskripsi: 'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi Penjara',
     },
     {
       kod: 'KOM',
       kodRingkas: 'KOM',
-      deskripsi: '(TEST) Semua Program Komuniti',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Semua Program Komuniti',
     },
     {
       kod: 'OAP',
       kodRingkas: 'OAP',
-      deskripsi: '(TEST) Etnik Orang Asli dan Penan',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Etnik Orang Asli/Penan',
     },
     {
       kod: 'Liputan OAP',
       kodRingkas: 'LiputanOAP',
-      deskripsi: '(TEST) Liputan Orang Asli dan Penan',
+      deskripsi:
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli/Penan',
     },
     {
       kod: 'UTC/RTC',
       kodRingkas: 'UTCRTC',
-      deskripsi: '(TEST) Urban / Rural Transformation Center (UTC / RTC)',
+      deskripsi:
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Urban / Rural Transformation Center (UTC / RTC)',
     },
     // {
     //   kod: 'KPBMPB Harian',
     //   kodRingkas: 'KPBMPBHarian',
-    //   deskripsi: '(TEST) KPB MPB Harian',
+    //   deskripsi: 'KPB MPB Harian',
     // },
     // {
     //   kod: 'KPBMPB Bulanan',
     //   kodRingkas: 'KPBMPBBulanan',
-    //   deskripsi: '(TEST) KPB MPB Harian',
+    //   deskripsi: 'KPB MPB Harian',
     // },
   ];
 
