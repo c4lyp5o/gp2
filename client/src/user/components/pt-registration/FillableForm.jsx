@@ -1877,18 +1877,11 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     jantina:
-                    {jenisIc === 'birth-of' ||
-                    jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required={
-                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
-                          ? false
-                          : true
-                      }
+                      required
                       name='jantina'
                       id='jantina'
                       value={jantina}
@@ -1913,19 +1906,12 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    kumpulan etnik:{' '}
-                    {jenisIc === 'birth-of' ||
-                    jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    kumpulan etnik:
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required={
-                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
-                          ? false
-                          : true
-                      }
+                      required
                       name='kumpulan-etnik'
                       id='kumpulan-etnik'
                       value={kumpulanEtnik}
@@ -2039,19 +2025,12 @@ export default function FillableForm({
                 </div>
                 <div className='text-right grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    negeri:{' '}
-                    {jenisIc === 'birth-of' ||
-                    jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    negeri:
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required={
-                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
-                          ? false
-                          : true
-                      }
+                      required
                       value={negeriAlamat}
                       onChange={(e) => {
                         setNegeriAlamat(e.target.value);

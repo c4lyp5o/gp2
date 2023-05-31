@@ -45,7 +45,7 @@ const SekolahSchema = new mongoose.Schema(
     },
     namaSekolah: {
       type: String,
-      default: 'MISSING NAMA INSTITUSI',
+      default: 'MISSING NAMA_INSTITUSI',
     },
     idIndividu: {
       type: String,
