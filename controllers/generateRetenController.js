@@ -304,7 +304,7 @@ const downloader = async (req, res) => {
     fromEtl,
   };
 
-  process.env.BUILD_ENV && console.table(payload);
+  process.env.BUILD_ENV === 'dev' && console.table(payload);
 
   const excelFile = await mapsOfSeveralRetens.get(jenisReten)(payload);
 
