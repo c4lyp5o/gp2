@@ -76,117 +76,122 @@ export default function Sosmed(props) {
       <>
         <div className='flex flex-col items-center gap-5'>
           <h1 className='text-3xl font-bold mt-10'>
-            Senarai Aktiviti Promosi / Pendidikan Kesihatan Pergigian Media
+            Senarai Aktiviti Promosi / Pendidikan Kesihatan Pergigian Di Media
             Sosial {props.kp}
           </h1>
-          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max'>
-            {data.map((i, dataIndex) => {
-              if (i.data.length === 0) {
-                return null;
-              }
-              return (
-                <>
-                  <div className='m-2 justify-center'>
-                    <h1>KOD PROGRAM: {i.kodProgram}</h1>
-                  </div>
-                  <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
-                    <table className='table-auto'>
-                      <thead className='text-adminWhite bg-admin3'>
-                        <tr>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                            Bil.
-                          </th>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                            Tarikh Muatnaik
-                          </th>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                            Tarikh Kemaskini
-                          </th>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1 w-96'>
-                            Tajuk Bahan / Aktiviti
-                          </th>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1 w-44'>
-                            Jenis Media Sosial
-                          </th>
-                          <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                            Hapus
-                          </th>
-                        </tr>
-                      </thead>
-                      <tbody className='bg-admin4'>
-                        {i.data.map((int, index) => (
-                          <>
-                            <tr key={int.id}>
-                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                                {index + 1}
-                              </td>
-                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                                {moment(int.tarikhMula).format('DD-MM-YYYY')}
-                              </td>
-                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                                {moment(int.tarikhAkhir).format('DD-MM-YYYY')}
-                              </td>
-                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-left'>
-                                <div className='flex flex-row'>
-                                  {int.namaAktiviti}{' '}
-                                  <FaInfoCircle
-                                    className='ml-2 mr-1 text-xl text-userBlack'
-                                    onMouseEnter={(e) => {
-                                      setShowInfo(true);
-                                      setDataIndex(dataIndex);
-                                      setInternalDataIndex(index);
+          <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max px-48'>
+            {data
+              //sort by kodProgram from 1000 to 9999
+              .sort((a, b) => (a.kodProgram > b.kodProgram ? 1 : -1))
+              .map((i, dataIndex) => {
+                if (i.data.length === 0) {
+                  return null;
+                }
+                return (
+                  <>
+                    <div className='m-2 justify-center'>
+                      <h1 className='font-bold text-lg'>
+                        KOD PROGRAM: {i.kodProgram}
+                      </h1>
+                    </div>
+                    <div className='m-auto overflow-x-auto text-sm rounded-md h-min max-w-max mt-2'>
+                      <table className='table-auto'>
+                        <thead className='text-adminWhite bg-admin3'>
+                          <tr>
+                            <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                              Bil.
+                            </th>
+                            <th className='px-2 py-1 outline outline-1 outline-offset-1 w-52'>
+                              Tarikh Muatnaik
+                            </th>
+                            <th className='px-2 py-1 outline outline-1 outline-offset-1 w-52'>
+                              Tarikh Kemaskini
+                            </th>
+                            <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
+                              Tajuk Bahan / Aktiviti
+                            </th>
+                            <th className='px-2 py-1 outline outline-1 outline-offset-1 w-44'>
+                              Jenis Media Sosial
+                            </th>
+                            <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                              Hapus
+                            </th>
+                          </tr>
+                        </thead>
+                        <tbody className='bg-admin4'>
+                          {i.data.map((int, index) => (
+                            <>
+                              <tr key={int.id}>
+                                <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                                  {index + 1}
+                                </td>
+                                <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                                  {moment(int.tarikhMula).format('DD/MM/YYYY')}
+                                </td>
+                                <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                                  {moment(int.tarikhAkhir).format('DD/MM/YYYY')}
+                                </td>
+                                <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-left'>
+                                  <div className='flex flex-row'>
+                                    {int.namaAktiviti}{' '}
+                                    <FaInfoCircle
+                                      className='ml-2 mr-1 text-xl text-userBlack'
+                                      onMouseEnter={(e) => {
+                                        setShowInfo(true);
+                                        setDataIndex(dataIndex);
+                                        setInternalDataIndex(index);
+                                      }}
+                                      onMouseLeave={(e) => {
+                                        setShowInfo(false);
+                                      }}
+                                    />
+                                  </div>
+                                </td>
+                                <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                                  <div className='flex justify-center'>
+                                    {int.facebook.length > 0 ? (
+                                      <FaFacebook className='text-2xl text-user2 m-2' />
+                                    ) : null}
+                                    {int.instagram.length > 0 ? (
+                                      <FaInstagram className='text-2xl text-user6 m-2' />
+                                    ) : null}
+                                    {int.twitter.length > 0 ? (
+                                      <FaTwitter className='text-2xl text-user3 m-2' />
+                                    ) : null}
+                                    {int.youtube.length > 0 ? (
+                                      <FaYoutube className='text-2xl text-admin3 m-2' />
+                                    ) : null}
+                                    {int.tiktok.length > 0 ? (
+                                      <FaTiktok className='text-2xl text-tiktok m-2' />
+                                    ) : null}
+                                    {int.lainLain.length > 0 ? (
+                                      <FaShareAlt className='text-2xl text-user7 m-2' />
+                                    ) : null}
+                                  </div>
+                                </td>
+                                <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                                  <button
+                                    key={int.id}
+                                    onClick={(e) => {
+                                      handleDelete(
+                                        i.kodProgram,
+                                        int.namaAktiviti,
+                                        int.id
+                                      );
                                     }}
-                                    onMouseLeave={(e) => {
-                                      setShowInfo(false);
-                                    }}
-                                  />
-                                </div>
-                              </td>
-                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                                <div className='flex flex-row justify-center'>
-                                  {int.facebook.length > 0 ? (
-                                    <FaFacebook className='text-2xl text-user2 m-2' />
-                                  ) : null}
-                                  {int.instagram.length > 0 ? (
-                                    <FaInstagram className='text-2xl text-user6 m-2' />
-                                  ) : null}
-                                  {int.twitter.length > 0 ? (
-                                    <FaTwitter className='text-2xl text-user3 m-2' />
-                                  ) : null}
-                                  {int.youtube.length > 0 ? (
-                                    <FaYoutube className='text-2xl text-admin3 m-2' />
-                                  ) : null}
-                                  {int.tiktok.length > 0 ? (
-                                    <FaTiktok className='text-2xl text-tiktok m-2' />
-                                  ) : null}
-                                  {int.lainLain.length > 0 ? (
-                                    <FaShareAlt className='text-2xl text-user7 m-2' />
-                                  ) : null}
-                                </div>
-                              </td>
-                              <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                                <button
-                                  key={int.id}
-                                  onClick={(e) => {
-                                    handleDelete(
-                                      i.kodProgram,
-                                      int.namaAktiviti,
-                                      int.id
-                                    );
-                                  }}
-                                >
-                                  <FaTrashAlt className='text-2xl text-admin3 mt-1' />
-                                </button>
-                              </td>
-                            </tr>
-                          </>
-                        ))}
-                      </tbody>
-                    </table>
-                  </div>
-                </>
-              );
-            })}
+                                  >
+                                    <FaTrashAlt className='text-2xl text-admin3 mt-1' />
+                                  </button>
+                                </td>
+                              </tr>
+                            </>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  </>
+                );
+              })}
             {showInfo && (
               <div className='z-100 absolute float-right box-border outline outline-1 outline-userBlack m-5 p-5 bg-userWhite top-10 left-1'>
                 <div className='text-xs'>
