@@ -241,24 +241,28 @@ function UserAfterLogin() {
             }
           />
           {/* kohort KOTAK */}
-          <>
-            <Route
-              path='kohort/kotak'
-              element={
-                <Suspense fallback={<Loading />}>
-                  <UserKohortKotak />
-                </Suspense>
-              }
-            />
-            <Route
-              path='kohort/kotak/:personKohortKotakId'
-              element={
-                <Suspense fallback={<Loading />}>
-                  <UserKohortKotakForm />
-                </Suspense>
-              }
-            />
-          </>
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
+              <Route
+                path='kohort/kotak'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotak />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/kotak/:personKohortKotakId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotakForm />
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
           {/* kohort FMR */}
           {import.meta.env.VITE_ENV === 'UNSTABLE' ||
           import.meta.env.VITE_ENV === 'DEV' ? (
@@ -339,15 +343,21 @@ function UserAfterLogin() {
                 path='carian/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <UserFormSalahSekolahPemeriksaan salahReten='pemeriksaan-salah' />
+                    <UserFormSalahSekolahPemeriksaan
+                      salahReten={
+                        userinfo.role === 'admin' && 'pemeriksaan-salah'
+                      }
+                    />
                   </Suspense>
                 }
               />
               <Route
-                path='carian/sekolah/form-sekolah/rawatan/:personSekolahId/:rawatanSekolahId'
+                path='carian/sekolah/form-sekolah/rawatan/:personSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <UserFormSalahSekolahRawatan salahReten='rawatan-salah' />
+                    <UserFormSalahSekolahRawatan
+                      salahReten={userinfo.role === 'admin' && 'rawatan-salah'}
+                    />
                   </Suspense>
                 }
               />

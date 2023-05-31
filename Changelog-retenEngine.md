@@ -1,8 +1,49 @@
 # Changelog
 
-### 16/5/2023 (v1.6) - I might've skipped a few version
+### 30/5/2023 (v1.6.3)
 
-#### Changes
+[countHelperRegular]
+PG101A untuk KP skrg keluar KKIA skali
+PG101A kalau tiada jantina, auto lelaki
+
+[countHelperFuser]
+Tambah version kononnya
+
+[generateRetenController]
+Buat worksheet setiap kkia/kd kalau generate adalah klinik
+
+### 26/5/2023 (v1.6.2)
+
+[countHelper]
+Deprecated
+
+[countHelperRegular]
+Isi sama mcm countHelper lama sans params
+Fix BPE nk tgk first BPE je
+Fix TPR MMI di 201
+Fix masa buang reten salah
+Fix 214
+Ah berapa bnyk fix da aku x ingt sila tgk code
+
+[countHelperKomuniti]
+Tambah reten KOM
+
+[countHelperFuser]
+Fuse countHelperRegular dan countHelperKomuniti
+Tambah version kononnya
+
+[generateRetenController]
+Tambah pembuatan reten KOM
+
+### 18/5/2023 (v1.6.1)
+
+[countHelper]
+[countPGS203] Pengiraan semula jumlahFasiliti di lawati
+
+[generateRetenController]
+[makePGS203P2] Guna null coallescing operator untuk handle error
+
+### 16/5/2023 (v1.6) - I might've skipped a few version
 
 [countHelper]
 [countPG214] Fix guna custom stage. 59 - 60 kena tgk baru ulangan kalau alih umur. Yg lain biasa.
@@ -12,15 +53,3 @@
 [generateRetenController]
 [makePG214] Ubah writer.
 [makePGS203P2] Enrolmen kalau tiada data, tulis belum diisi.
-Changelog
-
-16/5/2023 (v1.6) - I might've skipped a few versions
-Changes
-
-[countHelper]
-[countPG214]: Fixed the usage of the custom stage. For ages 59-60, now checking if there's a change in age. For other ages, following the usual process.
-[countPGS203]: Removed unnecessary console.log statements.
-[countPG201P]: Added an aggregate for counting visited facilities. Now counting only when statusReten === 'telah diisi'. Also, rearranged the code for improved readability.
-[generateRetenController]
-[makePG214]: Updated the writer functionality.
-[makePGS203P2]: If no data is available, it now writes 'belum diisi' (not yet filled).

@@ -107,6 +107,15 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
+  // percentageCalculation
+  const percentageCalc = (numerator, denominator) => {
+    if (numerator === 0 && denominator === 0) {
+      return 0;
+    }
+    // one decimal place and if numerator is bigger become negative % value and become positive % value if denominator is bigger
+    return Math.round(((numerator - denominator) / denominator) * 100);
+  };
+
   // ondemand setting
   const readOndemandSetting = async () => {
     const response = await axios.get('/api/v1/ondemand', {
@@ -577,7 +586,11 @@ function AdminAppProvider({ children }) {
   };
   const getDetailedData = async ({ type, idn, idd, id }) => {
     const endpoint = '/api/v1/superadmin/newroute';
-    const params = { main: 'HqCenter', Fn: 'readOne', token: adminToken };
+    const params = {
+      main: 'HqCenter',
+      Fn: 'readOne',
+      token: adminToken,
+    };
 
     switch (type) {
       case 'negeri':
@@ -665,20 +678,20 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Pendidikan Kesihatan Pergigian Oleh Juruterapi Pergigian/Pegawai Pergigian',
     },
     {
-      kod: 'PGPRO 01 Pind. 2/2022 FFR',
-      kodRingkas: 'PGPRO01',
-      deskripsi:
-        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
-    },
-    {
       kod: 'PGPRO 01 Pind. 2/2022 Kod Program',
-      kodRingkas: 'PGPRO01Combined',
+      kodRingkas: 'PGPRO01',
       deskripsi:
         'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian Mengikut Kod Program',
     },
     {
-      kod: 'PG201 Pind. 2/2022',
-      kodRingkas: 'PG201P2',
+      kod: 'PGPRO 01 Pind. 2/2022 FFR',
+      kodRingkas: 'PGPRO01Combined',
+      deskripsi:
+        'Laporan Bulanan Individu/Fasiliti/Daerah/Negeri Bagi Aktiviti Promosi Dan Pendidikan Kesihatan Pergigian',
+    },
+    {
+      kod: 'PGS201',
+      kodRingkas: 'PGS201',
       deskripsi:
         'Laporan Kesihatan Pergigian Dan Status Rawatan Di Fasiliti Prasekolah/Tadika, Sekolah Rendah/Pendidikan Khas, Sekolah Menengah/Pendidikan Khas',
     },
@@ -714,6 +727,122 @@ function AdminAppProvider({ children }) {
       kodRingkas: 'GENDER',
       deskripsi: 'Laporan Gender',
     },
+    {
+      kod: 'KEPP',
+      kodRingkas: 'KEPP',
+      deskripsi: 'KEPP',
+    },
+    {
+      kod: 'BEGIN',
+      kodRingkas: 'BEGIN',
+      deskripsi:
+        'Laporan Aktiviti Latihan Memberus Gigi Berkesan (Begin) Di Taska, Pra-Sekolah Dan Sekolah Rendah',
+    },
+    {
+      kod: 'PPIM 03',
+      kodRingkas: 'PPIM03',
+      deskripsi:
+        'Rekod Saringan Dan Intervensi Merokok Melalui Perkhidmatan Pergigian Sekolah Rendah',
+    },
+    {
+      kod: 'PPIM 04',
+      kodRingkas: 'PPIM04',
+      deskripsi:
+        'Daftar Murid Menjalani Intervensi Program Kotak Di Sekolah Rendah',
+    },
+    {
+      kod: 'PPIM 05',
+      kodRingkas: 'PPIM05',
+      deskripsi: 'Rekod Intervensi Program Kotak Di Sekolah Rendah',
+    },
+    {
+      kod: 'Dewasa Muda',
+      kodRingkas: 'DEWASAMUDA',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Program Dewasa Muda',
+    },
+    {
+      kod: 'KOM-OAP',
+      kodRingkas: 'KOM-OAP',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Program Orang Asli dan Penan di Komuniti',
+    },
+    {
+      kod: 'PPR',
+      kodRingkas: 'PPR',
+      deskripsi: 'Projek Perumahan Rakyat (PPR)',
+    },
+    {
+      kod: 'PPKPS',
+      kodRingkas: 'PPKPS',
+      deskripsi: 'Pemasyarakatan Perkhidmatan Klinik Pergigian Sekolah (PPKPS)',
+    },
+    // {
+    //   kod: 'PKAP1',
+    //   kodRingkas: 'PKAP1',
+    //   deskripsi: 'PKAP1',
+    // },
+    {
+      kod: 'PKAP2',
+      kodRingkas: 'PKAP2',
+      deskripsi: 'Program Kampung Angkat Pergigian (PKAP)',
+    },
+    {
+      kod: 'KOM-WE',
+      kodRingkas: 'KOM-WE',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi Warga Emas',
+    },
+    {
+      kod: 'KOM-OKU-PDK',
+      kodRingkas: 'KOM-OKU-PDK',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi OKU / PDK',
+    },
+    {
+      kod: 'KOM-Komuniti',
+      kodRingkas: 'KOM-Komuniti',
+      deskripsi: 'Laporan Bulanan Klinik/Daerah/Negeri Bagi Projek Komuniti',
+    },
+    {
+      kod: 'KOM-Penjara',
+      kodRingkas: 'KOM-Penjara',
+      deskripsi: 'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi Penjara',
+    },
+    {
+      kod: 'KOM',
+      kodRingkas: 'KOM',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Semua Program Komuniti',
+    },
+    {
+      kod: 'OAP',
+      kodRingkas: 'OAP',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Etnik Orang Asli/Penan',
+    },
+    {
+      kod: 'Liputan OAP',
+      kodRingkas: 'LiputanOAP',
+      deskripsi:
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli/Penan',
+    },
+    {
+      kod: 'UTC/RTC',
+      kodRingkas: 'UTCRTC',
+      deskripsi:
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Urban / Rural Transformation Center (UTC / RTC)',
+    },
+    // {
+    //   kod: 'KPBMPB Harian',
+    //   kodRingkas: 'KPBMPBHarian',
+    //   deskripsi: 'KPB MPB Harian',
+    // },
+    // {
+    //   kod: 'KPBMPB Bulanan',
+    //   kodRingkas: 'KPBMPBBulanan',
+    //   deskripsi: 'KPB MPB Harian',
+    // },
   ];
 
   // misc
@@ -816,6 +945,7 @@ function AdminAppProvider({ children }) {
         }}
         onFocus={(e) => e.target.blur()} // disable keyboad input
         className={className}
+        portalId='root-portal'
       />
     );
   };
@@ -1061,6 +1191,7 @@ function AdminAppProvider({ children }) {
         generateSecret,
         verifyInitialSecret,
         verifySecret,
+        percentageCalc,
         // ondemand data
         readOndemandSetting,
         saveOndemandSetting,

@@ -15,6 +15,7 @@ function UserFormSekolahPemeriksaan() {
     username,
     userinfo,
     useParams,
+    dateToday,
     masterDatePicker,
     toast,
   } = useGlobalUserAppContext();
@@ -238,6 +239,7 @@ function UserFormSekolahPemeriksaan() {
       filterDate: (date) => {
         return moment() > date;
       },
+      minDate: moment(moment(dateToday).format('YYYY') + '-03-19').toDate(), // bulan disember nnti kena buang line ni
       disabled: isDisabled,
       className:
         'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
@@ -2206,6 +2208,7 @@ function UserFormSekolahPemeriksaan() {
                             className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           >
                             <option value=''></option>
+                            <option value='tiada'>- (Tidak Disaring)</option>
                             <option value='A'>A</option>
                             <option value='C'>C</option>
                             <option value='E'>E</option>
@@ -2365,6 +2368,7 @@ function UserFormSekolahPemeriksaan() {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             >
                               <option value=''></option>
+                              <option value='tiada'>- (Tidak Disaring)</option>
                               <option value='0'>0</option>
                               <option value='1'>1</option>
                               <option value='2'>2</option>
@@ -2407,6 +2411,7 @@ function UserFormSekolahPemeriksaan() {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                             >
                               <option value=''></option>
+                              <option value='tiada'>- (Tidak Disaring)</option>
                               <option value='0'>0</option>
                               <option value='1'>1</option>
                               <option value='2'>2</option>
@@ -2451,6 +2456,9 @@ function UserFormSekolahPemeriksaan() {
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               >
                                 <option value=''></option>
+                                <option value='tiada'>
+                                  - (Tidak Disaring)
+                                </option>
                                 <option value='0'>0</option>
                                 <option value='1'>1</option>
                                 <option value='2'>2</option>

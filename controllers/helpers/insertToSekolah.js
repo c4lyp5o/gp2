@@ -16,6 +16,14 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   // filter the pelajar to only include current sesi & wanted TAHUN_TINGKATAN only
   const MOEISPelajar =
     SRSMPelajarMOEIS['SENARAI MURID MENGIKUT KELAS / INSTITUSI'];
+
+  if (!MOEISPelajar) {
+    logger.error(
+      `[insertToSekolah] error at SENARAI MURID MENGIKUT KELAS / INSTITUSI for sekolah ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah}, MOEISPelajar is: ${MOEISPelajar}`
+    );
+    return;
+  }
+
   const currentSesiPelajarAndWantedClass = MOEISPelajar.filter((sp) => {
     return (
       sp.SESI_TAKWIM === sesiTakwimSekolah() &&
@@ -71,7 +79,9 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
       process.env.BUILD_ENV === 'dev'
     ) {
       try {
-        console.log('Pelajar ' + fromDbFasilitiSRSM.nama + ' ' + i);
+        console.log(
+          `Pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}`
+        );
         const agent = new https.Agent({
           rejectUnauthorized: false,
         });
@@ -94,12 +104,23 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
         objPelajar.keturunan = data.keturunan;
         objPelajar.warganegara = data.warganegara;
       } catch (error) {
-        logger.error(`[insertToSekolah] ${error.message}`);
-        return error.message;
+        logger.error(
+          `[insertToSekolah] error at SINGLE_PELAJAR for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, error message is: ${error.message}`
+        );
+        // return error.message;
       }
     }
 
-    allConvertedPelajar.push({ ...objPelajar });
+    if (objPelajar.umur === 7777777 || objPelajar.umur === 0) {
+      logger.error(
+        `[insertToSekolah] error at objPelajar.umur for pelajar ${fromDbFasilitiSRSM.nama} ${fromDbFasilitiSRSM.idInstitusi} ${fromDbFasilitiSRSM.kodSekolah} i: ${i} ${currentSesiPelajarAndWantedClass[i].ID_INDIVIDU}, objPelajar.umur is: ${objPelajar.umur}`
+      );
+      return; // cut off terus sekolah ni kalau ada masuk condition ni
+    }
+
+    if (objPelajar.umur !== 7777777 || objPelajar.umur !== 0) {
+      allConvertedPelajar.push({ ...objPelajar });
+    }
   }
 
   // get already registered pelajar
@@ -140,7 +161,12 @@ const insertToSekolah = async (fromDbFasilitiSRSM, SRSMPelajarMOEIS) => {
   if (pelajarFromDbtoMOEIS.length > 0) {
     for (let i = 0; i < pelajarFromDbtoMOEIS.length; i++) {
       const pelajarSetToBerpindah = await Sekolah.findOneAndUpdate(
-        pelajarFromDbtoMOEIS[i],
+        {
+          idIndividu: pelajarFromDbtoMOEIS[i].idIndividu,
+          idInstitusi: pelajarFromDbtoMOEIS[i].idInstitusi,
+          kodSekolah: pelajarFromDbtoMOEIS[i].kodSekolah,
+          sesiTakwimPelajar: sesiTakwimSekolah(),
+        },
         {
           $set: { berpindah: true },
         },

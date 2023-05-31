@@ -51,24 +51,24 @@ const JenisMediaSosial = [
   },
   {
     id: 3,
+    value: 'Twitter',
+    label: 'Twitter',
+    img: Twitter,
+    logo: <SiTwitter />,
+  },
+  {
+    id: 4,
     value: 'Youtube',
     label: 'Youtube',
     img: Youtube,
     logo: <SiYoutube />,
   },
   {
-    id: 4,
+    id: 5,
     value: 'TikTok',
     label: 'TikTok',
     img: Tiktok,
     logo: <SiTiktok />,
-  },
-  {
-    id: 5,
-    value: 'Twitter',
-    label: 'Twitter',
-    img: Twitter,
-    logo: <SiTwitter />,
   },
   {
     id: 6,
@@ -101,13 +101,40 @@ const CustomDatePicker = ({ jenis, setQuestionState }) => {
       }
     },
     className:
-      'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2',
+      'appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row',
+  });
+};
+
+const TarikhFollowers = ({ jenis, setQuestionState }) => {
+  const { masterDatePicker } = useGlobalAdminAppContext();
+  const [date, setDate] = useState(null);
+  return masterDatePicker({
+    selected: date,
+    onChange: (date) => {
+      const tempDate = moment(date).format('YYYY-MM-DD');
+      setDate(date);
+      if (jenis === 'mula') {
+        setQuestionState((prev) => ({
+          ...prev,
+          tarikhMula: tempDate,
+        }));
+      }
+      if (jenis === 'akhir') {
+        setQuestionState((prev) => ({
+          ...prev,
+          tarikhAkhir: tempDate,
+        }));
+      }
+    },
+    className:
+      'appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row',
   });
 };
 
 // modal add followers
 export const ModalAddFollowers = (props) => {
   const { createDataForKp } = useGlobalAdminAppContext();
+  const [questionState, setQuestionState] = useState([]);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -121,6 +148,8 @@ export const ModalAddFollowers = (props) => {
       namaPlatform: props.namaPlatform,
       jumlahFollowerBulanTerdahulu: props.jumlahBulanTerdahulu,
       jumlahFollowerBulanIni: props.jumlahBulanIni,
+      tarikhMula: questionState.tarikhMula,
+      tarikhAkhir: questionState.tarikhAkhir,
     };
     if (props.kp) {
       Data = {
@@ -149,7 +178,7 @@ export const ModalAddFollowers = (props) => {
     // <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
     //   {(confirm) => (
     <form onSubmit={handleSubmit}>
-      <div className='absolute inset-36 inset-x-96 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'>
+      <div className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'>
         <FaWindowClose
           className='absolute mr-1 mt-1 text-xl text-adminWhite right-0 hover:cursor-pointer hover:text-admin4 transition-all'
           onClick={() => {
@@ -159,14 +188,14 @@ export const ModalAddFollowers = (props) => {
         <h5 className='bg-admin2 text-userWhite font-semibold text-xl'>
           <i>FOLLOWERS</i> MEDIA SOSIAL
         </h5>
-        <div className='grid mx-auto items-center justify-center'>
+        <div className='grid mx-1 items-center justify-center'>
           <div className='grid grid-cols-1'>
-            <div className='flex flex-row justify-center items-center m-2'>
-              <label className='text-sm font-semibold text-admin2'>
+            <div className='grid grid-cols-2 gap-2 mx-1 items-center my-3'>
+              <label className='text-sm font-semibold'>
                 Jenis Media Sosial :
               </label>
               <select
-                className='appearance-none w-56 text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row ml-2'
+                className='appearance-none w-full text-sm leading-7 px-2 py-1 ring-1 ring-user1 ring-opacity-50 focus:ring-2 focus:ring-admin4 focus:outline-none rounded-md uppercase flex flex-row'
                 onChange={(e) => {
                   props.setNamaPlatform(e.target.value);
                 }}
@@ -180,12 +209,27 @@ export const ModalAddFollowers = (props) => {
                 <option value='lain-lain'>Lain-lain</option>
               </select>
             </div>
+            <div className='grid grid-cols-2 gap-2 mx-1 items-center mb-3'>
+              <p>tarikh mula</p>
+              <TarikhFollowers
+                jenis='mula'
+                setQuestionState={setQuestionState}
+              />
+            </div>
+            <div className='grid grid-cols-2 gap-2 mx-1 items-center mb-3'>
+              <p>tarikh akhir</p>
+              <TarikhFollowers
+                jenis='akhir'
+                setQuestionState={setQuestionState}
+              />
+            </div>
             <div className='grid grid-cols-[2fr_1fr] gap-2 mx-auto items-center mb-3'>
               <p>bilangan followers bulan terdahulu</p>
               <input
                 type='number'
                 name='past-followers'
                 id='past-followers'
+                min={0}
                 className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
                 onChange={(e) => {
                   props.setJumlahBulanTerdahulu(e.target.value);
@@ -196,6 +240,7 @@ export const ModalAddFollowers = (props) => {
                 type='number'
                 name='current-followers'
                 id='current-followers'
+                min={0}
                 className='appearance-none w-20 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 drop-shadow-lg'
                 onChange={(e) => {
                   props.setJumlahBulanIni(e.target.value);
@@ -349,116 +394,132 @@ export const ModalSosMed = (props) => {
               AKTIVITI MEDIA SOSIAL
             </h5>
             <div className='grid grid-row-3 mx-auto'>
-              <div className='m-2'>
-                <div className='grid grid-cols-4 gap-10'>
+              <div className='my-2'>
+                <div className='grid grid-cols-[1fr_3fr_1fr_3fr] gap-2'>
                   <label
                     htmlFor='jenis-program'
-                    className='flex flex-row pl-1 text-sm font-semibold'
+                    className='flex flex-row items-center pl-3 text-sm font-semibold'
                   >
                     jenis program :
+                    <span className='font-semibold text-user6'>*</span>
                   </label>
-                  <select
-                    type='text'
-                    name='jenis-program'
-                    id='jenis-program'
-                    value={pilihanJenisProgram}
-                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    onChange={(e) => setPilihanJenisProgram(e.target.value)}
-                  >
-                    <option value=''>Sila Pilih</option>
-                    {programPromosi.jenisProgram.map((j) => (
-                      <option key={j} value={j}>
-                        {j}
-                      </option>
-                    ))}
-                  </select>
+                  <div className='pr-2'>
+                    <select
+                      type='text'
+                      name='jenis-program'
+                      id='jenis-program'
+                      value={pilihanJenisProgram}
+                      className='appearance-none w-full px-2 py-1.5 text-user1 ring-1 ring-user1 ring-opacity-50 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      onChange={(e) => setPilihanJenisProgram(e.target.value)}
+                    >
+                      <option value=''>Sila Pilih</option>
+                      {programPromosi.jenisProgram.map((j) => (
+                        <option key={j} value={j}>
+                          {j}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
                   <label
                     htmlFor='kod-program'
-                    className='flex flex-row pl-1 text-sm font-semibold'
+                    className='flex flex-row items-center pl-3 text-sm font-semibold'
                   >
                     kod program :
+                    <span className='font-semibold text-user6'>*</span>
                   </label>
-                  <select
-                    type='text'
-                    value={questionState.kodProgram}
-                    onChange={(e) => {
-                      setQuestionState({
-                        ...questionState,
-                        kodProgram: e.target.value,
-                      });
-                    }}
-                    className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  >
-                    <option value=''>Sila Pilih</option>
-                    {programPromosi.allProgramPromosi
-                      .filter((p) => p.jenisProgram === pilihanJenisProgram)
-                      .map((p) => {
-                        return (
-                          <option value={p.kodProgram}>
-                            {p.kodProgram} | {p.namaProgram}
-                          </option>
-                        );
-                      })}
-                  </select>
+                  <div className='pr-2'>
+                    <select
+                      type='text'
+                      value={questionState.kodProgram}
+                      onChange={(e) => {
+                        setQuestionState({
+                          ...questionState,
+                          kodProgram: e.target.value,
+                        });
+                      }}
+                      className='appearance-none w-full px-2 py-1.5 text-user1 ring-1 ring-user1 ring-opacity-50 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    >
+                      <option value=''>Sila Pilih</option>
+                      {programPromosi.allProgramPromosi
+                        .filter((p) => p.jenisProgram === pilihanJenisProgram)
+                        .map((p) => {
+                          return (
+                            <option value={p.kodProgram}>
+                              {p.kodProgram} | {p.namaProgram}
+                            </option>
+                          );
+                        })}
+                    </select>
+                  </div>
                 </div>
               </div>
-              <div className='flex justify-center mb-1 pl-3'>
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
+              <div className='grid grid-cols-[1fr_3fr_1fr_3fr] gap-2 mb-1'>
+                <p className='text-xs md:text-sm text-left font-semibold flex pl-3 items-center md:whitespace-nowrap'>
                   tarikh muatnaik:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
-                <CustomDatePicker
-                  jenis='mula'
-                  setQuestionState={setQuestionState}
-                />
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap'>
+                <div className='pr-2'>
+                  <CustomDatePicker
+                    jenis='mula'
+                    setQuestionState={setQuestionState}
+                  />
+                </div>
+                <p className='text-xs md:text-sm text-left font-semibold flex pl-3 items-center md:whitespace-nowrap'>
                   tarikh kemaskini:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
-                <CustomDatePicker
-                  jenis='akhir'
-                  setQuestionState={setQuestionState}
-                />
+                <div className='pr-2'>
+                  <CustomDatePicker
+                    jenis='akhir'
+                    setQuestionState={setQuestionState}
+                  />
+                </div>
               </div>
-              <div className='flex mt-2'>
-                <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-1 md:whitespace-nowrap pl-3'>
+              <div className='grid grid-cols-[1fr_7fr] mt-2'>
+                <p className='text-xs md:text-sm text-right font-semibold flex items-center md:whitespace-nowrap pl-3'>
                   Tajuk Bahan / Aktiviti:{' '}
                   <span className='font-semibold text-user6'>*</span>
                 </p>
-                <input
-                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  type='text'
-                  placeholder='Nama Aktiviti'
+                <div className='pr-2 pl-1.5'>
+                  <input
+                    className='appearance-none w-full px-2 py-1.5 text-user1 ring-1 ring-user1 ring-opacity-50 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    type='text'
+                    placeholder='Sila Tulis Tajuk Bahan / Aktiviti'
+                    onChange={(e) => {
+                      setQuestionState({
+                        ...questionState,
+                        namaAktiviti: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+              </div>
+            </div>
+            <div className='grid grid-cols-[1fr_7fr] mt-2'>
+              <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-3'>
+                Jenis Media Sosial :{' '}
+                <span className='font-semibold text-user6'>*</span>
+              </p>
+              <div className='pr-2 pl-1.5'>
+                <Select
+                  isMulti
+                  name='promosi'
+                  options={JenisMediaSosial}
+                  placeholder='Sila Tulis Jenis Media Sosial'
+                  className='basic-multi-select'
+                  classNamePrefix='select'
                   onChange={(e) => {
-                    setQuestionState({
-                      ...questionState,
-                      namaAktiviti: e.target.value,
-                    });
+                    setPilihanMediaSosial(e);
                   }}
                 />
               </div>
             </div>
-            <div className='p-2'>
-              <p className='text-xs md:text-sm text-right font-semibold flex justify-start items-center mr-1 md:whitespace-nowrap pl-1'>
-                Jenis Media Sosial :{' '}
-                <span className='font-semibold text-user6'>*</span>
-              </p>
-              <Select
-                isMulti
-                name='promosi'
-                options={JenisMediaSosial}
-                placeholder='Sila pilih platform...'
-                className='basic-multi-select'
-                classNamePrefix='select'
-                onChange={(e) => {
-                  setPilihanMediaSosial(e);
-                }}
-              />
+            <div>
               {pilihanMediaSosial.map((item) =>
                 RenderSection(item, propsSosMed)
               )}
             </div>
-            <div className='flex justify-center mb-2'>
+            <div className='flex justify-center my-2'>
               {addingData ? (
                 <BusyButton func='add' />
               ) : (

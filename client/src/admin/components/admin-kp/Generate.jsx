@@ -5,17 +5,51 @@ import moment from 'moment';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 import { RiCloseLine } from 'react-icons/ri';
+import { AiOutlineStop } from 'react-icons/ai';
+
 import styles from '../../Modal.module.css';
 
 const ModalGenerateAdHoc = (props) => {
   const { toast, adminToken, loginInfo, masterDatePicker } =
     useGlobalAdminAppContext();
-  const [startDate, setStartDate] = useState('');
-  const [endDate, setEndDate] = useState('');
+  // const [startDate, setStartDate] = useState('');
+  // const [endDate, setEndDate] = useState('');
+  const startDateRef = useRef('');
+  const endDateRef = useRef('');
 
   //datepicker range
   const [startDatePicker, setStartDatePicker] = useState(null);
   const [endDatePicker, setEndDatePicker] = useState(null);
+
+  const pilihanRetenAdaProgram = [
+    'PG101C',
+    'PG211C',
+    'DEWASAMUDA',
+    'KOM-OAP',
+    'KOM-OKU-PDK',
+    'KOM-Komuniti',
+    'KOM-Penjara',
+    'KOM-WE',
+    'OAP',
+    'PPR',
+    'PPKPS',
+    'PKAP2',
+  ].includes(props.jenisReten);
+  const pilihanRetenTunjukProgram =
+    [
+      'PG101C',
+      'PG211C',
+      'DEWASAMUDA',
+      'KOM-OAP',
+      'KOM-OKU-PDK',
+      'KOM-Komuniti',
+      'KOM-Penjara',
+      'KOM-WE',
+      'OAP',
+      'PPR',
+      'PPKPS',
+      'PKAP2',
+    ].includes(props.jenisReten) && props.pilihanFasiliti === 'program';
 
   const TarikhAwal = () => {
     return masterDatePicker({
@@ -24,7 +58,7 @@ const ModalGenerateAdHoc = (props) => {
       startDate: startDatePicker,
       endDate: endDatePicker,
       onChange: (startDate) => {
-        setStartDate(moment(startDate).format('YYYY-MM-DD'));
+        startDateRef.current = moment(startDate).format('YYYY-MM-DD');
         setStartDatePicker(startDate);
       },
       filterDate: (date) => {
@@ -44,7 +78,7 @@ const ModalGenerateAdHoc = (props) => {
       endDate: endDatePicker,
       minDate: startDatePicker,
       onChange: (endDate) => {
-        setEndDate(moment(endDate).format('YYYY-MM-DD'));
+        endDateRef.current = moment(endDate).format('YYYY-MM-DD');
         setEndDatePicker(endDate);
       },
       filterDate: (date) => {
@@ -58,33 +92,14 @@ const ModalGenerateAdHoc = (props) => {
 
   const fileName = () => {
     let file = '';
-    if (props.pilihanKkia !== '') {
-      file = `${
-        props.jenisReten
-      }_${props.namaKlinik.toUpperCase()}_${props.namaKkia
-        .split(' | ')[1]
-        .toUpperCase()}_${moment(new Date()).format('DDMMYYYY')}_token.xlsx`;
-    }
-    if (props.pilihanProgram !== '') {
-      file = `${
-        props.jenisReten
-      }_${props.namaKlinik.toUpperCase()}_${props.pilihanProgram.toUpperCase()}_${moment(
-        new Date()
-      ).format('DDMMYYYY')}_token.xlsx`;
-    }
-    if (props.pilihanKpbMpb !== '') {
-      file = `${props.jenisReten}_${props.pilihanKpbMpb}_${moment(
-        new Date()
-      ).format('DDMMYYYY')}_token.xlsx`;
-    }
-    if (
-      props.pilihanKkia === '' &&
-      props.pilihanProgram === '' &&
-      props.pilihanKpbMpb === ''
-    ) {
-      file = `${props.jenisReten}_${props.namaKlinik.toUpperCase()}_${moment(
-        new Date()
-      ).format('DDMMYYYY')}_token.xlsx`;
+    const date = moment(new Date()).format('DDMMYYYY');
+    const { jenisReten, namaKlinik, pilihanProgram, pilihanKpbMpb } = props;
+    if (pilihanProgram !== '') {
+      file = `${jenisReten}_${namaKlinik.toUpperCase()}_${pilihanProgram.toUpperCase()}_${date}_token.xlsx`;
+    } else if (pilihanKpbMpb !== '') {
+      file = `${jenisReten}_${pilihanKpbMpb}_${date}_token.xlsx`;
+    } else {
+      file = `${jenisReten}_${namaKlinik.toUpperCase()}_${date}_token.xlsx`;
     }
     return file;
   };
@@ -103,13 +118,10 @@ const ModalGenerateAdHoc = (props) => {
 
   const penjanaanReten = async (e) => {
     try {
-      const res = await axios.get(
-        `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          loginInfo.negeri
-        }&daerah=${loginInfo.daerah}&klinik=${loginInfo.kodFasiliti}${
-          props.pilihanFasiliti === 'kkiakd'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
-            : ''
+      const url = `/api/v1/generatekp/download?jenisReten=${
+        props.jenisReten
+      }&negeri=${loginInfo.negeri}&daerah=${loginInfo.daerah}&klinik=${
+        loginInfo.kodFasiliti
         }${
           props.pilihanFasiliti === 'program'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
@@ -122,14 +134,16 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanFasiliti === 'individu'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
             : ''
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
-        {
+      }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
+        endDateRef.current
+      }&fromEtl=false`;
+      // console.log(url);
+      const res = await axios.get(url, {
           headers: {
             Authorization: adminToken,
           },
           responseType: 'blob',
-        }
-      );
+      });
       return res;
     } catch (err) {
       switch (err.response.status) {
@@ -201,9 +215,9 @@ const ModalGenerateAdHoc = (props) => {
 
   // reset endDate if change startDate
   useEffect(() => {
-    setEndDate('');
+    endDateRef.current = '';
     setEndDatePicker(null);
-  }, [startDate]);
+  }, [startDateRef.current]);
 
   return (
     <>
@@ -255,71 +269,7 @@ const ModalGenerateAdHoc = (props) => {
                 <div className='mb-3'>
                   <div className='grid gap-1'>
                     <div>
-                      {props.jenisReten === 'PG101A' ? (
-                        <div className='px-3 py-1'>
-                          <label
-                            htmlFor='klinik'
-                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                          >
-                            Fasiliti
-                          </label>
-                          <select
-                            required
-                            name='factype'
-                            id='factype'
-                            onChange={(e) => {
-                              props.handleGetKkia(e.target.value);
-                            }}
-                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                          >
-                            <option value=''>Sila pilih..</option>
-                            <option value='klinik'>Klinik</option>
-                            <option value='kkiakd'>KKIA / KD</option>
-                          </select>
-                        </div>
-                      ) : null}
-                      {props.pilihanFasiliti === 'kkiakd' ? (
-                        <div className='px-3 py-1'>
-                          <label
-                            htmlFor='klinik'
-                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                          >
-                            KKIA / KD
-                          </label>
-                          <select
-                            required
-                            name='kkia'
-                            id='kkia'
-                            value={props.pilihanKkia}
-                            onChange={(e) => {
-                              props.setPilihanKkia(e.target.value);
-                              props.setNamaKkia(
-                                e.target.options[
-                                  e.target.selectedIndex
-                                ].getAttribute('data-key')
-                              );
-                            }}
-                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                          >
-                            <option value=''>Sila pilih..</option>
-                            {props.kkiaData.map((k, index) => {
-                              return (
-                                <option
-                                  key={index}
-                                  data-key={k.nama}
-                                  value={k.kodKkiaKd}
-                                  className='capitalize'
-                                >
-                                  {k.nama}
-                                </option>
-                              );
-                            })}
-                          </select>
-                        </div>
-                      ) : null}
-                    </div>
-                    <div>
-                      {props.jenisReten === 'PG101C' ? (
+                      {pilihanRetenAdaProgram ? (
                         <div className='px-3 py-1'>
                           <label
                             htmlFor='factype'
@@ -342,40 +292,75 @@ const ModalGenerateAdHoc = (props) => {
                           </select>
                         </div>
                       ) : null}
-                      {props.jenisReten === 'PG101C' &&
-                        props.pilihanFasiliti === 'program' && (
-                          <div className='px-3 py-1'>
-                            <label
-                              htmlFor='program'
-                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                            >
-                              Program
-                            </label>
-                            <select
-                              required
-                              name='program'
-                              id='program'
-                              value={props.pilihanProgram}
-                              onChange={(e) => {
-                                props.setPilihanProgram(e.target.value);
-                              }}
-                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                            >
-                              <option value=''>Sila pilih..</option>
-                              {props.programData.map((p, index) => {
-                                return (
-                                  <option
-                                    key={index}
-                                    value={p.nama}
-                                    className='capitalize'
-                                  >
-                                    {p.nama}
-                                  </option>
-                                );
-                              })}
-                            </select>
-                          </div>
-                        )}
+                      {pilihanRetenTunjukProgram && (
+                        <div className='px-3 py-1'>
+                          <label
+                            htmlFor='program'
+                            className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                          >
+                            Program
+                          </label>
+                          <select
+                            required
+                            name='program'
+                            id='program'
+                            value={props.pilihanProgram}
+                            onChange={(e) => {
+                              props.setPilihanProgram(e.target.value);
+                            }}
+                            className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          >
+                            <option value=''>Sila pilih..</option>
+                            {props.programData &&
+                              props.programData
+                                .filter(
+                                  (p) =>
+                                    p &&
+                                    p.tarikhStart >= startDateRef.current &&
+                                    p.tarikhStart <= endDateRef.current
+                                )
+                                .filter((p) => {
+                                  if (p && props.jenisReten !== 'PG101C') {
+                                    const eventMap = {
+                                      DEWASAMUDA: 'programDewasaMuda',
+                                      'KOM-WE': 'we',
+                                      'KOM-OKU-PDK': 'oku',
+                                      'KOM-Komuniti': 'projek-komuniti',
+                                      'KOM-Penjara': 'penjara-koreksional',
+                                      'KOM-OAP': '',
+                                      PPR: 'ppr',
+                                      PPKPS: 'ppkps',
+                                      PKAP2: 'kampungAngkatPergigian',
+                                    };
+                                    return (
+                                      eventMap[props.jenisReten] ===
+                                        undefined ||
+                                      p.jenisEvent ===
+                                        eventMap[props.jenisReten]
+                                    );
+                                  } else if (
+                                    p &&
+                                    props.jenisReten === 'PG101C'
+                                  ) {
+                                    return p;
+                                  } else {
+                                    return [];
+                                  }
+                                })
+                                .map((p, index) => {
+                                  return (
+                                    <option
+                                      key={index}
+                                      value={p.nama}
+                                      className='capitalize'
+                                    >
+                                      {p.nama}
+                                    </option>
+                                  );
+                                })}
+                          </select>
+                        </div>
+                      )}
                       {props.jenisReten === 'PG101C' &&
                         props.pilihanFasiliti === 'kpbmpb' && (
                           <div className='px-3 py-1'>
@@ -1281,7 +1266,6 @@ const Generate = () => {
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  const [kp, setKp] = useState('');
 
   const [statusToken, setStatusToken] = useState([]);
   const [statusReten, setStatusReten] = useState([]);
@@ -1523,7 +1507,8 @@ const Generate = () => {
                               : []}
                           </div>
                           <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
-                            {statusReten[jenis.kodRingkas] ? (
+                            {statusReten.janaTarikh &&
+                            statusReten[jenis.kodRingkas] ? (
                               <button
                                 type='button'
                                 className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
@@ -1536,13 +1521,19 @@ const Generate = () => {
                                 Jana
                               </button>
                             ) : (
-                              <span>Fungsi jana ditutup sementara</span>
+                              <span
+                                className='text-admin2 text-5xl hover:cursor-not-allowed'
+                                title='Penjanaan bulanan ditutup sementara'
+                              >
+                                <AiOutlineStop />
+                              </span>
                             )}
                           </div>
                         </div>
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {statusReten[jenis.kodRingkas] ? (
+                        {statusReten.janaBulan &&
+                        statusReten[jenis.kodRingkas] ? (
                           <button
                             type='button'
                             className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
@@ -1555,7 +1546,12 @@ const Generate = () => {
                             Jana
                           </button>
                         ) : (
-                          <span>Fungsi jana ditutup sementara</span>
+                          <span
+                            className='text-admin2 text-5xl hover:cursor-not-allowed'
+                            title='Penjanaan bulanan ditutup sementara'
+                          >
+                            <AiOutlineStop />
+                          </span>
                         )}
                       </td>
                     </tr>

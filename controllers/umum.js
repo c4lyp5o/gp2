@@ -91,11 +91,11 @@ const updatePersonUmum = async (req, res) => {
     singlePersonUmum.statusReten === 'reten salah'
   ) {
     unauthorizedLogger.warn(
-      `${req.method} ${req.url} [umumController] Unauthorized singlePersonUmum tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
+      `${req.method} ${req.url} [umumController - updatePersonUmum] Unauthorized singlePersonUmum ${singlePersonUmum.nama} has RETEN tampering by {kp: ${req.user.kp}, kodFasiliti: ${req.user.kodFasiliti}} from ${req.ip}`
     );
-    return res
-      .status(401)
-      .json({ msg: 'Unauthorized tampering. This behaviour will be reported' });
+    return res.status(403).json({
+      msg: `${singlePersonUmum.nama} telah diisi reten. This behaviour will be reported`,
+    });
   }
 
   // associate negeri, daerah & kp to each person umum for every update
