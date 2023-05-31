@@ -5,7 +5,11 @@ import Tiktok from '../../assets/socmed/tiktok.svg';
 import Youtube from '../../assets/socmed/youtube.svg';
 import Lain from '../../assets/socmed/lain-lain.svg';
 
+import moment from 'moment';
+
 import { FaYoutube, FaTiktok } from 'react-icons/fa';
+
+import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 const socmed = [
   { name: 'facebook', img: Facebook },
@@ -17,6 +21,7 @@ const socmed = [
 ];
 
 function Followers(props) {
+  const { percentageCalc } = useGlobalAdminAppContext();
   return (
     <>
       <div className='flex flex-col items-center'>
@@ -30,14 +35,26 @@ function Followers(props) {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                   Bil.
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
                   Jenis Platform
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
                   Follower Bulan Terdahulu
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
                   Follower Bulan Ini
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Jumlah peningkatan atau penurunan
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Peratus peningkatan atau penurunan
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Tarikh Mula
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite w-48'>
+                  Tarikh Akhir
                 </th>
               </tr>
             </thead>
@@ -72,6 +89,27 @@ function Followers(props) {
                     </td>
                     <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
                       {item.jumlahFollowerBulanIni}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      {item.jumlahFollowerBulanIni -
+                        item.jumlahFollowerBulanTerdahulu}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      {percentageCalc(
+                        item.jumlahFollowerBulanIni,
+                        item.jumlahFollowerBulanTerdahulu
+                      )}
+                      %
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      {item.tarikhMula
+                        ? moment(item.tarikhMula).format('DD/MM/YYYY')
+                        : '-'}
+                    </td>
+                    <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-adminWhite'>
+                      {item.tarikhAkhir
+                        ? moment(item.tarikhAkhir).format('DD/MM/YYYY')
+                        : '-'}
                     </td>
                   </tr>
                 );

@@ -107,6 +107,15 @@ function AdminAppProvider({ children }) {
     return response;
   };
 
+  // percentageCalculation
+  const percentageCalc = (numerator, denominator) => {
+    if (numerator === 0 && denominator === 0) {
+      return 0;
+    }
+    // one decimal place and if numerator is bigger become negative % value and become positive % value if denominator is bigger
+    return Math.round(((numerator - denominator) / denominator) * 100);
+  };
+
   // ondemand setting
   const readOndemandSetting = async () => {
     const response = await axios.get('/api/v1/ondemand', {
@@ -936,6 +945,7 @@ function AdminAppProvider({ children }) {
         }}
         onFocus={(e) => e.target.blur()} // disable keyboad input
         className={className}
+        portalId='root-portal'
       />
     );
   };
@@ -1181,6 +1191,7 @@ function AdminAppProvider({ children }) {
         generateSecret,
         verifyInitialSecret,
         verifySecret,
+        percentageCalc,
         // ondemand data
         readOndemandSetting,
         saveOndemandSetting,

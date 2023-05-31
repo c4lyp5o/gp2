@@ -11,6 +11,8 @@ const followerSchema = new Schema(
     namaPlatform: { type: String },
     jumlahFollowerBulanTerdahulu: { type: Number },
     jumlahFollowerBulanIni: { type: Number },
+    tarikhMula: { type: String },
+    tarikhAkhir: { type: String },
   },
   { timestamps: true }
 );
