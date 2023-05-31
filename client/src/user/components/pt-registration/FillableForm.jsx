@@ -1620,7 +1620,7 @@ export default function FillableForm({
                                 ic.length >= 5
                                   ? 'bg-user7 cursor-pointer w-16'
                                   : 'pointer-events-none bg-user9 w-8'
-                              } h-8 bg-user1 text-userWhite rounded-full text-sm px-1.5 py-1 hover:shadow-md hover:shadow-user1 hover:drop-shadow flex justify-center items-center mx-2`}
+                              } h-8 bg-user1 text-userWhite rounded-full text-sm px-1.5 py-1 hover:shadow-md flex justify-center items-center mx-2 transition-all`}
                             >
                               <FaSearch className='text-lg' />
                               <p
