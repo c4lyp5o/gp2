@@ -1977,7 +1977,7 @@ const Generate = (props) => {
                             ) : (
                               <span
                                 className='text-admin2 text-5xl hover:cursor-not-allowed'
-                                title='Penjanaan bulanan ditutup sementara'
+                                title='Penjanaan mengikut tarikh ditutup sementara'
                               >
                                 <AiOutlineStop />
                               </span>
@@ -1986,7 +1986,7 @@ const Generate = (props) => {
                         </div>
                       </td>
                       <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
+                        <div className='flex flex-col py-3 items-center gap-1 text-center border-l-adminWhite border-off'>
                           {loginInfo.accountType === 'hqSuperadmin' ||
                           (statusReten.janaBulan &&
                             statusReten[jenis.kodRingkas]) ? (
