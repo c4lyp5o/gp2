@@ -737,7 +737,7 @@ const getDataKpRoute = async (req, res) => {
       data = await Event.find({
         createdByKodFasiliti: kodFasiliti,
       })
-        .select('nama jenisEvent')
+        .select('nama jenisEvent tarikhStart tarikhEnd')
         .lean();
       break;
     case 'pegawai-spesifik':

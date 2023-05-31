@@ -21,6 +21,36 @@ const ModalGenerateAdHoc = (props) => {
   const [startDatePicker, setStartDatePicker] = useState(null);
   const [endDatePicker, setEndDatePicker] = useState(null);
 
+  const pilihanRetenAdaProgram = [
+    'PG101C',
+    'PG211C',
+    'DEWASAMUDA',
+    'KOM-OAP',
+    'KOM-OKU-PDK',
+    'KOM-Komuniti',
+    'KOM-Penjara',
+    'KOM-WE',
+    'OAP',
+    'PPR',
+    'PPKPS',
+    'PKAP2',
+  ].includes(props.jenisReten);
+  const pilihanRetenTunjukProgram =
+    [
+      'PG101C',
+      'PG211C',
+      'DEWASAMUDA',
+      'KOM-OAP',
+      'KOM-OKU-PDK',
+      'KOM-Komuniti',
+      'KOM-Penjara',
+      'KOM-WE',
+      'OAP',
+      'PPR',
+      'PPKPS',
+      'PKAP2',
+    ].includes(props.jenisReten) && props.pilihanFasiliti === 'program';
+
   const TarikhAwal = () => {
     return masterDatePicker({
       selected: startDatePicker,
@@ -88,13 +118,10 @@ const ModalGenerateAdHoc = (props) => {
 
   const penjanaanReten = async (e) => {
     try {
-      const res = await axios.get(
-        `/api/v1/generatekp/download?jenisReten=${props.jenisReten}&negeri=${
-          loginInfo.negeri
-        }&daerah=${loginInfo.daerah}&klinik=${loginInfo.kodFasiliti}${
-          props.pilihanFasiliti === 'kkiakd'
-            ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
-            : ''
+      const url = `/api/v1/generatekp/download?jenisReten=${
+        props.jenisReten
+      }&negeri=${loginInfo.negeri}&daerah=${loginInfo.daerah}&klinik=${
+        loginInfo.kodFasiliti
         }${
           props.pilihanFasiliti === 'program'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
@@ -107,14 +134,16 @@ const ModalGenerateAdHoc = (props) => {
           props.pilihanFasiliti === 'individu'
             ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
             : ''
-        }&tarikhMula=${startDate}&tarikhAkhir=${endDate}&fromEtl=false`,
-        {
+      }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
+        endDateRef.current
+      }&fromEtl=false`;
+      // console.log(url);
+      const res = await axios.get(url, {
           headers: {
             Authorization: adminToken,
           },
           responseType: 'blob',
-        }
-      );
+      });
       return res;
     } catch (err) {
       switch (err.response.status) {
@@ -291,7 +320,7 @@ const ModalGenerateAdHoc = (props) => {
                                     p.tarikhStart <= endDateRef.current
                                 )
                                 .filter((p) => {
-                                  if (p) {
+                                  if (p && props.jenisReten !== 'PG101C') {
                                     const eventMap = {
                                       DEWASAMUDA: 'programDewasaMuda',
                                       'KOM-WE': 'we',
@@ -309,6 +338,11 @@ const ModalGenerateAdHoc = (props) => {
                                       p.jenisEvent ===
                                         eventMap[props.jenisReten]
                                     );
+                                  } else if (
+                                    p &&
+                                    props.jenisReten === 'PG101C'
+                                  ) {
+                                    return p;
                                   } else {
                                     return [];
                                   }
