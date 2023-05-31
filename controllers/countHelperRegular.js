@@ -127,6 +127,7 @@ const countPG101A = async (payload) => {
     const kpData = await Umum.aggregate(pipeline);
 
     // cari pt kkiakd
+    if (kkiaMatch) {
     for (let i = 0; i < kkiaMatch.length; i++) {
       const kkiaMatchPipeline = [
         {
@@ -159,8 +160,9 @@ const countPG101A = async (payload) => {
       ];
       kkiaData.push(temp);
     }
+    }
 
-    if (kpData.length === 0 && kkiaData.length === 0) {
+    if (kpData.length === 0) {
       errorRetenLogger.error(
         `Error mengira reten: ${jenisReten}. Tiada data yang dijumpai.`
       );
