@@ -238,6 +238,10 @@ const RawatansekolahSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    createdSalahreten: {
+      type: Array,
+      default: [],
+    },
   },
   { timestamps: true }
 );

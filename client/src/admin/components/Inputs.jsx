@@ -1356,7 +1356,7 @@ export function InputEvent(props) {
                         Program Dewasa Muda
                       </option>
                       <option value='kampungAngkatPergigian'>
-                        Kampung Angkat Pergigian
+                        Program Kampung Angkat Pergigian
                       </option>
                       <option value='ppr'>Projek Perumahan Rakyat</option>
                       <option value='we'>Institusi Warga Emas</option>

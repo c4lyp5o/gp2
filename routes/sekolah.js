@@ -14,6 +14,7 @@ const {
   createKotakWithSetPersonSekolah,
   updateFasiliti,
   updatePersonSekolah,
+  softDeletePersonSekolah,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
   updateKotakSekolah,
@@ -21,42 +22,40 @@ const {
 } = require('../controllers/sekolah');
 
 // GET
-router
-  .route('/')
-  .get(getAllPersonSekolahsVanilla) /*.post(createPersonSekolah)*/;
-router
-  .route('/populate-satu-sekolah/:kodSekolah')
-  .get(getAllPersonSekolahsWithPopulate);
+router.route('/').get(getAllPersonSekolahsVanilla);
+router.route('/:personSekolahId').get(getSinglePersonSekolahVanilla);
 router
   .route('/populate/:personSekolahId')
   .get(getSinglePersonSekolahWithPopulate);
+router
+  .route('/populate-satu-sekolah/:kodSekolah')
+  .get(getAllPersonSekolahsWithPopulate);
 
-// expertimental
+// experimental
 // GET
 // router.route('/faceted/:kodSekolah').get(getAllPersonSekolahFaceted);
 
-// GET kemaskini
-router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
-
-// GET muatturun
+// router.route('/kemaskini/:fasilitiId').get(kemaskiniSenaraiPelajar);
 router.route('/muatturun/:kodSekolah').get(muatturunSenaraiPelajar);
 
 // POST
+router.route('/').post(createPersonSekolah);
 router
   .route('/pemeriksaan/:personSekolahId')
   .post(createPemeriksaanWithSetPersonSekolah);
 router
   .route('/rawatan/:personSekolahId')
   .post(createRawatanWithPushPersonSekolah);
-router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
+// router.route('/kotak/:personSekolahId').post(createKotakWithSetPersonSekolah);
 
 // PATCH
 router.route('/fasiliti/:fasilitiId').patch(updateFasiliti);
 router.route('/ubah/:personSekolahId').patch(updatePersonSekolah);
+router.route('/delete/:personSekolahId').patch(softDeletePersonSekolah);
 router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);
-router.route('rawatan/ubah/:rawatanSekolahId').patch(updateRawatanSekolah);
-router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
+router.route('/rawatan/ubah/:rawatanSekolahId').patch(updateRawatanSekolah);
+// router.route('/kotak/ubah/:kotakSekolahId').patch(updateKotakSekolah);
 
 module.exports = router;

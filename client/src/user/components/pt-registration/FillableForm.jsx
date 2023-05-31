@@ -15,6 +15,7 @@ import {
   FaMinusCircle,
   FaClock,
   FaInfoCircle,
+  FaSearch,
 } from 'react-icons/fa';
 import moment from 'moment';
 import Datetime from 'react-datetime';
@@ -538,6 +539,25 @@ export default function FillableForm({
         'Menggunakan maklumat pesakit yang pernah didaftarkan di dalam Sistem Gi-Ret 2.0, sila semak semula untuk memastikan maklumat adalah tepat',
         { autoClose: 10000 }
       );
+
+      // refetch again if orangKurangUpaya is true
+      if (orangKurangUpaya) {
+        const res = await axios.get(`/api/v1/kaunter/check/${ic}`, {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        });
+        const { noOku } = res.data.person;
+        setNoOku(noOku);
+      }
+
+      // refetch again if statusPesara !== ''
+      if (statusPesara !== '') {
+        const res = await axios.get(`/api/v1/kaunter/check/${ic}`, {
+          headers: { Authorization: `Bearer ${kaunterToken}` },
+        });
+        const { noPesara } = res.data.person;
+        setNoPesara(noPesara);
+      }
+
       return true;
     } catch (error) {
       toast.warning('Pesakit tidak pernah didaftarkan sebelum ini');
@@ -1568,27 +1588,51 @@ export default function FillableForm({
                     {jenisIc !== 'mykad-mykid' &&
                       jenisIc !== 'tiada-pengenalan' &&
                       jenisIc !== '' && (
-                        <input
-                          disabled={editId ? true : false}
-                          required
-                          type='text'
-                          name='ic'
-                          value={ic}
-                          onChange={(e) => {
-                            setIc(e.target.value);
-                            setConfirmData({
-                              ...confirmData,
-                              ic: e.target.value,
-                            });
-                          }}
-                          placeholder={
-                            jenisIc === 'birth-of'
-                              ? 'Isi pengenalan ibu..'
-                              : 'Isi pengenalan diri..'
-                          }
-                          className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
-                          data-cy='not-ic-mykad-mykid'
-                        />
+                        <div className='flex flex-row items-center'>
+                          <input
+                            disabled={editId ? true : false}
+                            required
+                            type='text'
+                            name='ic'
+                            value={ic}
+                            onChange={(e) => {
+                              setIc(e.target.value);
+                              setConfirmData({
+                                ...confirmData,
+                                ic: e.target.value,
+                              });
+                            }}
+                            placeholder={
+                              jenisIc === 'birth-of'
+                                ? 'Isi pengenalan ibu..'
+                                : 'Isi pengenalan diri..'
+                            }
+                            className='appearance-none uppercase w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md my-2'
+                            data-cy='not-ic-mykad-mykid'
+                          />
+                          {jenisIc === 'passport' && (
+                            <span
+                              title='Carian Maklumat'
+                              onClick={() => {
+                                checkCache(ic);
+                              }}
+                              className={` ${
+                                ic.length >= 5
+                                  ? 'bg-user7 cursor-pointer w-16'
+                                  : 'pointer-events-none bg-user9 w-8'
+                              } h-8 bg-user1 text-userWhite rounded-full text-sm px-1.5 py-1 hover:shadow-md flex justify-center items-center mx-2 transition-all`}
+                            >
+                              <FaSearch className='text-lg' />
+                              <p
+                                className={`${
+                                  ic.length >= 5 ? 'block' : 'hidden'
+                                } text-xs`}
+                              >
+                                Carian
+                              </p>
+                            </span>
+                          )}
+                        </div>
                       )}
                   </div>
                 </div>
@@ -1833,18 +1877,11 @@ export default function FillableForm({
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 bg-user1 bg-opacity-5'>
                     jantina:
-                    {jenisIc === 'birth-of' ||
-                    jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required={
-                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
-                          ? false
-                          : true
-                      }
+                      required
                       name='jantina'
                       id='jantina'
                       value={jantina}
@@ -1869,19 +1906,12 @@ export default function FillableForm({
                 </div>
                 <div className='grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    kumpulan etnik:{' '}
-                    {jenisIc === 'birth-of' ||
-                    jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    kumpulan etnik:
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required={
-                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
-                          ? false
-                          : true
-                      }
+                      required
                       name='kumpulan-etnik'
                       id='kumpulan-etnik'
                       value={kumpulanEtnik}
@@ -1995,19 +2025,12 @@ export default function FillableForm({
                 </div>
                 <div className='text-right grid grid-cols-[1fr_2fr] m-2'>
                   <p className='text-xs md:text-sm text-right font-semibold flex justify-end items-center mr-4 md:whitespace-nowrap bg-user1 bg-opacity-5'>
-                    negeri:{' '}
-                    {jenisIc === 'birth-of' ||
-                    jenisIc === 'tiada-pengenalan' ? null : (
-                      <span className='font-semibold text-user6'>*</span>
-                    )}
+                    negeri:
+                    <span className='font-semibold text-user6'>*</span>
                   </p>
                   <div className='relative w-full md:w-56'>
                     <select
-                      required={
-                        jenisIc === 'birth-of' || jenisIc === 'tiada-pengenalan'
-                          ? false
-                          : true
-                      }
+                      required
                       value={negeriAlamat}
                       onChange={(e) => {
                         setNegeriAlamat(e.target.value);
@@ -2487,7 +2510,7 @@ export default function FillableForm({
                               name='no-bayaran'
                               id='no-bayaran'
                               placeholder=' '
-                              decimalScale={0}
+                              decimalScale={jenisIc === 'passport' ? 2 : 0}
                               className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
                               onChange={(e) => {
                                 setNoBayaran(e.target.value);
@@ -2572,7 +2595,7 @@ export default function FillableForm({
                                 name='no-bayaran-2'
                                 id='no-bayaran-2'
                                 placeholder=' '
-                                decimalScale={0}
+                                decimalScale={jenisIc === 'passport' ? 2 : 0}
                                 className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
                                 onChange={(e) => {
                                   setNoBayaran2(e.target.value);
@@ -2652,7 +2675,7 @@ export default function FillableForm({
                                 name='no-bayaran-3'
                                 id='no-bayaran-3'
                                 placeholder=' '
-                                decimalScale={0}
+                                decimalScale={jenisIc === 'passport' ? 2 : 0}
                                 className='appearance-none w-20 leading-7 px-3 py-1 ring-2 ring-kaunter3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-l-md peer'
                                 onChange={(e) => {
                                   setNoBayaran3(e.target.value);

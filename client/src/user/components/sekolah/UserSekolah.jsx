@@ -13,7 +13,11 @@ import {
   FaPlus,
 } from 'react-icons/fa';
 
+import UserTambahKemaskiniPelajarSekolah from './UserTambahKemaskiniPelajarSekolah';
+
 import { useGlobalUserAppContext } from '../../context/userAppContext';
+
+import UserDeleteModal from '../UserDeleteModal';
 
 function UserSekolah() {
   const {
@@ -42,14 +46,26 @@ function UserSekolah() {
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
   const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
-  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [filterNama, setFilterNama] = useState('');
+
+  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
   const [tarikhMelaksanakanBegin, setTarikhMelaksanakanBegin] = useState('');
   const [tarikhMelaksanakanBeginDP, setTarikhMelaksanakanBeginDP] =
     useState(null);
   const [submittingBegin, setSubmittingBegin] = useState(false);
+
+  const [modalTambahKemaskiniPelajar, setModalTambahKemaskiniPelajar] =
+    useState(false);
+  const [kemaskiniPelajarId, setKemaskiniPelajarId] = useState('');
+  const [submittingTambahPelajar, setSubmittingTambahPelajar] = useState(false);
+  const [dataFromPilihanTahunTingkatan, setDataFromPilihanTahunTingkatan] =
+    useState({});
+
+  const [pilihanHapusId, setPilihanHapusId] = useState('');
+  const [pilihanHapusNama, setPilihanHapusNama] = useState('');
+  const [modalHapus, setModalHapus] = useState(false);
 
   // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
   const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
@@ -61,15 +77,14 @@ function UserSekolah() {
 
   const init = useRef(false);
 
-  const TarikhBegin = (singlePersonSekolah) => {
+  const TarikhBegin = () => {
     return masterDatePicker({
       selected: tarikhMelaksanakanBeginDP,
+      required: true,
       onChange: (tarikhMelaksanakanBegin) => {
         const tempDate = moment(tarikhMelaksanakanBegin).format('YYYY-MM-DD');
         setTarikhMelaksanakanBeginDP(tarikhMelaksanakanBegin);
         setTarikhMelaksanakanBegin(tempDate);
-        const tempId = singlePersonSekolah.singlePersonSekolah._id;
-        setMuridBeginCurrentId(tempId);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -115,9 +130,6 @@ function UserSekolah() {
         setIsLoading(false);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchAllPersonSekolahs'
-        // );
       }
     };
     init.current = false;
@@ -153,14 +165,58 @@ function UserSekolah() {
         }
       )
       .then((res) => {
-        setModalBegin(false);
         setReloadState(!reloadState);
         setSubmittingBegin(false);
+        setModalBegin(false);
       })
       .catch((err) => {
         console.log(err);
+        setReloadState(!reloadState);
+        setSubmittingBegin(false);
         setModalBegin(false);
       });
+  };
+
+  const handleDelete = async (singlePelajar, reason) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.patch(
+          `/api/v1/sekolah/delete/${singlePelajar}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        {
+          autoClose: 5000,
+        }
+      );
+      setModalHapus(false);
+      setReloadState(!reloadState);
+    }
   };
 
   //reset value tarikhMelaksanakanBegin & tarikhMelaksanakanBeginDP when modalBegin false
@@ -170,6 +226,16 @@ function UserSekolah() {
       setTarikhMelaksanakanBeginDP(null);
     }
   }, [modalBegin]);
+
+  //find first person of pilihanTahunTingkatan and setDataFromPilihanTahunTingkatan
+  useEffect(() => {
+    if (pilihanTahunTingkatan) {
+      const firstPerson = allPersonSekolahs.find(
+        (person) => person.tahunTingkatan === pilihanTahunTingkatan
+      );
+      setDataFromPilihanTahunTingkatan(firstPerson);
+    }
+  }, [pilihanTahunTingkatan]);
 
   useEffect(() => {
     // const filteredSekolahs = allPersonSekolahs.filter((person) =>
@@ -345,6 +411,13 @@ function UserSekolah() {
     }
   };
 
+  // useEffect(() => {
+  //   if (modalHapus === false) {
+  //     setPilih('');
+  //     setResultPilih([]);
+  //   }
+  // });
+
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
@@ -355,11 +428,23 @@ function UserSekolah() {
                 CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
+                {pilihanTahunTingkatan && (
+                  <span className=' uppercase text-xs lg:text-sm w-full'>
+                    <button
+                      onClick={() => {
+                        setModalTambahKemaskiniPelajar(true);
+                      }}
+                      className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
+                    >
+                      Tambah pelajar
+                    </button>
+                  </span>
+                )}
                 <button
                   onClick={() => {
                     navigate(-1);
                   }}
-                  className='capitalize bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                  className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
                 >
                   kembali ke senarai sekolah
                 </button>
@@ -410,7 +495,7 @@ function UserSekolah() {
                   </select>
                 </span>
               </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Kelas:
                 </span>{' '}
@@ -438,7 +523,7 @@ function UserSekolah() {
                       : null}
                   </select>
                 </span>
-              </p>
+              </p> */}
               {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tarikh Mula:
@@ -518,10 +603,13 @@ function UserSekolah() {
                   <input
                     type='text'
                     className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='SILA PILIH SEKOLAH'
+                    value='SEDANG MEMUAT...'
                     readOnly
                   />
                 )}
+              </p>
+              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+                <span />
               </p>
             </div>
           </div>
@@ -536,7 +624,10 @@ function UserSekolah() {
                 <th className='outline outline-1 outline-offset-1 py-1 px-2 w-96'>
                   NAMA
                 </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap w-72'>
+                <th className='outline outline-1 outline-offset-1 py-1 px-2 w-96'>
+                  MAKLUMAT TAMBAHAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 whitespace-nowrap w-41'>
                   OPERATOR PEMERIKSAAN
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-5 py-1 w-36'>
@@ -558,6 +649,11 @@ function UserSekolah() {
                     AKTIVITI BEGIN
                   </th>
                 ) : null}
+                {userinfo.role === 'admin' && (
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
+                    HAPUS
+                  </th>
+                )}
               </tr>
             </thead>
             {/* TODO disable semua data input if person sekolah berpindah === true */}
@@ -582,6 +678,47 @@ function UserSekolah() {
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.nama}
+                          </td>
+                          <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
+                            {/* <div className='md:flex'> */}
+                            <div className='text-justify'>
+                              <p className='whitespace-nowrap'>
+                                NOMBOR PENGENALAN :{' '}
+                                {singlePersonSekolah.nomborId}
+                              </p>
+                              <p>JANTINA : {singlePersonSekolah.jantina}</p>
+                              <p>
+                                TARIKH LAHIR :{' '}
+                                {moment(singlePersonSekolah.tarikhLahir).format(
+                                  'DD/MM/YYYY'
+                                )}
+                              </p>
+                              <p>UMUR :{singlePersonSekolah.umur}</p>
+                              <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
+                              <p>
+                                WARGANEGARA : {singlePersonSekolah.warganegara}
+                              </p>
+                              <span>
+                                <p>
+                                  <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
+                                    {singlePersonSekolah.pemeriksaanSekolah ? null : (
+                                      <button
+                                        onClick={() => {
+                                          setModalTambahKemaskiniPelajar(true);
+                                          setKemaskiniPelajarId(
+                                            singlePersonSekolah._id
+                                          );
+                                        }}
+                                        className='bg-user3 hover:bg-user7 text-userWhite transition-all font-bold py-2 px-4 rounded shadow-md'
+                                      >
+                                        Kemaskini
+                                      </button>
+                                    )}
+                                  </p>
+                                </p>
+                              </span>
+                              {/* </div> */}
+                            </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {singlePersonSekolah.pemeriksaanSekolah
@@ -836,68 +973,60 @@ function UserSekolah() {
                                                     }
                                                   </span>
                                                 )}
-                                                {rawatan.pulpotomiSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    pulpotomi :{' '}
-                                                    {
-                                                      rawatan.pulpotomiSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.endodontikSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    endodontik :{' '}
-                                                    {
-                                                      rawatan.endodontikSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.absesSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    abses :{' '}
-                                                    {
-                                                      rawatan.absesSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.penskaleranSekolahRawatan >=
-                                                  1 && (
-                                                  <span className='text-xs font-medium text-start'>
-                                                    penskaleran :{' '}
-                                                    {
-                                                      rawatan.penskaleranSekolahRawatan
-                                                    }
-                                                  </span>
-                                                )}
-                                                {rawatan.rujukSekolahRawatan ===
+                                                {rawatan.absesSekolahRawatan ===
                                                   true && (
-                                                  <span className='text-xs font-medium text-start flex items-center flex-wrap'>
-                                                    Dirujuk{' '}
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    abses :{' '}
                                                     <FaCheckCircle className='text-user7 text-center mx-1' />
-                                                    untuk{' '}
-                                                    {rawatan.rujukCabutanGigiKekalSekolahRawatan ===
-                                                    true
-                                                      ? 'cabutan ,'
-                                                      : ''}
-                                                    {rawatan.rujukRawatanEndodontikSekolahRawatan ===
-                                                    true
-                                                      ? 'rawatan endodontik ,'
-                                                      : ''}
-                                                    {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
-                                                    true
-                                                      ? 'rawatan penskaleran ,'
-                                                      : ''}
-                                                    {rawatan.rujukRawatanPeriodontikSekolahRawatan ===
-                                                    true
-                                                      ? 'rawatan periodontik ,'
-                                                      : ''}
-                                                    {rawatan.rujukLainLainSekolahRawatan ===
-                                                    true
-                                                      ? rawatan.rujukLainLainTulisSekolahRawatan
-                                                      : ''}
+                                                  </span>
+                                                )}
+                                                {rawatan.penskaleranSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    penskaleran :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukKlinikSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk klinik :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukRawatanOrtodontikSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk ortodontik :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarPatologiSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar patologi :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarRestoratifSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar restoratif :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarBedahMulutSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar bedah mulut :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
+                                                  </span>
+                                                )}
+                                                {rawatan.rujukPakarPediatrikSekolahRawatan ===
+                                                  true && (
+                                                  <span className='font-medium text-left flex flex-row items-center'>
+                                                    rujuk pakar pediatrik :{' '}
+                                                    <FaCheckCircle className='text-user7 text-center mx-1' />
                                                   </span>
                                                 )}
                                                 {rawatan.kesSelesaiSekolahRawatan ===
@@ -999,6 +1128,9 @@ function UserSekolah() {
                               {singlePersonSekolah.pemeriksaanSekolah ? (
                                 <button
                                   onClick={() => {
+                                    setMuridBeginCurrentId(
+                                      singlePersonSekolah._id
+                                    );
                                     setModalBegin({
                                       ...modalBegin,
                                       [singlePersonSekolah._id]: true,
@@ -1022,6 +1154,7 @@ function UserSekolah() {
                                   Sila Tambah Pemeriksaan
                                 </p>
                               )}
+                              {/* modal BEGIN */}
                               <div
                                 className={`${
                                   modalBegin[singlePersonSekolah._id]
@@ -1053,11 +1186,7 @@ function UserSekolah() {
                                         </p>
                                       </div>
                                     ) : (
-                                      <TarikhBegin
-                                        singlePersonSekolah={
-                                          singlePersonSekolah
-                                        }
-                                      />
+                                      <TarikhBegin />
                                     )}
                                   </div>
                                   <div className='grid justify-center pt-5'>
@@ -1077,6 +1206,7 @@ function UserSekolah() {
                                   <div className='flex justify-around absolute bottom-6 right-5 mt-2'>
                                     <span
                                       onClick={() => {
+                                        setMuridBeginCurrentId('');
                                         setModalBegin(false);
                                       }}
                                       className='text-sm text-userBlack bg-userWhite py-2 px-7 rounded-md cursor-pointer focus:outline-none hover:bg-user5 ml-2'
@@ -1122,8 +1252,30 @@ function UserSekolah() {
                                   </div>
                                 </form>
                               </div>
+                              {/* end of modal BEGIN */}
                             </td>
                           ) : null}
+                          {userinfo.role === 'admin' && (
+                            <td
+                              className='
+                               px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'
+                            >
+                              {singlePersonSekolah.pemeriksaanSekolah ? null : (
+                                <button
+                                  className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
+                                  onClick={() => {
+                                    setModalHapus(true);
+                                    setPilihanHapusId(singlePersonSekolah._id);
+                                    setPilihanHapusNama(
+                                      singlePersonSekolah.nama
+                                    );
+                                  }}
+                                >
+                                  Hapus pelajar?
+                                </button>
+                              )}
+                            </td>
+                          )}
                         </tr>
                       </tbody>
                     </>
@@ -1139,6 +1291,9 @@ function UserSekolah() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1160,10 +1315,18 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
+                  {userinfo.role === 'admin' && (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  )}
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
                   </td>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
@@ -1190,6 +1353,49 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
+                  {userinfo.role === 'admin' && (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  )}
+                </tr>
+                <tr>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
+                  {pilihanSekolah &&
+                  pilihanTahunTingkatan &&
+                  !pilihanTahunTingkatan.includes('TINGKATAN') ? (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  ) : null}
+                  {userinfo.role === 'admin' && (
+                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                    </td>
+                  )}
                 </tr>
               </tbody>
             ) : (
@@ -1197,14 +1403,10 @@ function UserSekolah() {
                 <tbody className='bg-user4'>
                   <tr>
                     <td
-                      colSpan={7}
+                      colSpan={9}
                       className='px-2 py-2 outline outline-1 outline-userWhite font-semibold text-lg outline-offset-1 '
                     >
-                      Sila pilih{' '}
-                      {pilihanSekolah.includes('MENENGAH')
-                        ? 'Tingkatan'
-                        : 'Tahun'}{' '}
-                      dahulu
+                      Sila pilih tahun/tingkatan dahulu
                     </td>
                   </tr>
                 </tbody>
@@ -1216,7 +1418,10 @@ function UserSekolah() {
               className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
                 modalBegin ? 'block' : 'hidden'
               }`}
-              onClick={() => setModalBegin(false)}
+              onClick={() => {
+                setMuridBeginCurrentId('');
+                setModalBegin(false);
+              }}
             />
           )}
           <div
@@ -1226,6 +1431,27 @@ function UserSekolah() {
             onClick={() => setIsShown(false)}
           />
         </div>
+        {modalTambahKemaskiniPelajar && (
+          <UserTambahKemaskiniPelajarSekolah
+            modalTambahKemaskiniPelajar={modalTambahKemaskiniPelajar}
+            setModalTambahKemaskiniPelajar={setModalTambahKemaskiniPelajar}
+            kemaskiniPelajarId={kemaskiniPelajarId}
+            setKemaskiniPelajarId={setKemaskiniPelajarId}
+            submittingTambahPelajar={submittingTambahPelajar}
+            setSubmittingTambahPelajar={setSubmittingTambahPelajar}
+            reloadState={reloadState}
+            setReloadState={setReloadState}
+            dataFromPilihanTahunTingkatan={dataFromPilihanTahunTingkatan}
+          />
+        )}
+        {modalHapus && (
+          <UserDeleteModal
+            handleDelete={handleDelete}
+            setModalHapus={setModalHapus}
+            id={pilihanHapusId}
+            nama={pilihanHapusNama}
+          />
+        )}
       </div>
     </>
   );

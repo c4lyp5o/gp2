@@ -2,7 +2,7 @@ const _ = require('lodash');
 const moment = require('moment');
 const { ETLLogger } = require('../logs/logger');
 
-const Helper = require('../controllers/countHelper');
+const Helper = require('../controllers/countHelperFuser');
 
 const Superadmin = require('../models/Superadmin');
 const User = require('../models/User');
@@ -73,7 +73,9 @@ const bulanReturner = (bulan) => {
 };
 
 const initialDataNegeri = async () => {
-  const all = await Superadmin.find({ accountType: 'negeriSuperadmin' })
+  const all = await Superadmin.find({
+    accountType: 'negeriSuperadmin',
+  })
     .select('negeri')
     .lean();
   const negeri = all.map((item) => item.negeri);
@@ -96,7 +98,10 @@ const initialDataDaerah = async (allNegeri) => {
   const allResults = await Promise.all(promises);
   allResults.forEach((results) => {
     results.forEach((result) => {
-      const daerahObj = { negeri: result.negeri, daerah: result.daerah };
+      const daerahObj = {
+        negeri: result.negeri,
+        daerah: result.daerah,
+      };
       daerah.push(daerahObj);
     });
   });
@@ -204,13 +209,15 @@ const initiateETL = async (req, res) => {
             .format('YYYY-MM-DD'),
           dateCreated: moment().format(),
         };
-        const promise = monthlyCount.func(payload).then(async (data) => {
-          dataObj.data = data;
-          await Reservoir.create(dataObj);
-          ETLLogger.info(
-            `[ETL] monthly data ${monthlyCount.name} generated for ${negeri}`
-          );
-        });
+        const promise = monthlyCount
+          .func(payload)
+          .then(async (data) => {
+            dataObj.data = data;
+            await Reservoir.create(dataObj);
+            ETLLogger.info(
+              `[ETL] monthly data ${monthlyCount.name} generated for ${negeri}`
+            );
+          });
         countNegeri.push(promise);
       });
     });
@@ -230,25 +237,27 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        const promise = monthlyCount.func(payload).then(async (data) => {
-          const dataObj = {
-            createdByNegeri: daerah.negeri,
-            createdByDaerah: daerah.daerah,
-            createdByKodFasiliti: 'all',
-            dataType: monthlyCount.name,
-            dataFormat: 'Monthly',
-            dataDate: moment()
-              .subtract(1, 'month')
-              .endOf('month')
-              .format('YYYY-MM-DD'),
-            dateCreated: moment().format(),
-            data: data,
-          };
-          await Reservoir.create(dataObj);
-          ETLLogger.info(
-            `[ETL] monthly data ${monthlyCount.name} generated for ${daerah.daerah}`
-          );
-        });
+        const promise = monthlyCount
+          .func(payload)
+          .then(async (data) => {
+            const dataObj = {
+              createdByNegeri: daerah.negeri,
+              createdByDaerah: daerah.daerah,
+              createdByKodFasiliti: 'all',
+              dataType: monthlyCount.name,
+              dataFormat: 'Monthly',
+              dataDate: moment()
+                .subtract(1, 'month')
+                .endOf('month')
+                .format('YYYY-MM-DD'),
+              dateCreated: moment().format(),
+              data: data,
+            };
+            await Reservoir.create(dataObj);
+            ETLLogger.info(
+              `[ETL] monthly data ${monthlyCount.name} generated for ${daerah.daerah}`
+            );
+          });
         countDaerah.push(promise);
       });
     });
@@ -268,25 +277,27 @@ const initiateETL = async (req, res) => {
             .startOf('month')
             .format('YYYY-MM-DD'),
         };
-        const promise = monthlyCount.func(payload).then(async (data) => {
-          const dataObj = {
-            createdByNegeri: klinik.negeri,
-            createdByDaerah: klinik.daerah,
-            createdByKodFasiliti: klinik.kodFasiliti,
-            dataType: monthlyCount.name,
-            dataFormat: 'Monthly',
-            dataDate: moment()
-              .subtract(1, 'month')
-              .endOf('month')
-              .format('YYYY-MM-DD'),
-            dateCreated: moment().format(),
-            data: data,
-          };
-          await Reservoir.create(dataObj);
-          ETLLogger.info(
-            `[ETL] monthly data ${monthlyCount.name} generated for ${klinik.kp}`
-          );
-        });
+        const promise = monthlyCount
+          .func(payload)
+          .then(async (data) => {
+            const dataObj = {
+              createdByNegeri: klinik.negeri,
+              createdByDaerah: klinik.daerah,
+              createdByKodFasiliti: klinik.kodFasiliti,
+              dataType: monthlyCount.name,
+              dataFormat: 'Monthly',
+              dataDate: moment()
+                .subtract(1, 'month')
+                .endOf('month')
+                .format('YYYY-MM-DD'),
+              dateCreated: moment().format(),
+              data: data,
+            };
+            await Reservoir.create(dataObj);
+            ETLLogger.info(
+              `[ETL] monthly data ${monthlyCount.name} generated for ${klinik.kp}`
+            );
+          });
         countKlinik.push(promise);
       });
     });
@@ -380,7 +391,9 @@ const initiateETL = async (req, res) => {
     // });
 
     ETLLogger.info(
-      `[ETL] ETL completed at ${moment().format('YYYY-MM-DD HH:mm:ss')}`
+      `[ETL] ETL completed at ${moment().format(
+        'YYYY-MM-DD HH:mm:ss'
+      )}`
     );
     res
       .status(200)
@@ -389,7 +402,9 @@ const initiateETL = async (req, res) => {
     ETLLogger.error(`[ETL] Error running ETL. Cause: ${error}`);
     res
       .status(error.statusCode || 500)
-      .json({ msg: error.message } || { msg: 'Internal Server Error' });
+      .json(
+        { msg: error.message } || { msg: 'Internal Server Error' }
+      );
   }
 };
 
@@ -403,9 +418,9 @@ const initiateCustomETL = async (req, res) => {
     return res.status(400).json({ msg: 'Invalid bulan' });
   }
 
-  let currentPilihanBulan = `${moment().format('YYYY')}-${bulanReturner(
-    bulan
-  )}-01`;
+  let currentPilihanBulan = `${moment().format(
+    'YYYY'
+  )}-${bulanReturner(bulan)}-01`;
 
   ETLLogger.info(
     `[ETL] Custom ETL initiated for bulan ${bulan} at ${moment().format(
@@ -446,13 +461,15 @@ const initiateCustomETL = async (req, res) => {
             .format('YYYY-MM-DD'),
           dateCreated: moment().format(),
         };
-        const promise = monthlyCount.func(payload).then(async (data) => {
-          dataObj.data = data;
-          await Reservoir.create(dataObj);
-          ETLLogger.info(
-            `[ETL] monthly data ${monthlyCount.name} generated for ${negeri}`
-          );
-        });
+        const promise = monthlyCount
+          .func(payload)
+          .then(async (data) => {
+            dataObj.data = data;
+            await Reservoir.create(dataObj);
+            ETLLogger.info(
+              `[ETL] monthly data ${monthlyCount.name} generated for ${negeri}`
+            );
+          });
         countNegeri.push(promise);
       });
     });
@@ -470,24 +487,26 @@ const initiateCustomETL = async (req, res) => {
           klinik: 'all',
           bulan: currentPilihanBulan,
         };
-        const promise = monthlyCount.func(payload).then(async (data) => {
-          const dataObj = {
-            createdByNegeri: daerah.negeri,
-            createdByDaerah: daerah.daerah,
-            createdByKodFasiliti: 'all',
-            dataType: monthlyCount.name,
-            dataFormat: 'Monthly',
-            dataDate: moment(currentPilihanBulan)
-              .endOf('month')
-              .format('YYYY-MM-DD'),
-            dateCreated: moment().format(),
-            data: data,
-          };
-          await Reservoir.create(dataObj);
-          ETLLogger.info(
-            `[ETL] monthly data ${monthlyCount.name} generated for ${daerah.daerah}`
-          );
-        });
+        const promise = monthlyCount
+          .func(payload)
+          .then(async (data) => {
+            const dataObj = {
+              createdByNegeri: daerah.negeri,
+              createdByDaerah: daerah.daerah,
+              createdByKodFasiliti: 'all',
+              dataType: monthlyCount.name,
+              dataFormat: 'Monthly',
+              dataDate: moment(currentPilihanBulan)
+                .endOf('month')
+                .format('YYYY-MM-DD'),
+              dateCreated: moment().format(),
+              data: data,
+            };
+            await Reservoir.create(dataObj);
+            ETLLogger.info(
+              `[ETL] monthly data ${monthlyCount.name} generated for ${daerah.daerah}`
+            );
+          });
         countDaerah.push(promise);
       });
     });
@@ -505,24 +524,26 @@ const initiateCustomETL = async (req, res) => {
           klinik: klinik.kodFasiliti,
           bulan: currentPilihanBulan,
         };
-        const promise = monthlyCount.func(payload).then(async (data) => {
-          const dataObj = {
-            createdByNegeri: klinik.negeri,
-            createdByDaerah: klinik.daerah,
-            createdByKodFasiliti: klinik.kodFasiliti,
-            dataType: monthlyCount.name,
-            dataFormat: 'Monthly',
-            dataDate: moment(currentPilihanBulan)
-              .endOf('month')
-              .format('YYYY-MM-DD'),
-            dateCreated: moment().format(),
-            data: data,
-          };
-          await Reservoir.create(dataObj);
-          ETLLogger.info(
-            `[ETL] monthly data ${monthlyCount.name} generated for ${klinik.kp}`
-          );
-        });
+        const promise = monthlyCount
+          .func(payload)
+          .then(async (data) => {
+            const dataObj = {
+              createdByNegeri: klinik.negeri,
+              createdByDaerah: klinik.daerah,
+              createdByKodFasiliti: klinik.kodFasiliti,
+              dataType: monthlyCount.name,
+              dataFormat: 'Monthly',
+              dataDate: moment(currentPilihanBulan)
+                .endOf('month')
+                .format('YYYY-MM-DD'),
+              dateCreated: moment().format(),
+              data: data,
+            };
+            await Reservoir.create(dataObj);
+            ETLLogger.info(
+              `[ETL] monthly data ${monthlyCount.name} generated for ${klinik.kp}`
+            );
+          });
         countKlinik.push(promise);
       });
     });
@@ -629,14 +650,18 @@ const initiateCustomETL = async (req, res) => {
         'YYYY-MM-DD HH:mm:ss'
       )}`
     );
-    res
-      .status(200)
-      .json({ msg: 'Custom ETL done. May the server is not on fire now' });
+    res.status(200).json({
+      msg: 'Custom ETL done. May the server is not on fire now',
+    });
   } catch (error) {
-    ETLLogger.error(`[ETL] Error running custom ETL. Cause: ${error}`);
+    ETLLogger.error(
+      `[ETL] Error running custom ETL. Cause: ${error}`
+    );
     res
       .status(error.statusCode || 500)
-      .json({ msg: error.message } || { msg: 'Internal Server Error' });
+      .json(
+        { msg: error.message } || { msg: 'Internal Server Error' }
+      );
   }
 };
 
@@ -657,10 +682,12 @@ const initiateCustomSingleETL = async (req, res) => {
     return res.status(400).json({ msg: 'Invalid jenisReten' });
   }
 
-  let currentPilihanBulan = `${moment().format('YYYY')}-${bulanReturner(
-    bulan
-  )}-01`;
-  let currentSingleETL = monthlyCount.find((item) => item.name === jenisReten);
+  let currentPilihanBulan = `${moment().format(
+    'YYYY'
+  )}-${bulanReturner(bulan)}-01`;
+  let currentSingleETL = monthlyCount.find(
+    (item) => item.name === jenisReten
+  );
 
   ETLLogger.info(
     `[ETL] Custom single ETL ${jenisReten} initiated for bulan ${bulan} at ${moment().format(
@@ -700,13 +727,15 @@ const initiateCustomSingleETL = async (req, res) => {
           .format('YYYY-MM-DD'),
         dateCreated: moment().format(),
       };
-      const promise = currentSingleETL.func(payload).then(async (data) => {
-        dataObj.data = data;
-        await Reservoir.create(dataObj);
-        ETLLogger.info(
-          `[ETL] Custom single ETL ${jenisReten} generated for ${negeri}`
-        );
-      });
+      const promise = currentSingleETL
+        .func(payload)
+        .then(async (data) => {
+          dataObj.data = data;
+          await Reservoir.create(dataObj);
+          ETLLogger.info(
+            `[ETL] Custom single ETL ${jenisReten} generated for ${negeri}`
+          );
+        });
       countNegeri.push(promise);
     });
 
@@ -724,24 +753,26 @@ const initiateCustomSingleETL = async (req, res) => {
         klinik: 'all',
         bulan: currentPilihanBulan,
       };
-      const promise = currentSingleETL.func(payload).then(async (data) => {
-        const dataObj = {
-          createdByNegeri: daerah.negeri,
-          createdByDaerah: daerah.daerah,
-          createdByKodFasiliti: 'all',
-          dataType: jenisReten,
-          dataFormat: 'Monthly',
-          dataDate: moment(currentPilihanBulan)
-            .endOf('month')
-            .format('YYYY-MM-DD'),
-          dateCreated: moment().format(),
-          data: data,
-        };
-        await Reservoir.create(dataObj);
-        ETLLogger.info(
-          `[ETL] Custom single ETL ${jenisReten} generated for ${daerah.daerah}`
-        );
-      });
+      const promise = currentSingleETL
+        .func(payload)
+        .then(async (data) => {
+          const dataObj = {
+            createdByNegeri: daerah.negeri,
+            createdByDaerah: daerah.daerah,
+            createdByKodFasiliti: 'all',
+            dataType: jenisReten,
+            dataFormat: 'Monthly',
+            dataDate: moment(currentPilihanBulan)
+              .endOf('month')
+              .format('YYYY-MM-DD'),
+            dateCreated: moment().format(),
+            data: data,
+          };
+          await Reservoir.create(dataObj);
+          ETLLogger.info(
+            `[ETL] Custom single ETL ${jenisReten} generated for ${daerah.daerah}`
+          );
+        });
       countDaerah.push(promise);
     });
 
@@ -759,24 +790,26 @@ const initiateCustomSingleETL = async (req, res) => {
         klinik: klinik.kodFasiliti,
         bulan: currentPilihanBulan,
       };
-      const promise = currentSingleETL.func(payload).then(async (data) => {
-        const dataObj = {
-          createdByNegeri: klinik.negeri,
-          createdByDaerah: klinik.daerah,
-          createdByKodFasiliti: klinik.kodFasiliti,
-          dataType: jenisReten,
-          dataFormat: 'Monthly',
-          dataDate: moment(currentPilihanBulan)
-            .endOf('month')
-            .format('YYYY-MM-DD'),
-          dateCreated: moment().format(),
-          data: data,
-        };
-        await Reservoir.create(dataObj);
-        ETLLogger.info(
-          `[ETL] Custom single ETL ${jenisReten} generated for ${klinik.kp}`
-        );
-      });
+      const promise = currentSingleETL
+        .func(payload)
+        .then(async (data) => {
+          const dataObj = {
+            createdByNegeri: klinik.negeri,
+            createdByDaerah: klinik.daerah,
+            createdByKodFasiliti: klinik.kodFasiliti,
+            dataType: jenisReten,
+            dataFormat: 'Monthly',
+            dataDate: moment(currentPilihanBulan)
+              .endOf('month')
+              .format('YYYY-MM-DD'),
+            dateCreated: moment().format(),
+            data: data,
+          };
+          await Reservoir.create(dataObj);
+          ETLLogger.info(
+            `[ETL] Custom single ETL ${jenisReten} generated for ${klinik.kp}`
+          );
+        });
       countKlinik.push(promise);
     });
 
@@ -882,17 +915,23 @@ const initiateCustomSingleETL = async (req, res) => {
         'YYYY-MM-DD HH:mm:ss'
       )}`
     );
-    res
-      .status(200)
-      .json({ msg: 'Custom ETL done. May the server is not on fire now' });
+    res.status(200).json({
+      msg: 'Custom ETL done. May the server is not on fire now',
+    });
   } catch (error) {
     ETLLogger.error(
       `[ETL] Error running custom single ETL ${jenisReten}. Cause: ${error}`
     );
     res
       .status(error.statusCode || 500)
-      .json({ msg: error.message } || { msg: 'Internal Server Error' });
+      .json(
+        { msg: error.message } || { msg: 'Internal Server Error' }
+      );
   }
 };
 
-module.exports = { initiateETL, initiateCustomETL, initiateCustomSingleETL };
+module.exports = {
+  initiateETL,
+  initiateCustomETL,
+  initiateCustomSingleETL,
+};

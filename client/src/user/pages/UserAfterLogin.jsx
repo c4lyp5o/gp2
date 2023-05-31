@@ -343,15 +343,21 @@ function UserAfterLogin() {
                 path='carian/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <UserFormSalahSekolahPemeriksaan salahReten='pemeriksaan-salah' />
+                    <UserFormSalahSekolahPemeriksaan
+                      salahReten={
+                        userinfo.role === 'admin' && 'pemeriksaan-salah'
+                      }
+                    />
                   </Suspense>
                 }
               />
               <Route
-                path='carian/sekolah/form-sekolah/rawatan/:personSekolahId/:rawatanSekolahId'
+                path='carian/sekolah/form-sekolah/rawatan/:personSekolahId'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <UserFormSalahSekolahRawatan salahReten='rawatan-salah' />
+                    <UserFormSalahSekolahRawatan
+                      salahReten={userinfo.role === 'admin' && 'rawatan-salah'}
+                    />
                   </Suspense>
                 }
               />

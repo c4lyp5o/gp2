@@ -4,8 +4,11 @@ import {
   BsFilePerson,
   BsFillFilePersonFill,
   BsFillInfoCircleFill,
+  BsFillCircleFill,
+  BsFillBookmarkXFill,
+  BsFillCheckCircleFill,
 } from 'react-icons/bs';
-import { FaWindowClose } from 'react-icons/fa';
+import { FaWindowClose, FaSort, FaSortUp } from 'react-icons/fa';
 import { TbArrowBigLeftLine } from 'react-icons/tb';
 import { toast } from 'react-toastify';
 import moment from 'moment';
@@ -153,6 +156,13 @@ export default function PatientData({
   const [generating, setGenerating] = useState(false);
   const [generatingNoWayBack, setGeneratingNoWayBack] = useState(false);
   const [defaultTimer, setDefaultTimer] = useState(60);
+
+  const [sort, setSort] = useState({
+    masaDaftar: false,
+    nama: false,
+    noPid: false,
+    statusReten: false,
+  });
 
   const formatMelayu = (date) => {
     const months = {
@@ -421,23 +431,67 @@ export default function PatientData({
                       <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                         BIL
                       </th>
-                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                      <th
+                        className={`px-2 py-1 outline outline-1 outline-offset-1 w-60 cursor-pointer  ${
+                          sort.masaDaftar ? 'text-bold text-kaunterBlack' : ''
+                        }`}
+                        onClick={() =>
+                          setSort({ ...sort, masaDaftar: !sort.masaDaftar })
+                        }
+                      >
                         WAKTU SAMPAI
+                        {sort.masaDaftar ? (
+                          <FaSortUp className='inline-flex items-center' />
+                        ) : (
+                          <FaSort className='inline-flex items-center' />
+                        )}
                       </th>
                       <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                         NO. PENDAFTARAN
                       </th>
-                      <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
+                      <th
+                        className={`px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg cursor-pointer  ${
+                          sort.nama ? 'text-bold text-kaunterBlack' : ''
+                        }`}
+                        onClick={() => setSort({ ...sort, nama: !sort.nama })}
+                      >
                         NAMA PESAKIT
+                        {sort.nama ? (
+                          <FaSortUp className='inline-flex items-center' />
+                        ) : (
+                          <FaSort className='inline-flex items-center' />
+                        )}
                       </th>
-                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                      <th
+                        className={`px-2 py-1 outline outline-1 outline-offset-1 w-80 cursor-pointer  ${
+                          sort.noPid ? 'text-bold text-kaunterBlack' : ''
+                        }`}
+                        onClick={() => setSort({ ...sort, noPid: !sort.noPid })}
+                      >
                         NO. PENGENALAN DIRI
+                        {sort.noPid ? (
+                          <FaSortUp className='inline-flex items-center' />
+                        ) : (
+                          <FaSort className='inline-flex items-center' />
+                        )}
                       </th>
                       <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                         STATUS PESAKIT
                       </th>
-                      <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
+                      <th
+                        className={`px-2 py-1 outline outline-1 outline-offset-1 w-60 cursor-pointer  ${
+                          sort.statusReten ? 'text-bold text-kaunterBlack' : ''
+                        }`}
+                        onClick={() =>
+                          setSort({ ...sort, statusReten: !sort.statusReten })
+                        }
+                      >
                         STATUS PENGISIAN RETEN
+                        {sort.statusReten ? (
+                          <FaSortUp className='inline-flex items-center' />
+                        ) : (
+                          <FaSort className='inline-flex items-center' />
+                        )}
                       </th>
                       {jenisFasiliti === 'kk-kd' ? (
                         <th className='px-2 py-1 outline outline-1 outline-offset-1 w-80'>
@@ -465,6 +519,20 @@ export default function PatientData({
                         pt[key].toLowerCase().includes(philter)
                       )
                     )
+                    .sort((a, b) => {
+                      if (sort.masaDaftar)
+                        return b.waktuSampai.localeCompare(a.waktuSampai);
+                    })
+                    .sort((a, b) => {
+                      if (sort.nama) return a.nama.localeCompare(b.nama);
+                    })
+                    .sort((a, b) => {
+                      if (sort.noPid) return a.ic.localeCompare(b.ic);
+                    })
+                    .sort((a, b) => {
+                      if (sort.statusReten)
+                        return a.statusReten.localeCompare(b.statusReten);
+                    })
                     .map((p, index) => (
                       <>
                         <tbody className='bg-kaunter3'>
@@ -507,7 +575,33 @@ export default function PatientData({
                               {statusPesakit(p)}
                             </td>
                             <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
-                              {p.statusReten}
+                              {p.statusReten === 'belum diisi' ? (
+                                <div className='flex items-center justify-center whitespace-nowrap'>
+                                  <span>Belum Diisi</span>
+                                  <BsFillCircleFill className='text-user9 text-lg my-1 ml-2' />
+                                </div>
+                              ) : p.statusKehadiran === true &&
+                                p.statusReten === 'reten salah' ? (
+                                <div className='flex items-center justify-center whitespace-nowrap'>
+                                  <span>Terdapat Kesalahan Reten</span>
+                                  <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                                </div>
+                              ) : p.statusKehadiran === true ? (
+                                <div className='flex items-center justify-center whitespace-nowrap'>
+                                  <strike>data tiada</strike>
+                                  <BsFillCircleFill className='text-user8 text-lg my-1 ml-2' />{' '}
+                                </div>
+                              ) : p.statusReten === 'telah diisi' ? (
+                                <div className='flex items-center justify-center whitespace-nowrap'>
+                                  <span>Selesai Diisi</span>
+                                  <BsFillCheckCircleFill className='text-user7 text-lg my-1 ml-2 bg-userWhite bg-blend-normal rounded-full outline outline-1 outline-user7' />
+                                </div>
+                              ) : p.statusReten === 'reten salah' ? (
+                                <div className='flex items-center justify-center whitespace-nowrap'>
+                                  <span>Terdapat Kesalahan Reten</span>
+                                  <BsFillBookmarkXFill className='text-user9 text-lg my-1 ml-2' />
+                                </div>
+                              ) : null}
                             </td>
                             {jenisFasiliti === 'kk-kd' ? (
                               <td className='px-2 py-1 outline outline-1 outline-kaunterWhite outline-offset-1'>
