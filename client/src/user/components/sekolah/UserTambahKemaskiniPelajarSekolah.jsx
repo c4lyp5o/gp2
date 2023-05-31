@@ -9,6 +9,7 @@ import {
   FaPlus,
   FaRegPaperPlane,
   FaUserCheck,
+  FaRegEdit,
 } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
@@ -37,6 +38,7 @@ function UserTambahKemaskiniPelajarSekolah({
 
   //form
   const [showForm, setShowForm] = useState(false);
+  const [kemaskiniTarikh, setKemaskiniTarikh] = useState(false);
   const [nama, setNama] = useState('');
   const [nomborId, setNomborId] = useState('');
   const [statusOku, setStatusOku] = useState('');
@@ -53,6 +55,25 @@ function UserTambahKemaskiniPelajarSekolah({
   const [tarikhLahirDP, setTarikhLahirDP] = useState(null);
 
   const TarikhLahir = () => {
+    return masterDatePicker({
+      selected: tarikhLahirDP,
+      required: true,
+      onChange: (tarikhLahir) => {
+        const tempDate = moment(tarikhLahir).format('YYYY-MM-DD');
+        const tahun = parseInt(getAge(tarikhLahir));
+        setTarikhLahir(tempDate);
+        setTarikhLahirDP(tarikhLahir);
+        setUmur(tahun);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent',
+    });
+  };
+
+  const TarikhLahirKemaskini = () => {
     return masterDatePicker({
       selected: tarikhLahirDP,
       required: true,
@@ -148,12 +169,44 @@ function UserTambahKemaskiniPelajarSekolah({
         });
     }
     if (kemaskiniPelajarId) {
+      const {
+        idInstitusi,
+        kodSekolah,
+        namaSekolah,
+        nomborId,
+        nama,
+        sesiTakwimPelajar,
+        tahunTingkatan,
+        statusOku,
+        jantina,
+      } = singlePersonSekolah;
+
+      if (tarikhLahir === '') {
+        toast.error('Sila pastikan anda telah mengisi data anda', {
+          autoClose: 3000,
+        });
+        return;
+      }
+
       await toast
         .promise(
           axios.patch(
             `/api/v1/sekolah/ubah/${kemaskiniPelajarId}`,
             {
-              // req.body patch here
+              idInstitusi,
+              kodSekolah,
+              namaSekolah,
+              //
+              nomborId,
+              nama: nama.toUpperCase(),
+              sesiTakwimPelajar,
+              tahunTingkatan,
+              statusOku,
+              jantina,
+              tarikhLahir,
+              umur,
+              keturunan: keturunan.toUpperCase(),
+              warganegara,
             },
             {
               headers: {
@@ -197,6 +250,18 @@ function UserTambahKemaskiniPelajarSekolah({
             }
           );
           setSinglePersonSekolah(data.singlePersonSekolah);
+
+          if (kemaskiniPelajarId) {
+            setNama(data.singlePersonSekolah.nama);
+            setNomborId(data.singlePersonSekolah.nomborId);
+            setStatusOku(data.singlePersonSekolah.statusOku);
+            setTarikhLahir(data.singlePersonSekolah.tarikhLahir);
+            setJantina(data.singlePersonSekolah.jantina);
+            setUmur(data.singlePersonSekolah.umur);
+            setKeturunan(data.singlePersonSekolah.keturunan);
+            setWarganegara(data.singlePersonSekolah.warganegara);
+          }
+
           console.log(data); // TODO map for kemaskini to each state
         } catch (error) {
           console.log(error);
@@ -205,6 +270,11 @@ function UserTambahKemaskiniPelajarSekolah({
       fetchSinglePersonSekolah();
     }
   }, [kemaskiniPelajarId]);
+
+  let disabled = false;
+  if (kemaskiniPelajarId) {
+    disabled = true;
+  }
 
   const closeModal = () => {
     setModalTambahKemaskiniPelajar(false);
@@ -310,45 +380,62 @@ function UserTambahKemaskiniPelajarSekolah({
               </div>
             )
           )}
-          {showForm && kemaskiniPelajarId ? (
+          {showForm && (
             <div className='mt-1 py-1'>
-              <form></form>
-            </div>
-          ) : (
-            showForm &&
-            !kemaskiniPelajarId && (
-              <div className='mt-1 py-1'>
-                <form
-                  onSubmit={handleSubmit}
-                  className='px-2 grid grid-cols-2 gap-2'
-                >
-                  <h1 className='col-span-2 text-base uppercase font-bold text-center text-user1 bg-userWhite rounded-md'>
-                    Sila isi semua maklumat murid
-                  </h1>
+              <form
+                onSubmit={handleSubmit}
+                className='px-2 grid grid-cols-2 gap-2'
+              >
+                <h1 className='col-span-2 text-base uppercase font-bold text-center text-user1 bg-userWhite rounded-md'>
+                  Sila isi semua maklumat murid
+                </h1>
+                <div className='relative'>
+                  <label
+                    htmlFor='nama'
+                    className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                  >
+                    Nama<span className='font-semibold text-user6'>*</span>
+                  </label>
+                  <input
+                    disabled={disabled}
+                    required
+                    type='text'
+                    name='nama'
+                    id='nama'
+                    placeholder=' '
+                    className='appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={nama}
+                    onChange={(e) => {
+                      setNama(e.target.value);
+                      setDataError({
+                        ...dataError,
+                        nama: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                {kemaskiniPelajarId ? (
                   <div className='relative'>
                     <label
-                      htmlFor='nama'
+                      htmlFor='warganegara'
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
-                      Nama<span className='font-semibold text-user6'>*</span>
+                      Warganegara
+                      <span className='font-semibold text-user6'>*</span>
                     </label>
                     <input
-                      required
+                      disabled
                       type='text'
-                      name='nama'
-                      id='nama'
+                      name='warganegara'
+                      id='warganegara'
                       placeholder=' '
                       className='appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={nama}
-                      onChange={(e) => {
-                        setNama(e.target.value);
-                        setDataError({
-                          ...dataError,
-                          nama: e.target.value,
-                        });
-                      }}
+                      value={
+                        warganegara === 'MALAYSIA' ? 'MALAYSIA' : warganegara
+                      }
                     />
                   </div>
+                ) : (
                   <div className='relative'>
                     <label
                       htmlFor='warganegara'
@@ -379,55 +466,109 @@ function UserTambahKemaskiniPelajarSekolah({
                       </option>
                     </select>
                   </div>
-                  <div className='relative'>
-                    <label
-                      htmlFor='nomborId'
-                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
-                    >
-                      Nombor Kad Pengenalan
-                      <span className='font-semibold text-user6'>*</span>
-                    </label>
-                    {warganegara === 'MALAYSIA' ? (
-                      <input
-                        disabled={warganegara === '' ? true : false}
-                        type='text'
-                        name='nomborId'
-                        id='nomborId'
-                        placeholder=' '
-                        pattern='[0-9]+'
-                        title='12 numbers MyKad / MyKid'
-                        minLength={12}
-                        maxLength={12}
-                        className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value={nomborId}
-                        onChange={(e) => {
-                          setNomborId(e.target.value);
-                          setDataError({
-                            ...dataError,
-                            nomborId: e.target.value,
-                          });
-                          // handleIc(e.target.value);
-                        }}
-                      />
-                    ) : (
-                      <input
-                        disabled={warganegara === '' ? true : false}
-                        type='text'
-                        name='nomborId'
-                        id='nomborId'
-                        placeholder=' '
-                        className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value={nomborId}
-                        onChange={(e) => {
-                          setNomborId(e.target.value);
-                          setDataError({
-                            ...dataError,
-                            nomborId: e.target.value,
-                          });
-                        }}
-                      />
-                    )}
-                  </div>
+                )}
+                <div className='relative'>
+                  <label
+                    htmlFor='nomborId'
+                    className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                  >
+                    Nombor Kad Pengenalan
+                    <span className='font-semibold text-user6'>*</span>
+                  </label>
+                  {warganegara === 'MALAYSIA' ? (
+                    <input
+                      disabled={
+                        warganegara === ''
+                          ? true
+                          : disabled === true
+                          ? true
+                          : false
+                      }
+                      type='text'
+                      name='nomborId'
+                      id='nomborId'
+                      placeholder=' '
+                      pattern='[0-9]+'
+                      title='12 numbers MyKad / MyKid'
+                      minLength={12}
+                      maxLength={12}
+                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={nomborId}
+                      onChange={(e) => {
+                        setNomborId(e.target.value);
+                        setDataError({
+                          ...dataError,
+                          nomborId: e.target.value,
+                        });
+                        // handleIc(e.target.value);
+                      }}
+                    />
+                  ) : (
+                    <input
+                      disabled={
+                        warganegara === ''
+                          ? true
+                          : disabled === true
+                          ? true
+                          : false
+                      }
+                      type='text'
+                      name='nomborId'
+                      id='nomborId'
+                      placeholder=' '
+                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={nomborId}
+                      onChange={(e) => {
+                        setNomborId(e.target.value);
+                        setDataError({
+                          ...dataError,
+                          nomborId: e.target.value,
+                        });
+                      }}
+                    />
+                  )}
+                </div>
+                {kemaskiniPelajarId ? (
+                  kemaskiniTarikh === true ? (
+                    <div className='relative'>
+                      <label
+                        htmlFor='tarikhLahir'
+                        className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                      >
+                        Tarikh Lahir
+                        <span className='font-semibold text-user6'>*</span>
+                      </label>
+                      <TarikhLahirKemaskini />
+                    </div>
+                  ) : (
+                    <div className='relative'>
+                      <label
+                        htmlFor='tarikhLahir'
+                        className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                      >
+                        Tarikh Lahir
+                        <span className='font-semibold text-user6'>*</span>
+                      </label>
+                      <div className='flex flex-row items-center'>
+                        <input
+                          disabled
+                          type='text'
+                          name='tarikhLahir'
+                          id='tarikhLahir'
+                          placeholder=' '
+                          className='appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                          value={moment(tarikhLahir).format('DD/MM/YYYY')}
+                        />
+                        <FaRegEdit
+                          className='mx-2 text-user1 hover:cursor-pointer text-lg'
+                          onClick={() => {
+                            setKemaskiniTarikh(true);
+                          }}
+                        />
+                      </div>
+                    </div>
+                  )
+                ) : (
                   <div className='relative'>
                     <label
                       htmlFor='tarikhLahir'
@@ -438,14 +579,15 @@ function UserTambahKemaskiniPelajarSekolah({
                     </label>
                     <TarikhLahir />
                   </div>
-                  <div className='relative '>
-                    <label
-                      htmlFor='umur'
-                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
-                    >
-                      Umur
-                    </label>
-                    {/* <label
+                )}
+                <div className='relative '>
+                  <label
+                    htmlFor='umur'
+                    className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                  >
+                    Umur
+                  </label>
+                  {/* <label
                       htmlFor='umurBulan'
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
@@ -457,16 +599,16 @@ function UserTambahKemaskiniPelajarSekolah({
                     >
                       Hari
                     </label> */}
-                    <input
-                      disabled
-                      type='number'
-                      name='umur'
-                      id='umur'
-                      placeholder=' '
-                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={umur}
-                    />
-                    {/* <input
+                  <input
+                    disabled
+                    type='number'
+                    name='umur'
+                    id='umur'
+                    placeholder=' '
+                    className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={umur}
+                  />
+                  {/* <input
                       disabled
                       type='number'
                       name='umurBulan'
@@ -484,63 +626,85 @@ function UserTambahKemaskiniPelajarSekolah({
                       className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-r-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                       value={umurHari}
                     /> */}
-                  </div>
+                </div>
+                <div className='relative'>
+                  <label
+                    htmlFor='jantina'
+                    className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                  >
+                    Jantina<span className='font-semibold text-user6'>*</span>
+                  </label>
+                  <select
+                    disabled={disabled}
+                    required
+                    name='jantina'
+                    id='jantina'
+                    className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={jantina}
+                    onChange={(e) => {
+                      setJantina(e.target.value);
+                      setDataError({
+                        ...dataError,
+                        jantina: e.target.value,
+                      });
+                    }}
+                  >
+                    <option value=''>Sila Pilih</option>
+                    <option value='LELAKI'>LELAKI</option>
+                    <option value='PEREMPUAN'>PEREMPUAN</option>
+                  </select>
+                </div>
+                <div className='relative'>
+                  <label
+                    htmlFor='keturunan'
+                    className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                  >
+                    Keturunan
+                    <span className='font-semibold text-user6'>*</span>
+                  </label>
+                  <select
+                    disabled={disabled}
+                    required
+                    name='keturunan'
+                    id='keturunan'
+                    placeholder=' '
+                    className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={keturunan}
+                    onChange={(e) => {
+                      setKeturunan(e.target.value);
+                      setDataError({
+                        ...dataError,
+                        keturunan: e.target.value,
+                      });
+                    }}
+                  >
+                    {keturunanList.map((keturunan) => (
+                      <option key={keturunan.id} value={keturunan.value}>
+                        {keturunan.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
+                {kemaskiniPelajarId ? (
                   <div className='relative'>
                     <label
-                      htmlFor='jantina'
+                      htmlFor='statusOku'
                       className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                     >
-                      Jantina<span className='font-semibold text-user6'>*</span>
-                    </label>
-                    <select
-                      required
-                      name='jantina'
-                      id='jantina'
-                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={jantina}
-                      onChange={(e) => {
-                        setJantina(e.target.value);
-                        setDataError({
-                          ...dataError,
-                          jantina: e.target.value,
-                        });
-                      }}
-                    >
-                      <option value=''>Sila Pilih</option>
-                      <option value='LELAKI'>LELAKI</option>
-                      <option value='PEREMPUAN'>PEREMPUAN</option>
-                    </select>
-                  </div>
-                  <div className='relative'>
-                    <label
-                      htmlFor='keturunan'
-                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
-                    >
-                      Keturunan
+                      Status OKU
                       <span className='font-semibold text-user6'>*</span>
                     </label>
-                    <select
-                      required
-                      name='keturunan'
-                      id='keturunan'
+                    <input
+                      disabled
+                      type='text'
+                      name='statusOku'
+                      id='statusOku'
                       placeholder=' '
-                      className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                      value={keturunan}
-                      onChange={(e) => {
-                        setKeturunan(e.target.value);
-                        setDataError({
-                          ...dataError,
-                          keturunan: e.target.value,
-                        });
-                      }}
-                    >
-                      {keturunanList.map((keturunan) => (
-                        <option key={keturunan.id} value={keturunan.value}>
-                          {keturunan.label}
-                        </option>
-                      ))}
-                    </select>
+                      className='appearance-none text-sm uppercase w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={statusOku === ':' ? 'BUKAN OKU' : statusOku}
+                    />
                   </div>
+                ) : (
                   <div className='relative'>
                     <label
                       htmlFor='statusOku'
@@ -569,9 +733,9 @@ function UserTambahKemaskiniPelajarSekolah({
                       <option value=':'>BUKAN OKU</option>
                     </select>
                   </div>
-                </form>
-              </div>
-            )
+                )}
+              </form>
+            </div>
           )}
           <div className='sticky grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10 bg-userWhite px-5 py-2'>
             {showForm ? (
