@@ -114,21 +114,33 @@ function UserTambahKemaskiniPelajarSekolah({
             }
           ),
           {
-            loading: 'Sedang menambah pelajar',
+            pending: 'Sedang menambah pelajar',
             success: 'Berjaya menambah pelajar',
-            error: 'Gagal menambah pelajar',
-          }
+            error: {
+              render({ data }) {
+                if (data.response.status === 409) {
+                  return data.response.data.msg;
+                } else {
+                  return 'Gagal menambah pelajar';
+                }
+              },
+            },
+          },
+          { autoClose: 5000 }
         )
-        .then((res) => {
-          setModalTambahKemaskiniPelajar(false);
+        .then(() => {
           setReloadState(!reloadState);
           setSubmittingTambahPelajar(false);
+          setModalTambahKemaskiniPelajar(false);
         })
         .catch((err) => {
           console.log(err);
+          setReloadState(!reloadState);
+          setSubmittingTambahPelajar(false);
           setModalTambahKemaskiniPelajar(false);
         });
     }
+
     if (kemaskiniPelajarId) {
       const {
         idInstitusi,
@@ -171,18 +183,21 @@ function UserTambahKemaskiniPelajarSekolah({
             }
           ),
           {
-            loading: 'Sedang mengemaskini pelajar',
+            pending: 'Sedang mengemaskini pelajar',
             success: 'Berjaya mengemaskini pelajar',
             error: 'Gagal mengemaskini pelajar',
-          }
+          },
+          { autoClose: 5000 }
         )
-        .then((res) => {
-          setModalTambahKemaskiniPelajar(false);
+        .then(() => {
           setReloadState(!reloadState);
           setSubmittingTambahPelajar(false);
+          setModalTambahKemaskiniPelajar(false);
         })
         .catch((err) => {
           console.log(err);
+          setReloadState(!reloadState);
+          setSubmittingTambahPelajar(false);
           setModalTambahKemaskiniPelajar(false);
         });
     }
@@ -343,7 +358,6 @@ function UserTambahKemaskiniPelajarSekolah({
                     Nama<span className='font-semibold text-user6'>*</span>
                   </label>
                   <input
-                    disabled={disabled}
                     required
                     type='text'
                     name='nama'
