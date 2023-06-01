@@ -159,9 +159,9 @@ function UserSekolah() {
           }
         ),
         {
-          loading: 'Sedang mengemaskini maklumat BEGIN sekolah',
-          success: 'Berjaya mengemaskini maklumat BEGIN sekolah',
-          error: 'Gagal mengemaskini maklumat BEGIN sekolah',
+          pending: 'Sedang mengemaskini maklumat BEGIN pelajar',
+          success: 'Berjaya mengemaskini maklumat BEGIN pelajar',
+          error: 'Gagal mengemaskini maklumat BEGIN pelajar',
         }
       )
       .then((res) => {
