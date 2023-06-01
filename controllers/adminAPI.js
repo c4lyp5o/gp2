@@ -875,6 +875,7 @@ const postRoute = async (req, res) => {
     `[adminAPI/postRoute] ${user_name} attempting to create ${type} data`
   );
   let data, exists;
+
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
@@ -1113,20 +1114,24 @@ const postRoute = async (req, res) => {
       console.log('default');
       break;
   }
+
   res.status(200).json(data);
 };
 
 const postRouteKp = async (req, res) => {
-  const { FType, Data, token } = req.body;
+  const authKey = req.headers.authorization;
+  const { FType, Data } = req.body;
   const { kp, daerah, negeri, kodFasiliti } = jwt.verify(
-    token,
+    authKey,
     process.env.JWT_SECRET
   );
   const type = Dictionary[FType];
   logger.info(
     `[adminAPI/postRouteKp] kpUser attempting to create ${type} data`
   );
+
   let data, exists;
+
   switch (type) {
     case 'program':
       Data = {
@@ -1182,6 +1187,7 @@ const postRouteKp = async (req, res) => {
       console.log('default');
       break;
   }
+
   res.status(200).json(data);
 };
 
@@ -1191,45 +1197,65 @@ const patchRoute = async (req, res) => {
   const { user_name } = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
-
+  const type = Dictionary[FType];
   logger.info(
-    `[adminAPI/patchRoute] ${user_name} attempting to update ${Dictionary[FType]} data with id ${Id}`
+    `[adminAPI/patchRoute] ${user_name} attempting to update ${type} data with id ${Id}`
   );
 
-  const modelMap = new Map([
-    ['juruterapi pergigian', Operator],
-    ['pegawai', Operator],
-    ['klinik', User],
-    ['program', Event],
-    ['maklumat-asas-daerah', MaklumatAsasDaerah],
-  ]);
+  let data;
 
-  const model = modelMap.get(Dictionary[FType]) || Fasiliti;
+  switch (type) {
+    case 'pegawai':
+    case 'juruterapi pergigian':
+      data = await Operator.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      ).select('-summary');
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} updated ${type} - ${Data.nama}`
+      );
+      break;
+    case 'program':
+      data = await Event.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} updated ${type} - ${Data.kodProgram}`
+      );
+      break;
+    case 'maklumat-asas-daerah':
+      data = await MaklumatAsasDaerah.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(`[adminAPI/DataCenter] ${user_name} updated ${type}`);
+      break;
+    default:
+      data = await User.findByIdAndUpdate(
+        { _id: Id },
+        { $set: Data },
+        { new: true }
+      );
+      logger.info(
+        `[adminAPI/DataCenter] ${user_name} updated ${type} - ${Data.kp}`
+      );
+      break;
+  }
 
-  logger.info(
-    `[adminAPI/patchRoute] ${user_name} attempting to update ${model.modelName} data with id ${Id}`
-  );
-
-  const data = await model.findByIdAndUpdate(
-    { _id: Id },
-    { $set: Data },
-    { new: true }
-  );
-
-  logger.info(
-    `[adminAPI/patchRoute] ${user_name} updated ${model.modelName} ${
-      Data.nama || Data.kp || Data.kodProgram || Data.kodDaerah || ''
-    }`
-  );
   res.status(200).json(data);
 };
 
 const patchRouteKp = async (req, res) => {
-  const { FType, Id, Data, token } = req.body;
-  const { kp } = jwt.verify(token, process.env.JWT_SECRET);
-
+  const authKey = req.headers.authorization;
+  const { FType, Id, Data } = req.body;
+  const { kp } = jwt.verify(authKey, process.env.JWT_SECRET);
+  const type = Dictionary[FType];
   logger.info(
-    `[adminAPI/patchRouteKp] kpUser attempting to update ${Dictionary[FType]} data with id ${Id}`
+    `[adminAPI/patchRouteKp] kpUser attempting to update ${type} data with id ${Id}`
   );
 
   let data;
@@ -1271,21 +1297,26 @@ const patchRouteKp = async (req, res) => {
       );
       break;
     default:
-      throw new Error('Invalid FType');
+      console.log('nope');
+      break;
   }
+
   res.status(200).json(data);
 };
 
 const deleteRoute = async (req, res) => {
-  const { FType, Id, token } = req.query;
+  const authKey = req.headers.authorization;
+  const { FType, Id } = req.query;
   const { daerah, negeri, user_name } = await Superadmin.findById(
-    jwt.verify(token, process.env.JWT_SECRET).userId
+    jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
   const type = Dictionary[FType];
   logger.info(
     `[adminAPI/deleteRoute] ${user_name} attempting to delete ${type} data with id ${Id}`
   );
+
   let data, exists;
+
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
@@ -1414,14 +1445,18 @@ const deleteRoute = async (req, res) => {
       );
       break;
   }
+
   res.status(200).json(data);
 };
 
 const deleteRouteKp = async (req, res) => {
-  const { FType, Id, token } = req.body;
-  const { kp } = jwt.verify(token, process.env.JWT_SECRET);
+  const authKey = req.headers.authorization;
+  const { FType, Id } = req.body;
+  const { kp } = jwt.verify(authKey, process.env.JWT_SECRET);
   const type = Dictionary[FType];
+
   let data;
+
   switch (type) {
     case 'program':
       const program = await Event.findOne({ _id: Id });
@@ -1466,9 +1501,10 @@ const deleteRouteKp = async (req, res) => {
       }
       break;
     default:
-      console.log('default');
+      console.log('nope');
       break;
   }
+
   res.status(200).json(data);
 };
 
