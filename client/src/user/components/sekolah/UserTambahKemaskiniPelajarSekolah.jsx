@@ -222,11 +222,6 @@ function UserTambahKemaskiniPelajarSekolah({
     }
   }, [kemaskiniPelajarId]);
 
-  let disabled = false;
-  if (kemaskiniPelajarId) {
-    disabled = true;
-  }
-
   const closeModal = () => {
     setModalTambahKemaskiniPelajar(false);
     setKemaskiniPelajarId(false);
