@@ -1761,24 +1761,24 @@ const Generate = () => {
       setPilihanKpbMpb('');
       setPilihanIndividu('');
     }
-    if (pilihanDaerah === '') {
-      setPilihanKlinik('');
-      setPilihanFasiliti('');
-      setPilihanKkia('');
-      setPilihanProgram('');
-      setPilihanKpbMpb('');
-      setPilihanIndividu('');
-    }
-    if (pilihanNegeri === '') {
-      setPilihanDaerah('');
-      setPilihanKlinik('');
-      setPilihanFasiliti('');
-      setPilihanKkia('');
-      setPilihanProgram('');
-      setPilihanKpbMpb('');
-      setPilihanIndividu('');
-    }
-  }, [pilihanFasiliti, pilihanKlinik, pilihanDaerah, pilihanNegeri]);
+    // if (pilihanDaerah === '') {
+    //   setPilihanKlinik('');
+    //   setPilihanFasiliti('');
+    //   setPilihanKkia('');
+    //   setPilihanProgram('');
+    //   setPilihanKpbMpb('');
+    //   setPilihanIndividu('');
+    // }
+    // if (pilihanNegeri === '') {
+    //   setPilihanDaerah('');
+    //   setPilihanKlinik('');
+    //   setPilihanFasiliti('');
+    //   setPilihanKkia('');
+    //   setPilihanProgram('');
+    //   setPilihanKpbMpb('');
+    //   setPilihanIndividu('');
+    // }
+  }, [pilihanFasiliti, pilihanKlinik]);
 
   useEffect(() => {
     if (loginInfo.accountType === 'hqSuperadmin') {
