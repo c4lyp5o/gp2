@@ -498,6 +498,7 @@ const createPersonSekolah = async (req, res) => {
   const personSekolahExist = await Sekolah.findOne({
     nomborId: req.body.nomborId,
     sesiTakwimPelajar: sesiTakwim,
+    berpindah: false,
     deleted: false,
   });
 
