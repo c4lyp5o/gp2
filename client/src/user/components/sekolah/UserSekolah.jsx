@@ -162,7 +162,8 @@ function UserSekolah() {
           pending: 'Sedang mengemaskini maklumat BEGIN pelajar',
           success: 'Berjaya mengemaskini maklumat BEGIN pelajar',
           error: 'Gagal mengemaskini maklumat BEGIN pelajar',
-        }
+        },
+        { autoClose: 5000 }
       )
       .then((res) => {
         setReloadState(!reloadState);
