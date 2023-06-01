@@ -1,4 +1,4 @@
-const { Types } = require('mongoose');
+const Umum = require('../models/Umum');
 const Operator = require('../models/Operator');
 const { logger } = require('../logs/logger');
 
@@ -35,7 +35,7 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   const { id, bulan, tahun } = req.query;
 
   const singlePersonOperator = await Operator.findById(id)
-    .select('nama')
+    .select('nama mdcNumber mdtbNumber createdByNegeri')
     .lean();
 
   if (!singlePersonOperator) {
@@ -52,28 +52,70 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   process.env.BUILD_ENV === 'dev' &&
     console.table({ id, bulan, tahun, tarikhMula, tarikhTamat });
 
-  const filteredSummary = await Operator.aggregate([
-    { $match: { _id: new Types.ObjectId(id) } },
+  const filteredSummary = await Umum.aggregate([
+    {
+      $match: {
+        createdByMdcMdtb: singlePersonOperator.mdcNumber,
+        tarikhKedatangan: {
+          $gte: tarikhMula,
+          $lte: tarikhTamat,
+        },
+      },
+    },
     {
       $project: {
         _id: 0,
-        filteredSummary: {
-          $filter: {
-            input: '$summary',
-            as: 'record',
-            cond: {
-              $and: [
-                { $gte: ['$$record.tarikhKedatangan', tarikhMula] },
-                { $lte: ['$$record.tarikhKedatangan', tarikhTamat] },
-              ],
-            },
-          },
-        },
+        nama: 1,
+        ic: 1,
+        tarikhKedatangan: 1,
+        kedatangan: 1,
+        kumpulanEtnik: 1,
+        rawatanDibuatOperatorLain: 1,
       },
     },
   ]);
 
-  res.status(201).json(filteredSummary);
+  // kena bincang lg sbb kena cari dalam 1 negeri pt nya
+  const filteredSummaryOperatorLain = await Umum.aggregate([
+    {
+      $match: {
+        tarikhKedatangan: {
+          $gte: tarikhMula,
+          $lte: tarikhTamat,
+        },
+        createdByNegeri: singlePersonOperator.createdByNegeri,
+        rawatanDibuatOperatorLain: true,
+        rawatanOperatorLain: {
+          $elemMatch: {
+            createdByMdcMdtb: singlePersonOperator.mdcNumber,
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        nama: 1,
+        ic: 1,
+        tarikhKedatangan: 1,
+        kedatangan: 1,
+        kumpulanEtnik: 1,
+        rawatanDibuatOperatorLain: 1,
+      },
+    },
+  ]);
+
+  if (filteredSummary.length === 0) {
+    return res.status(404).json({ msg: `No summary for ${id}` });
+  }
+
+  filteredSummary.push(...filteredSummaryOperatorLain);
+
+  filteredSummary.sort((a, b) => {
+    return new Date(a.tarikhKedatangan) - new Date(b.tarikhKedatangan);
+  });
+
+  res.status(200).json({ filteredSummary });
 };
 
 module.exports = { getSinglePersonOperator, getSinglePersonOperatorSummary };

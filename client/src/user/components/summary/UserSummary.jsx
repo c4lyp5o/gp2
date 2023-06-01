@@ -1,4 +1,4 @@
-import { useEffect, useState, useId } from 'react';
+import { useState } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Spinner } from 'react-awesome-spinners';
@@ -7,8 +7,7 @@ import { MdSupervisedUserCircle, MdOutlineSmartToy } from 'react-icons/md';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function UserSummary() {
-  const { userToken, userinfo, reliefUserToken, toast } =
-    useGlobalUserAppContext();
+  const { userToken, userinfo, reliefUserToken } = useGlobalUserAppContext();
   const [bulan, setBulan] = useState('');
   const [waitForData, setWaitForData] = useState(false);
   const [data, setData] = useState([]);
@@ -86,16 +85,16 @@ export default function UserSummary() {
           },
         }
       );
-      if (res.data[0].filteredSummary.length === 0) {
-        return setData([]);
-      }
-      setData(res.data[0].filteredSummary);
+      setData(res.data.filteredSummary);
     };
     fetchSummaryData()
       .then(() => {
-        setWaitForData(false);
+        setTimeout(() => {
+          setWaitForData(false);
+        }, 1500);
       })
       .catch((err) => {
+        setData([]);
         setWaitForData(false);
       });
   };
@@ -292,7 +291,7 @@ export default function UserSummary() {
               onChange={(e) => handleMonthChange(e.target.value)}
               className='border-2 border-user2 rounded-md p-1 m-1'
             >
-              <option value=''>Pilih Bulan</option>
+              <option value=''>Sila Pilih Bulan...</option>
               <option value='01'>Januari</option>
               <option value='02'>Februari</option>
               <option value='03'>Mac</option>
@@ -314,9 +313,13 @@ export default function UserSummary() {
             </button> */}
           </div>
         </div>
-        {data.length > 0 ? (
+        {waitForData && (
+          <div className='flex flex-auto justify-center w-full h-full'>
+            <Spinner />
+          </div>
+        )}
+        {!waitForData && data.length > 0 ? (
           <section className='p-1'>
-            {/* <div className='flex flex-col items-center mt-5'> */}
             <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
               <table className='table-auto'>
                 <thead className='text-userWhite bg-user2'>
@@ -330,7 +333,7 @@ export default function UserSummary() {
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       TARIKH KEDATANGAN
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-30'>
                       KEDATANGAN
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
@@ -338,6 +341,9 @@ export default function UserSummary() {
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       JENIS ETNIK
+                    </th>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
+                      OPERATOR LAIN?
                     </th>
                   </tr>
                 </thead>
@@ -371,13 +377,23 @@ export default function UserSummary() {
                         <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-userWhite'>
                           {item.kumpulanEtnik.toUpperCase()}
                         </td>
+                        <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-userWhite'>
+                          {item.rawatanDibuatOperatorLain ? (
+                            <span className='bg-user7 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                              Ya
+                            </span>
+                          ) : (
+                            <span className='bg-user9 text-adminWhite text-md font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                              Tidak
+                            </span>
+                          )}
+                        </td>
                       </tr>
                     </tbody>
                   );
                 })}
               </table>
             </div>
-            {/* </div> */}
           </section>
         ) : (
           <div className='flex flex-col items-center mt-5'>
@@ -388,9 +404,10 @@ export default function UserSummary() {
                   : 'mt-3 font-mono text-xl'
               } px-1.5 py-0.5 rounded whitespace-nowrap`}
             >
-              {bulan !== '' && data.length === 0 && waitForData === false
-                ? 'Tiada rekod beban kerja'
-                : 'Sila pilih bulan'}
+              {bulan !== '' &&
+                data.length === 0 &&
+                waitForData === false &&
+                'Tiada rekod beban kerja'}
             </span>
           </div>
         )}
