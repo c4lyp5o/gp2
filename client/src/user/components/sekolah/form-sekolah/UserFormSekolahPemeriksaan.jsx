@@ -17,6 +17,7 @@ function UserFormSekolahPemeriksaan() {
     useParams,
     dateToday,
     masterDatePicker,
+    dictionaryJenisFasiliti,
     toast,
   } = useGlobalUserAppContext();
 
@@ -30,8 +31,10 @@ function UserFormSekolahPemeriksaan() {
   //confirm data
   const [confirmData, setConfirmData] = useState({});
 
-  const [showCleftLip, setShowCleftLip] = useState(false);
-  const [showTrauma, setShowTrauma] = useState(false);
+  //kpbmpb
+  const [allUsedKPBMPB, setAllUsedKPBMPB] = useState([]);
+  const [menggunakanKPBMPB, setMenggunakanKPBMPB] = useState('');
+  const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
 
   const createdByUsername = username;
   const [engganTidakHadirPemeriksaan, setEngganTidakHadirPemeriksaan] =
@@ -475,6 +478,32 @@ function UserFormSekolahPemeriksaan() {
     }
   }, [engganTidakHadirPemeriksaan]);
 
+  // pull kpbmpb data for whole negeri that is used for this kp
+  useEffect(() => {
+    const getAllKPBMPBForNegeri = async () => {
+      try {
+        const dataKPBMPB = await axios.get(
+          `/api/v1/query/kpbmpb/sekolah?personSekolahId=${personSekolahId}`,
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        );
+        setAllUsedKPBMPB(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
+        console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
+      } catch (error) {
+        console.log(error);
+        // toast.error(
+        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
+        // );
+      }
+    };
+    getAllKPBMPBForNegeri();
+  }, [reliefUserToken, userToken]);
+
   // fetch singlePersonSekolah
   useEffect(() => {
     const fetchSinglePersonSekolah = async () => {
@@ -512,6 +541,12 @@ function UserFormSekolahPemeriksaan() {
           setTarikhPemeriksaanSemasa(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .tarikhPemeriksaanSemasa
+          );
+          setMenggunakanKPBMPB(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.menggunakanKPBMPB
+          );
+          setPenggunaanKPBMPB(
+            data.personSekolahWithPopulate.pemeriksaanSekolah.penggunaanKPBMPB
           );
           setStatikBergerak(
             data.personSekolahWithPopulate.pemeriksaanSekolah.statikBergerak
@@ -927,6 +962,8 @@ function UserFormSekolahPemeriksaan() {
               kebenaranPemeriksaan,
               tidakHadirPemeriksaan,
               tarikhPemeriksaanSemasa,
+              menggunakanKPBMPB,
+              penggunaanKPBMPB,
               statikBergerak,
               kpBergerak,
               plateNo,
@@ -1522,6 +1559,91 @@ function UserFormSekolahPemeriksaan() {
                           <span className='text-user6'>*</span>
                         </p>
                         <TarikhPemeriksaanSemasa />
+                      </div>
+                    )}
+                    {allUsedKPBMPB.length > 0 && (
+                      <div className='flex flex-col'>
+                        <div className='flex flex-row items-center pl-5'>
+                          <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
+                            Menggunakan KPB / MPB
+                            <span className='font-semibold text-user6'>*</span>
+                          </p>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='menggunakan-kpb-mpb'
+                            id='ya-menggunakan-kpb-mpb'
+                            value='ya-menggunakan-kpb-mpb'
+                            checked={
+                              menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setMenggunakanKPBMPB(e.target.value);
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='ya-menggunakan-kpb-mpb'
+                            className='m-2 text-sm font-m'
+                          >
+                            Ya
+                          </label>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='menggunakan-kpb-mpb'
+                            id='tidak-menggunakan-kpb-mpb'
+                            value='tidak-menggunakan-kpb-mpb'
+                            checked={
+                              menggunakanKPBMPB === 'tidak-menggunakan-kpb-mpb'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              setMenggunakanKPBMPB(e.target.value);
+                            }}
+                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                          />
+                          <label
+                            htmlFor='tidak-menggunakan-kpb-mpb'
+                            className='m-2 text-sm font-m'
+                          >
+                            Tidak
+                          </label>
+                        </div>
+                        {menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
+                          <div className='flex flex-row items-center'>
+                            <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                              Penggunaan KPB / MPB :
+                            </p>
+                            <select
+                              disabled={isDisabled}
+                              name='penggunaan-kpb-mpb'
+                              id='penggunaan-kpb-mpb'
+                              value={penggunaanKPBMPB}
+                              onChange={(e) => {
+                                setPenggunaanKPBMPB(e.target.value);
+                              }}
+                              className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                            >
+                              <option value=''>Pilih Jika Berkenaan</option>
+                              {allUsedKPBMPB.map((kpbmpb) => (
+                                <option value={kpbmpb.nama}>
+                                  {
+                                    dictionaryJenisFasiliti[
+                                      kpbmpb.jenisFasiliti
+                                    ]
+                                  }{' '}
+                                  | {kpbmpb.nama}
+                                </option>
+                              ))}
+                            </select>
+                          </div>
+                        ) : null}
                       </div>
                     )}
                     {/* <div
