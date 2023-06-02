@@ -1,6 +1,8 @@
 const Umum = require('../models/Umum');
+const Sekolah = require('../models/Sekolah');
 const Fasiliti = require('../models/Fasiliti');
 const Event = require('../models/Event');
+const sesiTakwimSekolah = require('../controllers/helpers/sesiTakwimSekolah');
 
 // query /kpbmpb
 const getAllKPBMPBForNegeri = async (req, res) => {
@@ -115,4 +117,67 @@ const getAllKPBMPBForNegeri = async (req, res) => {
   res.status(200).json({ penggunaanKPBMPBForPt });
 };
 
-module.exports = { getAllKPBMPBForNegeri };
+// query /kpbmpb/sekolah
+const getAllKPBMPBForNegeriSekolah = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  // KPB MPB usage for this Sekolah -----------------------------------------------
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.query.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
+  })
+    .populate('pemeriksaanSekolah')
+    .populate('rawatanSekolah');
+
+  console.log(singlePersonSekolah);
+
+  let penggunaanKPBMPBForPtSekolah = [];
+
+  const allKPBMPBNegeri = await Fasiliti.find({
+    createdByNegeri: req.user.negeri,
+    jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
+  });
+
+  // set new properties dalam object penggunaanKPBMPB
+  allKPBMPBNegeri.forEach((singleKPBMPB) => {
+    singleKPBMPB.penggunaanKPBMPB.forEach((penggunaan) => {
+      penggunaan.nama = singleKPBMPB.nama;
+      penggunaan.jenisFasiliti = singleKPBMPB.jenisFasiliti;
+    });
+  });
+
+  let penggunaanKPBMPB = [];
+
+  // push penggunaanKPBMPB sahaja dalam new array
+  allKPBMPBNegeri.forEach((km) => {
+    if (km.penggunaanKPBMPB.length > 0) {
+      penggunaanKPBMPB.push(...km.penggunaanKPBMPB);
+    }
+  });
+
+  // filter penggunaanKPBMPB mengikut jenisFasiliti pt & kodFasiliti pt
+  penggunaanKPBMPBForPtSekolah = penggunaanKPBMPB.filter((pkm) => {
+    if (pkm.tempatPenggunaan === 'sekolah-rendah') {
+      return (
+        pkm.SRbertanggungjawab === singlePersonSekolah.namaSekolah &&
+        pkm.kodSekolahBertanggungjawab === singlePersonSekolah.kodSekolah
+      );
+    }
+    if (pkm.tempatPenggunaan === 'sekolah-menengah') {
+      return (
+        pkm.SMbertanggungjawab === singlePersonSekolah.namaSekolah &&
+        pkm.kodSekolahBertanggungjawab === singlePersonSekolah.kodSekolah
+      );
+    }
+  });
+
+  res.status(200).json({ penggunaanKPBMPBForPtSekolah });
+};
+
+module.exports = { getAllKPBMPBForNegeri, getAllKPBMPBForNegeriSekolah };
