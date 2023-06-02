@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   FaInfoCircle,
   FaCaretDown,
@@ -15,6 +15,10 @@ export default function Pemeriksaan(props) {
   const { formatTime, dictionaryJenisFasiliti } = useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
+
+  //systolic and diastolic problem
+  const systolicInputRef = useRef(null);
+  const diastolicInputRef = useRef(null);
 
   let isDisabled = false;
   if (
@@ -630,8 +634,15 @@ export default function Pemeriksaan(props) {
                           id='systolic-tekanan-darah'
                           value={props.systolicTekananDarah}
                           onChange={(e) => {
-                            props.setSystolicTekananDarah(e.target.value);
-                            props.setRujukKeKlinik(false);
+                            const input = e.target.value;
+                            if (/^\d{0,3}$/.test(input)) {
+                              props.setSystolicTekananDarah(input);
+                              props.setRujukKeKlinik(false);
+                              if (input.length === 3) {
+                                diastolicInputRef.current.focus();
+                                props.setDiastolicTekananDarah('');
+                              }
+                            }
                           }}
                           onClick={() => {
                             if (
@@ -644,6 +655,7 @@ export default function Pemeriksaan(props) {
                           min='0'
                           max='300'
                           className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                          ref={systolicInputRef}
                         />
                         <p className='font-bold text-2xl'> / </p>
                         <input
@@ -659,8 +671,11 @@ export default function Pemeriksaan(props) {
                           id='diastolic-tekanan-darah'
                           value={props.diastolicTekananDarah}
                           onChange={(e) => {
-                            props.setDiastolicTekananDarah(e.target.value);
-                            props.setRujukKeKlinik(false);
+                            const input = e.target.value;
+                            if (/^\d{0,3}$/.test(input)) {
+                              props.setDiastolicTekananDarah(input);
+                              props.setRujukKeKlinik(false);
+                            }
                           }}
                           onClick={() => {
                             if (
@@ -673,6 +688,7 @@ export default function Pemeriksaan(props) {
                           min='0'
                           max='300'
                           className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                          ref={diastolicInputRef}
                         />
                       </div>
                       <div className='flex flex-row whitespace-nowrap'>
