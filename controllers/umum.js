@@ -200,11 +200,11 @@ const updatePersonUmum = async (req, res) => {
   if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
     regNum = { mdtbNumber: req.body.createdByMdcMdtb };
   }
-  const updatedOfficerSummary = await Operator.findOneAndUpdate(
-    regNum,
-    { $push: { summary } },
-    { new: true }
-  );
+  // const updatedOfficerSummary = await Operator.findOneAndUpdate(
+  //   regNum,
+  //   { $push: { summary } },
+  //   { new: true }
+  // );
 
   // handling rawatan operator lain
   if (req.query.operatorLain === 'rawatan-operator-lain') {
