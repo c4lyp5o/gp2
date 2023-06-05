@@ -152,6 +152,14 @@ function UserFormSekolahRawatan() {
   ] = useState(false);
   const [rujukKlinikSekolahRawatan, setRujukKlinikSekolahRawatan] =
     useState(false);
+  const [rujukKlinikRawatanEndo, setRujukKlinikRawatanEndo] = useState(false);
+  const [rujukKlinikCabutanGigiKekal, setRujukKlinikCabutanGigiKekal] =
+    useState(false);
+  const [rujukKesTrauma, setRujukKesTrauma] = useState(false);
+  const [rujukMasalahKesihatan, setRujukMasalahKesihatan] = useState(false);
+  const [rujukBukanWarganegara, setRujukBukanWarganegara] = useState(false);
+  const [rujukLainLain, setRujukLainLain] = useState(false);
+  const [rujukLainLanjutan, setRujukLainLanjutan] = useState('');
   const [
     yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
     setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
@@ -323,6 +331,12 @@ function UserFormSekolahRawatan() {
             rujukPakarBedahMulutSekolahRawatan,
             rujukPakarPediatrikSekolahRawatan,
             rujukKlinikSekolahRawatan,
+            rujukKlinikRawatanEndo,
+            rujukKlinikCabutanGigiKekal,
+            rujukKesTrauma,
+            rujukMasalahKesihatan,
+            rujukBukanWarganegara,
+            rujukLainLain,
             yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
             yaTidakLawatanKeRumahPromosiSekolahRawatan,
             plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
@@ -1611,6 +1625,231 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Klinik Pergigian
                           </label>
                         </div>
+                        {rujukKlinikSekolahRawatan && (
+                          <div className='pl-5'>
+                            <div className='flex items-center pl-5'>
+                              <input
+                                required={
+                                  rujukKlinikRawatanEndo === true ||
+                                  rujukKlinikCabutanGigiKekal === true ||
+                                  rujukKesTrauma === true ||
+                                  rujukMasalahKesihatan === true ||
+                                  rujukLainLain === true ||
+                                  rujukBukanWarganegara === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='rujuk-klinik-rawatan-endo'
+                                id='rujuk-klinik-rawatan-endo'
+                                checked={rujukKlinikRawatanEndo}
+                                onChange={() => {
+                                  setRujukKlinikRawatanEndo(
+                                    !rujukKlinikRawatanEndo
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    rujukKlinikRawatanEndo:
+                                      !rujukKlinikRawatanEndo,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='rujuk-klinik-rawatan-endo'
+                                className='m-2 text-sm font-m'
+                              >
+                                Rawatan Endodontik
+                              </label>
+                            </div>
+                            <div className='flex items-center pl-5'>
+                              <input
+                                required={
+                                  rujukKlinikRawatanEndo === true ||
+                                  rujukKlinikCabutanGigiKekal === true ||
+                                  rujukKesTrauma === true ||
+                                  rujukMasalahKesihatan === true ||
+                                  rujukLainLain === true ||
+                                  rujukBukanWarganegara === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='rujuk-klinik-cabutan-gigi-kekal'
+                                id='rujuk-klinik-cabutan-gigi-kekal'
+                                checked={rujukKlinikCabutanGigiKekal}
+                                onChange={() => {
+                                  setRujukKlinikCabutanGigiKekal(
+                                    !rujukKlinikCabutanGigiKekal
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    rujukKlinikCabutanGigiKekal:
+                                      !rujukKlinikCabutanGigiKekal,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='rujuk-klinik-cabutan-gigi-kekal'
+                                className='m-2 text-sm font-m'
+                              >
+                                Rujukan Cabutan Gigi Kekal
+                              </label>
+                            </div>
+                            <div className='flex items-center pl-5'>
+                              <input
+                                required={
+                                  rujukKlinikRawatanEndo === true ||
+                                  rujukKlinikCabutanGigiKekal === true ||
+                                  rujukKesTrauma === true ||
+                                  rujukMasalahKesihatan === true ||
+                                  rujukLainLain === true ||
+                                  rujukBukanWarganegara === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='rujuk-kes-trauma'
+                                id='rujuk-kes-trauma'
+                                checked={rujukKesTrauma}
+                                onChange={() => {
+                                  setRujukKesTrauma(!rujukKesTrauma);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    rujukKesTrauma: !rujukKesTrauma,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='rujuk-kes-trauma'
+                                className='m-2 text-sm font-m'
+                              >
+                                Rujukan kes trauma
+                              </label>
+                            </div>
+                            <div className='flex items-center pl-5'>
+                              <input
+                                required={
+                                  rujukKlinikRawatanEndo === true ||
+                                  rujukKlinikCabutanGigiKekal === true ||
+                                  rujukKesTrauma === true ||
+                                  rujukMasalahKesihatan === true ||
+                                  rujukLainLain === true ||
+                                  rujukBukanWarganegara === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='rujuk-masalah-kesihatan'
+                                id='rujuk-masalah-kesihatan'
+                                checked={rujukMasalahKesihatan}
+                                onChange={() => {
+                                  setRujukMasalahKesihatan(
+                                    !rujukMasalahKesihatan
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    rujukMasalahKesihatan:
+                                      !rujukMasalahKesihatan,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='rujuk-masalah-kesihatan'
+                                className='m-2 text-sm font-m'
+                              >
+                                Rujukan Masalah Kesihatan
+                              </label>
+                            </div>
+                            <div className='flex items-center pl-5'>
+                              <input
+                                required={
+                                  rujukKlinikRawatanEndo === true ||
+                                  rujukKlinikCabutanGigiKekal === true ||
+                                  rujukKesTrauma === true ||
+                                  rujukMasalahKesihatan === true ||
+                                  rujukLainLain === true ||
+                                  rujukBukanWarganegara === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='rujuk-bukan-warganegara'
+                                id='rujuk-bukan-warganegara'
+                                checked={rujukBukanWarganegara}
+                                onChange={() => {
+                                  setRujukBukanWarganegara(
+                                    !rujukBukanWarganegara
+                                  );
+                                  setConfirmData({
+                                    ...confirmData,
+                                    rujukBukanWarganegara:
+                                      !rujukBukanWarganegara,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='rujuk-bukan-warganegara'
+                                className='m-2 text-sm font-m'
+                              >
+                                Rujukan Bukan Warganegara
+                              </label>
+                            </div>
+                            <div className='flex items-center pl-5'>
+                              <input
+                                required={
+                                  rujukKlinikRawatanEndo === true ||
+                                  rujukKlinikCabutanGigiKekal === true ||
+                                  rujukKesTrauma === true ||
+                                  rujukMasalahKesihatan === true ||
+                                  rujukLainLain === true ||
+                                  rujukBukanWarganegara === true
+                                    ? false
+                                    : true
+                                }
+                                type='checkbox'
+                                name='rujuk-lain-lain'
+                                id='rujuk-lain-lain'
+                                checked={rujukLainLain}
+                                onChange={() => {
+                                  setRujukLainLain(!rujukLainLain);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    rujukLainLain: !rujukLainLain,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='rujuk-lain-lain '
+                                className='m-2 text-sm font-m'
+                              >
+                                Rujukan Lain-lain
+                              </label>
+                              {rujukLainLain && (
+                                <input
+                                  type='text'
+                                  id='nama-umum'
+                                  name='nama-umum'
+                                  value={rujukLainLanjutan}
+                                  onChange={(e) => {
+                                    setRujukLainLanjutan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      rujukLainLanjutan: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                                />
+                              )}
+                            </div>
+                            <div className='flex items-center pl-5'></div>
+                          </div>
+                        )}
                         <div className=' flex flex-row items-center m-2 pl-5'>
                           <input
                             type='checkbox'
