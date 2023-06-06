@@ -430,7 +430,7 @@ function UserSekolah() {
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
                 {filteredFasilitiSekolah.sekolahSelesaiReten == true ? null : (
-                  <p>
+                  <div>
                     {pilihanTahunTingkatan && (
                       <span className=' uppercase text-xs lg:text-sm w-full'>
                         <button
@@ -443,9 +443,9 @@ function UserSekolah() {
                         </button>
                       </span>
                     )}
-                  </p>
+                  </div>
                 )}
-                <p>
+                <div>
                   <button
                     onClick={() => {
                       navigate(-1);
@@ -454,7 +454,7 @@ function UserSekolah() {
                   >
                     kembali ke senarai sekolah
                   </button>
-                </p>
+                </div>
               </div>
             </div>
             <div className='grid grid-cols-2'>
@@ -590,7 +590,7 @@ function UserSekolah() {
                 {pilihanSekolah ? (
                   <span className='uppercase text-xs lg:text-sm w-full'>
                     {pilihanSekolah &&
-                    filteredFasilitiSekolah.sekolahSelesaiReten == true ? (
+                    filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-user7 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -705,7 +705,7 @@ function UserSekolah() {
                               </p>
                               <span>
                                 <p>
-                                  {filteredFasilitiSekolah.sekolahSelesaiReten ==
+                                  {filteredFasilitiSekolah.sekolahSelesaiReten ===
                                   true ? null : (
                                     <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                       {singlePersonSekolah.pemeriksaanSekolah ? null : (
