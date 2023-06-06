@@ -458,7 +458,7 @@ function UserSekolah() {
               </div>
             </div>
             <div className='grid grid-cols-2'>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
                 </span>
@@ -472,8 +472,8 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
                 </span>
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tahun/Tingkatan:
                 </span>
@@ -501,7 +501,7 @@ function UserSekolah() {
                       : null}
                   </select>
                 </span>
-              </p>
+              </div>
               {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Kelas:
@@ -568,7 +568,7 @@ function UserSekolah() {
                   Tarikh Tamat:
                 </span>
               </p> */}
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Nama Pelajar:
                 </span>
@@ -582,8 +582,8 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
                 </span>
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Status sekolah:
                 </span>{' '}
@@ -614,10 +614,10 @@ function UserSekolah() {
                     readOnly
                   />
                 )}
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span />
-              </p>
+              </div>
             </div>
           </div>
         </div>
@@ -704,28 +704,24 @@ function UserSekolah() {
                                 WARGANEGARA : {singlePersonSekolah.warganegara}
                               </p>
                               <span>
-                                <p>
-                                  {filteredFasilitiSekolah.sekolahSelesaiReten ===
-                                  true ? null : (
-                                    <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
-                                      {singlePersonSekolah.pemeriksaanSekolah ? null : (
-                                        <button
-                                          onClick={() => {
-                                            setModalTambahKemaskiniPelajar(
-                                              true
-                                            );
-                                            setKemaskiniPelajarId(
-                                              singlePersonSekolah._id
-                                            );
-                                          }}
-                                          className='bg-user3 hover:bg-user7 text-userWhite transition-all font-bold py-2 px-4 rounded shadow-md'
-                                        >
-                                          Kemaskini
-                                        </button>
-                                      )}
-                                    </p>
-                                  )}
-                                </p>
+                                {filteredFasilitiSekolah.sekolahSelesaiReten ===
+                                true ? null : (
+                                  <span className='md:flex md:shrink-0 text-center sm:text-left py-2'>
+                                    {singlePersonSekolah.pemeriksaanSekolah ? null : (
+                                      <button
+                                        onClick={() => {
+                                          setModalTambahKemaskiniPelajar(true);
+                                          setKemaskiniPelajarId(
+                                            singlePersonSekolah._id
+                                          );
+                                        }}
+                                        className='bg-user3 hover:bg-user7 text-userWhite transition-all font-bold py-2 px-4 rounded shadow-md'
+                                      >
+                                        Kemaskini
+                                      </button>
+                                    )}
+                                  </span>
+                                )}
                               </span>
                               {/* </div> */}
                             </div>
@@ -1149,14 +1145,14 @@ function UserSekolah() {
                                   className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
                                 >
                                   {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userBlack text-center flex items-center'>
                                       Selesai
                                       <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                    </p>
+                                    </span>
                                   ) : (
-                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userBlack text-center flex items-center'>
                                       Tarikh Pelaksanaan
-                                    </p>
+                                    </span>
                                   )}
                                 </button>
                               ) : (
@@ -1186,14 +1182,14 @@ function UserSekolah() {
                                   <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.tarikhMelaksanakanBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                        <span className='text-center text-base font-medium text-kaunter1'>
                                           Selesai pada{' '}
                                           <span className='text-xl font-semibold text-kaunter1'>
                                             {moment(
                                               singlePersonSekolah.tarikhMelaksanakanBegin
                                             ).format('DD/MM/YYYY')}
                                           </span>
-                                        </p>
+                                        </span>
                                       </div>
                                     ) : (
                                       <TarikhBegin />
@@ -1202,14 +1198,14 @@ function UserSekolah() {
                                   <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.namaPelaksanaBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                        <span className='text-center text-base font-medium text-kaunter1'>
                                           BEGIN telah dijalankan oleh{' '}
                                           <p className='text-xl font-semibold text-kaunter1'>
                                             {
                                               singlePersonSekolah.namaPelaksanaBegin
                                             }
                                           </p>
-                                        </p>
+                                        </span>
                                       </div>
                                     ) : null}
                                   </div>
