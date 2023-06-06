@@ -29,11 +29,11 @@ function UserTambahKemaskiniPelajarSekolah({
 
   //form
   const [showForm, setShowForm] = useState(false);
-  const [nama, setNama] = useState('');
   const [nomborId, setNomborId] = useState('');
+  const [nama, setNama] = useState('');
+  const [jantina, setJantina] = useState('');
   const [statusOku, setStatusOku] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
-  const [jantina, setJantina] = useState('');
   const [umur, setUmur] = useState('');
   const [keturunan, setKeturunan] = useState('');
   const [warganegara, setWarganegara] = useState('');
@@ -98,8 +98,8 @@ function UserTambahKemaskiniPelajarSekolah({
               nama: nama.toUpperCase(),
               sesiTakwimPelajar,
               tahunTingkatan,
-              statusOku,
               jantina,
+              statusOku,
               tarikhLahir,
               umur,
               keturunan: keturunan.toUpperCase(),
@@ -135,40 +135,22 @@ function UserTambahKemaskiniPelajarSekolah({
         })
         .catch((err) => {
           console.log(err);
-          setReloadState(!reloadState);
+          // setReloadState(!reloadState);
           setSubmittingTambahPelajar(false);
-          setModalTambahKemaskiniPelajar(false);
+          // setModalTambahKemaskiniPelajar(false);
         });
     }
 
     if (kemaskiniPelajarId) {
-      const {
-        idInstitusi,
-        kodSekolah,
-        namaSekolah,
-        nomborId,
-        nama,
-        sesiTakwimPelajar,
-        tahunTingkatan,
-        statusOku,
-        jantina,
-      } = singlePersonSekolah;
-
       await toast
         .promise(
           axios.patch(
             `/api/v1/sekolah/ubah/${kemaskiniPelajarId}`,
             {
-              idInstitusi,
-              kodSekolah,
-              namaSekolah,
-              //
               nomborId,
               nama: nama.toUpperCase(),
-              sesiTakwimPelajar,
-              tahunTingkatan,
-              statusOku,
               jantina,
+              statusOku,
               tarikhLahir,
               umur,
               keturunan: keturunan.toUpperCase(),
@@ -185,7 +167,15 @@ function UserTambahKemaskiniPelajarSekolah({
           {
             pending: 'Sedang mengemaskini pelajar',
             success: 'Berjaya mengemaskini pelajar',
-            error: 'Gagal mengemaskini pelajar',
+            error: {
+              render({ data }) {
+                if (data.response.status === 409) {
+                  return data.response.data.msg;
+                } else {
+                  return 'Gagal mengemaskini pelajar';
+                }
+              },
+            },
           },
           { autoClose: 5000 }
         )
@@ -196,9 +186,9 @@ function UserTambahKemaskiniPelajarSekolah({
         })
         .catch((err) => {
           console.log(err);
-          setReloadState(!reloadState);
+          // setReloadState(!reloadState);
           setSubmittingTambahPelajar(false);
-          setModalTambahKemaskiniPelajar(false);
+          // setModalTambahKemaskiniPelajar(false);
         });
     }
   };
@@ -239,7 +229,7 @@ function UserTambahKemaskiniPelajarSekolah({
 
   const closeModal = () => {
     setModalTambahKemaskiniPelajar(false);
-    setKemaskiniPelajarId(false);
+    setKemaskiniPelajarId('');
     setShowForm(false);
   };
 
