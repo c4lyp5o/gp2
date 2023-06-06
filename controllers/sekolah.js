@@ -5,6 +5,7 @@ const async = require('async');
 const path = require('path');
 const Excel = require('exceljs');
 const Sekolah = require('../models/Sekolah');
+const Runningnumber = require('../models/Runningnumber');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
 const Rawatansekolah = require('../models/Rawatansekolah');
 const Kotaksekolah = require('../models/Kotaksekolah');
@@ -528,6 +529,119 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
 
+  // handling penggunaanKPBMPB, kedatanganKPBMPB & noPendaftaranKPBMPB
+  if (
+    req.body.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' &&
+    req.body.penggunaanKPBMPB !== ''
+  ) {
+    // find if this person already use this KPBMPB, find by ic
+    const personExistForKPBMPB = await Sekolah.findOne({
+      _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
+      deleted: false,
+    });
+    if (personExistForKPBMPB.kedatanganKPBMPB === 'ulangan-kedatangan-KPBMP') {
+      console.log('pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'ulangan-kedatangan-KPBMPB';
+      req.body.noPendaftaranUlanganKPBMPB =
+        personExistForKPBMPB.noPendaftaranBaruKPBMPB;
+      console.log(
+        'no pendaftaran ulangan KPBMPB: ',
+        req.body.noPendaftaranUlanganKPBMPB
+      );
+      const personSekolahUseKPBMPB = await Sekolah.findOneAndUpdate(
+        {
+          _id: req.params.personSekolahId,
+          sesiTakwimPelajar: sesiTakwim,
+          deleted: false,
+        },
+        {
+          $set: {
+            kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+            noPendaftaranUlanganKPBMPB: req.body.noPendaftaranUlanganKPBMPB,
+          },
+        },
+        { new: true }
+      );
+    }
+    if (personExistForKPBMPB.kedatanganKPBMPB === 'baru-kedatangan-KPBMP') {
+      console.log('pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'ulangan-kedatangan-KPBMPB';
+      req.body.noPendaftaranUlanganKPBMPB =
+        personExistForKPBMPB.noPendaftaranBaruKPBMPB;
+      console.log(
+        'no pendaftaran ulangan KPBMPB: ',
+        req.body.noPendaftaranUlanganKPBMPB
+      );
+      const personSekolahUseKPBMPB = await Sekolah.findOneAndUpdate(
+        {
+          _id: req.params.personSekolahId,
+          sesiTakwimPelajar: sesiTakwim,
+          deleted: false,
+        },
+        {
+          $set: {
+            kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+            noPendaftaranUlanganKPBMPB: req.body.noPendaftaranUlanganKPBMPB,
+          },
+        },
+        { new: true }
+      );
+    }
+    if (personExistForKPBMPB.kedatanganKPBMPB === '') {
+      console.log('tak pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'baru-kedatangan-KPBMPB';
+
+      // check running number for this KPBMPB
+      let currentRunningNumberKPBMPB = await Runningnumber.findOne({
+        jenis: 'KPBMPB',
+        tahun: new Date().getFullYear(),
+        kodFasiliti: req.body.penggunaanKPBMPB,
+      });
+
+      // start no 1 running number kalau tak exist untuk KPBMPB ni
+      if (!currentRunningNumberKPBMPB) {
+        const newRunningNumberKPBMPB = await Runningnumber.create({
+          runningnumber: 1,
+          jenis: 'KPBMPB',
+          tahun: new Date().getFullYear(),
+          kodFasiliti: req.body.penggunaanKPBMPB,
+        });
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          newRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log('no pendaftaran baru KPBMPB: ', newRegKPBMPB);
+      }
+
+      // increment +1 running number KPBMPB ni kalau exist
+      if (currentRunningNumberKPBMPB) {
+        currentRunningNumberKPBMPB.runningnumber += 1;
+        await currentRunningNumberKPBMPB.save();
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          currentRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log('no pendaftaran baru KPBMPB: ', newRegKPBMPB);
+      }
+
+      const personSekolahUseKPBMPB = await Sekolah.findOneAndUpdate(
+        {
+          _id: req.params.personSekolahId,
+          sesiTakwimPelajar: sesiTakwim,
+          deleted: false,
+        },
+        {
+          $set: {
+            kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+            noPendaftaranBaruKPBMPB: req.body.noPendaftaranBaruKPBMPB,
+          },
+        },
+        { new: true }
+      );
+    }
+  }
+
   const pemeriksaanSekolah = await Pemeriksaansekolah.create(req.body);
 
   // masukkan pemeriksaan ID dalam personSekolah
@@ -610,6 +724,119 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   req.body.createdByDaerah = req.user.daerah;
   req.body.createdByKp = req.user.kp;
   req.body.createdByKodFasiliti = req.user.kodFasiliti;
+
+  // handling penggunaanKPBMPB, kedatanganKPBMPB & noPendaftaranKPBMPB
+  if (
+    req.body.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' &&
+    req.body.penggunaanKPBMPB !== ''
+  ) {
+    // find if this person already use this KPBMPB, find by ic
+    const personExistForKPBMPB = await Sekolah.findOne({
+      _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
+      deleted: false,
+    });
+    if (personExistForKPBMPB.kedatanganKPBMPB === 'ulangan-kedatangan-KPBMPB') {
+      console.log('pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'ulangan-kedatangan-KPBMPB';
+      req.body.noPendaftaranUlanganKPBMPB =
+        personExistForKPBMPB.noPendaftaranBaruKPBMPB;
+      console.log(
+        'no pendaftaran ulangan KPBMPB: ',
+        req.body.noPendaftaranUlanganKPBMPB
+      );
+      const personSekolahUseKPBMPB = await Sekolah.findOneAndUpdate(
+        {
+          _id: req.params.personSekolahId,
+          sesiTakwimPelajar: sesiTakwim,
+          deleted: false,
+        },
+        {
+          $set: {
+            kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+            noPendaftaranUlanganKPBMPB: req.body.noPendaftaranUlanganKPBMPB,
+          },
+        },
+        { new: true }
+      );
+    }
+    if (personExistForKPBMPB.kedatanganKPBMPB === 'baru-kedatangan-KPBMPB') {
+      console.log('pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'ulangan-kedatangan-KPBMPB';
+      req.body.noPendaftaranUlanganKPBMPB =
+        personExistForKPBMPB.noPendaftaranBaruKPBMPB;
+      console.log(
+        'no pendaftaran ulangan KPBMPB: ',
+        req.body.noPendaftaranUlanganKPBMPB
+      );
+      const personSekolahUseKPBMPB = await Sekolah.findOneAndUpdate(
+        {
+          _id: req.params.personSekolahId,
+          sesiTakwimPelajar: sesiTakwim,
+          deleted: false,
+        },
+        {
+          $set: {
+            kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+            noPendaftaranUlanganKPBMPB: req.body.noPendaftaranUlanganKPBMPB,
+          },
+        },
+        { new: true }
+      );
+    }
+    if (personExistForKPBMPB.kedatanganKPBMPB === '') {
+      console.log('tak pernah guna KPBMPB ni ' + req.body.penggunaanKPBMPB);
+      req.body.kedatanganKPBMPB = 'baru-kedatangan-KPBMPB';
+
+      // check running number for this KPBMPB
+      let currentRunningNumberKPBMPB = await Runningnumber.findOne({
+        jenis: 'KPBMPB',
+        tahun: new Date().getFullYear(),
+        kodFasiliti: req.body.penggunaanKPBMPB,
+      });
+
+      // start no 1 running number kalau tak exist untuk KPBMPB ni
+      if (!currentRunningNumberKPBMPB) {
+        const newRunningNumberKPBMPB = await Runningnumber.create({
+          runningnumber: 1,
+          jenis: 'KPBMPB',
+          tahun: new Date().getFullYear(),
+          kodFasiliti: req.body.penggunaanKPBMPB,
+        });
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          newRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log('no pendaftaran baru KPBMPB: ', newRegKPBMPB);
+      }
+
+      // increment +1 running number KPBMPB ni kalau exist
+      if (currentRunningNumberKPBMPB) {
+        currentRunningNumberKPBMPB.runningnumber += 1;
+        await currentRunningNumberKPBMPB.save();
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          currentRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log('no pendaftaran baru KPBMPB: ', newRegKPBMPB);
+      }
+
+      const personSekolahUseKPBMPB = await Sekolah.findOneAndUpdate(
+        {
+          _id: req.params.personSekolahId,
+          sesiTakwimPelajar: sesiTakwim,
+          deleted: false,
+        },
+        {
+          $set: {
+            kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+            noPendaftaranBaruKPBMPB: req.body.noPendaftaranBaruKPBMPB,
+          },
+        },
+        { new: true }
+      );
+    }
+  }
 
   const rawatanSekolah = await Rawatansekolah.create(req.body);
 
@@ -888,8 +1115,6 @@ const updateRawatanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
-
-  console.log(req.params.rawatanSekolahId);
   const createdSalahreten = {
     createdByUsernameSalah: req.body.createdByUsernameSalah,
     createdByMdcMdtbSalah: req.body.createdByMdcMdtbSalah,
