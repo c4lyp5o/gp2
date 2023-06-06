@@ -48,6 +48,7 @@ const RawatansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // kpmbpb ------------------------------------------------------------
     menggunakanKPBMPB: {
       type: String,
       default: '',
@@ -56,6 +57,7 @@ const RawatansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // rawatan -----------------------------------------------------------
     muridDibuatFs: {
       type: Boolean,
       default: false,
