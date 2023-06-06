@@ -135,7 +135,7 @@ const getAllKPBMPBForNegeriSekolah = async (req, res) => {
     .populate('pemeriksaanSekolah')
     .populate('rawatanSekolah');
 
-  console.log(singlePersonSekolah);
+  // console.log(singlePersonSekolah);
 
   let penggunaanKPBMPBForPtSekolah = [];
 
