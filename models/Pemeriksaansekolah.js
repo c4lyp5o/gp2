@@ -48,6 +48,16 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // kpmbpb ------------------------------------------------------------
+    menggunakanKPBMPB: {
+      type: String,
+      default: '',
+    },
+    penggunaanKPBMPB: {
+      type: String,
+      default: '',
+    },
+    // pemeriksaan -------------------------------------------------------
     statikBergerak: {
       type: String,
       default: '',
