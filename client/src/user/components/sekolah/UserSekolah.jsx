@@ -656,11 +656,9 @@ function UserSekolah() {
                     AKTIVITI BEGIN
                   </th>
                 ) : null}
-                {userinfo.role === 'admin' && (
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
-                    HAPUS
-                  </th>
-                )}
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
+                  HAPUS
+                </th>
               </tr>
             </thead>
             {/* TODO disable semua data input if person sekolah berpindah === true */}
@@ -1267,29 +1265,25 @@ function UserSekolah() {
                               {/* end of modal BEGIN */}
                             </td>
                           ) : null}
-                          {userinfo.role === 'admin' && (
-                            <td
-                              className='
+                          <td
+                            className='
                                px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'
-                            >
-                              {filteredFasilitiSekolah.sekolahSelesaiReten ==
-                                true ||
-                              singlePersonSekolah.pemeriksaanSekolah ? null : (
-                                <button
-                                  className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
-                                  onClick={() => {
-                                    setModalHapus(true);
-                                    setPilihanHapusId(singlePersonSekolah._id);
-                                    setPilihanHapusNama(
-                                      singlePersonSekolah.nama
-                                    );
-                                  }}
-                                >
-                                  Hapus pelajar?
-                                </button>
-                              )}
-                            </td>
-                          )}
+                          >
+                            {filteredFasilitiSekolah.sekolahSelesaiReten ==
+                              true ||
+                            singlePersonSekolah.pemeriksaanSekolah ? null : (
+                              <button
+                                className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
+                                onClick={() => {
+                                  setModalHapus(true);
+                                  setPilihanHapusId(singlePersonSekolah._id);
+                                  setPilihanHapusNama(singlePersonSekolah.nama);
+                                }}
+                              >
+                                Hapus pelajar?
+                              </button>
+                            )}
+                          </td>
                         </tr>
                       </tbody>
                     </>
@@ -1329,11 +1323,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1367,11 +1359,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1405,11 +1395,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
               </tbody>
             ) : (
