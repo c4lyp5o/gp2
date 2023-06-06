@@ -14,6 +14,7 @@ const GenerateToken = require('../models/GenerateToken');
 const { generateRandomString } = require('./adminAPI');
 const { logger, penjanaanRetenLogger } = require('../logs/logger');
 const { reten_engine_version } = require('./countHelperFuser');
+
 // helper
 const Helper = require('../controllers/countHelperFuser');
 
@@ -256,32 +257,27 @@ const downloader = async (req, res) => {
     bulan,
     fromEtl,
   } = req.query;
-  // check if there is any query
+
   if (!jenisReten) {
     return new Error('No data found');
   }
   //
   const { authorization } = req.headers;
   //
-  let currentKodFasiliti, currentDaerah, currentNegeri, accountType, username;
+  let accountType, username;
 
-  accountType = jwt.verify(authorization, process.env.JWT_SECRET).accountType;
+  const deciphered = jwt.verify(authorization, process.env.JWT_SECRET);
+
+  accountType = deciphered.accountType;
 
   switch (accountType) {
     case 'kaunterUser':
-      klinik = currentKodFasiliti;
-      daerah = currentDaerah;
-      negeri = currentNegeri;
-      const { kp } = await User.findOne({ kodFasiliti: klinik });
-      username = `Kaunter ${kp}`;
+      klinik = deciphered.kodFasiliti;
+      daerah = deciphered.daerah;
+      negeri = deciphered.negeri;
+      username = `Kaunter ${deciphered.kp}`;
       break;
     default:
-      currentKodFasiliti = jwt.verify(
-        authorization,
-        process.env.JWT_SECRET
-      ).kodFasiliti;
-      currentDaerah = jwt.verify(authorization, process.env.JWT_SECRET).daerah;
-      currentNegeri = jwt.verify(authorization, process.env.JWT_SECRET).negeri;
       username = jwt.verify(authorization, process.env.JWT_SECRET).username;
       break;
   }
