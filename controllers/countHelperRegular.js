@@ -692,7 +692,17 @@ const countPG211A = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$kumpulanEtnik', 'melayu'],
+              $or: [
+                {
+                  $eq: ['$kumpulanEtnik', 'melayu'],
+                },
+                {
+                  $eq: ['$kumpulanEtnik', null],
+                },
+                {
+                  $eq: ['$kumpulanEtnik', ''],
+                },
+              ],
             },
             1,
             0,
@@ -1481,7 +1491,17 @@ const countPG211C = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: ['$kumpulanEtnik', 'melayu'],
+              $or: [
+                {
+                  $eq: ['$kumpulanEtnik', 'melayu'],
+                },
+                {
+                  $eq: ['$kumpulanEtnik', null],
+                },
+                {
+                  $eq: ['$kumpulanEtnik', ''],
+                },
+              ],
             },
             1,
             0,
@@ -2101,29 +2121,9 @@ const countPG214 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $or: [
-                {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'tidak-pesakit-mempunyai-gigi',
-                  ],
-                },
-                {
-                  $and: [
-                    {
-                      $eq: [
-                        '$yaTidakPesakitMempunyaiGigi',
-                        'ya-pesakit-mempunyai-gigi',
-                      ],
-                    },
-                    {
-                      $eq: [
-                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                        0,
-                      ],
-                    },
-                  ],
-                },
+              $eq: [
+                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                0,
               ],
             },
             1,
@@ -2136,17 +2136,23 @@ const countPG214 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $and: [
-                {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'ya-pesakit-mempunyai-gigi',
-                  ],
-                },
+              $or: [
                 {
                   $gte: [
                     '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
                     20,
+                  ],
+                },
+                {
+                  $eq: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    null,
+                  ],
+                },
+                {
+                  $eq: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    '',
                   ],
                 },
               ],
@@ -2162,12 +2168,6 @@ const countPG214 = async (payload) => {
           $cond: [
             {
               $and: [
-                {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'ya-pesakit-mempunyai-gigi',
-                  ],
-                },
                 {
                   $lt: [
                     '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
@@ -2609,32 +2609,9 @@ const countPG214 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $or: [
-                {
-                  $eq: ['$yaTidakPesakitMempunyaiGigi', ''],
-                },
-                {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'tidak-pesakit-mempunyai-gigi',
-                  ],
-                },
-                {
-                  $and: [
-                    {
-                      $eq: [
-                        '$yaTidakPesakitMempunyaiGigi',
-                        'ya-pesakit-mempunyai-gigi',
-                      ],
-                    },
-                    {
-                      $eq: [
-                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                        0,
-                      ],
-                    },
-                  ],
-                },
+              $eq: [
+                '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                0,
               ],
             },
             1,
@@ -2649,25 +2626,21 @@ const countPG214 = async (payload) => {
             {
               $or: [
                 {
+                  $gte: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    20,
+                  ],
+                },
+                {
                   $eq: [
                     '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
                     null,
                   ],
                 },
                 {
-                  $and: [
-                    {
-                      $eq: [
-                        '$yaTidakPesakitMempunyaiGigi',
-                        'ya-pesakit-mempunyai-gigi',
-                      ],
-                    },
-                    {
-                      $gte: [
-                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                        20,
-                      ],
-                    },
+                  $eq: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    '',
                   ],
                 },
               ],
@@ -2684,25 +2657,15 @@ const countPG214 = async (payload) => {
             {
               $and: [
                 {
-                  $eq: [
-                    '$yaTidakPesakitMempunyaiGigi',
-                    'ya-pesakit-mempunyai-gigi',
+                  $lt: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    20,
                   ],
                 },
                 {
-                  $and: [
-                    {
-                      $lt: [
-                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                        20,
-                      ],
-                    },
-                    {
-                      $gt: [
-                        '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
-                        0,
-                      ],
-                    },
+                  $gt: [
+                    '$bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum',
+                    0,
                   ],
                 },
               ],
