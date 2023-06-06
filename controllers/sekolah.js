@@ -597,6 +597,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
 };
 
 // POST /rawatan/:personSekolahId
+// set statusRawatan according to handleSubmit FE when creating rawatan
 const createRawatanWithPushPersonSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
     return res.status(401).json({ msg: 'Unauthorized' });
@@ -762,6 +763,22 @@ const updatePersonSekolah = async (req, res) => {
       { new: true }
     );
     return res.status(200).json({ updatedPersonSekolahBegin });
+  }
+
+  const personSekolahExist = await Sekolah.findOne({
+    nomborId: req.body.nomborId,
+    sesiTakwimPelajar: sesiTakwim,
+    berpindah: false,
+    deleted: false,
+  });
+
+  if (
+    personSekolahExist &&
+    personSekolahExist.nomborId !== singlePersonSekolah.nomborId
+  ) {
+    return res.status(409).json({
+      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+    });
   }
 
   // kemaskini pelajar PATCH
