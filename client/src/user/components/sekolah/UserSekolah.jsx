@@ -429,30 +429,36 @@ function UserSekolah() {
                 CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
-                {pilihanTahunTingkatan && (
-                  <span className=' uppercase text-xs lg:text-sm w-full'>
-                    <button
-                      onClick={() => {
-                        setModalTambahKemaskiniPelajar(true);
-                      }}
-                      className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
-                    >
-                      Tambah pelajar
-                    </button>
-                  </span>
+                {filteredFasilitiSekolah.sekolahSelesaiReten == true ? null : (
+                  <div>
+                    {pilihanTahunTingkatan && (
+                      <span className=' uppercase text-xs lg:text-sm w-full'>
+                        <button
+                          onClick={() => {
+                            setModalTambahKemaskiniPelajar(true);
+                          }}
+                          className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
+                        >
+                          Tambah pelajar
+                        </button>
+                      </span>
+                    )}
+                  </div>
                 )}
-                <button
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                  className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                >
-                  kembali ke senarai sekolah
-                </button>
+                <div>
+                  <button
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                    className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                  >
+                    kembali ke senarai sekolah
+                  </button>
+                </div>
               </div>
             </div>
             <div className='grid grid-cols-2'>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
                 </span>
@@ -466,8 +472,8 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
                 </span>
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tahun/Tingkatan:
                 </span>
@@ -495,7 +501,7 @@ function UserSekolah() {
                       : null}
                   </select>
                 </span>
-              </p>
+              </div>
               {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Kelas:
@@ -562,7 +568,7 @@ function UserSekolah() {
                   Tarikh Tamat:
                 </span>
               </p> */}
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Nama Pelajar:
                 </span>
@@ -576,8 +582,8 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
                 </span>
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Status sekolah:
                 </span>{' '}
@@ -608,10 +614,10 @@ function UserSekolah() {
                     readOnly
                   />
                 )}
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span />
-              </p>
+              </div>
             </div>
           </div>
         </div>
@@ -650,11 +656,9 @@ function UserSekolah() {
                     AKTIVITI BEGIN
                   </th>
                 ) : null}
-                {userinfo.role === 'admin' && (
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
-                    HAPUS
-                  </th>
-                )}
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
+                  HAPUS
+                </th>
               </tr>
             </thead>
             {/* TODO disable semua data input if person sekolah berpindah === true */}
@@ -700,8 +704,9 @@ function UserSekolah() {
                                 WARGANEGARA : {singlePersonSekolah.warganegara}
                               </p>
                               <span>
-                                <p>
-                                  <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
+                                {filteredFasilitiSekolah.sekolahSelesaiReten ===
+                                true ? null : (
+                                  <span className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     {singlePersonSekolah.pemeriksaanSekolah ? null : (
                                       <button
                                         onClick={() => {
@@ -715,8 +720,8 @@ function UserSekolah() {
                                         Kemaskini
                                       </button>
                                     )}
-                                  </p>
-                                </p>
+                                  </span>
+                                )}
                               </span>
                               {/* </div> */}
                             </div>
@@ -1140,14 +1145,14 @@ function UserSekolah() {
                                   className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
                                 >
                                   {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userBlack text-center flex items-center'>
                                       Selesai
                                       <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                    </p>
+                                    </span>
                                   ) : (
-                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userBlack text-center flex items-center'>
                                       Tarikh Pelaksanaan
-                                    </p>
+                                    </span>
                                   )}
                                 </button>
                               ) : (
@@ -1177,14 +1182,14 @@ function UserSekolah() {
                                   <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.tarikhMelaksanakanBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                        <span className='text-center text-base font-medium text-kaunter1'>
                                           Selesai pada{' '}
                                           <span className='text-xl font-semibold text-kaunter1'>
                                             {moment(
                                               singlePersonSekolah.tarikhMelaksanakanBegin
                                             ).format('DD/MM/YYYY')}
                                           </span>
-                                        </p>
+                                        </span>
                                       </div>
                                     ) : (
                                       <TarikhBegin />
@@ -1193,14 +1198,14 @@ function UserSekolah() {
                                   <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.namaPelaksanaBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                        <span className='text-center text-base font-medium text-kaunter1'>
                                           BEGIN telah dijalankan oleh{' '}
                                           <p className='text-xl font-semibold text-kaunter1'>
                                             {
                                               singlePersonSekolah.namaPelaksanaBegin
                                             }
                                           </p>
-                                        </p>
+                                        </span>
                                       </div>
                                     ) : null}
                                   </div>
@@ -1256,27 +1261,25 @@ function UserSekolah() {
                               {/* end of modal BEGIN */}
                             </td>
                           ) : null}
-                          {userinfo.role === 'admin' && (
-                            <td
-                              className='
+                          <td
+                            className='
                                px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'
-                            >
-                              {singlePersonSekolah.pemeriksaanSekolah ? null : (
-                                <button
-                                  className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
-                                  onClick={() => {
-                                    setModalHapus(true);
-                                    setPilihanHapusId(singlePersonSekolah._id);
-                                    setPilihanHapusNama(
-                                      singlePersonSekolah.nama
-                                    );
-                                  }}
-                                >
-                                  Hapus pelajar?
-                                </button>
-                              )}
-                            </td>
-                          )}
+                          >
+                            {filteredFasilitiSekolah.sekolahSelesaiReten ==
+                              true ||
+                            singlePersonSekolah.pemeriksaanSekolah ? null : (
+                              <button
+                                className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
+                                onClick={() => {
+                                  setModalHapus(true);
+                                  setPilihanHapusId(singlePersonSekolah._id);
+                                  setPilihanHapusNama(singlePersonSekolah.nama);
+                                }}
+                              >
+                                Hapus pelajar?
+                              </button>
+                            )}
+                          </td>
                         </tr>
                       </tbody>
                     </>
@@ -1316,11 +1319,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1354,11 +1355,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1392,11 +1391,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
               </tbody>
             ) : (
