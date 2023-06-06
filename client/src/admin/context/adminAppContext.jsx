@@ -654,6 +654,14 @@ function AdminAppProvider({ children }) {
       deskripsi2: '- Perkhidmatan Pergigian Outreach',
     },
     {
+      kod: 'PG211C Pind. 1/2022 - KPB/MPB',
+      kodRingkas: 'PG211C-KPBMPB',
+      deskripsi:
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2:
+        '- Klinik Pergigian Bergerak (KPB) / Makmal Pergigian Bergerak (MPB)',
+    },
+    {
       kod: 'PG206 Pind. 1/2022',
       kodRingkas: 'PG206',
       deskripsi:
@@ -810,6 +818,24 @@ function AdminAppProvider({ children }) {
       deskripsi: 'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi Penjara',
     },
     {
+      kod: 'KOM-FDS',
+      kodRingkas: 'KOM-FDS',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Flying Dental Service, Sabah',
+    },
+    {
+      kod: 'KOM-ISN',
+      kodRingkas: 'KOM-ISN',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institut Sukan Negara (ISN)',
+    },
+    {
+      kod: 'KOM-HRC',
+      kodRingkas: 'KOM-HRC',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Komuniti Berisiko Tinggi (Program Kanser Mulut)',
+    },
+    {
       kod: 'KOM',
       kodRingkas: 'KOM',
       deskripsi:
@@ -828,21 +854,34 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli/Penan',
     },
     {
-      kod: 'UTC/RTC',
+      kod: 'UTC / RTC Kelantan',
+      kodRingkas: 'UTCRTC-Kelantan',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi RTC Kelantan, Tunjung',
+    },
+    {
+      kod: 'RTC',
+      kodRingkas: 'RTC',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Rural Transformation Center (RTC)',
+    },
+    {
+      kod: 'UTC / RTC',
       kodRingkas: 'UTCRTC',
       deskripsi:
-        'Laporan Bulanan/Tahunan Di Negeri Bagi Urban / Rural Transformation Center (UTC / RTC)',
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Urban Transformation Center (UTC)',
     },
     // {
     //   kod: 'KPBMPB Harian',
     //   kodRingkas: 'KPBMPBHarian',
     //   deskripsi: 'KPB MPB Harian',
     // },
-    // {
-    //   kod: 'KPBMPB Bulanan',
-    //   kodRingkas: 'KPBMPBBulanan',
-    //   deskripsi: 'KPB MPB Harian',
-    // },
+    {
+      kod: 'KPB / MPB',
+      kodRingkas: 'KPBMPBBulanan',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Di Klinik Pergigian Bergerak (KPB) Dan Makmal Pergigian Bergerak (MPB)',
+    },
   ];
 
   // misc

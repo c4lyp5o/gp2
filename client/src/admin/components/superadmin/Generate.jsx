@@ -17,13 +17,24 @@ const ModalGenerateAdHoc = (props) => {
   const startDateRef = useRef('');
   const endDateRef = useRef('');
 
-  //datepicker range
+  // datepicker range
   const [startDatePicker, setStartDatePicker] = useState(null);
   const [endDatePicker, setEndDatePicker] = useState(null);
 
+  // reten spesial
+  const pilihanRetenMASA = ['MASA'].includes(props.jenisReten);
   const pilihanRetenAdaProgramDanKPBMPB = ['PG101C', 'PG211C'].includes(
     props.jenisReten
   );
+  const pilihanRetenNegeriSahaja =
+    ['KEPP', 'UTCRTC-Kelantan', 'KOM-FDS'].includes(props.jenisReten) &&
+    loginInfo.accountType === 'negeriSuperadmin';
+  // const pilihanRetenUTCRTCKelantan =
+  //   ['UTCRTC-Kelantan'].includes(props.jenisReten) &&
+  //   loginInfo.accountType === 'negeriSuperadmin';
+  // const pilihanRetenFDS =
+  //   ['KOM-FDS'].includes(props.jenisReten) &&
+  //   loginInfo.daerah === 'negeriSuperadmin';
   const tunjukProgram =
     [
       'PG101C',
@@ -265,14 +276,36 @@ const ModalGenerateAdHoc = (props) => {
             </span>
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
-                {['MASA'].includes(props.jenisReten) && (
+                {pilihanRetenMASA && (
                   <div className='grid grid-row-2 gap-2 p-2 normal-case'>
                     Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
                     PENUH, maklumat yang akan dijana adalah yang terbaru
                     sehingga yang diisi sekarang
                   </div>
                 )}
-                {!['MASA'].includes(props.jenisReten) && (
+                {pilihanRetenNegeriSahaja && (
+                  <div className='grid grid-cols-2 gap-2'>
+                    <div className='px-3 py-1'>
+                      <label
+                        htmlFor='tarikhMula'
+                        className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                      >
+                        Daripada:
+                      </label>
+                      <TarikhAwal />
+                    </div>
+                    <div className='px-3 py-1'>
+                      <label
+                        htmlFor='tarikhAkhir'
+                        className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                      >
+                        Sehingga:
+                      </label>
+                      <TarikhAkhir />
+                    </div>
+                  </div>
+                )}
+                {!pilihanRetenMASA && !pilihanRetenNegeriSahaja && (
                   <>
                     <div className='grid grid-cols-2 gap-2'>
                       <div className='px-3 py-1'>
@@ -447,8 +480,17 @@ const ModalGenerateAdHoc = (props) => {
                                 }}
                                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                               >
-                                <option value=''>Sila pilih..</option>
-                                <option value='all'>Semua Program</option>
+                                {props.programData &&
+                                props.programData.length > 0 ? (
+                                  <>
+                                    <option value=''>Sila pilih..</option>
+                                    <option value='all'>Semua Program</option>
+                                  </>
+                                ) : (
+                                  <option value=''>
+                                    TIADA PROGRAM YANG DILAKUKAN
+                                  </option>
+                                )}
                                 {props.programData &&
                                   props.programData
                                     .filter(
@@ -466,6 +508,9 @@ const ModalGenerateAdHoc = (props) => {
                                           'KOM-Komuniti': 'projek-komuniti',
                                           'KOM-Penjara': 'penjara-koreksional',
                                           'KOM-OAP': '',
+                                          'KOM-FDS': 'fds',
+                                          'KOM-ISN': 'isn',
+                                          'KOM-HRC': 'hrc',
                                           PPR: 'ppr',
                                           PPKPS: 'ppkps',
                                           PKAP2: 'kampungAngkatPergigian',
@@ -1951,46 +1996,110 @@ const Generate = () => {
                 </tr>
               </thead>
               <tbody className='bg-admin4'>
-                {semuaJenisReten.map((jenis, index) => (
-                  <>
-                    <tr>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {index + 1}
-                      </td>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-start normal-case'>
-                        <div className='ml-3 mr-1'>
-                          {jenis.deskripsi}
-                          <br />
-                          {jenis.deskripsi2}
-                        </div>
-                      </td>
-                      <td className='px-3 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        {jenis.kod}
-                      </td>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        <div className='grid grid-cols-2 items-center'>
-                          <div className='flex flex-col py-3 items-center gap-1 text-center'>
-                            {statusToken
-                              ? statusToken.map((token) => {
-                                  if (token.jenisReten === jenis.kodRingkas) {
-                                    return token.jumlahToken !== undefined
-                                      ? token.jumlahToken
-                                      : 0;
-                                  }
-                                  return null;
-                                })
-                              : []}
+                {semuaJenisReten
+                  .filter((jenis) => {
+                    if (loginInfo.accountType === 'hqSuperadmin') {
+                      return jenis;
+                    }
+                    if (loginInfo.accountType !== 'negeriSuperadmin') {
+                      return jenis.kodRingkas !== 'KEPP';
+                    }
+                    if (
+                      loginInfo.accountType === 'negeriSuperadmin' &&
+                      loginInfo.negeri === 'Kelantan'
+                    ) {
+                      return jenis.kodRingkas !== 'KOM-FDS';
+                    }
+                    {
+                      /* if (
+                      loginInfo.accountType === 'negeriSuperadmin' &&
+                      loginInfo.negeri === 'Sabah'
+                    ) {
+                      return jenis.kodRingkas !== 'UTCRTC-Kelantan';
+                    } */
+                    }
+                    if (
+                      ['Kelantan', 'Melaka', 'Sarawak', 'Pahang'].includes(
+                        loginInfo.negeri
+                      )
+                    ) {
+                      return (
+                        jenis.kodRingkas !== 'KOM-FDS' &&
+                        jenis.kodRingkas !== 'RTC'
+                      );
+                    }
+                    return (
+                      jenis.kodRingkas !== 'KOM-FDS' &&
+                      jenis.kodRingkas !== 'RTC'
+                    );
+                  })
+                  .map((jenis, index) => (
+                    <>
+                      <tr>
+                        <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                          {index + 1}
+                        </td>
+                        <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1 text-start normal-case'>
+                          <div className='ml-3 mr-1'>
+                            {jenis.deskripsi}
+                            <br />
+                            {jenis.deskripsi2}
                           </div>
-                          <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
+                        </td>
+                        <td className='px-3 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                          {jenis.kod}
+                        </td>
+                        <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                          <div className='grid grid-cols-2 items-center'>
+                            <div className='flex flex-col py-3 items-center gap-1 text-center'>
+                              {statusToken
+                                ? statusToken.map((token) => {
+                                    if (token.jenisReten === jenis.kodRingkas) {
+                                      return token.jumlahToken !== undefined
+                                        ? token.jumlahToken
+                                        : 0;
+                                    }
+                                    return null;
+                                  })
+                                : []}
+                            </div>
+                            <div className='flex flex-col py-3 items-center gap-1 text-center border-l border-l-adminWhite border-off'>
+                              {loginInfo.accountType === 'hqSuperadmin' ||
+                              (statusReten.janaTarikh &&
+                                statusReten[jenis.kodRingkas]) ? (
+                                <button
+                                  type='button'
+                                  className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
+                                  onClick={() => {
+                                    setJenisReten(jenis.kodRingkas);
+                                    setOpenModalGenerateAdHoc(true);
+                                  }}
+                                >
+                                  Jana
+                                </button>
+                              ) : (
+                                <span
+                                  className='text-admin2 text-5xl hover:cursor-not-allowed'
+                                  title='Penjanaan mengikut tarikh ditutup sementara'
+                                >
+                                  <AiOutlineStop />
+                                </span>
+                              )}
+                            </div>
+                          </div>
+                        </td>
+                        <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                          <div className='flex flex-col py-3 items-center gap-1 text-center border-l-adminWhite border-off'>
                             {loginInfo.accountType === 'hqSuperadmin' ||
-                            (statusReten.janaTarikh &&
+                            (statusReten.janaBulan &&
                               statusReten[jenis.kodRingkas]) ? (
                               <button
                                 type='button'
-                                className='px-2 py-1 mx-3 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
+                                className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
                                 onClick={() => {
                                   setJenisReten(jenis.kodRingkas);
-                                  setOpenModalGenerateAdHoc(true);
+                                  setOpenModalGenerateAdHoc(false);
+                                  setOpenModalGenerateBulanan(true);
                                 }}
                               >
                                 Jana
@@ -1998,43 +2107,16 @@ const Generate = () => {
                             ) : (
                               <span
                                 className='text-admin2 text-5xl hover:cursor-not-allowed'
-                                title='Penjanaan mengikut tarikh ditutup sementara'
+                                title='Penjanaan bulanan ditutup sementara'
                               >
                                 <AiOutlineStop />
                               </span>
                             )}
                           </div>
-                        </div>
-                      </td>
-                      <td className='px-1 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                        <div className='flex flex-col py-3 items-center gap-1 text-center border-l-adminWhite border-off'>
-                          {loginInfo.accountType === 'hqSuperadmin' ||
-                          (statusReten.janaBulan &&
-                            statusReten[jenis.kodRingkas]) ? (
-                            <button
-                              type='button'
-                              className='px-2 py-1 bg-admin1 text-adminWhite rounded-md hover:bg-admin3'
-                              onClick={() => {
-                                setJenisReten(jenis.kodRingkas);
-                                setOpenModalGenerateAdHoc(false);
-                                setOpenModalGenerateBulanan(true);
-                              }}
-                            >
-                              Jana
-                            </button>
-                          ) : (
-                            <span
-                              className='text-admin2 text-5xl hover:cursor-not-allowed'
-                              title='Penjanaan bulanan ditutup sementara'
-                            >
-                              <AiOutlineStop />
-                            </span>
-                          )}
-                        </div>
-                      </td>
-                    </tr>
-                  </>
-                ))}
+                        </td>
+                      </tr>
+                    </>
+                  ))}
               </tbody>
             </table>
           </div>
