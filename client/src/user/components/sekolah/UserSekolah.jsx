@@ -429,26 +429,32 @@ function UserSekolah() {
                 CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
-                {pilihanTahunTingkatan && (
-                  <span className=' uppercase text-xs lg:text-sm w-full'>
-                    <button
-                      onClick={() => {
-                        setModalTambahKemaskiniPelajar(true);
-                      }}
-                      className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
-                    >
-                      Tambah pelajar
-                    </button>
-                  </span>
+                {filteredFasilitiSekolah.sekolahSelesaiReten == true ? null : (
+                  <p>
+                    {pilihanTahunTingkatan && (
+                      <span className=' uppercase text-xs lg:text-sm w-full'>
+                        <button
+                          onClick={() => {
+                            setModalTambahKemaskiniPelajar(true);
+                          }}
+                          className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
+                        >
+                          Tambah pelajar
+                        </button>
+                      </span>
+                    )}
+                  </p>
                 )}
-                <button
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                  className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                >
-                  kembali ke senarai sekolah
-                </button>
+                <p>
+                  <button
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                    className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                  >
+                    kembali ke senarai sekolah
+                  </button>
+                </p>
               </div>
             </div>
             <div className='grid grid-cols-2'>
@@ -584,7 +590,7 @@ function UserSekolah() {
                 {pilihanSekolah ? (
                   <span className='uppercase text-xs lg:text-sm w-full'>
                     {pilihanSekolah &&
-                    filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
+                    filteredFasilitiSekolah.sekolahSelesaiReten == true ? (
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-user7 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -701,21 +707,26 @@ function UserSekolah() {
                               </p>
                               <span>
                                 <p>
-                                  <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
-                                    {singlePersonSekolah.pemeriksaanSekolah ? null : (
-                                      <button
-                                        onClick={() => {
-                                          setModalTambahKemaskiniPelajar(true);
-                                          setKemaskiniPelajarId(
-                                            singlePersonSekolah._id
-                                          );
-                                        }}
-                                        className='bg-user3 hover:bg-user7 text-userWhite transition-all font-bold py-2 px-4 rounded shadow-md'
-                                      >
-                                        Kemaskini
-                                      </button>
-                                    )}
-                                  </p>
+                                  {filteredFasilitiSekolah.sekolahSelesaiReten ==
+                                  true ? null : (
+                                    <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
+                                      {singlePersonSekolah.pemeriksaanSekolah ? null : (
+                                        <button
+                                          onClick={() => {
+                                            setModalTambahKemaskiniPelajar(
+                                              true
+                                            );
+                                            setKemaskiniPelajarId(
+                                              singlePersonSekolah._id
+                                            );
+                                          }}
+                                          className='bg-user3 hover:bg-user7 text-userWhite transition-all font-bold py-2 px-4 rounded shadow-md'
+                                        >
+                                          Kemaskini
+                                        </button>
+                                      )}
+                                    </p>
+                                  )}
                                 </p>
                               </span>
                               {/* </div> */}
@@ -1261,7 +1272,9 @@ function UserSekolah() {
                               className='
                                px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'
                             >
-                              {singlePersonSekolah.pemeriksaanSekolah ? null : (
+                              {filteredFasilitiSekolah.sekolahSelesaiReten ==
+                                true ||
+                              singlePersonSekolah.pemeriksaanSekolah ? null : (
                                 <button
                                   className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
                                   onClick={() => {
