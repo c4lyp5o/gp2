@@ -122,6 +122,19 @@ const SekolahSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // kpmbpb ------------------------------------------------------------
+    kedatanganKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranBaruKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranUlanganKPBMPB: {
+      type: String,
+      default: '',
+    },
     // pemeriksaan -------------------------------------------------------
     pemeriksaanSekolah: {
       type: mongoose.Schema.Types.ObjectId,

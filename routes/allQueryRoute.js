@@ -18,6 +18,7 @@ router.route('/umum/taska-tadika').get(umum.getTaskaTadikaList);
 router.route('/umum/events').get(umum.getProjekKomuniti);
 
 router.route('/kpbmpb').get(kpbmpb.getAllKPBMPBForNegeri);
+router.route('/kpbmpb/sekolah').get(kpbmpb.getAllKPBMPBForNegeriSekolah);
 
 router.route('/operator').get(operator.queryPersonOperator);
 

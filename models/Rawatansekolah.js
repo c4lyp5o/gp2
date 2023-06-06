@@ -28,10 +28,6 @@ const RawatansekolahSchema = new mongoose.Schema(
       required: true,
     },
     // rawatan ----------------------------------------------------------
-    tarikhRawatanSemasa: {
-      type: String,
-      default: '',
-    },
     engganTidakHadirRawatan: {
       type: String,
       default: '',
@@ -48,6 +44,20 @@ const RawatansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    tarikhRawatanSemasa: {
+      type: String,
+      default: '',
+    },
+    // kpmbpb ------------------------------------------------------------
+    menggunakanKPBMPB: {
+      type: String,
+      default: '',
+    },
+    penggunaanKPBMPB: {
+      type: String,
+      default: '',
+    },
+    // rawatan -----------------------------------------------------------
     muridDibuatFs: {
       type: Boolean,
       default: false,
