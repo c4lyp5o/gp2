@@ -934,7 +934,6 @@ function UserFormSekolahPemeriksaan() {
       nomborId,
       nama,
       tahunTingkatan,
-      kelasPelajar,
     } = singlePersonSekolah;
 
     // block tambah-pemeriksaan je yang guna sbb dah xleh edit pemeriksaan
@@ -954,7 +953,6 @@ function UserFormSekolahPemeriksaan() {
               nomborId,
               nama,
               tahunTingkatan,
-              kelasPelajar,
               statusRawatan,
               kesSelesaiMmi,
               engganTidakHadirPemeriksaan,
@@ -1182,8 +1180,7 @@ function UserFormSekolahPemeriksaan() {
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonSekolah.tahunTingkatan}{' '}
-                        {singlePersonSekolah.kelasPelajar}
+                        {singlePersonSekolah.tahunTingkatan}
                       </p>
                     </div>
                   </div>
