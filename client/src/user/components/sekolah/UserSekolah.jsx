@@ -172,9 +172,9 @@ function UserSekolah() {
       })
       .catch((err) => {
         console.log(err);
-        setReloadState(!reloadState);
+        // setReloadState(!reloadState);
         setSubmittingBegin(false);
-        setModalBegin(false);
+        // setModalBegin(false);
       });
   };
 
