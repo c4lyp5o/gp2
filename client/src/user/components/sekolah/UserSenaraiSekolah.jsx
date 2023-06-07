@@ -13,8 +13,9 @@ import {
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import UserModalSelesaiSekolah from './UserModalSelesaiSekolah';
-// import UserModalRefreshPelajar from './UserModalRefreshPelajar';
+import UserModalSelesaiSekolah from './modal-sekolah/UserModalSelesaiSekolah';
+import UserModalMuatTurun from './modal-sekolah/UserModalMuatTurun';
+// import UserModalRefreshPelajar from './modal-sekolah/UserModalRefreshPelajar';
 
 function UserSekolahList() {
   const {
@@ -30,13 +31,18 @@ function UserSekolahList() {
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  // const [enrolmen, setEnrolmen] = useState([]);
-  // const [kedatanganBaru, setKedatanganBaru] = useState([]);
-  // const [kesSelesai, setKesSelesai] = useState([]);
   const [sekMenRen, setSekMenRen] = useState('');
 
+  //selesai sekolah
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
+
+  //muat turun
+  const [modalMuatTurun, setModalMuatTurun] = useState(false);
+  const [sekolahMuatTurun, setSekolahMuatTurun] = useState('');
+
+  //refresh pelajar
   // const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
+
   const [idSekolah, setIdSekolah] = useState('');
 
   const [isTutup, setIsTutup] = useState(false);
@@ -62,51 +68,6 @@ function UserSekolahList() {
         );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(data.fasilitiSekolahs);
-        // data.fasilitiSekolahs
-        //   .sort((a, b) => a.sekolahSelesaiReten - b.sekolahSelesaiReten)
-        //   .forEach((singleSekolah) => {
-        //     // kira enrolmen
-        //     const tempEnrolmen = () => {
-        //       return data.allPersonSekolahs.filter((person) =>
-        //         person.namaSekolah.includes(singleSekolah.nama)
-        //       ).length;
-        //     };
-        //     setEnrolmen((current) => [...current, tempEnrolmen()]);
-
-        //     // kira kedatangan baru
-        //     let tempKedatanganBaru = 0;
-        //     data.allPersonSekolahs
-        //       .filter((person) =>
-        //         person.namaSekolah.includes(singleSekolah.nama)
-        //       )
-        //       .forEach((person) => {
-        //         if (person.pemeriksaanSekolah /*&& person.rawatanSekolah[0]*/) {
-        //           tempKedatanganBaru += 1;
-        //         }
-        //         // if (person.pemeriksaanSekolah && person.rawatanSekolah[0]) {
-        //         //   if (
-        //         //     person.pemeriksaanSekolah.tarikhPemeriksaanSemasa ===
-        //         //     person.rawatanSekolah[0].tarikhRawatanSemasa
-        //         //   ) {
-        //         //     tempKedatanganBaru += 1;
-        //         //   }
-        //         // }
-        //       });
-        //     setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
-
-        //     // kira kes selesai from statusRawatan === 'selesai'
-        //     let tempKesSelesai = 0;
-        //     data.allPersonSekolahs
-        //       .filter((person) =>
-        //         person.namaSekolah.includes(singleSekolah.nama)
-        //       )
-        //       .forEach((person) => {
-        //         if (person.statusRawatan === 'selesai') {
-        //           tempKesSelesai += 1;
-        //         }
-        //       });
-        //     setKesSelesai((current) => [...current, tempKesSelesai]);
-        //   });
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
@@ -181,7 +142,9 @@ function UserSekolahList() {
         `/api/v1/sekolah/muatturun/${kodSekolah}`,
         {
           headers: {
-            Authorization: `Bearer ${reliefUserToken ?? userToken}`,
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
           },
           responseType: 'blob',
         }
@@ -195,17 +158,17 @@ function UserSekolahList() {
       });
       link.click();
       toast.update(id, {
-        render: `Berjaya mencetak senarai pelajar ${namaSekolah}`,
+        render: `Berjaya memuat turun senarai pelajar ${namaSekolah}`,
         type: 'success',
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 3000,
       });
     } catch (error) {
       toast.update(id, {
-        render: 'Harap maaf, senarai pelajar tidak dapat dimuatturun',
+        render: 'Harap maaf, senarai pelajar tidak dapat dimuat turun',
         type: 'error',
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 3000,
       });
       console.log(error);
     } finally {
@@ -503,11 +466,8 @@ function UserSekolahList() {
                                 disabled={isDownloading}
                                 title='Cetak senarai murid sekolah'
                                 onClick={() => {
-                                  handleDownloadSenaraiSekolah(
-                                    singleNamaSekolah.kodSekolah,
-                                    singleNamaSekolah.nama,
-                                    singleNamaSekolah.sesiTakwimSekolah
-                                  );
+                                  setSekolahMuatTurun(singleNamaSekolah);
+                                  setModalMuatTurun(true);
                                 }}
                                 onMouseEnter={() => {
                                   setIsDownload({
@@ -529,7 +489,7 @@ function UserSekolahList() {
                                   isDownload[singleNamaSekolah._id]
                                     ? ''
                                     : 'w-7 h-7'
-                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
+                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center whitespace-nowrap`}
                               >
                                 <BsDownload className='inline-flex' />
                                 <p
@@ -539,7 +499,7 @@ function UserSekolahList() {
                                       : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
                                   }`}
                                 >
-                                  CETAK
+                                  MUAT TURUN
                                 </p>
                               </button>
                             </div>
@@ -681,6 +641,14 @@ function UserSekolahList() {
             setModalSelesaiSekolah={setModalSelesaiSekolah}
             handleSelesaiSekolah={handleSelesaiSekolah}
             id={idSekolah}
+          />
+        )}
+        {modalMuatTurun && (
+          <UserModalMuatTurun
+            handleDownloadSenaraiSekolah={handleDownloadSenaraiSekolah}
+            sekolahMuatTurun={sekolahMuatTurun}
+            setModalMuatTurun={setModalMuatTurun}
+            isDownloading={isDownloading}
           />
         )}
         {/* {modalRefreshPelajar && (
