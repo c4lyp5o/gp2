@@ -1,5 +1,3 @@
-import { useState, useEffect } from 'react';
-import axios from 'axios';
 import { FaWindowClose, FaYinYang, FaDownload } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../../context/userAppContext';

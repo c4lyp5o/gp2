@@ -31,20 +31,18 @@ function UserSekolahList() {
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
-  // const [enrolmen, setEnrolmen] = useState([]);
-  // const [kedatanganBaru, setKedatanganBaru] = useState([]);
-  // const [kesSelesai, setKesSelesai] = useState([]);
   const [sekMenRen, setSekMenRen] = useState('');
 
   //selesai sekolah
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
-  const [isSubmittingSelesaiSekolah, setIsSubmittingSelesaiSekolah] =
-    useState(false);
+
   //muat turun
   const [modalMuatTurun, setModalMuatTurun] = useState(false);
   const [sekolahMuatTurun, setSekolahMuatTurun] = useState('');
+
   //refresh pelajar
   // const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
+
   const [idSekolah, setIdSekolah] = useState('');
 
   const [isTutup, setIsTutup] = useState(false);
@@ -70,51 +68,6 @@ function UserSekolahList() {
         );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(data.fasilitiSekolahs);
-        // data.fasilitiSekolahs
-        //   .sort((a, b) => a.sekolahSelesaiReten - b.sekolahSelesaiReten)
-        //   .forEach((singleSekolah) => {
-        //     // kira enrolmen
-        //     const tempEnrolmen = () => {
-        //       return data.allPersonSekolahs.filter((person) =>
-        //         person.namaSekolah.includes(singleSekolah.nama)
-        //       ).length;
-        //     };
-        //     setEnrolmen((current) => [...current, tempEnrolmen()]);
-
-        //     // kira kedatangan baru
-        //     let tempKedatanganBaru = 0;
-        //     data.allPersonSekolahs
-        //       .filter((person) =>
-        //         person.namaSekolah.includes(singleSekolah.nama)
-        //       )
-        //       .forEach((person) => {
-        //         if (person.pemeriksaanSekolah /*&& person.rawatanSekolah[0]*/) {
-        //           tempKedatanganBaru += 1;
-        //         }
-        //         // if (person.pemeriksaanSekolah && person.rawatanSekolah[0]) {
-        //         //   if (
-        //         //     person.pemeriksaanSekolah.tarikhPemeriksaanSemasa ===
-        //         //     person.rawatanSekolah[0].tarikhRawatanSemasa
-        //         //   ) {
-        //         //     tempKedatanganBaru += 1;
-        //         //   }
-        //         // }
-        //       });
-        //     setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
-
-        //     // kira kes selesai from statusRawatan === 'selesai'
-        //     let tempKesSelesai = 0;
-        //     data.allPersonSekolahs
-        //       .filter((person) =>
-        //         person.namaSekolah.includes(singleSekolah.nama)
-        //       )
-        //       .forEach((person) => {
-        //         if (person.statusRawatan === 'selesai') {
-        //           tempKesSelesai += 1;
-        //         }
-        //       });
-        //     setKesSelesai((current) => [...current, tempKesSelesai]);
-        //   });
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
@@ -189,7 +142,9 @@ function UserSekolahList() {
         `/api/v1/sekolah/muatturun/${kodSekolah}`,
         {
           headers: {
-            Authorization: `Bearer ${reliefUserToken ?? userToken}`,
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
           },
           responseType: 'blob',
         }
@@ -203,17 +158,17 @@ function UserSekolahList() {
       });
       link.click();
       toast.update(id, {
-        render: `Berjaya muat turun senarai pelajar ${namaSekolah}`,
+        render: `Berjaya memuat turun senarai pelajar ${namaSekolah}`,
         type: 'success',
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 3000,
       });
     } catch (error) {
       toast.update(id, {
-        render: 'Harap maaf, senarai pelajar tidak dapat dimuatturun',
+        render: 'Harap maaf, senarai pelajar tidak dapat dimuat turun',
         type: 'error',
         isLoading: false,
-        autoClose: 2000,
+        autoClose: 3000,
       });
       console.log(error);
     } finally {
