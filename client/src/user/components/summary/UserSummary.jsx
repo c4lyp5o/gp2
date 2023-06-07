@@ -10,9 +10,9 @@ export default function UserSummary() {
   const { userToken, userinfo, reliefUserToken } = useGlobalUserAppContext();
   const [bulan, setBulan] = useState('');
   const [waitForData, setWaitForData] = useState(false);
-  const [data, setData] = useState([]);
+  const [filteredSummary, setFilteredSummary] = useState([]);
   const [processedData, setProcessedData] = useState([]);
-  const [customData, setCustomData] = useState([]);
+  const [customSummary, setCustomSummary] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
 
   //show
@@ -91,22 +91,20 @@ export default function UserSummary() {
         }
       );
       // console.log(res.data.customSummary);
-      setData(res.data.filteredSummary);
-      setCustomData(res.data.customSummary);
+      setFilteredSummary(res.data.filteredSummary);
+      setCustomSummary(res.data.customSummary);
       const process = processSummaryData(res.data.filteredSummary);
-      // console.log(process);
       setProcessedData(process);
     };
     fetchSummaryData()
       .then(() => {
-        // console.log(customData);
         setTimeout(() => {
           setWaitForData(false);
         }, 1500);
       })
       .catch((err) => {
-        setData([]);
-        setCustomData([]);
+        setFilteredSummary([]);
+        setCustomSummary([]);
         setTimeout(() => {
           setWaitForData(false);
         }, 1500);
@@ -153,7 +151,6 @@ export default function UserSummary() {
         processedData[8].total++;
       }
     });
-    console.log(processedData);
     return processedData;
   };
 
@@ -164,9 +161,9 @@ export default function UserSummary() {
   //     });
   //     setProfileImage(res.data.singlePersonOperator.image);
   //     if (res.data.singlePersonOperator.summary.length === 0) {
-  //       return setData([]);
+  //       return setFilteredSummary([]);
   //     }
-  //     setData(res.data.singlePersonOperator.summary);
+  //     setFilteredSummary(res.data.singlePersonOperator.summary);
   //   };
   //   fetchData().catch((err) => {
   //     console.log(err.response.data.msg);
@@ -175,7 +172,7 @@ export default function UserSummary() {
   //   );
   //   });
   //   return () => {
-  //     setData([]);
+  //     setFilteredSummary([]);
   //   };
   // }, [userToken]);
 
@@ -237,10 +234,10 @@ export default function UserSummary() {
                   <p className='text-xs flex flex-row'>Jumlah Pesakit</p>
                   <span
                     className={`font-mono ${
-                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {data.length > 0 ? data.length : null}
+                    {filteredSummary.length > 0 ? filteredSummary.length : null}
                   </span>
                 </div>
                 {isShowPt && (
@@ -280,10 +277,10 @@ export default function UserSummary() {
                   <p className='text-xs flex flex-row'>Kes Selesai</p>
                   <span
                     className={`font-mono ${
-                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {customData[0]?.jumlahKesSelesai}
+                    {customSummary[0]?.jumlahKesSelesai}
                   </span>
                 </div>
               </div>
@@ -295,11 +292,11 @@ export default function UserSummary() {
                   <p className='text-xs flex flex-row'>Pesakit Baru</p>
                   <span
                     className={`font-mono ${
-                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {data.length > 0
-                      ? data.filter(
+                    {filteredSummary.length > 0
+                      ? filteredSummary.filter(
                           (item) => item.kedatangan === 'baru-kedatangan'
                         ).length
                       : null}
@@ -314,11 +311,11 @@ export default function UserSummary() {
                   <p className='text-xs flex flex-row'>Pesakit Ulangan</p>
                   <span
                     className={`font-mono ${
-                      data.length > 0 ? 'text-5xl' : 'text-sm'
+                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {data.length > 0
-                      ? data.filter(
+                    {filteredSummary.length > 0
+                      ? filteredSummary.filter(
                           (item) => item.kedatangan === 'ulangan-kedatangan'
                         ).length
                       : null}
@@ -334,7 +331,7 @@ export default function UserSummary() {
                 <div>
                   <p className='text-xs flex flex-row'>Tampalan Gigi Desidus</p>
                   <span className='font-mono text-5xl flex flex-row'>
-                    {customData[0]?.jumlahTampalanGigiDesidus}
+                    {customSummary[0]?.jumlahTampalanGigiDesidus}
                   </span>
                 </div>
               </div>
@@ -345,7 +342,7 @@ export default function UserSummary() {
                 <div>
                   <p className='text-xs flex flex-row'>Tampalan Gigi Kekal</p>
                   <span className='font-mono text-5xl flex flex-row'>
-                    {customData[0]?.jumlahTampalanGigiKekal}
+                    {customSummary[0]?.jumlahTampalanGigiKekal}
                   </span>
                 </div>
               </div>
@@ -385,7 +382,7 @@ export default function UserSummary() {
             <Spinner />
           </div>
         )}
-        {!waitForData && data.length > 0 ? (
+        {!waitForData && filteredSummary.length > 0 ? (
           <section className='p-1'>
             <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
               <table className='table-auto'>
@@ -414,7 +411,7 @@ export default function UserSummary() {
                     </th>
                   </tr>
                 </thead>
-                {data.map((item, index) => {
+                {filteredSummary.map((item, index) => {
                   return (
                     <tbody key={item._id} className='text-userBlack bg-user4'>
                       <tr>
@@ -467,13 +464,15 @@ export default function UserSummary() {
           <div className='flex flex-col items-center mt-5'>
             <span
               className={`${
-                bulan !== '' && data.length === 0 && waitForData === false
+                bulan !== '' &&
+                filteredSummary.length === 0 &&
+                waitForData === false
                   ? 'bg-admin2 text-adminWhite text-3xl font-semibold'
                   : 'mt-3 font-mono text-xl'
               } px-1.5 py-0.5 rounded whitespace-nowrap`}
             >
               {bulan !== '' &&
-                data.length === 0 &&
+                filteredSummary.length === 0 &&
                 waitForData === false &&
                 'Tiada rekod beban kerja'}
             </span>

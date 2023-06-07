@@ -55,7 +55,8 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   const filteredSummary = await Umum.aggregate([
     {
       $match: {
-        createdByMdcMdtb: singlePersonOperator.mdcNumber,
+        createdByMdcMdtb:
+          singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
         tarikhKedatangan: {
           $gte: tarikhMula,
           $lte: tarikhTamat,
@@ -93,7 +94,8 @@ const getSinglePersonOperatorSummary = async (req, res) => {
         rawatanDibuatOperatorLain: true,
         rawatanOperatorLain: {
           $elemMatch: {
-            createdByMdcMdtb: singlePersonOperator.mdcNumber,
+            createdByMdcMdtb:
+              singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
           },
         },
       },
@@ -120,7 +122,8 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   const customSummary = await Umum.aggregate([
     {
       $match: {
-        createdByMdcMdtb: singlePersonOperator.mdcNumber,
+        createdByMdcMdtb:
+          singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
         tarikhKedatangan: {
           $gte: tarikhMula,
           $lte: tarikhTamat,
@@ -177,8 +180,6 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   if (filteredSummary.length === 0) {
     return res.status(404).json({ msg: `No summary for ${id}` });
   }
-
-  // console.log(customSummary);
 
   filteredSummary.push(...filteredSummaryOperatorLain);
 
