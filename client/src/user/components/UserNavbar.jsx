@@ -306,7 +306,7 @@ function UserNavbar() {
                 </NavLink>
               </div>
             </div>
-            {/* <NavLink
+            <NavLink
               to='summary'
               onClick={() => {
                 setShowLinks(!showLinks);
@@ -320,7 +320,7 @@ function UserNavbar() {
               }
             >
               REKOD PEGAWAI
-            </NavLink> */}
+            </NavLink>
           </div>
         </nav>
         <div className='absolute w-60 top-0 left-0 flex text-center h-28 lg:justify-center pl-5 lg:pl-0'>
