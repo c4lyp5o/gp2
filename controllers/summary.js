@@ -55,7 +55,8 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   const filteredSummary = await Umum.aggregate([
     {
       $match: {
-        createdByMdcMdtb: singlePersonOperator.mdcNumber,
+        createdByMdcMdtb:
+          singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
         tarikhKedatangan: {
           $gte: tarikhMula,
           $lte: tarikhTamat,
@@ -68,9 +69,15 @@ const getSinglePersonOperatorSummary = async (req, res) => {
         nama: 1,
         ic: 1,
         tarikhKedatangan: 1,
+        tarikhLahir: 1,
         kedatangan: 1,
         kumpulanEtnik: 1,
+        bersekolah: 1,
+        ibuMengandung: 1,
+        orangKurangUpaya: 1,
+        statusPesara: 1,
         rawatanDibuatOperatorLain: 1,
+        deleted: 1,
       },
     },
   ]);
@@ -87,7 +94,8 @@ const getSinglePersonOperatorSummary = async (req, res) => {
         rawatanDibuatOperatorLain: true,
         rawatanOperatorLain: {
           $elemMatch: {
-            createdByMdcMdtb: singlePersonOperator.mdcNumber,
+            createdByMdcMdtb:
+              singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
           },
         },
       },
@@ -98,9 +106,73 @@ const getSinglePersonOperatorSummary = async (req, res) => {
         nama: 1,
         ic: 1,
         tarikhKedatangan: 1,
+        tarikhLahir: 1,
         kedatangan: 1,
         kumpulanEtnik: 1,
+        bersekolah: 1,
+        ibuMengandung: 1,
+        orangKurangUpaya: 1,
+        statusPesara: 1,
         rawatanDibuatOperatorLain: 1,
+        deleted: 1,
+      },
+    },
+  ]);
+
+  const customSummary = await Umum.aggregate([
+    {
+      $match: {
+        createdByMdcMdtb:
+          singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
+        tarikhKedatangan: {
+          $gte: tarikhMula,
+          $lte: tarikhTamat,
+        },
+      },
+    },
+    {
+      $group: {
+        _id: null,
+        jumlahTampalanGigiDesidus: {
+          $sum: {
+            $add: [
+              '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+            ],
+          },
+        },
+        jumlahTampalanGigiKekal: {
+          $sum: {
+            $add: [
+              '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+            ],
+          },
+        },
+        jumlahKesSelesai: {
+          $sum: {
+            $cond: [
+              {
+                $and: [{ $eq: ['$kesSelesaiRawatanUmum', true] }],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
       },
     },
   ]);
@@ -115,7 +187,7 @@ const getSinglePersonOperatorSummary = async (req, res) => {
     return new Date(a.tarikhKedatangan) - new Date(b.tarikhKedatangan);
   });
 
-  res.status(200).json({ filteredSummary });
+  res.status(200).json({ filteredSummary, customSummary });
 };
 
 module.exports = { getSinglePersonOperator, getSinglePersonOperatorSummary };
