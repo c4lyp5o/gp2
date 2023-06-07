@@ -67,10 +67,10 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       default: 'MISSING COPIED TAHUN_TINGKATAN',
     },
-    kelasPelajar: {
-      type: String,
-      default: 'MISSING COPIED NAMA KELAS',
-    },
+    // kelasPelajar: {
+    //   type: String,
+    //   default: 'MISSING COPIED NAMA KELAS',
+    // },
     jantina: {
       type: String,
       default: 'MISSING COPIED JANTINA',

@@ -42,10 +42,10 @@ function UserSekolah() {
   // const [isFiltering, setIsFiltering] = useState(false);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
   const [tahunTingkatan, setTahunTingkatan] = useState([]);
-  const [kelasPelajar, setKelasPelajar] = useState([]);
+  // const [kelasPelajar, setKelasPelajar] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
-  const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
+  // const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
   const [filterNama, setFilterNama] = useState('');
 
   // const [pilihanBegin, setPilihanBegin] = useState('');
@@ -323,34 +323,34 @@ function UserSekolah() {
     const filteredTahun = allPersonSekolahs.filter((person) =>
       person.tahunTingkatan.includes(pilihanTahunTingkatan)
     );
-    const kelasPelajar = filteredTahun.reduce(
-      (arrKelasPelajar, singlePersonSekolah) => {
-        if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
-          arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
-        }
-        return arrKelasPelajar.filter((valid) => valid);
-      },
-      ['']
-    );
-    setKelasPelajar(kelasPelajar);
+    // const kelasPelajar = filteredTahun.reduce(
+    //   (arrKelasPelajar, singlePersonSekolah) => {
+    //     if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
+    //       arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
+    //     }
+    //     return arrKelasPelajar.filter((valid) => valid);
+    //   },
+    //   ['']
+    // );
+    // setKelasPelajar(kelasPelajar);
     // setDahFilterTahun(filteredTahun);
   }, [pilihanTahunTingkatan]);
 
   // reset value
   useEffect(() => {
     setPilihanTahunTingkatan('');
-    setPilihanKelasPelajar('');
+    // setPilihanKelasPelajar('');
     setFilterNama('');
   }, [pilihanSekolah]);
 
   useEffect(() => {
-    setPilihanKelasPelajar('');
+    // setPilihanKelasPelajar('');
     setFilterNama('');
   }, [pilihanTahunTingkatan]);
 
-  useEffect(() => {
-    setFilterNama('');
-  }, [pilihanKelasPelajar]);
+  // useEffect(() => {
+  //   setFilterNama('');
+  // }, [pilihanKelasPelajar]);
 
   // fetch fasiliti sekolah to determine selesai reten
   // useEffect(() => {
@@ -402,7 +402,7 @@ function UserSekolah() {
   // specific refreshTimer for this UserSekolah special case
   useEffect(() => {
     setRefreshTimer(!refreshTimer);
-  }, [pilihanSekolah, pilihanTahunTingkatan, pilihanKelasPelajar, filterNama]);
+  }, [pilihanSekolah, pilihanTahunTingkatan, filterNama]);
 
   const handleAccordian = (e) => {
     if (accordian.includes(e)) {
@@ -670,7 +670,6 @@ function UserSekolah() {
                   (person) =>
                     person.namaSekolah.includes(pilihanSekolah) &&
                     person.tahunTingkatan.includes(pilihanTahunTingkatan) &&
-                    person.kelasPelajar.includes(pilihanKelasPelajar) &&
                     person.nama.includes(filterNama)
                 )
                 .map((singlePersonSekolah, index) => {

@@ -493,14 +493,16 @@ function UserFormSekolahKOTAK() {
                       </p>
                     </div>
                   </div>
-                  <div className='lg:pt-10'>
+                  {/* <div className='lg:pt-10'>
                     <div className='flex flex-row pl-5'>
-                      <h2 className='font-semibold text-xs'>KELAS :</h2>
+                      <h2 className='font-semibold text-xs'>
+                        TAHUN /TINGKATAN :
+                      </h2>
                       <p className='ml-1 text-xs'>
                         {singlePersonSekolah.kelas}
                       </p>
                     </div>
-                  </div>
+                  </div> */}
                 </>
               )}
               {isLoading && (
