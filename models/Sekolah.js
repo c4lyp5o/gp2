@@ -68,10 +68,10 @@ const SekolahSchema = new mongoose.Schema(
       default: 'MISSING TAHUN_TINGKATAN',
     },
     // unreliable, not used
-    kelasPelajar: {
-      type: String,
-      default: 'MISSING NAMA KELAS',
-    },
+    // kelasPelajar: {
+    //   type: String,
+    //   default: 'MISSING NAMA KELAS',
+    // },
     jantina: {
       type: String,
       default: 'MISSING JANTINA',

@@ -1,12 +1,13 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaWindowClose } from 'react-icons/fa';
+import { FaWindowClose, FaYinYang, FaRegPaperPlane } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function UserModalSelesaiSekolah({
   handleSelesaiSekolah,
   setModalSelesaiSekolah,
+  isSubmittingSelesaiSekolah,
   id,
 }) {
   const { userToken, userinfo, reliefUserToken, toast } =
@@ -75,7 +76,7 @@ export default function UserModalSelesaiSekolah({
     <>
       <form
         onSubmit={handleSubmit}
-        className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+        className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'
       >
         <FaWindowClose
           className='absolute top-2 right-2 text-2xl cursor-pointer'
@@ -84,9 +85,9 @@ export default function UserModalSelesaiSekolah({
         <div className='h-10 bg-user9 flex justify-center items-center text-userWhite uppercase font-bold text-lg'>
           Pengesahan
         </div>
-        <div className='flex flex-col items-center justify-center'>
-          <h1 className='text-2xl font-bold text-center mt-3'>
-            Anda pasti untuk menutup sekolah?
+        <div className='flex flex-col items-center justify-center px-2'>
+          <h1 className='text-2xl font-bold text-center my-3 py-3 border-b-2 border-user1'>
+            Anda pasti untuk menutup sekolah ?
           </h1>
           <div>
             {otpQuestion ? (
@@ -123,16 +124,28 @@ export default function UserModalSelesaiSekolah({
             >
               Batal
             </span>
-            <button
-              type='submit'
-              className={`capitalize text-userWhite rounded-md p-2 ml-3 hover:cursor-pointer transition-all ${
-                otpQuestion
-                  ? 'bg-user2 hover:bg-user3 '
-                  : 'bg-user9 hover:bg-user5 hover:text-userBlack'
-              }`}
-            >
-              {otpQuestion ? 'Hantar' : 'TUTUP RETEN SEKOLAH'}
-            </button>
+            {isSubmittingSelesaiSekolah ? (
+              <button
+                type='button'
+                className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                disabled
+              >
+                <FaYinYang className='mr-2 my-auto animate-spin' />
+                Menghantar Data
+              </button>
+            ) : (
+              <button
+                type='submit'
+                className={`capitalize text-userWhite rounded-md py-2 ml-2 hover:cursor-pointer transition-all ${
+                  otpQuestion
+                    ? 'bg-user2 hover:bg-user3 '
+                    : 'bg-user9 hover:bg-user5 hover:text-userBlack'
+                }`}
+              >
+                <FaRegPaperPlane className='inline-flex mx-1' />
+                {otpQuestion ? 'Hantar' : 'TUTUP RETEN SEKOLAH'}
+              </button>
+            )}
           </div>
         </div>
       </form>

@@ -200,7 +200,7 @@ const getAllPersonSekolahFaceted = async (req, res) => {
                     nama: 1,
                     sesiTakwimPelajar: 1,
                     tahunTingkatan: 1,
-                    kelasPelajar: 1,
+                    // kelasPelajar: 1,
                     jantina: 1,
                     statusOku: 1,
                     tarikhLahir: 1,
@@ -235,7 +235,7 @@ const getAllPersonSekolahFaceted = async (req, res) => {
               nama: '$sekolah.nama',
               sesiTakwimPelajar: '$sekolah.sesiTakwimPelajar',
               tahunTingkatan: '$sekolah.tahunTingkatan',
-              kelasPelajar: '$sekolah.kelasPelajar',
+              // kelasPelajar: '$sekolah.kelasPelajar',
               jantina: '$sekolah.jantina',
               statusOku: '$sekolah.statusOku',
               tarikhLahir: '$sekolah.tarikhLahir',
@@ -355,7 +355,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
       // nomborId: 1,
       tahunTingkatan: 1,
       namaSekolah: 1,
-      kelasPelajar: 1,
+      // kelasPelajar: 1,
       // tarikhLahir: 1,
       // umur: 1,
       jantina: 1,
@@ -695,7 +695,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       nama: personSekolah.nama,
       sesiTakwimPelajar: personSekolah.sesiTakwimPelajar,
       tahunTingkatan: personSekolah.tahunTingkatan,
-      kelasPelajar: personSekolah.kelasPelajar,
+      // kelasPelajar: personSekolah.kelasPelajar,
       jantina: personSekolah.jantina,
       statusOku: personSekolah.statusOku,
       tarikhLahir: personSekolah.tarikhLahir,
@@ -1200,9 +1200,9 @@ const queryPersonSekolah = async (req, res) => {
     queryObject.tahunTingkatan = { $regex: tahunTingkatan, $options: 'i' };
   }
 
-  if (kelasPelajar) {
-    queryObject.kelasPelajar = { $regex: kelasPelajar, $options: 'i' };
-  }
+  // if (kelasPelajar) {
+  //   queryObject.kelasPelajar = { $regex: kelasPelajar, $options: 'i' };
+  // }
 
   const sekolahResultQuery = await Sekolah.find(queryObject)
     .populate('pemeriksaanSekolah')

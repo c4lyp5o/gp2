@@ -55,10 +55,10 @@ export default function UserModalSalahSekolah({
               {carianSekolah.namaSekolah}
             </p>
             <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-              Kelas
+              Tahun / Tingkatan
             </p>
             <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-              {carianSekolah.tahunTingkatan} {carianSekolah.kelasPelajar}
+              {carianSekolah.tahunTingkatan}
             </p>
             <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
               warganegara
