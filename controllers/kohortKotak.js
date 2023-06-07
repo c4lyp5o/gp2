@@ -146,7 +146,7 @@ const queryPersonKohortKotak = async (req, res) => {
 
   const kohortKotakResultQuery = await KohortKotak.find(queryObject).sort({
     namaSekolah: -1,
-    namaKelas: -1,
+    // namaKelas: -1,
     nama: -1,
   });
 

@@ -24,7 +24,6 @@ function KohortKotak() {
   const [allPersonKohortKotak, setAllPersonKohortKotak] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanKohort, setPilihanKohort] = useState('');
-  const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
   const [philter, setPhilter] = useState('');
 
   const [namaSekolahs, setNamaSekolahs] = useState([]);
