@@ -36,8 +36,6 @@ function UserSekolahList() {
   const [sekMenRen, setSekMenRen] = useState('');
 
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
-  const [isSubmittingSelesaiSekolah, setIsSubmittingSelesaiSekolah] =
-    useState(false);
   // const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
 
@@ -131,30 +129,43 @@ function UserSekolahList() {
       if (!userinfo.mdcNumber) {
         mdcMdtbNum = userinfo.mdtbNumber;
       }
-      setIsSubmittingSelesaiSekolah(true);
-      await toast.promise(
-        axios.patch(
-          `/api/v1/sekolah/fasiliti/${idSekolah}`,
-          { sekolahSelesaiReten: true },
+      await toast
+        .promise(
+          axios.patch(
+            `/api/v1/sekolah/fasiliti/${idSekolah}`,
+            { sekolahSelesaiReten: true },
+            {
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
+            }
+          ),
           {
-            headers: {
-              Authorization: `Bearer ${
-                reliefUserToken ? reliefUserToken : userToken
-              }`,
+            pending: 'Sedang menutup reten sekolah...',
+            success: 'Sekolah telah ditandakan selesai!',
+            error: {
+              render({ data }) {
+                if (data.response.status === 409) {
+                  return data.response.data.msg;
+                } else {
+                  return 'Gagal untuk menutup reten sekolah';
+                }
+              },
             },
-          }
-        ),
-        {
-          pending: 'Sedang menutup reten sekolah...',
-          success: 'Sekolah telah ditandakan selesai!',
-          error: 'Gagal untuk selesai sekolah. Sila cuba lagi.',
-        },
-        {
-          autoClose: 3000,
-        }
-      );
-      setModalSelesaiSekolah(false);
-      setReloadState(!reloadState);
+          },
+          { autoClose: 5000 }
+        )
+        .then(() => {
+          setReloadState(!reloadState);
+          setModalSelesaiSekolah(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          // setReloadState(!reloadState);
+          // setModalSelesaiSekolah(false);
+        });
     }
   };
 
@@ -364,7 +375,6 @@ function UserSekolahList() {
                     {userinfo.role === 'admin' && (
                       <>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
-                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                       </>
                     )}
                   </td>
@@ -398,7 +408,6 @@ function UserSekolahList() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                     {userinfo.role === 'admin' && (
                       <>
-                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                       </>
                     )}
@@ -669,7 +678,6 @@ function UserSekolahList() {
         </div>
         {modalSelesaiSekolah && (
           <UserModalSelesaiSekolah
-            isSubmittingSelesaiSekolah={isSubmittingSelesaiSekolah}
             setModalSelesaiSekolah={setModalSelesaiSekolah}
             handleSelesaiSekolah={handleSelesaiSekolah}
             id={idSekolah}

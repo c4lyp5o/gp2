@@ -102,7 +102,9 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   }
 
   const { kp, kodFasiliti } = req.user;
+
   const sesiTakwim = sesiTakwimSekolah();
+
   const fasilitiSekolahs = await Fasiliti.findOne({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
@@ -909,6 +911,8 @@ const updateFasiliti = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const sesiTakwim = sesiTakwimSekolah();
+
   const fasilitiSekolah = await Fasiliti.findOne({
     _id: req.params.fasilitiId,
   });
@@ -920,6 +924,33 @@ const updateFasiliti = async (req, res) => {
     return res.status(403).json({
       msg: `${fasilitiSekolah.nama} telah ditutup reten`,
     });
+  }
+
+  const allPersonSekolahs = await Sekolah.find({
+    kodSekolah: fasilitiSekolah.kodSekolah,
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
+  });
+
+  for (let i = 0; i < allPersonSekolahs.length; i++) {
+    if (allPersonSekolahs[i].warganegara === '') {
+      return res.status(409).json({
+        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai warganegara`,
+      });
+    }
+    if (allPersonSekolahs[i].umur <= 4) {
+      return res.status(409).json({
+        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} berumur ${allPersonSekolahs[i].umur}`,
+      });
+    }
+    if (
+      fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
+      allPersonSekolahs[i].tahunTingkatan.includes('TINGKATAN')
+    ) {
+      return res.status(409).json({
+        msg: `Tidak boleh menutup reten sekolah rendah ini kerana terdapat pelajar ${allPersonSekolahs[i].tahunTingkatan}`,
+      });
+    }
   }
 
   const updatedFasiliti = await Fasiliti.findOneAndUpdate(
