@@ -372,14 +372,14 @@ function UserAfterLogin() {
             }
           />
 
-          {/* <Route
+          <Route
             path='summary'
             element={
               <Suspense fallback={<Loading />}>
                 <UserSummary />
               </Suspense>
             }
-          /> */}
+          />
 
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>
