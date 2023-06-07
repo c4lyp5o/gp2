@@ -284,11 +284,10 @@ function UserTambahKemaskiniPelajarSekolah({
                   {singlePersonSekolah.umur}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Kelas
+                  Tahun / Tingkatan
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.tahunTingkatan}{' '}
-                  {singlePersonSekolah.kelasPelajar}
+                  {singlePersonSekolah.tahunTingkatan}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   warganegara

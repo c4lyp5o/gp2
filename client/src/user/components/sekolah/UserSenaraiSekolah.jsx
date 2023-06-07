@@ -36,6 +36,8 @@ function UserSekolahList() {
   const [sekMenRen, setSekMenRen] = useState('');
 
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
+  const [isSubmittingSelesaiSekolah, setIsSubmittingSelesaiSekolah] =
+    useState(false);
   // const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
 
@@ -129,6 +131,7 @@ function UserSekolahList() {
       if (!userinfo.mdcNumber) {
         mdcMdtbNum = userinfo.mdtbNumber;
       }
+      setIsSubmittingSelesaiSekolah(true);
       await toast.promise(
         axios.patch(
           `/api/v1/sekolah/fasiliti/${idSekolah}`,
@@ -474,63 +477,66 @@ function UserSekolahList() {
                             </button>
                           </Link>
                         </td>
-                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 flex flex-row justify-center'>
-                          <div
-                            className={`${
-                              isDownload[singleNamaSekolah._id] ? '' : 'mx-0.5'
-                            } ${
-                              isDownloading
-                                ? 'pointer-events-none opacity-50'
-                                : ''
-                            } flex justify-center items-center`}
-                          >
-                            <button
-                              disabled={isDownloading}
-                              title='Cetak senarai murid sekolah'
-                              onClick={() => {
-                                handleDownloadSenaraiSekolah(
-                                  singleNamaSekolah.kodSekolah,
-                                  singleNamaSekolah.nama,
-                                  singleNamaSekolah.sesiTakwimSekolah
-                                );
-                              }}
-                              onMouseEnter={() => {
-                                setIsDownload({
-                                  ...isDownload,
-                                  [singleNamaSekolah._id]: true,
-                                });
-                              }}
-                              onMouseLeave={() => {
-                                setIsDownload({
-                                  ...isDownload,
-                                  [singleNamaSekolah._id]: false,
-                                });
-                              }}
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                          <div className='flex flex-row justify-center'>
+                            <div
                               className={`${
-                                singleNamaSekolah.sekolahSelesaiReten
-                                  ? 'bg-user3 shadow-md'
-                                  : 'bg-user3 shadow-md'
-                              } ${
                                 isDownload[singleNamaSekolah._id]
                                   ? ''
-                                  : 'w-7 h-7'
-                              } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
+                                  : 'mx-0.5'
+                              } ${
+                                isDownloading
+                                  ? 'pointer-events-none opacity-50'
+                                  : ''
+                              } flex justify-center items-center`}
                             >
-                              <BsDownload className='inline-flex' />
-                              <p
+                              <button
+                                disabled={isDownloading}
+                                title='Cetak senarai murid sekolah'
+                                onClick={() => {
+                                  handleDownloadSenaraiSekolah(
+                                    singleNamaSekolah.kodSekolah,
+                                    singleNamaSekolah.nama,
+                                    singleNamaSekolah.sesiTakwimSekolah
+                                  );
+                                }}
+                                onMouseEnter={() => {
+                                  setIsDownload({
+                                    ...isDownload,
+                                    [singleNamaSekolah._id]: true,
+                                  });
+                                }}
+                                onMouseLeave={() => {
+                                  setIsDownload({
+                                    ...isDownload,
+                                    [singleNamaSekolah._id]: false,
+                                  });
+                                }}
                                 className={`${
+                                  singleNamaSekolah.sekolahSelesaiReten
+                                    ? 'bg-user3 shadow-md'
+                                    : 'bg-user3 shadow-md'
+                                } ${
                                   isDownload[singleNamaSekolah._id]
-                                    ? 'max-w-min ml-1 transition-all duration-700 '
-                                    : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
-                                }`}
+                                    ? ''
+                                    : 'w-7 h-7'
+                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
                               >
-                                CETAK
-                              </p>
-                            </button>
-                          </div>
-                          {userinfo.role === 'admin' && (
-                            <>
-                              {/* <div
+                                <BsDownload className='inline-flex' />
+                                <p
+                                  className={`${
+                                    isDownload[singleNamaSekolah._id]
+                                      ? 'max-w-min ml-1 transition-all duration-700 '
+                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                  }`}
+                                >
+                                  CETAK
+                                </p>
+                              </button>
+                            </div>
+                            {userinfo.role === 'admin' && (
+                              <>
+                                {/* <div
                                 className={`${
                                   isKemaskini[singleNamaSekolah._id]
                                     ? ''
@@ -601,55 +607,58 @@ function UserSekolahList() {
                                   )}
                                 </button>
                               </div> */}
-                              <div
-                                className={`${
-                                  isTutup[singleNamaSekolah._id] ? '' : 'mx-0.5'
-                                } flex justify-center items-center`}
-                              >
-                                <button
-                                  title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
-                                  onClick={() => {
-                                    setIdSekolah(singleNamaSekolah._id);
-                                    setModalSelesaiSekolah(true);
-                                  }}
-                                  onMouseEnter={() => {
-                                    setIsTutup({
-                                      ...isTutup,
-                                      [singleNamaSekolah._id]: true,
-                                    });
-                                  }}
-                                  onMouseLeave={() => {
-                                    setIsTutup({
-                                      ...isTutup,
-                                      [singleNamaSekolah._id]: false,
-                                    });
-                                  }}
+                                <div
                                   className={`${
-                                    singleNamaSekolah.sekolahSelesaiReten
-                                      ? 'bg-user7 pointer-events-none'
-                                      : 'bg-user3 shadow-md'
-                                  } ${
                                     isTutup[singleNamaSekolah._id]
                                       ? ''
-                                      : 'w-7 h-7'
-                                  } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700  flex items-center`}
+                                      : 'mx-0.5'
+                                  } flex justify-center items-center`}
                                 >
-                                  <BsEnvelopeX className='inline-flex ' />
-                                  <p
+                                  <button
+                                    title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
+                                    onClick={() => {
+                                      setIdSekolah(singleNamaSekolah._id);
+                                      setModalSelesaiSekolah(true);
+                                    }}
+                                    onMouseEnter={() => {
+                                      setIsTutup({
+                                        ...isTutup,
+                                        [singleNamaSekolah._id]: true,
+                                      });
+                                    }}
+                                    onMouseLeave={() => {
+                                      setIsTutup({
+                                        ...isTutup,
+                                        [singleNamaSekolah._id]: false,
+                                      });
+                                    }}
                                     className={`${
+                                      singleNamaSekolah.sekolahSelesaiReten
+                                        ? 'bg-user7 pointer-events-none'
+                                        : 'bg-user3 shadow-md'
+                                    } ${
                                       isTutup[singleNamaSekolah._id]
-                                        ? 'max-w-min ml-1 transition-all duration-700 '
-                                        : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
-                                    }`}
+                                        ? ''
+                                        : 'w-7 h-7'
+                                    } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700  flex items-center`}
                                   >
-                                    {singleNamaSekolah.sekolahSelesaiReten
-                                      ? 'TELAH DITUTUP'
-                                      : 'TUTUP'}
-                                  </p>
-                                </button>
-                              </div>
-                            </>
-                          )}
+                                    <BsEnvelopeX className='inline-flex ' />
+                                    <p
+                                      className={`${
+                                        isTutup[singleNamaSekolah._id]
+                                          ? 'max-w-min ml-1 transition-all duration-700 '
+                                          : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                      }`}
+                                    >
+                                      {singleNamaSekolah.sekolahSelesaiReten
+                                        ? 'TELAH DITUTUP'
+                                        : 'TUTUP'}
+                                    </p>
+                                  </button>
+                                </div>
+                              </>
+                            )}
+                          </div>
                         </td>
                       </tr>
                     );
@@ -660,6 +669,7 @@ function UserSekolahList() {
         </div>
         {modalSelesaiSekolah && (
           <UserModalSelesaiSekolah
+            isSubmittingSelesaiSekolah={isSubmittingSelesaiSekolah}
             setModalSelesaiSekolah={setModalSelesaiSekolah}
             handleSelesaiSekolah={handleSelesaiSekolah}
             id={idSekolah}
