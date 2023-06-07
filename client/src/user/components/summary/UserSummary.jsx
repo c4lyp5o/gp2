@@ -98,16 +98,12 @@ export default function UserSummary() {
     };
     fetchSummaryData()
       .then(() => {
-        setTimeout(() => {
-          setWaitForData(false);
-        }, 1500);
+        setWaitForData(false);
       })
       .catch((err) => {
         setFilteredSummary([]);
         setCustomSummary([]);
-        setTimeout(() => {
-          setWaitForData(false);
-        }, 1500);
+        setWaitForData(false);
       });
   };
 
@@ -215,9 +211,9 @@ export default function UserSummary() {
                   : 'Juruterapi Pergigian'}{' '}
                 Gred {userinfo.gred.toUpperCase()}{' '}
                 {userinfo.mdcNumber ? (
-                  <h4>Nombor MDC: {userinfo.mdcNumber}</h4>
+                  <div>Nombor MDC: {userinfo.mdcNumber}</div>
                 ) : (
-                  <h4>Nombor MDTB: {userinfo.mdtbNumber}</h4>
+                  <div>Nombor MDTB: {userinfo.mdtbNumber}</div>
                 )}
               </h3>
             </div>
