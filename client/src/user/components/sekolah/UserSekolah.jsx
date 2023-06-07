@@ -165,7 +165,7 @@ function UserSekolah() {
         },
         { autoClose: 5000 }
       )
-      .then((res) => {
+      .then(() => {
         setReloadState(!reloadState);
         setSubmittingBegin(false);
         setModalBegin(false);
@@ -211,9 +211,7 @@ function UserSekolah() {
           success: 'Pesakit berjaya dihapus',
           error: 'Pesakit gagal dihapus',
         },
-        {
-          autoClose: 5000,
-        }
+        { autoClose: 5000 }
       );
       setModalHapus(false);
       setReloadState(!reloadState);

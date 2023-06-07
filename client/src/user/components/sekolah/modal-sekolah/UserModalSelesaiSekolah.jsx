@@ -7,7 +7,6 @@ import { useGlobalUserAppContext } from '../../../context/userAppContext';
 export default function UserModalSelesaiSekolah({
   handleSelesaiSekolah,
   setModalSelesaiSekolah,
-  isSubmittingSelesaiSekolah,
   id,
 }) {
   const { userToken, userinfo, reliefUserToken, toast } =
@@ -15,8 +14,10 @@ export default function UserModalSelesaiSekolah({
 
   const [otpQuestion, setOtpQuestion] = useState(false);
   const [otpInput, setOtpInput] = useState('');
+  const [isSubmitDisabled, setIsSubmitDisabled] = useState(false);
 
   const handleOtpRequest = async () => {
+    setIsSubmitDisabled(true);
     await toast.promise(
       axios.get(`/api/v1/getotp?id=${userinfo._id}&op=tutup-sekolah`, {
         headers: {
@@ -30,14 +31,14 @@ export default function UserModalSelesaiSekolah({
         success: `OTP telah dihantar ke emel ${userinfo.email}`,
         error: `OTP gagal dihantar`,
       },
-      {
-        autoClose: 5000,
-      }
+      { autoClose: 5000 }
     );
     setOtpQuestion(true);
+    setIsSubmitDisabled(false);
   };
 
   const handleOtpVerify = async () => {
+    setIsSubmitDisabled(true);
     await toast
       .promise(
         axios.get(`/api/v1/getotp/verify?id=${userinfo._id}&otp=${otpInput}`, {
@@ -52,7 +53,7 @@ export default function UserModalSelesaiSekolah({
           success: 'OTP berjaya disahkan',
           error: 'OTP gagal disahkan',
         },
-        { autoClose: 3000 }
+        { autoClose: 5000 }
       )
       .then((res) => {
         if (res.data.msg === 'OTP verified') {
@@ -94,12 +95,14 @@ export default function UserModalSelesaiSekolah({
               <>
                 <div className='normal-case'>
                   Sila Masukkan OTP Yang Telah Dihantar Ke Emel {userinfo.email}
+                  <span className='font-semibold text-user6'>*</span>
                 </div>
-                <div className='flex flex-col items-center justify-center'>
+                <div className='flex flex-col items-center justify-center mt-2'>
                   <label htmlFor='otpInput' className='sr-only'>
                     OTP
                   </label>
                   <input
+                    required
                     type='text'
                     name='otpInput'
                     id='otpInput'
@@ -124,16 +127,7 @@ export default function UserModalSelesaiSekolah({
             >
               Batal
             </span>
-            {isSubmittingSelesaiSekolah ? (
-              <button
-                type='button'
-                className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
-                disabled
-              >
-                <FaYinYang className='mr-2 my-auto animate-spin' />
-                Menghantar Data
-              </button>
-            ) : (
+            {!isSubmitDisabled ? (
               <button
                 type='submit'
                 className={`capitalize text-userWhite rounded-md py-2 ml-2 hover:cursor-pointer transition-all ${
@@ -144,6 +138,15 @@ export default function UserModalSelesaiSekolah({
               >
                 <FaRegPaperPlane className='inline-flex mx-1' />
                 {otpQuestion ? 'Hantar' : 'TUTUP RETEN SEKOLAH'}
+              </button>
+            ) : (
+              <button
+                type='submit'
+                className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                disabled
+              >
+                <FaYinYang className='mr-2 my-auto animate-spin' />
+                Meminta OTP
               </button>
             )}
           </div>
