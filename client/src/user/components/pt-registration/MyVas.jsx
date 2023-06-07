@@ -201,7 +201,7 @@ export default function MyVas({ setShowMyVas }) {
             </tbody>
           </table>
         </div> */}
-        <div className='mt-28 mb-2 flex flex-col justify-center items-center'>
+        <div className='mt-10 mb-2 flex flex-col justify-center items-center'>
           {/* <a
             href='https://myvas.moh.gov.my/checkin/healthFacility'
             target='_blank'
@@ -211,6 +211,13 @@ export default function MyVas({ setShowMyVas }) {
             MyVas
           </a> */}
           <div className='text-lext flex flex-col w-96'>
+            <span className='flex justify-center my-6'>
+              <img
+                src={mysejahtera}
+                alt='MySejahtera Logo'
+                className='w-32 h-32 inline-block m-1'
+              />
+            </span>
             <h1 className='text-lext flex justify-start text-lg font-semibold'>
               Login
             </h1>
@@ -227,7 +234,7 @@ export default function MyVas({ setShowMyVas }) {
                   type='email'
                   name='email'
                   placeholder='Email'
-                  className='appearance-none w-full leading-7 px-3 py-1 ring-1 ring-kaunter4 focus:ring-1 focus:ring-user2 focus:outline-none rounded-md shadow-md mt-1 mb-4'
+                  className='appearance-none w-full leading-7 px-3 py-1 ring-1 ring-kaunter4 focus:ring-1 focus:ring-user2 focus:outline-none rounded shadow-md mt-1 mb-4'
                   data-cy='email'
                 />
                 <button
