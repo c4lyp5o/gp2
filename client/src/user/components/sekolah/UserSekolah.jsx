@@ -1275,7 +1275,7 @@ function UserSekolah() {
                                   setPilihanHapusNama(singlePersonSekolah.nama);
                                 }}
                               >
-                                Hapus pelajar?
+                                Hapus
                               </button>
                             )}
                           </td>

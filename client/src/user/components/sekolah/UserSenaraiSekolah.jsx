@@ -13,8 +13,9 @@ import {
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import UserModalSelesaiSekolah from './UserModalSelesaiSekolah';
-// import UserModalRefreshPelajar from './UserModalRefreshPelajar';
+import UserModalSelesaiSekolah from './modal-sekolah/UserModalSelesaiSekolah';
+import UserModalMuatTurun from './modal-sekolah/UserModalMuatTurun';
+// import UserModalRefreshPelajar from './modal-sekolah/UserModalRefreshPelajar';
 
 function UserSekolahList() {
   const {
@@ -35,9 +36,14 @@ function UserSekolahList() {
   // const [kesSelesai, setKesSelesai] = useState([]);
   const [sekMenRen, setSekMenRen] = useState('');
 
+  //selesai sekolah
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
   const [isSubmittingSelesaiSekolah, setIsSubmittingSelesaiSekolah] =
     useState(false);
+  //muat turun
+  const [modalMuatTurun, setModalMuatTurun] = useState(false);
+  const [sekolahMuatTurun, setSekolahMuatTurun] = useState('');
+  //refresh pelajar
   // const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
   const [idSekolah, setIdSekolah] = useState('');
 
@@ -184,7 +190,7 @@ function UserSekolahList() {
       });
       link.click();
       toast.update(id, {
-        render: `Berjaya mencetak senarai pelajar ${namaSekolah}`,
+        render: `Berjaya muat turun senarai pelajar ${namaSekolah}`,
         type: 'success',
         isLoading: false,
         autoClose: 2000,
@@ -494,11 +500,8 @@ function UserSekolahList() {
                                 disabled={isDownloading}
                                 title='Cetak senarai murid sekolah'
                                 onClick={() => {
-                                  handleDownloadSenaraiSekolah(
-                                    singleNamaSekolah.kodSekolah,
-                                    singleNamaSekolah.nama,
-                                    singleNamaSekolah.sesiTakwimSekolah
-                                  );
+                                  setSekolahMuatTurun(singleNamaSekolah);
+                                  setModalMuatTurun(true);
                                 }}
                                 onMouseEnter={() => {
                                   setIsDownload({
@@ -520,7 +523,7 @@ function UserSekolahList() {
                                   isDownload[singleNamaSekolah._id]
                                     ? ''
                                     : 'w-7 h-7'
-                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
+                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center whitespace-nowrap`}
                               >
                                 <BsDownload className='inline-flex' />
                                 <p
@@ -530,7 +533,7 @@ function UserSekolahList() {
                                       : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
                                   }`}
                                 >
-                                  CETAK
+                                  MUAT TURUN
                                 </p>
                               </button>
                             </div>
@@ -673,6 +676,14 @@ function UserSekolahList() {
             setModalSelesaiSekolah={setModalSelesaiSekolah}
             handleSelesaiSekolah={handleSelesaiSekolah}
             id={idSekolah}
+          />
+        )}
+        {modalMuatTurun && (
+          <UserModalMuatTurun
+            handleDownloadSenaraiSekolah={handleDownloadSenaraiSekolah}
+            sekolahMuatTurun={sekolahMuatTurun}
+            setModalMuatTurun={setModalMuatTurun}
+            isDownloading={isDownloading}
           />
         )}
         {/* {modalRefreshPelajar && (

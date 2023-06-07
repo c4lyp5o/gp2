@@ -355,7 +355,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
       // nomborId: 1,
       tahunTingkatan: 1,
       namaSekolah: 1,
-      // kelasPelajar: 1,
+      kelasPelajar: 1,
       // tarikhLahir: 1,
       // umur: 1,
       jantina: 1,
