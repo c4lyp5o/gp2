@@ -512,6 +512,21 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
+  const readSpesifikRTCData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=rtc&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
 
   // spesifik kp data
   const readSpesifikKkiaDataForKp = async (kp) => {
@@ -854,19 +869,13 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli/Penan',
     },
     {
-      kod: 'UTC / RTC Kelantan',
-      kodRingkas: 'UTCRTC-Kelantan',
-      deskripsi:
-        'Laporan Bulanan Klinik/Daerah/Negeri Bagi RTC Kelantan, Tunjung',
-    },
-    {
       kod: 'RTC',
       kodRingkas: 'RTC',
       deskripsi:
         'Laporan Bulanan Klinik/Daerah/Negeri Bagi Rural Transformation Center (RTC)',
     },
     {
-      kod: 'UTC / RTC',
+      kod: 'UTC',
       kodRingkas: 'UTCRTC',
       deskripsi:
         'Laporan Bulanan/Tahunan Di Negeri Bagi Urban Transformation Center (UTC)',
@@ -1129,6 +1138,11 @@ function AdminAppProvider({ children }) {
     negeriwpputrajaya: 'WP Putrajaya',
     negeriwplabuan: 'WP Labuan',
     negeriilk: 'ILK',
+    // utk rtc tercinta
+    Pahang: 'Pahang',
+    Melaka: 'Melaka',
+    Kelantan: 'Kelantan',
+    Sarawak: 'Sarawak',
   };
   const DictionaryHurufNegeri = {
     Johor: 'J',
@@ -1259,6 +1273,7 @@ function AdminAppProvider({ children }) {
         readSpesifikProgramData,
         readSpesifikKPBMPBData,
         readSpesifikIndividuData,
+        readSpesifikRTCData,
         // spesifik kp data
         readSpesifikKkiaDataForKp,
         readSpesifikProgramDataForKp,
