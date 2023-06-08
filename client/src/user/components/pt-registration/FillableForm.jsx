@@ -798,6 +798,37 @@ export default function FillableForm({
     }
   };
 
+  const handleSubmitMyVas = async (patientId) => {
+    const nodejs_patient_details = '/api/v1/myvastest/patient-details?nric=';
+    setAddingData(true);
+    const config = {
+      withCredentials: true,
+    };
+    await axios
+      .get(`${nodejs_patient_details}${patientId}`, config)
+      .then((res) => {
+        if (
+          res &&
+          res.data.next_status &&
+          res.data.next_status >= 400 &&
+          res.data.next_status <= 599
+        ) {
+          if (res.data.redirect_uri) {
+            window.location.href = res.data.redirect_uri;
+            return;
+          }
+        }
+        toast.success('Pesakit berjaya ditarik', { autoClose: 2000 });
+        const patientData = res.data.entry[0];
+        setNama(patientData.resource.name[0].given[0]);
+        setNomborTelefon(patientData.resource.telecom[0].value);
+        setJantina(patientData.resource.gender);
+        // setTarikhLahir(patientData.resource.birthDate);
+        setPoskodAlamat(patientData.resource.address[0].state);
+      });
+    setAddingData(false);
+  };
+
   // reset form when change jenisFasiliti or change showForm
   useEffect(() => {
     setKedatangan('');
@@ -3491,7 +3522,12 @@ export default function FillableForm({
               </button>
               {addingData ? <BusyButton /> : <SubmitButtton />}
             </form>
-            {showMyVas && <MyVas setShowMyVas={setShowMyVas} />}
+            {showMyVas && (
+              <MyVas
+                setShowMyVas={setShowMyVas}
+                handleSubmitMyVas={handleSubmitMyVas}
+              />
+            )}
           </>
         )}
       </Confirmation>

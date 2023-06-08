@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import React, { useState, useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
 import axios from 'axios';
 import { FaWindowClose } from 'react-icons/fa';
 
@@ -6,13 +7,78 @@ import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import mysejahtera from '../../../assets/MySejahtera.png';
 
-export default function MyVas({ setShowMyVas }) {
-  const { userToken, userinfo, reliefUserToken, toast } =
-    useGlobalUserAppContext();
+export default function MyVas({ setShowMyVas, handleSubmitMyVas }) {
+  const { kaunterToken } = useGlobalUserAppContext();
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log('submit');
+  const searchParams = new URLSearchParams(useLocation().search);
+  const nricParam = searchParams.get('nric');
+  const [patientId, setPatientId] = useState(
+    searchParams.get('nric') || 'AMI004'
+  );
+  const [txtName, setTxtName] = useState('');
+  const [txtPhone, setTxtPhone] = useState('');
+  const [txtGender, setTxtGender] = useState('');
+  const [txtDOB, setTxtDOB] = useState('');
+  const [txtPostcode, setTxtPostcode] = useState('');
+  const [txtAddress1, setTxtAddress1] = useState('');
+  const [txtAddress2, setTxtAddress2] = useState('');
+  const [txtCity, setTxtCity] = useState('');
+
+  const [appointmentList, setAppointmentList] = useState([]);
+
+  const nodejs_patient = '/api/v1/myvastest/appointment-list';
+
+  useEffect(() => {
+    const fetchMyVasData = async () => {
+      const config = {
+        withCredentials: true,
+      };
+      await axios.get(`${nodejs_patient}`, config).then((res) => {
+        if (
+          res &&
+          res.data.next_status &&
+          res.data.next_status >= 400 &&
+          res.data.next_status <= 599
+        ) {
+          if (res.data.redirect_uri) {
+            window.location.href = res.data.redirect_uri;
+            return;
+          }
+        }
+        setAppointmentList(res.data.entry);
+      });
+    };
+    fetchMyVasData();
+  }, []);
+
+  const AppointmentList = ({ appointment }) => {
+    const foundPatient = appointment.resource.contained.find(
+      (resource) => resource.resourceType === 'Patient'
+    );
+    const patientIdentifier = foundPatient?.identifier[0].value;
+    const patientname = foundPatient?.name[0].given[0];
+    const timeslot = appointment.resource.start;
+    return (
+      <div className='flex flex-col sm:flex-row'>
+        <div className='w-1/4 sm:w-3/12 bg-white rounded-tl-lg rounded-tr-lg p-4 '>
+          <p className=''>{timeslot}</p>
+        </div>
+        <div className='w-1/4 sm:w-3/12 bg-white p-4'>
+          <p
+            className='text-user6'
+            onClick={() => {
+              handleSubmitMyVas(patientIdentifier);
+              setShowMyVas(false);
+            }}
+          >
+            {patientIdentifier}
+          </p>
+        </div>
+        <div className='w-1/2 sm:w-6/12 bg-white rounded-tr-lg rounded-bl-lg p-4 text-center '>
+          <p className='text-user7'>{patientname}</p>
+        </div>
+      </div>
+    );
   };
 
   return (
@@ -30,9 +96,12 @@ export default function MyVas({ setShowMyVas }) {
           />{' '}
           MyVas
         </div>
-        {/* <h1 className='my-2 text-lg font-bold'>Janji Temu</h1>
+        <div className='my-4 mb-1 text-lg font-bold'>
+          <h1> MyKAD & MyKID </h1>
+        </div>
+        <h1 className='my-2 text-lg font-bold'>Patient Detail</h1>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
-          <table className='table-auto'>
+          {/* <table className='table-auto'>
             <thead className='text-userWhite bg-kaunter2'>
               <tr>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
@@ -48,10 +117,10 @@ export default function MyVas({ setShowMyVas }) {
                   NO. TELEFON
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                  WAKTU JANJI TEMU
+                  JANTINA
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
-                  STATUS KEHADIRAN
+                  ALAMAT
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1'>
                   PILIHAN
@@ -64,19 +133,19 @@ export default function MyVas({ setShowMyVas }) {
                   1
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                  ABDUL RAHMAN BIN ABDUL RAZAK
+                  {txtName}
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                  900101-01-5555
+                  {patientId}
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                  012-3456789
+                  {txtPhone}
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                  12:00 PM
+                  {txtGender}
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                  HADIR
+                  {txtAddress1}
                 </td>
                 <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
                   <span className='bg-user1 text-userWhite px-2 py-1 rounded-md'>
@@ -110,32 +179,25 @@ export default function MyVas({ setShowMyVas }) {
                 </td>
               </tr>
             </tbody>
-          </table>
+          </table> */}
+          <div className='p-4 w-full border-2 border-gray-200 border-dashed rounded-lg dark:border-gray-700 m-auto'>
+            <div className='flex flex-col sm:flex-row bg-black rounded-lg text-white'>
+              <div className='w-1/4 sm:w-3/12 bg-black rounded-tl-lg rounded-tr-lg p-4'>
+                <h2 className='text-left font-bold'>Timeslot</h2>
+              </div>
+              <div className='w-1/4 sm:w-3/12 bg-black p-4'>
+                <h2 className='text-left font-bold'>ID</h2>
+              </div>
+              <div className='w-1/2 sm:w-6/12 bg-black rounded-tr-lg rounded-bl-lg p-4'>
+                <h2 className='text-center font-bold'>Name</h2>
+              </div>
+            </div>
+            {appointmentList.map((appointment, index) => (
+              <AppointmentList key={index} appointment={appointment} />
+            ))}
+          </div>
         </div>
-        <div className='my-4 mb-1 text-lg font-bold'>
-          <h1> MyKAD & MyKID </h1>
-        </div>
-        <div>
-          <input
-            required
-            type='text'
-            name='ic'
-            pattern='[0-9]+'
-            title='12 numbers MyKad / MyKid'
-            minLength={12}
-            maxLength={12}
-            placeholder=''
-            className='appearance-none w-full md:w-56 leading-7 px-3 py-1 ring-2 ring-kaunter4 focus:ring-2 focus:ring-user5 focus:outline-none rounded-md shadow-md mt-1'
-            data-cy='ic-mykad-mykid'
-          />
-          <button
-            type='button'
-            className='ml-5 w-22 lowercase rounded bg-user5 hover:bg-user2 hover:text-userWhite hover:cursor-pointer shadow-md transition-all p-3'
-          >
-            Search
-          </button>
-        </div>
-        <div className='my-5 mb-2 text-lg font-bold'>
+        {/* <div className='my-5 mb-2 text-lg font-bold'>
           <h1> MySejahtera</h1>
         </div>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2 '>
@@ -201,15 +263,7 @@ export default function MyVas({ setShowMyVas }) {
             </tbody>
           </table>
         </div> */}
-        <div className='mt-10 mb-2 flex flex-col justify-center items-center'>
-          {/* <a
-            href='https://myvas.moh.gov.my/checkin/healthFacility'
-            target='_blank'
-            rel='noreferrer'
-            className='ml-5 w-22 normal-case rounded bg-user5 hover:bg-user2 hover:text-userWhite hover:cursor-pointer shadow-md transition-all p-3'
-          >
-            MyVas
-          </a> */}
+        {/* <div className='mt-10 mb-2 flex flex-col justify-center items-center'>
           <div className='text-lext flex flex-col w-96'>
             <span className='flex justify-center my-6'>
               <img
@@ -246,7 +300,7 @@ export default function MyVas({ setShowMyVas }) {
               </div>
             </form>
           </div>
-        </div>
+        </div> */}
       </div>
       <div
         onClick={() => setShowMyVas(false)}

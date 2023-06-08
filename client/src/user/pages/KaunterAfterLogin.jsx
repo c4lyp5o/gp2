@@ -80,7 +80,12 @@ function KaunterAfterLogin() {
   const logout = () => {
     clearTimeout(kicker);
     clearTimeout(kickerNoti);
-    catchAxiosErrorAndLogout();
+    axios.get('/api/v1/myvastest/logout').then((res) => {
+      alert(`MyVas session: ${res.data.message}`);
+    });
+    setTimeout(() => {
+      catchAxiosErrorAndLogout();
+    }, 5000);
     navigate('/pendaftaran');
   };
 
