@@ -36,7 +36,7 @@ const {
   countPKAP2,
 } = require('./countHelperKomuniti');
 
-const reten_engine_version = '1.6.3';
+const reten_engine_version = '1.6.4';
 
 module.exports = {
   // version
