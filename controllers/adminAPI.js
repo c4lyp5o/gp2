@@ -30,6 +30,7 @@ const Helper = require('./countHelperRegular');
 const Dictionary = {
   kp: 'klinik',
   kpallnegeri: 'klinik-all-negeri',
+  rtc: 'rtc',
   kkiakd: 'kkiakd',
   kkiakdspesifik: 'kkiakd-spesifik',
   kkiakdallnegeri: 'kkiakd-all-negeri',
@@ -347,7 +348,7 @@ const loginUser = async (req, res) => {
 const getDataRoute = async (req, res) => {
   // 1st phase
   const authKey = req.headers.authorization;
-  const { negeri, daerah, user_name } = await Superadmin.findById(
+  const { negeri, daerah, user_name, accountType } = await Superadmin.findById(
     jwt.verify(authKey, process.env.JWT_SECRET).userId
   );
   const { FType, kp } = req.query;
@@ -355,7 +356,7 @@ const getDataRoute = async (req, res) => {
   logger.info(`[adminAPI/getDataRoute] ${user_name} requested ${type} data`);
 
   // 2nd phase
-  let data, countedData, owner;
+  let data, countedData, owner, query;
 
   switch (type) {
     case 'klinik':
@@ -381,6 +382,18 @@ const getDataRoute = async (req, res) => {
         }
       }
       break;
+    case 'rtc':
+      query = {
+        ...(accountType === 'negeriSuperadmin' && { negeri }),
+        ...(accountType === 'daerahSuperadmin' && {
+          negeri,
+          daerah,
+        }),
+        kp: { $regex: /rtc/i },
+        accountType: 'kpUser',
+      };
+      data = await User.find(query).select('kp negeri kodFasiliti').lean();
+      break;
     case 'kkiakd-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kp,
@@ -390,20 +403,22 @@ const getDataRoute = async (req, res) => {
         .lean();
       break;
     case 'kpbmpb-spesifik':
-      data = await Fasiliti.find({
-        kodFasilitiHandler: kp,
+      query = {
+        ...(accountType === 'negeriSuperadmin' && { createdByNegeri: negeri }),
+        ...(accountType === 'daerahSuperadmin' && {
+          createdByNegeri: negeri,
+          createdByDaerah: daerah,
+        }),
+        ...(kp !== '-' && { kodFasilitiHandler: kp }),
         jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
-      })
-        .select('nama proposedName')
-        .lean();
+      };
+      data = await Fasiliti.find(query).select('nama proposedName').lean();
       break;
     case 'pegawai-all':
       data = await Operator.find({
         statusPegawai: 'pp',
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).lean();
       break;
     case 'pegawai':
       data = await Operator.find({
@@ -411,9 +426,7 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).lean();
       break;
     case 'pegawai-spesifik':
       data = await Operator.find({
@@ -429,7 +442,6 @@ const getDataRoute = async (req, res) => {
         statusPegawai: 'pp',
         activationStatus: true,
       })
-        .select('-summary')
         .sort({ nama: 1 })
         .lean();
       break;
@@ -437,9 +449,7 @@ const getDataRoute = async (req, res) => {
       data = await Operator.find({
         statusPegawai: 'jp',
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).lean();
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -447,9 +457,7 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).lean();
       break;
     case 'jp-spesifik-negeri':
       data = await Operator.find({
@@ -458,7 +466,6 @@ const getDataRoute = async (req, res) => {
         nama: { $regex: /^((?!jp).)*$/i },
         activationStatus: true,
       })
-        .select('-summary')
         .sort({ nama: 1 })
         .lean();
       break;
