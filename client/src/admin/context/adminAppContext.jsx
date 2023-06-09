@@ -876,7 +876,7 @@ function AdminAppProvider({ children }) {
     },
     {
       kod: 'UTC',
-      kodRingkas: 'UTCRTC',
+      kodRingkas: 'UTC',
       deskripsi:
         'Laporan Bulanan/Tahunan Di Negeri Bagi Urban Transformation Center (UTC)',
     },
@@ -1138,7 +1138,7 @@ function AdminAppProvider({ children }) {
     negeriwpputrajaya: 'WP Putrajaya',
     negeriwplabuan: 'WP Labuan',
     negeriilk: 'ILK',
-    // utk rtc tercinta
+    // KHUSUS UNTUK RTC
     Pahang: 'Pahang',
     Melaka: 'Melaka',
     Kelantan: 'Kelantan',
