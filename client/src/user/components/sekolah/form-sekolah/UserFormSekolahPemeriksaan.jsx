@@ -832,6 +832,46 @@ function UserFormSekolahPemeriksaan() {
     fetchSinglePersonSekolah();
   }, []);
 
+  const checkTPRKesSelesai = (e) => {
+    if (parseInt(dAdaGigiDesidus) > 0) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana ada d gigi desidus');
+    }
+    if (parseInt(dAdaGigiKekal) > 0) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana ada d gigi kekal');
+    }
+    if (parseInt(xAdaGigiDesidus) > 0) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana ada x gigi desidus');
+    }
+    if (parseInt(xAdaGigiKekal) > 0) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana ada x gigi kekal');
+    }
+    if (parseInt(skorGisMulutOralHygiene) === 1) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana skor GIS 1');
+    }
+    if (parseInt(skorGisMulutOralHygiene) === 3) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana skor GIS 3');
+    }
+    if (parseInt(skorBpeOralHygiene) > 0) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana skor BPE 1');
+    }
+    if (perluPenskaleranOralHygiene) {
+      setKesSelesai('tidak-kes-selesai');
+      return toast.info('Kes tidak selesai kerana perlu penskaleran');
+    }
+    setKesSelesai(e);
+    setConfirmData({
+      ...confirmData,
+      kesSelesai: e.target.value,
+    });
+  };
+
   let isDisabled = false;
   if (singlePersonSekolah.statusRawatan !== 'belum mula') {
     isDisabled = true;
@@ -4452,11 +4492,12 @@ function UserFormSekolahPemeriksaan() {
                               kesSelesai === 'ya-kes-selesai' ? true : false
                             }
                             onChange={(e) => {
-                              setKesSelesai(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesai: e.target.value,
-                              });
+                              // setKesSelesai(e.target.value);
+                              checkTPRKesSelesai(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesai: e.target.value,
+                              // });
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4477,11 +4518,12 @@ function UserFormSekolahPemeriksaan() {
                               kesSelesai === 'tidak-kes-selesai' ? true : false
                             }
                             onChange={(e) => {
-                              setKesSelesai(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesai: e.target.value,
-                              });
+                              // setKesSelesai(e.target.value);
+                              checkTPRKesSelesai(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesai: e.target.value,
+                              // });
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />

@@ -29,7 +29,7 @@ function UserFormSekolahRawatan() {
     { value: 'prr-jenis-1', label: 'PRR Jenis 1' },
     { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
     { value: 'cabutan', label: 'Cabutan' },
-    { value: 'rawatan-lain', label: 'Rawatan Lain' },
+    { value: 'penskaleran', label: 'Penskaleran' },
     { value: 'rujukan', label: 'Rujukan' },
   ];
   const [pilihanRawatan, setPilihanRawatan] = useState([]);
@@ -1237,7 +1237,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='12'
                             />
                             <label
                               htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1266,7 +1265,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='12'
                             />
                             <label
                               htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1293,7 +1291,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='12'
                             />
                             <label
                               htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1322,7 +1319,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='20'
                             />
                             <label
                               htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1354,7 +1350,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='8'
                             />
                             <label
                               htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1383,7 +1378,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='8'
                             />
                             <label
                               htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1410,7 +1404,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='8'
                             />
                             <label
                               htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1439,7 +1432,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='20'
                             />
                             <label
                               htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1471,7 +1463,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='8'
                             />
                             <label
                               htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1500,7 +1491,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='8'
                             />
                             <label
                               htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1527,7 +1517,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='20'
                             />
                             <label
                               htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1556,7 +1545,6 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
-                              max='20'
                             />
                             <label
                               htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1591,20 +1579,19 @@ function UserFormSekolahRawatan() {
                           }}
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           min='0'
-                          max='20'
                         />
                       </div>
                     </article>
                   ) : null}
                   <div className='grid gap-2'>
-                    {pilihanRawatan.includes('rawatan-lain') ||
+                    {pilihanRawatan.includes('penskaleran') ||
                     pilihanRawatan.includes('lihat-semua') ? (
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                          rawatan lain yang telah dilakukan
+                          penskaleran
                         </h4>
-                        <div className='grid grid-cols-1 lg:grid-cols-2 col-span-2'>
-                          {/* <div className='flex items-center flex-row pl-5'>
+                        {/* <div className='grid grid-cols-1 lg:grid-cols-2 col-span-2'>
+                          <div className='flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>pulpotomi: </p>
                           <input
                             type='number'
@@ -1622,8 +1609,8 @@ function UserFormSekolahRawatan() {
                             min='0'
                             max='20'
                           />
-                        </div> */}
-                          {/* <div className='flex items-center flex-row pl-5'>
+                        </div>
+                          <div className='flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>endodontik: </p>
                           <input
                             type='number'
@@ -1641,7 +1628,7 @@ function UserFormSekolahRawatan() {
                             min='0'
                             max='32'
                           />
-                        </div> */}
+                        </div>
                           <div className='flex items-center flex-row pl-5'>
                             <input
                               type='checkbox'
@@ -1664,7 +1651,7 @@ function UserFormSekolahRawatan() {
                               abses
                             </label>
                           </div>
-                        </div>
+                        </div> */}
                         <div className='flex flex-row items-center pl-5 col-start-1'>
                           <input
                             type='checkbox'
@@ -1717,6 +1704,9 @@ function UserFormSekolahRawatan() {
                             rujukan
                           </label>
                         </div> */}
+                        <h4 className='font-bold flex flex-row pl-5'>
+                          rujukan
+                        </h4>
                         <div className=' flex flex-row items-center m-2 pl-5 mt-3'>
                           <input
                             type='checkbox'
@@ -1743,7 +1733,7 @@ function UserFormSekolahRawatan() {
                           </label>
                         </div>
                         {rujukKlinikSekolahRawatan && (
-                          <div className='pl-5'>
+                          <div className='pl-10'>
                             <div className='flex items-center pl-5'>
                               <input
                                 required={
@@ -1756,6 +1746,14 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
+                                onInvalid={(e) => {
+                                  e.target.setCustomValidity(
+                                    'Sila pilih sekurang-kurangnya satu pilihan'
+                                  );
+                                }}
+                                onInput={(e) => {
+                                  e.target.setCustomValidity('');
+                                }}
                                 type='checkbox'
                                 name='rujuk-klinik-rawatan-endo'
                                 id='rujuk-klinik-rawatan-endo'
@@ -1791,6 +1789,14 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
+                                onInvalid={(e) => {
+                                  e.target.setCustomValidity(
+                                    'Sila pilih sekurang-kurangnya satu pilihan'
+                                  );
+                                }}
+                                onInput={(e) => {
+                                  e.target.setCustomValidity('');
+                                }}
                                 type='checkbox'
                                 name='rujuk-klinik-cabutan-gigi-kekal'
                                 id='rujuk-klinik-cabutan-gigi-kekal'
@@ -1826,6 +1832,14 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
+                                onInvalid={(e) => {
+                                  e.target.setCustomValidity(
+                                    'Sila pilih sekurang-kurangnya satu pilihan'
+                                  );
+                                }}
+                                onInput={(e) => {
+                                  e.target.setCustomValidity('');
+                                }}
                                 type='checkbox'
                                 name='rujuk-kes-trauma'
                                 id='rujuk-kes-trauma'
@@ -1858,6 +1872,14 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
+                                onInvalid={(e) => {
+                                  e.target.setCustomValidity(
+                                    'Sila pilih sekurang-kurangnya satu pilihan'
+                                  );
+                                }}
+                                onInput={(e) => {
+                                  e.target.setCustomValidity('');
+                                }}
                                 type='checkbox'
                                 name='rujuk-masalah-kesihatan'
                                 id='rujuk-masalah-kesihatan'
@@ -1893,6 +1915,14 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
+                                onInvalid={(e) => {
+                                  e.target.setCustomValidity(
+                                    'Sila pilih sekurang-kurangnya satu pilihan'
+                                  );
+                                }}
+                                onInput={(e) => {
+                                  e.target.setCustomValidity('');
+                                }}
                                 type='checkbox'
                                 name='rujuk-bukan-warganegara'
                                 id='rujuk-bukan-warganegara'
@@ -1928,6 +1958,14 @@ function UserFormSekolahRawatan() {
                                     ? false
                                     : true
                                 }
+                                onInvalid={(e) => {
+                                  e.target.setCustomValidity(
+                                    'Sila pilih sekurang-kurangnya satu pilihan'
+                                  );
+                                }}
+                                onInput={(e) => {
+                                  e.target.setCustomValidity('');
+                                }}
                                 type='checkbox'
                                 name='rujuk-lain-lain'
                                 id='rujuk-lain-lain'
@@ -1942,7 +1980,7 @@ function UserFormSekolahRawatan() {
                                 className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                               />
                               <label
-                                htmlFor='rujuk-lain-lain '
+                                htmlFor='rujuk-lain-lain'
                                 className='m-2 text-sm font-m'
                               >
                                 Rujukan Lain-lain
@@ -1960,7 +1998,7 @@ function UserFormSekolahRawatan() {
                                       rujukLainLanjutan: e.target.value,
                                     });
                                   }}
-                                  className='appearance-none w-full leading-7 pl-3 pr-7 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-kaunter2 focus:outline-none rounded-md shadow-md'
+                                  className='appearance-none w-full pl-3 pr-7 py-1 ring focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
                                 />
                               )}
                             </div>
