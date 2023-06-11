@@ -933,24 +933,29 @@ const updateFasiliti = async (req, res) => {
   });
 
   for (let i = 0; i < allPersonSekolahs.length; i++) {
+    if (allPersonSekolahs[i].umur <= 3 || allPersonSekolahs[i] === 7777777) {
+      return res.status(409).json({
+        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} berumur ${allPersonSekolahs[i].umur}`,
+      });
+    }
+    if (allPersonSekolahs[i].keturunan === '') {
+      return res.status(409).json({
+        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai keturunan`,
+      });
+    }
     if (allPersonSekolahs[i].warganegara === '') {
       return res.status(409).json({
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai warganegara`,
       });
     }
-    if (allPersonSekolahs[i].umur <= 4) {
-      return res.status(409).json({
-        msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} berumur ${allPersonSekolahs[i].umur}`,
-      });
-    }
-    if (
-      fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
-      allPersonSekolahs[i].tahunTingkatan.includes('TINGKATAN')
-    ) {
-      return res.status(409).json({
-        msg: `Tidak boleh menutup reten sekolah rendah ini kerana terdapat pelajar ${allPersonSekolahs[i].tahunTingkatan}`,
-      });
-    }
+    // if (
+    //   fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
+    //   allPersonSekolahs[i].tahunTingkatan.includes('TINGKATAN')
+    // ) {
+    //   return res.status(409).json({
+    //     msg: `Tidak boleh menutup reten sekolah rendah ini kerana terdapat pelajar ${allPersonSekolahs[i].tahunTingkatan}`,
+    //   });
+    // }
   }
 
   const updatedFasiliti = await Fasiliti.findOneAndUpdate(

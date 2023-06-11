@@ -1,5 +1,22 @@
 # Changelog
 
+### 12/6/2023 (v2.1.2)
+
+#### Added
+
+- Penambahan fungsi menambah, mengemaskini & menghapus pelajar sekolah
+
+#### Changed
+
+- Jumlah tampalan di borang pesakit umum tidak lagi mempunyai had maksima
+
+#### Removed
+
+- Pembuangan fungsi mengemaskini sekolah yang mengambil data pelajar terbaru daripada MOEIS
+- Pembuangan ruangan kedatangan taska / tadika di borang pesakit umum
+- Pembuangan kotak penandaan TPR di borang pesakit umum kerana pengiraan TPR dibuat semasa penjanaan reten
+- Pembuangan ruangan jumlah tampalan sementara desidus di borang pesakit umum
+
 ### 31/5/2023 (v2.1.1)
 
 #### Added
