@@ -1,6 +1,7 @@
 const moment = require('moment');
 const User = require('../models/User');
 const Umum = require('../models/Umum');
+const Operator = require('../models/Operator');
 const Sekolah = require('../models/Sekolah');
 const Promosi = require('../models/Promosi');
 const Fasiliti = require('../models/Fasiliti');
@@ -128,38 +129,38 @@ const countPG101A = async (payload) => {
 
     // cari pt kkiakd
     if (kkiaMatch) {
-    for (let i = 0; i < kkiaMatch.length; i++) {
-      const kkiaMatchPipeline = [
-        {
-          $match: {
-            jenisFasiliti: 'kk-kd',
-            kodFasilitiKkKd: kkiaMatch[i].kodKkiaKd,
-            tarikhKedatangan: {
-              $gte: moment(tarikhMula).format('YYYY-MM-DD'),
-              $lte: moment(tarikhAkhir).format('YYYY-MM-DD'),
+      for (let i = 0; i < kkiaMatch.length; i++) {
+        const kkiaMatchPipeline = [
+          {
+            $match: {
+              jenisFasiliti: 'kk-kd',
+              kodFasilitiKkKd: kkiaMatch[i].kodKkiaKd,
+              tarikhKedatangan: {
+                $gte: moment(tarikhMula).format('YYYY-MM-DD'),
+                $lte: moment(tarikhAkhir).format('YYYY-MM-DD'),
+              },
+              oncall: { $in: [false, null] },
             },
-            oncall: { $in: [false, null] },
           },
-        },
-        {
-          ...project,
-        },
-        {
-          ...sort,
-        },
-      ];
-      let temp = await Umum.aggregate(kkiaMatchPipeline);
-      temp = [
-        {
-          nama: kkiaMatch[i].nama,
-          kodKkiaKd: kkiaMatch[i].kodKkiaKd,
-          createdByNegeri: kkiaMatch[i].createdByNegeri,
-          createdByDaerah: kkiaMatch[i].createdByDaerah,
-        },
-        ...temp,
-      ];
-      kkiaData.push(temp);
-    }
+          {
+            ...project,
+          },
+          {
+            ...sort,
+          },
+        ];
+        let temp = await Umum.aggregate(kkiaMatchPipeline);
+        temp = [
+          {
+            nama: kkiaMatch[i].nama,
+            kodKkiaKd: kkiaMatch[i].kodKkiaKd,
+            createdByNegeri: kkiaMatch[i].createdByNegeri,
+            createdByDaerah: kkiaMatch[i].createdByDaerah,
+          },
+          ...temp,
+        ];
+        kkiaData.push(temp);
+      }
     }
 
     if (kpData.length === 0) {
@@ -9202,6 +9203,7 @@ const countPGS203 = async (payload) => {
         return dataFasiliti;
       }) ?? []
     );
+
     const flattenedFasilitiDilawati = allFasilitiDilawati.flat();
 
     // nnt nk kena masuk taska
@@ -11391,123 +11393,156 @@ const countBPE = async (payload) => {
   }
 };
 const countKEPP = async (payload) => {
-  let { negeri } = payload;
+  const { negeri } = payload;
 
-  let bigData = [];
-
-  const kepps = await User.find({
-    statusRoleKlinik: 'kepp',
-    negeri,
-  })
-    .select('kodFasiliti')
-    .lean();
-  console.log(kepps);
-  kepps.forEach(async (kepp) => {
-    let data = {};
-    data = { ...data, kp: kepp.kp, kodFasiliti: kepp.kodFasiliti };
-    const pesakit = await Umum.aggregate([
+  try {
+    let keppPt = await Umum.aggregate([
       {
-        $match: { createdByKodFasiliti: kepp.kodFasiliti },
+        $match: {
+          kepp: true,
+          createdByNegeri: negeri,
+        },
       },
       {
         $group: {
           _id: '$createdByKodFasiliti',
-          jumlahPesakit: { $sum: 1 },
-          jumlahKedatanganBaru: {
-            $sum: {
-              $cond: [
-                {
-                  $eq: ['$kedatangan', 'baru-kedatangan'],
-                },
-                1,
-                0,
-              ],
-            },
-          },
-          jumlahKedatanganUlangan: {
-            $sum: {
-              $cond: [
-                {
-                  $eq: ['$kedatangan', 'ulangan-kedatangan'],
-                },
-                1,
-                0,
-              ],
-            },
-          },
-          jumlahKesEndoPerluAnt: {
-            $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
-          },
-          jumlahKesEndoPerluPreMolar: {
-            $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
-          },
-          jumlahKesEndoPerluMolar: {
-            $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
-          },
-          jumlahKesEndoPerluRedo: {
-            $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum',
-          },
-          jumlahKesEndoRedoKP: {
-            $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
-          },
-          jumlahKesEndoRedoKeppAnt: {
-            $sum: '$jumlahAnteriorRawatanSemulaKeppRawatanUmum',
-          },
-          jumlahKesEndoRedoKeppPreMolar: {
-            $sum: '$jumlahPremolarRawatanSemulaKeppRawatanUmum',
-          },
-          jumlahKesEndoRedoKeppMolar: {
-            $sum: '$jumlahMolarRawatanSemulaKeppRawatanUmum',
-          },
-          jumlahKodRDITN3: {
-            $sum: {
-              $cond: [
-                {
-                  $eq: ['$memenuhiRditnKod3KesRujukUpprRawatanUmum', true],
-                },
-                1,
-                0,
-              ],
-            },
-          },
-          jumlahRestoPascaEndo: {
-            $sum: {
-              $cond: [
-                {
-                  $eq: [
-                    '$restorasiPascaEndodontikKesRujukUpprRawatanUmum',
-                    true,
-                  ],
-                },
-                1,
-                0,
-              ],
-            },
-          },
-          jumlahKomplikasiDiKEPP: {
-            $sum: {
-              $cond: [
-                {
-                  $eq: [
-                    '$komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum',
-                    true,
-                  ],
-                },
-                1,
-                0,
-              ],
-            },
-          },
+          kodFasiliti: { $first: '$createdByKodFasiliti' },
+          createdByKp: { $first: '$createdByKp' },
         },
       },
     ]);
-    data = { ...data, ...pesakit[0] };
-    bigData.push(data);
-  });
 
-  console.log(bigData);
+    keppPt = await Promise.all(
+      keppPt.map(async (kepp) => {
+        const { kodFasiliti } = kepp;
+        const jumlahPegawai = await Operator.countDocuments({
+          statusPegawai: 'pp',
+          kodFasiliti,
+        });
+        return { ...kepp, jumlahPegawai };
+      })
+    );
 
-  return bigData;
+    keppPt = await Promise.all(
+      keppPt.map(async (kepp) => {
+        const pesakit = await Umum.aggregate([
+          {
+            $match: { createdByKodFasiliti: kepp.kodFasiliti, kepp: true },
+          },
+          {
+            $group: {
+              _id: '$createdByKodFasiliti',
+              jumlahPesakit: { $sum: 1 },
+              statusReten: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$statusReten', 'reten salah'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKedatanganBaru: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'baru-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKedatanganUlangan: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$kedatangan', 'ulangan-kedatangan'],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKesEndoPerluAnt: {
+                $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
+              },
+              jumlahKesEndoPerluPreMolar: {
+                $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
+              },
+              jumlahKesEndoPerluMolar: {
+                $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
+              },
+              jumlahKesEndoPerluRedo: {
+                $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikDiperlukanPemeriksaanUmum',
+              },
+              jumlahKesEndoRedoKP: {
+                $sum: '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
+              },
+              jumlahKesEndoRedoKeppAnt: {
+                $sum: '$jumlahAnteriorRawatanSemulaKeppRawatanUmum',
+              },
+              jumlahKesEndoRedoKeppPreMolar: {
+                $sum: '$jumlahPremolarRawatanSemulaKeppRawatanUmum',
+              },
+              jumlahKesEndoRedoKeppMolar: {
+                $sum: '$jumlahMolarRawatanSemulaKeppRawatanUmum',
+              },
+              jumlahKodRDITN3: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: ['$memenuhiRditnKod3KesRujukUpprRawatanUmum', true],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahRestoPascaEndo: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$restorasiPascaEndodontikKesRujukUpprRawatanUmum',
+                        true,
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+              jumlahKomplikasiDiKEPP: {
+                $sum: {
+                  $cond: [
+                    {
+                      $eq: [
+                        '$komplikasiSemasaRawatanKeppKesRujukUpprRawatanUmum',
+                        true,
+                      ],
+                    },
+                    1,
+                    0,
+                  ],
+                },
+              },
+            },
+          },
+        ]);
+        return { ...kepp, ...pesakit[0] };
+      })
+    );
+
+    return keppPt;
+  } catch (error) {
+    errorRetenLogger.error(
+      `Error mengira reten: ${payload.jenisReten}. ${error}`
+    );
+    throw new Error(error);
+  }
 };
 const countTOD = async (payload) => {
   let match_stage_baru = [];
