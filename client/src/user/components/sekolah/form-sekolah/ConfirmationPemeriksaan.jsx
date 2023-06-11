@@ -240,6 +240,9 @@ const ConfirmModal = ({ children, data }) => {
                             <p className='lowercase'>
                               dfx: {data.sumDMFXDesidus}
                             </p>
+                            <p className='lowercase'>
+                              sm: {data.smAdaGigiDesidus}
+                            </p>
                           </p>
                         </div>
                       ) : null}
