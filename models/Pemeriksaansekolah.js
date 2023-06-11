@@ -48,6 +48,16 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // kpmbpb ------------------------------------------------------------
+    menggunakanKPBMPB: {
+      type: String,
+      default: '',
+    },
+    penggunaanKPBMPB: {
+      type: String,
+      default: '',
+    },
+    // pemeriksaan -------------------------------------------------------
     statikBergerak: {
       type: String,
       default: '',
@@ -127,6 +137,11 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       default: 0,
     },
     xAdaGigiDesidus: {
+      type: Number,
+      min: 0,
+      default: 0,
+    },
+    smAdaGigiDesidus: {
       type: Number,
       min: 0,
       default: 0,

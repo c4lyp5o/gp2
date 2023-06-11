@@ -51,7 +51,6 @@ const SekolahSchema = new mongoose.Schema(
       type: String,
       default: 'MISSING ID_INDIVIDU',
     },
-    // previously noKp
     nomborId: {
       type: String,
       default: 'MISSING NOMBOR_ID', // pengenalan diri
@@ -64,17 +63,15 @@ const SekolahSchema = new mongoose.Schema(
       type: String,
       default: 'MISSING SESI_TAKWIM',
     },
-    // previously tahun
     tahunTingkatan: {
       type: String,
       default: 'MISSING TAHUN_TINGKATAN',
     },
-    // previously namaKelas
-    kelasPelajar: {
-      type: String,
-      default: 'MISSING NAMA KELAS',
-    },
-    //previously kodJantina
+    // unreliable, not used
+    // kelasPelajar: {
+    //   type: String,
+    //   default: 'MISSING NAMA KELAS',
+    // },
     jantina: {
       type: String,
       default: 'MISSING JANTINA',
@@ -91,7 +88,6 @@ const SekolahSchema = new mongoose.Schema(
       type: Number,
       default: 7777777, // lucky seven lol
     },
-    // previously kaum
     keturunan: {
       type: String,
       default: 'MISSING keturunan',
@@ -126,6 +122,19 @@ const SekolahSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // kpmbpb ------------------------------------------------------------
+    kedatanganKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranBaruKPBMPB: {
+      type: String,
+      default: '',
+    },
+    noPendaftaranUlanganKPBMPB: {
+      type: String,
+      default: '',
+    },
     // pemeriksaan -------------------------------------------------------
     pemeriksaanSekolah: {
       type: mongoose.Schema.Types.ObjectId,
@@ -138,7 +147,7 @@ const SekolahSchema = new mongoose.Schema(
         ref: 'Rawatansekolah',
       },
     ],
-    // kotak -------------------------------------------------------------
+    // kotak ---------------------------------------------------- not used
     kotakSekolah: {
       type: mongoose.Schema.Types.ObjectId,
       ref: 'Kotaksekolah',
@@ -148,7 +157,3 @@ const SekolahSchema = new mongoose.Schema(
 );
 
 module.exports = mongoose.model('Sekolah', SekolahSchema);
-
-// several field that got deleted
-// daerah
-// ppd

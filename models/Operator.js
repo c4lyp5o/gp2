@@ -59,10 +59,10 @@ const operatorSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  summary: {
-    type: Array,
-    default: [],
-  },
+  // summary: {
+  //   type: Array,
+  //   default: [],
+  // },
   tempatBertugasSebelumIni: {
     type: Array,
     default: [],
