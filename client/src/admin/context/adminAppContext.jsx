@@ -1163,6 +1163,12 @@ function AdminAppProvider({ children }) {
     'WP Putrajaya': 'F',
     ILK: 'ILK',
   };
+  const DictionarySubProgram = {
+    kampungAngkatPergigian: 'Program Kampung Angkat Pergigian',
+    oap: 'Program Orang Asli dan Penan',
+    ppr: 'Projek Perumahan Rakyat',
+    hrc: 'Komuniti Berisiko Tinggi',
+  };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {
       return 'Bilangan aktiviti share kurang 10';
@@ -1299,6 +1305,7 @@ function AdminAppProvider({ children }) {
         InfoDecoder,
         Dictionary,
         DictionaryHurufNegeri,
+        DictionarySubProgram,
         DictionarySosMedParam,
         DictionarySosMedAcronym,
         // ad hoc query (he he boi)

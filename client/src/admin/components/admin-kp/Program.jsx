@@ -2,8 +2,15 @@ import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 import moment from 'moment';
 import { BsArrowLeftSquare } from 'react-icons/bs';
 
+const subProgramColors = {
+  kampungAngkatPergigian: 'bg-user7',
+  oap: 'bg-user8',
+  hrc: 'bg-user9',
+  ppr: 'bg-user12',
+};
+
 export default function Program(props) {
-  const { Dictionary } = useGlobalAdminAppContext();
+  const { Dictionary, DictionarySubProgram } = useGlobalAdminAppContext();
   if (props.data.length > 0) {
     return (
       <div className='flex flex-col items-center gap-5'>
@@ -22,6 +29,9 @@ export default function Program(props) {
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Jenis Program
+                </th>
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Sub Program
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Tarikh Program
@@ -56,6 +66,23 @@ export default function Program(props) {
                     {Dictionary[f.jenisEvent]}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                    {f.subProgram && f.subProgram.length > 0 ? (
+                      <div>
+                        {f.subProgram.map((i) => (
+                          <p
+                            className={`text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1 ${subProgramColors[i]}`}
+                          >
+                            {DictionarySubProgram[i]}
+                          </p>
+                        ))}
+                      </div>
+                    ) : (
+                      <p className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        Tidak Berkenaan
+                      </p>
+                    )}
+                  </td>
+                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {!f.tarikhStart && !f.tarikhEnd && (
                       <>
                         <div className='flex justify-center items-center'>
@@ -79,69 +106,52 @@ export default function Program(props) {
                     {f.tempat}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.jenisEvent !== 'programDewasaMuda' &&
-                      f.jenisEvent !== 'we' &&
-                      f.jenisEvent !== 'oku' && (
-                        <p className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                          Tidak Berkenaan
-                        </p>
-                      )}
-                    {(f.jenisEvent === 'programDewasaMuda' ||
-                      f.jenisEvent === 'we' ||
-                      f.jenisEvent === 'oku') &&
-                      f.enrolmenInstitusi === 'NOT APPLICABLE' && (
+                    {f.jenisEvent === 'programDewasaMuda' ||
+                    f.jenisEvent === 'we' ||
+                    f.jenisEvent === 'oku' ? (
+                      f.enrolmenInstitusi === 'NOT APPLICABLE' ? (
                         <p className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Belum Ditetapkan
                         </p>
-                      )}
-                    {(f.jenisEvent === 'programDewasaMuda' ||
-                      f.jenisEvent === 'we' ||
-                      f.jenisEvent === 'oku') &&
-                      f.enrolmenInstitusi !== 'NOT APPLICABLE' && (
+                      ) : (
                         <p className='bg-user3 text-adminWhite text-xl font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           {f.enrolmenInstitusi}
                         </p>
-                      )}
+                      )
+                    ) : (
+                      <p className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        Tidak Berkenaan
+                      </p>
+                    )}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    <div>
-                      {f.modPenyampaianPerkhidmatan.length > 0 ? (
-                        <div>
-                          {f.modPenyampaianPerkhidmatan.map((i) => (
-                            <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
-                              {Dictionary[i]}
-                              {i.includes('ppb') && <div className='hidden' />}
-                              {i.includes('kpb') && (
-                                <div className='grid grid-rows'>
-                                  <p>{f.penggunaanKpb}</p>
-                                  {f.penggunaanKpb2 !== 'NOT APPLICABLE' ? (
-                                    <p>{f.penggunaanKpb2}</p>
-                                  ) : null}
-                                  {f.penggunaanKpb3 !== 'NOT APPLICABLE' ? (
-                                    <p>{f.penggunaanKpb3}</p>
-                                  ) : null}
-                                </div>
+                    {f.modPenyampaianPerkhidmatan.length > 0 ? (
+                      f.modPenyampaianPerkhidmatan.map((i) => (
+                        <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                          {Dictionary[i]}
+                          {i.includes('ppb') && <div className='hidden' />}
+                          {(i.includes('kpb') || i.includes('mpb')) && (
+                            <div className='grid grid-rows'>
+                              <p>
+                                {i.includes('kpb')
+                                  ? f.penggunaanKpb
+                                  : f.penggunaanMpb}
+                              </p>
+                              {[2, 3].map((j) =>
+                                f[`penggunaan${i.toUpperCase()}${j}`] !==
+                                'NOT APPLICABLE' ? (
+                                  <p>{f[`penggunaan${i.toUpperCase()}${j}`]}</p>
+                                ) : null
                               )}
-                              {i.includes('mpb') && (
-                                <div className='grid grid-rows'>
-                                  <p>{f.penggunaanMpb}</p>
-                                  {f.penggunaanMpb2 !== 'NOT APPLICABLE' ? (
-                                    <p>{f.penggunaanMpb2}</p>
-                                  ) : null}
-                                  {f.penggunaanMpb3 !== 'NOT APPLICABLE' ? (
-                                    <p>{f.penggunaanMpb3}</p>
-                                  ) : null}
-                                </div>
-                              )}
-                            </p>
-                          ))}
-                        </div>
-                      ) : (
-                        <span className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                          Belum Ditetapkan
-                        </span>
-                      )}
-                    </div>
+                            </div>
+                          )}
+                        </p>
+                      ))
+                    ) : (
+                      <span className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                        Belum Ditetapkan
+                      </span>
+                    )}
                   </td>
                   {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     <div>
