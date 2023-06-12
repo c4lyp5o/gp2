@@ -496,22 +496,42 @@ const createPersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const sesiTakwim = sesiTakwimSekolah();
+  // const sesiTakwim = sesiTakwimSekolah();
 
-  const personSekolahExist = await Sekolah.findOne({
-    nomborId: req.body.nomborId,
-    sesiTakwimPelajar: sesiTakwim,
-    berpindah: false,
-    deleted: false,
-  });
+  // const personSekolahExist = await Sekolah.findOne({
+  //   nomborId: req.body.nomborId,
+  //   sesiTakwimPelajar: sesiTakwim,
+  //   berpindah: false,
+  //   deleted: false,
+  // });
 
-  if (personSekolahExist) {
+  // if (personSekolahExist) {
+  //   return res.status(409).json({
+  //     msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+  //   });
+  // }
+
+  if (req.body.umur <= 3) {
     return res.status(409).json({
-      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+      msg: 'Umur pelajar tidak boleh kurang daripada 3 tahun',
     });
   }
 
-  const personSekolah = await Sekolah.create(req.body);
+  const personSekolah = await Sekolah.create({
+    idInstitusi: req.body.idInstitusi,
+    kodSekolah: req.body.kodSekolah,
+    namaSekolah: req.body.namaSekolah,
+    nomborId: req.body.nomborId,
+    nama: req.body.nama,
+    sesiTakwimPelajar: req.body.sesiTakwimPelajar,
+    tahunTingkatan: req.body.tahunTingkatan,
+    jantina: req.body.jantina,
+    statusOku: req.body.statusOku,
+    tarikhLahir: req.body.tarikhLahir,
+    umur: req.body.umur,
+    keturunan: req.body.keturunan,
+    warganegara: req.body.warganegara,
+  });
 
   res.status(201).json({ personSekolah });
 };
@@ -524,6 +544,29 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
   }
 
   const sesiTakwim = sesiTakwimSekolah();
+
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
+  });
+
+  // check xleh submit pemeriksaan kalau singlePersonSekolah tak lengkap
+  if (singlePersonSekolah.umur <= 3 || singlePersonSekolah.umur === 7777777) {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} berumur ${singlePersonSekolah.umur}`,
+    });
+  }
+  if (singlePersonSekolah.keturunan === 'TIADA MAKLUMAT') {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} tidak mempunyai keturunan`,
+    });
+  }
+  if (singlePersonSekolah.warganegara === '') {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} tidak mempunyai warganegara`,
+    });
+  }
 
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
   req.body.createdByNegeri = req.user.negeri;
@@ -663,7 +706,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working is intended or not?
+  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working as intended or not?
   if (req.body.tarikhPemeriksaanSemasa > 0) {
     await Fasiliti.findOneAndUpdate(
       {
@@ -932,13 +975,17 @@ const updateFasiliti = async (req, res) => {
     deleted: false,
   });
 
+  // check xleh tutup sekolah kalau singlePersonSekolah tak lengkap
   for (let i = 0; i < allPersonSekolahs.length; i++) {
-    if (allPersonSekolahs[i].umur <= 3 || allPersonSekolahs[i] === 7777777) {
+    if (
+      allPersonSekolahs[i].umur <= 3 ||
+      allPersonSekolahs[i].umur === 7777777
+    ) {
       return res.status(409).json({
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} berumur ${allPersonSekolahs[i].umur}`,
       });
     }
-    if (allPersonSekolahs[i].keturunan === '') {
+    if (allPersonSekolahs[i].keturunan === 'TIADA MAKLUMAT') {
       return res.status(409).json({
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai keturunan`,
       });
@@ -948,14 +995,6 @@ const updateFasiliti = async (req, res) => {
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai warganegara`,
       });
     }
-    // if (
-    //   fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
-    //   allPersonSekolahs[i].tahunTingkatan.includes('TINGKATAN')
-    // ) {
-    //   return res.status(409).json({
-    //     msg: `Tidak boleh menutup reten sekolah rendah ini kerana terdapat pelajar ${allPersonSekolahs[i].tahunTingkatan}`,
-    //   });
-    // }
   }
 
   const updatedFasiliti = await Fasiliti.findOneAndUpdate(
@@ -1028,23 +1067,29 @@ const updatePersonSekolah = async (req, res) => {
     return res.status(200).json({ updatedPersonSekolahBegin });
   }
 
-  const personSekolahExist = await Sekolah.findOne({
-    nomborId: req.body.nomborId,
-    sesiTakwimPelajar: sesiTakwim,
-    berpindah: false,
-    deleted: false,
-  });
+  // const personSekolahExist = await Sekolah.findOne({
+  //   nomborId: req.body.nomborId,
+  //   sesiTakwimPelajar: sesiTakwim,
+  //   berpindah: false,
+  //   deleted: false,
+  // });
 
-  if (
-    personSekolahExist &&
-    personSekolahExist.nomborId !== singlePersonSekolah.nomborId
-  ) {
+  // if (
+  //   personSekolahExist &&
+  //   personSekolahExist.nomborId !== singlePersonSekolah.nomborId
+  // ) {
+  //   return res.status(409).json({
+  //     msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+  //   });
+  // }
+
+  // kemaskini pelajar PATCH
+  if (req.body.umur <= 3) {
     return res.status(409).json({
-      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+      msg: 'Umur pelajar tidak boleh kurang daripada 3 tahun',
     });
   }
 
-  // kemaskini pelajar PATCH
   const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
     {
       _id: req.params.personSekolahId,
