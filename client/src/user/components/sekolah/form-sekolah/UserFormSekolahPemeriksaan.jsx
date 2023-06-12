@@ -1131,10 +1131,18 @@ function UserFormSekolahPemeriksaan() {
           {
             pending: 'Menghantar...',
             success: 'Pemeriksaan pelajar berjaya dihantar',
-            error: 'Pemeriksaan pelajar gagal dihantar',
+            error: {
+              render({ data }) {
+                if (data.response.status === 409) {
+                  return data.response.data.msg;
+                } else {
+                  return 'Pemeriksaan pelajar gagal dihantar';
+                }
+              },
+            },
           },
           {
-            autoClose: 2000,
+            autoClose: 5000,
           }
         )
         .then(() => {
@@ -1146,6 +1154,17 @@ function UserFormSekolahPemeriksaan() {
             window.open('', '_self');
             window.close();
           }, 3000);
+        })
+        .catch((err) => {
+          console.log(err);
+          toast.info(`Tab akan ditutup dalam masa 5 saat...`, {
+            autoClose: 4000,
+          });
+          setTimeout(() => {
+            window.opener = null;
+            window.open('', '_self');
+            window.close();
+          }, 5000);
         });
     }
 
@@ -1234,9 +1253,13 @@ function UserFormSekolahPemeriksaan() {
                         </p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                        <h2 className='font-semibold'>KETURUNAN :</h2>
+                        <p className='ml-1'>{singlePersonSekolah.keturunan}</p>
+                      </div>
+                      <div className='text-xs flex flex-row '>
+                        <h2 className='font-semibold'>WARGANEGARA :</h2>
                         <p className='ml-1'>
-                          {singlePersonSekolah.kumpulanEtnik}
+                          {singlePersonSekolah.warganegara}
                         </p>
                       </div>
                     </div>

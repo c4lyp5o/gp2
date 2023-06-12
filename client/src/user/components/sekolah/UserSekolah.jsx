@@ -682,7 +682,6 @@ function UserSekolah() {
                             {singlePersonSekolah.nama}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
-                            {/* <div className='md:flex'> */}
                             <div className='text-justify'>
                               {/* <p className='whitespace-nowrap'>
                                 NOMBOR PENGENALAN :{' '}
@@ -698,7 +697,7 @@ function UserSekolah() {
                                 )}
                               </p>
                               <p className='whitespace-nowrap'>
-                                UMUR :{singlePersonSekolah.umur}
+                                UMUR : {singlePersonSekolah.umur}
                               </p>
                               <p className='whitespace-nowrap'>
                                 KETURUNAN : {singlePersonSekolah.keturunan}
@@ -726,7 +725,6 @@ function UserSekolah() {
                                   </span>
                                 )}
                               </span>
-                              {/* </div> */}
                             </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>

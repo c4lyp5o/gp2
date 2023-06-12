@@ -140,7 +140,6 @@ function UserTambahKemaskiniPelajarSekolah({
           axios.patch(
             `/api/v1/sekolah/ubah/${kemaskiniPelajarId}`,
             {
-              nomborId,
               nama: nama.toUpperCase(),
               jantina,
               statusOku,
@@ -283,7 +282,13 @@ function UserTambahKemaskiniPelajarSekolah({
                   {singlePersonSekolah.tahunTingkatan}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  warganegara
+                  Keturunan
+                </p>
+                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                  {singlePersonSekolah.keturunan}
+                </p>
+                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                  Warganegara
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                   {singlePersonSekolah.warganegara}
@@ -2411,16 +2416,16 @@ const keturunanList = [
     value: 'TURKMENISTAN',
     label: 'TURKMENISTAN',
   },
-  {
-    id: '9999',
-    value: 'MAKLUMAT TIADA',
-    label: 'MAKLUMAT TIADA',
-  },
-  {
-    id: '9998',
-    value: 'MAKLUMAT TIDAK DIPEROLEHI',
-    label: 'MAKLUMAT TIDAK DIPEROLEHI',
-  },
+  // {
+  //   id: '9999',
+  //   value: 'MAKLUMAT TIADA',
+  //   label: 'MAKLUMAT TIADA',
+  // },
+  // {
+  //   id: '9998',
+  //   value: 'MAKLUMAT TIDAK DIPEROLEHI',
+  //   label: 'MAKLUMAT TIDAK DIPEROLEHI',
+  // },
 ];
 
 export default UserTambahKemaskiniPelajarSekolah;

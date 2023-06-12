@@ -545,6 +545,29 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
 
   const sesiTakwim = sesiTakwimSekolah();
 
+  const singlePersonSekolah = await Sekolah.findOne({
+    _id: req.params.personSekolahId,
+    sesiTakwimPelajar: sesiTakwim,
+    deleted: false,
+  });
+
+  // check xleh submit pemeriksaan kalau singlePersonSekolah tak lengkap
+  if (singlePersonSekolah.umur <= 3 || singlePersonSekolah.umur === 7777777) {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} berumur ${singlePersonSekolah.umur}`,
+    });
+  }
+  if (singlePersonSekolah.keturunan === 'TIADA MAKLUMAT') {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} tidak mempunyai keturunan`,
+    });
+  }
+  if (singlePersonSekolah.warganegara === '') {
+    return res.status(409).json({
+      msg: `Tidak boleh mengisi reten pelajar ini kerana pelajar ${singlePersonSekolah.nama} tidak mempunyai warganegara`,
+    });
+  }
+
   // associate negeri, daerah, kp to each person sekolah when creating pemeriksaan
   req.body.createdByNegeri = req.user.negeri;
   req.body.createdByDaerah = req.user.daerah;
@@ -683,7 +706,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
     { new: true }
   );
 
-  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working is intended or not?
+  //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working as intended or not?
   if (req.body.tarikhPemeriksaanSemasa > 0) {
     await Fasiliti.findOneAndUpdate(
       {
@@ -952,13 +975,17 @@ const updateFasiliti = async (req, res) => {
     deleted: false,
   });
 
+  // check xleh tutup sekolah kalau singlePersonSekolah tak lengkap
   for (let i = 0; i < allPersonSekolahs.length; i++) {
-    if (allPersonSekolahs[i].umur <= 3 || allPersonSekolahs[i] === 7777777) {
+    if (
+      allPersonSekolahs[i].umur <= 3 ||
+      allPersonSekolahs[i].umur === 7777777
+    ) {
       return res.status(409).json({
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} berumur ${allPersonSekolahs[i].umur}`,
       });
     }
-    if (allPersonSekolahs[i].keturunan === '') {
+    if (allPersonSekolahs[i].keturunan === 'TIADA MAKLUMAT') {
       return res.status(409).json({
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai keturunan`,
       });
@@ -968,14 +995,6 @@ const updateFasiliti = async (req, res) => {
         msg: `Tidak boleh menutup reten sekolah ini kerana pelajar ${allPersonSekolahs[i].nama} tidak mempunyai warganegara`,
       });
     }
-    // if (
-    //   fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
-    //   allPersonSekolahs[i].tahunTingkatan.includes('TINGKATAN')
-    // ) {
-    //   return res.status(409).json({
-    //     msg: `Tidak boleh menutup reten sekolah rendah ini kerana terdapat pelajar ${allPersonSekolahs[i].tahunTingkatan}`,
-    //   });
-    // }
   }
 
   const updatedFasiliti = await Fasiliti.findOneAndUpdate(
