@@ -36,6 +36,9 @@ function UserFormSekolahPemeriksaan() {
   const [menggunakanKPBMPB, setMenggunakanKPBMPB] = useState('');
   const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
 
+  //condition bila takde gigi
+  const [condTiadaGigi, setCondTiadaGigi] = useState(false);
+
   const createdByUsername = username;
   const [engganTidakHadirPemeriksaan, setEngganTidakHadirPemeriksaan] =
     useState('');
@@ -451,6 +454,37 @@ function UserFormSekolahPemeriksaan() {
     adaDesidus,
     adaKekal,
   ]);
+
+  //cond bila tidak ada gigi and reset value
+  useEffect(() => {
+    if (yaTidakPesakitMempunyaiGigi === 'tidak-pesakit-mempunyai-gigi') {
+      setCondTiadaGigi(true);
+      setAdaKekal(false);
+      setDAdaGigiKekal(0);
+      setClassID(0);
+      setClassIID(0);
+      setMAdaGigiKekal(0);
+      setFAdaGigiKekal(0);
+      setClassIF(0);
+      setClassIIF(0);
+      setXAdaGigiKekal(0);
+      setEAdaGigiKekal(0);
+      setAdaDesidus(false);
+      setDAdaGigiDesidus(0);
+      setSmAdaGigiDesidus(0);
+      setFAdaGigiDesidus(0);
+      setXAdaGigiDesidus(0);
+    }
+    if (yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi') {
+      setCondTiadaGigi(false);
+      setKebersihanMulutOralHygiene('');
+      setStatusPeriodontium('');
+      setSkorGisMulutOralHygiene('');
+      setSkorBpeOralHygiene('');
+      setPerluPenskaleranOralHygiene(false);
+      setJumlahFaktorRisiko('');
+    }
+  }, [yaTidakPesakitMempunyaiGigi]);
 
   useEffect(() => {
     if (melaksanakanSaringanMerokok === 'tidak-melaksanakan-saringan-merokok') {
@@ -2369,292 +2403,6 @@ function UserFormSekolahPemeriksaan() {
                         </article>
                       </div>
                     </article>
-                    <div className='grid grid-cols-2 gap-x-2'>
-                      <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          Kebersihan Mulut
-                        </h4>
-                        <div className='flex items-center '>
-                          <p className='flex flex-row pl-5 text-sm font-m'>
-                            Skor Plak<span className='text-user6'>*</span>
-                          </p>
-                          <select
-                            disabled={isDisabled}
-                            required
-                            name='kebersihan-mulut'
-                            id='kebersihan-mulut'
-                            value={kebersihanMulutOralHygiene}
-                            onChange={(e) => {
-                              setKebersihanMulutOralHygiene(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kebersihanMulutOralHygiene: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          >
-                            <option value=''></option>
-                            <option value='tiada'>- (Tidak Disaring)</option>
-                            <option value='A'>A</option>
-                            <option value='C'>C</option>
-                            <option value='E'>E</option>
-                          </select>
-                        </div>
-                        {/* <div
-                        className={`${
-                          singlePersonSekolah.umur < 15 && 'hidden'
-                        } flex items-center flex-row pl-5`}
-                      >
-                        <label
-                          htmlFor='saringan-kanser-mulut'
-                          className='text-sm font-m'
-                        >
-                          Saringan Kanser Mulut
-                        </label>
-                        <input
-                          disabled={isDisabled}
-                          type='checkbox'
-                          name='saringan-kanser-mulut'
-                          id='saringan-kanser-mulut'
-                          checked={saringanKanserMulutOralHygiene}
-                          onChange={() => {
-                            setSaringanKanserMulutOralHygiene(
-                              !saringanKanserMulutOralHygiene
-                            );
-                            setConfirmData({
-                              ...confirmData,
-                              saringanKanserMulutOralHygiene:
-                                !saringanKanserMulutOralHygiene,
-                            });
-                          }}
-                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
-                        />
-                      </div> */}
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            disabled={isDisabled}
-                            type='checkbox'
-                            name='perlu-penskaleran'
-                            id='perlu-penskaleran'
-                            checked={perluPenskaleranOralHygiene}
-                            onChange={() => {
-                              setPerluPenskaleranOralHygiene(
-                                !perluPenskaleranOralHygiene
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                perluPenskaleranOralHygiene:
-                                  !perluPenskaleranOralHygiene,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='perlu-penskaleran'
-                            className='m-2 text-sm font-m'
-                          >
-                            Perlu Penskaleran
-                          </label>
-                        </div>
-                      </article>
-                      <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 auto-rows-min'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          Status Periodontium
-                        </h4>
-                        {singlePersonSekolah.umur >= 15 && (
-                          <div className='flex items-center ml-2'>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='status-periodontium'
-                              id='gis-status-periodontium'
-                              value='gis-status-periodontium'
-                              checked={
-                                statusPeriodontium === 'gis-status-periodontium'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setStatusPeriodontium(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  statusPeriodontium: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
-                            />
-                            <label
-                              htmlFor='gis-status-periodontium'
-                              className='m-2 text-sm font-m'
-                            >
-                              Skor GIS
-                            </label>
-                            <input
-                              disabled={isDisabled}
-                              type='radio'
-                              name='status-periodontium'
-                              id='bpe-status-periodontium'
-                              value='bpe-status-periodontium'
-                              checked={
-                                statusPeriodontium === 'bpe-status-periodontium'
-                                  ? true
-                                  : false
-                              }
-                              onChange={(e) => {
-                                setStatusPeriodontium(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  statusPeriodontium: e.target.value,
-                                });
-                              }}
-                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
-                            />
-                            <label
-                              htmlFor='bpe-status-periodontium'
-                              className='m-2 text-sm font-m'
-                            >
-                              Skor BPE
-                            </label>
-                          </div>
-                        )}
-                        {singlePersonSekolah.umur >= 15 &&
-                        statusPeriodontium === 'gis-status-periodontium' ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            >
-                              <option value=''></option>
-                              <option value='tiada'>- (Tidak Disaring)</option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
-                          </div>
-                        ) : singlePersonSekolah.umur < 15 ? (
-                          <div className='flex items-center flex-row pl-5'>
-                            <p className='flex text-sm font-m'>
-                              Skor GIS
-                              {skorGisMulutOralHygiene ||
-                              skorBpeOralHygiene === '1' ||
-                              skorBpeOralHygiene === '2' ||
-                              skorBpeOralHygiene === '3' ||
-                              skorBpeOralHygiene === '4' ? null : (
-                                <span className='text-user6'>*</span>
-                              )}
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              required={
-                                skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4'
-                                  ? false
-                                  : true
-                              }
-                              name='skor-gis'
-                              id='skor-gis'
-                              value={skorGisMulutOralHygiene}
-                              onChange={(e) => {
-                                setSkorGisMulutOralHygiene(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  skorGisMulutOralHygiene: e.target.value,
-                                });
-                              }}
-                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                            >
-                              <option value=''></option>
-                              <option value='tiada'>- (Tidak Disaring)</option>
-                              <option value='0'>0</option>
-                              <option value='1'>1</option>
-                              <option value='2'>2</option>
-                              <option value='3'>3</option>
-                            </select>
-                          </div>
-                        ) : null}
-                        {singlePersonSekolah.umur >= 15 &&
-                          statusPeriodontium === 'bpe-status-periodontium' && (
-                            <div className=' flex items-center flex-row pl-5'>
-                              <p className='text-sm font-m'>
-                                Skor BPE
-                                {skorGisMulutOralHygiene ||
-                                skorBpeOralHygiene === '1' ||
-                                skorBpeOralHygiene === '2' ||
-                                skorBpeOralHygiene === '3' ||
-                                skorBpeOralHygiene === '4' ? null : (
-                                  <span className='text-user6'>*</span>
-                                )}
-                              </p>
-                              <select
-                                disabled={isDisabled}
-                                required={
-                                  skorGisMulutOralHygiene ||
-                                  skorBpeOralHygiene === '1' ||
-                                  skorBpeOralHygiene === '2' ||
-                                  skorBpeOralHygiene === '3' ||
-                                  skorBpeOralHygiene === '4'
-                                    ? false
-                                    : true
-                                }
-                                name='skor-bpe'
-                                id='skor-bpe'
-                                value={skorBpeOralHygiene}
-                                onChange={(e) => {
-                                  setSkorBpeOralHygiene(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    skorBpeOralHygiene: e.target.value,
-                                  });
-                                }}
-                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                              >
-                                <option value=''></option>
-                                <option value='tiada'>
-                                  - (Tidak Disaring)
-                                </option>
-                                <option value='0'>0</option>
-                                <option value='1'>1</option>
-                                <option value='2'>2</option>
-                                <option value='3'>3</option>
-                                <option value='4'>4</option>
-                              </select>
-                            </div>
-                          )}
-                      </article>
-                    </div>
                     <article className=' border border-userBlack pl-3 p-2 rounded-md grid grid-cols-2 gap-2 auto-rows-min'>
                       <div className='flex flex-row items-center pl-5 col-span-2'>
                         <h4 className='font-bold'>
@@ -3148,76 +2896,373 @@ function UserFormSekolahPemeriksaan() {
                         </div>
                       )}
                     </article>
-                    <article className='border border-userBlack pl-3 p-2 rounded-md'>
-                      <div className='grid grid-cols-1'>
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          Risiko Karies{' '}
-                          <span className='text-user6 text-xl'>*</span>
-                        </h4>
-                        <div className='flex flex-row items-center'>
-                          <p className='flex items-center flex-row pl-5'>
-                            Jumlah Faktor Risiko:
-                          </p>
-                          <select
-                            disabled={
-                              yaTidakPesakitMempunyaiGigi === ''
-                                ? true
-                                : isDisabled
-                            }
-                            required
-                            name='jumlah-faktor-risiko'
-                            id='jumlah-faktor-risiko'
-                            value={jumlahFaktorRisiko}
-                            onChange={(e) => {
-                              setJumlahFaktorRisiko(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                jumlahFaktorRisiko: e.target.value,
-                              });
-                            }}
-                            className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                          >
-                            <option value=''></option>
-                            <option value='0'>0</option>
-                            <option value='1'>1</option>
-                            <option value='2'>2</option>
-                            <option value='3'>3</option>
-                            <option value='4'>4</option>
-                            <option value='5'>5</option>
-                            <option value='6'>6</option>
-                            <option value='7'>7</option>
-                            <option value='8'>8</option>
-                          </select>
-                          <input
-                            disabled
-                            type='text'
-                            name='penanda-risiko-karies'
-                            id='penanda-risiko-karies'
-                            value={
-                              penandaRisikoKaries
-                                ? penandaRisikoKaries
-                                : 'Sila Isi Jumlah Faktor Risiko'
-                            }
-                            onChange={(e) => {
-                              setPenandaRisikoKaries(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                penandaRisikoKaries: e.target.value,
-                              });
-                            }}
-                            className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
-                              penandaRisikoKaries === 'rendah'
-                                ? 'bg-user7 w-24 px-2 '
-                                : penandaRisikoKaries === 'sederhana'
-                                ? 'bg-user8 w-24 px-2 '
-                                : penandaRisikoKaries === 'tinggi'
-                                ? 'bg-user9 w-24 px-2 '
-                                : 'w-40 text-xs px-1'
-                            }`}
-                          />
-                        </div>
+                    {condTiadaGigi === true ? null : (
+                      <div className='grid grid-cols-2 gap-x-2'>
+                        <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
+                          <h4 className='font-bold flex flex-row pl-5'>
+                            Kebersihan Mulut
+                          </h4>
+                          <div className='flex items-center '>
+                            <p className='flex flex-row pl-5 text-sm font-m'>
+                              Skor Plak<span className='text-user6'>*</span>
+                            </p>
+                            <select
+                              disabled={isDisabled}
+                              required
+                              name='kebersihan-mulut'
+                              id='kebersihan-mulut'
+                              value={kebersihanMulutOralHygiene}
+                              onChange={(e) => {
+                                setKebersihanMulutOralHygiene(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  kebersihanMulutOralHygiene: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='tiada'>- (Tidak Disaring)</option>
+                              <option value='A'>A</option>
+                              <option value='C'>C</option>
+                              <option value='E'>E</option>
+                            </select>
+                          </div>
+                          {/* <div
+                        className={`${
+                          singlePersonSekolah.umur < 15 && 'hidden'
+                        } flex items-center flex-row pl-5`}
+                      >
+                        <label
+                          htmlFor='saringan-kanser-mulut'
+                          className='text-sm font-m'
+                        >
+                          Saringan Kanser Mulut
+                        </label>
+                        <input
+                          disabled={isDisabled}
+                          type='checkbox'
+                          name='saringan-kanser-mulut'
+                          id='saringan-kanser-mulut'
+                          checked={saringanKanserMulutOralHygiene}
+                          onChange={() => {
+                            setSaringanKanserMulutOralHygiene(
+                              !saringanKanserMulutOralHygiene
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              saringanKanserMulutOralHygiene:
+                                !saringanKanserMulutOralHygiene,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                        />
+                      </div> */}
+                          <div className='flex items-center flex-row pl-5'>
+                            <input
+                              disabled={isDisabled}
+                              type='checkbox'
+                              name='perlu-penskaleran'
+                              id='perlu-penskaleran'
+                              checked={perluPenskaleranOralHygiene}
+                              onChange={() => {
+                                setPerluPenskaleranOralHygiene(
+                                  !perluPenskaleranOralHygiene
+                                );
+                                setConfirmData({
+                                  ...confirmData,
+                                  perluPenskaleranOralHygiene:
+                                    !perluPenskaleranOralHygiene,
+                                });
+                              }}
+                              className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                            />
+                            <label
+                              htmlFor='perlu-penskaleran'
+                              className='m-2 text-sm font-m'
+                            >
+                              Perlu Penskaleran
+                            </label>
+                          </div>
+                        </article>
+                        <article className='border border-userBlack pl-3 p-2 rounded-md grid grid-cols-1 auto-rows-min'>
+                          <h4 className='font-bold flex flex-row pl-5'>
+                            Status Periodontium
+                          </h4>
+                          {singlePersonSekolah.umur >= 15 && (
+                            <div className='flex items-center ml-2'>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='status-periodontium'
+                                id='gis-status-periodontium'
+                                value='gis-status-periodontium'
+                                checked={
+                                  statusPeriodontium ===
+                                  'gis-status-periodontium'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setStatusPeriodontium(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    statusPeriodontium: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                              />
+                              <label
+                                htmlFor='gis-status-periodontium'
+                                className='m-2 text-sm font-m'
+                              >
+                                Skor GIS
+                              </label>
+                              <input
+                                disabled={isDisabled}
+                                type='radio'
+                                name='status-periodontium'
+                                id='bpe-status-periodontium'
+                                value='bpe-status-periodontium'
+                                checked={
+                                  statusPeriodontium ===
+                                  'bpe-status-periodontium'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setStatusPeriodontium(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    statusPeriodontium: e.target.value,
+                                  });
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
+                              />
+                              <label
+                                htmlFor='bpe-status-periodontium'
+                                className='m-2 text-sm font-m'
+                              >
+                                Skor BPE
+                              </label>
+                            </div>
+                          )}
+                          {singlePersonSekolah.umur >= 15 &&
+                          statusPeriodontium === 'gis-status-periodontium' ? (
+                            <div className='flex items-center flex-row pl-5'>
+                              <p className='flex text-sm font-m'>
+                                Skor GIS
+                                {skorGisMulutOralHygiene ||
+                                skorBpeOralHygiene === '1' ||
+                                skorBpeOralHygiene === '2' ||
+                                skorBpeOralHygiene === '3' ||
+                                skorBpeOralHygiene === '4' ? null : (
+                                  <span className='text-user6'>*</span>
+                                )}
+                              </p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='tiada'>
+                                  - (Tidak Disaring)
+                                </option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                            </div>
+                          ) : singlePersonSekolah.umur < 15 ? (
+                            <div className='flex items-center flex-row pl-5'>
+                              <p className='flex text-sm font-m'>
+                                Skor GIS
+                                {skorGisMulutOralHygiene ||
+                                skorBpeOralHygiene === '1' ||
+                                skorBpeOralHygiene === '2' ||
+                                skorBpeOralHygiene === '3' ||
+                                skorBpeOralHygiene === '4' ? null : (
+                                  <span className='text-user6'>*</span>
+                                )}
+                              </p>
+                              <select
+                                disabled={isDisabled}
+                                required={
+                                  skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4'
+                                    ? false
+                                    : true
+                                }
+                                name='skor-gis'
+                                id='skor-gis'
+                                value={skorGisMulutOralHygiene}
+                                onChange={(e) => {
+                                  setSkorGisMulutOralHygiene(e.target.value);
+                                  setConfirmData({
+                                    ...confirmData,
+                                    skorGisMulutOralHygiene: e.target.value,
+                                  });
+                                }}
+                                className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                              >
+                                <option value=''></option>
+                                <option value='tiada'>
+                                  - (Tidak Disaring)
+                                </option>
+                                <option value='0'>0</option>
+                                <option value='1'>1</option>
+                                <option value='2'>2</option>
+                                <option value='3'>3</option>
+                              </select>
+                            </div>
+                          ) : null}
+                          {singlePersonSekolah.umur >= 15 &&
+                            statusPeriodontium ===
+                              'bpe-status-periodontium' && (
+                              <div className=' flex items-center flex-row pl-5'>
+                                <p className='text-sm font-m'>
+                                  Skor BPE
+                                  {skorGisMulutOralHygiene ||
+                                  skorBpeOralHygiene === '1' ||
+                                  skorBpeOralHygiene === '2' ||
+                                  skorBpeOralHygiene === '3' ||
+                                  skorBpeOralHygiene === '4' ? null : (
+                                    <span className='text-user6'>*</span>
+                                  )}
+                                </p>
+                                <select
+                                  disabled={isDisabled}
+                                  required={
+                                    skorGisMulutOralHygiene ||
+                                    skorBpeOralHygiene === '1' ||
+                                    skorBpeOralHygiene === '2' ||
+                                    skorBpeOralHygiene === '3' ||
+                                    skorBpeOralHygiene === '4'
+                                      ? false
+                                      : true
+                                  }
+                                  name='skor-bpe'
+                                  id='skor-bpe'
+                                  value={skorBpeOralHygiene}
+                                  onChange={(e) => {
+                                    setSkorBpeOralHygiene(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      skorBpeOralHygiene: e.target.value,
+                                    });
+                                  }}
+                                  className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                >
+                                  <option value=''></option>
+                                  <option value='tiada'>
+                                    - (Tidak Disaring)
+                                  </option>
+                                  <option value='0'>0</option>
+                                  <option value='1'>1</option>
+                                  <option value='2'>2</option>
+                                  <option value='3'>3</option>
+                                  <option value='4'>4</option>
+                                </select>
+                              </div>
+                            )}
+                        </article>
                       </div>
-                    </article>
+                    )}
+                    {condTiadaGigi === true ? null : (
+                      <article className='border border-userBlack pl-3 p-2 rounded-md'>
+                        <div className='grid grid-cols-1'>
+                          <h4 className='font-bold flex flex-row pl-5'>
+                            Risiko Karies{' '}
+                            <span className='text-user6 text-xl'>*</span>
+                          </h4>
+                          <div className='flex flex-row items-center'>
+                            <p className='flex items-center flex-row pl-5'>
+                              Jumlah Faktor Risiko:
+                            </p>
+                            <select
+                              disabled={
+                                yaTidakPesakitMempunyaiGigi === ''
+                                  ? true
+                                  : isDisabled
+                              }
+                              required
+                              name='jumlah-faktor-risiko'
+                              id='jumlah-faktor-risiko'
+                              value={jumlahFaktorRisiko}
+                              onChange={(e) => {
+                                setJumlahFaktorRisiko(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  jumlahFaktorRisiko: e.target.value,
+                                });
+                              }}
+                              className='appearance-none w-16 border-b-4 mx-3 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                            >
+                              <option value=''></option>
+                              <option value='0'>0</option>
+                              <option value='1'>1</option>
+                              <option value='2'>2</option>
+                              <option value='3'>3</option>
+                              <option value='4'>4</option>
+                              <option value='5'>5</option>
+                              <option value='6'>6</option>
+                              <option value='7'>7</option>
+                              <option value='8'>8</option>
+                            </select>
+                            <input
+                              disabled
+                              type='text'
+                              name='penanda-risiko-karies'
+                              id='penanda-risiko-karies'
+                              value={
+                                penandaRisikoKaries
+                                  ? penandaRisikoKaries
+                                  : 'Sila Isi Jumlah Faktor Risiko'
+                              }
+                              onChange={(e) => {
+                                setPenandaRisikoKaries(e.target.value);
+                                setConfirmData({
+                                  ...confirmData,
+                                  penandaRisikoKaries: e.target.value,
+                                });
+                              }}
+                              className={`appearance-none capitalize h-8 py-1 text-userBlack border border-user1 rounded-md shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent ${
+                                penandaRisikoKaries === 'rendah'
+                                  ? 'bg-user7 w-24 px-2 '
+                                  : penandaRisikoKaries === 'sederhana'
+                                  ? 'bg-user8 w-24 px-2 '
+                                  : penandaRisikoKaries === 'tinggi'
+                                  ? 'bg-user9 w-24 px-2 '
+                                  : 'w-40 text-xs px-1'
+                              }`}
+                            />
+                          </div>
+                        </div>
+                      </article>
+                    )}
                     <article className='grid grid-cols-1 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                       <h4 className='font-bold flex flex-row pl-5'>Trauma</h4>
                       <div className='grid grid-cols-1 lg:grid-cols-2'>
