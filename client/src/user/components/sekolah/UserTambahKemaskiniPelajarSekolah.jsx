@@ -69,156 +69,156 @@ function UserTambahKemaskiniPelajarSekolah({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmittingTambahPelajar(true);
-    // if (!kemaskiniPelajarId) {
-    const {
-      idInstitusi,
-      kodSekolah,
-      namaSekolah,
-      sesiTakwimPelajar,
-      tahunTingkatan,
-    } = dataFromPilihanTahunTingkatan;
+    if (!kemaskiniPelajarId) {
+      const {
+        idInstitusi,
+        kodSekolah,
+        namaSekolah,
+        sesiTakwimPelajar,
+        tahunTingkatan,
+      } = dataFromPilihanTahunTingkatan;
 
-    await toast
-      .promise(
-        axios.post(
-          '/api/v1/sekolah',
-          {
-            idInstitusi,
-            kodSekolah,
-            namaSekolah,
-            //
-            nomborId,
-            nama: nama.toUpperCase(),
-            sesiTakwimPelajar,
-            tahunTingkatan,
-            jantina,
-            statusOku,
-            tarikhLahir,
-            umur,
-            keturunan: keturunan.toUpperCase(),
-            warganegara,
-          },
-          {
-            headers: {
-              Authorization: `Bearer ${
-                reliefUserToken ? reliefUserToken : userToken
-              }`,
+      await toast
+        .promise(
+          axios.post(
+            '/api/v1/sekolah',
+            {
+              idInstitusi,
+              kodSekolah,
+              namaSekolah,
+              //
+              nomborId,
+              nama: nama.toUpperCase(),
+              sesiTakwimPelajar,
+              tahunTingkatan,
+              jantina,
+              statusOku,
+              tarikhLahir,
+              umur,
+              keturunan: keturunan.toUpperCase(),
+              warganegara,
             },
-          }
-        ),
-        {
-          pending: 'Sedang menambah pelajar',
-          success: 'Berjaya menambah pelajar',
-          error: {
-            render({ data }) {
-              if (data.response.status === 409) {
-                return data.response.data.msg;
-              } else {
-                return 'Gagal menambah pelajar';
-              }
+            {
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
+            }
+          ),
+          {
+            pending: 'Sedang menambah pelajar',
+            success: 'Berjaya menambah pelajar',
+            error: {
+              render({ data }) {
+                if (data.response.status === 409) {
+                  return data.response.data.msg;
+                } else {
+                  return 'Gagal menambah pelajar';
+                }
+              },
             },
           },
-        },
-        { autoClose: 5000 }
-      )
-      .then(() => {
-        setReloadState(!reloadState);
-        setSubmittingTambahPelajar(false);
-        setModalTambahKemaskiniPelajar(false);
-      })
-      .catch((err) => {
-        console.log(err);
-        // setReloadState(!reloadState);
-        setSubmittingTambahPelajar(false);
-        // setModalTambahKemaskiniPelajar(false);
-      });
-    // }
+          { autoClose: 5000 }
+        )
+        .then(() => {
+          setReloadState(!reloadState);
+          setSubmittingTambahPelajar(false);
+          setModalTambahKemaskiniPelajar(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          // setReloadState(!reloadState);
+          setSubmittingTambahPelajar(false);
+          // setModalTambahKemaskiniPelajar(false);
+        });
+    }
 
-    // if (kemaskiniPelajarId) {
-    //   await toast
-    //     .promise(
-    //       axios.patch(
-    //         `/api/v1/sekolah/ubah/${kemaskiniPelajarId}`,
-    //         {
-    //           nomborId,
-    //           nama: nama.toUpperCase(),
-    //           jantina,
-    //           statusOku,
-    //           tarikhLahir,
-    //           umur,
-    //           keturunan: keturunan.toUpperCase(),
-    //           warganegara,
-    //         },
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${
-    //               reliefUserToken ? reliefUserToken : userToken
-    //             }`,
-    //           },
-    //         }
-    //       ),
-    //       {
-    //         pending: 'Sedang mengemaskini pelajar',
-    //         success: 'Berjaya mengemaskini pelajar',
-    //         error: {
-    //           render({ data }) {
-    //             if (data.response.status === 409) {
-    //               return data.response.data.msg;
-    //             } else {
-    //               return 'Gagal mengemaskini pelajar';
-    //             }
-    //           },
-    //         },
-    //       },
-    //       { autoClose: 5000 }
-    //     )
-    //     .then(() => {
-    //       setReloadState(!reloadState);
-    //       setSubmittingTambahPelajar(false);
-    //       setModalTambahKemaskiniPelajar(false);
-    //     })
-    //     .catch((err) => {
-    //       console.log(err);
-    //       // setReloadState(!reloadState);
-    //       setSubmittingTambahPelajar(false);
-    //       // setModalTambahKemaskiniPelajar(false);
-    //     });
-    // }
+    if (kemaskiniPelajarId) {
+      await toast
+        .promise(
+          axios.patch(
+            `/api/v1/sekolah/ubah/${kemaskiniPelajarId}`,
+            {
+              nomborId,
+              nama: nama.toUpperCase(),
+              jantina,
+              statusOku,
+              tarikhLahir,
+              umur,
+              keturunan: keturunan.toUpperCase(),
+              warganegara,
+            },
+            {
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
+            }
+          ),
+          {
+            pending: 'Sedang mengemaskini pelajar',
+            success: 'Berjaya mengemaskini pelajar',
+            error: {
+              render({ data }) {
+                if (data.response.status === 409) {
+                  return data.response.data.msg;
+                } else {
+                  return 'Gagal mengemaskini pelajar';
+                }
+              },
+            },
+          },
+          { autoClose: 5000 }
+        )
+        .then(() => {
+          setReloadState(!reloadState);
+          setSubmittingTambahPelajar(false);
+          setModalTambahKemaskiniPelajar(false);
+        })
+        .catch((err) => {
+          console.log(err);
+          // setReloadState(!reloadState);
+          setSubmittingTambahPelajar(false);
+          // setModalTambahKemaskiniPelajar(false);
+        });
+    }
   };
 
   // fetch singlePersonSekolah to edit if kemaskiniPelajarId === true
-  // useEffect(() => {
-  //   if (kemaskiniPelajarId) {
-  //     const fetchSinglePersonSekolah = async () => {
-  //       try {
-  //         const { data } = await axios.get(
-  //           `/api/v1/sekolah/${kemaskiniPelajarId}`,
-  //           {
-  //             headers: {
-  //               Authorization: `Bearer ${
-  //                 reliefUserToken ? reliefUserToken : userToken
-  //               }`,
-  //             },
-  //           }
-  //         );
-  //         setSinglePersonSekolah(data.singlePersonSekolah);
+  useEffect(() => {
+    if (kemaskiniPelajarId) {
+      const fetchSinglePersonSekolah = async () => {
+        try {
+          const { data } = await axios.get(
+            `/api/v1/sekolah/${kemaskiniPelajarId}`,
+            {
+              headers: {
+                Authorization: `Bearer ${
+                  reliefUserToken ? reliefUserToken : userToken
+                }`,
+              },
+            }
+          );
+          setSinglePersonSekolah(data.singlePersonSekolah);
 
-  //         setNama(data.singlePersonSekolah.nama);
-  //         setNomborId(data.singlePersonSekolah.nomborId);
-  //         setStatusOku(data.singlePersonSekolah.statusOku);
-  //         setTarikhLahir(data.singlePersonSekolah.tarikhLahir);
-  //         setTarikhLahirDP(new Date(data.singlePersonSekolah.tarikhLahir));
-  //         setJantina(data.singlePersonSekolah.jantina);
-  //         setUmur(data.singlePersonSekolah.umur);
-  //         setKeturunan(data.singlePersonSekolah.keturunan);
-  //         setWarganegara(data.singlePersonSekolah.warganegara);
-  //       } catch (error) {
-  //         console.log(error);
-  //       }
-  //     };
-  //     fetchSinglePersonSekolah();
-  //   }
-  // }, [kemaskiniPelajarId]);
+          setNama(data.singlePersonSekolah.nama);
+          setNomborId(data.singlePersonSekolah.nomborId);
+          setStatusOku(data.singlePersonSekolah.statusOku);
+          setTarikhLahir(data.singlePersonSekolah.tarikhLahir);
+          setTarikhLahirDP(new Date(data.singlePersonSekolah.tarikhLahir));
+          setJantina(data.singlePersonSekolah.jantina);
+          setUmur(data.singlePersonSekolah.umur);
+          setKeturunan(data.singlePersonSekolah.keturunan);
+          setWarganegara(data.singlePersonSekolah.warganegara);
+        } catch (error) {
+          console.log(error);
+        }
+      };
+      fetchSinglePersonSekolah();
+    }
+  }, [kemaskiniPelajarId]);
 
   const closeModal = () => {
     setModalTambahKemaskiniPelajar(false);
