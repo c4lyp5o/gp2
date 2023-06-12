@@ -691,6 +691,7 @@ const EditModalForKp = ({
             res.data.enrolmen6Tahun = 0;
           }
         }
+        // console.log(res.data);
         setEditedEntity(res.data);
         res.data.tarikhStart
           ? setStartDateDP(new Date(res.data.tarikhStart))
@@ -736,6 +737,7 @@ const EditModalForKp = ({
         // nama: currentName.current,
         createdByKp: kp,
         jenisEvent: editedEntity.jenisEvent,
+        subProgram: editedEntity.subProgram,
         enrolmenInstitusi: editedEntity.enrolmenInstitusi,
         penggunaanKpb: editedEntity.penggunaanKpb,
         penggunaanKpb2: editedEntity.penggunaanKpb2,
