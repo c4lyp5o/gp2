@@ -58,18 +58,6 @@ const PemeriksaansekolahSchema = new mongoose.Schema(
       default: '',
     },
     // pemeriksaan -------------------------------------------------------
-    statikBergerak: {
-      type: String,
-      default: '',
-    },
-    kpBergerak: {
-      type: Boolean,
-      default: false,
-    },
-    plateNo: {
-      type: String,
-      default: '',
-    },
     yaTidakSediaAdaStatusDenture: {
       type: String,
       default: '',

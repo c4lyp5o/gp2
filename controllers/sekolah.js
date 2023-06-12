@@ -1138,6 +1138,33 @@ const softDeletePersonSekolah = async (req, res) => {
   res.status(200).json({ singlePersonSekolahToDelete });
 };
 
+// PATCH /delete--filled/:personSekolahId
+const softDeletePersonSekolahAfterFilled = async (req, res) => {
+  if (req.user.accountType !== 'kpUser') {
+    return res.status(401).json({ msg: 'Unauthorized' });
+  }
+
+  const sesiTakwim = sesiTakwimSekolah();
+
+  const { deleteReason } = req.body;
+
+  const singlePersonSekolahToDeleteAfterFilled = await Sekolah.findOneAndUpdate(
+    {
+      _id: req.params.personSekolahId,
+      sesiTakwimPelajar: sesiTakwim,
+      deleted: false,
+    },
+    {
+      deleted: true,
+      deleteReason,
+      deletedForOfficer: `${req.body.createdByMdcMdtb} has deleted this pelajar`,
+    },
+    { new: true }
+  );
+
+  res.status(200).json({ singlePersonSekolahToDeleteAfterFilled });
+};
+
 // PATCH /pemeriksaan/ubah/:pemeriksaanSekolahId
 const updatePemeriksaanSekolah = async (req, res) => {
   if (req.user.accountType !== 'kpUser') {
@@ -1289,6 +1316,7 @@ module.exports = {
   updateFasiliti,
   updatePersonSekolah,
   softDeletePersonSekolah,
+  softDeletePersonSekolahAfterFilled,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
   updateKotakSekolah,
