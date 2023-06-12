@@ -78,13 +78,6 @@ function UserTambahKemaskiniPelajarSekolah({
       tahunTingkatan,
     } = dataFromPilihanTahunTingkatan;
 
-    if (umur <= 4) {
-      toast.error('Umur pelajar tidak boleh kurang dari 4 tahun', {
-        autoClose: 3000,
-      });
-      return;
-    }
-
     await toast
       .promise(
         axios.post(
@@ -391,7 +384,7 @@ function UserTambahKemaskiniPelajarSekolah({
                     htmlFor='nomborId'
                     className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
                   >
-                    Nombor Kad Pengenalan
+                    Nombor Pengenalan Diri
                     <span className='font-semibold text-user6'>*</span>
                   </label>
                   {warganegara === 'MALAYSIA' ? (

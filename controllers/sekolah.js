@@ -496,22 +496,42 @@ const createPersonSekolah = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const sesiTakwim = sesiTakwimSekolah();
+  // const sesiTakwim = sesiTakwimSekolah();
 
-  const personSekolahExist = await Sekolah.findOne({
-    nomborId: req.body.nomborId,
-    sesiTakwimPelajar: sesiTakwim,
-    berpindah: false,
-    deleted: false,
-  });
+  // const personSekolahExist = await Sekolah.findOne({
+  //   nomborId: req.body.nomborId,
+  //   sesiTakwimPelajar: sesiTakwim,
+  //   berpindah: false,
+  //   deleted: false,
+  // });
 
-  if (personSekolahExist) {
+  // if (personSekolahExist) {
+  //   return res.status(409).json({
+  //     msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+  //   });
+  // }
+
+  if (req.body.umur <= 3) {
     return res.status(409).json({
-      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+      msg: 'Umur pelajar tidak boleh kurang daripada 3 tahun',
     });
   }
 
-  const personSekolah = await Sekolah.create(req.body);
+  const personSekolah = await Sekolah.create({
+    idInstitusi: req.body.idInstitusi,
+    kodSekolah: req.body.kodSekolah,
+    namaSekolah: req.body.namaSekolah,
+    nomborId: req.body.nomborId,
+    nama: req.body.nama,
+    sesiTakwimPelajar: req.body.sesiTakwimPelajar,
+    tahunTingkatan: req.body.tahunTingkatan,
+    jantina: req.body.jantina,
+    statusOku: req.body.statusOku,
+    tarikhLahir: req.body.tarikhLahir,
+    umur: req.body.umur,
+    keturunan: req.body.keturunan,
+    warganegara: req.body.warganegara,
+  });
 
   res.status(201).json({ personSekolah });
 };
