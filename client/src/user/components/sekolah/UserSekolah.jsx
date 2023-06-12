@@ -682,7 +682,6 @@ function UserSekolah() {
                             {singlePersonSekolah.nama}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
-                            {/* <div className='md:flex'> */}
                             <div className='text-justify'>
                               <p className='whitespace-nowrap'>
                                 NOMBOR PENGENALAN :{' '}
@@ -700,7 +699,7 @@ function UserSekolah() {
                               <p>
                                 WARGANEGARA : {singlePersonSekolah.warganegara}
                               </p>
-                              <span>
+                              {/* <span>
                                 {filteredFasilitiSekolah.sekolahSelesaiReten ===
                                 true ? null : (
                                   <span className='md:flex md:shrink-0 text-center sm:text-left py-2'>
@@ -719,8 +718,7 @@ function UserSekolah() {
                                     )}
                                   </span>
                                 )}
-                              </span>
-                              {/* </div> */}
+                              </span> */}
                             </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>

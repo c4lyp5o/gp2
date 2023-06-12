@@ -1028,40 +1028,41 @@ const updatePersonSekolah = async (req, res) => {
     return res.status(200).json({ updatedPersonSekolahBegin });
   }
 
-  const personSekolahExist = await Sekolah.findOne({
-    nomborId: req.body.nomborId,
-    sesiTakwimPelajar: sesiTakwim,
-    berpindah: false,
-    deleted: false,
-  });
+  // // kemaskini pelajar PATCH
+  // const personSekolahExist = await Sekolah.findOne({
+  //   nomborId: req.body.nomborId,
+  //   sesiTakwimPelajar: sesiTakwim,
+  //   berpindah: false,
+  //   deleted: false,
+  // });
 
-  if (
-    personSekolahExist &&
-    personSekolahExist.nomborId !== singlePersonSekolah.nomborId
-  ) {
-    return res.status(409).json({
-      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
-    });
-  }
+  // if (
+  //   personSekolahExist &&
+  //   personSekolahExist.nomborId !== singlePersonSekolah.nomborId
+  // ) {
+  //   return res.status(409).json({
+  //     msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+  //   });
+  // }
 
-  // kemaskini pelajar PATCH
-  const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
-    {
-      _id: req.params.personSekolahId,
-      sesiTakwimPelajar: sesiTakwim,
-      deleted: false,
-    },
-    req.body,
-    { new: true }
-  );
+  // const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
+  //   {
+  //     _id: req.params.personSekolahId,
+  //     sesiTakwimPelajar: sesiTakwim,
+  //     deleted: false,
+  //   },
+  //   req.body,
+  //   { new: true }
+  // );
 
-  if (!updatedPersonSekolah) {
-    return res
-      .status(404)
-      .json({ msg: `No person with id ${req.params.personSekolahId}` });
-  }
+  // if (!updatedPersonSekolah) {
+  //   return res
+  //     .status(404)
+  //     .json({ msg: `No person with id ${req.params.personSekolahId}` });
+  // }
 
-  res.status(200).json({ updatedPersonSekolah });
+  // res.status(200).json({ updatedPersonSekolah });
+  throw new Error();
 };
 
 // PATCH /delete/:personSekolahId
