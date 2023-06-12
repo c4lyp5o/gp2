@@ -49,9 +49,6 @@ function UserFormSekolahPemeriksaan() {
   const [tidakHadirPemeriksaan, setTidakHadirPemeriksaan] = useState('');
   const [padamPemeriksaan, setPadamPemeriksaan] = useState(false);
   const [tarikhPemeriksaanSemasa, setTarikhPemeriksaanSemasa] = useState('');
-  const [statikBergerak, setStatikBergerak] = useState('');
-  const [kpBergerak, setKpBergerak] = useState(false);
-  const [plateNo, setPlateNo] = useState('');
   const [yaTidakSediaAdaStatusDenture, setYaTidakSediaAdaStatusDenture] =
     useState('');
   const [separaPenuhAtasSediaAdaDenture, setSeparaPenuhAtasSediaAdaDenture] =
@@ -423,10 +420,6 @@ function UserFormSekolahPemeriksaan() {
 
   //reset value
   useEffect(() => {
-    if (statikBergerak === 'klinik-pergigian-statik' || statikBergerak === '') {
-      setKpBergerak(false);
-      setPlateNo('');
-    }
     if (yaTidakSediaAdaStatusDenture === 'tidak-sedia-ada-status-denture') {
       setSeparaPenuhAtasSediaAdaDenture('');
       setSeparaPenuhBawahSediaAdaDenture('');
@@ -448,7 +441,6 @@ function UserFormSekolahPemeriksaan() {
       setXAdaGigiKekal(0);
     }
   }, [
-    statikBergerak,
     yaTidakSediaAdaStatusDenture,
     yaTidakPerluStatusDenture,
     adaDesidus,
@@ -583,13 +575,6 @@ function UserFormSekolahPemeriksaan() {
           setPenggunaanKPBMPB(
             data.personSekolahWithPopulate.pemeriksaanSekolah.penggunaanKPBMPB
           );
-          setStatikBergerak(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.statikBergerak
-          );
-          setKpBergerak(
-            data.personSekolahWithPopulate.pemeriksaanSekolah.kpBergerak
-          );
-          setPlateNo(data.personSekolahWithPopulate.pemeriksaanSekolah.plateNo);
           setYaTidakSediaAdaStatusDenture(
             data.personSekolahWithPopulate.pemeriksaanSekolah
               .yaTidakSediaAdaStatusDenture
@@ -1060,9 +1045,6 @@ function UserFormSekolahPemeriksaan() {
               tarikhPemeriksaanSemasa,
               menggunakanKPBMPB,
               penggunaanKPBMPB,
-              statikBergerak,
-              kpBergerak,
-              plateNo,
               yaTidakSediaAdaStatusDenture,
               separaPenuhAtasSediaAdaDenture,
               separaPenuhBawahSediaAdaDenture,
@@ -1881,85 +1863,6 @@ function UserFormSekolahPemeriksaan() {
                       </div>
                     </article>
                   )}
-                  {/* <article className='grid grid-cols-2 gap-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md'>
-                    <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                      Penyampaian Perkhidmatan Sekolah
-                    </h4>
-                    <div className='flex flex-row items-center pl-5 col-span-2'>
-                      <select
-                        disabled={isDisabled}
-                        required
-                        name='statik-bergerak'
-                        id='statik-bergerak'
-                        value={statikBergerak}
-                        onChange={(e) => {
-                          setStatikBergerak(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            statikBergerak: e.target.value,
-                          });
-                        }}
-                        className='appearance-none w-60 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      >
-                        <option value=''>Sila Pilih</option>
-                        <option value='klinik-pergigian-statik'>
-                          Klinik Pergigian Statik
-                        </option>
-                        <option value='pasukan-pergigian-bergerak'>
-                          Pasukan / Klinik Pergigian Bergerak
-                        </option>
-                      </select>
-                      <span className='text-user6'>*</span>
-                    </div>
-                    <div className='flex flex-row items-center pl-5'>
-                      <input
-                        disabled={isDisabled}
-                        type='checkbox'
-                        name='kp-bergerak'
-                        id='kp-bergerak'
-                        checked={kpBergerak}
-                        onChange={() => {
-                          setKpBergerak(!kpBergerak);
-                          setConfirmData({
-                            ...confirmData,
-                            kpBergerak: !kpBergerak,
-                          });
-                        }}
-                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
-                      />
-                      <label
-                        htmlFor='kp-bergerak'
-                        className='ml-2 text-sm font-m'
-                      >
-                        KP Bergerak
-                      </label>
-                    </div>
-                    <div
-                      className={`${
-                        !kpBergerak && 'hidden'
-                      } flex flex-row items-center pl-5`}
-                    >
-                      <select
-                        disabled={isDisabled}
-                        required={kpBergerak && true}
-                        name='plate-no'
-                        id='plate-no'
-                        value={plateNo}
-                        onChange={(e) => {
-                          setPlateNo(e.target.value);
-                          setConfirmData({
-                            ...confirmData,
-                            plateNo: e.target.value,
-                          });
-                        }}
-                        className='appearance-none w-28 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                      >
-                        <option value=''>Plate No</option>
-                        <option value='1'>1</option>
-                      </select>
-                      {kpBergerak && <span className='text-user6'>*</span>}
-                    </div>
-                  </article> */}
                 </section>
                 {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
                 engganPemeriksaan === 'ya-enggan-pemeriksaan' ? null : (
