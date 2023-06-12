@@ -1048,23 +1048,29 @@ const updatePersonSekolah = async (req, res) => {
     return res.status(200).json({ updatedPersonSekolahBegin });
   }
 
-  const personSekolahExist = await Sekolah.findOne({
-    nomborId: req.body.nomborId,
-    sesiTakwimPelajar: sesiTakwim,
-    berpindah: false,
-    deleted: false,
-  });
+  // const personSekolahExist = await Sekolah.findOne({
+  //   nomborId: req.body.nomborId,
+  //   sesiTakwimPelajar: sesiTakwim,
+  //   berpindah: false,
+  //   deleted: false,
+  // });
 
-  if (
-    personSekolahExist &&
-    personSekolahExist.nomborId !== singlePersonSekolah.nomborId
-  ) {
+  // if (
+  //   personSekolahExist &&
+  //   personSekolahExist.nomborId !== singlePersonSekolah.nomborId
+  // ) {
+  //   return res.status(409).json({
+  //     msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+  //   });
+  // }
+
+  // kemaskini pelajar PATCH
+  if (req.body.umur <= 3) {
     return res.status(409).json({
-      msg: `Pelajar ini telah wujud di sekolah ${personSekolahExist.namaSekolah} bagi ${sesiTakwim}`,
+      msg: 'Umur pelajar tidak boleh kurang daripada 3 tahun',
     });
   }
 
-  // kemaskini pelajar PATCH
   const updatedPersonSekolah = await Sekolah.findOneAndUpdate(
     {
       _id: req.params.personSekolahId,

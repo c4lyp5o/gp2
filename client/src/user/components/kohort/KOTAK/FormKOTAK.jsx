@@ -443,12 +443,12 @@ function UserFormKohortKOTAK() {
                         <h2 className='font-semibold'>NAMA :</h2>
                         <p className='ml-1'>{singlePersonKohortKotak.nama}</p>
                       </div>
-                      <div className='text-xs flex flex-row '>
+                      {/* <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
                         <p className='ml-1'>
                           {singlePersonKohortKotak.nomborId}
                         </p>
-                      </div>
+                      </div> */}
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
                         <p className='ml-1'>

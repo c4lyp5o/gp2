@@ -684,20 +684,26 @@ function UserSekolah() {
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
                             {/* <div className='md:flex'> */}
                             <div className='text-justify'>
-                              <p className='whitespace-nowrap'>
+                              {/* <p className='whitespace-nowrap'>
                                 NOMBOR PENGENALAN :{' '}
                                 {singlePersonSekolah.nomborId}
+                              </p> */}
+                              <p className='whitespace-nowrap'>
+                                JANTINA : {singlePersonSekolah.jantina}
                               </p>
-                              <p>JANTINA : {singlePersonSekolah.jantina}</p>
-                              <p>
+                              <p className='whitespace-nowrap'>
                                 TARIKH LAHIR :{' '}
                                 {moment(singlePersonSekolah.tarikhLahir).format(
                                   'DD/MM/YYYY'
                                 )}
                               </p>
-                              <p>UMUR :{singlePersonSekolah.umur}</p>
-                              <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
-                              <p>
+                              <p className='whitespace-nowrap'>
+                                UMUR :{singlePersonSekolah.umur}
+                              </p>
+                              <p className='whitespace-nowrap'>
+                                KETURUNAN : {singlePersonSekolah.keturunan}
+                              </p>
+                              <p className='whitespace-nowrap'>
                                 WARGANEGARA : {singlePersonSekolah.warganegara}
                               </p>
                               <span>
