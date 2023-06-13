@@ -25,10 +25,10 @@ export default function Program(props) {
                   Bil.
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Jenis Program
+                  Nama Program
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Nama Program
+                  Jenis Program
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Sub Program
@@ -60,10 +60,10 @@ export default function Program(props) {
                     {index + 1}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {Dictionary[f.jenisEvent]}
+                    {f.nama}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.nama}
+                    {Dictionary[f.jenisEvent]}
                   </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {f.subProgram && f.subProgram.length > 0 ? (

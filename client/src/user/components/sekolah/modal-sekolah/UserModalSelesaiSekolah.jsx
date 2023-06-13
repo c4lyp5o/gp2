@@ -1,12 +1,12 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { FaWindowClose } from 'react-icons/fa';
+import { FaWindowClose, FaYinYang, FaRegPaperPlane } from 'react-icons/fa';
 
-import { useGlobalUserAppContext } from '../../context/userAppContext';
+import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
-export default function UserModalRefreshSekolah({
-  handleRefreshPelajar,
-  setModalRefreshPelajar,
+export default function UserModalSelesaiSekolah({
+  handleSelesaiSekolah,
+  setModalSelesaiSekolah,
   id,
 }) {
   const { userToken, userinfo, reliefUserToken, toast } =
@@ -19,7 +19,7 @@ export default function UserModalRefreshSekolah({
   const handleOtpRequest = async () => {
     setIsSubmitDisabled(true);
     await toast.promise(
-      axios.get(`/api/v1/getotp?id=${userinfo._id}&op=kemaskini-pelajar`, {
+      axios.get(`/api/v1/getotp?id=${userinfo._id}&op=tutup-sekolah`, {
         headers: {
           Authorization: `Bearer ${
             reliefUserToken ? reliefUserToken : userToken
@@ -31,9 +31,7 @@ export default function UserModalRefreshSekolah({
         success: `OTP telah dihantar ke emel ${userinfo.email}`,
         error: `OTP gagal dihantar`,
       },
-      {
-        autoClose: 5000,
-      }
+      { autoClose: 5000 }
     );
     setOtpQuestion(true);
     setIsSubmitDisabled(false);
@@ -55,11 +53,11 @@ export default function UserModalRefreshSekolah({
           success: 'OTP berjaya disahkan',
           error: 'OTP gagal disahkan',
         },
-        { autoClose: 3000 }
+        { autoClose: 5000 }
       )
       .then((res) => {
         if (res.data.msg === 'OTP verified') {
-          handleRefreshPelajar(id);
+          handleSelesaiSekolah(id);
           setOtpQuestion(false);
         }
       });
@@ -79,30 +77,32 @@ export default function UserModalRefreshSekolah({
     <>
       <form
         onSubmit={handleSubmit}
-        className='absolute inset-x-5 inset-y-20 lg:inset-x-1/4 2xl:inset-x-1/3 2xl:inset-y-20 bg-userWhite z-20 outline outline-1 outline-userBlack opacity-100 overflow-y-auto rounded-md'
+        className='absolute z-20 inset-x-1 lg:inset-x-1/3 inset-y-7 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto'
       >
         <FaWindowClose
           className='absolute top-2 right-2 text-2xl cursor-pointer'
-          onClick={() => setModalRefreshPelajar(false)}
+          onClick={() => setModalSelesaiSekolah(false)}
         />
         <div className='h-10 bg-user9 flex justify-center items-center text-userWhite uppercase font-bold text-lg'>
           Pengesahan
         </div>
-        <div className='flex flex-col items-center justify-center'>
-          <h1 className='text-2xl font-bold text-center mt-3'>
-            Anda pasti untuk mengemaskini senarai pelajar?
+        <div className='flex flex-col items-center justify-center px-2'>
+          <h1 className='text-2xl font-bold text-center my-3 py-3 border-b-2 border-user1'>
+            Anda pasti untuk menutup sekolah ?
           </h1>
           <div>
             {otpQuestion ? (
               <>
                 <div className='normal-case'>
                   Sila Masukkan OTP Yang Telah Dihantar Ke Emel {userinfo.email}
+                  <span className='font-semibold text-user6'>*</span>
                 </div>
-                <div className='flex flex-col items-center justify-center'>
+                <div className='flex flex-col items-center justify-center mt-2'>
                   <label htmlFor='otpInput' className='sr-only'>
                     OTP
                   </label>
                   <input
+                    required
                     type='text'
                     name='otpInput'
                     id='otpInput'
@@ -114,8 +114,8 @@ export default function UserModalRefreshSekolah({
               </>
             ) : (
               <div className='text-center'>
-                sila masukkan kod OTP bagi mengesahkan kebenaran kemaskini
-                pelajar sekolah ini
+                sila masukkan kod OTP bagi mengesahkan kebenaran penutupan reten
+                sekolah ini
               </div>
             )}
           </div>
@@ -123,53 +123,37 @@ export default function UserModalRefreshSekolah({
           <div className='absolute grid grid-cols-2 bottom-0 right-0 left-0 m-2 mx-10'>
             <span
               className='capitalize bg-userWhite text-userBlack rounded-md p-2 mr-3 hover:bg-user5 hover:cursor-pointer transition-all'
-              onClick={() => setModalRefreshPelajar(false)}
+              onClick={() => setModalSelesaiSekolah(false)}
             >
               Batal
             </span>
             {!isSubmitDisabled ? (
               <button
                 type='submit'
-                className={`capitalize text-userWhite rounded-md p-2 ml-3 hover:cursor-pointer transition-all ${
+                className={`capitalize text-userWhite rounded-md py-2 ml-2 hover:cursor-pointer transition-all ${
                   otpQuestion
                     ? 'bg-user2 hover:bg-user3 '
                     : 'bg-user9 hover:bg-user5 hover:text-userBlack'
                 }`}
               >
-                {otpQuestion ? 'Hantar' : 'KEMASKINI PELAJAR'}
+                <FaRegPaperPlane className='inline-flex mx-1' />
+                {otpQuestion ? 'Hantar' : 'TUTUP RETEN SEKOLAH'}
               </button>
             ) : (
               <button
-                disabled={true}
-                className='capitalize text-userWhite rounded-md p-2 ml-3 transition-all bg-user2 cursor-not-allowed'
+                type='submit'
+                className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                disabled
               >
-                <svg
-                  className='animate-spin m-auto h-5 w-5 text-white'
-                  xmlns='http://www.w3.org/2000/svg'
-                  fill='none'
-                  viewBox='0 0 24 24'
-                >
-                  <circle
-                    className='opacity-25'
-                    cx='12'
-                    cy='12'
-                    r='10'
-                    stroke='currentColor'
-                    strokeWidth='4'
-                  ></circle>
-                  <path
-                    className='opacity-75'
-                    fill='currentColor'
-                    d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
-                  ></path>
-                </svg>
+                <FaYinYang className='mr-2 my-auto animate-spin' />
+                Meminta OTP
               </button>
             )}
           </div>
         </div>
       </form>
       <div
-        onClick={() => setModalRefreshPelajar(false)}
+        onClick={() => setModalSelesaiSekolah(false)}
         className='absolute inset-0 bg-user1 opacity-75 z-10'
       />
     </>

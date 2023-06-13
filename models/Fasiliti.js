@@ -82,10 +82,6 @@ const fasilitiSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  tarikhMulaSekolah: {
-    type: String,
-    default: 'NOT APPLICABLE',
-  },
   // sr sm => PERSiS
   risikoSekolahPersis: {
     type: String,
@@ -100,11 +96,6 @@ const fasilitiSchema = new Schema({
     type: Boolean,
     default: false,
   },
-  // sr sm => BEGIN
-  melaksanakanBegin: {
-    type: Boolean,
-    default: false,
-  },
   // kp-bergerak makmal-pergigian ------------------------------------------------
   subJenisKPBMPB: {
     type: String,
@@ -115,6 +106,16 @@ const fasilitiSchema = new Schema({
     default: [],
   },
   // tak pakai pun ni, recheck betul2 nnti boleh comment out
+  // sr sm ------------------------------------------------------------------------
+  // tarikhMulaSekolah: {
+  //   type: String,
+  //   default: 'NOT APPLICABLE',
+  // },
+  // // sr sm => BEGIN
+  // melaksanakanBegin: {
+  //   type: Boolean,
+  //   default: false,
+  // },
   // klinik -----------------------------------------------------------------------
   // dah ada dalam User model
   statusRoleKlinik: {

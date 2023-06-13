@@ -11,7 +11,7 @@ export default function MyVas({ setShowMyVas }) {
     useGlobalUserAppContext();
 
   const handleSubmit = (e) => {
-    e.preventDefalt();
+    e.preventDefault();
     console.log('submit');
   };
 
@@ -22,7 +22,7 @@ export default function MyVas({ setShowMyVas }) {
           className='absolute top-0.5 right-2 text-xl cursor-pointer text-userWhite hover:text-kaunter3'
           onClick={() => setShowMyVas(false)}
         />
-        <div className='h-7 bg-user1 flex justify-center items-center text-userWhite normal-case font-semibold text-lg'>
+        <div className='h-7 bg-userBlack bg-opacity-90 flex justify-center items-center text-userWhite normal-case font-semibold text-lg'>
           <img
             src={mysejahtera}
             alt='MySejahtera Logo'
@@ -30,7 +30,7 @@ export default function MyVas({ setShowMyVas }) {
           />{' '}
           MyVas
         </div>
-        <h1 className='my-2 text-lg font-bold'>Janji Temu</h1>
+        {/* <h1 className='my-2 text-lg font-bold'>Janji Temu</h1>
         <div className='flex m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max mt-2'>
           <table className='table-auto'>
             <thead className='text-userWhite bg-kaunter2'>
@@ -112,7 +112,6 @@ export default function MyVas({ setShowMyVas }) {
             </tbody>
           </table>
         </div>
-        {/* //carian myvas */}
         <div className='my-4 mb-1 text-lg font-bold'>
           <h1> MyKAD & MyKID </h1>
         </div>
@@ -201,6 +200,52 @@ export default function MyVas({ setShowMyVas }) {
               </tr>
             </tbody>
           </table>
+        </div> */}
+        <div className='mt-10 mb-2 flex flex-col justify-center items-center'>
+          {/* <a
+            href='https://myvas.moh.gov.my/checkin/healthFacility'
+            target='_blank'
+            rel='noreferrer'
+            className='ml-5 w-22 normal-case rounded bg-user5 hover:bg-user2 hover:text-userWhite hover:cursor-pointer shadow-md transition-all p-3'
+          >
+            MyVas
+          </a> */}
+          <div className='text-lext flex flex-col w-96'>
+            <span className='flex justify-center my-6'>
+              <img
+                src={mysejahtera}
+                alt='MySejahtera Logo'
+                className='w-32 h-32 inline-block m-1'
+              />
+            </span>
+            <h1 className='text-lext flex justify-start text-lg font-semibold'>
+              Login
+            </h1>
+            <h2 className='text-lext flex justify-start text-xs mb-4'>
+              Please fill in details
+            </h2>
+            <form>
+              <div className='flex flex-col justify-center'>
+                <label htmlFor='email' className='text-xs flex justify-start'>
+                  Email Address
+                </label>
+                <input
+                  required
+                  type='email'
+                  name='email'
+                  placeholder='Email'
+                  className='appearance-none w-full leading-7 px-3 py-1 ring-1 ring-kaunter4 focus:ring-1 focus:ring-user2 focus:outline-none rounded shadow-md mt-1 mb-4'
+                  data-cy='email'
+                />
+                <button
+                  type='button'
+                  className='w-full rounded bg-userBlack bg-opacity-90 hover:ring-4 hover:ring-user1 hover:ring-opacity-50 text-userWhite hover:cursor-pointer shadow-md transition-all px-2 py-1'
+                >
+                  Login
+                </button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
       <div
