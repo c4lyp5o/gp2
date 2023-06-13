@@ -61,6 +61,13 @@ function KaunterHeaderLoggedIn({ namaKlinik, logout, timer }) {
                 <b>pendaftaran : </b>
                 {namaKlinik}
               </p>
+              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+              import.meta.env.VITE_ENV === 'DEV' ? (
+                <p className='w-96 text-sm leading-3 normal-case'>
+                  <b>MyVas : </b>
+                  izzuddinazman5@outlook.com
+                </p>
+              ) : null}
             </div>
             <button
               type='button'

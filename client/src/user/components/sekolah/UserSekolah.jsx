@@ -36,19 +36,14 @@ function UserSekolah() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
-  // const [dahFilterSekolahs, setDahFilterSekolahs] = useState([]);
-  // const [dahFilterTahun, setDahFilterTahun] = useState([]);
-  const [sekMenRen, setSekMenRen] = useState('');
-  // const [isFiltering, setIsFiltering] = useState(false);
-  const [namaSekolahs, setNamaSekolahs] = useState([]);
+  const [namaSekolahs, setNamaSekolahs] = useState([]); // ganti dah dengan pilihanSekolah terus
   const [tahunTingkatan, setTahunTingkatan] = useState([]);
-  const [kelasPelajar, setKelasPelajar] = useState([]);
+  // const [kelasPelajar, setKelasPelajar] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanTahunTingkatan, setPilihanTahunTingkatan] = useState('');
-  const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
+  // const [pilihanKelasPelajar, setPilihanKelasPelajar] = useState('');
   const [filterNama, setFilterNama] = useState('');
 
-  // const [pilihanBegin, setPilihanBegin] = useState('');
   const [modalBegin, setModalBegin] = useState(false);
   const [muridBeginCurrentId, setMuridBeginCurrentId] = useState('');
   const [tarikhMelaksanakanBegin, setTarikhMelaksanakanBegin] = useState('');
@@ -67,15 +62,12 @@ function UserSekolah() {
   const [pilihanHapusNama, setPilihanHapusNama] = useState('');
   const [modalHapus, setModalHapus] = useState(false);
 
-  // const [fasilitiSekolah, setFasilitiSekolah] = useState([]);
-  const [filteredFasilitiSekolah, setFilteredFasilitiSekolah] = useState({});
+  const [fasilitiSekolah, setFasilitiSekolah] = useState({});
 
-  //accordian
+  // accordian rawatan
   const [accordian, setAccordian] = useState([]);
 
   const [reloadState, setReloadState] = useState(false);
-
-  const init = useRef(false);
 
   const TarikhBegin = () => {
     return masterDatePicker({
@@ -109,34 +101,31 @@ function UserSekolah() {
             },
           }
         );
-        // console.log(data);
-        // const allPersonSekolahs = data.allPersonSekolahs;
-        // const namaSekolahs = allPersonSekolahs.reduce(
-        //   (arrNamaSekolahs, singlePersonSekolah) => {
-        //     if (!arrNamaSekolahs.includes(singlePersonSekolah.namaSekolah)) {
-        //       arrNamaSekolahs.push(singlePersonSekolah.namaSekolah);
-        //     }
-        //     return arrNamaSekolahs.filter((valid) => valid);
-        //   },
-        //   ['']
-        // );
-        setPilihanSekolah(data.fasilitiSekolahs.nama);
-        // setPilihanBegin(data.fasilitiSekolahs[0].jenisFasiliti);
+
+        // reduce
+        const tahunTingkatan = data.allPersonSekolahs.reduce(
+          (arrTahunTingkatan, singlePersonSekolah) => {
+            if (
+              !arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)
+            ) {
+              arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
+            }
+            return arrTahunTingkatan.filter((valid) => valid);
+          },
+          ['']
+        );
+        setTahunTingkatan(tahunTingkatan);
+
         setAllPersonSekolahs(data.allPersonSekolahs);
-        setNamaSekolahs(data.fasilitiSekolahs.nama);
-        // setFasilitiSekolah(data.fasilitiSekolahs);
-        setFilteredFasilitiSekolah(data.fasilitiSekolahs);
+        setPilihanSekolah(data.fasilitiSekolahs.nama);
+        setFasilitiSekolah(data.fasilitiSekolahs);
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
         console.log(error);
       }
     };
-    init.current = false;
-    if (!init.current) {
-      init.current = true;
-      fetchAllPersonSekolahs();
-    }
+    fetchAllPersonSekolahs();
   }, [reloadState]);
 
   const handleSubmitBegin = async (e) => {
@@ -159,21 +148,22 @@ function UserSekolah() {
           }
         ),
         {
-          loading: 'Sedang mengemaskini maklumat BEGIN sekolah',
-          success: 'Berjaya mengemaskini maklumat BEGIN sekolah',
-          error: 'Gagal mengemaskini maklumat BEGIN sekolah',
-        }
+          pending: 'Sedang mengemaskini maklumat BEGIN pelajar',
+          success: 'Berjaya mengemaskini maklumat BEGIN pelajar',
+          error: 'Gagal mengemaskini maklumat BEGIN pelajar',
+        },
+        { autoClose: 5000 }
       )
-      .then((res) => {
+      .then(() => {
         setReloadState(!reloadState);
         setSubmittingBegin(false);
         setModalBegin(false);
       })
       .catch((err) => {
         console.log(err);
-        setReloadState(!reloadState);
+        // setReloadState(!reloadState);
         setSubmittingBegin(false);
-        setModalBegin(false);
+        // setModalBegin(false);
       });
   };
 
@@ -210,16 +200,14 @@ function UserSekolah() {
           success: 'Pesakit berjaya dihapus',
           error: 'Pesakit gagal dihapus',
         },
-        {
-          autoClose: 5000,
-        }
+        { autoClose: 5000 }
       );
       setModalHapus(false);
       setReloadState(!reloadState);
     }
   };
 
-  //reset value tarikhMelaksanakanBegin & tarikhMelaksanakanBeginDP when modalBegin false
+  // reset value tarikhMelaksanakanBegin & tarikhMelaksanakanBeginDP when modalBegin false
   useEffect(() => {
     if (!modalBegin) {
       setTarikhMelaksanakanBegin('');
@@ -227,7 +215,7 @@ function UserSekolah() {
     }
   }, [modalBegin]);
 
-  //find first person of pilihanTahunTingkatan and setDataFromPilihanTahunTingkatan
+  // find first person of pilihanTahunTingkatan and setDataFromPilihanTahunTingkatan
   useEffect(() => {
     if (pilihanTahunTingkatan) {
       const firstPerson = allPersonSekolahs.find(
@@ -237,157 +225,110 @@ function UserSekolah() {
     }
   }, [pilihanTahunTingkatan]);
 
-  useEffect(() => {
-    // const filteredSekolahs = allPersonSekolahs.filter((person) =>
-    //   person.namaSekolah.includes(pilihanSekolah)
-    // );
-    const tahunTingkatan = allPersonSekolahs.reduce(
-      (arrTahunTingkatan, singlePersonSekolah) => {
-        if (!arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)) {
-          arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
-        }
-        return arrTahunTingkatan.filter((valid) => valid);
-      },
-      ['']
-    );
-
-    const order = [
-      'PRASEKOLAH',
-      'DAFTAR KE TAHUN SATU',
-      'PRA UNIVERSITI SEM 2',
-      'PRA UNIVERSITI SEM 3',
-      'PRA UNIVERSITI SEM 4',
-      'INTERNATIONAL BACCALAUREATE SEM 1',
-      'INTERNATIONAL BACCALAUREATE SEM 2',
-      'INTERNATIONAL BACCALAUREATE SEM 3',
-      'INTERNATIONAL BACCALAUREATE SEM 4',
-      'RENDAH ASAS',
-      'RENDAH PERDANA',
-      'MENENGAH ASAS',
-      'MENENGAH PERDANA',
-      'TAHUN SATU',
-      'TAHUN DUA',
-      'TAHUN TIGA',
-      'TAHUN EMPAT',
-      'TAHUN LIMA',
-      'TAHUN ENAM',
-      'KELAS KHAS RENDAH',
-      'PERALIHAN',
-      'TINGKATAN SATU',
-      'TINGKATAN DUA',
-      'TINGKATAN TIGA',
-      'TINGKATAN EMPAT',
-      'TINGKATAN LIMA',
-      // 'TINGKATAN ENAM SEM 1',
-      // 'TINGKATAN ENAM SEM 2',
-      'BELUM / TIDAK BERSEKOLAH',
-      'KOLEJ / UNIVERSITI',
-      'TAMAT PERSEKOLAHAN / PENGAJIAN',
-      'TIADA MAKLUMAT',
-      'KELAS KHAS MENENGAH',
-      'SEM 1 SIJIL VOKASIONAL MALAYSIA',
-      'SEM 2 SIJIL VOKASIONAL MALAYSIA',
-      'SEM 3 SIJIL VOKASIONAL MALAYSIA',
-      'SEM 4  SIJIL VOKASIONAL MALAYSIA',
-      // 'STAM',
-      'PRA UNIVERSITI SEM 1',
-      'PPPC ASAS 1',
-      'PPPC ASAS 2',
-      'PPPC ASAS 3',
-      'PPPC TAHAP 1',
-      'PPPC TAHAP 2',
-      'TINGKATAN LIMA RENDAH',
-      'TINGKATAN LIMA ATAS',
-      // 'TINGKATAN ENAM SEM 3',
-      'SEM 1 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 2 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 3 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 4 DIPLOMA VOKASIONAL MALAYSIA',
-      'SEM 5 DIPLOMA VOKASIONAL MALAYSIA',
-    ];
-
-    let tahunTingkatanInOrder = [];
-
-    for (var i = 0; i < order.length; i++) {
-      if (tahunTingkatan.indexOf(order[i]) > -1) {
-        tahunTingkatanInOrder.push(order[i]);
-      }
-    }
-
-    setTahunTingkatan(tahunTingkatanInOrder);
-    // setDahFilterSekolahs(filteredSekolahs);
-  }, [pilihanSekolah]);
-
-  useEffect(() => {
-    const filteredTahun = allPersonSekolahs.filter((person) =>
-      person.tahunTingkatan.includes(pilihanTahunTingkatan)
-    );
-    const kelasPelajar = filteredTahun.reduce(
-      (arrKelasPelajar, singlePersonSekolah) => {
-        if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
-          arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
-        }
-        return arrKelasPelajar.filter((valid) => valid);
-      },
-      ['']
-    );
-    setKelasPelajar(kelasPelajar);
-    // setDahFilterTahun(filteredTahun);
-  }, [pilihanTahunTingkatan]);
-
-  // reset value
-  useEffect(() => {
-    setPilihanTahunTingkatan('');
-    setPilihanKelasPelajar('');
-    setFilterNama('');
-  }, [pilihanSekolah]);
-
-  useEffect(() => {
-    setPilihanKelasPelajar('');
-    setFilterNama('');
-  }, [pilihanTahunTingkatan]);
-
-  useEffect(() => {
-    setFilterNama('');
-  }, [pilihanKelasPelajar]);
-
-  // fetch fasiliti sekolah to determine selesai reten
+  // reduce
   // useEffect(() => {
-  //   const fetchFasilitiSekolahs = async () => {
-  //     try {
-  //       const { data } = await axios.get(
-  //         `/api/v1/sekolah/faceted/${kodSekolah}`,
-  //         {
-  //           headers: {
-  //             Authorization: `Bearer ${
-  //               reliefUserToken ? reliefUserToken : userToken
-  //             }`,
-  //           },
-  //         }
-  //       );
-  //       setFasilitiSekolah(data.fasilitiSekolahs);
-  //       setFilteredFasilitiSekolah(data.fasilitiSekolahs);
-  //     } catch (error) {
-  //       console.log(error);
-  //       // toast.error(
-  //       //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-sekolah-fetchFasilitiSekolahs'
-  //       // );
+  //   const tahunTingkatan = allPersonSekolahs.reduce(
+  //     (arrTahunTingkatan, singlePersonSekolah) => {
+  //       if (!arrTahunTingkatan.includes(singlePersonSekolah.tahunTingkatan)) {
+  //         arrTahunTingkatan.push(singlePersonSekolah.tahunTingkatan);
+  //       }
+  //       return arrTahunTingkatan.filter((valid) => valid);
+  //     },
+  //     ['']
+  //   );
+
+  //   const order = [
+  //     'PRASEKOLAH',
+  //     'DAFTAR KE TAHUN SATU',
+  //     'PRA UNIVERSITI SEM 2',
+  //     'PRA UNIVERSITI SEM 3',
+  //     'PRA UNIVERSITI SEM 4',
+  //     'INTERNATIONAL BACCALAUREATE SEM 1',
+  //     'INTERNATIONAL BACCALAUREATE SEM 2',
+  //     'INTERNATIONAL BACCALAUREATE SEM 3',
+  //     'INTERNATIONAL BACCALAUREATE SEM 4',
+  //     'RENDAH ASAS',
+  //     'RENDAH PERDANA',
+  //     'MENENGAH ASAS',
+  //     'MENENGAH PERDANA',
+  //     'TAHUN SATU',
+  //     'TAHUN DUA',
+  //     'TAHUN TIGA',
+  //     'TAHUN EMPAT',
+  //     'TAHUN LIMA',
+  //     'TAHUN ENAM',
+  //     'KELAS KHAS RENDAH',
+  //     'PERALIHAN',
+  //     'TINGKATAN SATU',
+  //     'TINGKATAN DUA',
+  //     'TINGKATAN TIGA',
+  //     'TINGKATAN EMPAT',
+  //     'TINGKATAN LIMA',
+  //     // 'TINGKATAN ENAM SEM 1',
+  //     // 'TINGKATAN ENAM SEM 2',
+  //     'BELUM / TIDAK BERSEKOLAH',
+  //     'KOLEJ / UNIVERSITI',
+  //     'TAMAT PERSEKOLAHAN / PENGAJIAN',
+  //     'TIADA MAKLUMAT',
+  //     'KELAS KHAS MENENGAH',
+  //     'SEM 1 SIJIL VOKASIONAL MALAYSIA',
+  //     'SEM 2 SIJIL VOKASIONAL MALAYSIA',
+  //     'SEM 3 SIJIL VOKASIONAL MALAYSIA',
+  //     'SEM 4  SIJIL VOKASIONAL MALAYSIA',
+  //     // 'STAM',
+  //     'PRA UNIVERSITI SEM 1',
+  //     'PPPC ASAS 1',
+  //     'PPPC ASAS 2',
+  //     'PPPC ASAS 3',
+  //     'PPPC TAHAP 1',
+  //     'PPPC TAHAP 2',
+  //     'TINGKATAN LIMA RENDAH',
+  //     'TINGKATAN LIMA ATAS',
+  //     // 'TINGKATAN ENAM SEM 3',
+  //     'SEM 1 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 2 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 3 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 4 DIPLOMA VOKASIONAL MALAYSIA',
+  //     'SEM 5 DIPLOMA VOKASIONAL MALAYSIA',
+  //   ];
+
+  //   let tahunTingkatanInOrder = [];
+
+  //   for (var i = 0; i < order.length; i++) {
+  //     if (tahunTingkatan.indexOf(order[i]) > -1) {
+  //       tahunTingkatanInOrder.push(order[i]);
   //     }
-  //   };
-  //   fetchFasilitiSekolahs();
+  //   }
+
+  //   setTahunTingkatan(tahunTingkatan);
   // }, []);
 
   // useEffect(() => {
-  //   setFilteredFasilitiSekolah(
-  //     fasilitiSekolah.filter((f) => f.nama.includes(pilihanSekolah))
+  //   const filteredTahun = allPersonSekolahs.filter((person) =>
+  //     person.tahunTingkatan.includes(pilihanTahunTingkatan)
   //   );
-  // }, [pilihanSekolah]);
+  //   const kelasPelajar = filteredTahun.reduce(
+  //     (arrKelasPelajar, singlePersonSekolah) => {
+  //       if (!arrKelasPelajar.includes(singlePersonSekolah.kelasPelajar)) {
+  //         arrKelasPelajar.push(singlePersonSekolah.kelasPelajar);
+  //       }
+  //       return arrKelasPelajar.filter((valid) => valid);
+  //     },
+  //     ['']
+  //   );
+  //   setKelasPelajar(kelasPelajar);
+  //   setDahFilterTahun(filteredTahun);
+  // }, [pilihanTahunTingkatan]);
+
+  // reset value
+  useEffect(() => {
+    // setPilihanKelasPelajar('');
+    setFilterNama('');
+  }, [pilihanTahunTingkatan]);
 
   // useEffect(() => {
-  //   setSekMenRen(
-  //     fasilitiSekolah.filter((f) => f.kodSekolah.includes(namaSekolahs[0]))
-  //   );
-  // }, [fasilitiSekolah]);
+  //   setFilterNama('');
+  // }, [pilihanKelasPelajar]);
 
   // on tab focus reload data
   useEffect(() => {
@@ -401,7 +342,7 @@ function UserSekolah() {
   // specific refreshTimer for this UserSekolah special case
   useEffect(() => {
     setRefreshTimer(!refreshTimer);
-  }, [pilihanSekolah, pilihanTahunTingkatan, pilihanKelasPelajar, filterNama]);
+  }, [pilihanTahunTingkatan, /*pilihanKelasPelajar,*/ filterNama]);
 
   const handleAccordian = (e) => {
     if (accordian.includes(e)) {
@@ -410,13 +351,6 @@ function UserSekolah() {
       setAccordian([...accordian, e]);
     }
   };
-
-  // useEffect(() => {
-  //   if (modalHapus === false) {
-  //     setPilih('');
-  //     setResultPilih([]);
-  //   }
-  // });
 
   return (
     <>
@@ -428,30 +362,36 @@ function UserSekolah() {
                 CARIAN MURID
               </h2>
               <div className='flex justify-end items-center text-right mt-2'>
-                {pilihanTahunTingkatan && (
-                  <span className=' uppercase text-xs lg:text-sm w-full'>
-                    <button
-                      onClick={() => {
-                        setModalTambahKemaskiniPelajar(true);
-                      }}
-                      className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
-                    >
-                      Tambah pelajar
-                    </button>
-                  </span>
+                {fasilitiSekolah.sekolahSelesaiReten == true ? null : (
+                  <div>
+                    {pilihanTahunTingkatan && (
+                      <span className=' uppercase text-xs lg:text-sm w-full'>
+                        <button
+                          onClick={() => {
+                            setModalTambahKemaskiniPelajar(true);
+                          }}
+                          className='capitalize bg-user10 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user11 transition-all'
+                        >
+                          Tambah pelajar
+                        </button>
+                      </span>
+                    )}
+                  </div>
                 )}
-                <button
-                  onClick={() => {
-                    navigate(-1);
-                  }}
-                  className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
-                >
-                  kembali ke senarai sekolah
-                </button>
+                <div>
+                  <button
+                    onClick={() => {
+                      navigate(-1);
+                    }}
+                    className='capitalize whitespace-nowrap bg-user3 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'
+                  >
+                    kembali ke senarai sekolah
+                  </button>
+                </div>
               </div>
             </div>
             <div className='grid grid-cols-2'>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
                 </span>
@@ -465,8 +405,8 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
                 </span>
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Tahun/Tingkatan:
                 </span>
@@ -494,7 +434,7 @@ function UserSekolah() {
                       : null}
                   </select>
                 </span>
-              </p>
+              </div>
               {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Kelas:
@@ -524,44 +464,7 @@ function UserSekolah() {
                   </select>
                 </span>
               </p> */}
-              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Mula:
-                </span>
-                {pilihanSekolah ? (
-                  <span className='uppercase text-xs lg:text-sm w-full'>
-                    {pilihanSekolah &&
-                    filteredFasilitiSekolah[0].tarikhMulaSekolah ? (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user7 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value={filteredFasilitiSekolah[0].tarikhMulaSekolah}
-                        readOnly
-                      />
-                    ) : (
-                      <input
-                        type='text'
-                        className='appearance-none w-full px-2 py-1 text-userBlack bg-user9 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                        value='BELUM MULA'
-                        readOnly
-                      />
-                    )}
-                  </span>
-                ) : (
-                  <input
-                    type='text'
-                    className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-userBlack border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent'
-                    value='SILA PILIH SEKOLAH'
-                    readOnly
-                  />
-                )}
-              </p> */}
-              {/* <p className='grid grid-cols-[1fr_3fr] pb-1'>
-                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tarikh Tamat:
-                </span>
-              </p> */}
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Nama Pelajar:
                 </span>
@@ -575,15 +478,15 @@ function UserSekolah() {
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
                 </span>
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Status sekolah:
                 </span>{' '}
                 {pilihanSekolah ? (
                   <span className='uppercase text-xs lg:text-sm w-full'>
                     {pilihanSekolah &&
-                    filteredFasilitiSekolah.sekolahSelesaiReten === true ? (
+                    fasilitiSekolah.sekolahSelesaiReten === true ? (
                       <input
                         type='text'
                         className='appearance-none w-full px-2 py-1 text-user7 font-semibold border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
@@ -607,10 +510,10 @@ function UserSekolah() {
                     readOnly
                   />
                 )}
-              </p>
-              <p className='grid grid-cols-[1fr_3fr] pb-1'>
+              </div>
+              <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span />
-              </p>
+              </div>
             </div>
           </div>
         </div>
@@ -649,11 +552,9 @@ function UserSekolah() {
                     AKTIVITI BEGIN
                   </th>
                 ) : null}
-                {userinfo.role === 'admin' && (
-                  <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
-                    HAPUS
-                  </th>
-                )}
+                <th className='px-2 py-1 outline outline-1 outline-offset-1 w-36'>
+                  HAPUS
+                </th>
               </tr>
             </thead>
             {/* TODO disable semua data input if person sekolah berpindah === true */}
@@ -663,9 +564,8 @@ function UserSekolah() {
               allPersonSekolahs
                 .filter(
                   (person) =>
-                    person.namaSekolah.includes(pilihanSekolah) &&
+                    // person.namaSekolah.includes(pilihanSekolah) &&
                     person.tahunTingkatan.includes(pilihanTahunTingkatan) &&
-                    person.kelasPelajar.includes(pilihanKelasPelajar) &&
                     person.nama.includes(filterNama)
                 )
                 .map((singlePersonSekolah, index) => {
@@ -680,27 +580,33 @@ function UserSekolah() {
                             {singlePersonSekolah.nama}
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
-                            {/* <div className='md:flex'> */}
                             <div className='text-justify'>
-                              <p className='whitespace-nowrap'>
+                              {/* <p className='whitespace-nowrap'>
                                 NOMBOR PENGENALAN :{' '}
                                 {singlePersonSekolah.nomborId}
+                              </p> */}
+                              <p className='whitespace-nowrap'>
+                                JANTINA : {singlePersonSekolah.jantina}
                               </p>
-                              <p>JANTINA : {singlePersonSekolah.jantina}</p>
-                              <p>
+                              <p className='whitespace-nowrap'>
                                 TARIKH LAHIR :{' '}
                                 {moment(singlePersonSekolah.tarikhLahir).format(
                                   'DD/MM/YYYY'
                                 )}
                               </p>
-                              <p>UMUR :{singlePersonSekolah.umur}</p>
-                              <p>KETURUNAN : {singlePersonSekolah.keturunan}</p>
-                              <p>
+                              <p className='whitespace-nowrap'>
+                                UMUR : {singlePersonSekolah.umur}
+                              </p>
+                              <p className='whitespace-nowrap'>
+                                KETURUNAN : {singlePersonSekolah.keturunan}
+                              </p>
+                              <p className='whitespace-nowrap'>
                                 WARGANEGARA : {singlePersonSekolah.warganegara}
                               </p>
                               <span>
-                                <p>
-                                  <p className='md:flex md:shrink-0 text-center sm:text-left py-2'>
+                                {fasilitiSekolah.sekolahSelesaiReten ===
+                                true ? null : (
+                                  <span className='md:flex md:shrink-0 text-center sm:text-left py-2'>
                                     {singlePersonSekolah.pemeriksaanSekolah ? null : (
                                       <button
                                         onClick={() => {
@@ -714,10 +620,9 @@ function UserSekolah() {
                                         Kemaskini
                                       </button>
                                     )}
-                                  </p>
-                                </p>
+                                  </span>
+                                )}
                               </span>
-                              {/* </div> */}
                             </div>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 py-2 px-3 text-left'>
@@ -769,8 +674,7 @@ function UserSekolah() {
                                   ? 'pointer-events-none text-userBlack shadow-none'
                                   : singlePersonSekolah.pemeriksaanSekolah
                                   ? 'bg-user7 text-userWhite shadow-md'
-                                  : filteredFasilitiSekolah.sekolahSelesaiReten ===
-                                    true
+                                  : fasilitiSekolah.sekolahSelesaiReten === true
                                   ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
                                   : 'bg-user6 text-userWhite shadow-md'
                               } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
@@ -782,15 +686,13 @@ function UserSekolah() {
                                 ? 'Tidak Hadir'
                                 : singlePersonSekolah.pemeriksaanSekolah
                                 ? 'lihat pemeriksaan'
-                                : filteredFasilitiSekolah.sekolahSelesaiReten ===
-                                  true
+                                : fasilitiSekolah.sekolahSelesaiReten === true
                                 ? 'Pemeriksaan Ditutup'
                                 : 'Tambah Pemeriksaan'}
                             </Link>
                           </td>
                           <td className='outline outline-1 outline-userWhite outline-offset-1 p-2 whitespace-nowrap'>
-                            {filteredFasilitiSekolah.sekolahSelesaiReten ===
-                            false ? (
+                            {fasilitiSekolah.sekolahSelesaiReten === false ? (
                               <Link
                                 target='_blank'
                                 rel='noreferrer'
@@ -1139,14 +1041,14 @@ function UserSekolah() {
                                   className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
                                 >
                                   {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userBlack text-center flex items-center'>
                                       Selesai
                                       <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
-                                    </p>
+                                    </span>
                                   ) : (
-                                    <p className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userBlack text-center flex items-center'>
                                       Tarikh Pelaksanaan
-                                    </p>
+                                    </span>
                                   )}
                                 </button>
                               ) : (
@@ -1176,14 +1078,14 @@ function UserSekolah() {
                                   <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.tarikhMelaksanakanBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                        <span className='text-center text-base font-medium text-kaunter1'>
                                           Selesai pada{' '}
                                           <span className='text-xl font-semibold text-kaunter1'>
                                             {moment(
                                               singlePersonSekolah.tarikhMelaksanakanBegin
                                             ).format('DD/MM/YYYY')}
                                           </span>
-                                        </p>
+                                        </span>
                                       </div>
                                     ) : (
                                       <TarikhBegin />
@@ -1192,14 +1094,14 @@ function UserSekolah() {
                                   <div className='grid justify-center pt-5'>
                                     {singlePersonSekolah.namaPelaksanaBegin ? (
                                       <div className='flex justify-center mt-3'>
-                                        <p className='text-center text-base font-medium text-kaunter1'>
+                                        <span className='text-center text-base font-medium text-kaunter1'>
                                           BEGIN telah dijalankan oleh{' '}
                                           <p className='text-xl font-semibold text-kaunter1'>
                                             {
                                               singlePersonSekolah.namaPelaksanaBegin
                                             }
                                           </p>
-                                        </p>
+                                        </span>
                                       </div>
                                     ) : null}
                                   </div>
@@ -1255,27 +1157,24 @@ function UserSekolah() {
                               {/* end of modal BEGIN */}
                             </td>
                           ) : null}
-                          {userinfo.role === 'admin' && (
-                            <td
-                              className='
+                          <td
+                            className='
                                px-2 py-1 outline outline-1 outline-userWhite outline-offset-1'
-                            >
-                              {singlePersonSekolah.pemeriksaanSekolah ? null : (
-                                <button
-                                  className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
-                                  onClick={() => {
-                                    setModalHapus(true);
-                                    setPilihanHapusId(singlePersonSekolah._id);
-                                    setPilihanHapusNama(
-                                      singlePersonSekolah.nama
-                                    );
-                                  }}
-                                >
-                                  Hapus pelajar?
-                                </button>
-                              )}
-                            </td>
-                          )}
+                          >
+                            {fasilitiSekolah.sekolahSelesaiReten == true ||
+                            singlePersonSekolah.pemeriksaanSekolah ? null : (
+                              <button
+                                className='bg-user9 hover:bg-admin4 p-2 text-userWhite rounded-lg transition-all shadow-md'
+                                onClick={() => {
+                                  setModalHapus(true);
+                                  setPilihanHapusId(singlePersonSekolah._id);
+                                  setPilihanHapusNama(singlePersonSekolah.nama);
+                                }}
+                              >
+                                Hapus
+                              </button>
+                            )}
+                          </td>
                         </tr>
                       </tbody>
                     </>
@@ -1315,11 +1214,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1353,11 +1250,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
                 <tr>
                   <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
@@ -1391,11 +1286,9 @@ function UserSekolah() {
                       <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                     </td>
                   ) : null}
-                  {userinfo.role === 'admin' && (
-                    <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
-                      <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
-                    </td>
-                  )}
+                  <td className='px-2 py-2 outline outline-1 outline-userWhite outline-offset-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
+                  </td>
                 </tr>
               </tbody>
             ) : (

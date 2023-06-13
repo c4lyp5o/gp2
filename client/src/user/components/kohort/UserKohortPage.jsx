@@ -20,7 +20,6 @@ export default function UserKohort() {
           onMouseEnter={() => setKotak(true)}
           onMouseLeave={() => setKotak(false)}
           onClick={() => {
-            import.meta.env.VITE_ENV === 'TRAINING' ||
             import.meta.env.VITE_ENV === 'UNSTABLE' ||
             import.meta.env.VITE_ENV === 'DEV'
               ? navigate('/pengguna/landing/kohort/kotak')

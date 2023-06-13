@@ -22,6 +22,7 @@ function UserFormKohortKOTAK() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonKohortKotak, setSinglePersonKohortKotak] = useState([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [dataArrayUsernames, setDataArrayUsernames] = useState([]);
   const [statusKotak, setStatusKotak] = useState('');
   const [isJenisRokokRequired, setIsJenisRokokRequired] = useState(true);
@@ -32,6 +33,9 @@ function UserFormKohortKOTAK() {
   const [thisUsernameData, setThisUsernameData] = useState({});
 
   const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
+  const [noTelefon, setNoTelefon] = useState('');
+  const [noTel2, setNoTel2] = useState('');
+  const [noTel3, setNoTel3] = useState('');
   const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
   const [elektronikVapeKotak, setElektronikVapeKotak] = useState(false);
   const [shishaKotak, setShishaKotak] = useState(false);
@@ -46,9 +50,6 @@ function UserFormKohortKOTAK() {
   const [adaTiadaQTarikh4, setAdaTiadaQTarikh4] = useState('');
   const [rujukGuruKaunseling, setRujukGuruKaunseling] = useState('');
   const [tarikhQ, setTarikhQ] = useState('');
-  const [noTelefon, setNoTelefon] = useState('');
-  const [noTel2, setNoTel2] = useState('');
-  const [noTel3, setNoTel3] = useState('');
   const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
 
   // datepicker issue
@@ -363,6 +364,7 @@ function UserFormKohortKOTAK() {
     if (tarikh3 !== '') {
       statusKotak = 'selesai sesi 3';
     }
+    setIsSubmitting(true);
     await toast
       .promise(
         axios.patch(
@@ -443,12 +445,12 @@ function UserFormKohortKOTAK() {
                         <h2 className='font-semibold'>NAMA :</h2>
                         <p className='ml-1'>{singlePersonKohortKotak.nama}</p>
                       </div>
-                      <div className='text-xs flex flex-row '>
+                      {/* <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
                         <p className='ml-1'>
                           {singlePersonKohortKotak.nomborId}
                         </p>
-                      </div>
+                      </div> */}
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
                         <p className='ml-1'>
@@ -462,9 +464,15 @@ function UserFormKohortKOTAK() {
                         </p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                        <h2 className='font-semibold'>KETURUNAN :</h2>
                         <p className='ml-1'>
                           {singlePersonKohortKotak.keturunan}
+                        </p>
+                      </div>
+                      <div className='text-xs flex flex-row '>
+                        <h2 className='font-semibold'>WARGANEGARA :</h2>
+                        <p className='ml-1'>
+                          {singlePersonKohortKotak.warganegara}
                         </p>
                       </div>
                     </div>
@@ -489,10 +497,11 @@ function UserFormKohortKOTAK() {
                   </div>
                   <div className='lg:pt-10'>
                     <div className='flex flex-row pl-5'>
-                      <h2 className='font-semibold text-xs'>KELAS :</h2>
+                      <h2 className='font-semibold text-xs'>
+                        TAHUN / TINGKATAN :
+                      </h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonKohortKotak.tahunTingkatan}{' '}
-                        {singlePersonKohortKotak.kelasPelajar}
+                        {singlePersonKohortKotak.tahunTingkatan}
                       </p>
                     </div>
                   </div>
@@ -1277,13 +1286,43 @@ function UserFormKohortKOTAK() {
                   >
                     tutup
                   </span>
-                  {singlePersonKohortKotak.statusSelepas6Bulan === '' && (
+                  {isSubmitting ? (
                     <button
-                      type='submit'
-                      className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                      type='button'
+                      className='capitalize bg-user3 justify-center rounded-md p-2 mr-2 inline-flex cursor-not-allowed'
+                      disabled
                     >
-                      hantar
+                      <svg
+                        className='animate-spin ml-1 mr-3 h-5 w-5 text-white'
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                      >
+                        <circle
+                          className='opacity-25'
+                          cx='12'
+                          cy='12'
+                          r='10'
+                          stroke='currentColor'
+                          strokeWidth='4'
+                        ></circle>
+                        <path
+                          className='opacity-75'
+                          fill='currentColor'
+                          d='M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z'
+                        ></path>
+                      </svg>
+                      Menghantar Data
                     </button>
+                  ) : (
+                    singlePersonKohortKotak.statusSelepas6Bulan === '' && (
+                      <button
+                        type='submit'
+                        className='flex bg-user3 p-2 w-full capitalize justify-center hover:bg-user1 hover:text-userWhite transition-all'
+                      >
+                        hantar
+                      </button>
+                    )
                   )}
                 </div>
               </form>

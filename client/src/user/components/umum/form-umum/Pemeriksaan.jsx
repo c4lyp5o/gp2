@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useRef } from 'react';
 import {
   FaInfoCircle,
   FaCaretDown,
@@ -15,6 +15,10 @@ export default function Pemeriksaan(props) {
   const { formatTime, dictionaryJenisFasiliti } = useGlobalUserAppContext();
 
   const [show, setShow] = useState(false);
+
+  //systolic and diastolic problem
+  const systolicInputRef = useRef(null);
+  const diastolicInputRef = useRef(null);
 
   let isDisabled = false;
   if (
@@ -630,8 +634,15 @@ export default function Pemeriksaan(props) {
                           id='systolic-tekanan-darah'
                           value={props.systolicTekananDarah}
                           onChange={(e) => {
-                            props.setSystolicTekananDarah(e.target.value);
-                            props.setRujukKeKlinik(false);
+                            const input = e.target.value;
+                            if (/^\d{0,3}$/.test(input)) {
+                              props.setSystolicTekananDarah(input);
+                              props.setRujukKeKlinik(false);
+                              if (input.length === 3) {
+                                diastolicInputRef.current.focus();
+                                props.setDiastolicTekananDarah('');
+                              }
+                            }
                           }}
                           onClick={() => {
                             if (
@@ -644,6 +655,7 @@ export default function Pemeriksaan(props) {
                           min='0'
                           max='300'
                           className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                          ref={systolicInputRef}
                         />
                         <p className='font-bold text-2xl'> / </p>
                         <input
@@ -659,8 +671,11 @@ export default function Pemeriksaan(props) {
                           id='diastolic-tekanan-darah'
                           value={props.diastolicTekananDarah}
                           onChange={(e) => {
-                            props.setDiastolicTekananDarah(e.target.value);
-                            props.setRujukKeKlinik(false);
+                            const input = e.target.value;
+                            if (/^\d{0,3}$/.test(input)) {
+                              props.setDiastolicTekananDarah(input);
+                              props.setRujukKeKlinik(false);
+                            }
                           }}
                           onClick={() => {
                             if (
@@ -673,6 +688,7 @@ export default function Pemeriksaan(props) {
                           min='0'
                           max='300'
                           className='appearance-none font-normal w-20 h-min leading-7 mx-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                          ref={diastolicInputRef}
                         />
                       </div>
                       <div className='flex flex-row whitespace-nowrap'>
@@ -756,7 +772,7 @@ export default function Pemeriksaan(props) {
               props.singlePersonUmum.kedatangan === 'ulangan-kedatangan' &&
               props.singlePersonUmum.checkupEnabled) ? (
               <div className='grid gap-2 auto-rows-min'>
-                {props.jenisFasiliti === 'taska-tadika' && (
+                {/* {props.jenisFasiliti === 'taska-tadika' && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='flex flex-row items-center pl-5 font-bold col-span-2'>
                       kedatangan taska / tadika
@@ -869,7 +885,7 @@ export default function Pemeriksaan(props) {
                       </div>
                     </div>
                   </article>
-                )}
+                )} */}
                 {props.singlePersonUmum.umur >= 60 && (
                   <article className='grid grid-cols-2 border border-userBlack pl-3 p-2 rounded-md'>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -1088,7 +1104,7 @@ export default function Pemeriksaan(props) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                               </div>
-                              {props.singlePersonUmum.umur >= 10 &&
+                              {/* {props.singlePersonUmum.umur >= 10 &&
                               props.dAdaGigiDesidusPemeriksaanUmum > 0 ? (
                                 <div className='flex flex-row items-center pl-5'>
                                   <p className='text-sm font-m'>
@@ -1113,7 +1129,7 @@ export default function Pemeriksaan(props) {
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
                                 </div>
-                              ) : null}
+                              ) : null} */}
                             </div>
                             {props.sumDMFXDesidusUmum > 20 && (
                               <p className='text-user6 font-semibold'>
@@ -1340,7 +1356,7 @@ export default function Pemeriksaan(props) {
                     </div>
                   </article>
                 )}
-                {props.pemeriksaanTaskaTadika ===
+                {/* {props.pemeriksaanTaskaTadika ===
                 'tiada-pemeriksaan-taska-tadika' ? null : (
                   <article className='grid grid-cols-2 auto-rows-min border border-userBlack pl-3 p-2 rounded-md '>
                     <h4 className='font-bold flex flex-row pl-5 col-span-2'>
@@ -1369,7 +1385,7 @@ export default function Pemeriksaan(props) {
                       </label>
                     </div>
                   </article>
-                )}
+                )} */}
                 {props.pemeriksaanTaskaTadika ===
                 'tiada-pemeriksaan-taska-tadika' ? null : (
                   <article className='row-span-2 border border-userBlack pl-3 p-2 rounded-md'>
