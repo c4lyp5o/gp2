@@ -32,6 +32,9 @@ function UserFormKohortKOTAK() {
   const [thisUsernameData, setThisUsernameData] = useState({});
 
   const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
+  const [noTelefon, setNoTelefon] = useState('');
+  const [noTel2, setNoTel2] = useState('');
+  const [noTel3, setNoTel3] = useState('');
   const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
   const [elektronikVapeKotak, setElektronikVapeKotak] = useState(false);
   const [shishaKotak, setShishaKotak] = useState(false);
@@ -46,9 +49,6 @@ function UserFormKohortKOTAK() {
   const [adaTiadaQTarikh4, setAdaTiadaQTarikh4] = useState('');
   const [rujukGuruKaunseling, setRujukGuruKaunseling] = useState('');
   const [tarikhQ, setTarikhQ] = useState('');
-  const [noTelefon, setNoTelefon] = useState('');
-  const [noTel2, setNoTel2] = useState('');
-  const [noTel3, setNoTel3] = useState('');
   const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
 
   // datepicker issue
