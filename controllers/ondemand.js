@@ -15,6 +15,23 @@ const getCurrentOndemandSetting = async (req, res) => {
     const currentOndemandSetting = await Ondemand.create({
       name: 'current',
       adminPage: true,
+      PG101A: true,
+      PG101C: true,
+      PG211A: true,
+      PG211C: true,
+      PG206: true,
+      PG207: true,
+      PG214: true,
+      PGPR201: true,
+      PGPRO01: true,
+      PGPRO01Combined: true,
+      PG201P2: true,
+      PGS203P2: true,
+      TODP1: true,
+      MASA: true,
+      BP: true,
+      BPE: true,
+      GENDER: true,
     });
     return res.status(200).json({ currentOndemandSetting });
   }
@@ -24,10 +41,6 @@ const getCurrentOndemandSetting = async (req, res) => {
 
 // PATCH / - untuk update ondemand setting
 const updateCurrentOndemandSetting = async (req, res) => {
-  if (req.user.accountType !== 'hqSuperadmin') {
-    return res.status(401).json({ msg: 'Unauthorized' });
-  }
-
   logger.info(
     `${req.method} ${req.url} [OndemandController] updateCurrentOndemandSetting called`
   );

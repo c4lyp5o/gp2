@@ -2053,16 +2053,6 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
       statusReten = 'belum diisi';
     }
 
-    // gigi bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum must be more than 0 if yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi'
-    if (
-      yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi' &&
-      bilanganGigiMempunyai20GigiEdentulousWargaEmasPemeriksaanUmum === 0 &&
-      singlePersonUmum.umur >= 60
-    ) {
-      toast.error('Sila isi bilangan gigi jika pesakit mempunyai gigi');
-      return;
-    }
-
     // check waktu dipanggil
     if (
       (singlePersonUmum.jenisFasiliti === 'kp' &&
