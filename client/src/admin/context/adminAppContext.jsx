@@ -512,6 +512,21 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
+  const readSpesifikRTCData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=rtc&kp=${kp}`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return false;
+    }
+  };
 
   // spesifik kp data
   const readSpesifikKkiaDataForKp = async (kp) => {
@@ -654,6 +669,14 @@ function AdminAppProvider({ children }) {
       deskripsi2: '- Perkhidmatan Pergigian Outreach',
     },
     {
+      kod: 'PG211C Pind. 1/2022 - KPB/MPB',
+      kodRingkas: 'PG211C-KPBMPB',
+      deskripsi:
+        'Rekod Kehadiran Bulanan Pesakit Warganegara/ Bukan Warganegara',
+      deskripsi2:
+        '- Klinik Pergigian Bergerak (KPB) / Makmal Pergigian Bergerak (MPB)',
+    },
+    {
       kod: 'PG206 Pind. 1/2022',
       kodRingkas: 'PG206',
       deskripsi:
@@ -762,12 +785,6 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Program Dewasa Muda',
     },
     {
-      kod: 'KOM-OAP',
-      kodRingkas: 'KOM-OAP',
-      deskripsi:
-        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Program Orang Asli dan Penan di Komuniti',
-    },
-    {
       kod: 'PPR',
       kodRingkas: 'PPR',
       deskripsi: 'Projek Perumahan Rakyat (PPR)',
@@ -786,6 +803,12 @@ function AdminAppProvider({ children }) {
       kod: 'PKAP2',
       kodRingkas: 'PKAP2',
       deskripsi: 'Program Kampung Angkat Pergigian (PKAP)',
+    },
+    {
+      kod: 'KOM-OAP',
+      kodRingkas: 'KOM-OAP',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Program Orang Asli dan Penan di Komuniti',
     },
     {
       kod: 'KOM-WE',
@@ -810,6 +833,24 @@ function AdminAppProvider({ children }) {
       deskripsi: 'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institusi Penjara',
     },
     {
+      kod: 'KOM-FDS',
+      kodRingkas: 'KOM-FDS',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Flying Dental Service, Sabah',
+    },
+    {
+      kod: 'KOM-ISN',
+      kodRingkas: 'KOM-ISN',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Institut Sukan Negara (ISN)',
+    },
+    {
+      kod: 'KOM-HRC',
+      kodRingkas: 'KOM-HRC',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Komuniti Berisiko Tinggi (Program Kanser Mulut)',
+    },
+    {
       kod: 'KOM',
       kodRingkas: 'KOM',
       deskripsi:
@@ -828,21 +869,28 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli/Penan',
     },
     {
-      kod: 'UTC/RTC',
-      kodRingkas: 'UTCRTC',
+      kod: 'RTC',
+      kodRingkas: 'RTC',
       deskripsi:
-        'Laporan Bulanan/Tahunan Di Negeri Bagi Urban / Rural Transformation Center (UTC / RTC)',
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Rural Transformation Center (RTC)',
+    },
+    {
+      kod: 'UTC',
+      kodRingkas: 'UTC',
+      deskripsi:
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Urban Transformation Center (UTC)',
     },
     // {
     //   kod: 'KPBMPB Harian',
     //   kodRingkas: 'KPBMPBHarian',
     //   deskripsi: 'KPB MPB Harian',
     // },
-    // {
-    //   kod: 'KPBMPB Bulanan',
-    //   kodRingkas: 'KPBMPBBulanan',
-    //   deskripsi: 'KPB MPB Harian',
-    // },
+    {
+      kod: 'KPB / MPB',
+      kodRingkas: 'KPBMPBBulanan',
+      deskripsi:
+        'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Di Klinik Pergigian Bergerak (KPB) Dan Makmal Pergigian Bergerak (MPB)',
+    },
   ];
 
   // misc
@@ -1090,6 +1138,11 @@ function AdminAppProvider({ children }) {
     negeriwpputrajaya: 'WP Putrajaya',
     negeriwplabuan: 'WP Labuan',
     negeriilk: 'ILK',
+    // KHUSUS UNTUK RTC
+    Pahang: 'Pahang',
+    Melaka: 'Melaka',
+    Kelantan: 'Kelantan',
+    Sarawak: 'Sarawak',
   };
   const DictionaryHurufNegeri = {
     Johor: 'J',
@@ -1220,6 +1273,7 @@ function AdminAppProvider({ children }) {
         readSpesifikProgramData,
         readSpesifikKPBMPBData,
         readSpesifikIndividuData,
+        readSpesifikRTCData,
         // spesifik kp data
         readSpesifikKkiaDataForKp,
         readSpesifikProgramDataForKp,
