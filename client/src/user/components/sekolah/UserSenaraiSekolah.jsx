@@ -13,9 +13,8 @@ import {
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-import UserModalSelesaiSekolah from './modal-sekolah/UserModalSelesaiSekolah';
-import UserModalMuatTurun from './modal-sekolah/UserModalMuatTurun';
-// import UserModalRefreshPelajar from './modal-sekolah/UserModalRefreshPelajar';
+import UserModalSelesaiSekolah from './UserModalSelesaiSekolah';
+// import UserModalRefreshPelajar from './UserModalRefreshPelajar';
 
 function UserSekolahList() {
   const {
@@ -31,18 +30,13 @@ function UserSekolahList() {
   const [isLoading, setIsLoading] = useState(true);
   const [allPersonSekolahs, setAllPersonSekolahs] = useState([]);
   const [namaSekolahs, setNamaSekolahs] = useState([]);
+  // const [enrolmen, setEnrolmen] = useState([]);
+  // const [kedatanganBaru, setKedatanganBaru] = useState([]);
+  // const [kesSelesai, setKesSelesai] = useState([]);
   const [sekMenRen, setSekMenRen] = useState('');
 
-  //selesai sekolah
   const [modalSelesaiSekolah, setModalSelesaiSekolah] = useState(false);
-
-  //muat turun
-  const [modalMuatTurun, setModalMuatTurun] = useState(false);
-  const [sekolahMuatTurun, setSekolahMuatTurun] = useState('');
-
-  //refresh pelajar
   // const [modalRefreshPelajar, setModalRefreshPelajar] = useState(false);
-
   const [idSekolah, setIdSekolah] = useState('');
 
   const [isTutup, setIsTutup] = useState(false);
@@ -68,6 +62,51 @@ function UserSekolahList() {
         );
         setAllPersonSekolahs(data.allPersonSekolahs);
         setNamaSekolahs(data.fasilitiSekolahs);
+        // data.fasilitiSekolahs
+        //   .sort((a, b) => a.sekolahSelesaiReten - b.sekolahSelesaiReten)
+        //   .forEach((singleSekolah) => {
+        //     // kira enrolmen
+        //     const tempEnrolmen = () => {
+        //       return data.allPersonSekolahs.filter((person) =>
+        //         person.namaSekolah.includes(singleSekolah.nama)
+        //       ).length;
+        //     };
+        //     setEnrolmen((current) => [...current, tempEnrolmen()]);
+
+        //     // kira kedatangan baru
+        //     let tempKedatanganBaru = 0;
+        //     data.allPersonSekolahs
+        //       .filter((person) =>
+        //         person.namaSekolah.includes(singleSekolah.nama)
+        //       )
+        //       .forEach((person) => {
+        //         if (person.pemeriksaanSekolah /*&& person.rawatanSekolah[0]*/) {
+        //           tempKedatanganBaru += 1;
+        //         }
+        //         // if (person.pemeriksaanSekolah && person.rawatanSekolah[0]) {
+        //         //   if (
+        //         //     person.pemeriksaanSekolah.tarikhPemeriksaanSemasa ===
+        //         //     person.rawatanSekolah[0].tarikhRawatanSemasa
+        //         //   ) {
+        //         //     tempKedatanganBaru += 1;
+        //         //   }
+        //         // }
+        //       });
+        //     setKedatanganBaru((current) => [...current, tempKedatanganBaru]);
+
+        //     // kira kes selesai from statusRawatan === 'selesai'
+        //     let tempKesSelesai = 0;
+        //     data.allPersonSekolahs
+        //       .filter((person) =>
+        //         person.namaSekolah.includes(singleSekolah.nama)
+        //       )
+        //       .forEach((person) => {
+        //         if (person.statusRawatan === 'selesai') {
+        //           tempKesSelesai += 1;
+        //         }
+        //       });
+        //     setKesSelesai((current) => [...current, tempKesSelesai]);
+        //   });
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
@@ -90,43 +129,29 @@ function UserSekolahList() {
       if (!userinfo.mdcNumber) {
         mdcMdtbNum = userinfo.mdtbNumber;
       }
-      await toast
-        .promise(
-          axios.patch(
-            `/api/v1/sekolah/fasiliti/${idSekolah}`,
-            { sekolahSelesaiReten: true },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
+      await toast.promise(
+        axios.patch(
+          `/api/v1/sekolah/fasiliti/${idSekolah}`,
+          { sekolahSelesaiReten: true },
           {
-            pending: 'Sedang menutup reten sekolah...',
-            success: 'Sekolah telah ditandakan selesai!',
-            error: {
-              render({ data }) {
-                if (data.response.status === 409) {
-                  return data.response.data.msg;
-                } else {
-                  return 'Gagal untuk menutup reten sekolah';
-                }
-              },
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
             },
-          },
-          { autoClose: 5000 }
-        )
-        .then(() => {
-          setReloadState(!reloadState);
-          setModalSelesaiSekolah(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          // setReloadState(!reloadState);
-          // setModalSelesaiSekolah(false);
-        });
+          }
+        ),
+        {
+          pending: 'Sedang menutup reten sekolah...',
+          success: 'Sekolah telah ditandakan selesai!',
+          error: 'Gagal untuk selesai sekolah. Sila cuba lagi.',
+        },
+        {
+          autoClose: 3000,
+        }
+      );
+      setModalSelesaiSekolah(false);
+      setReloadState(!reloadState);
     }
   };
 
@@ -142,9 +167,7 @@ function UserSekolahList() {
         `/api/v1/sekolah/muatturun/${kodSekolah}`,
         {
           headers: {
-            Authorization: `Bearer ${
-              reliefUserToken ? reliefUserToken : userToken
-            }`,
+            Authorization: `Bearer ${reliefUserToken ?? userToken}`,
           },
           responseType: 'blob',
         }
@@ -158,17 +181,17 @@ function UserSekolahList() {
       });
       link.click();
       toast.update(id, {
-        render: `Berjaya memuat turun senarai pelajar ${namaSekolah}`,
+        render: `Berjaya mencetak senarai pelajar ${namaSekolah}`,
         type: 'success',
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 2000,
       });
     } catch (error) {
       toast.update(id, {
-        render: 'Harap maaf, senarai pelajar tidak dapat dimuat turun',
+        render: 'Harap maaf, senarai pelajar tidak dapat dimuatturun',
         type: 'error',
         isLoading: false,
-        autoClose: 3000,
+        autoClose: 2000,
       });
       console.log(error);
     } finally {
@@ -293,9 +316,6 @@ function UserSekolahList() {
                   BIL. KES SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
-                  PERATUS LIPUTAN
-                </th>
-                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
                   PERATUS SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
@@ -322,9 +342,6 @@ function UserSekolahList() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
-                  </td>
-                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-10 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
@@ -343,6 +360,7 @@ function UserSekolahList() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                     {userinfo.role === 'admin' && (
                       <>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                       </>
                     )}
@@ -365,9 +383,6 @@ function UserSekolahList() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
-                  </td>
-                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
@@ -380,6 +395,7 @@ function UserSekolahList() {
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                     {userinfo.role === 'admin' && (
                       <>
+                        <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                         <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
                       </>
                     )}
@@ -426,18 +442,6 @@ function UserSekolahList() {
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <span>
                             {percentageCalc(
-                              kiraKedatanganBaru(
-                                allPersonSekolahs,
-                                singleNamaSekolah
-                              ),
-                              kiraEnrolmen(allPersonSekolahs, singleNamaSekolah)
-                            )}
-                            %
-                          </span>
-                        </td>
-                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                          <span>
-                            {percentageCalc(
                               kiraKesSelesai(
                                 allPersonSekolahs,
                                 singleNamaSekolah
@@ -465,68 +469,68 @@ function UserSekolahList() {
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <Link to={`sekolah/${singleNamaSekolah.kodSekolah}`}>
-                            <button className='bg-user10 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'>
+                            <button className='bg-user3 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'>
                               PILIH
                             </button>
                           </Link>
                         </td>
-                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                          <div className='flex flex-row justify-center'>
-                            <div
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1 flex flex-row justify-center'>
+                          <div
+                            className={`${
+                              isDownload[singleNamaSekolah._id] ? '' : 'mx-0.5'
+                            } ${
+                              isDownloading
+                                ? 'pointer-events-none opacity-50'
+                                : ''
+                            } flex justify-center items-center`}
+                          >
+                            <button
+                              disabled={isDownloading}
+                              title='Cetak senarai murid sekolah'
+                              onClick={() => {
+                                handleDownloadSenaraiSekolah(
+                                  singleNamaSekolah.kodSekolah,
+                                  singleNamaSekolah.nama,
+                                  singleNamaSekolah.sesiTakwimSekolah
+                                );
+                              }}
+                              onMouseEnter={() => {
+                                setIsDownload({
+                                  ...isDownload,
+                                  [singleNamaSekolah._id]: true,
+                                });
+                              }}
+                              onMouseLeave={() => {
+                                setIsDownload({
+                                  ...isDownload,
+                                  [singleNamaSekolah._id]: false,
+                                });
+                              }}
                               className={`${
+                                singleNamaSekolah.sekolahSelesaiReten
+                                  ? 'bg-user3 shadow-md'
+                                  : 'bg-user3 shadow-md'
+                              } ${
                                 isDownload[singleNamaSekolah._id]
                                   ? ''
-                                  : 'mx-0.5'
-                              } ${
-                                isDownloading
-                                  ? 'pointer-events-none opacity-50'
-                                  : ''
-                              } flex justify-center items-center`}
+                                  : 'w-7 h-7'
+                              } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center`}
                             >
-                              <button
-                                disabled={isDownloading}
-                                title='Cetak senarai murid sekolah'
-                                onClick={() => {
-                                  setSekolahMuatTurun(singleNamaSekolah);
-                                  setModalMuatTurun(true);
-                                }}
-                                onMouseEnter={() => {
-                                  setIsDownload({
-                                    ...isDownload,
-                                    [singleNamaSekolah._id]: true,
-                                  });
-                                }}
-                                onMouseLeave={() => {
-                                  setIsDownload({
-                                    ...isDownload,
-                                    [singleNamaSekolah._id]: false,
-                                  });
-                                }}
+                              <BsDownload className='inline-flex' />
+                              <p
                                 className={`${
-                                  singleNamaSekolah.sekolahSelesaiReten
-                                    ? 'bg-user3 shadow-md'
-                                    : 'bg-user3 shadow-md'
-                                } ${
                                   isDownload[singleNamaSekolah._id]
-                                    ? ''
-                                    : 'w-7 h-7'
-                                } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700 flex items-center whitespace-nowrap`}
+                                    ? 'max-w-min ml-1 transition-all duration-700 '
+                                    : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                }`}
                               >
-                                <BsDownload className='inline-flex' />
-                                <p
-                                  className={`${
-                                    isDownload[singleNamaSekolah._id]
-                                      ? 'max-w-min ml-1 transition-all duration-700 '
-                                      : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
-                                  }`}
-                                >
-                                  MUAT TURUN
-                                </p>
-                              </button>
-                            </div>
-                            {userinfo.role === 'admin' && (
-                              <>
-                                {/* <div
+                                CETAK
+                              </p>
+                            </button>
+                          </div>
+                          {userinfo.role === 'admin' && (
+                            <>
+                              {/* <div
                                 className={`${
                                   isKemaskini[singleNamaSekolah._id]
                                     ? ''
@@ -597,58 +601,55 @@ function UserSekolahList() {
                                   )}
                                 </button>
                               </div> */}
-                                <div
+                              <div
+                                className={`${
+                                  isTutup[singleNamaSekolah._id] ? '' : 'mx-0.5'
+                                } flex justify-center items-center`}
+                              >
+                                <button
+                                  title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
+                                  onClick={() => {
+                                    setIdSekolah(singleNamaSekolah._id);
+                                    setModalSelesaiSekolah(true);
+                                  }}
+                                  onMouseEnter={() => {
+                                    setIsTutup({
+                                      ...isTutup,
+                                      [singleNamaSekolah._id]: true,
+                                    });
+                                  }}
+                                  onMouseLeave={() => {
+                                    setIsTutup({
+                                      ...isTutup,
+                                      [singleNamaSekolah._id]: false,
+                                    });
+                                  }}
                                   className={`${
+                                    singleNamaSekolah.sekolahSelesaiReten
+                                      ? 'bg-user7 pointer-events-none'
+                                      : 'bg-user3 shadow-md'
+                                  } ${
                                     isTutup[singleNamaSekolah._id]
                                       ? ''
-                                      : 'mx-0.5'
-                                  } flex justify-center items-center`}
+                                      : 'w-7 h-7'
+                                  } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700  flex items-center`}
                                 >
-                                  <button
-                                    title='Tutup reten apabila perkhidmatan di sekolah telah selesai dijalankan'
-                                    onClick={() => {
-                                      setIdSekolah(singleNamaSekolah._id);
-                                      setModalSelesaiSekolah(true);
-                                    }}
-                                    onMouseEnter={() => {
-                                      setIsTutup({
-                                        ...isTutup,
-                                        [singleNamaSekolah._id]: true,
-                                      });
-                                    }}
-                                    onMouseLeave={() => {
-                                      setIsTutup({
-                                        ...isTutup,
-                                        [singleNamaSekolah._id]: false,
-                                      });
-                                    }}
+                                  <BsEnvelopeX className='inline-flex ' />
+                                  <p
                                     className={`${
-                                      singleNamaSekolah.sekolahSelesaiReten
-                                        ? 'bg-user7 pointer-events-none'
-                                        : 'bg-user3 shadow-md'
-                                    } ${
                                       isTutup[singleNamaSekolah._id]
-                                        ? ''
-                                        : 'w-7 h-7'
-                                    } text-userWhite px-2 py-1 rounded-full hover:bg-user1 transition-all duration-700  flex items-center`}
+                                        ? 'max-w-min ml-1 transition-all duration-700 '
+                                        : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
+                                    }`}
                                   >
-                                    <BsEnvelopeX className='inline-flex ' />
-                                    <p
-                                      className={`${
-                                        isTutup[singleNamaSekolah._id]
-                                          ? 'max-w-min ml-1 transition-all duration-700 '
-                                          : 'w-0 overflow-hidden transition-all duration-700 translate-x-0'
-                                      }`}
-                                    >
-                                      {singleNamaSekolah.sekolahSelesaiReten
-                                        ? 'TELAH DITUTUP'
-                                        : 'TUTUP'}
-                                    </p>
-                                  </button>
-                                </div>
-                              </>
-                            )}
-                          </div>
+                                    {singleNamaSekolah.sekolahSelesaiReten
+                                      ? 'TELAH DITUTUP'
+                                      : 'TUTUP'}
+                                  </p>
+                                </button>
+                              </div>
+                            </>
+                          )}
                         </td>
                       </tr>
                     );
@@ -662,14 +663,6 @@ function UserSekolahList() {
             setModalSelesaiSekolah={setModalSelesaiSekolah}
             handleSelesaiSekolah={handleSelesaiSekolah}
             id={idSekolah}
-          />
-        )}
-        {modalMuatTurun && (
-          <UserModalMuatTurun
-            handleDownloadSenaraiSekolah={handleDownloadSenaraiSekolah}
-            sekolahMuatTurun={sekolahMuatTurun}
-            setModalMuatTurun={setModalMuatTurun}
-            isDownloading={isDownloading}
           />
         )}
         {/* {modalRefreshPelajar && (

@@ -1,4 +1,4 @@
-const Umum = require('../models/Umum');
+const { Types } = require('mongoose');
 const Operator = require('../models/Operator');
 const { logger } = require('../logs/logger');
 
@@ -35,7 +35,7 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   const { id, bulan, tahun } = req.query;
 
   const singlePersonOperator = await Operator.findById(id)
-    .select('nama mdcNumber mdtbNumber createdByNegeri')
+    .select('nama')
     .lean();
 
   if (!singlePersonOperator) {
@@ -52,142 +52,28 @@ const getSinglePersonOperatorSummary = async (req, res) => {
   process.env.BUILD_ENV === 'dev' &&
     console.table({ id, bulan, tahun, tarikhMula, tarikhTamat });
 
-  const filteredSummary = await Umum.aggregate([
-    {
-      $match: {
-        createdByMdcMdtb:
-          singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
-        tarikhKedatangan: {
-          $gte: tarikhMula,
-          $lte: tarikhTamat,
-        },
-      },
-    },
+  const filteredSummary = await Operator.aggregate([
+    { $match: { _id: new Types.ObjectId(id) } },
     {
       $project: {
         _id: 0,
-        nama: 1,
-        ic: 1,
-        tarikhKedatangan: 1,
-        tarikhLahir: 1,
-        kedatangan: 1,
-        kumpulanEtnik: 1,
-        bersekolah: 1,
-        ibuMengandung: 1,
-        orangKurangUpaya: 1,
-        statusPesara: 1,
-        rawatanDibuatOperatorLain: 1,
-        deleted: 1,
+        filteredSummary: {
+          $filter: {
+            input: '$summary',
+            as: 'record',
+            cond: {
+              $and: [
+                { $gte: ['$$record.tarikhKedatangan', tarikhMula] },
+                { $lte: ['$$record.tarikhKedatangan', tarikhTamat] },
+              ],
+            },
+          },
+        },
       },
     },
   ]);
 
-  // kena bincang lg sbb kena cari dalam 1 negeri pt nya
-  const filteredSummaryOperatorLain = await Umum.aggregate([
-    {
-      $match: {
-        tarikhKedatangan: {
-          $gte: tarikhMula,
-          $lte: tarikhTamat,
-        },
-        createdByNegeri: singlePersonOperator.createdByNegeri,
-        rawatanDibuatOperatorLain: true,
-        rawatanOperatorLain: {
-          $elemMatch: {
-            createdByMdcMdtb:
-              singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        nama: 1,
-        ic: 1,
-        tarikhKedatangan: 1,
-        tarikhLahir: 1,
-        kedatangan: 1,
-        kumpulanEtnik: 1,
-        bersekolah: 1,
-        ibuMengandung: 1,
-        orangKurangUpaya: 1,
-        statusPesara: 1,
-        rawatanDibuatOperatorLain: 1,
-        deleted: 1,
-      },
-    },
-  ]);
-
-  const customSummary = await Umum.aggregate([
-    {
-      $match: {
-        createdByMdcMdtb:
-          singlePersonOperator.mdcNumber ?? singlePersonOperator.mdtbNumber,
-        tarikhKedatangan: {
-          $gte: tarikhMula,
-          $lte: tarikhTamat,
-        },
-      },
-    },
-    {
-      $group: {
-        _id: null,
-        jumlahTampalanGigiDesidus: {
-          $sum: {
-            $add: [
-              '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-              '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-            ],
-          },
-        },
-        jumlahTampalanGigiKekal: {
-          $sum: {
-            $add: [
-              '$gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
-              '$gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-              '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
-            ],
-          },
-        },
-        jumlahKesSelesai: {
-          $sum: {
-            $cond: [
-              {
-                $and: [{ $eq: ['$kesSelesaiRawatanUmum', true] }],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-      },
-    },
-  ]);
-
-  if (filteredSummary.length === 0) {
-    return res.status(404).json({ msg: `No summary for ${id}` });
-  }
-
-  filteredSummary.push(...filteredSummaryOperatorLain);
-
-  filteredSummary.sort((a, b) => {
-    return new Date(a.tarikhKedatangan) - new Date(b.tarikhKedatangan);
-  });
-
-  res.status(200).json({ filteredSummary, customSummary });
+  res.status(201).json(filteredSummary);
 };
 
 module.exports = { getSinglePersonOperator, getSinglePersonOperatorSummary };

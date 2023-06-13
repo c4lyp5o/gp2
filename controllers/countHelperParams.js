@@ -185,33 +185,22 @@ const getParams101 = (payload, reten) => {
   }
 };
 const getParams211 = (payload, reten) => {
-  const { negeri, daerah, klinik, pilihanFasiliti, pilihanKpbMpb } = payload;
+  const { negeri, daerah, klinik } = payload;
 
   const AorC = (reten) => {
     if (reten === 'A' || reten === undefined) {
-      return { jenisFasiliti: { $in: ['kp', 'kk-kd'] } };
+      return { $in: ['kp', 'kk-kd'] };
     }
     if (reten === 'C') {
-      return { jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] } };
+      return { $nin: ['kp', 'kk-kd', 'taska-tadika'] };
     }
-  };
-
-  const byKpb = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      penggunaanKPBMPB: pilihanKpbMpb,
-      menggunakanKPBMPB: { $nin: ['', null] },
-      deleted: false,
-      oncall: { $in: [false, null] },
-    };
-    return param;
   };
 
   const byKp = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
-      ...AorC(reten),
+      jenisFasiliti: AorC(reten),
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       deleted: false,
       oncall: { $in: [false, null] },
@@ -225,7 +214,7 @@ const getParams211 = (payload, reten) => {
       createdByNegeri: { $eq: negeri },
       createdByDaerah: { $eq: daerah },
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
-      ...AorC(reten),
+      jenisFasiliti: AorC(reten),
       deleted: false,
       oncall: { $in: [false, null] },
     };
@@ -237,7 +226,7 @@ const getParams211 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
-      ...AorC(reten),
+      jenisFasiliti: AorC(reten),
       deleted: false,
       oncall: { $in: [false, null] },
     };
@@ -248,7 +237,7 @@ const getParams211 = (payload, reten) => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
-      ...AorC(reten),
+      jenisFasiliti: AorC(reten),
       deleted: false,
       oncall: { $in: [false, null] },
     };
@@ -257,10 +246,6 @@ const getParams211 = (payload, reten) => {
 
   if (negeri === 'all') {
     return satuMalaysia(payload);
-  }
-  if (pilihanFasiliti === 'kpbmpb') {
-    console.log('kpbmpb');
-    return byKpb(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
@@ -272,7 +257,7 @@ const getParams211 = (payload, reten) => {
     return byNegeri(payload);
   }
 };
-const getParams214 = (payload) => {
+const getParams214 = (payload, reten) => {
   const { negeri, daerah, klinik } = payload;
 
   const byKp = () => {
@@ -1422,23 +1407,23 @@ const getParamsKOM = (payload) => {
   };
 
   if (negeri === 'all') {
-    // console.log('bye msia');
+    console.log('bye msia');
     return satuMalaysia(payload);
   }
   if (daerah !== 'all' && klinik !== 'all' && pilihanProgram !== 'all') {
-    // console.log('bye program');
+    console.log('bye program');
     return byProgram(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye kp');
+    console.log('bye kp');
     return byKp(payload);
   }
   if (daerah !== 'all' && klinik === 'all') {
-    // console.log('bye daerah');
+    console.log('bye daerah');
     return byDaerah(payload);
   }
   if (daerah === 'all') {
-    // console.log('bye negeri');
+    console.log('bye negeri');
     return byNegeri(payload);
   }
 };
@@ -1511,40 +1496,28 @@ const getParamsOAP = (payload) => {
   };
 
   if (negeri === 'all') {
-    // console.log('bye msia');
+    console.log('bye msia');
     return satuMalaysia(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye program');
+    console.log('bye program');
     return byProgram(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye kp');
+    console.log('bye kp');
     return byKp(payload);
   }
   if (daerah !== 'all' && klinik === 'all') {
-    // console.log('bye daerah');
+    console.log('bye daerah');
     return byDaerah(payload);
   }
   if (daerah === 'all') {
-    // console.log('bye negeri');
+    console.log('bye negeri');
     return byNegeri(payload);
   }
 };
 const getParamsUTCRTC = (payload) => {
   const { negeri, daerah, klinik } = payload;
-
-  const byRtcTunjung = () => {
-    let param = {
-      createdByKodFasiliti: 'D04-014-02',
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: 'rtc',
-    };
-    return param;
-  };
 
   const byKp = () => {
     let param = {
@@ -1595,21 +1568,23 @@ const getParamsUTCRTC = (payload) => {
   };
 
   if (negeri === 'all') {
+    console.log('bye msia');
     return satuMalaysia(payload);
   }
-  if (klinik === 'rtc-tunjung') {
-    return byRtcTunjung(payload);
+  if (daerah !== 'all' && klinik !== 'all') {
+    console.log('bye program');
+    return byProgram(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
+    console.log('bye kp');
     return byKp(payload);
   }
   if (daerah !== 'all' && klinik === 'all') {
+    console.log('bye daerah');
     return byDaerah(payload);
   }
   if (daerah === 'all') {
+    console.log('bye negeri');
     return byNegeri(payload);
   }
 };
@@ -1665,23 +1640,23 @@ const getParamsPKAP = (payload) => {
   };
 
   if (negeri === 'all') {
-    // console.log('bye msia');
+    console.log('bye msia');
     return satuMalaysia(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye program');
+    console.log('bye program');
     return byProgram(payload);
   }
   if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye kp');
+    console.log('bye kp');
     return byKp(payload);
   }
   if (daerah !== 'all' && klinik === 'all') {
-    // console.log('bye daerah');
+    console.log('bye daerah');
     return byDaerah(payload);
   }
   if (daerah === 'all') {
-    // console.log('bye negeri');
+    console.log('bye negeri');
     return byNegeri(payload);
   }
 };

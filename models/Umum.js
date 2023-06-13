@@ -75,6 +75,12 @@ const UmumSchema = new mongoose.Schema(
     tarikhRujukanKepp: { type: String, default: '' },
     tarikhRundinganPertama: { type: String, default: '' },
     tarikhMulaRawatanKepp: { type: String, default: '' },
+    // penyampaian perkhidmatan
+    // kpBergerak: { type: Boolean, default: false },
+    // labelKpBergerak: { type: String, default: '' },
+    // pasukanPergigianBergerak: { type: Boolean, default: false },
+    // makmalPergigianBergerak: { type: Boolean, default: false },
+    // labelMakmalPergigianBergerak: { type: String, default: '' },
     // kk / kd
     namaFasilitiKkKd: { type: String, default: '' },
     kodFasilitiKkKd: { type: String, default: '' },
@@ -83,6 +89,24 @@ const UmumSchema = new mongoose.Schema(
     kelasToddler: { type: Boolean, default: false },
     namaFasilitiTaskaTadika: { type: String, default: '' },
     kodFasilitiTaskaTadika: { type: String, default: '' },
+    // ipt / kolej
+    iptKolej: { type: String, default: '' },
+    ipg: { type: String, default: '' },
+    kolejKomuniti: { type: String, default: '' },
+    politeknik: { type: String, default: '' },
+    institutLatihanKerajaan: { type: String, default: '' },
+    giatmara: { type: String, default: '' },
+    ipta: { type: String, default: '' },
+    ipts: { type: String, default: '' },
+    enrolmenIptKolej: { type: Boolean, default: false },
+    // institusi warga emas
+    institusiWargaEmas: { type: String, default: '' },
+    kerajaanInstitusiWargaEmas: { type: String, default: '' },
+    swastaInstitusiWargaEmas: { type: String, default: '' },
+    // institusi OKU
+    institusiOku: { type: String, default: '' },
+    // kampung angkat
+    kgAngkat: { type: String, default: '' },
     // program based
     jenisProgram: { type: String, default: '' },
     namaProgram: { type: String, default: '' },
@@ -252,6 +276,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    fissureSealantPemeriksaanUmum: {
+      type: Boolean,
+      default: false,
+    },
     baruJumlahGigiKekalPerluFSRawatanUmum: {
       type: Number,
       min: 0,
@@ -260,6 +288,10 @@ const UmumSchema = new mongoose.Schema(
     fvPerluSapuanPemeriksaanUmum: {
       type: String,
       default: '',
+    },
+    prrJenis1PemeriksaanUmum: {
+      type: Boolean,
+      default: false,
     },
     baruJumlahGigiKekalPerluPRRJenis1RawatanUmum: {
       type: Number,
@@ -323,6 +355,10 @@ const UmumSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
+    // pesakitMempunyaiImplanPergigian: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     periImplantMucositis: {
       type: Boolean,
       default: false,
@@ -352,6 +388,10 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     //rawatan ---------------------------------------------------------------------------
+    // pesakitDibuatFissureSealant: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     baruJumlahGigiKekalDibuatFSRawatanUmum: {
       type: Number,
       min: 0,
@@ -361,6 +401,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // pesakitDibuatPRRJenis1: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     baruJumlahGigiKekalDiberiPRRJenis1RawatanUmum: {
       type: Number,
       min: 0,
@@ -392,6 +436,10 @@ const UmumSchema = new mongoose.Schema(
       default: 0,
     },
     yaTidakAbsesPembedahanRawatanUmum: {
+      type: Boolean,
+      default: false,
+    },
+    yaTidakFrakturPembedahanRawatanUmum: {
       type: Boolean,
       default: false,
     },
@@ -554,6 +602,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    // kaunselingDiet: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     nasihatBerhentiMerokok: {
       type: Boolean,
       default: false,
@@ -562,6 +614,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // ohePengurusanFaktorSetempat: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     pengilapanTampalanRungkup: {
       type: Boolean,
       default: false,
@@ -570,6 +626,10 @@ const UmumSchema = new mongoose.Schema(
       type: Boolean,
       default: false,
     },
+    // cabutanPengurusanFaktorSetempat: {
+    //   type: Boolean,
+    //   default: false,
+    // },
     ektiparsiPulpa: {
       type: Boolean,
       default: false,
@@ -757,6 +817,10 @@ const UmumSchema = new mongoose.Schema(
       min: 0,
       default: 0,
     },
+    // dirujukKaunselingPakarPublicHealthPromosiUmum: {
+    //   type: Boolean,
+    //   default: false,
+    // },
   },
   { timestamps: true }
 );
