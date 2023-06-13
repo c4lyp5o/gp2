@@ -101,19 +101,11 @@ const KohortKotakSchema = new mongoose.Schema(
       default: 'belum mula',
     },
     // start own field --------------------------------------------------
-    dalamPemantauanKohort: {
-      type: String,
-      default: '',
-    },
     noTelefon: {
       type: String,
       default: '',
     },
-    noTel2: {
-      type: String,
-      default: '',
-    },
-    noTel3: {
+    dalamPemantauanKohort: {
       type: String,
       default: '',
     },

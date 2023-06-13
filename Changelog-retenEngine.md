@@ -1,26 +1,5 @@
 # Changelog
 
-### 9/6/2023 (v1.6.4)
-
-[countHelperRegular]
-Lengkapkan pengiraan KEPP
-
-[countHelperKomuniti]
-Lengkapkan pengiraan OAP
-Lengkapkan pengiraan LiputanOAP
-Lengkapkan pengiraan KPBMPBBulanan
-UTCRTC tukar nama jadi UTC, UTC atau RTC boleh kira skali dlm function tu
-
-[countHelperParams]
-Tambah params untuk 211KPB
-Oter params UTC RTC, RTC Tunjung
-
-[countHelperFuser]
-Tambah version kononnya
-
-[generateRetenController]
-Betulkan generate KEPP, LiputanOAP, KPBMPBBulanan, KOM, UTCRTC, 214, PPKPS
-
 ### 30/5/2023 (v1.6.3)
 
 [countHelperRegular]

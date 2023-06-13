@@ -10,14 +10,11 @@ export default function OndemandSetting() {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    saveOndemandSetting(ondemandSetting)
-      .then((res) => {
-        toast.success('Berjaya mengemaskini status laman pentadbir');
-      })
-      .catch((err) => {
-        toast.error('Gagal mengemaskini status laman pentadbir');
-        console.log(err);
-      });
+    // console.log(ondemandSetting);
+    saveOndemandSetting(ondemandSetting).then((res) => {
+      console.log(res);
+      toast.success('Berjaya mengemaskini status laman pentadbir');
+    });
   };
 
   useEffect(() => {

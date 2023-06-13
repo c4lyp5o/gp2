@@ -15,7 +15,6 @@ const {
   updateFasiliti,
   updatePersonSekolah,
   softDeletePersonSekolah,
-  softDeletePersonSekolahAfterFilled,
   updatePemeriksaanSekolah,
   updateRawatanSekolah,
   updateKotakSekolah,
@@ -53,10 +52,6 @@ router
 router.route('/fasiliti/:fasilitiId').patch(updateFasiliti);
 router.route('/ubah/:personSekolahId').patch(updatePersonSekolah);
 router.route('/delete/:personSekolahId').patch(softDeletePersonSekolah);
-router
-  .route('/delete-filled/:personSekolahId')
-  .patch(softDeletePersonSekolahAfterFilled);
-
 router
   .route('/pemeriksaan/ubah/:pemeriksaanSekolahId')
   .patch(updatePemeriksaanSekolah);

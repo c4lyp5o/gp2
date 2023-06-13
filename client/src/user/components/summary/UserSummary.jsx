@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import { useEffect, useState, useId } from 'react';
 import axios from 'axios';
 import moment from 'moment';
 import { Spinner } from 'react-awesome-spinners';
@@ -7,16 +7,12 @@ import { MdSupervisedUserCircle, MdOutlineSmartToy } from 'react-icons/md';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 export default function UserSummary() {
-  const { userToken, userinfo, reliefUserToken } = useGlobalUserAppContext();
+  const { userToken, userinfo, reliefUserToken, toast } =
+    useGlobalUserAppContext();
   const [bulan, setBulan] = useState('');
   const [waitForData, setWaitForData] = useState(false);
-  const [filteredSummary, setFilteredSummary] = useState([]);
-  const [processedData, setProcessedData] = useState([]);
-  const [customSummary, setCustomSummary] = useState([]);
+  const [data, setData] = useState([]);
   const [profileImage, setProfileImage] = useState(null);
-
-  //show
-  const [isShowPt, setIsShowPt] = useState(false);
 
   // const uploadImage = useId();
 
@@ -90,64 +86,18 @@ export default function UserSummary() {
           },
         }
       );
-      // console.log(res.data.customSummary);
-      setFilteredSummary(res.data.filteredSummary);
-      setCustomSummary(res.data.customSummary);
-      const process = processSummaryData(res.data.filteredSummary);
-      setProcessedData(process);
+      if (res.data[0].filteredSummary.length === 0) {
+        return setData([]);
+      }
+      setData(res.data[0].filteredSummary);
     };
     fetchSummaryData()
       .then(() => {
         setWaitForData(false);
       })
       .catch((err) => {
-        setFilteredSummary([]);
-        setCustomSummary([]);
         setWaitForData(false);
       });
-  };
-
-  const processSummaryData = (data) => {
-    const processedData = [
-      { group: 'Toddler', total: 0 },
-      { group: 'Umum', total: 0 },
-      { group: 'Warga Emas', total: 0 },
-      { group: 'Bersekolah', total: 0 },
-      { group: 'Bukan Warganegara', total: 0 },
-      { group: 'Ibu Mengandung', total: 0 },
-      { group: 'OKU', total: 0 },
-      { group: 'Pesara', total: 0 },
-    ];
-
-    data.forEach((patient) => {
-      const age = moment().diff(patient.tarikhLahir, 'years');
-      if (age < 5) {
-        processedData[0].total++;
-      } else if (age > 4) {
-        processedData[1].total++;
-      } else if (age > 59) {
-        processedData[2].total++;
-      }
-      if (patient.bersekolah) {
-        processedData[3].total++;
-      }
-      if (patient.kumpulanEtnik === 'bukan warganegara') {
-        processedData[4].total++;
-      }
-      if (patient.ibuMengandung) {
-        processedData[5].total++;
-      }
-      if (patient.orangKurangUpaya) {
-        processedData[6].total++;
-      }
-      if (patient.statusPesara) {
-        processedData[7].total++;
-      }
-      if (patient.kakitanganKerajaan) {
-        processedData[8].total++;
-      }
-    });
-    return processedData;
   };
 
   // useEffect(() => {
@@ -157,9 +107,9 @@ export default function UserSummary() {
   //     });
   //     setProfileImage(res.data.singlePersonOperator.image);
   //     if (res.data.singlePersonOperator.summary.length === 0) {
-  //       return setFilteredSummary([]);
+  //       return setData([]);
   //     }
-  //     setFilteredSummary(res.data.singlePersonOperator.summary);
+  //     setData(res.data.singlePersonOperator.summary);
   //   };
   //   fetchData().catch((err) => {
   //     console.log(err.response.data.msg);
@@ -168,7 +118,7 @@ export default function UserSummary() {
   //   );
   //   });
   //   return () => {
-  //     setFilteredSummary([]);
+  //     setData([]);
   //   };
   // }, [userToken]);
 
@@ -211,59 +161,27 @@ export default function UserSummary() {
                   : 'Juruterapi Pergigian'}{' '}
                 Gred {userinfo.gred.toUpperCase()}{' '}
                 {userinfo.mdcNumber ? (
-                  <div>Nombor MDC: {userinfo.mdcNumber}</div>
+                  <h4>Nombor MDC: {userinfo.mdcNumber}</h4>
                 ) : (
-                  <div>Nombor MDTB: {userinfo.mdtbNumber}</div>
+                  <h4>Nombor MDTB: {userinfo.mdtbNumber}</h4>
                 )}
               </h3>
             </div>
           </div>
           <div className='grid grid-cols-2 gap-1 items-center'>
-            <div className='border-l-8 border-user2 shadow-lg py-2 pr-2 relative'>
-              <div
-                onMouseEnter={() => setIsShowPt(true)}
-                onMouseLeave={() => setIsShowPt(false)}
-                className='flex flex-row items-center'
-              >
+            <div className='border-l-8 border-user2 shadow-lg py-2 pr-2'>
+              <div className='flex flex-row items-center'>
                 <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
                 <div>
                   <p className='text-xs flex flex-row'>Jumlah Pesakit</p>
                   <span
                     className={`font-mono ${
-                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {filteredSummary.length > 0 ? filteredSummary.length : null}
+                    {data.length > 0 ? data.length : null}
                   </span>
                 </div>
-                {isShowPt && (
-                  <div className='absolute top-24 right-10 z-20 bg-userWhite w-96 h-96 grid grid-cols-2'>
-                    {processedData.map((item) => (
-                      <div
-                        className='border-l-8 border-user2 shadow-lg py-2 pr-2'
-                        key={item.group}
-                      >
-                        <div className='flex flex-row items-center'>
-                          <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
-                          <div>
-                            <p className='text-xs flex flex-row'>
-                              {item.group}
-                            </p>
-                            <span
-                              className={`font-mono ${
-                                processedData.length > 0
-                                  ? 'text-5xl'
-                                  : 'text-sm'
-                              } flex flex-row`}
-                            >
-                              {item.total}
-                            </span>
-                          </div>
-                        </div>
-                      </div>
-                    ))}
-                  </div>
-                )}
               </div>
             </div>
             <div className='border-l-8 border-user2 shadow-lg py-2 pr-2'>
@@ -273,10 +191,14 @@ export default function UserSummary() {
                   <p className='text-xs flex flex-row'>Kes Selesai</p>
                   <span
                     className={`font-mono ${
-                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {customSummary[0]?.jumlahKesSelesai}
+                    {data.length > 0
+                      ? data.filter(
+                          (item) => item.kesSelesaiRawatanUmum === true
+                        ).length
+                      : null}
                   </span>
                 </div>
               </div>
@@ -288,11 +210,11 @@ export default function UserSummary() {
                   <p className='text-xs flex flex-row'>Pesakit Baru</p>
                   <span
                     className={`font-mono ${
-                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {filteredSummary.length > 0
-                      ? filteredSummary.filter(
+                    {data.length > 0
+                      ? data.filter(
                           (item) => item.kedatangan === 'baru-kedatangan'
                         ).length
                       : null}
@@ -307,11 +229,11 @@ export default function UserSummary() {
                   <p className='text-xs flex flex-row'>Pesakit Ulangan</p>
                   <span
                     className={`font-mono ${
-                      filteredSummary.length > 0 ? 'text-5xl' : 'text-sm'
+                      data.length > 0 ? 'text-5xl' : 'text-sm'
                     } flex flex-row`}
                   >
-                    {filteredSummary.length > 0
-                      ? filteredSummary.filter(
+                    {data.length > 0
+                      ? data.filter(
                           (item) => item.kedatangan === 'ulangan-kedatangan'
                         ).length
                       : null}
@@ -320,30 +242,49 @@ export default function UserSummary() {
               </div>
             </div>
           </div>
-          <div className='grid grid-cols-2 gap-1 items-center'>
-            <div className='border-l-8 border-user2 shadow-lg py-2 pr-2'>
-              <div className='flex flex-row items-center'>
-                <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
-                <div>
-                  <p className='text-xs flex flex-row'>Tampalan Gigi Desidus</p>
-                  <span className='font-mono text-5xl flex flex-row'>
-                    {customSummary[0]?.jumlahTampalanGigiDesidus}
-                  </span>
-                </div>
-              </div>
-            </div>
-            <div className='border-l-8 border-user2 shadow-lg py-2 pr-2'>
-              <div className='flex flex-row items-center'>
-                <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
-                <div>
-                  <p className='text-xs flex flex-row'>Tampalan Gigi Kekal</p>
-                  <span className='font-mono text-5xl flex flex-row'>
-                    {customSummary[0]?.jumlahTampalanGigiKekal}
-                  </span>
-                </div>
+          {/* <div className='grid grid-cols-2 gap-1 items-center'>
+          <div className='border-l-8 border-user2 shadow-lg py-2 pr-2'>
+            <div className='flex flex-row items-center'>
+              <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
+              <div>
+                <p className='text-xs flex flex-row'>Tampalan Gigi Kekal</p>
+                <span className='font-mono text-5xl flex flex-row'>
+                  {data
+                    .map((item) => {
+                      const semuaTampalanKekal = [
+                        item.gkBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+                        item.gkSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+                        item.gkBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+                        item.gkSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum,
+                        item.gkBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
+                        item.gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum,
+                      ];
+                      let sumTampalanKekal = 0;
+                      semuaTampalanKekal.forEach((item) => {
+                        sumTampalanKekal += item;
+                      });
+                      return sumTampalanKekal;
+                    })
+                    .reduce((a, b) => a + b, 0)}
+                </span>
               </div>
             </div>
           </div>
+          <div className='border-l-8 border-user2 shadow-lg py-2 pr-2'>
+            <div className='flex flex-row items-center'>
+              <MdSupervisedUserCircle className='text-user2 text-5xl m-1' />
+              <div>
+                <p className='text-xs flex flex-row'>Kes Selesai</p>
+                <span className='font-mono text-5xl flex flex-row'>
+                  {
+                    data.filter((item) => item.kesSelesaiRawatanUmum === true)
+                      .length
+                  }
+                </span>
+              </div>
+            </div>
+          </div>
+        </div> */}
         </div>
         <div className='flex flex-col items-center my-2'>
           <div className='flex flex-row items-center'>
@@ -351,7 +292,7 @@ export default function UserSummary() {
               onChange={(e) => handleMonthChange(e.target.value)}
               className='border-2 border-user2 rounded-md p-1 m-1'
             >
-              <option value=''>Sila Pilih Bulan...</option>
+              <option value=''>Pilih Bulan</option>
               <option value='01'>Januari</option>
               <option value='02'>Februari</option>
               <option value='03'>Mac</option>
@@ -373,13 +314,9 @@ export default function UserSummary() {
             </button> */}
           </div>
         </div>
-        {waitForData && (
-          <div className='flex flex-auto justify-center w-full h-full'>
-            <Spinner />
-          </div>
-        )}
-        {!waitForData && filteredSummary.length > 0 ? (
+        {data.length > 0 ? (
           <section className='p-1'>
+            {/* <div className='flex flex-col items-center mt-5'> */}
             <div className='m-auto overflow-x-auto text-xs lg:text-sm rounded-md h-min max-w-max'>
               <table className='table-auto'>
                 <thead className='text-userWhite bg-user2'>
@@ -393,7 +330,7 @@ export default function UserSummary() {
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       TARIKH KEDATANGAN
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-30'>
+                    <th className='px-2 py-1 outline outline-1 outline-offset-1 md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                       KEDATANGAN
                     </th>
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
@@ -402,19 +339,16 @@ export default function UserSummary() {
                     <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
                       JENIS ETNIK
                     </th>
-                    <th className='px-2 py-1 outline outline-1 outline-offset-1 w-60'>
-                      CATATAN
-                    </th>
                   </tr>
                 </thead>
-                {filteredSummary.map((item, index) => {
+                {data.map((item, index) => {
                   return (
                     <tbody key={item._id} className='text-userBlack bg-user4'>
                       <tr>
                         <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-userWhite'>
                           {index + 1}
                         </td>
-                        <td className='px-3 py-1 outline outline-1 outline-offset-1 outline-userWhite md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg text-left'>
+                        <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-userWhite md:w-screen md:max-w-md lg:w-screen lg:max-w-screen-lg'>
                           {item.nama}
                         </td>
                         <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-userWhite'>
@@ -437,40 +371,26 @@ export default function UserSummary() {
                         <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-userWhite'>
                           {item.kumpulanEtnik.toUpperCase()}
                         </td>
-                        <td className='px-2 py-1 outline outline-1 outline-offset-1 outline-userWhite'>
-                          {item.rawatanDibuatOperatorLain && (
-                            <span className='text-md px-1.5 py-0.5 rounded whitespace-nowrap'>
-                              Operator Bantuan
-                            </span>
-                          )}
-                          {item.deleted && (
-                            <span className='text-md px-1.5 py-0.5 rounded whitespace-nowrap'>
-                              PESAKIT TELAH DIHAPUS
-                            </span>
-                          )}
-                        </td>
                       </tr>
                     </tbody>
                   );
                 })}
               </table>
             </div>
+            {/* </div> */}
           </section>
         ) : (
           <div className='flex flex-col items-center mt-5'>
             <span
               className={`${
-                bulan !== '' &&
-                filteredSummary.length === 0 &&
-                waitForData === false
+                bulan !== '' && data.length === 0 && waitForData === false
                   ? 'bg-admin2 text-adminWhite text-3xl font-semibold'
                   : 'mt-3 font-mono text-xl'
               } px-1.5 py-0.5 rounded whitespace-nowrap`}
             >
-              {bulan !== '' &&
-                filteredSummary.length === 0 &&
-                waitForData === false &&
-                'Tiada rekod beban kerja'}
+              {bulan !== '' && data.length === 0 && waitForData === false
+                ? 'Tiada rekod beban kerja'
+                : 'Sila pilih bulan'}
             </span>
           </div>
         )}
