@@ -206,7 +206,9 @@ function UserTambahKemaskiniPelajarSekolah({
           setNomborId(data.singlePersonSekolah.nomborId);
           setStatusOku(data.singlePersonSekolah.statusOku);
           setTarikhLahir(data.singlePersonSekolah.tarikhLahir);
-          setTarikhLahirDP(new Date(data.singlePersonSekolah.tarikhLahir));
+          if (moment(data.singlePersonSekolah.tarikhLahir).isValid()) {
+            setTarikhLahirDP(new Date(data.singlePersonSekolah.tarikhLahir));
+          }
           setJantina(data.singlePersonSekolah.jantina);
           setUmur(data.singlePersonSekolah.umur);
           setKeturunan(data.singlePersonSekolah.keturunan);
