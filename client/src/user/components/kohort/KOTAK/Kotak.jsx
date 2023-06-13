@@ -24,6 +24,7 @@ function KohortKotak() {
   const [allPersonKohortKotak, setAllPersonKohortKotak] = useState([]);
   const [pilihanSekolah, setPilihanSekolah] = useState('');
   const [pilihanKohort, setPilihanKohort] = useState('');
+  const [pilihanNamaKelas, setPilihanNamaKelas] = useState('');
   const [philter, setPhilter] = useState('');
 
   const [namaSekolahs, setNamaSekolahs] = useState([]);
@@ -97,7 +98,7 @@ function KohortKotak() {
     }
   };
 
-  const keys = ['nama', 'tahunTingkatan'];
+  const keys = ['nama', 'nomborId', 'tahunTingkatan'];
 
   return (
     <>
@@ -195,7 +196,8 @@ function KohortKotak() {
                     {isPhilterShown && (
                       <div className='absolute top-6 left-2 w-36 text-left z-10 bg-kaunter4 text-kaunterWhite font-normal text-sm px-2 py-1 rounded-md whitespace-pre-wrap'>
                         <p className='text-center'>
-                          Carian Nama / Tahun / Tingkatan
+                          Carian Nama / Nombor Kad Pengenalan / Tahun /
+                          Tingkatan
                         </p>
                       </div>
                     )}
@@ -207,7 +209,7 @@ function KohortKotak() {
                     name='pilihanNama'
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                     id='pilihanNama'
-                    placeholder='CARIAN NAMA / TAHUN / TINGKATAN'
+                    placeholder='CARIAN NAMA / NOMBOR KAD PENGENALAN / TAHUN / TINGKATAN'
                     onChange={(e) => setPhilter(e.target.value.toLowerCase())}
                   />
                 </span>

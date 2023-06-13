@@ -28,6 +28,10 @@ const RawatansekolahSchema = new mongoose.Schema(
       required: true,
     },
     // rawatan ----------------------------------------------------------
+    tarikhRawatanSemasa: {
+      type: String,
+      default: '',
+    },
     engganTidakHadirRawatan: {
       type: String,
       default: '',
@@ -44,20 +48,6 @@ const RawatansekolahSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    tarikhRawatanSemasa: {
-      type: String,
-      default: '',
-    },
-    // kpmbpb ------------------------------------------------------------
-    menggunakanKPBMPB: {
-      type: String,
-      default: '',
-    },
-    penggunaanKPBMPB: {
-      type: String,
-      default: '',
-    },
-    // rawatan -----------------------------------------------------------
     muridDibuatFs: {
       type: Boolean,
       default: false,
@@ -223,34 +213,6 @@ const RawatansekolahSchema = new mongoose.Schema(
     rujukKlinikSekolahRawatan: {
       type: Boolean,
       default: false,
-    },
-    rujukKlinikRawatanEndo: {
-      type: Boolean,
-      default: false,
-    },
-    rujukKlinikCabutanGigiKekal: {
-      type: Boolean,
-      default: false,
-    },
-    rujukKesTrauma: {
-      type: Boolean,
-      default: false,
-    },
-    rujukMasalahKesihatan: {
-      type: Boolean,
-      default: false,
-    },
-    rujukBukanWarganegara: {
-      type: Boolean,
-      default: false,
-    },
-    rujukLainLain: {
-      type: Boolean,
-      default: false,
-    },
-    rujukLainLanjutan: {
-      type: String,
-      default: '',
     },
     yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan: {
       type: String,

@@ -924,6 +924,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='12'
                                 type='number'
                                 name='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -948,6 +949,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='12'
                                 type='number'
                                 name='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -972,6 +974,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='12'
                                 type='number'
                                 name='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -996,6 +999,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='20'
                                 type='number'
                                 name='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1025,6 +1029,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='8'
                                 type='number'
                                 name='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1049,6 +1054,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='8'
                                 type='number'
                                 name='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1073,6 +1079,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='20'
                                 type='number'
                                 name='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1097,6 +1104,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='20'
                                 type='number'
                                 name='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1126,6 +1134,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='8'
                                 type='number'
                                 name='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1150,6 +1159,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='8'
                                 type='number'
                                 name='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1174,6 +1184,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='20'
                                 type='number'
                                 name='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1198,6 +1209,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='20'
                                 type='number'
                                 name='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1227,6 +1239,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='20'
                                 type='number'
                                 name='baru-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='baru-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
@@ -1251,6 +1264,7 @@ export default function Rawatan(props) {
                               <input
                                 disabled={isDisabled}
                                 min='0'
+                                max='20'
                                 type='number'
                                 name='semula-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
                                 id='semula-inlay-onlay-jumlah-tampalan-dibuat-rawatan-umum'
