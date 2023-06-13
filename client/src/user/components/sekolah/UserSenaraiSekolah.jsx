@@ -293,6 +293,9 @@ function UserSekolahList() {
                   BIL. KES SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
+                  PERATUS LIPUTAN
+                </th>
+                <th className='outline outline-1 outline-offset-1 px-2 py-1 w-24'>
                   PERATUS SELESAI
                 </th>
                 <th className='outline outline-1 outline-offset-1 px-2 py-1 w-36'>
@@ -314,6 +317,9 @@ function UserSekolahList() {
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-24 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
@@ -357,6 +363,9 @@ function UserSekolahList() {
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
+                  </td>
+                  <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                    <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-5 rounded-xl'></span>
                   </td>
                   <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                     <span className='h-2 text-user1 bg-user1 bg-opacity-50 animate-pulse w-full px-3 rounded-xl'></span>
@@ -417,6 +426,18 @@ function UserSekolahList() {
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <span>
                             {percentageCalc(
+                              kiraKedatanganBaru(
+                                allPersonSekolahs,
+                                singleNamaSekolah
+                              ),
+                              kiraEnrolmen(allPersonSekolahs, singleNamaSekolah)
+                            )}
+                            %
+                          </span>
+                        </td>
+                        <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
+                          <span>
+                            {percentageCalc(
                               kiraKesSelesai(
                                 allPersonSekolahs,
                                 singleNamaSekolah
@@ -444,7 +465,7 @@ function UserSekolahList() {
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                           <Link to={`sekolah/${singleNamaSekolah.kodSekolah}`}>
-                            <button className='bg-user3 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'>
+                            <button className='bg-user10 text-userWhite px-2 py-1 mx-2 rounded-lg hover:bg-user1 transition-all'>
                               PILIH
                             </button>
                           </Link>
