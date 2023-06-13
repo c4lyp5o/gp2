@@ -148,39 +148,43 @@ function UserAfterLogin() {
             }
           />
 
-          <Route
-            path='senarai-sekolah'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserSenaraiSekolah />
-              </Suspense>
-            }
-          />
-          <Route
-            path='senarai-sekolah/sekolah/:kodSekolah'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserSekolah />
-              </Suspense>
-            }
-          />
-          <Route
-            path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserFormSekolahPemeriksaan />
-              </Suspense>
-            }
-          />
-          <Route
-            path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserFormSekolahRawatan />
-              </Suspense>
-            }
-          />
-          {/* <Route
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
+              <Route
+                path='senarai-sekolah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserSenaraiSekolah />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='senarai-sekolah/sekolah/:kodSekolah'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserSekolah />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='senarai-sekolah/sekolah/form-sekolah/pemeriksaan/:personSekolahId/:pemeriksaanSekolahId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSekolahPemeriksaan />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='senarai-sekolah/sekolah/form-sekolah/rawatan/:personSekolahId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserFormSekolahRawatan />
+                  </Suspense>
+                }
+              />
+              {/* <Route
               path='senarai-sekolah/sekolah/form-sekolah/kotak/:personSekolahId/:kotakSekolahId'
               element={
                 <Suspense fallback={<Loading />}>
@@ -188,6 +192,8 @@ function UserAfterLogin() {
                 </Suspense>
               }
             /> */}
+            </>
+          ) : null}
 
           <Route
             path='promosi-individu'
@@ -234,22 +240,29 @@ function UserAfterLogin() {
               </Suspense>
             }
           />
-          <Route
-            path='kohort/kotak'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserKohortKotak />
-              </Suspense>
-            }
-          />
-          <Route
-            path='kohort/kotak/:personKohortKotakId'
-            element={
-              <Suspense fallback={<Loading />}>
-                <UserKohortKotakForm />
-              </Suspense>
-            }
-          />
+          {/* kohort KOTAK */}
+          {import.meta.env.VITE_ENV === 'TRAINING' ||
+          import.meta.env.VITE_ENV === 'UNSTABLE' ||
+          import.meta.env.VITE_ENV === 'DEV' ? (
+            <>
+              <Route
+                path='kohort/kotak'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotak />
+                  </Suspense>
+                }
+              />
+              <Route
+                path='kohort/kotak/:personKohortKotakId'
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <UserKohortKotakForm />
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
           {/* kohort FMR */}
           {import.meta.env.VITE_ENV === 'UNSTABLE' ||
           import.meta.env.VITE_ENV === 'DEV' ? (
@@ -359,14 +372,14 @@ function UserAfterLogin() {
             }
           />
 
-          <Route
+          {/* <Route
             path='summary'
             element={
               <Suspense fallback={<Loading />}>
                 <UserSummary />
               </Suspense>
             }
-          />
+          /> */}
 
           <Route path='*' element={<UserLoggedInNotFound />} />
         </Routes>

@@ -26,6 +26,9 @@ const getSinglePersonKohortKotak = async (req, res) => {
   res.status(201).json({ singlePersonKohortKotak });
 };
 
+// POST /
+// proposed createPersonKohort
+
 // PATCH /:personKohortKotakId
 const updatePersonKohortKotak = async (req, res) => {
   logger.info(
@@ -143,7 +146,7 @@ const queryPersonKohortKotak = async (req, res) => {
 
   const kohortKotakResultQuery = await KohortKotak.find(queryObject).sort({
     namaSekolah: -1,
-    // namaKelas: -1,
+    namaKelas: -1,
     nama: -1,
   });
 
