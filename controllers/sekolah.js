@@ -707,20 +707,20 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
   );
 
   //set fasilitiSekolah's tarikhPemeriksaanSemasa from pemeriksaanSekolah only one personSekolah and not from latest // TODO recheck working as intended or not?
-  if (req.body.tarikhPemeriksaanSemasa > 0) {
-    await Fasiliti.findOneAndUpdate(
-      {
-        nama: personSekolah.namaSekolah,
-        kodSekolah: personSekolah.kodSekolah,
-      },
-      {
-        $set: {
-          tarikhMulaSekolah: req.body.tarikhPemeriksaanSemasa,
-        },
-      },
-      { new: true }
-    );
-  }
+  // if (req.body.tarikhPemeriksaanSemasa > 0) {
+  //   await Fasiliti.findOneAndUpdate(
+  //     {
+  //       nama: personSekolah.namaSekolah,
+  //       kodSekolah: personSekolah.kodSekolah,
+  //     },
+  //     {
+  //       $set: {
+  //         tarikhMulaSekolah: req.body.tarikhPemeriksaanSemasa,
+  //       },
+  //     },
+  //     { new: true }
+  //   );
+  // }
 
   // if bersediaDirujuk, masukkan dalam kohort kotak
   if (req.body.bersediaDirujuk === 'ya-bersedia-dirujuk') {
@@ -903,19 +903,19 @@ const createRawatanWithPushPersonSekolah = async (req, res) => {
   );
 
   // set fasilitiSekolah's begin to true // TODO macam dah tak pakai je begin dalam Fasiliti
-  if (
-    req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
-    'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
-  ) {
-    await Fasiliti.findOneAndUpdate(
-      {
-        nama: personSekolah.namaSekolah,
-        kodSekolah: personSekolah.kodSekolah,
-      },
-      { $set: { melaksanakanBegin: true } },
-      { new: true }
-    );
-  }
+  // if (
+  //   req.body.yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan ===
+  //   'ya-melaksanakan-aktiviti-begin-promosi-penyata-akhir-2'
+  // ) {
+  //   await Fasiliti.findOneAndUpdate(
+  //     {
+  //       nama: personSekolah.namaSekolah,
+  //       kodSekolah: personSekolah.kodSekolah,
+  //     },
+  //     { $set: { melaksanakanBegin: true } },
+  //     { new: true }
+  //   );
+  // }
 
   res.status(201).json({ personSekolah });
 };
