@@ -52,10 +52,10 @@ const KohortFMRSchema = new mongoose.Schema(
       type: String,
       default: '',
     },
-    // kelasPelajar: {
-    //   type: String,
-    //   default: '',
-    // },
+    kelasPelajar: {
+      type: String,
+      default: '',
+    },
     dalamPemantauanKohort: {
       type: String,
       default: '',

@@ -18,7 +18,6 @@ function UserFormSekolahRawatan() {
     useParams,
     dateToday,
     masterDatePicker,
-    dictionaryJenisFasiliti,
     toast,
   } = useGlobalUserAppContext();
 
@@ -29,7 +28,7 @@ function UserFormSekolahRawatan() {
     { value: 'prr-jenis-1', label: 'PRR Jenis 1' },
     { value: 'tampalan', label: 'Jumlah Tampalan Dibuat' },
     { value: 'cabutan', label: 'Cabutan' },
-    { value: 'penskaleran', label: 'Penskaleran' },
+    { value: 'rawatan-lain', label: 'Rawatan Lain' },
     { value: 'rujukan', label: 'Rujukan' },
   ];
   const [pilihanRawatan, setPilihanRawatan] = useState([]);
@@ -43,11 +42,6 @@ function UserFormSekolahRawatan() {
 
   //confirm data
   const [confirmData, setConfirmData] = useState({});
-
-  //kpbmpb
-  const [allUsedKPBMPB, setAllUsedKPBMPB] = useState([]);
-  const [menggunakanKPBMPB, setMenggunakanKPBMPB] = useState('');
-  const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
 
   const createdByUsername = username;
   const [tarikhRawatanSemasa, setTarikhRawatanSemasa] = useState('');
@@ -158,14 +152,6 @@ function UserFormSekolahRawatan() {
   ] = useState(false);
   const [rujukKlinikSekolahRawatan, setRujukKlinikSekolahRawatan] =
     useState(false);
-  const [rujukKlinikRawatanEndo, setRujukKlinikRawatanEndo] = useState(false);
-  const [rujukKlinikCabutanGigiKekal, setRujukKlinikCabutanGigiKekal] =
-    useState(false);
-  const [rujukKesTrauma, setRujukKesTrauma] = useState(false);
-  const [rujukMasalahKesihatan, setRujukMasalahKesihatan] = useState(false);
-  const [rujukBukanWarganegara, setRujukBukanWarganegara] = useState(false);
-  const [rujukLainLain, setRujukLainLain] = useState(false);
-  const [rujukLainLanjutan, setRujukLainLanjutan] = useState('');
   const [
     yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
     setYaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
@@ -211,32 +197,6 @@ function UserFormSekolahRawatan() {
         'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
     });
   };
-
-  // pull kpbmpb data for whole negeri that is used for this kp
-  useEffect(() => {
-    const getAllKPBMPBForNegeri = async () => {
-      try {
-        const dataKPBMPB = await axios.get(
-          `/api/v1/query/kpbmpb/sekolah?personSekolahId=${personSekolahId}`,
-          {
-            headers: {
-              Authorization: `Bearer ${
-                reliefUserToken ? reliefUserToken : userToken
-              }`,
-            },
-          }
-        );
-        setAllUsedKPBMPB(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
-        console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
-      } catch (error) {
-        console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
-        // );
-      }
-    };
-    getAllKPBMPBForNegeri();
-  }, [reliefUserToken, userToken]);
 
   // fetch singlePersonSekolah
   useEffect(() => {
@@ -323,8 +283,6 @@ function UserFormSekolahRawatan() {
             statusRawatan,
             kesSelesaiMmi,
             tarikhRawatanSemasa,
-            menggunakanKPBMPB,
-            penggunaanKPBMPB,
             engganTidakHadirRawatan,
             engganRawatan,
             kebenaranRawatan,
@@ -365,12 +323,6 @@ function UserFormSekolahRawatan() {
             rujukPakarBedahMulutSekolahRawatan,
             rujukPakarPediatrikSekolahRawatan,
             rujukKlinikSekolahRawatan,
-            rujukKlinikRawatanEndo,
-            rujukKlinikCabutanGigiKekal,
-            rujukKesTrauma,
-            rujukMasalahKesihatan,
-            rujukBukanWarganegara,
-            rujukLainLain,
             yaTidakMelaksanakanAktivitiBeginPromosiSekolahRawatan,
             yaTidakLawatanKeRumahPromosiSekolahRawatan,
             plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
@@ -429,10 +381,10 @@ function UserFormSekolahRawatan() {
                         <h2 className='font-semibold'>NAMA :</h2>
                         <p className='ml-1'>{singlePersonSekolah.nama}</p>
                       </div>
-                      {/* <div className='text-xs flex flex-row '>
+                      <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
                         <p className='ml-1'>{singlePersonSekolah.nomborId}</p>
-                      </div> */}
+                      </div>
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
                         <p className='ml-1'>{singlePersonSekolah.jantina}</p>
@@ -444,13 +396,9 @@ function UserFormSekolahRawatan() {
                         </p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>KETURUNAN :</h2>
-                        <p className='ml-1'>{singlePersonSekolah.keturunan}</p>
-                      </div>
-                      <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>WARGANEGARA :</h2>
+                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
                         <p className='ml-1'>
-                          {singlePersonSekolah.warganegara}
+                          {singlePersonSekolah.kumpulanEtnik}
                         </p>
                       </div>
                     </div>
@@ -473,11 +421,10 @@ function UserFormSekolahRawatan() {
                   </div>
                   <div className='lg:pt-10'>
                     <div className='flex flex-row pl-5'>
-                      <h2 className='font-semibold text-xs'>
-                        TAHUN / TINGKATAN :
-                      </h2>
+                      <h2 className='font-semibold text-xs'>KELAS :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonSekolah.tahunTingkatan}
+                        {singlePersonSekolah.tahunTingkatan}{' '}
+                        {singlePersonSekolah.kelasPelajar}
                       </p>
                     </div>
                   </div>
@@ -604,88 +551,6 @@ function UserFormSekolahRawatan() {
                           tarikh:<span className='text-user6'>*</span>
                         </p>
                         <TarikhRawatanSemasa />
-                      </div>
-                    )}
-                    {allUsedKPBMPB.length > 0 && (
-                      <div className='flex flex-col'>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
-                            Menggunakan KPB / MPB
-                            <span className='font-semibold text-user6'>*</span>
-                          </p>
-                          <input
-                            required
-                            type='radio'
-                            name='menggunakan-kpb-mpb'
-                            id='ya-menggunakan-kpb-mpb'
-                            value='ya-menggunakan-kpb-mpb'
-                            checked={
-                              menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenggunakanKPBMPB(e.target.value);
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='ya-menggunakan-kpb-mpb'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                          <input
-                            required
-                            type='radio'
-                            name='menggunakan-kpb-mpb'
-                            id='tidak-menggunakan-kpb-mpb'
-                            value='tidak-menggunakan-kpb-mpb'
-                            checked={
-                              menggunakanKPBMPB === 'tidak-menggunakan-kpb-mpb'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenggunakanKPBMPB(e.target.value);
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='tidak-menggunakan-kpb-mpb'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                        {menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
-                          <div className='flex flex-row items-center'>
-                            <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                              Penggunaan KPB / MPB :
-                            </p>
-                            <select
-                              name='penggunaan-kpb-mpb'
-                              id='penggunaan-kpb-mpb'
-                              value={penggunaanKPBMPB}
-                              onChange={(e) => {
-                                setPenggunaanKPBMPB(e.target.value);
-                              }}
-                              className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                            >
-                              <option value=''>Pilih Jika Berkenaan</option>
-                              {allUsedKPBMPB.map((kpbmpb) => (
-                                <option value={kpbmpb.nama}>
-                                  {
-                                    dictionaryJenisFasiliti[
-                                      kpbmpb.jenisFasiliti
-                                    ]
-                                  }{' '}
-                                  | {kpbmpb.nama}
-                                </option>
-                              ))}
-                            </select>
-                          </div>
-                        ) : null}
                       </div>
                     )}
                     <div>
@@ -1241,6 +1106,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='12'
                             />
                             <label
                               htmlFor='gd-baru-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1269,6 +1135,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='12'
                             />
                             <label
                               htmlFor='gd-semula-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1295,6 +1162,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='12'
                             />
                             <label
                               htmlFor='gk-baru-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1323,6 +1191,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='20'
                             />
                             <label
                               htmlFor='gk-semula-anterior-sewarna-jumlah-tampalan-dibuat'
@@ -1354,6 +1223,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='8'
                             />
                             <label
                               htmlFor='gd-baru-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1382,6 +1252,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='8'
                             />
                             <label
                               htmlFor='gd-semula-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1408,6 +1279,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='8'
                             />
                             <label
                               htmlFor='gk-baru-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1436,6 +1308,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='20'
                             />
                             <label
                               htmlFor='gk-semula-posterior-sewarna-jumlah-tampalan-dibuat'
@@ -1467,6 +1340,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='8'
                             />
                             <label
                               htmlFor='gd-baru-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1495,6 +1369,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='8'
                             />
                             <label
                               htmlFor='gd-semula-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1521,6 +1396,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='20'
                             />
                             <label
                               htmlFor='gk-baru-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1549,6 +1425,7 @@ function UserFormSekolahRawatan() {
                               }}
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               min='0'
+                              max='20'
                             />
                             <label
                               htmlFor='gk-semula-posterior-amalgam-jumlah-tampalan-dibuat'
@@ -1583,19 +1460,20 @@ function UserFormSekolahRawatan() {
                           }}
                           className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                           min='0'
+                          max='20'
                         />
                       </div>
                     </article>
                   ) : null}
                   <div className='grid gap-2'>
-                    {pilihanRawatan.includes('penskaleran') ||
+                    {pilihanRawatan.includes('rawatan-lain') ||
                     pilihanRawatan.includes('lihat-semua') ? (
                       <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
                         <h4 className='font-bold flex flex-row pl-5 col-span-2'>
-                          penskaleran
+                          rawatan lain yang telah dilakukan
                         </h4>
-                        {/* <div className='grid grid-cols-1 lg:grid-cols-2 col-span-2'>
-                          <div className='flex items-center flex-row pl-5'>
+                        <div className='grid grid-cols-1 lg:grid-cols-2 col-span-2'>
+                          {/* <div className='flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>pulpotomi: </p>
                           <input
                             type='number'
@@ -1613,8 +1491,8 @@ function UserFormSekolahRawatan() {
                             min='0'
                             max='20'
                           />
-                        </div>
-                          <div className='flex items-center flex-row pl-5'>
+                        </div> */}
+                          {/* <div className='flex items-center flex-row pl-5'>
                           <p className='text-sm font-m'>endodontik: </p>
                           <input
                             type='number'
@@ -1632,7 +1510,7 @@ function UserFormSekolahRawatan() {
                             min='0'
                             max='32'
                           />
-                        </div>
+                        </div> */}
                           <div className='flex items-center flex-row pl-5'>
                             <input
                               type='checkbox'
@@ -1655,7 +1533,7 @@ function UserFormSekolahRawatan() {
                               abses
                             </label>
                           </div>
-                        </div> */}
+                        </div>
                         <div className='flex flex-row items-center pl-5 col-start-1'>
                           <input
                             type='checkbox'
@@ -1708,9 +1586,6 @@ function UserFormSekolahRawatan() {
                             rujukan
                           </label>
                         </div> */}
-                        <h4 className='font-bold flex flex-row pl-5'>
-                          rujukan
-                        </h4>
                         <div className=' flex flex-row items-center m-2 pl-5 mt-3'>
                           <input
                             type='checkbox'
@@ -1736,279 +1611,6 @@ function UserFormSekolahRawatan() {
                             Rujukan Ke Klinik Pergigian
                           </label>
                         </div>
-                        {rujukKlinikSekolahRawatan && (
-                          <div className='pl-10'>
-                            <div className='flex items-center pl-5'>
-                              <input
-                                required={
-                                  rujukKlinikRawatanEndo === true ||
-                                  rujukKlinikCabutanGigiKekal === true ||
-                                  rujukKesTrauma === true ||
-                                  rujukMasalahKesihatan === true ||
-                                  rujukLainLain === true ||
-                                  rujukBukanWarganegara === true
-                                    ? false
-                                    : true
-                                }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
-                                type='checkbox'
-                                name='rujuk-klinik-rawatan-endo'
-                                id='rujuk-klinik-rawatan-endo'
-                                checked={rujukKlinikRawatanEndo}
-                                onChange={() => {
-                                  setRujukKlinikRawatanEndo(
-                                    !rujukKlinikRawatanEndo
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    rujukKlinikRawatanEndo:
-                                      !rujukKlinikRawatanEndo,
-                                  });
-                                }}
-                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                              />
-                              <label
-                                htmlFor='rujuk-klinik-rawatan-endo'
-                                className='m-2 text-sm font-m'
-                              >
-                                Rawatan Endodontik
-                              </label>
-                            </div>
-                            <div className='flex items-center pl-5'>
-                              <input
-                                required={
-                                  rujukKlinikRawatanEndo === true ||
-                                  rujukKlinikCabutanGigiKekal === true ||
-                                  rujukKesTrauma === true ||
-                                  rujukMasalahKesihatan === true ||
-                                  rujukLainLain === true ||
-                                  rujukBukanWarganegara === true
-                                    ? false
-                                    : true
-                                }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
-                                type='checkbox'
-                                name='rujuk-klinik-cabutan-gigi-kekal'
-                                id='rujuk-klinik-cabutan-gigi-kekal'
-                                checked={rujukKlinikCabutanGigiKekal}
-                                onChange={() => {
-                                  setRujukKlinikCabutanGigiKekal(
-                                    !rujukKlinikCabutanGigiKekal
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    rujukKlinikCabutanGigiKekal:
-                                      !rujukKlinikCabutanGigiKekal,
-                                  });
-                                }}
-                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                              />
-                              <label
-                                htmlFor='rujuk-klinik-cabutan-gigi-kekal'
-                                className='m-2 text-sm font-m'
-                              >
-                                Rujukan Cabutan Gigi Kekal
-                              </label>
-                            </div>
-                            <div className='flex items-center pl-5'>
-                              <input
-                                required={
-                                  rujukKlinikRawatanEndo === true ||
-                                  rujukKlinikCabutanGigiKekal === true ||
-                                  rujukKesTrauma === true ||
-                                  rujukMasalahKesihatan === true ||
-                                  rujukLainLain === true ||
-                                  rujukBukanWarganegara === true
-                                    ? false
-                                    : true
-                                }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
-                                type='checkbox'
-                                name='rujuk-kes-trauma'
-                                id='rujuk-kes-trauma'
-                                checked={rujukKesTrauma}
-                                onChange={() => {
-                                  setRujukKesTrauma(!rujukKesTrauma);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    rujukKesTrauma: !rujukKesTrauma,
-                                  });
-                                }}
-                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                              />
-                              <label
-                                htmlFor='rujuk-kes-trauma'
-                                className='m-2 text-sm font-m'
-                              >
-                                Rujukan kes trauma
-                              </label>
-                            </div>
-                            <div className='flex items-center pl-5'>
-                              <input
-                                required={
-                                  rujukKlinikRawatanEndo === true ||
-                                  rujukKlinikCabutanGigiKekal === true ||
-                                  rujukKesTrauma === true ||
-                                  rujukMasalahKesihatan === true ||
-                                  rujukLainLain === true ||
-                                  rujukBukanWarganegara === true
-                                    ? false
-                                    : true
-                                }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
-                                type='checkbox'
-                                name='rujuk-masalah-kesihatan'
-                                id='rujuk-masalah-kesihatan'
-                                checked={rujukMasalahKesihatan}
-                                onChange={() => {
-                                  setRujukMasalahKesihatan(
-                                    !rujukMasalahKesihatan
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    rujukMasalahKesihatan:
-                                      !rujukMasalahKesihatan,
-                                  });
-                                }}
-                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                              />
-                              <label
-                                htmlFor='rujuk-masalah-kesihatan'
-                                className='m-2 text-sm font-m'
-                              >
-                                Rujukan Masalah Kesihatan
-                              </label>
-                            </div>
-                            <div className='flex items-center pl-5'>
-                              <input
-                                required={
-                                  rujukKlinikRawatanEndo === true ||
-                                  rujukKlinikCabutanGigiKekal === true ||
-                                  rujukKesTrauma === true ||
-                                  rujukMasalahKesihatan === true ||
-                                  rujukLainLain === true ||
-                                  rujukBukanWarganegara === true
-                                    ? false
-                                    : true
-                                }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
-                                type='checkbox'
-                                name='rujuk-bukan-warganegara'
-                                id='rujuk-bukan-warganegara'
-                                checked={rujukBukanWarganegara}
-                                onChange={() => {
-                                  setRujukBukanWarganegara(
-                                    !rujukBukanWarganegara
-                                  );
-                                  setConfirmData({
-                                    ...confirmData,
-                                    rujukBukanWarganegara:
-                                      !rujukBukanWarganegara,
-                                  });
-                                }}
-                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                              />
-                              <label
-                                htmlFor='rujuk-bukan-warganegara'
-                                className='m-2 text-sm font-m'
-                              >
-                                Rujukan Bukan Warganegara
-                              </label>
-                            </div>
-                            <div className='flex items-center pl-5'>
-                              <input
-                                required={
-                                  rujukKlinikRawatanEndo === true ||
-                                  rujukKlinikCabutanGigiKekal === true ||
-                                  rujukKesTrauma === true ||
-                                  rujukMasalahKesihatan === true ||
-                                  rujukLainLain === true ||
-                                  rujukBukanWarganegara === true
-                                    ? false
-                                    : true
-                                }
-                                onInvalid={(e) => {
-                                  e.target.setCustomValidity(
-                                    'Sila pilih sekurang-kurangnya satu pilihan'
-                                  );
-                                }}
-                                onInput={(e) => {
-                                  e.target.setCustomValidity('');
-                                }}
-                                type='checkbox'
-                                name='rujuk-lain-lain'
-                                id='rujuk-lain-lain'
-                                checked={rujukLainLain}
-                                onChange={() => {
-                                  setRujukLainLain(!rujukLainLain);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    rujukLainLain: !rujukLainLain,
-                                  });
-                                }}
-                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                              />
-                              <label
-                                htmlFor='rujuk-lain-lain'
-                                className='m-2 text-sm font-m'
-                              >
-                                Rujukan Lain-lain
-                              </label>
-                              {rujukLainLain && (
-                                <input
-                                  type='text'
-                                  id='nama-umum'
-                                  name='nama-umum'
-                                  value={rujukLainLanjutan}
-                                  onChange={(e) => {
-                                    setRujukLainLanjutan(e.target.value);
-                                    setConfirmData({
-                                      ...confirmData,
-                                      rujukLainLanjutan: e.target.value,
-                                    });
-                                  }}
-                                  className='appearance-none w-full pl-3 pr-7 py-1 ring focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md'
-                                />
-                              )}
-                            </div>
-                            <div className='flex items-center pl-5'></div>
-                          </div>
-                        )}
                         <div className=' flex flex-row items-center m-2 pl-5'>
                           <input
                             type='checkbox'

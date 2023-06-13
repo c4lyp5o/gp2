@@ -5706,26 +5706,21 @@ const countOAP = async (payload) => {
   }
 };
 const countLiputanOAP = async (payload) => {
-  const match = {
+  let match_stage = [];
+
+  let match = {
     $match: {
       kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
-      kedatangan: 'baru-kedatangan',
-      jenisFasiliti: { $ne: 'kp' },
-      statusKehadiran: false,
+      statusKedatangan: false,
       deleted: false,
       statusReten: 'telah diisi',
     },
   };
 
-  const group = {
-    $group: {
-      _id: '$negeriAlamat',
-      jumlah: { $sum: 1 },
-    },
-  };
+  match_stage.push(match);
 
   try {
-    const data = await Umum.aggregate([match, group]);
+    const data = await Umum.aggregate([match_stage]);
 
     if (data.length === 0) {
       errorRetenLogger.error(
@@ -5773,99 +5768,30 @@ const countKPBMPBHarian = async (payload) => {
 const countKPBMPBBulanan = async (payload) => {
   const { negeri, daerah, klinik } = payload;
 
+  let match_stage = [];
+
   let match = {
     $match: {
-      ...(negeri !== 'all' ? { createdByNegeri: negeri } : []),
-      ...(daerah !== 'all' ? { createdByDaerah: daerah } : []),
-      ...(klinik !== 'all' ? { createdByKodFasiliti: klinik } : []),
-      jenisFasiliti: 'kp-bergerak',
+      ...(negeri ? { createdByNegeri: negeri } : []),
+      ...(daerah ? { createdByDaerah: daerah } : []),
+      ...(klinik ? { createdByKodFasiliti: klinik } : []),
+      jenisFasiliti: { $in: ['kpb', 'mpb'] },
     },
   };
 
-  let project = {
-    $project: {
-      nama: 1,
-      // penggunaanKPBMPB: 1,
-    },
-  };
+  match_stage.push(match);
 
   try {
-    let kpbMpbData = await Fasiliti.aggregate([match, project]);
+    const data = await Umum.aggregate([match_stage]);
 
-    kpbMpbData = await Promise.all(
-      kpbMpbData.map(async (item) => {
-        const data = await Umum.aggregate([
-          {
-            $match: {
-              penggunaanKPBMPB: item.nama,
-            },
-          },
-          {
-            $group: {
-              _id: '$tarikhKedatangan',
-              nama: {
-                $first: '$nama',
-              },
-              jumlahKedatanganBaru: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: ['$kedatangan', 'baru-kedatangan'],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-              jumlahKedatanganUlangan: {
-                $sum: {
-                  $cond: [
-                    {
-                      $eq: ['$kedatangan', 'ulangan-kedatangan'],
-                    },
-                    1,
-                    0,
-                  ],
-                },
-              },
-            },
-          },
-          {
-            $group: {
-              _id: null,
-              jumlahHariPenggunaan: {
-                $sum: 1,
-              },
-              totalKedatanganBaru: {
-                $sum: '$jumlahKedatanganBaru',
-              },
-              totalKedatanganUlangan: {
-                $sum: '$jumlahKedatanganUlangan',
-              },
-            },
-          },
-          {
-            $project: {
-              jumlahHariPenggunaan: 1,
-              totalKedatanganBaru: 1,
-              totalKedatanganUlangan: 1,
-            },
-          },
-        ]);
-        return { ...item, ...data[0] };
-      })
-    );
-
-    // console.log(kpbMpbData);
-
-    if (kpbMpbData.length === 0) {
+    if (data.length === 0) {
       errorRetenLogger.error(
         `Error mengira reten: ${payload.jenisReten}. Tiada data yang dijumpai.`
       );
       throw new Error('Tiada data yang dijumpai');
     }
 
-    return kpbMpbData;
+    return data;
   } catch (error) {
     throw new Error(error);
   }
@@ -5876,21 +5802,20 @@ const countKOM = async (payload) => {
   const currentJenisReten = (() => {
     switch (jenisReten) {
       case 'KOM-OAP':
+        console.log('oap');
         return { jenisProgram: 'oap' };
       case 'KOM-WE':
+        console.log('we');
         return { jenisProgram: 'we' };
       case 'KOM-OKU-PDK':
+        console.log('oku');
         return { jenisProgram: 'oku' };
       case 'KOM-Komuniti':
+        console.log('prkom');
         return { jenisProgram: 'projek-komuniti' };
       case 'KOM-Penjara':
+        console.log('penjarakom');
         return { jenisProgram: 'penjara-koreksional' };
-      case 'KOM-FDS':
-        return { jenisProgram: 'fds' };
-      case 'KOM-ISN':
-        return { jenisProgram: 'isn' };
-      case 'KOM-HRC':
-        return { jenisProgram: 'hrc' };
       default:
         return {};
     }
@@ -11496,7 +11421,7 @@ const countPPR = async (payload) => {
     let dataPemeriksaan = [];
     let dataRawatan = [];
     // let dataSekolah = [];
-    // let dataOperatorLain = [];
+    let dataOperatorLain = [];
     let bigData = [];
 
     for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
@@ -11552,30 +11477,11 @@ const countPPR = async (payload) => {
   }
 };
 const countUTCRTC = async (payload) => {
-  const { jenisReten, klinik } = payload;
-
-  const main_switch = () => {
-    switch (jenisReten) {
-      case 'RTC':
-        return {
-          $match: {
-            ...getParamsUTCRTC(payload),
-            ...(klinik === 'rtc-tunjung'
-              ? {}
-              : { createdByKp: { $regex: /rtc/i } }),
-          },
-        };
-      case 'UTC':
-        return {
-          $match: {
-            ...getParamsUTCRTC(payload),
-            createdByKp: { $regex: /utc/i },
-          },
-        };
-      default:
-        console.log('Error: Jenis reten tidak dikenali');
-        break;
-    }
+  const main_switch = {
+    $match: {
+      ...getParamsUTCRTC(payload),
+      createdByKp: { $regex: /utc/i },
+    },
   };
 
   let match_stage_pemeriksaan = [];
@@ -14214,7 +14120,7 @@ const countUTCRTC = async (payload) => {
 
     for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
       const pipeline_pemeriksaan = [
-        main_switch(),
+        main_switch,
         match_stage_pemeriksaan[i],
         group_pemeriksaan,
       ];
@@ -14223,7 +14129,7 @@ const countUTCRTC = async (payload) => {
     }
 
     for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [main_switch(), match_stage[i], group];
+      const pipeline = [main_switch, match_stage[i], group];
       const queryUTCRTCRawatan = await Umum.aggregate(pipeline);
       dataRawatan.push({ queryUTCRTCRawatan });
     }
@@ -14241,7 +14147,7 @@ const countUTCRTC = async (payload) => {
     // if (!payload.pilihanIndividu) {
     //   for (let i = 0; i < match_stage_operatorLain.length; i++) {
     //     const pipeline = [
-    //       ...main_switch(),
+    //       ...main_switch,
     //       match_stage_operatorLain[i],
     //       ...getParamsOperatorLain,
     //       group_operatorLain,
