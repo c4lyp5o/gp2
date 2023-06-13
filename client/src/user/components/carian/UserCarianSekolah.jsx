@@ -7,14 +7,20 @@ import { FaSort, FaSortUp, FaSortDown, FaInfoCircle } from 'react-icons/fa';
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
 import UserModalSalahSekolah from './UserModalSalahSekolahReten';
+import UserDeleteModal from '../UserDeleteModal';
 
 export default function UserCarianSekolah() {
-  const { userToken, toast, userinfo, dateToday, masterDatePicker } =
+  const { userToken, toast, userinfo, reliefUserToken } =
     useGlobalUserAppContext();
 
   //salah reten sekolah
   const [modalSalahRetenSekolah, setModalSalahRetenSekolah] = useState(false);
   const [carianSekolah, setCarianSekolah] = useState('');
+
+  //delete
+  const [pilihanHapusId, setPilihanHapusId] = useState('');
+  const [pilihanHapusNama, setPilihanHapusNama] = useState('');
+  const [modalHapus, setModalHapus] = useState(false);
 
   //carian murid with name or ic
   const [searchResults, setSearchResults] = useState([]);
@@ -89,6 +95,45 @@ export default function UserCarianSekolah() {
   //     setModalSalahRetenSekolah(false);
   //   }
   // };
+
+  const handleDelete = async (singlePelajar, reason) => {
+    if (!modalHapus) {
+      setModalHapus(true);
+      return;
+    }
+    if (modalHapus) {
+      let mdcMdtbNum = '';
+      if (!userinfo.mdtbNumber) {
+        mdcMdtbNum = userinfo.mdcNumber;
+      }
+      if (!userinfo.mdcNumber) {
+        mdcMdtbNum = userinfo.mdtbNumber;
+      }
+      await toast.promise(
+        axios.patch(
+          `/api/v1/sekolah/delete-filled/${singlePelajar}`,
+          {
+            deleteReason: reason,
+            createdByMdcMdtb: mdcMdtbNum,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Menghapus pesakit...',
+          success: 'Pesakit berjaya dihapus',
+          error: 'Pesakit gagal dihapus',
+        },
+        { autoClose: 5000 }
+      );
+      setModalHapus(false);
+    }
+  };
 
   return (
     <>
@@ -225,52 +270,29 @@ export default function UserCarianSekolah() {
                     </td>
                     <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
                       {singleCarianSekolah.tahunTingkatan}{' '}
-                      {singleCarianSekolah.kelasPelajar}
                     </td>
                     <td className='outline outline-1 outline-userWhite outline-offset-1 py-1'>
-                      {/* <Link
-                        target='_blank'
-                        rel='noreferrer'
-                        to={`/pengguna/landing/carian/sekolah/form-sekolah/pemeriksaan/${
-                          singleCarianSekolah._id
-                        }/${
-                          singleCarianSekolah.pemeriksaanSekolah
-                            ? singleCarianSekolah.pemeriksaanSekolah._id
-                            : 'tambah-pemeriksaan'
-                        }`}
-                        className={`${
-                          singleCarianSekolah.statusRawatan === 'enggan'
-                            ? 'pointer-events-none text-userBlack shadow-none'
-                            : singleCarianSekolah.statusRawatan ===
-                              'tidak hadir'
-                            ? 'pointer-events-none text-userBlack shadow-none'
-                            : singleCarianSekolah.pemeriksaanSekolah
-                            ? 'bg-user7 text-userWhite shadow-md'
-                            : filteredFasilitiSekolah.sekolahSelesaiReten ===
-                              true
-                            ? 'pointer-events-none text-userWhite bg-user4 shadow-none'
-                            : 'bg-user6 text-userWhite shadow-md'
-                        } hover:bg-user8 rounded-sm p-1 m-1 transition-all`}
-                      >
-                        {singleCarianSekolah.statusRawatan === 'enggan'
-                          ? 'Enggan'
-                          : singleCarianSekolah.statusRawatan === 'tidak hadir'
-                          ? 'Tidak Hadir'
-                          : singleCarianSekolah.pemeriksaanSekolah
-                          ? 'lihat pemeriksaan'
-                          : filteredFasilitiSekolah.sekolahSelesaiReten === true
-                          ? 'Pemeriksaan Ditutup'
-                          : 'Tambah Pemeriksaan'}
-                      </Link> */}
                       <button
                         onClick={() => {
                           setModalSalahRetenSekolah(true);
                           setCarianSekolah(singleCarianSekolah);
                         }}
-                        className='bg-user9 text-userWhite shadow-md hover:bg-user8 rounded-sm p-1 m-1 transition-all'
+                        className='bg-user12 w-32 text-userWhite shadow-md hover:bg-user13 rounded-md p-1 m-1 transition-all'
                       >
                         SALAH RETEN
                       </button>
+                      {userinfo.role === 'admin' && (
+                        <button
+                          className='bg-user9 w-32 text-userWhite shadow-md hover:bg-user8 rounded-md p-1 m-1 transition-all'
+                          onClick={() => {
+                            setModalHapus(true);
+                            setPilihanHapusId(singleCarianSekolah._id);
+                            setPilihanHapusNama(singleCarianSekolah.nama);
+                          }}
+                        >
+                          HAPUS
+                        </button>
+                      )}
                     </td>
                   </tr>
                 );
@@ -281,6 +303,14 @@ export default function UserCarianSekolah() {
             <UserModalSalahSekolah
               setModalSalahRetenSekolah={setModalSalahRetenSekolah}
               carianSekolah={carianSekolah}
+            />
+          )}
+          {modalHapus && (
+            <UserDeleteModal
+              handleDelete={handleDelete}
+              setModalHapus={setModalHapus}
+              id={pilihanHapusId}
+              nama={pilihanHapusNama}
             />
           )}
         </div>
