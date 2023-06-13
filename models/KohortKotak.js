@@ -67,10 +67,10 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       default: 'MISSING COPIED TAHUN_TINGKATAN',
     },
-    // kelasPelajar: {
-    //   type: String,
-    //   default: 'MISSING COPIED NAMA KELAS',
-    // },
+    kelasPelajar: {
+      type: String,
+      default: 'MISSING COPIED NAMA KELAS',
+    },
     jantina: {
       type: String,
       default: 'MISSING COPIED JANTINA',
@@ -101,11 +101,19 @@ const KohortKotakSchema = new mongoose.Schema(
       default: 'belum mula',
     },
     // start own field --------------------------------------------------
+    dalamPemantauanKohort: {
+      type: String,
+      default: '',
+    },
     noTelefon: {
       type: String,
       default: '',
     },
-    dalamPemantauanKohort: {
+    noTel2: {
+      type: String,
+      default: '',
+    },
+    noTel3: {
       type: String,
       default: '',
     },
