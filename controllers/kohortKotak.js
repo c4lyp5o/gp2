@@ -26,9 +26,6 @@ const getSinglePersonKohortKotak = async (req, res) => {
   res.status(201).json({ singlePersonKohortKotak });
 };
 
-// POST /
-// proposed createPersonKohort
-
 // PATCH /:personKohortKotakId
 const updatePersonKohortKotak = async (req, res) => {
   logger.info(
