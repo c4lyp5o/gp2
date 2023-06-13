@@ -740,7 +740,7 @@ const createPemeriksaanWithSetPersonSekolah = async (req, res) => {
       nama: personSekolah.nama,
       sesiTakwimPelajar: personSekolah.sesiTakwimPelajar,
       tahunTingkatan: personSekolah.tahunTingkatan,
-      // kelasPelajar: personSekolah.kelasPelajar,
+      kelasPelajar: personSekolah.kelasPelajar,
       jantina: personSekolah.jantina,
       statusOku: personSekolah.statusOku,
       tarikhLahir: personSekolah.tarikhLahir,
