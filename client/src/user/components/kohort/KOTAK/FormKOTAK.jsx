@@ -32,6 +32,9 @@ function UserFormKohortKOTAK() {
   const [thisUsernameData, setThisUsernameData] = useState({});
 
   const [dalamPemantauanKohort, setDalamPemantauanKohort] = useState('');
+  const [noTelefon, setNoTelefon] = useState('');
+  const [noTel2, setNoTel2] = useState('');
+  const [noTel3, setNoTel3] = useState('');
   const [rokokBiasaKotak, setRokokBiasaKotak] = useState(false);
   const [elektronikVapeKotak, setElektronikVapeKotak] = useState(false);
   const [shishaKotak, setShishaKotak] = useState(false);
@@ -46,9 +49,6 @@ function UserFormKohortKOTAK() {
   const [adaTiadaQTarikh4, setAdaTiadaQTarikh4] = useState('');
   const [rujukGuruKaunseling, setRujukGuruKaunseling] = useState('');
   const [tarikhQ, setTarikhQ] = useState('');
-  const [noTelefon, setNoTelefon] = useState('');
-  const [noTel2, setNoTel2] = useState('');
-  const [noTel3, setNoTel3] = useState('');
   const [statusSelepas6Bulan, setStatusSelepas6Bulan] = useState('');
 
   // datepicker issue
@@ -443,12 +443,12 @@ function UserFormKohortKOTAK() {
                         <h2 className='font-semibold'>NAMA :</h2>
                         <p className='ml-1'>{singlePersonKohortKotak.nama}</p>
                       </div>
-                      <div className='text-xs flex flex-row '>
+                      {/* <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>NO IC :</h2>
                         <p className='ml-1'>
                           {singlePersonKohortKotak.nomborId}
                         </p>
-                      </div>
+                      </div> */}
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>JANTINA :</h2>
                         <p className='ml-1'>
@@ -462,9 +462,15 @@ function UserFormKohortKOTAK() {
                         </p>
                       </div>
                       <div className='text-xs flex flex-row '>
-                        <h2 className='font-semibold'>KUMPULAN ETNIK :</h2>
+                        <h2 className='font-semibold'>KETURUNAN :</h2>
                         <p className='ml-1'>
                           {singlePersonKohortKotak.keturunan}
+                        </p>
+                      </div>
+                      <div className='text-xs flex flex-row '>
+                        <h2 className='font-semibold'>WARGANEGARA :</h2>
+                        <p className='ml-1'>
+                          {singlePersonKohortKotak.warganegara}
                         </p>
                       </div>
                     </div>
@@ -489,10 +495,11 @@ function UserFormKohortKOTAK() {
                   </div>
                   <div className='lg:pt-10'>
                     <div className='flex flex-row pl-5'>
-                      <h2 className='font-semibold text-xs'>KELAS :</h2>
+                      <h2 className='font-semibold text-xs'>
+                        TAHUN / TINGKATAN :
+                      </h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonKohortKotak.tahunTingkatan}{' '}
-                        {singlePersonKohortKotak.kelasPelajar}
+                        {singlePersonKohortKotak.tahunTingkatan}
                       </p>
                     </div>
                   </div>
