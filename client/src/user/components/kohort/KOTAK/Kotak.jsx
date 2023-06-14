@@ -312,15 +312,15 @@ function KohortKotak() {
                             className={`${
                               singlePersonKohortKotak.statusKotak ===
                               'selesai sesi 1'
-                                ? 'bg-user10 text-userWhite hover:shadow-none hover:bg-user11'
+                                ? 'bg-user10 text-userWhite hover:bg-user11'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 2'
-                                ? 'bg-user12 text-userWhite hover:shadow-none hover:bg-user13'
+                                ? 'bg-user12 text-userWhite hover:bg-user13'
                                 : singlePersonKohortKotak.statusKotak ===
                                   'selesai sesi 3'
-                                ? 'bg-user8 text-userWhite hover:bg-user14 hover:shadow-none'
-                                : 'bg-user6 text-userWhite hover:shadow-none hover:bg-user15'
-                            } shadow-md shadow-user3 rounded-md p-1 m-1 transition-all my-2`}
+                                ? 'bg-user8 text-userWhite hover:bg-user14'
+                                : 'bg-user6 text-userWhite hover:bg-user15'
+                            } shadow-sm rounded-md p-1 m-1 transition-all my-2`}
                           >
                             {singlePersonKohortKotak.statusKotak ===
                             'belum mula'
