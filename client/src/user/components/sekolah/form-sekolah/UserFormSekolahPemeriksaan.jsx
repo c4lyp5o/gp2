@@ -980,9 +980,27 @@ function UserFormSekolahPemeriksaan() {
       );
       return;
     }
-    if (sumGigiKekalE !== eAdaGigiKekal) {
+    if ((dAdaGigiKekal === 0) & (sumGigiKekal > 0)) {
       toast.error(
-        'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
+        'Jumlah D gigi kekal tidak boleh 0 jika jumlah tampalan diperlukan gigi kekal pencegahan lebih dari 0',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if (eAdaGigiKekal > sumGigiKekalE) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi kekal pencegahan kurang dengan jumlah E gigi kekal',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if ((eAdaGigiKekal === 0) & (sumGigiKekalE > 0)) {
+      toast.error(
+        'Jumlah E gigi kekal tidak boleh 0 jika jumlah tampalan diperlukan gigi kekal pencegahan lebih dari 0',
         {
           autoClose: 3000,
         }
@@ -3512,13 +3530,15 @@ function UserFormSekolahPemeriksaan() {
                           </h4>
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </div>
@@ -3587,13 +3607,15 @@ function UserFormSekolahPemeriksaan() {
                           />
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </h4>
@@ -3659,14 +3681,16 @@ function UserFormSekolahPemeriksaan() {
                             Resin Pencegahan Jenis 1 (PRR Type I) (E12)
                           </h4>
                           <span
-                            className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 whitespace-nowrap ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                            className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </div>
