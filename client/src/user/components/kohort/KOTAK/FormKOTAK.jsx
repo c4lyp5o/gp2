@@ -150,6 +150,8 @@ function UserFormKohortKOTAK() {
           tarikhQ: moment(date).format('YYYY-MM-DD'),
         });
       },
+      required: true,
+      disabled: singlePersonKohortKotak.tarikhQ === '' ? false : true,
       className:
         'appearance-none w-36 text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user1 focus:outline-none rounded-md shadow-md uppercase flex flex-row ml-5',
     });
@@ -344,6 +346,12 @@ function UserFormKohortKOTAK() {
   }, []);
 
   const handleSubmit = async () => {
+    if (Object.keys(thisUsernameData).length <= 0) {
+      return toast.error(
+        'Sila pastikan ada maklumat KOTAK yang ingin dihantar'
+      );
+    }
+
     let mdcMdtbNum = '';
     if (!userinfo.mdtbNumber) {
       mdcMdtbNum = userinfo.mdcNumber;
@@ -1149,11 +1157,14 @@ function UserFormKohortKOTAK() {
                       </h4>
                       <p className='flex flex-row pl-5 text-sm font-m'>
                         dirujuk kepada guru kaunseling
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
                       </p>
                       <div className='flex items-center justify-center'>
                         <input
                           required={
-                            adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
+                            adaTiadaQTarikh3 == 'tiada-q-tarikh3' ? true : false
                           }
                           disabled={
                             singlePersonKohortKotak.rujukGuruKaunseling === ''
@@ -1190,7 +1201,7 @@ function UserFormKohortKOTAK() {
                         </label>
                         <input
                           required={
-                            adaTiadaQTarikh4 == 'tiada-q-tarikh4' ? true : false
+                            adaTiadaQTarikh3 == 'tiada-q-tarikh3' ? true : false
                           }
                           disabled={
                             singlePersonKohortKotak.rujukGuruKaunseling === ''
@@ -1236,6 +1247,9 @@ function UserFormKohortKOTAK() {
                     <article className='flex flex-col border border-userBlack pl-3 p-2 rounded-md col-span-2 md:col-span-1'>
                       <h4 className='font-bold flex flex-row pl-5 whitespace-nowrap p-2'>
                         tarikh rancang berhenti merokok
+                        <span className='text-user6 text-xl font-semibold'>
+                          *
+                        </span>
                       </h4>
                       <TarikhQ />
                     </article>
