@@ -3,6 +3,7 @@ const router = express.Router();
 const {
   getSinglePersonKohortKotak,
   updatePersonKohortKotak,
+  deletePersonKohortKotak,
   queryPersonKohortKotak,
 } = require('../controllers/kohortKotak');
 
