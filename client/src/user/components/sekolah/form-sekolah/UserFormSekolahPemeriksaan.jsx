@@ -520,7 +520,7 @@ function UserFormSekolahPemeriksaan() {
           }
         );
         setAllUsedKPBMPB(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
-        console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
+        // console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -867,9 +867,14 @@ function UserFormSekolahPemeriksaan() {
 
       if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
         setKesSelesai('tidak-kes-selesai');
-        await showToast(
-          'Kes tidak selesai kerana mempunyai d gigi desidus atau d gigi desidus tidak sama sm (space maintainer)'
-        );
+        // make two showtoast if umur >= 10 and umur < 10
+        if (singlePersonSekolah.umur >= 10) {
+          await showToast(
+            'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
+          );
+        } else {
+          await showToast('Kes tidak selesai kerana mempunyai d gigi desidus');
+        }
         return;
       }
 
