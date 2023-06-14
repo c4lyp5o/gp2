@@ -344,6 +344,12 @@ function UserFormKohortKOTAK() {
   }, []);
 
   const handleSubmit = async () => {
+    if (Object.keys(thisUsernameData).length <= 0) {
+      return toast.error(
+        'Sila pastikan ada maklumat KOTAK yang ingin dihantar'
+      );
+    }
+
     let mdcMdtbNum = '';
     if (!userinfo.mdtbNumber) {
       mdcMdtbNum = userinfo.mdcNumber;
