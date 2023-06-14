@@ -868,7 +868,10 @@ function UserFormSekolahPemeriksaan() {
       if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
         setKesSelesai('tidak-kes-selesai');
         // make two showtoast if umur >= 10 and umur < 10
-        if (singlePersonSekolah.umur >= 10) {
+        if (
+          singlePersonSekolah.umur >= 10 &&
+          singlePersonSekolah.statusOku === ':'
+        ) {
           await showToast(
             'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
           );
