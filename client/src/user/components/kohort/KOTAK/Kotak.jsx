@@ -327,6 +327,7 @@ function KohortKotak() {
                               ? 'tambah KOTAK'
                               : singlePersonKohortKotak.statusKotak}
                           </Link>
+                          {/* keluar berapa lawatan kotak & lawatan apa */}
                           {singlePersonKohortKotak.createdByNameMdcMdtb.filter(
                             (singleLawatan) => {
                               if (
@@ -513,7 +514,12 @@ function KohortKotak() {
                           )}
                         </td>
                         <td className='outline outline-1 outline-userWhite outline-offset-1 px-2 py-1'>
-                          {singlePersonKohortKotak.statusSelepas6Bulan}
+                          {singlePersonKohortKotak.statusSelepas6Bulan
+                            ? singlePersonKohortKotak.statusSelepas6Bulan ===
+                              'berhenti'
+                              ? 'BERHENTI MEROKOK'
+                              : 'TIDAK BERHENTI MEROKOK'
+                            : null}
                         </td>
                       </tr>
                     );
