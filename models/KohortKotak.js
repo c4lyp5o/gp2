@@ -19,16 +19,6 @@ const KohortKotakSchema = new mongoose.Schema(
       type: String,
       required: true,
     },
-    // createdByUsername: {
-    //   type: Array,
-    //   required: true,
-    //   default: [],
-    // },
-    // createdByMdcMdtb: {
-    //   type: Array,
-    //   required: true,
-    //   default: [],
-    // },
     createdByNameMdcMdtb: {
       type: Array,
       required: true,

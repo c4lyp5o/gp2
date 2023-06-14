@@ -35,8 +35,6 @@ const updatePersonKohortKotak = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
-  const { personKohortKotakId } = req.params;
-
   const createdByNameMdcMdtb = {
     createdByUsername: req.body.createdByUsername,
     createdByMdcMdtb: req.body.createdByMdcMdtb,
@@ -61,7 +59,7 @@ const updatePersonKohortKotak = async (req, res) => {
   if (!updatedSinglePersonKohortKotak) {
     return res
       .status(404)
-      .json({ msg: `No person with id ${personKohortKotakId}` });
+      .json({ msg: `No person with id ${req.params.personKohortKotakId}` });
   }
 
   res.status(200).json({ updatedSinglePersonKohortKotak });
