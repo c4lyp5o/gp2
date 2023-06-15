@@ -459,6 +459,10 @@ function UserFormSekolahRawatan() {
                     <h2 className='font-semibold text-xs'>NAMA :</h2>
                     <p className='ml-1 text-xs'>{singlePersonSekolah.nama}</p>
                   </div>
+                  <div className='flex flex-row pl-5'>
+                    <h2 className='font-semibold text-xs'>UMUR :</h2>
+                    <p className='ml-1 text-xs'>{singlePersonSekolah.umur}</p>
+                  </div>
                 </div>
               )}
               {!isLoading && (
@@ -468,6 +472,14 @@ function UserFormSekolahRawatan() {
                       <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
                       <p className='ml-1 text-xs'>
                         {singlePersonSekolah.namaSekolah}
+                      </p>
+                    </div>
+                    <div className='flex flex-row pl-5'>
+                      <h2 className='font-semibold text-xs'>STATUS OKU :</h2>
+                      <p className='ml-1 text-xs'>
+                        {singlePersonSekolah.statusOku === ':'
+                          ? 'BUKAN OKU'
+                          : 'OKU'}
                       </p>
                     </div>
                   </div>
