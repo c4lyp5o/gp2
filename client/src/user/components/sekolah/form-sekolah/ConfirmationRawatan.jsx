@@ -308,7 +308,11 @@ const ConfirmModal = ({ children, data }) => {
                           Penskaleran :
                         </p>
                         <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.penskaleranSekolahRawatan}
+                          {data.penskaleranSekolahRawatan === true ? (
+                            <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
+                          ) : (
+                            <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
+                          )}
                         </p>
                       </div>
                     ) : null}
@@ -416,42 +420,46 @@ const ConfirmModal = ({ children, data }) => {
                         </p>
                       </div>
                     ) : null}
-                    {data.rujukSekolahRawatan ? (
+                    {data.rujukRawatanOrtodontikSekolahRawatan ||
+                    data.rujukPakarPatologiSekolahRawatan ||
+                    data.rujukPakarRestoratifSekolahRawatan ||
+                    data.rujukPakarBedahMulutSekolahRawatan ||
+                    data.rujukPakarPediatrikSekolahRawatan ? (
                       <div className='grid grid-cols-[1fr_2fr]'>
                         <p className='p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                           Rujukan :
                         </p>
                         <p className='p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                          {data.rujukSekolahRawatan ? (
-                            <p>
-                              Rujuk:
-                              {data.rujukSekolahRawatan === true ? (
-                                <FaCheckCircle className='text-user7 text-center mx-1 inline-flex' />
-                              ) : (
-                                <FaTimesCircle className='text-user9 text-center mx-1 inline-flex' />
-                              )}
-                              untuk{' '}
-                              {data.rujukRawatanOrtodontikSekolahRawatan ===
-                              true
-                                ? 'Rujukan Ke Pakar ortodontik'
-                                : ''}
-                              {data.rujukPakarPatologiSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut'
-                                : ''}
-                              {data.rujukPakarRestoratifSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Restoratif'
-                                : ''}
-                              {data.rujukPakarBedahMulutSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Bedah Mulut Dan Maksilofasial'
-                                : ''}
-                              {data.rujukPakarPediatrikSekolahRawatan === true
-                                ? 'Rujukan Ke Pakar Pergigian Pediatrik'
-                                : ''}
-                              {data.rujukKlinikSekolahRawatan === true
-                                ? 'Rujukan Ke Klinik'
-                                : ''}
-                            </p>
-                          ) : null}
+                          <a>
+                            {data.rujukRawatanOrtodontikSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar ortodontik'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarPatologiSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Patologi Mulut dan Perubatan Mulut'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarRestoratifSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Restoratif'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarBedahMulutSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Bedah Mulut Dan Maksilofasial'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukPakarPediatrikSekolahRawatan === true
+                              ? 'Rujukan Ke Pakar Pergigian Pediatrik'
+                              : ''}
+                          </a>
+                          <a>
+                            {data.rujukKlinikSekolahRawatan === true
+                              ? 'Rujukan Ke Klinik'
+                              : ''}
+                          </a>
                         </p>
                       </div>
                     ) : null}

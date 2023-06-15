@@ -448,35 +448,35 @@ function UserFormSekolahPemeriksaan() {
   ]);
 
   //cond bila tidak ada gigi and reset value
-  useEffect(() => {
-    if (yaTidakPesakitMempunyaiGigi === 'tidak-pesakit-mempunyai-gigi') {
-      setCondTiadaGigi(true);
-      setAdaKekal(false);
-      setDAdaGigiKekal(0);
-      setClassID(0);
-      setClassIID(0);
-      setMAdaGigiKekal(0);
-      setFAdaGigiKekal(0);
-      setClassIF(0);
-      setClassIIF(0);
-      setXAdaGigiKekal(0);
-      setEAdaGigiKekal(0);
-      setAdaDesidus(false);
-      setDAdaGigiDesidus(0);
-      setSmAdaGigiDesidus(0);
-      setFAdaGigiDesidus(0);
-      setXAdaGigiDesidus(0);
-    }
-    if (yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi') {
-      setCondTiadaGigi(false);
-      setKebersihanMulutOralHygiene('');
-      setStatusPeriodontium('');
-      setSkorGisMulutOralHygiene('');
-      setSkorBpeOralHygiene('');
-      setPerluPenskaleranOralHygiene(false);
-      setJumlahFaktorRisiko('');
-    }
-  }, [yaTidakPesakitMempunyaiGigi]);
+  // useEffect(() => {
+  //   if (yaTidakPesakitMempunyaiGigi === 'tidak-pesakit-mempunyai-gigi') {
+  //     setCondTiadaGigi(true);
+  //     setAdaKekal(false);
+  //     setDAdaGigiKekal(0);
+  //     setClassID(0);
+  //     setClassIID(0);
+  //     setMAdaGigiKekal(0);
+  //     setFAdaGigiKekal(0);
+  //     setClassIF(0);
+  //     setClassIIF(0);
+  //     setXAdaGigiKekal(0);
+  //     setEAdaGigiKekal(0);
+  //     setAdaDesidus(false);
+  //     setDAdaGigiDesidus(0);
+  //     setSmAdaGigiDesidus(0);
+  //     setFAdaGigiDesidus(0);
+  //     setXAdaGigiDesidus(0);
+  //   }
+  //   if (yaTidakPesakitMempunyaiGigi === 'ya-pesakit-mempunyai-gigi') {
+  //     setCondTiadaGigi(false);
+  //     setKebersihanMulutOralHygiene('');
+  //     setStatusPeriodontium('');
+  //     setSkorGisMulutOralHygiene('');
+  //     setSkorBpeOralHygiene('');
+  //     setPerluPenskaleranOralHygiene(false);
+  //     setJumlahFaktorRisiko('');
+  //   }
+  // }, [yaTidakPesakitMempunyaiGigi]);
 
   useEffect(() => {
     if (melaksanakanSaringanMerokok === 'tidak-melaksanakan-saringan-merokok') {
@@ -520,7 +520,7 @@ function UserFormSekolahPemeriksaan() {
           }
         );
         setAllUsedKPBMPB(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
-        console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
+        // console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
       } catch (error) {
         console.log(error);
         // toast.error(
@@ -867,9 +867,14 @@ function UserFormSekolahPemeriksaan() {
 
       if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
         setKesSelesai('tidak-kes-selesai');
-        await showToast(
-          'Kes tidak selesai kerana d gigi desidus tidak sama sm(space maintainer)'
-        );
+        // make two showtoast if umur >= 10 and umur < 10
+        if (singlePersonSekolah.umur >= 10) {
+          await showToast(
+            'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
+          );
+        } else {
+          await showToast('Kes tidak selesai kerana mempunyai d gigi desidus');
+        }
         return;
       }
 
@@ -901,6 +906,67 @@ function UserFormSekolahPemeriksaan() {
       setConfirmData({
         ...confirmData,
         kesSelesai: e.target.value,
+      });
+    } catch (error) {
+      console.error('Error occurred during validation:', error);
+    }
+  };
+
+  const checkTPRKesSelesaiMmi = async (e) => {
+    try {
+      const dAdaGigiDesidusValue = parseInt(dAdaGigiDesidus);
+      const smAdaGigiDesidusValue = parseInt(smAdaGigiDesidus);
+      const dAdaGigiKekalValue = parseInt(dAdaGigiKekal);
+      const xAdaGigiDesidusValue = parseInt(xAdaGigiDesidus);
+      const xAdaGigiKekalValue = parseInt(xAdaGigiKekal);
+      const skorGisMulutOralHygieneValue = parseInt(skorGisMulutOralHygiene);
+      const skorBpeOralHygieneValue = parseInt(skorBpeOralHygiene);
+      const eAdaGigiKekalValue = parseInt(eAdaGigiKekal);
+
+      if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        // make two showtoast if umur >= 10 and umur < 10
+        if (singlePersonSekolah.umur >= 10) {
+          await showToast(
+            'Kes tidak selesai MMI kerana d gigi desidus tidak sama sm (space maintainer)'
+          );
+        } else {
+          await showToast(
+            'Kes tidak selesai MMI kerana mempunyai d gigi desidus'
+          );
+        }
+        return;
+      }
+
+      if (
+        dAdaGigiKekalValue > 0 ||
+        xAdaGigiDesidusValue > 0 ||
+        xAdaGigiKekalValue > 0 ||
+        eAdaGigiKekalValue > 0
+      ) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        await showToast(
+          'Kes tidak selesai MMI kerana ada gigi yang tidak sepatutnya'
+        );
+        return;
+      }
+
+      if (
+        skorGisMulutOralHygieneValue === 1 ||
+        skorGisMulutOralHygieneValue === 3 ||
+        skorBpeOralHygieneValue > 0
+      ) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        await showToast(
+          'Kes tidak selesai MMI kerana skor GIS atau BPE tidak memenuhi syarat'
+        );
+        return;
+      }
+
+      setKesSelesaiIcdas(e);
+      setConfirmData({
+        ...confirmData,
+        kesSelesaiIcdas: e.target.value,
       });
     } catch (error) {
       console.error('Error occurred during validation:', error);
@@ -980,9 +1046,27 @@ function UserFormSekolahPemeriksaan() {
       );
       return;
     }
-    if (sumGigiKekalE !== eAdaGigiKekal) {
+    if ((dAdaGigiKekal === 0) & (sumGigiKekal > 0)) {
       toast.error(
-        'Jumlah tampalan diperlukan gigi kekal ICDAS tidak sama dengan jumlah E gigi kekal',
+        'Jumlah D gigi kekal tidak boleh 0 jika jumlah tampalan diperlukan gigi kekal pencegahan lebih dari 0',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if (eAdaGigiKekal > sumGigiKekalE) {
+      toast.error(
+        'Jumlah tampalan diperlukan gigi kekal pencegahan kurang dengan jumlah E gigi kekal',
+        {
+          autoClose: 3000,
+        }
+      );
+      return;
+    }
+    if ((eAdaGigiKekal === 0) & (sumGigiKekalE > 0)) {
+      toast.error(
+        'Jumlah E gigi kekal tidak boleh 0 jika jumlah tampalan diperlukan gigi kekal pencegahan lebih dari 0',
         {
           autoClose: 3000,
         }
@@ -1268,6 +1352,10 @@ function UserFormSekolahPemeriksaan() {
                     <h2 className='font-semibold text-xs'>NAMA :</h2>
                     <p className='ml-1 text-xs'>{singlePersonSekolah.nama}</p>
                   </div>
+                  <div className='flex flex-row pl-5'>
+                    <h2 className='font-semibold text-xs'>UMUR :</h2>
+                    <p className='ml-1 text-xs'>{singlePersonSekolah.umur}</p>
+                  </div>
                 </div>
               )}
               {!isLoading && (
@@ -1277,6 +1365,14 @@ function UserFormSekolahPemeriksaan() {
                       <h2 className='font-semibold text-xs'>NAMA SEKOLAH :</h2>
                       <p className='ml-1 text-xs'>
                         {singlePersonSekolah.namaSekolah}
+                      </p>
+                    </div>
+                    <div className='flex flex-row pl-5'>
+                      <h2 className='font-semibold text-xs'>STATUS OKU :</h2>
+                      <p className='ml-1 text-xs'>
+                        {singlePersonSekolah.statusOku === ':'
+                          ? 'BUKAN OKU'
+                          : 'OKU'}
                       </p>
                     </div>
                   </div>
@@ -1337,6 +1433,10 @@ function UserFormSekolahPemeriksaan() {
                         >
                           Enggan
                         </label>
+                        <FaInfoCircle
+                          title='Abaikan jika pesakit dapat dibuat pemeriksaan'
+                          className='text-lg m-1'
+                        />
                         {!isDisabled &&
                         engganTidakHadirPemeriksaan === 'enggan-pemeriksaan' ? (
                           <span
@@ -2351,6 +2451,13 @@ function UserFormSekolahPemeriksaan() {
                             }
                             onChange={(e) => {
                               setYaTidakPesakitMempunyaiGigi(e.target.value);
+                              setCondTiadaGigi(false);
+                              setKebersihanMulutOralHygiene('');
+                              setStatusPeriodontium('');
+                              setSkorGisMulutOralHygiene('');
+                              setSkorBpeOralHygiene('');
+                              setPerluPenskaleranOralHygiene(false);
+                              setJumlahFaktorRisiko('');
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -2375,6 +2482,22 @@ function UserFormSekolahPemeriksaan() {
                             }
                             onChange={(e) => {
                               setYaTidakPesakitMempunyaiGigi(e.target.value);
+                              setCondTiadaGigi(true);
+                              setAdaKekal(false);
+                              setDAdaGigiKekal(0);
+                              setClassID(0);
+                              setClassIID(0);
+                              setMAdaGigiKekal(0);
+                              setFAdaGigiKekal(0);
+                              setClassIF(0);
+                              setClassIIF(0);
+                              setXAdaGigiKekal(0);
+                              setEAdaGigiKekal(0);
+                              setAdaDesidus(false);
+                              setDAdaGigiDesidus(0);
+                              setSmAdaGigiDesidus(0);
+                              setFAdaGigiDesidus(0);
+                              setXAdaGigiDesidus(0);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -2431,7 +2554,10 @@ function UserFormSekolahPemeriksaan() {
                             >
                               <div
                                 className={`${
-                                  dAdaGigiDesidus > 0 ? 'outline-dashed' : ''
+                                  singlePersonSekolah.umur >= 10 &&
+                                  dAdaGigiDesidus > 0
+                                    ? 'outline-dashed'
+                                    : ''
                                 } flex flex-row items-center pl-5`}
                               >
                                 <p className='text-sm font-m lowercase'>d: </p>
@@ -2451,39 +2577,45 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       dAdaGigiDesidus: e.target.value,
                                     });
+                                    setSmAdaGigiDesidus(0);
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
-                                {dAdaGigiDesidus > 0 && (
-                                  <div className='flex flex-row items-center pl-5'>
-                                    <p className='text-sm font-m lowercase'>
-                                      SM:{' '}
-                                    </p>
-                                    <span className='text-user6'>*</span>
-                                    <input
-                                      disabled={isDisabled}
-                                      required
-                                      min='0'
-                                      max={dAdaGigiDesidus}
-                                      type='number'
-                                      name='sm-ada-status-gigi-desidus'
-                                      id='sm-ada-status-gigi-desidus'
-                                      value={smAdaGigiDesidus}
-                                      onChange={(e) => {
-                                        setSmAdaGigiDesidus(e.target.value);
-                                        setConfirmData({
-                                          ...confirmData,
-                                          smAdaGigiDesidus: e.target.value,
-                                        });
-                                      }}
-                                      className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
-                                    />
-                                    <FaInfoCircle
-                                      title='space maintaner tidak berkaitan dengan dfx'
-                                      className='m-2 inline-flex'
-                                    />
-                                  </div>
-                                )}
+                                {singlePersonSekolah.umur >= 10 &&
+                                  dAdaGigiDesidus > 0 && (
+                                    <div className='flex flex-row items-center pl-5'>
+                                      <p className='text-sm font-m lowercase'>
+                                        SM:{' '}
+                                      </p>
+                                      <span className='text-user6'>*</span>
+                                      <input
+                                        disabled={isDisabled}
+                                        required
+                                        min='0'
+                                        max={dAdaGigiDesidus}
+                                        type='number'
+                                        name='sm-ada-status-gigi-desidus'
+                                        id='sm-ada-status-gigi-desidus'
+                                        value={smAdaGigiDesidus}
+                                        onChange={(e) => {
+                                          setSmAdaGigiDesidus(e.target.value);
+                                          setConfirmData({
+                                            ...confirmData,
+                                            smAdaGigiDesidus: e.target.value,
+                                          });
+                                          setKesSelesai('');
+                                          setKesSelesaiIcdas('');
+                                        }}
+                                        className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
+                                      />
+                                      <FaInfoCircle
+                                        title='space maintaner tidak berkaitan dengan dfx'
+                                        className='m-2 inline-flex'
+                                      />
+                                    </div>
+                                  )}
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m lowercase'>f: </p>
@@ -2525,6 +2657,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       xAdaGigiDesidus: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -2607,6 +2741,8 @@ function UserFormSekolahPemeriksaan() {
                                         ...confirmData,
                                         dAdaGigiKekal: e.target.value,
                                       });
+                                      setKesSelesai('');
+                                      setKesSelesaiIcdas('');
                                     }}
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
@@ -2786,6 +2922,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       xAdaGigiKekal: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -2808,6 +2946,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       eAdaGigiKekal: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -3006,6 +3146,8 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     skorGisMulutOralHygiene: e.target.value,
                                   });
+                                  setKesSelesai('');
+                                  setKesSelesaiIcdas('');
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               >
@@ -3051,6 +3193,8 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     skorGisMulutOralHygiene: e.target.value,
                                   });
+                                  setKesSelesai('');
+                                  setKesSelesaiIcdas('');
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               >
@@ -3099,6 +3243,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       skorBpeOralHygiene: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 >
@@ -3506,13 +3652,15 @@ function UserFormSekolahPemeriksaan() {
                           </h4>
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </div>
@@ -3581,13 +3729,15 @@ function UserFormSekolahPemeriksaan() {
                           />
                           <span
                             className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </h4>
@@ -3653,14 +3803,16 @@ function UserFormSekolahPemeriksaan() {
                             Resin Pencegahan Jenis 1 (PRR Type I) (E12)
                           </h4>
                           <span
-                            className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 whitespace-nowrap ${
-                              sumGigiKekalE !== eAdaGigiKekal
-                                ? 'bg-user9'
-                                : 'bg-user7'
+                            className={`text-xs text-userWhite font-mono px-2 py-1 text-center rounded-lg ml-1 ${
+                              eAdaGigiKekal <= sumGigiKekalE
+                                ? eAdaGigiKekal === 0 && sumGigiKekalE > 0
+                                  ? 'bg-user9'
+                                  : 'bg-user7'
+                                : 'bg-user9'
                             } `}
                           >
                             E : {eAdaGigiKekal}{' '}
-                            {eAdaGigiKekal !== sumGigiKekalE ? '≠' : '='}{' '}
+                            {eAdaGigiKekal <= sumGigiKekalE ? '≤' : '>'}{' '}
                             {sumGigiKekalE}
                           </span>
                         </div>
@@ -4584,11 +4736,12 @@ function UserFormSekolahPemeriksaan() {
                                 : false
                             }
                             onChange={(e) => {
-                              setKesSelesaiIcdas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiIcdas: e.target.value,
-                              });
+                              // setKesSelesaiIcdas(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesaiIcdas: e.target.value,
+                              // });
+                              checkTPRKesSelesaiMmi(e.target.value);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4611,11 +4764,12 @@ function UserFormSekolahPemeriksaan() {
                                 : false
                             }
                             onChange={(e) => {
-                              setKesSelesaiIcdas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiIcdas: e.target.value,
-                              });
+                              // setKesSelesaiIcdas(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesaiIcdas: e.target.value,
+                              // });
+                              checkTPRKesSelesaiMmi(e.target.value);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
