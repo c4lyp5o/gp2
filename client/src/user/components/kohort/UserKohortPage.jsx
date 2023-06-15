@@ -20,10 +20,7 @@ export default function UserKohort() {
           onMouseEnter={() => setKotak(true)}
           onMouseLeave={() => setKotak(false)}
           onClick={() => {
-            import.meta.env.VITE_ENV === 'UNSTABLE' ||
-            import.meta.env.VITE_ENV === 'DEV'
-              ? navigate('/pengguna/landing/kohort/kotak')
-              : null;
+            navigate('/pengguna/landing/kohort/kotak');
           }}
         >
           <FaGripVertical className='text-5xl text-user3' />

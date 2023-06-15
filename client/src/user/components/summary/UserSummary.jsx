@@ -3,6 +3,10 @@ import axios from 'axios';
 import moment from 'moment';
 import { Spinner } from 'react-awesome-spinners';
 import { MdSupervisedUserCircle, MdOutlineSmartToy } from 'react-icons/md';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -107,6 +111,16 @@ export default function UserSummary() {
       });
   };
 
+  const [doughnutData, setDoughnutData] = useState({
+    toddler: 0,
+    umum: 0,
+    wargaEmas: 0,
+    bersekolah: 0,
+    bukanWarganegara: 0,
+    ibuMengandung: 0,
+    oku: 0,
+    pesara: 0,
+  });
   const processSummaryData = (data) => {
     const processedData = [
       { group: 'Toddler', total: 0 },
@@ -147,7 +161,66 @@ export default function UserSummary() {
         processedData[8].total++;
       }
     });
-    return processedData;
+    setDoughnutData({
+      toddler: processedData[0].total,
+      umum: processedData[1].total,
+      wargaEmas: processedData[2].total,
+      bersekolah: processedData[3].total,
+      bukanWarganegara: processedData[4].total,
+      ibuMengandung: processedData[5].total,
+      oku: processedData[6].total,
+      pesara: processedData[7].total,
+    });
+  };
+
+  const data = {
+    labels: [
+      'Toddler',
+      'Umum',
+      'Warga Emas',
+      'Bersekolah',
+      'Bukan Warganegara',
+      'Ibu Mengandung',
+      'OKU',
+      'Pesara',
+    ],
+    datasets: [
+      {
+        label: 'Jumlah',
+        data: [
+          doughnutData.toddler,
+          doughnutData.umum,
+          doughnutData.wargaEmas,
+          doughnutData.bersekolah,
+          doughnutData.bukanWarganegara,
+          doughnutData.ibuMengandung,
+          doughnutData.oku,
+          doughnutData.pesara,
+        ],
+        backgroundColor: [
+          '#e74c3c',
+          '#3498db',
+          '#e67e22',
+          '#2ecc71',
+          '#f1c40f',
+          '#1abc9c',
+          '#9b59b6',
+          '#d35400',
+        ],
+        borderColor: [
+          '#e74c3c',
+          '#3498db',
+          '#e67e22',
+          '#2ecc71',
+          '#f1c40f',
+          '#1abc9c',
+          '#9b59b6',
+          '#d35400',
+        ],
+        borderWidth: 1,
+        hoverOffset: 4,
+      },
+    ],
   };
 
   // useEffect(() => {
@@ -236,9 +309,9 @@ export default function UserSummary() {
                     {filteredSummary.length > 0 ? filteredSummary.length : null}
                   </span>
                 </div>
-                {isShowPt && (
-                  <div className='absolute top-24 right-10 z-20 bg-userWhite w-96 h-96 grid grid-cols-2'>
-                    {processedData.map((item) => (
+                {customSummary.length > 0 && isShowPt && (
+                  <div className='absolute top-16 z-20 w-96 h-96 bg-userWhite rounded-md shadow-md shadow-user1 m-2'>
+                    {/* {processedData.map((item) => (
                       <div
                         className='border-l-8 border-user2 shadow-lg py-2 pr-2'
                         key={item.group}
@@ -261,7 +334,8 @@ export default function UserSummary() {
                           </div>
                         </div>
                       </div>
-                    ))}
+                    ))} */}
+                    <Doughnut data={data} className='m-2' />
                   </div>
                 )}
               </div>
