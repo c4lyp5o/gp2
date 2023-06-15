@@ -184,15 +184,15 @@ const ConfirmModal = ({ children, data }) => {
                     <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
                       Berhenti Merokok
                       {data.statusSelepas6Bulan === 'berhenti' ? (
-                        <FaCheckCircle className='text-user7 text-center mx-1'>
-                          {' '}
+                        <>
+                          <FaCheckCircle className='text-user7 text-center mx-1' />
                           Alhamdulillah berhenti...
-                        </FaCheckCircle>
+                        </>
                       ) : (
-                        <FaTimesCircle className='text-user9 text-center mx-1'>
-                          {' '}
+                        <>
+                          <FaTimesCircle className='text-user9 text-center mx-1' />
                           Innalillah tidak berhenti...
-                        </FaTimesCircle>
+                        </>
                       )}
                     </p>
                   </div>
