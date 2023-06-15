@@ -234,27 +234,23 @@ function UserAfterLogin() {
               </Suspense>
             }
           />
-          {import.meta.env.VITE_ENV === 'UNSTABLE' ||
-          import.meta.env.VITE_ENV === 'DEV' ? (
-            <>
-              <Route
-                path='kohort/kotak'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <UserKohortKotak />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='kohort/kotak/:personKohortKotakId'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <UserKohortKotakForm />
-                  </Suspense>
-                }
-              />
-            </>
-          ) : null}
+          {/* kohort KOTAK */}
+          <Route
+            path='kohort/kotak'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserKohortKotak />
+              </Suspense>
+            }
+          />
+          <Route
+            path='kohort/kotak/:personKohortKotakId'
+            element={
+              <Suspense fallback={<Loading />}>
+                <UserKohortKotakForm />
+              </Suspense>
+            }
+          />
           {/* kohort FMR */}
           {import.meta.env.VITE_ENV === 'UNSTABLE' ||
           import.meta.env.VITE_ENV === 'DEV' ? (

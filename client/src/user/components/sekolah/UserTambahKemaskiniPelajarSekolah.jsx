@@ -296,6 +296,12 @@ function UserTambahKemaskiniPelajarSekolah({
                   {singlePersonSekolah.warganegara}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                  Status OKU
+                </p>
+                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
+                  {singlePersonSekolah.statusOku === ':' ? 'Bukan OKU' : 'OKU'}
+                </p>
+                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Status Rawatan
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10 uppercase'>

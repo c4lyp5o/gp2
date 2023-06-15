@@ -10,6 +10,10 @@ import {
 } from 'react-icons/gi';
 import { FaSort, FaSortUp, FaSortDown, FaInfoCircle } from 'react-icons/fa';
 import moment from 'moment';
+import { Chart as ChartJS, ArcElement, Tooltip, Legend } from 'chart.js';
+import { Doughnut } from 'react-chartjs-2';
+
+ChartJS.register(ArcElement, Tooltip, Legend);
 
 import KemaskiniResit from './pt-registration/KemaskiniResit';
 // import PrintPatientDetails from './pt-registration/PrintPatientDetails';
@@ -48,6 +52,9 @@ export default function DaftarPesakit({ createdByKp }) {
   const [pilihQuery, setPilihQuery] = useState('ic');
   const [idQuery, setIdQuery] = useState('');
   const [nameQuery, setNameQuery] = useState('');
+
+  //other
+  const [showDoughnut, setShowDoughnut] = useState(false);
 
   // datepicker issue
   const [tarikhKedatanganDP, setTarikhKedatanganDP] = useState(
@@ -256,6 +263,28 @@ export default function DaftarPesakit({ createdByKp }) {
 
   //carian ic semua
   const keys = ['nama', 'ic'];
+
+  const data = {
+    labels: ['Telah Diisi', 'Belum Diisi'],
+    datasets: [
+      {
+        label: 'Jumlah',
+        data: [
+          totalPesakit.totalStatus,
+          totalPesakit.totalPesakit - totalPesakit.totalStatus,
+        ],
+        backgroundColor: [
+          'rgba(75, 192, 192, 1)', // Filled color
+          'rgba(255, 99, 132, 1)', // Remaining color
+        ],
+        borderColor: [
+          'rgba(75, 192, 192, 1)', // Filled border color
+          'rgba(255, 99, 132, 1)', // Remaining border color
+        ],
+        borderWidth: 1,
+      },
+    ],
+  };
 
   return (
     <>
@@ -627,37 +656,58 @@ export default function DaftarPesakit({ createdByKp }) {
             </table>
           </div>
         ) : (
-          <div className='m-auto overflow-x-auto text-xs lg:text-sm h-min max-w-max'>
+          <div className='m-auto overflow-x-auto text-xs lg:text-sm h-full max-w-max'>
             <div className='grid grid-cols-1 lg:grid-cols-3 gap-2 p-2 my-2'>
-              <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
-                <div className='flex flex-row items-center'>
-                  <div className='grid grid-rows-2 gap-y-2'>
-                    <BsFillFilePersonFill className='text-kaunter1 t-user2 text-5xl m-1' />
-                    <GiBeehive className='text-kaunter1 t-user2 text-5xl m-1' />
+              <div className='grid  gap-2 items-center'>
+                <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
+                  <div className='flex flex-row items-center'>
+                    <div>
+                      <BsFillFilePersonFill className='text-kaunter1 t-user2 text-5xl m-1' />
+                    </div>
+                    <div className='pl-2'>
+                      <p className='text-xs flex flex-row'>Jumlah Pesakit</p>
+                      <span className='font-mono text-3xl flex flex-row'>
+                        {totalPesakit.totalPesakit}
+                      </span>
+                    </div>
                   </div>
-                  <div>
-                    <p className='text-xs flex flex-row'>Jumlah Pesakit</p>
-                    <span className='font-mono text-5xl flex flex-row'>
-                      {totalPesakit.totalPesakit}
-                    </span>
-                    <p className='text-xs flex flex-row'>
-                      Peratus Reten Telah Diisi
-                    </p>
-                    <span className='font-mono text-5xl flex flex-row'>
-                      {percentageCalc(
-                        totalPesakit.totalStatus,
-                        totalPesakit.totalPesakit
-                      )}
-                      %
-                    </span>
+                </div>
+                <div
+                  onMouseEnter={() => {
+                    setShowDoughnut(true);
+                  }}
+                  onMouseLeave={() => {
+                    setShowDoughnut(false);
+                  }}
+                  className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2 relative'
+                >
+                  <div className='flex flex-row items-center'>
+                    <GiBeehive className='text-kaunter1  text-3xl m-1' />
+                    <div className='pl-2'>
+                      <p className='text-xs flex flex-row'>
+                        Peratus Reten Telah Diisi
+                      </p>
+                      <span className='font-mono text-3xl flex flex-row'>
+                        {percentageCalc(
+                          totalPesakit.totalStatus,
+                          totalPesakit.totalPesakit
+                        )}
+                        %
+                      </span>
+                    </div>
                   </div>
+                  {showDoughnut && (
+                    <div className='absolute top-14 left-7 z-30 bg-userWhite rounded-md shadow-md shadow-user1'>
+                      <Doughnut data={data} />
+                    </div>
+                  )}
                 </div>
               </div>
               <div className='grid  gap-2 items-center'>
                 <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
                   <div className='flex flex-row items-center'>
                     <GiMedicalPack className='text-kaunter1  text-3xl m-1' />
-                    <div>
+                    <div className='pl-2'>
                       <p className='text-xs flex flex-row'>
                         Jumlah Pesakit Baru
                       </p>
@@ -670,7 +720,7 @@ export default function DaftarPesakit({ createdByKp }) {
                 <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
                   <div className='flex flex-row items-center'>
                     <GiMedicalPack className='text-kaunter1  text-3xl m-1' />
-                    <div>
+                    <div className='pl-2'>
                       <p className='text-xs flex flex-row'>
                         Jumlah Pesakit Ulangan
                       </p>
@@ -685,7 +735,7 @@ export default function DaftarPesakit({ createdByKp }) {
                 <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
                   <div className='flex flex-row items-center'>
                     <GiTakeMyMoney className='text-kaunter1  text-3xl m-1' />
-                    <div>
+                    <div className='pl-2'>
                       <p className='text-xs flex flex-row'>Jumlah Bayaran</p>
                       <span className='font-mono text-3xl flex flex-row'>
                         RM {totalPesakit.totalBayaran}
@@ -696,7 +746,7 @@ export default function DaftarPesakit({ createdByKp }) {
                 <div className='border-l-8 border-kaunter1 shadow-md shadow-user1 rounded-md py-2 pr-2'>
                   <div className='flex flex-row items-center'>
                     <GiMustache className='text-kaunter1 text-3xl m-1' />
-                    <div>
+                    <div className='pl-2'>
                       <p className='text-xs flex flex-row normal-case'>
                         Jumlah Pesakit e-GL
                       </p>
