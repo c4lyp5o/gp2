@@ -603,6 +603,12 @@ function UserSekolah() {
                               <p className='whitespace-nowrap'>
                                 WARGANEGARA : {singlePersonSekolah.warganegara}
                               </p>
+                              <p className='whitespace-nowrap'>
+                                STATUS OKU :{' '}
+                                {singlePersonSekolah.statusOku === ':'
+                                  ? 'BUKAN OKU'
+                                  : 'OKU'}
+                              </p>
                               <span>
                                 {fasilitiSekolah.sekolahSelesaiReten ===
                                 true ? null : (
