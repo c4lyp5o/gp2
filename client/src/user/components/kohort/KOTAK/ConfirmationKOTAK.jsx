@@ -182,6 +182,7 @@ const ConfirmModal = ({ children, data }) => {
                       intervensi sesi 1:{' '}
                     </p>
                     <p className='text-xs p-1 flex justify-start text-left border-y border-y-user1 border-opacity-10'>
+                      Berhenti Merokok
                       {data.statusSelepas6Bulan === 'berhenti' ? (
                         <FaCheckCircle className='text-user7 text-center mx-1'>
                           {' '}
