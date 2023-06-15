@@ -446,7 +446,9 @@ const SubProgramSelector = (props) => {
   const [showSubProgram3, setShowSubProgram3] = useState(false);
 
   const handleSubProgramChange = (index, value) => {
-    const subProgram = [...(props.editedEntity.subProgram ?? [])];
+    const subProgram = [
+      ...(props.editedEntity.subProgram ? props.editedEntity.subProgram : []),
+    ];
     subProgram[index] = value;
     props.setEditedEntity({
       ...props.editedEntity,
@@ -483,7 +485,10 @@ const SubProgramSelector = (props) => {
   };
 
   useEffect(() => {
-    if (props.editedEntity.subProgram?.length > 0) {
+    if (
+      props.editedEntity.subProgram &&
+      props.editedEntity.subProgram.length > 0
+    ) {
       setShowSubProgram(true);
     }
   }, [props.editedEntity.subProgram]);
@@ -513,7 +518,12 @@ const SubProgramSelector = (props) => {
               <div className='flex flex-row'>
                 <select
                   className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  value={props.editedEntity.subProgram?.[0] ?? ''}
+                  value={
+                    props.editedEntity.subProgram &&
+                    props.editedEntity.subProgram.length < 2
+                      ? props.editedEntity.subProgram[0]
+                      : ''
+                  }
                   onChange={(e) => handleSubProgramChange(0, e.target.value)}
                 >
                   <option value=''>Sila pilih sub program...</option>
@@ -543,7 +553,12 @@ const SubProgramSelector = (props) => {
               <div className='flex flex-row'>
                 <select
                   className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  value={props.editedEntity.subProgram?.[1] ?? ''}
+                  value={
+                    props.editedEntity.subProgram &&
+                    props.editedEntity.subProgram.length < 3
+                      ? props.editedEntity.subProgram[1]
+                      : ''
+                  }
                   onChange={(e) => handleSubProgramChange(1, e.target.value)}
                 >
                   <option value='NOT APPLICABLE'>Pilih sub program...</option>
@@ -576,7 +591,12 @@ const SubProgramSelector = (props) => {
               <div className='flex flex-row'>
                 <select
                   className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  value={props.editedEntity.subProgram?.[2] ?? ''}
+                  value={
+                    props.editedEntity.subProgram &&
+                    props.editedEntity.subProgram.length < 4
+                      ? props.editedEntity.subProgram[1]
+                      : ''
+                  }
                   onChange={(e) => handleSubProgramChange(2, e.target.value)}
                 >
                   <option value='NOT APPLICABLE'>Pilih sub program</option>
