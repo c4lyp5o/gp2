@@ -1372,6 +1372,10 @@ function UserFormSekolahPemeriksaan() {
                         >
                           Enggan
                         </label>
+                        <FaInfoCircle
+                          title='Abaikan jika pesakit dapat dibuat pemeriksaan'
+                          className='text-lg m-1'
+                        />
                         {!isDisabled &&
                         engganTidakHadirPemeriksaan === 'enggan-pemeriksaan' ? (
                           <span
