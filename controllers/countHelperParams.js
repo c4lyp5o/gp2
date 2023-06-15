@@ -188,88 +188,70 @@ const getParams211 = (payload, reten) => {
   const { negeri, daerah, klinik, pilihanFasiliti, pilihanKpbMpb } = payload;
 
   const AorC = (reten) => {
-    if (reten === 'A' || reten === undefined) {
-      return { jenisFasiliti: { $in: ['kp', 'kk-kd'] } };
-    }
-    if (reten === 'C') {
-      return { jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] } };
-    }
+    const jenisFasiliti =
+      reten === 'C'
+        ? { $nin: ['kp', 'kk-kd', 'taska-tadika'] }
+        : { $in: ['kp', 'kk-kd'] };
+    return { jenisFasiliti };
   };
 
-  const byKpb = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      penggunaanKPBMPB: pilihanKpbMpb,
-      menggunakanKPBMPB: { $nin: ['', null] },
-      deleted: false,
-      oncall: { $in: [false, null] },
-    };
-    return param;
-  };
+  const byKpb = () => ({
+    tarikhKedatangan: dateModifier(payload),
+    penggunaanKPBMPB: pilihanKpbMpb,
+    menggunakanKPBMPB: { $nin: ['', null] },
+    deleted: false,
+    oncall: { $in: [false, null] },
+  });
 
-  const byKp = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByKodFasiliti: { $eq: klinik },
-      ...AorC(reten),
-      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
-      deleted: false,
-      oncall: { $in: [false, null] },
-    };
-    return param;
-  };
+  const byKp = () => ({
+    tarikhKedatangan: dateModifier(payload),
+    createdByKodFasiliti: { $eq: klinik },
+    ...AorC(reten),
+    jenisProgram: { $ne: 'incremental' },
+    deleted: false,
+    oncall: { $in: [false, null] },
+  });
 
-  const byDaerah = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      createdByDaerah: { $eq: daerah },
-      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
-      ...AorC(reten),
-      deleted: false,
-      oncall: { $in: [false, null] },
-    };
-    return param;
-  };
+  const byDaerah = () => ({
+    tarikhKedatangan: dateModifier(payload),
+    createdByNegeri: { $eq: negeri },
+    createdByDaerah: { $eq: daerah },
+    ...AorC(reten),
+    jenisProgram: { $ne: 'incremental' },
+    deleted: false,
+    oncall: { $in: [false, null] },
+  });
 
-  const byNegeri = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      createdByNegeri: { $eq: negeri },
-      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
-      ...AorC(reten),
-      deleted: false,
-      oncall: { $in: [false, null] },
-    };
-    return param;
-  };
+  const byNegeri = () => ({
+    tarikhKedatangan: dateModifier(payload),
+    createdByNegeri: { $eq: negeri },
+    ...AorC(reten),
+    jenisProgram: { $ne: 'incremental' },
+    deleted: false,
+    oncall: { $in: [false, null] },
+  });
 
-  const satuMalaysia = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
-      ...AorC(reten),
-      deleted: false,
-      oncall: { $in: [false, null] },
-    };
-    return param;
-  };
+  const satuMalaysia = () => ({
+    tarikhKedatangan: dateModifier(payload),
+    ...AorC(reten),
+    jenisProgram: { $ne: 'incremental' },
+    deleted: false,
+    oncall: { $in: [false, null] },
+  });
 
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
-  }
-  if (pilihanFasiliti === 'kpbmpb') {
-    console.log('kpbmpb');
-    return byKpb(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
+  switch (true) {
+    case negeri === 'all':
+      return satuMalaysia(payload);
+    case pilihanFasiliti === 'kpbmpb':
+      return byKpb(payload);
+    case daerah !== 'all' && klinik !== 'all':
+      return byKp(payload);
+    case daerah !== 'all' && klinik === 'all':
+      return byDaerah(payload);
+    case daerah === 'all':
+      return byNegeri(payload);
+    default:
+      return null;
   }
 };
 const getParams214 = (payload) => {
@@ -279,7 +261,7 @@ const getParams214 = (payload) => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
-      jenisFasiliti: 'kp',
+      // jenisFasiliti: 'kp',
       kedatangan: 'baru-kedatangan',
       deleted: false,
       statusKehadiran: false,
@@ -293,7 +275,7 @@ const getParams214 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       createdByDaerah: { $eq: daerah },
-      jenisFasiliti: 'kp',
+      // jenisFasiliti: 'kp',
       kedatangan: 'baru-kedatangan',
       deleted: false,
       statusKehadiran: false,
@@ -306,7 +288,7 @@ const getParams214 = (payload) => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
-      jenisFasiliti: 'kp',
+      // jenisFasiliti: 'kp',
       kedatangan: 'baru-kedatangan',
       deleted: false,
       statusKehadiran: false,
@@ -318,7 +300,7 @@ const getParams214 = (payload) => {
   const satuMalaysia = () => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: 'kp',
+      // jenisFasiliti: 'kp',
       kedatangan: 'baru-kedatangan',
       deleted: false,
       statusKehadiran: false,
@@ -327,96 +309,47 @@ const getParams214 = (payload) => {
     return param;
   };
 
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
+  switch (true) {
+    case negeri === 'all':
+      return satuMalaysia(payload);
+    case daerah !== 'all' && klinik !== 'all':
+      return byKp(payload);
+    case daerah !== 'all' && klinik === 'all':
+      return byDaerah(payload);
+    case daerah === 'all':
+      return byNegeri(payload);
+    default:
+      return null;
   }
 };
 const getParams206 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
-  const byPegawai = () => {
-    let param = {
-      createdByMdcMdtb: pilihanIndividu,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
+  const params = {
+    createdByMdcMdtb: { $regex: /^mdtb/i },
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: 'telah diisi',
   };
 
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const satuMalaysia = () => {
-    let param = {
-      createdByMdcMdtb: { $regex: /^mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
   }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = klinik;
+  }
+
   if (pilihanIndividu) {
-    return byPegawai(payload);
+    params.createdByMdcMdtb = pilihanIndividu;
   }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
+
+  return params;
 };
 const getParams206sekolah = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
@@ -499,80 +432,31 @@ const getParams206sekolah = (payload) => {
 const getParams207 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
-  const byPegawai = () => {
-    let param = {
-      createdByMdcMdtb: pilihanIndividu,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
+  const params = {
+    createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: 'telah diisi',
   };
 
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const satuMalaysia = () => {
-    let param = {
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
   }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = klinik;
+  }
+
   if (pilihanIndividu) {
-    return byPegawai(payload);
+    params.createdByMdcMdtb = pilihanIndividu;
   }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
+
+  return params;
 };
 const getParams207sekolah = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
@@ -1254,76 +1138,30 @@ const getParamsBPE = (payload) => {
 const getParamsTOD = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
-  const byPegawai = () => {
-    let param = {
-      createdByMdcMdtb: pilihanIndividu,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
+  const param = {
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: 'telah diisi',
   };
 
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  const satuMalaysia = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-    };
-    return param;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
+  if (negeri !== 'all') {
+    param.createdByNegeri = negeri;
   }
+
+  if (daerah !== 'all') {
+    param.createdByDaerah = daerah;
+  }
+
+  if (klinik !== 'all') {
+    param.createdByKodFasiliti = klinik;
+  }
+
   if (pilihanIndividu) {
-    return byPegawai(payload);
+    param.createdByMdcMdtb = pilihanIndividu;
   }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
+
+  return param;
 };
 // countHelperKomuniti params
 // ppim03
@@ -1356,334 +1194,119 @@ const getParamsPPIM04 = (payload, reten) => {
 const getParamsKOM = (payload) => {
   const { negeri, daerah, klinik, pilihanProgram } = payload;
 
-  const byProgram = () => {
-    let param = {
-      jenisFasiliti: 'projek-komuniti-lain',
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      namaProgram: pilihanProgram,
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
+  const param = {
+    jenisFasiliti: 'projek-komuniti-lain',
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: 'telah diisi',
+    jenisProgram: { $ne: 'incremental' },
   };
 
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      jenisFasiliti: 'projek-komuniti-lain',
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (negeri !== 'all') {
+    param.createdByNegeri = negeri;
+  }
 
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      jenisFasiliti: 'projek-komuniti-lain',
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (daerah !== 'all') {
+    param.createdByDaerah = daerah;
+  }
 
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      jenisFasiliti: 'projek-komuniti-lain',
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (klinik !== 'all') {
+    param.createdByKodFasiliti = klinik;
+  }
 
-  const satuMalaysia = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      jenisFasiliti: 'projek-komuniti-lain',
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (pilihanProgram !== 'all' && pilihanProgram) {
+    param.namaProgram = pilihanProgram;
+  }
 
-  if (negeri === 'all') {
-    // console.log('bye msia');
-    return satuMalaysia(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all' && pilihanProgram !== 'all') {
-    // console.log('bye program');
-    return byProgram(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye kp');
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    // console.log('bye daerah');
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    // console.log('bye negeri');
-    return byNegeri(payload);
-  }
+  return param;
 };
 const getParamsOAP = (payload) => {
   const { negeri, daerah, klinik, pilihanProgram } = payload;
 
-  const byProgram = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      namaProgram: pilihanProgram,
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
+  const param = {
+    tarikhKedatangan: dateModifier(payload),
+    kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: 'telah diisi',
+    jenisProgram: { $ne: 'incremental' },
   };
 
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (negeri !== 'all') {
+    param.createdByNegeri = negeri;
+  }
 
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (daerah !== 'all') {
+    param.createdByDaerah = daerah;
+  }
 
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (klinik !== 'all') {
+    param.createdByKodFasiliti = klinik;
+  }
 
-  const satuMalaysia = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (pilihanProgram !== 'all' && pilihanProgram) {
+    param.namaProgram = pilihanProgram;
+  }
 
-  if (negeri === 'all') {
-    // console.log('bye msia');
-    return satuMalaysia(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye program');
-    return byProgram(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye kp');
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    // console.log('bye daerah');
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    // console.log('bye negeri');
-    return byNegeri(payload);
-  }
+  return param;
 };
 const getParamsUTCRTC = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
-  const byRtcTunjung = () => {
-    let param = {
-      createdByKodFasiliti: 'D04-014-02',
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: 'rtc',
-    };
-    return param;
+  const params = {
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: 'telah diisi',
+    jenisProgram: { $ne: 'incremental' },
   };
 
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
-
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
-
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
-
-  const satuMalaysia = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
   }
+
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
+
   if (klinik === 'rtc-tunjung') {
-    return byRtcTunjung(payload);
+    params.createdByKodFasiliti = 'D04-014-02';
+    params.jenisProgram = 'rtc';
+  } else if (klinik !== 'all') {
+    params.createdByKodFasiliti = klinik;
   }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
+
+  return params;
 };
 const getParamsPKAP = (payload) => {
-  const { negeri, daerah, klinik } = payload;
+  const { negeri, daerah, klinik, pilihanProgram } = payload;
 
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
+  const params = {
+    tarikhKedatangan: dateModifier(payload),
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: 'telah diisi',
+    jenisProgram: { $ne: 'incremental' },
   };
 
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (negeri !== 'all') {
+    params.createdByNegeri = negeri;
+  }
 
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (daerah !== 'all') {
+    params.createdByDaerah = daerah;
+  }
 
-  const satuMalaysia = () => {
-    let param = {
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: 'telah diisi',
-      jenisProgram: { $ne: 'incremental' },
-    };
-    return param;
-  };
+  if (klinik !== 'all') {
+    params.createdByKodFasiliti = klinik;
+  }
 
-  if (negeri === 'all') {
-    // console.log('bye msia');
-    return satuMalaysia(payload);
+  if (pilihanProgram) {
+    params.namaProgram = pilihanProgram;
   }
-  if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye program');
-    return byProgram(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    // console.log('bye kp');
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    // console.log('bye daerah');
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    // console.log('bye negeri');
-    return byNegeri(payload);
-  }
+
+  return params;
 };
 
 // operator lain punya hal
