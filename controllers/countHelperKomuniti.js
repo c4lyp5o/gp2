@@ -1804,12 +1804,6 @@ const countDEWASAMUDA = async (payload) => {
         tampalanPostAmgGkSemula: {
           $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
         },
-        inlayOnlayBaru: {
-          $sum: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
-        }, //data sudah dpt dari form umum
-        inlayOnlaySemula: {
-          $sum: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
-        }, //data sudah dpt dari form umum
         tampalanSementara: {
           $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
         },
@@ -1825,48 +1819,6 @@ const countDEWASAMUDA = async (payload) => {
                 $and: [
                   {
                     $eq: ['$penskaleranRawatanUmum', true],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        rawatanPerioLain: {
-          $sum: '$rawatanLainPeriodontikRawatanUmum',
-        },
-        rawatanEndoAnterior: {
-          $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
-        },
-        rawatanEndoPremolar: {
-          $sum: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
-        },
-        rawatanEndoMolar: {
-          $sum: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
-        },
-        rawatanOrtho: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$rawatanOrtodontikRawatanUmum', true],
-                  },
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        kesPerubatan: {
-          $sum: {
-            $cond: [
-              {
-                $and: [
-                  {
-                    $eq: ['$kesPerubatanMulutRawatanUmum', true],
                   },
                 ],
               },
@@ -1936,31 +1888,6 @@ const countDEWASAMUDA = async (payload) => {
             ],
           },
         },
-        cabutanSurgical: {
-          $sum: '$cabutanSurgikalPembedahanMulutRawatanUmum',
-        },
-        pembedahanKecilMulut: {
-          $sum: {
-            $cond: [
-              {
-                $eq: [
-                  '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
-                  'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum',
-                ],
-              },
-              1,
-              0,
-            ],
-          },
-        },
-        crownBridgeBaru: {
-          $sum: '$baruJumlahCrownBridgeRawatanUmum',
-        },
-        crownBridgeSemula: {
-          $sum: '$semulaJumlahCrownBridgeRawatanUmum',
-        },
-        postCoreBaru: { $sum: '$baruJumlahPostCoreRawatanUmum' },
-        postCoreSemula: { $sum: '$semulaJumlahPostCoreRawatanUmum' },
         prosthodontikPenuhDenturBaru: {
           $sum: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
         },
@@ -6039,9 +5966,7 @@ const countKOM = async (payload) => {
   const match_pemeriksaan_pkap = {
     $match: {
       kedatangan: 'baru-kedatangan',
-      kgAngkat: {
-        $in: ['komuniti-kg-angkat', 'lawatan-ke-rumah-kg-angkat'],
-      },
+      jenisProgram: 'kampungAngkatPergigian',
     },
   };
   const match_pemeriksaan_ppr = {
@@ -6380,7 +6305,11 @@ const countKOM = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$skorBpeOralHygienePemeriksaanUmum', '1'],
+              $and: [
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''] },
+              ],
             },
             1,
             0,
@@ -6744,12 +6673,6 @@ const countKOM = async (payload) => {
       tampalanPostAmgGkSemula: {
         $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
-      inlayOnlayBaru: {
-        $sum: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
-      inlayOnlaySemula: {
-        $sum: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
       tampalanSementara: {
         $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
       },
@@ -6765,48 +6688,6 @@ const countKOM = async (payload) => {
               $and: [
                 {
                   $eq: ['$penskaleranRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      rawatanPerioLain: {
-        $sum: '$rawatanLainPeriodontikRawatanUmum',
-      },
-      rawatanEndoAnterior: {
-        $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoPremolar: {
-        $sum: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoMolar: {
-        $sum: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanOrtho: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$rawatanOrtodontikRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      kesPerubatan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$kesPerubatanMulutRawatanUmum', true],
                 },
               ],
             },
@@ -6876,31 +6757,6 @@ const countKOM = async (payload) => {
           ],
         },
       },
-      cabutanSurgical: {
-        $sum: '$cabutanSurgikalPembedahanMulutRawatanUmum',
-      },
-      pembedahanKecilMulut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: [
-                '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
-                'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum',
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      crownBridgeBaru: {
-        $sum: '$baruJumlahCrownBridgeRawatanUmum',
-      },
-      crownBridgeSemula: {
-        $sum: '$semulaJumlahCrownBridgeRawatanUmum',
-      },
-      postCoreBaru: { $sum: '$baruJumlahPostCoreRawatanUmum' },
-      postCoreSemula: { $sum: '$semulaJumlahPostCoreRawatanUmum' },
       prosthodontikPenuhDenturBaru: {
         $sum: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
       },
@@ -9553,12 +9409,6 @@ const countPPR = async (payload) => {
       tampalanPostAmgGkSemula: {
         $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
-      inlayOnlayBaru: {
-        $sum: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
-      inlayOnlaySemula: {
-        $sum: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
       tampalanSementara: {
         $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
       },
@@ -9574,48 +9424,6 @@ const countPPR = async (payload) => {
               $and: [
                 {
                   $eq: ['$penskaleranRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      rawatanPerioLain: {
-        $sum: '$rawatanLainPeriodontikRawatanUmum',
-      },
-      rawatanEndoAnterior: {
-        $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoPremolar: {
-        $sum: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoMolar: {
-        $sum: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanOrtho: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$rawatanOrtodontikRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      kesPerubatan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$kesPerubatanMulutRawatanUmum', true],
                 },
               ],
             },
@@ -9684,34 +9492,6 @@ const countPPR = async (payload) => {
             0,
           ],
         },
-      },
-      cabutanSurgical: {
-        $sum: '$cabutanSurgikalPembedahanMulutRawatanUmum',
-      },
-      pembedahanKecilMulut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: [
-                '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
-                'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum',
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      crownBridgeBaru: {
-        $sum: '$baruJumlahCrownBridgeRawatanUmum',
-      },
-      crownBridgeSemula: {
-        $sum: '$semulaJumlahCrownBridgeRawatanUmum',
-      },
-      postCoreBaru: { $sum: '$baruJumlahPostCoreRawatanUmum' },
-      postCoreSemula: { $sum: '$semulaJumlahPostCoreRawatanUmum' },
-      prosthodontikPenuhDenturBaru: {
-        $sum: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
       },
       prosthodontikPenuhDenturSemula: {
         $sum: '$semulaPenuhJumlahDenturProstodontikRawatanUmum',
@@ -15030,12 +14810,6 @@ const countPPKPS = async (payload) => {
       tampalanPostAmgGkSemula: {
         $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
-      inlayOnlayBaru: {
-        $sum: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
-      inlayOnlaySemula: {
-        $sum: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
       tampalanSementara: {
         $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
       },
@@ -15051,48 +14825,6 @@ const countPPKPS = async (payload) => {
               $and: [
                 {
                   $eq: ['$penskaleranRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      rawatanPerioLain: {
-        $sum: '$rawatanLainPeriodontikRawatanUmum',
-      },
-      rawatanEndoAnterior: {
-        $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoPremolar: {
-        $sum: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoMolar: {
-        $sum: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanOrtho: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$rawatanOrtodontikRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      kesPerubatan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$kesPerubatanMulutRawatanUmum', true],
                 },
               ],
             },
@@ -15162,31 +14894,6 @@ const countPPKPS = async (payload) => {
           ],
         },
       },
-      cabutanSurgical: {
-        $sum: '$cabutanSurgikalPembedahanMulutRawatanUmum',
-      },
-      pembedahanKecilMulut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: [
-                '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
-                'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum',
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      crownBridgeBaru: {
-        $sum: '$baruJumlahCrownBridgeRawatanUmum',
-      },
-      crownBridgeSemula: {
-        $sum: '$semulaJumlahCrownBridgeRawatanUmum',
-      },
-      postCoreBaru: { $sum: '$baruJumlahPostCoreRawatanUmum' },
-      postCoreSemula: { $sum: '$semulaJumlahPostCoreRawatanUmum' },
       prosthodontikPenuhDenturBaru: {
         $sum: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
       },
@@ -17796,12 +17503,6 @@ const countPKAP2 = async (payload) => {
       tampalanPostAmgGkSemula: {
         $sum: '$gkSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
       },
-      inlayOnlayBaru: {
-        $sum: '$baruInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
-      inlayOnlaySemula: {
-        $sum: '$semulaInlayOnlayJumlahTampalanDibuatRawatanUmum',
-      }, //data sudah dpt dari form umum
       tampalanSementara: {
         $sum: '$jumlahTampalanSementaraJumlahTampalanDibuatRawatanUmum',
       },
@@ -17817,48 +17518,6 @@ const countPKAP2 = async (payload) => {
               $and: [
                 {
                   $eq: ['$penskaleranRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      rawatanPerioLain: {
-        $sum: '$rawatanLainPeriodontikRawatanUmum',
-      },
-      rawatanEndoAnterior: {
-        $sum: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoPremolar: {
-        $sum: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanEndoMolar: {
-        $sum: '$jumlahMolarKesEndodontikSelesaiRawatanUmum',
-      },
-      rawatanOrtho: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$rawatanOrtodontikRawatanUmum', true],
-                },
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      kesPerubatan: {
-        $sum: {
-          $cond: [
-            {
-              $and: [
-                {
-                  $eq: ['$kesPerubatanMulutRawatanUmum', true],
                 },
               ],
             },
@@ -17928,31 +17587,6 @@ const countPKAP2 = async (payload) => {
           ],
         },
       },
-      cabutanSurgical: {
-        $sum: '$cabutanSurgikalPembedahanMulutRawatanUmum',
-      },
-      pembedahanKecilMulut: {
-        $sum: {
-          $cond: [
-            {
-              $eq: [
-                '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
-                'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum',
-              ],
-            },
-            1,
-            0,
-          ],
-        },
-      },
-      crownBridgeBaru: {
-        $sum: '$baruJumlahCrownBridgeRawatanUmum',
-      },
-      crownBridgeSemula: {
-        $sum: '$semulaJumlahCrownBridgeRawatanUmum',
-      },
-      postCoreBaru: { $sum: '$baruJumlahPostCoreRawatanUmum' },
-      postCoreSemula: { $sum: '$semulaJumlahPostCoreRawatanUmum' },
       prosthodontikPenuhDenturBaru: {
         $sum: '$baruPenuhJumlahDenturProstodontikRawatanUmum',
       },

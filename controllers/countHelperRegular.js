@@ -4309,6 +4309,7 @@ const countPG206 = async (payload) => {
         group_pemeriksaan,
       ];
       const queryPemeriksaan = await Umum.aggregate(pipeline_pemeriksaan);
+      console.log(queryPemeriksaan[0]);
       dataPemeriksaan.push({ queryPemeriksaan });
     }
 
@@ -8704,7 +8705,15 @@ const countPGS203 = async (payload) => {
   match_stage.push(pra_tad_OKU);
   match_stage.push(pra_tad_OA_penan);
   //
-  const group_stage = [
+  const baru = [
+    {
+      $match: {
+        kedatangan: 'baru-kedatangan',
+      },
+    },
+  ];
+
+  const group_stage_pemeriksaan = [
     {
       $group: {
         _id: placeModifier(payload),
@@ -8996,6 +9005,17 @@ const countPGS203 = async (payload) => {
         perluJumlahGigiFS: {
           $sum: '$baruJumlahGigiKekalPerluFSRawatanUmum',
         },
+        jumlahFasilitiDilawati: {
+          $addToSet: '$kodFasilitiTaskaTadika',
+        },
+      },
+    },
+  ];
+
+  const group_stage_rawatan = [
+    {
+      $group: {
+        _id: placeModifier(payload),
         //jenis rawatan diberi
         telahSapuanFluorida: {
           $sum: {
@@ -9104,20 +9124,31 @@ const countPGS203 = async (payload) => {
             $cond: [{ $eq: ['$kesSelesaiRawatanUmum', true] }, 1, 0],
           },
         },
-        jumlahFasilitiDilawati: {
-          $addToSet: '$kodFasilitiTaskaTadika',
-        },
       },
     },
   ];
 
   // bismillah
-  let bigData = [];
-
   try {
+    let dataPemeriksaan = [];
+    let dataRawatan = [];
+    let bigData = [];
+
     for (const stage of match_stage) {
-      const dataPGS203 = await Umum.aggregate([...stage, ...group_stage]);
-      bigData.push(dataPGS203);
+      const queryPemeriksaanPGS203 = await Umum.aggregate([
+        ...stage,
+        ...baru,
+        ...group_stage_pemeriksaan,
+      ]);
+      dataPemeriksaan.push({ queryPemeriksaanPGS203 });
+    }
+
+    for (const stage of match_stage) {
+      const queryRawatanPGS203 = await Umum.aggregate([
+        ...stage,
+        ...group_stage_rawatan,
+      ]);
+      dataRawatan.push({ queryRawatanPGS203 });
     }
 
     const dataFasilitiFull = await Fasiliti.aggregate([
@@ -9133,7 +9164,7 @@ const countPGS203 = async (payload) => {
             ...(payload.klinik !== 'all'
               ? [{ kodFasilitiHandler: payload.klinik }]
               : []),
-            { jenisFasiliti: { $in: ['taska', 'tadika'] } },
+            { jenisFasiliti: { $in: ['tadika'] } },
           ],
         },
       },
@@ -9141,43 +9172,142 @@ const countPGS203 = async (payload) => {
         $group: {
           _id: null,
           jumlahTastadKerajaan: {
-            $sum: { $cond: [{ $eq: ['$govKe', 'Kerajaan'] }, 1, 0] },
-          },
-          jumlahTastadSwasta: {
-            $sum: { $cond: [{ $eq: ['$govKe', 'Swasta'] }, 1, 0] },
-          },
-          jumlahTastadTiadaStatus: {
-            $sum: { $cond: [{ $eq: ['$govKe', null] }, 1, 0] },
-          },
-          jumlahTastadTiadaEnrolmen: {
             $sum: {
-              $cond: [{ $eq: ['$enrolmenTastad', null] }, 1, 0],
+              $cond: [
+                {
+                  $eq: ['$govKe', 'Kerajaan'],
+                },
+                1,
+                0,
+              ],
             },
           },
+          jumlahTastadSwasta: {
+            $sum: {
+              $cond: [
+                {
+                  $eq: ['$govKe', 'Swasta'],
+                },
+                1,
+                0,
+              ],
+            },
+          },
+          // jumlahTastadTiadaStatus: {
+          //   $sum: {
+          //     $cond: [
+          //       {
+          //         $eq: ['$govKe', ''],
+          //       },
+          //       1,
+          //       0,
+          //     ],
+          //   },
+          // },
+          // jumlahTastadTiadaEnrolmen: {
+          //   $sum: {
+          //     $cond: [
+          //       {
+          //         $eq: ['$enrolmenTastad', 'NOT APPLICABLE'],
+          //       },
+          //       1,
+          //       0,
+          //     ],
+          //   },
+          // },
+          // sumEnrolmenTastadKerajaan: {
+          //   $sum: {
+          //     $cond: [
+          //       {
+          //         $in: ['$govKe', ['Kerajaan']],
+          //       },
+          //       {
+          //         $convert: {
+          //           input: {
+          //             $ifNull: ['$enrolmenTastad', '0'],
+          //           },
+          //           to: 'int',
+          //           onError: 0,
+          //           onNull: 0,
+          //         },
+          //       },
+          //       0,
+          //     ],
+          //   },
+          // },
+          // sumEnrolmenTastadSwasta: {
+          //   $sum: {
+          //     $cond: [
+          //       {
+          //         $in: ['$govKe', ['Swasta']],
+          //       },
+          //       {
+          //         $convert: {
+          //           input: {
+          //             $ifNull: ['$enrolmenTastad', '0'],
+          //           },
+          //           to: 'int',
+          //           onError: 0,
+          //           onNull: 0,
+          //         },
+          //       },
+          //       0,
+          //     ],
+          //   },
+          // },
         },
       },
     ]);
 
-    const allFasilitiDilawati = await Promise.all(
-      bigData[0][0]?.jumlahFasilitiDilawati?.map(async (kodTastad) => {
-        const dataFasiliti = await Fasiliti.find({ kodTastad })
-          .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
-          .lean();
-        return dataFasiliti;
-      }) ?? []
-    );
+    const allFasilitiDilawati = [];
 
-    const flattenedFasilitiDilawati = allFasilitiDilawati.flat();
+    // console.log(dataPemeriksaan[0].queryPemeriksaanPGS203[0]);
+
+    // throw new Error('test');
+
+    if (dataPemeriksaan[0]?.queryPemeriksaanPGS203[0].jumlahFasilitiDilawati) {
+      for (const kodTastad of dataPemeriksaan[0]?.queryPemeriksaanPGS203[0]
+        .jumlahFasilitiDilawati) {
+        try {
+          const dataFasiliti = await Fasiliti.find({ kodTastad })
+            .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
+            .lean();
+          allFasilitiDilawati.push(dataFasiliti[0]);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
+    if (dataPemeriksaan[1]?.queryPemeriksaanPGS203[0].jumlahFasilitiDilawati) {
+      for (const kodTastad of dataPemeriksaan[1]?.queryPemeriksaanPGS203[0]
+        .jumlahFasilitiDilawati) {
+        try {
+          const dataFasiliti = await Fasiliti.find({ kodTastad })
+            .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
+            .lean();
+          allFasilitiDilawati.push(dataFasiliti[0]);
+        } catch (error) {
+          console.error(error);
+        }
+      }
+    }
+
+    // console.log(allFasilitiDilawati);
 
     // nnt nk kena masuk taska
-    const totalEnrolmentTastadPra = flattenedFasilitiDilawati.reduce(
+    const totalEnrolmentTastadPra = allFasilitiDilawati.reduce(
       (
         totals,
         { jenisFasiliti, govKe, enrolmenTastad, statusPerkhidmatan }
       ) => {
-        if (jenisFasiliti === 'tadika' && statusPerkhidmatan === 'active') {
-          const kategori = !govKe ? 'tiadaStatus' : govKe;
-          if (enrolmenTastad !== 'NOT APPLICABLE' || !enrolmenTastad) {
+        if (
+          jenisFasiliti === 'tadika' &&
+          statusPerkhidmatan === 'active' &&
+          (govKe === 'Kerajaan' || govKe === 'Swasta')
+        ) {
+          const kategori = govKe || 'tiadaStatus';
+          if (enrolmenTastad !== 'NOT APPLICABLE') {
             const enrolment = parseInt(enrolmenTastad) || 0;
             totals[kategori] = (totals[kategori] || 0) + enrolment;
           }
@@ -9186,6 +9316,13 @@ const countPGS203 = async (payload) => {
       },
       {}
     );
+
+    console.log(totalEnrolmentTastadPra);
+
+    // throw new Error('test');
+
+    bigData.push(dataPemeriksaan);
+    bigData.push(dataRawatan);
 
     bigData[0][0] = {
       ...(bigData[0][0] || {}),
@@ -9990,7 +10127,9 @@ const countGender = async (payload) => {
   const pesakitLelakiOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: 'projek-komuniti-lain',
+      jenisFasiliti: {
+        $nin: ['kp', 'kk-kd', 'kepakaran', 'incremental', 'taska-tadika'],
+      },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
     },
@@ -9999,7 +10138,9 @@ const countGender = async (payload) => {
   const pesakitPerempuanOutreach1859 = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: 'projek-komuniti-lain',
+      jenisFasiliti: {
+        $nin: ['kp', 'kk-kd', 'kepakaran', 'incremental', 'taska-tadika'],
+      },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
     },
@@ -10058,7 +10199,9 @@ const countGender = async (payload) => {
   const pesakitLelakiOutreach60above = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jenisFasiliti: {
+        $nin: ['kp', 'kk-kd', 'kepakaran', 'incremental', 'taska-tadika'],
+      },
       jantina: 'lelaki',
       umur: { $gte: 60 },
     },
@@ -10067,7 +10210,9 @@ const countGender = async (payload) => {
   const pesakitPerempuanOutreach60above = {
     $match: {
       createdByKp: { $regex: /^((?!utc).)*$/i },
-      jenisFasiliti: { $nin: ['kp', 'kk-kd', 'taska-tadika'] },
+      jenisFasiliti: {
+        $nin: ['kp', 'kk-kd', 'kepakaran', 'incremental', 'taska-tadika'],
+      },
       jantina: 'perempuan',
       umur: { $gte: 60 },
     },
@@ -10085,6 +10230,7 @@ const countGender = async (payload) => {
   const pesakitPerempuanUtc60above = {
     $match: {
       createdByKp: { $regex: /utc/, $options: 'i' },
+      jenisFasiliti: { $in: ['kp'] },
       jantina: 'perempuan',
       umur: { $gte: 60 },
     },
