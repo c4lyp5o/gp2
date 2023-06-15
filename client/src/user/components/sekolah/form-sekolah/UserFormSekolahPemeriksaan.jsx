@@ -912,6 +912,67 @@ function UserFormSekolahPemeriksaan() {
     }
   };
 
+  const checkTPRKesSelesaiMmi = async (e) => {
+    try {
+      const dAdaGigiDesidusValue = parseInt(dAdaGigiDesidus);
+      const smAdaGigiDesidusValue = parseInt(smAdaGigiDesidus);
+      const dAdaGigiKekalValue = parseInt(dAdaGigiKekal);
+      const xAdaGigiDesidusValue = parseInt(xAdaGigiDesidus);
+      const xAdaGigiKekalValue = parseInt(xAdaGigiKekal);
+      const skorGisMulutOralHygieneValue = parseInt(skorGisMulutOralHygiene);
+      const skorBpeOralHygieneValue = parseInt(skorBpeOralHygiene);
+      const eAdaGigiKekalValue = parseInt(eAdaGigiKekal);
+
+      if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        // make two showtoast if umur >= 10 and umur < 10
+        if (singlePersonSekolah.umur >= 10) {
+          await showToast(
+            'Kes tidak selesai MMI kerana d gigi desidus tidak sama sm (space maintainer)'
+          );
+        } else {
+          await showToast(
+            'Kes tidak selesai MMI kerana mempunyai d gigi desidus'
+          );
+        }
+        return;
+      }
+
+      if (
+        dAdaGigiKekalValue > 0 ||
+        xAdaGigiDesidusValue > 0 ||
+        xAdaGigiKekalValue > 0 ||
+        eAdaGigiKekalValue > 0
+      ) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        await showToast(
+          'Kes tidak selesai MMI kerana ada gigi yang tidak sepatutnya'
+        );
+        return;
+      }
+
+      if (
+        skorGisMulutOralHygieneValue === 1 ||
+        skorGisMulutOralHygieneValue === 3 ||
+        skorBpeOralHygieneValue > 0
+      ) {
+        setKesSelesaiIcdas('tidak-kes-selesai-icdas');
+        await showToast(
+          'Kes tidak selesai MMI kerana skor GIS atau BPE tidak memenuhi syarat'
+        );
+        return;
+      }
+
+      setKesSelesaiIcdas(e);
+      setConfirmData({
+        ...confirmData,
+        kesSelesaiIcdas: e.target.value,
+      });
+    } catch (error) {
+      console.error('Error occurred during validation:', error);
+    }
+  };
+
   const showToast = (message) => {
     return new Promise((resolve) => {
       toast.info(message, {
@@ -2495,6 +2556,7 @@ function UserFormSekolahPemeriksaan() {
                                     });
                                     setSmAdaGigiDesidus(0);
                                     setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -2521,6 +2583,7 @@ function UserFormSekolahPemeriksaan() {
                                             smAdaGigiDesidus: e.target.value,
                                           });
                                           setKesSelesai('');
+                                          setKesSelesaiIcdas('');
                                         }}
                                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                       />
@@ -2571,6 +2634,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       xAdaGigiDesidus: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -2653,6 +2718,8 @@ function UserFormSekolahPemeriksaan() {
                                         ...confirmData,
                                         dAdaGigiKekal: e.target.value,
                                       });
+                                      setKesSelesai('');
+                                      setKesSelesaiIcdas('');
                                     }}
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
@@ -2832,6 +2899,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       xAdaGigiKekal: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -2854,6 +2923,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       eAdaGigiKekal: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
@@ -3052,6 +3123,8 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     skorGisMulutOralHygiene: e.target.value,
                                   });
+                                  setKesSelesai('');
+                                  setKesSelesaiIcdas('');
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               >
@@ -3097,6 +3170,8 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     skorGisMulutOralHygiene: e.target.value,
                                   });
+                                  setKesSelesai('');
+                                  setKesSelesaiIcdas('');
                                 }}
                                 className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                               >
@@ -3145,6 +3220,8 @@ function UserFormSekolahPemeriksaan() {
                                       ...confirmData,
                                       skorBpeOralHygiene: e.target.value,
                                     });
+                                    setKesSelesai('');
+                                    setKesSelesaiIcdas('');
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 >
@@ -4636,11 +4713,12 @@ function UserFormSekolahPemeriksaan() {
                                 : false
                             }
                             onChange={(e) => {
-                              setKesSelesaiIcdas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiIcdas: e.target.value,
-                              });
+                              // setKesSelesaiIcdas(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesaiIcdas: e.target.value,
+                              // });
+                              checkTPRKesSelesaiMmi(e.target.value);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4663,11 +4741,12 @@ function UserFormSekolahPemeriksaan() {
                                 : false
                             }
                             onChange={(e) => {
-                              setKesSelesaiIcdas(e.target.value);
-                              setConfirmData({
-                                ...confirmData,
-                                kesSelesaiIcdas: e.target.value,
-                              });
+                              // setKesSelesaiIcdas(e.target.value);
+                              // setConfirmData({
+                              //   ...confirmData,
+                              //   kesSelesaiIcdas: e.target.value,
+                              // });
+                              checkTPRKesSelesaiMmi(e.target.value);
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
