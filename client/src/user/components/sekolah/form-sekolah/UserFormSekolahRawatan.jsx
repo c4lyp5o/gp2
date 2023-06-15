@@ -512,10 +512,6 @@ function UserFormSekolahRawatan() {
                       kedatangan
                     </h4>
                     <div className='flex items-center flex-row pl-5'>
-                      <FaInfoCircle
-                        title='Sila isi di bahagian promosi terlebih dahulu jika pesakit telah diperiksa'
-                        className='text-lg m-1'
-                      />
                       <input
                         type='radio'
                         name='enggan-tidak-hadir-rawatan'
