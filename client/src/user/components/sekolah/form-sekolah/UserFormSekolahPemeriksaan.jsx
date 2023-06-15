@@ -868,10 +868,7 @@ function UserFormSekolahPemeriksaan() {
       if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
         setKesSelesai('tidak-kes-selesai');
         // make two showtoast if umur >= 10 and umur < 10
-        if (
-          singlePersonSekolah.umur >= 10 &&
-          singlePersonSekolah.statusOku === ':'
-        ) {
+        if (singlePersonSekolah.umur >= 10) {
           await showToast(
             'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
           );
@@ -1312,7 +1309,9 @@ function UserFormSekolahPemeriksaan() {
                     <div className='flex flex-row pl-5'>
                       <h2 className='font-semibold text-xs'>STATUS OKU :</h2>
                       <p className='ml-1 text-xs'>
-                        {singlePersonSekolah.statusOku ===  ':' ? 'BUKAN OKU' : 'OKU'}
+                        {singlePersonSekolah.statusOku === ':'
+                          ? 'BUKAN OKU'
+                          : 'OKU'}
                       </p>
                     </div>
                   </div>
@@ -2468,7 +2467,6 @@ function UserFormSekolahPemeriksaan() {
                               <div
                                 className={`${
                                   singlePersonSekolah.umur >= 10 &&
-                                  singlePersonSekolah.statusOku === ':' &&
                                   dAdaGigiDesidus > 0
                                     ? 'outline-dashed'
                                     : ''
@@ -2495,7 +2493,6 @@ function UserFormSekolahPemeriksaan() {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                                 {singlePersonSekolah.umur >= 10 &&
-                                  singlePersonSekolah.statusOku === ':' &&
                                   dAdaGigiDesidus > 0 && (
                                     <div className='flex flex-row items-center pl-5'>
                                       <p className='text-sm font-m lowercase'>
@@ -2517,6 +2514,7 @@ function UserFormSekolahPemeriksaan() {
                                             ...confirmData,
                                             smAdaGigiDesidus: e.target.value,
                                           });
+                                          setKesSelesai('');
                                         }}
                                         className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                       />
