@@ -5,10 +5,17 @@
 #### Added
 
 - Penambahan fungsi menambah, mengemaskini & menghapus pelajar sekolah
+- Pembukaan submodul kohort KOTAK
 
 #### Changed
 
 - Jumlah tampalan di borang pesakit umum tidak lagi mempunyai had maksima
+- Bilangan SM di borang pemeriksaan sekolah hanya ada untuk pelajar berumur 10 tahun dan keatas
+
+#### Fixed
+
+- Syarat penandaan kes selesai & kes selesai MMI diperbetulkan
+- Memperbetulkan lihat semula reten pemeriksaan sekolah bagi kebersihan mulut, status periodontium & risiki karies
 
 #### Removed
 
