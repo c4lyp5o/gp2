@@ -868,7 +868,11 @@ function UserFormSekolahPemeriksaan() {
       if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
         setKesSelesai('tidak-kes-selesai');
         // make two showtoast if umur >= 10 and umur < 10
-        if (singlePersonSekolah.umur >= 10) {
+        if (
+          singlePersonSekolah.tahunTingkatan === 'D4' ||
+          singlePersonSekolah.tahunTingkatan === 'D5' ||
+          singlePersonSekolah.tahunTingkatan === 'D6'
+        ) {
           await showToast(
             'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
           );
@@ -926,7 +930,11 @@ function UserFormSekolahPemeriksaan() {
       if (dAdaGigiDesidusValue !== smAdaGigiDesidusValue) {
         setKesSelesaiIcdas('tidak-kes-selesai-icdas');
         // make two showtoast if umur >= 10 and umur < 10
-        if (singlePersonSekolah.umur >= 10) {
+        if (
+          singlePersonSekolah.tahunTingkatan === 'D4' ||
+          singlePersonSekolah.tahunTingkatan === 'D5' ||
+          singlePersonSekolah.tahunTingkatan === 'D6'
+        ) {
           await showToast(
             'Kes tidak selesai MMI kerana d gigi desidus tidak sama sm (space maintainer)'
           );
@@ -2554,7 +2562,12 @@ function UserFormSekolahPemeriksaan() {
                             >
                               <div
                                 className={`${
-                                  singlePersonSekolah.umur >= 10 &&
+                                  (singlePersonSekolah.tahunTingkatan ===
+                                    'D4' ||
+                                    singlePersonSekolah.tahunTingkatan ===
+                                      'D5' ||
+                                    singlePersonSekolah.tahunTingkatan ===
+                                      'D6') &&
                                   dAdaGigiDesidus > 0
                                     ? 'outline-dashed'
                                     : ''
@@ -2583,7 +2596,10 @@ function UserFormSekolahPemeriksaan() {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
-                                {singlePersonSekolah.umur >= 10 &&
+                                {(singlePersonSekolah.tahunTingkatan === 'D4' ||
+                                  singlePersonSekolah.tahunTingkatan === 'D5' ||
+                                  singlePersonSekolah.tahunTingkatan ===
+                                    'D6') &&
                                   dAdaGigiDesidus > 0 && (
                                     <div className='flex flex-row items-center pl-5'>
                                       <p className='text-sm font-m lowercase'>
@@ -3161,7 +3177,7 @@ function UserFormSekolahPemeriksaan() {
                                 <option value='3'>3</option>
                               </select>
                             </div>
-                          ) : singlePersonSekolah.umur < 15 ? (
+                          ) : singlePersonSekolah.umur <= 14 ? (
                             <div className='flex items-center flex-row pl-5'>
                               <p className='flex text-sm font-m'>
                                 Skor GIS
