@@ -871,7 +871,8 @@ function UserFormSekolahPemeriksaan() {
         if (
           singlePersonSekolah.tahunTingkatan === 'D4' ||
           singlePersonSekolah.tahunTingkatan === 'D5' ||
-          singlePersonSekolah.tahunTingkatan === 'D6'
+          singlePersonSekolah.tahunTingkatan === 'D6' ||
+          singlePersonSekolah.tahunTingkatan === 'KHAS'
         ) {
           await showToast(
             'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
@@ -933,7 +934,8 @@ function UserFormSekolahPemeriksaan() {
         if (
           singlePersonSekolah.tahunTingkatan === 'D4' ||
           singlePersonSekolah.tahunTingkatan === 'D5' ||
-          singlePersonSekolah.tahunTingkatan === 'D6'
+          singlePersonSekolah.tahunTingkatan === 'D6' ||
+          singlePersonSekolah.tahunTingkatan === 'KHAS'
         ) {
           await showToast(
             'Kes tidak selesai MMI kerana d gigi desidus tidak sama sm (space maintainer)'
@@ -2567,7 +2569,9 @@ function UserFormSekolahPemeriksaan() {
                                     singlePersonSekolah.tahunTingkatan ===
                                       'D5' ||
                                     singlePersonSekolah.tahunTingkatan ===
-                                      'D6') &&
+                                      'D6' ||
+                                    singlePersonSekolah.tahunTingkatan ===
+                                      'KHAS') &&
                                   dAdaGigiDesidus > 0
                                     ? 'outline-dashed'
                                     : ''
@@ -2598,8 +2602,9 @@ function UserFormSekolahPemeriksaan() {
                                 />
                                 {(singlePersonSekolah.tahunTingkatan === 'D4' ||
                                   singlePersonSekolah.tahunTingkatan === 'D5' ||
+                                  singlePersonSekolah.tahunTingkatan === 'D6' ||
                                   singlePersonSekolah.tahunTingkatan ===
-                                    'D6') &&
+                                    'KHAS') &&
                                   dAdaGigiDesidus > 0 && (
                                     <div className='flex flex-row items-center pl-5'>
                                       <p className='text-sm font-m lowercase'>
