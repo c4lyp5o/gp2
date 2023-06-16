@@ -259,12 +259,12 @@ function UserTambahKemaskiniPelajarSekolah({
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                   {singlePersonSekolah.nomborId}
                 </p> */}
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
+                {/* <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Tarikh Lahir
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
                   {moment(singlePersonSekolah.tarikhLahir).format('DD/MM/YYYY')}
-                </p>
+                </p> */}
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Jantina
                 </p>
