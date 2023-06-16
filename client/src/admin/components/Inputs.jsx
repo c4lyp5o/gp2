@@ -2219,7 +2219,7 @@ export function InputEvent(props) {
                           Institusi Pendidikan Guru (IPG)
                         </option>
                         <option value='ipta'>
-                          Institusi Pengajian Tinggi Awam
+                          Pra Universiti (PRA U) & Universiti Awam (UA)
                         </option>
                         <option value='lain-lain'>
                           Lain-lain Institusi Pengajian
@@ -3617,7 +3617,7 @@ export function InputEditEvent(props) {
                           Institusi Pendidikan Guru (IPG)
                         </option>
                         <option value='ipta'>
-                          Institusi Pengajian Tinggi Awam
+                          Pra Universiti (PRA U) & Universiti Awam (UA)
                         </option>
                         <option value='lain-lain'>
                           Lain-lain Institusi Pengajian
