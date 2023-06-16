@@ -588,12 +588,12 @@ function UserSekolah() {
                               <p className='whitespace-nowrap'>
                                 JANTINA : {singlePersonSekolah.jantina}
                               </p>
-                              <p className='whitespace-nowrap'>
+                              {/* <p className='whitespace-nowrap'>
                                 TARIKH LAHIR :{' '}
                                 {moment(singlePersonSekolah.tarikhLahir).format(
                                   'DD/MM/YYYY'
                                 )}
-                              </p>
+                              </p> */}
                               <p className='whitespace-nowrap'>
                                 UMUR : {singlePersonSekolah.umur}
                               </p>
