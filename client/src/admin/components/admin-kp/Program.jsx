@@ -89,7 +89,7 @@ export default function Program(props) {
                           <p className='text-xl font-semibold mr-3'>
                             Sila tetapkan tarikh program
                           </p>
-                          <div class='animate-bounce shadow-lg rounded-full flex items-center justify-center'>
+                          <div className='animate-bounce shadow-lg rounded-full flex items-center justify-center'>
                             <BsArrowLeftSquare className='text-user8 text-4xl font-bold' />
                           </div>
                         </div>
@@ -170,7 +170,7 @@ export default function Program(props) {
                   </td> */}
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {!f.tarikhStart && !f.tarikhEnd ? (
-                      <span class='relative inline-flex'>
+                      <span className='relative inline-flex'>
                         <button
                           className='bg-admin3 relative top-0 right-0 p-1 w-20 rounded-md text-white shadow-xl m-2 hover:bg-admin1'
                           id={f._id}
@@ -181,9 +181,9 @@ export default function Program(props) {
                         >
                           Kemaskini
                         </button>
-                        <span class='flex absolute h-3 w-3 top-0 right-1'>
-                          <span class='animate-ping absolute inline-flex h-full w-full rounded-full bg-admin3 opacity-75'></span>
-                          <span class='relative inline-flex rounded-full h-3 w-3 bg-user8'></span>
+                        <span className='flex absolute h-3 w-3 top-0 right-1'>
+                          <span className='animate-ping absolute inline-flex h-full w-full rounded-full bg-admin3 opacity-75'></span>
+                          <span className='relative inline-flex rounded-full h-3 w-3 bg-user8'></span>
                         </span>
                       </span>
                     ) : (
