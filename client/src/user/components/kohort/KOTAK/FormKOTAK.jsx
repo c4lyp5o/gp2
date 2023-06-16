@@ -465,12 +465,12 @@ function UserFormKohortKOTAK() {
                           {singlePersonKohortKotak.jantina}
                         </p>
                       </div>
-                      <div className='text-xs flex flex-row '>
+                      {/* <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>TARIKH LAHIR :</h2>
                         <p className='ml-1'>
                           {singlePersonKohortKotak.tarikhLahir}
                         </p>
-                      </div>
+                      </div> */}
                       <div className='text-xs flex flex-row '>
                         <h2 className='font-semibold'>KETURUNAN :</h2>
                         <p className='ml-1'>
