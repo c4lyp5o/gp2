@@ -127,7 +127,7 @@ export default function Program(props) {
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {f.modPenyampaianPerkhidmatan.length > 0 ? (
                       f.modPenyampaianPerkhidmatan.map((i) => (
-                        <p className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
+                        <div className='bg-admin3 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap mt-1 mb-1'>
                           {Dictionary[i]}
                           {i.includes('ppb') && <div className='hidden' />}
                           {(i.includes('kpb') || i.includes('mpb')) && (
@@ -145,7 +145,7 @@ export default function Program(props) {
                               )}
                             </div>
                           )}
-                        </p>
+                        </div>
                       ))
                     ) : (
                       <span className='bg-adminBlack text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
