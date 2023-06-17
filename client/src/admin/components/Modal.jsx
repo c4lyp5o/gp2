@@ -632,6 +632,7 @@ const EditModalForKp = ({
   const [allSR, setAllSR] = useState([]);
   const [allSM, setAllSM] = useState([]);
   const [editedEntity, setEditedEntity] = useState([]);
+  const [showSubProgram, setShowSubProgram] = useState(false); // kena pass state showSubProgram yang first dari atas sebab nak catch dalam handleSubmit
   const [loading, setLoading] = useState(true);
 
   //datepicker
@@ -723,13 +724,24 @@ const EditModalForKp = ({
     if (FType === 'program') {
       if (editedEntity.modPenyampaianPerkhidmatan.includes('kpb')) {
         if (editedEntity.penggunaanKpb === 'NOT APPLICABLE') {
-          toast.error(`Sila masukkan penggunaan KPB`);
+          toast.error('Sila masukkan penggunaan KPB');
           return;
         }
       }
       if (editedEntity.modPenyampaianPerkhidmatan.includes('mpb')) {
         if (editedEntity.penggunaanMpb === 'NOT APPLICABLE') {
-          toast.error(`Sila masukkan penggunaan MPB`);
+          toast.error('Sila masukkan penggunaan MPB');
+          return;
+        }
+      }
+      if (showSubProgram) {
+        if (
+          editedEntity.subProgram.length === 0 ||
+          editedEntity.subProgram[0] === 'NOT APPLICABLE' ||
+          editedEntity.subProgram[1] === 'NOT APPLICABLE' ||
+          editedEntity.subProgram[2] === 'NOT APPLICABLE'
+        ) {
+          toast.error('Sila masukkan sub program');
           return;
         }
       }
@@ -839,6 +851,8 @@ const EditModalForKp = ({
     startDateDP,
     setEndDateDP,
     endDateDP,
+    showSubProgram,
+    setShowSubProgram,
     // ---
     setShowEditModal,
     tempatPenggunaan,

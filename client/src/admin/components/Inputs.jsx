@@ -44,7 +44,6 @@ const EndDate = (props) => {
 };
 
 // sub program punya hal mmg buat hal lah
-
 const pilihanSubProgramPKAP = [
   {
     sub: 'oap',
@@ -441,7 +440,6 @@ const MakmalPergigianBergerakSelector = (props) => {
 };
 
 const SubProgramSelector = (props) => {
-  const [showSubProgram, setShowSubProgram] = useState(false);
   const [showSubProgram2, setShowSubProgram2] = useState(false);
   const [showSubProgram3, setShowSubProgram3] = useState(false);
 
@@ -489,7 +487,7 @@ const SubProgramSelector = (props) => {
       props.editedEntity.subProgram &&
       props.editedEntity.subProgram.length > 0
     ) {
-      setShowSubProgram(true);
+      props.setShowSubProgram(true);
     }
   }, [props.editedEntity.subProgram]);
 
@@ -508,25 +506,32 @@ const SubProgramSelector = (props) => {
             <label htmlFor='subProgramPicker'>Sub Program</label>
             <input
               type='checkbox'
-              checked={showSubProgram}
-              onChange={() => setShowSubProgram(!showSubProgram)}
+              checked={props.showSubProgram}
+              onChange={() => {
+                props.setShowSubProgram(!props.showSubProgram);
+                props.setEditedEntity({
+                  ...props.editedEntity,
+                  subProgram: [],
+                });
+              }}
               className='w-5 h-5'
             />
           </div>
           <div className='grid gap-1 w-full'>
-            {showSubProgram && (
+            {props.showSubProgram && (
               <div className='flex flex-row'>
                 <select
                   className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   value={
-                    props.editedEntity.subProgram &&
-                    props.editedEntity.subProgram.length < 2
+                    props.editedEntity.subProgram
                       ? props.editedEntity.subProgram[0]
                       : ''
                   }
                   onChange={(e) => handleSubProgramChange(0, e.target.value)}
                 >
-                  <option value=''>Sila pilih sub program...</option>
+                  <option value='NOT APPLICABLE'>
+                    Sila pilih sub program...
+                  </option>
                   {renderSubProgramOptions()}
                 </select>
                 {['ppr', 'oap', 'kampungAngkatPergigian'].includes(
@@ -554,14 +559,15 @@ const SubProgramSelector = (props) => {
                 <select
                   className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   value={
-                    props.editedEntity.subProgram &&
-                    props.editedEntity.subProgram.length < 3
+                    props.editedEntity.subProgram
                       ? props.editedEntity.subProgram[1]
                       : ''
                   }
                   onChange={(e) => handleSubProgramChange(1, e.target.value)}
                 >
-                  <option value='NOT APPLICABLE'>Pilih sub program...</option>
+                  <option value='NOT APPLICABLE'>
+                    Sila pilih sub program...
+                  </option>
                   {['kampungAngkatPergigian', 'oap', 'ppr'].includes(
                     props.editedEntity.jenisEvent
                   ) &&
@@ -592,14 +598,15 @@ const SubProgramSelector = (props) => {
                 <select
                   className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   value={
-                    props.editedEntity.subProgram &&
-                    props.editedEntity.subProgram.length < 4
-                      ? props.editedEntity.subProgram[1]
+                    props.editedEntity.subProgram
+                      ? props.editedEntity.subProgram[2]
                       : ''
                   }
                   onChange={(e) => handleSubProgramChange(2, e.target.value)}
                 >
-                  <option value='NOT APPLICABLE'>Pilih sub program</option>
+                  <option value='NOT APPLICABLE'>
+                    Sila pilih sub program...
+                  </option>
                   {['kampungAngkatPergigian'].includes(
                     props.editedEntity.jenisEvent
                   ) &&
