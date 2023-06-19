@@ -1105,7 +1105,7 @@ function AdminAppProvider({ children }) {
     'kolej-komuniti': 'Kolej Komuniti',
     'kolej-vokasional': 'Kolej Vokasional',
     ipg: 'Institusi Pendidikan Guru (IPG)',
-    ipta: 'Institusi Pengajian Tinggi Awam (IPTA)',
+    ipta: 'Pra Universiti (PRA U) & Universiti Awam (UA)',
     'lain-lain': 'Lain-lain Institusi Pengajian',
     // this is for program-komuniti ------------------------------------------
     programDewasaMuda: 'Program Dewasa Muda',
@@ -1162,6 +1162,12 @@ function AdminAppProvider({ children }) {
     'WP Labuan': 'L',
     'WP Putrajaya': 'F',
     ILK: 'ILK',
+  };
+  const DictionarySubProgram = {
+    kampungAngkatPergigian: 'Program Kampung Angkat Pergigian',
+    oap: 'Program Orang Asli dan Penan',
+    ppr: 'Projek Perumahan Rakyat',
+    hrc: 'Komuniti Berisiko Tinggi',
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {
@@ -1299,6 +1305,7 @@ function AdminAppProvider({ children }) {
         InfoDecoder,
         Dictionary,
         DictionaryHurufNegeri,
+        DictionarySubProgram,
         DictionarySosMedParam,
         DictionarySosMedAcronym,
         // ad hoc query (he he boi)
