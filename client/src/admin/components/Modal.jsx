@@ -14,6 +14,7 @@ import {
   InputFacility,
   InputEvent,
   InputEditKlinik,
+  InputEditKkiakd,
   InputEditPegawai,
   InputEditFacility,
   InputEditEvent,
@@ -592,6 +593,11 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
           {(confirm) => <InputEditKlinik {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
+      {FType === 'kkiakd' && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
+          {(confirm) => <InputEditKkiakd {...props} confirm={confirm} />}
+        </ConfirmModalForData>
+      )}
       {(FType === 'pp' || FType === 'jp') && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <InputEditPegawai {...props} confirm={confirm} />}
@@ -600,7 +606,8 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       {FType !== 'pp' &&
         FType !== 'kp' &&
         FType !== 'jp' &&
-        FType !== 'program' && (
+        FType !== 'program' &&
+        FType !== 'kkiakd' && (
           <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
             {(confirm) => <InputEditFacility {...props} confirm={confirm} />}
           </ConfirmModalForData>
