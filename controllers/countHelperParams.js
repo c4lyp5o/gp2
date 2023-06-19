@@ -346,6 +346,9 @@ const getParams206 = (payload) => {
   }
 
   if (pilihanIndividu) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
   }
 
@@ -453,6 +456,9 @@ const getParams207 = (payload) => {
   }
 
   if (pilihanIndividu) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
   }
 
