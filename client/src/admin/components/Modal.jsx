@@ -800,9 +800,7 @@ const EditModalForKp = ({
         enrolmenMuridBerkeperluanKhas:
           editedEntity.enrolmenMuridBerkeperluanKhas,
         enrolmenMuridOaPenan: editedEntity.enrolmenMuridOaPenan,
-        kemasKerajaan: editedEntity.kemasKerajaan,
-        perpaduanKerajaan: editedEntity.perpaduanKerajaan,
-        lainLainKerajaan: editedEntity.lainLainKerajaan,
+        jenisTadikaKerajaan: editedEntity.jenisTadikaKerajaan,
       };
     }
     if (FType === 'kpb' || FType === 'mpb') {

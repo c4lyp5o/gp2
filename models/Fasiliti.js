@@ -69,17 +69,9 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  kemasKerajaan: {
-    type: Boolean,
-    default: false,
-  },
-  perpaduanKerajaan: {
-    type: Boolean,
-    default: false,
-  },
-  lainLainKerajaan: {
-    type: Boolean,
-    default: false,
+  jenisTadikaKerajaan: {
+    type: String,
+    default: 'NOT APPLICABLE',
   },
   // sekolah-rendah, sekolah-menengah ----------------------------------------------
   idInstitusi: {

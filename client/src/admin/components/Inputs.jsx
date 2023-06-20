@@ -4229,9 +4229,7 @@ export function InputKpEditFacility(props) {
       <div className={styles.centered}>
         <div className={styles.modalEdit}>
           <div className={styles.modalHeader}>
-            <h5 className={styles.heading}>
-              Kemaskini {Dictionary[props.FType]}{' '}
-            </h5>
+            <h5 className={styles.heading}>Kemaskini Tadika/Taska </h5>
           </div>
           <span
             className={styles.closeBtn}
@@ -4248,9 +4246,7 @@ export function InputKpEditFacility(props) {
                     {props.editedEntity.govKe}
                   </span>
                 </p>
-                <p>
-                  Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
-                </p>
+                <p>Nama Tadika/Taska: {props.editedEntity.nama} </p>
                 <div className='grid grid-cols-[3fr_1fr]'>
                   <label
                     htmlFor='enrolmentKurang4Tahun'
@@ -4368,6 +4364,7 @@ export function InputKpEditFacility(props) {
                   <input
                     type='number'
                     min='0'
+                    max={props.editedEntity.enrolmenTastad}
                     className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                     value={props.editedEntity.enrolmenMuridOaPenan}
                     onChange={(e) => {
@@ -4379,61 +4376,95 @@ export function InputKpEditFacility(props) {
                   />
                 </div>
                 {props.editedEntity.govKe === 'Kerajaan' && (
-                  <div className='grid grid-cols-3 border rounded-md p-2'>
-                    <p className='col-span-3 border-b border-b-user1 mb-1 pb-1'>
-                      Jenis Tadika Kerajaan
+                  <div className='grid grid-cols-3 gap-3'>
+                    <p className='col-span-3'>
+                      Jenis Tadika Kerajaan{' '}
+                      <strong className='text-user9'>*</strong>
                     </p>
                     <label
                       htmlFor='kemasKerajaan'
-                      className='flex justify-center items-center space-x-2'
+                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
+                        props.editedEntity.jenisTadikaKerajaan ===
+                        'kemasKerajaan'
+                          ? ' ring ring-offset-user12 transition-all duration-500'
+                          : ''
+                      }`}
                     >
                       <input
-                        type='checkbox'
-                        name='kemasKerajaan'
+                        required
+                        type='radio'
+                        name='jenisTadikaKerajaan'
                         id='kemasKerajaan'
-                        checked={props.editedEntity.kemasKerajaan}
+                        value='kemasKerajaan'
+                        checked={
+                          props.editedEntity.jenisTadikaKerajaan ===
+                          'kemasKerajaan'
+                        }
                         onChange={(e) => {
                           props.setEditedEntity({
                             ...props.editedEntity,
-                            kemasKerajaan: e.target.checked,
+                            jenisTadikaKerajaan: e.target.value,
                           });
                         }}
+                        className='w-4 h-4'
                       />
                       <span>KEMAS</span>
                     </label>
                     <label
                       htmlFor='perpaduanKerajaan'
-                      className='flex justify-center items-center space-x-2'
+                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
+                        props.editedEntity.jenisTadikaKerajaan ===
+                        'perpaduanKerajaan'
+                          ? ' ring ring-offset-user12 transition-all duration-500'
+                          : ''
+                      }`}
                     >
                       <input
-                        type='checkbox'
-                        name='perpaduanKerajaan'
+                        required
+                        type='radio'
+                        name='jenisTadikaKerajaan'
                         id='perpaduanKerajaan'
-                        checked={props.editedEntity.perpaduanKerajaan}
+                        value='perpaduanKerajaan'
+                        checked={
+                          props.editedEntity.jenisTadikaKerajaan ===
+                          'perpaduanKerajaan'
+                        }
                         onChange={(e) => {
                           props.setEditedEntity({
                             ...props.editedEntity,
-                            perpaduanKerajaan: e.target.checked,
+                            jenisTadikaKerajaan: e.target.value,
                           });
                         }}
+                        className='w-4 h-4'
                       />
                       <span>Perpaduan</span>
                     </label>
                     <label
                       htmlFor='lainLainKerajaan'
-                      className='flex justify-center items-center space-x-2'
+                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
+                        props.editedEntity.jenisTadikaKerajaan ===
+                        'lainLainKerajaan'
+                          ? ' ring ring-offset-user12 transition-all duration-500'
+                          : ''
+                      }`}
                     >
                       <input
-                        type='checkbox'
-                        name='lainLainKerajaan'
+                        required
+                        type='radio'
+                        name='jenisTadikaKerajaan'
                         id='lainLainKerajaan'
-                        checked={props.editedEntity.lainLainKerajaan}
+                        value='lainLainKerajaan'
+                        checked={
+                          props.editedEntity.jenisTadikaKerajaan ===
+                          'lainLainKerajaan'
+                        }
                         onChange={(e) => {
                           props.setEditedEntity({
                             ...props.editedEntity,
-                            lainLainKerajaan: e.target.checked,
+                            jenisTadikaKerajaan: e.target.value,
                           });
                         }}
+                        className='w-4 h-4'
                       />
                       <span>Lain-lain</span>
                     </label>
