@@ -1101,7 +1101,7 @@ function AdminAppProvider({ children }) {
     program: 'Program',
     sosmed: 'Media Sosial',
     followers: 'Followers',
-    tastad: 'Tadika dan Taska',
+    tastad: 'Tadika/Taska',
     'kolej-komuniti': 'Kolej Komuniti',
     'kolej-vokasional': 'Kolej Vokasional',
     ipg: 'Institusi Pendidikan Guru (IPG)',
