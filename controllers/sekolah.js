@@ -348,6 +348,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
   let match_stage = {
     $match: {
       kodSekolah: kodSekolah,
+      deleted: false,
     },
   };
 
