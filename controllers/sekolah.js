@@ -348,21 +348,20 @@ const muatturunSenaraiPelajar = async (req, res) => {
   let match_stage = {
     $match: {
       kodSekolah: kodSekolah,
+      deleted: false,
     },
   };
 
   let project_stage = {
     $project: {
       nama: 1,
-      // nomborId: 1,
-      tahunTingkatan: 1,
       namaSekolah: 1,
+      tahunTingkatan: 1,
       kelasPelajar: 1,
-      // tarikhLahir: 1,
-      // umur: 1,
       jantina: 1,
+      umur: 1,
+      keturunan: 1,
       warganegara: 1,
-      sesiTakwimPelajar: 1,
     },
   };
 
@@ -406,7 +405,6 @@ const muatturunSenaraiPelajar = async (req, res) => {
     worksheet.columns = [
       { header: 'BIL', key: 'bil', width: 5, height: 26 },
       { header: 'NAMA', key: 'nama', width: 60, height: 26 },
-      // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
       {
         header: 'TAHUN/TINGKATAN',
         key: 'tahunTingkatan',
@@ -414,21 +412,15 @@ const muatturunSenaraiPelajar = async (req, res) => {
         height: 26,
       },
       { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
-      // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
-      // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
       { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+      { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+      { header: 'KETURUNAN', key: 'keturunan', width: 15, height: 26 },
       {
         header: 'WARGANEGARA',
         key: 'warganegara',
         width: 40,
         height: 26,
       },
-      // {
-      //   header: 'SESI TAKWIM',
-      //   key: 'sesiTakwimPelajar',
-      //   width: 18,
-      //   height: 26,
-      // },
     ];
 
     worksheet.addRows(studentsInClass);
@@ -441,7 +433,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
     });
 
     worksheet.getColumn('warganegara').eachCell((cell) => {
-      cell.value = cell.value || 'BUKAN WARGANEGARA';
+      cell.value = cell.value || 'TIADA MAKLUMAT';
     });
 
     worksheet.columns.forEach((column) => {
