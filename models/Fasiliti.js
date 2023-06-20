@@ -61,6 +61,18 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  enrolmenMuridBerkeperluanKhas: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmenMuridOaPenan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jenisTadikaKerajaan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   // sekolah-rendah, sekolah-menengah ----------------------------------------------
   idInstitusi: {
     type: String,
