@@ -15,7 +15,7 @@
 #### Fixed
 
 - Syarat penandaan kes selesai & kes selesai MMI diperbetulkan
-- Memperbetulkan lihat semula reten pemeriksaan sekolah bagi kebersihan mulut, status periodontium & risiki karies
+- Memperbetulkan lihat semula reten pemeriksaan sekolah bagi kebersihan mulut, status periodontium & risiko karies
 
 #### Removed
 
