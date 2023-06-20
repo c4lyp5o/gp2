@@ -13,7 +13,7 @@ const UmumSchema = new mongoose.Schema(
     createdByMdcMdtb: { type: String, default: 'kaunter' },
     tahunDaftar: { type: Number, default: 0 },
     // status reten umum ----------------------------------------
-    statusReten: { type: String, required: true, default: 'belum diisi' },
+    statusReten: { type: String, required: true, default: 'belum diisi' }, // telah diisi, reten salah
     retenSalahReason: { type: Array, default: [] },
     retenSalahForOfficer: { type: String, default: '' },
     // soft delete ----------------------------------------------
