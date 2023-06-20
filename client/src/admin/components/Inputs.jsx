@@ -4210,12 +4210,14 @@ export function InputKpEditFacility(props) {
       enrolmenTastad:
         parseInt(props.editedEntity.enrolmenKurang4Tahun) +
         parseInt(props.editedEntity.enrolmen5Tahun) +
-        parseInt(props.editedEntity.enrolmen6Tahun),
+        parseInt(props.editedEntity.enrolmen6Tahun) +
+        parseInt(props.editedEntity.enrolmenMuridBerkeperluanKhas),
     });
   }, [
     props.editedEntity.enrolmenKurang4Tahun,
     props.editedEntity.enrolmen5Tahun,
     props.editedEntity.enrolmen6Tahun,
+    props.editedEntity.enrolmenMuridBerkeperluanKhas,
   ]);
 
   return (
@@ -4241,11 +4243,19 @@ export function InputKpEditFacility(props) {
             <div className='px-3 py-1'>
               <div className='grid gap-2'>
                 <p>
+                  <span className='bg-user15 text-userBlack py-1 px-2 rounded-md'>
+                    {props.editedEntity.jenisFasiliti}{' '}
+                    {props.editedEntity.govKe}
+                  </span>
+                </p>
+                <p>
                   Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
                 </p>
-                <p>Jenis Fasiliti: {props.editedEntity.jenisFasiliti}</p>
                 <div className='grid grid-cols-[3fr_1fr]'>
-                  <label htmlFor='enrolmentKurang4Tahun'>
+                  <label
+                    htmlFor='enrolmentKurang4Tahun'
+                    className='flex justify-start text-left'
+                  >
                     JUMLAH ENROLMEN :
                     <span className='font-semibold text-lg text-user6'>*</span>
                   </label>
@@ -4266,7 +4276,10 @@ export function InputKpEditFacility(props) {
                   />
                 </div>
                 <div className='grid grid-cols-[3fr_1fr]'>
-                  <label htmlFor='enrolmentKurang4Tahun'>
+                  <label
+                    htmlFor='enrolmentKurang4Tahun'
+                    className='flex justify-start text-left'
+                  >
                     Enrolmen ≤ 4 Tahun:
                   </label>
                   <input
@@ -4284,7 +4297,12 @@ export function InputKpEditFacility(props) {
                   />
                 </div>
                 <div className='grid grid-cols-[3fr_1fr]'>
-                  <label htmlFor='enrolment5Tahun'>Enrolmen 5 Tahun:</label>
+                  <label
+                    htmlFor='enrolment5Tahun'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Semua 5 Tahun:
+                  </label>
                   <input
                     type='number'
                     min='0'
@@ -4300,7 +4318,12 @@ export function InputKpEditFacility(props) {
                   />
                 </div>
                 <div className='grid grid-cols-[3fr_1fr]'>
-                  <label htmlFor='enrolment6Tahun'>Enrolmen 6 Tahun:</label>
+                  <label
+                    htmlFor='enrolment6Tahun'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Semua 6 Tahun:
+                  </label>
                   <input
                     type='number'
                     min='0'
@@ -4315,6 +4338,107 @@ export function InputKpEditFacility(props) {
                     }}
                   />
                 </div>
+                <div className='grid grid-cols-[3fr_1fr]'>
+                  <label
+                    htmlFor='enrolmenMuridBerkeperluanKhas'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Murid Berkeperluan Khas:
+                  </label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmenMuridBerkeperluanKhas}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmenMuridBerkeperluanKhas: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className='grid grid-cols-[3fr_1fr] border rounded-md p-2 place-items-center'>
+                  <label
+                    htmlFor='enrolmentMuridOaPenan'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Murid OA/Penan:
+                  </label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmenMuridOaPenan}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmenMuridOaPenan: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                {props.editedEntity.govKe === 'Kerajaan' && (
+                  <div className='grid grid-cols-3 border rounded-md p-2'>
+                    <p className='col-span-3 border-b border-b-user1 mb-1 pb-1'>
+                      Jenis Tadika Kerajaan
+                    </p>
+                    <label
+                      htmlFor='kemasKerajaan'
+                      className='flex justify-center items-center space-x-2'
+                    >
+                      <input
+                        type='checkbox'
+                        name='kemasKerajaan'
+                        id='kemasKerajaan'
+                        checked={props.editedEntity.kemasKerajaan}
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            kemasKerajaan: e.target.checked,
+                          });
+                        }}
+                      />
+                      <span>KEMAS</span>
+                    </label>
+                    <label
+                      htmlFor='perpaduanKerajaan'
+                      className='flex justify-center items-center space-x-2'
+                    >
+                      <input
+                        type='checkbox'
+                        name='perpaduanKerajaan'
+                        id='perpaduanKerajaan'
+                        checked={props.editedEntity.perpaduanKerajaan}
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            perpaduanKerajaan: e.target.checked,
+                          });
+                        }}
+                      />
+                      <span>Perpaduan</span>
+                    </label>
+                    <label
+                      htmlFor='lainLainKerajaan'
+                      className='flex justify-center items-center space-x-2'
+                    >
+                      <input
+                        type='checkbox'
+                        name='lainLainKerajaan'
+                        id='lainLainKerajaan'
+                        checked={props.editedEntity.lainLainKerajaan}
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            lainLainKerajaan: e.target.checked,
+                          });
+                        }}
+                      />
+                      <span>Lain-lain</span>
+                    </label>
+                  </div>
+                )}
               </div>
             </div>
             <div className={styles.modalActions}>
