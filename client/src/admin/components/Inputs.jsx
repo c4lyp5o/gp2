@@ -4229,7 +4229,9 @@ export function InputKpEditFacility(props) {
       <div className={styles.centered}>
         <div className={styles.modalEdit}>
           <div className={styles.modalHeader}>
-            <h5 className={styles.heading}>Kemaskini Tadika/Taska </h5>
+            <h5 className={styles.heading}>
+              Kemaskini {Dictionary[props.FType]}
+            </h5>
           </div>
           <span
             className={styles.closeBtn}
@@ -4246,7 +4248,9 @@ export function InputKpEditFacility(props) {
                     {props.editedEntity.govKe}
                   </span>
                 </p>
-                <p>Nama Tadika/Taska: {props.editedEntity.nama} </p>
+                <p>
+                  Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
+                </p>
                 <div className='grid grid-cols-[3fr_1fr]'>
                   <label
                     htmlFor='enrolmentKurang4Tahun'
