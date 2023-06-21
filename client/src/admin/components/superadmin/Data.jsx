@@ -168,20 +168,22 @@ export default function Data({ FType }) {
   if (!loading) {
     return (
       <>
-        {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
+        <div className='h-full overflow-y-auto'>
+          <button
+            className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
+            onClick={() => {
+              setShowAddModal(true);
+              setShowEditModal(false);
+              setShowDeleteModal(false);
+            }}
+          >
+            <div className='text-adminWhite text-5xl'>
+              <FaPlus />
+            </div>
+          </button>
+          {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
+        </div>
         <RenderModal />
-        <button
-          className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
-          onClick={() => {
-            setShowAddModal(true);
-            setShowEditModal(false);
-            setShowDeleteModal(false);
-          }}
-        >
-          <div className='text-adminWhite text-7xl'>
-            <FaPlus />
-          </div>
-        </button>
       </>
     );
   }

@@ -33,14 +33,14 @@ export default function Operators(props) {
         <h1 className='text-3xl font-bold mt-10 mb-10'>
           Senarai {Dictionary[props.FType]} Daerah {props.daerah}
         </h1>
-        <div className='grid gap-1 absolute top-2 left-5'>
+        <div className='grid gap-1 absolute top-4 left-5 p-1.5 bg-adminWhite rounded-md'>
           <p>carian</p>
           <select
             value={pilihanKlinik}
             onChange={(e) => {
               setPilihanKlinik(e.target.value);
             }}
-            className='outline outline-adminBlack outline-1 capitalize w-40'
+            className='w-40 leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize text-xs'
           >
             <option value=''>Klinik..</option>
             {namaKliniks.map((k, index) => (
@@ -54,7 +54,7 @@ export default function Operators(props) {
             onChange={(e) => {
               setPilihanRole(e.target.value);
             }}
-            className='outline outline-adminBlack outline-1 capitalize w-40'
+            className='w-40 leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize text-xs'
           >
             <option value=''>Peranan..</option>
             {namaRoles.map((k, index) => (
@@ -65,7 +65,7 @@ export default function Operators(props) {
             ))}
           </select>
           <button
-            className='rounded-md bg-admin3 hover:bg-admin1 border-admin3 text-sm shadow-md p-2 w-40'
+            className='rounded-md bg-admin3 hover:bg-admin1 border-admin3 text-xs shadow-md p-1 mt-1 w-40'
             onClick={() => {
               setPilihanRole('');
               setPilihanKlinik('');
