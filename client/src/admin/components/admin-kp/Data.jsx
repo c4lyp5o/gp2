@@ -198,21 +198,23 @@ export default function DataKp({ FType }) {
 
   return (
     <>
-      {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
+      <div className='h-full overflow-y-auto'>
+        {FType === 'program' || FType === 'sosmed' || FType === 'followers' ? (
+          <button
+            className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-md z-10'
+            onClick={handleAdd}
+          >
+            <div className='text-adminWhite text-5xl'>
+              <FaPlus />
+            </div>
+          </button>
+        ) : null}
+        {showSosMedModal ? <ModalSosMed {...props} /> : null}
+        {showFollowersModal ? <ModalAddFollowers {...props} /> : null}
+        {showSosMedDataModal ? <ModalDataIkutProgram {...props} /> : null}
+        {!data ? <NothingHereBoi FType={FType} /> : <RenderSection />}
+      </div>
       <RenderModal />
-      {FType === 'program' || FType === 'sosmed' || FType === 'followers' ? (
-        <button
-          className='bg-admin3 absolute top-5 right-5 p-2 rounded-md text-white shadow-xl'
-          onClick={handleAdd}
-        >
-          <div className='text-adminWhite text-7xl'>
-            <FaPlus />
-          </div>
-        </button>
-      ) : null}
-      {showSosMedModal ? <ModalSosMed {...props} /> : null}
-      {showFollowersModal ? <ModalAddFollowers {...props} /> : null}
-      {showSosMedDataModal ? <ModalDataIkutProgram {...props} /> : null}
     </>
   );
 }
