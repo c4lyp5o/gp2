@@ -321,24 +321,14 @@ function AdminAfterLogin() {
           ) : null}
           {/* route hq superadmin sahaja */}
           {loginInfo.accountType === 'hqSuperadmin' ? (
-            <>
-              <Route
-                path='generate'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Generate {...props} />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='ondemand'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <OndemandSetting />{' '}
-                  </Suspense>
-                }
-              />
-            </>
+            <Route
+              path='ondemand'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <OndemandSetting />{' '}
+                </Suspense>
+              }
+            />
           ) : null}
           {/* route negeri superadmin sahaja */}
           {loginInfo.accountType === 'negeriSuperadmin' ? (
