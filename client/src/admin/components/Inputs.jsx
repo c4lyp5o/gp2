@@ -4003,12 +4003,14 @@ export function InputKpEditFacility(props) {
       enrolmenTastad:
         parseInt(props.editedEntity.enrolmenKurang4Tahun) +
         parseInt(props.editedEntity.enrolmen5Tahun) +
-        parseInt(props.editedEntity.enrolmen6Tahun),
+        parseInt(props.editedEntity.enrolmen6Tahun) +
+        parseInt(props.editedEntity.enrolmenMuridBerkeperluanKhas),
     });
   }, [
     props.editedEntity.enrolmenKurang4Tahun,
     props.editedEntity.enrolmen5Tahun,
     props.editedEntity.enrolmen6Tahun,
+    props.editedEntity.enrolmenMuridBerkeperluanKhas,
   ]);
 
   return (
@@ -4040,7 +4042,8 @@ export function InputKpEditFacility(props) {
               </svg>
             </button>
           </div>
-          <div className='mb-3'>
+
+          {/* <div className='mb-3'>
             <label className='block text-lg font-bold text-adminBlack'>
               {props.editedEntity.nama} / {props.editedEntity.kodTastad}
             </label>
@@ -4067,15 +4070,247 @@ export function InputKpEditFacility(props) {
                     enrolmenTastad: e.target.value,
                   });
                 }}
-              />
+              /> */}
+
+          <div className={styles.modalContent}>
+            <div className='px-3 py-1'>
+              <div className='grid gap-2'>
+                <p>
+                  <span className='bg-user15 text-userBlack py-1 px-2 rounded-md'>
+                    {props.editedEntity.jenisFasiliti}{' '}
+                    {props.editedEntity.govKe}
+                  </span>
+                </p>
+                <p>
+                  Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
+                </p>
+                <div className='grid grid-cols-[3fr_1fr]'>
+                  <label
+                    htmlFor='enrolmentKurang4Tahun'
+                    className='flex justify-start text-left'
+                  >
+                    JUMLAH ENROLMEN :
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </label>
+                  <input
+                    disabled
+                    required
+                    type='number'
+                    min='1'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmenTastad}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmenTastad: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className='grid grid-cols-[3fr_1fr]'>
+                  <label
+                    htmlFor='enrolmentKurang4Tahun'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen ≤ 4 Tahun:
+                  </label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmenKurang4Tahun}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmenKurang4Tahun: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className='grid grid-cols-[3fr_1fr]'>
+                  <label
+                    htmlFor='enrolment5Tahun'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Semua 5 Tahun:
+                  </label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmen5Tahun}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmen5Tahun: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className='grid grid-cols-[3fr_1fr]'>
+                  <label
+                    htmlFor='enrolment6Tahun'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Semua 6 Tahun:
+                  </label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmen6Tahun}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmen6Tahun: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className='grid grid-cols-[3fr_1fr]'>
+                  <label
+                    htmlFor='enrolmenMuridBerkeperluanKhas'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Murid Berkeperluan Khas:
+                  </label>
+                  <input
+                    type='number'
+                    min='0'
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmenMuridBerkeperluanKhas}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmenMuridBerkeperluanKhas: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                <div className='grid grid-cols-[3fr_1fr] border rounded-md p-2 place-items-center'>
+                  <label
+                    htmlFor='enrolmentMuridOaPenan'
+                    className='flex justify-start text-left'
+                  >
+                    Enrolmen Murid OA/Penan:
+                  </label>
+                  <input
+                    type='number'
+                    min='0'
+                    max={props.editedEntity.enrolmenTastad}
+                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                    value={props.editedEntity.enrolmenMuridOaPenan}
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        enrolmenMuridOaPenan: e.target.value,
+                      });
+                    }}
+                  />
+                </div>
+                {props.editedEntity.govKe === 'Kerajaan' && (
+                  <div className='grid grid-cols-3 gap-3'>
+                    <p className='col-span-3'>
+                      Jenis Tadika Kerajaan{' '}
+                      <strong className='text-user9'>*</strong>
+                    </p>
+                    <label
+                      htmlFor='kemasKerajaan'
+                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
+                        props.editedEntity.jenisTadikaKerajaan ===
+                        'kemasKerajaan'
+                          ? ' ring ring-offset-user12 transition-all duration-500'
+                          : ''
+                      }`}
+                    >
+                      <input
+                        required
+                        type='radio'
+                        name='jenisTadikaKerajaan'
+                        id='kemasKerajaan'
+                        value='kemasKerajaan'
+                        checked={
+                          props.editedEntity.jenisTadikaKerajaan ===
+                          'kemasKerajaan'
+                        }
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            jenisTadikaKerajaan: e.target.value,
+                          });
+                        }}
+                        className='w-4 h-4'
+                      />
+                      <span>KEMAS</span>
+                    </label>
+                    <label
+                      htmlFor='perpaduanKerajaan'
+                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
+                        props.editedEntity.jenisTadikaKerajaan ===
+                        'perpaduanKerajaan'
+                          ? ' ring ring-offset-user12 transition-all duration-500'
+                          : ''
+                      }`}
+                    >
+                      <input
+                        required
+                        type='radio'
+                        name='jenisTadikaKerajaan'
+                        id='perpaduanKerajaan'
+                        value='perpaduanKerajaan'
+                        checked={
+                          props.editedEntity.jenisTadikaKerajaan ===
+                          'perpaduanKerajaan'
+                        }
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            jenisTadikaKerajaan: e.target.value,
+                          });
+                        }}
+                        className='w-4 h-4'
+                      />
+                      <span>Perpaduan</span>
+                    </label>
+                    <label
+                      htmlFor='lainLainKerajaan'
+                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
+                        props.editedEntity.jenisTadikaKerajaan ===
+                        'lainLainKerajaan'
+                          ? ' ring ring-offset-user12 transition-all duration-500'
+                          : ''
+                      }`}
+                    >
+                      <input
+                        required
+                        type='radio'
+                        name='jenisTadikaKerajaan'
+                        id='lainLainKerajaan'
+                        value='lainLainKerajaan'
+                        checked={
+                          props.editedEntity.jenisTadikaKerajaan ===
+                          'lainLainKerajaan'
+                        }
+                        onChange={(e) => {
+                          props.setEditedEntity({
+                            ...props.editedEntity,
+                            jenisTadikaKerajaan: e.target.value,
+                          });
+                        }}
+                        className='w-4 h-4'
+                      />
+                      <span>Lain-lain</span>
+                    </label>
+                  </div>
+                )}
+              </div>
             </div>
             <div className='grid grid-cols-[3fr_1fr] mt-2'>
               <label htmlFor='enrolmentKurang4Tahun'>Enrolmen ≤ 4 Tahun:</label>
               <input
                 type='number'
                 min='0'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 value={props.editedEntity.enrolmenKurang4Tahun}
                 onChange={(e) => {
                   props.setEditedEntity({
@@ -4090,8 +4325,7 @@ export function InputKpEditFacility(props) {
               <input
                 type='number'
                 min='0'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 value={props.editedEntity.enrolmen5Tahun}
                 onChange={(e) => {
                   props.setEditedEntity({
@@ -4106,8 +4340,7 @@ export function InputKpEditFacility(props) {
               <input
                 type='number'
                 min='0'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent
-'
+                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 value={props.editedEntity.enrolmen6Tahun}
                 onChange={(e) => {
                   props.setEditedEntity({

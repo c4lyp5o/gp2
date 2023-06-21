@@ -698,6 +698,20 @@ const EditModalForKp = ({
           ) {
             res.data.enrolmen6Tahun = 0;
           }
+          if (
+            res.data.enrolmenMuridBerkeperluanKhas === 'NOT APPLICABLE' ||
+            res.data.enrolmenMuridBerkeperluanKhas === null ||
+            res.data.enrolmenMuridBerkeperluanKhas === undefined
+          ) {
+            res.data.enrolmenMuridBerkeperluanKhas = 0;
+          }
+          if (
+            res.data.enrolmenMuridOaPenan === 'NOT APPLICABLE' ||
+            res.data.enrolmenMuridOaPenan === null ||
+            res.data.enrolmenMuridOaPenan === undefined
+          ) {
+            res.data.enrolmenMuridOaPenan = 0;
+          }
         }
         // console.log(res.data);
         setEditedEntity(res.data);
@@ -790,6 +804,10 @@ const EditModalForKp = ({
         enrolmenKurang4Tahun: editedEntity.enrolmenKurang4Tahun,
         enrolmen5Tahun: editedEntity.enrolmen5Tahun,
         enrolmen6Tahun: editedEntity.enrolmen6Tahun,
+        enrolmenMuridBerkeperluanKhas:
+          editedEntity.enrolmenMuridBerkeperluanKhas,
+        enrolmenMuridOaPenan: editedEntity.enrolmenMuridOaPenan,
+        jenisTadikaKerajaan: editedEntity.jenisTadikaKerajaan,
       };
     }
     if (FType === 'kpb' || FType === 'mpb') {
