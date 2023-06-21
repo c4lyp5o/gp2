@@ -4042,37 +4042,7 @@ export function InputKpEditFacility(props) {
               </svg>
             </button>
           </div>
-
-          {/* <div className='mb-3'>
-            <label className='block text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama} / {props.editedEntity.kodTastad}
-            </label>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.alamatTastad}
-            </label>
-          </div>
           <div className='mb-3'>
-            <div className='grid grid-cols-[3fr_1fr] mt-2'>
-              <label htmlFor='enrolmentKurang4Tahun'>
-                JUMLAH ENROLMEN :
-                <span className='font-semibold text-lg text-user6'>*</span>
-              </label>
-              <input
-                disabled
-                required
-                type='number'
-                min='1'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                value={props.editedEntity.enrolmenTastad}
-                onChange={(e) => {
-                  props.setEditedEntity({
-                    ...props.editedEntity,
-                    enrolmenTastad: e.target.value,
-                  });
-                }}
-              /> */}
-
-          <div className={styles.modalContent}>
             <div className='px-3 py-1'>
               <div className='grid gap-2'>
                 <p>
