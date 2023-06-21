@@ -626,7 +626,6 @@ const SubProgramSelector = (props) => {
     </>
   );
 };
-
 // sub program punya hal mmg buat hal lah
 
 export function NothingToBeAdded(props) {
@@ -670,12 +669,12 @@ export function InputKlinik(props) {
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>Tambah Klinik Pergigian</h5>
@@ -863,13 +862,12 @@ export function InputKkiakd(props) {
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>Tambah KKIA / KD</h5>
@@ -1044,13 +1042,12 @@ export function InputPegawai(props) {
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
@@ -1073,7 +1070,7 @@ export function InputPegawai(props) {
                 </svg>
               </button>
             </div>
-            <div className='grid grid-cols-3 gap-1 mb-3'>
+            <div className='grid gap-1 mb-3'>
               <div className='px-3 py-1'>
                 {props.FType === 'pp' && (
                   <>
@@ -1378,13 +1375,12 @@ export function InputSMSR(props) {
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
@@ -1546,7 +1542,7 @@ export function InputSMSR(props) {
                 <span className='font-semibold text-lg text-user6'>*</span>
               </label>
               <div className='grid grid-cols-2 mb-3 p-2'>
-                <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
                   <input
                     required
                     type='radio'
@@ -1559,7 +1555,7 @@ export function InputSMSR(props) {
                   />
                   <span className='ml-2'>Ya</span>
                 </label>
-                <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
                   <input
                     required
                     type='radio'
@@ -1637,13 +1633,12 @@ export function InputKPBMPB(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
@@ -1748,13 +1743,12 @@ export function InputTastad(props) {
   const { Dictionary, DictionaryHurufNegeri } = useGlobalAdminAppContext();
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
@@ -1943,6 +1937,7 @@ export function InputTastad(props) {
   );
 }
 
+// tak pakai
 export function InputFacilityOthers(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
@@ -2062,13 +2057,12 @@ export function InputEvent(props) {
   const [jenisEventDd, setJenisEventDd] = useState('');
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>Tambah Program Komuniti</h5>
@@ -2260,13 +2254,13 @@ export function InputEvent(props) {
 export function InputEditKlinik(props) {
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowEditModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowEditModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-96'>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
                 Kemaskini Klinik Pergigian
@@ -2382,129 +2376,130 @@ export function InputEditKlinik(props) {
 export function InputEditKkiakd(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        ||
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}{' '}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}{' '}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama} / {props.editedEntity.kodKkiaKd}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Klinik Bertanggungjawab{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <select
-              value={props.editedEntity.kodFasilitiHandler}
-              onChange={(e) => {
-                const selectedKlinik = props.klinik.find(
-                  (k) => k.kodFasiliti === e.target.value
-                );
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  handler: selectedKlinik.kp,
-                  kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Klinik Baru..</option>
-              {props.klinik.map((k) => (
-                <option className='capitalize' value={k.kodFasiliti}>
-                  {k.kp}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Status {Dictionary[props.FType]}{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusAktif'
-                  value='active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Aktif</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'non-active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusTidakAktif'
-                  value='non-active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-2 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama} / {props.editedEntity.kodKkiaKd}
               </label>
             </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Klinik Bertanggungjawab{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <select
+                value={props.editedEntity.kodFasilitiHandler}
+                onChange={(e) => {
+                  const selectedKlinik = props.klinik.find(
+                    (k) => k.kodFasiliti === e.target.value
+                  );
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    handler: selectedKlinik.kp,
+                    kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih Klinik Baru..</option>
+                {props.klinik.map((k) => (
+                  <option className='capitalize' value={k.kodFasiliti}>
+                    {k.kp}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Status {Dictionary[props.FType]}{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack'
+                  htmlFor='statusactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusAktif'
+                    value='active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Aktif</span>
+                </label>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack'
+                  htmlFor='statusinactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'non-active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='non-active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Tidak Aktif</span>
+                </label>
+              </div>
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
@@ -2512,12 +2507,12 @@ export function InputEditPegawai(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowEditModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowEditModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
@@ -2540,7 +2535,7 @@ export function InputEditPegawai(props) {
                 </svg>
               </button>
             </div>
-            <div className='grid grid-cols-3 gap-1 mb-3'>
+            <div className='grid gap-1 mb-3'>
               <div className='px-3 py-1'>
                 <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
                   Nama Pegawai
@@ -2740,847 +2735,855 @@ export function InputEditPegawai(props) {
 export function InputEditSR(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        ||
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}{' '}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Klinik Bertanggungjawab{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <select
-              value={props.editedEntity.kodFasilitiHandler}
-              onChange={(e) => {
-                const selectedKlinik = props.klinik.find(
-                  (k) => k.kodFasiliti === e.target.value
-                );
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  handler: selectedKlinik.kp,
-                  kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Klinik Baru..</option>
-              {props.klinik.map((k) => (
-                <option className='capitalize' value={k.kodFasiliti}>
-                  {k.kp}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Risiko Sekolah (PERSiS){' '}
-              <span className='font-semibold text-lg text-user6'>*</span>
-            </label>
-            <select
-              required
-              value={props.editedEntity.risikoSekolahPersis}
-              onChange={(e) => {
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  risikoSekolahPersis: e.target.value,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Risiko</option>
-              <option value='rendah'>Rendah</option>
-              <option value='tinggi'>Tinggi</option>
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Klinik / Pusat Pergigian Sekolah{' '}
-              <span className='font-semibold text-lg text-user6'>*</span>
-            </label>
-            <div className='grid grid-cols-2 mb-3 p-2'>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  required
-                  type='radio'
-                  checked={
-                    props.editedEntity.jenisPerkhidmatanSekolah === 'kps'
-                  }
-                  id='act-stat'
-                  name='checkbox'
-                  value='kps'
-                  onChange={(e) =>
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      jenisPerkhidmatanSekolah: e.target.value,
-                    })
-                  }
-                />
-                Ya
-              </label>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  required
-                  type='radio'
-                  checked={
-                    props.editedEntity.jenisPerkhidmatanSekolah === 'kpb'
-                  }
-                  id='act-stat'
-                  name='checkbox'
-                  value='kpb'
-                  onChange={(e) =>
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      jenisPerkhidmatanSekolah: e.target.value,
-                    })
-                  }
-                />
-                Tidak
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-2 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama}
               </label>
             </div>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Program Kumuran Berfluorida{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  checked={
-                    props.editedEntity.statusFMRSekolah === 'ya' ? true : false
-                  }
-                  type='radio'
-                  name='ya-fmr'
-                  value='ya'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusFMRSekolah: e.target.value,
-                    });
-                  }}
-                />
-                Ya
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Klinik Bertanggungjawab{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
               </label>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  checked={
-                    props.editedEntity.statusFMRSekolah === 'tidak'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='tidak-fmr'
-                  value='tidak'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusFMRSekolah: e.target.value,
-                    });
-                  }}
-                />
-                Tidak
-              </label>
-            </div>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Status {Dictionary[props.FType]}{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
+              <select
+                value={props.editedEntity.kodFasilitiHandler}
+                onChange={(e) => {
+                  const selectedKlinik = props.klinik.find(
+                    (k) => k.kodFasiliti === e.target.value
+                  );
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    handler: selectedKlinik.kp,
+                    kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
               >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusAktif'
-                  value='active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Aktif</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'non-active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusTidakAktif'
-                  value='non-active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
-              </label>
+                <option value=''>Pilih Klinik Baru..</option>
+                {props.klinik.map((k) => (
+                  <option className='capitalize' value={k.kodFasiliti}>
+                    {k.kp}
+                  </option>
+                ))}
+              </select>
             </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Risiko Sekolah (PERSiS){' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <select
+                required
+                value={props.editedEntity.risikoSekolahPersis}
+                onChange={(e) => {
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    risikoSekolahPersis: e.target.value,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih Risiko</option>
+                <option value='rendah'>Rendah</option>
+                <option value='tinggi'>Tinggi</option>
+              </select>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Klinik / Pusat Pergigian Sekolah{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <div className='grid grid-cols-2 mb-3 p-2'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={
+                      props.editedEntity.jenisPerkhidmatanSekolah === 'kps'
+                    }
+                    id='act-stat'
+                    name='checkbox'
+                    value='kps'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        jenisPerkhidmatanSekolah: e.target.value,
+                      })
+                    }
+                  />
+                  Ya
+                </label>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={
+                      props.editedEntity.jenisPerkhidmatanSekolah === 'kpb'
+                    }
+                    id='act-stat'
+                    name='checkbox'
+                    value='kpb'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        jenisPerkhidmatanSekolah: e.target.value,
+                      })
+                    }
+                  />
+                  Tidak
+                </label>
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Program Kumuran Berfluorida{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    checked={
+                      props.editedEntity.statusFMRSekolah === 'ya'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='ya-fmr'
+                    value='ya'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusFMRSekolah: e.target.value,
+                      });
+                    }}
+                  />
+                  Ya
+                </label>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    checked={
+                      props.editedEntity.statusFMRSekolah === 'tidak'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='tidak-fmr'
+                    value='tidak'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusFMRSekolah: e.target.value,
+                      });
+                    }}
+                  />
+                  Tidak
+                </label>
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Status {Dictionary[props.FType]}{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusAktif'
+                    value='active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Aktif</span>
+                </label>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusinactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'non-active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='non-active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Tidak Aktif</span>
+                </label>
+              </div>
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
 export function InputEditSM(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        ||
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}{' '}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Klinik Bertanggungjawab{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <select
-              value={props.editedEntity.kodFasilitiHandler}
-              onChange={(e) => {
-                const selectedKlinik = props.klinik.find(
-                  (k) => k.kodFasiliti === e.target.value
-                );
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  handler: selectedKlinik.kp,
-                  kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Klinik Baru..</option>
-              {props.klinik.map((k) => (
-                <option className='capitalize' value={k.kodFasiliti}>
-                  {k.kp}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Risiko Sekolah (PERSiS){' '}
-              <span className='font-semibold text-lg text-user6'>*</span>
-            </label>
-            <select
-              required
-              value={props.editedEntity.risikoSekolahPersis}
-              onChange={(e) => {
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  risikoSekolahPersis: e.target.value,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Risiko</option>
-              <option value='rendah'>Rendah</option>
-              <option value='tinggi'>Tinggi</option>
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Klinik / Pusat Pergigian Sekolah{' '}
-              <span className='font-semibold text-lg text-user6'>*</span>
-            </label>
-            <div className='grid grid-cols-2 mb-3 p-2'>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  required
-                  type='radio'
-                  checked={
-                    props.editedEntity.jenisPerkhidmatanSekolah === 'kps'
-                  }
-                  id='act-stat'
-                  name='checkbox'
-                  value='kps'
-                  onChange={(e) =>
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      jenisPerkhidmatanSekolah: e.target.value,
-                    })
-                  }
-                />
-                Ya
-              </label>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  required
-                  type='radio'
-                  checked={
-                    props.editedEntity.jenisPerkhidmatanSekolah === 'kpb'
-                  }
-                  id='act-stat'
-                  name='checkbox'
-                  value='kpb'
-                  onChange={(e) =>
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      jenisPerkhidmatanSekolah: e.target.value,
-                    })
-                  }
-                />
-                Tidak
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-2 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama}
               </label>
             </div>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Status {Dictionary[props.FType]}{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusAktif'
-                  value='active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Aktif</span>
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Klinik Bertanggungjawab{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
               </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
+              <select
+                value={props.editedEntity.kodFasilitiHandler}
+                onChange={(e) => {
+                  const selectedKlinik = props.klinik.find(
+                    (k) => k.kodFasiliti === e.target.value
+                  );
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    handler: selectedKlinik.kp,
+                    kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
               >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'non-active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusTidakAktif'
-                  value='non-active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
-              </label>
+                <option value=''>Pilih Klinik Baru..</option>
+                {props.klinik.map((k) => (
+                  <option className='capitalize' value={k.kodFasiliti}>
+                    {k.kp}
+                  </option>
+                ))}
+              </select>
             </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Risiko Sekolah (PERSiS){' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <select
+                required
+                value={props.editedEntity.risikoSekolahPersis}
+                onChange={(e) => {
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    risikoSekolahPersis: e.target.value,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih Risiko</option>
+                <option value='rendah'>Rendah</option>
+                <option value='tinggi'>Tinggi</option>
+              </select>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Klinik / Pusat Pergigian Sekolah{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <div className='grid grid-cols-2 mb-3 p-2'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={
+                      props.editedEntity.jenisPerkhidmatanSekolah === 'kps'
+                    }
+                    id='act-stat'
+                    name='checkbox'
+                    value='kps'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        jenisPerkhidmatanSekolah: e.target.value,
+                      })
+                    }
+                  />
+                  Ya
+                </label>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={
+                      props.editedEntity.jenisPerkhidmatanSekolah === 'kpb'
+                    }
+                    id='act-stat'
+                    name='checkbox'
+                    value='kpb'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        jenisPerkhidmatanSekolah: e.target.value,
+                      })
+                    }
+                  />
+                  Tidak
+                </label>
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Status {Dictionary[props.FType]}{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusAktif'
+                    value='active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Aktif</span>
+                </label>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusinactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'non-active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='non-active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Tidak Aktif</span>
+                </label>
+              </div>
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
 export function InputEditKPBMPB(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        ||
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama} / {props.editedEntity.subJenisKPBMPB}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Klinik Bertanggungjawab{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <select
-              value={props.editedEntity.kodFasilitiHandler}
-              onChange={(e) => {
-                const selectedKlinik = props.klinik.find(
-                  (k) => k.kodFasiliti === e.target.value
-                );
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  handler: selectedKlinik.kp,
-                  kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Klinik Baru..</option>
-              {props.klinik.map((k) => (
-                <option className='capitalize' value={k.kodFasiliti}>
-                  {k.kp}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Status {Dictionary[props.FType]}{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusAktif'
-                  value='active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Aktif</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'non-active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusTidakAktif'
-                  value='non-active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-2 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama} / {props.editedEntity.subJenisKPBMPB}
               </label>
             </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Klinik Bertanggungjawab{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <select
+                value={props.editedEntity.kodFasilitiHandler}
+                onChange={(e) => {
+                  const selectedKlinik = props.klinik.find(
+                    (k) => k.kodFasiliti === e.target.value
+                  );
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    handler: selectedKlinik.kp,
+                    kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih Klinik Baru..</option>
+                {props.klinik.map((k) => (
+                  <option className='capitalize' value={k.kodFasiliti}>
+                    {k.kp}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Status {Dictionary[props.FType]}{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusAktif'
+                    value='active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Aktif</span>
+                </label>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusinactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'non-active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='non-active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Tidak Aktif</span>
+                </label>
+              </div>
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
 export function InputEditTastad(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        ||
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}{' '}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}{' '}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama} / {props.editedEntity.kodTastad}
-            </label>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.alamatTastad}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Klinik Bertanggungjawab{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <select
-              value={props.editedEntity.kodFasilitiHandler}
-              onChange={(e) => {
-                const selectedKlinik = props.klinik.find(
-                  (k) => k.kodFasiliti === e.target.value
-                );
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  handler: selectedKlinik.kp,
-                  kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Klinik Baru..</option>
-              {props.klinik.map((k) => (
-                <option className='capitalize' value={k.kodFasiliti}>
-                  {k.kp}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Kategori {props.FType}
-              <span className='font-semibold text-lg text-user6'>*</span>
-            </label>
-            <select
-              required
-              onChange={(e) =>
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  govKe: e.target.value,
-                })
-              }
-              value={props.editedEntity.govKe ? props.editedEntity.govKe : ''}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih kategori..</option>
-              <option value='Kerajaan'>Kerajaan</option>
-              <option value='Swasta'>Swasta</option>
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Status {Dictionary[props.FType]}{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusAktif'
-                  value='active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Aktif</span>
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama} / {props.editedEntity.kodTastad}
               </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'non-active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusTidakAktif'
-                  value='non-active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
+              <label className='block mb-2 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.alamatTastad}
               </label>
             </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Klinik Bertanggungjawab{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <select
+                value={props.editedEntity.kodFasilitiHandler}
+                onChange={(e) => {
+                  const selectedKlinik = props.klinik.find(
+                    (k) => k.kodFasiliti === e.target.value
+                  );
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    handler: selectedKlinik.kp,
+                    kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih Klinik Baru..</option>
+                {props.klinik.map((k) => (
+                  <option className='capitalize' value={k.kodFasiliti}>
+                    {k.kp}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Kategori {props.FType}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <select
+                required
+                onChange={(e) =>
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    govKe: e.target.value,
+                  })
+                }
+                value={props.editedEntity.govKe ? props.editedEntity.govKe : ''}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih kategori..</option>
+                <option value='Kerajaan'>Kerajaan</option>
+                <option value='Swasta'>Swasta</option>
+              </select>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Status {Dictionary[props.FType]}{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusAktif'
+                    value='active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Aktif</span>
+                </label>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'
+                  htmlFor='statusinactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'non-active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='non-active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Tidak Aktif</span>
+                </label>
+              </div>
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
+// tak pakai rasanya
 export function InputEditFacilityOthers(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        ||
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}{' '}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}{' '}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama} / {props.editedEntity.kodKkiaKd}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-sm font-medium text-adminBlack'>
-              Klinik Bertanggungjawab{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <select
-              value={props.editedEntity.kodFasilitiHandler}
-              onChange={(e) => {
-                const selectedKlinik = props.klinik.find(
-                  (k) => k.kodFasiliti === e.target.value
-                );
-                props.setEditedEntity({
-                  ...props.editedEntity,
-                  handler: selectedKlinik.kp,
-                  kodFasilitiHandler: selectedKlinik.kodFasiliti,
-                });
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih Klinik Baru..</option>
-              {props.klinik.map((k) => (
-                <option className='capitalize' value={k.kodFasiliti}>
-                  {k.kp}
-                </option>
-              ))}
-            </select>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              Status {Dictionary[props.FType]}{' '}
-              <span className='font-semibold text-lg text-admin3'>*</span>
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusAktif'
-                  value='active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Aktif</span>
-              </label>
-              <label
-                className='inline-flex items-center text-sm font-medium text-adminBlack'
-                htmlFor='statusinactive'
-              >
-                <input
-                  checked={
-                    props.editedEntity.statusPerkhidmatan === 'non-active'
-                      ? true
-                      : false
-                  }
-                  type='radio'
-                  name='statusTidakAktif'
-                  value='non-active'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      statusPerkhidmatan: e.target.value,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Tidak Aktif</span>
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-2 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama} / {props.editedEntity.kodKkiaKd}
               </label>
             </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+            <div className='mb-3'>
+              <label className='block mb-2 text-sm font-medium text-adminBlack'>
+                Klinik Bertanggungjawab{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <select
+                value={props.editedEntity.kodFasilitiHandler}
+                onChange={(e) => {
+                  const selectedKlinik = props.klinik.find(
+                    (k) => k.kodFasiliti === e.target.value
+                  );
+                  props.setEditedEntity({
+                    ...props.editedEntity,
+                    handler: selectedKlinik.kp,
+                    kodFasilitiHandler: selectedKlinik.kodFasiliti,
+                  });
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih Klinik Baru..</option>
+                {props.klinik.map((k) => (
+                  <option className='capitalize' value={k.kodFasiliti}>
+                    {k.kp}
+                  </option>
+                ))}
+              </select>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Status {Dictionary[props.FType]}{' '}
+                <span className='font-semibold text-lg text-admin3'>*</span>
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack'
+                  htmlFor='statusactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusAktif'
+                    value='active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Aktif</span>
+                </label>
+                <label
+                  className='inline-flex items-center text-sm font-medium text-adminBlack'
+                  htmlFor='statusinactive'
+                >
+                  <input
+                    checked={
+                      props.editedEntity.statusPerkhidmatan === 'non-active'
+                        ? true
+                        : false
+                    }
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='non-active'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        statusPerkhidmatan: e.target.value,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Tidak Aktif</span>
+                </label>
+              </div>
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
@@ -3607,13 +3610,12 @@ export function InputEditEvent(props) {
   );
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowEditModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowEditModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>Tambah Program Komuniti</h5>
@@ -3736,6 +3738,7 @@ export function InputEditEvent(props) {
               </label>
               <select
                 required
+                value={props.editedEntity.createdByKodFasiliti}
                 onChange={(e) => {
                   const selectedKlinik = props.klinik.find(
                     (k) => k.kodFasiliti === e.target.value
