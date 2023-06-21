@@ -124,10 +124,10 @@ const KlinikPergigianBergerakSelector = (props) => {
   return (
     <div className='grid grid-cols-2 py-1'>
       <div className='grid grid-cols-[3fr_1fr]'>
-        <label htmlFor='modMpb'>Klinik Pergigian Bergerak</label>
+        <label htmlFor='modKpb'>Klinik Pergigian Bergerak</label>
         <input
+          id='modKpb'
           type='checkbox'
-          name='modKpb'
           value='kpb'
           checked={
             props.editedEntity.modPenyampaianPerkhidmatan
@@ -145,7 +145,6 @@ const KlinikPergigianBergerakSelector = (props) => {
         <div className='grid gap-1 w-full'>
           <div className='flex flex-row'>
             <select
-              name='kpb'
               id='kpb'
               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               value={props.editedEntity.penggunaanKpb}
@@ -191,7 +190,6 @@ const KlinikPergigianBergerakSelector = (props) => {
           {showKpb2 ? (
             <div className='flex flex-row'>
               <select
-                name='kpb2'
                 id='kpb2'
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 value={props.editedEntity.penggunaanKpb2}
@@ -219,7 +217,7 @@ const KlinikPergigianBergerakSelector = (props) => {
                   ))}
               </select>
               <span
-                className={` ${
+                className={`${
                   showKpb3 ? 'px-2.5 py-1' : 'px-2 py-1'
                 } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
                 onClick={() => {
@@ -233,7 +231,6 @@ const KlinikPergigianBergerakSelector = (props) => {
           {showKpb3 ? (
             <div className='flex flex-row'>
               <select
-                name='kpb3'
                 id='kpb3'
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 value={props.editedEntity.penggunaanKpb3}
@@ -293,10 +290,10 @@ const MakmalPergigianBergerakSelector = (props) => {
   return (
     <div className='grid grid-cols-2 py-1'>
       <div className='grid grid-cols-[3fr_1fr]'>
-        <label htmlFor='modMpb'>Makmal Pergigian Bergerak</label>
+        <label for='modMpb'>Makmal Pergigian Bergerak</label>
         <input
+          id='modMpb'
           type='checkbox'
-          name='modMpb'
           value='mpb'
           checked={
             props.editedEntity.modPenyampaianPerkhidmatan
@@ -314,7 +311,6 @@ const MakmalPergigianBergerakSelector = (props) => {
         <div className='grid gap-1 w-full'>
           <div className='flex flex-row'>
             <select
-              name='mpb'
               id='mpb'
               className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
               value={props.editedEntity.penggunaanMpb}
@@ -342,7 +338,7 @@ const MakmalPergigianBergerakSelector = (props) => {
             </select>
             {showMpb3 === false ? (
               <span
-                className={` ${
+                className={`${
                   showMpb2 ? 'px-2.5 py-1' : 'px-2 py-1'
                 } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
                 onClick={() => {
@@ -360,7 +356,6 @@ const MakmalPergigianBergerakSelector = (props) => {
           {showMpb2 ? (
             <div className='flex flex-row'>
               <select
-                name='mpb2'
                 id='mpb2'
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 value={props.editedEntity.penggunaanMpb2}
@@ -388,7 +383,7 @@ const MakmalPergigianBergerakSelector = (props) => {
                   ))}
               </select>
               <span
-                className={` ${
+                className={`${
                   showMpb3 ? 'px-2.5 py-1' : 'px-2 py-1'
                 } bg-admin4 font-bold text-userWhite text-xs rounded-full cursor-pointer hover:bg-admin3`}
                 onClick={() => {
@@ -402,7 +397,6 @@ const MakmalPergigianBergerakSelector = (props) => {
           {showMpb3 ? (
             <div className='flex flex-row'>
               <select
-                name='mpb3'
                 id='mpb3'
                 className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                 value={props.editedEntity.penggunaanMpb3}
@@ -503,8 +497,9 @@ const SubProgramSelector = (props) => {
       ].includes(props.editedEntity.jenisEvent) && (
         <div className='grid grid-cols-2 py-1'>
           <div className='grid grid-cols-[3fr_1fr]'>
-            <label htmlFor='subProgramPicker'>Sub Program</label>
+            <label for='subProgramPicker'>Sub Program</label>
             <input
+              id='subProgramPicker'
               type='checkbox'
               checked={props.showSubProgram}
               onChange={() => {
@@ -3779,13 +3774,12 @@ export function InputKpAddEvent(props) {
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowAddModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowAddModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
-          ||
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>Tambah Program Komuniti</h5>
@@ -3890,109 +3884,111 @@ export function InputKpAddEvent(props) {
 export function InputKpEditPegawai(props) {
   const { Dictionary } = useGlobalAdminAppContext();
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block p-1 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama} /{' '}
-              {props.editedEntity.mdcNumber ? (
-                <span>{props.editedEntity.mdcNumber}</span>
-              ) : (
-                <span>{props.editedEntity.mdtbNumber}</span>
-              )}{' '}
-              / {props.editedEntity.gred}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block p-1 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.email}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-3 mt-2 text-lg font-bold text-adminBlack'>
-              Peranan :{' '}
-              {props.editedEntity.role === 'admin'
-                ? 'Pentadbir Klinik'
-                : 'Pengguna'}
-            </label>
-          </div>
-          <div className='mb-3'>
-            <label className='text-sm font-medium text-adminBlack'>
-              CSCSP Verified
-            </label>
-            <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  checked={
-                    props.editedEntity.cscspVerified === true ? true : false
-                  }
-                  type='radio'
-                  name='statusAktif'
-                  value='true'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      cscspVerified: true,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Mempunyai Sijil CSCSP</span>
-              </label>
-              <label className='inline-flex items-center text-sm font-medium text-adminBlack'>
-                <input
-                  checked={
-                    props.editedEntity.cscspVerified === false ? true : false
-                  }
-                  type='radio'
-                  name='statusTidakAktif'
-                  value='false'
-                  onChange={(e) => {
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      cscspVerified: false,
-                    });
-                  }}
-                />
-                <span className='ml-2'>Tidak Mempunyai Sijil CSCSP</span>
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block p-1 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama} /{' '}
+                {props.editedEntity.mdcNumber ? (
+                  <span>{props.editedEntity.mdcNumber}</span>
+                ) : (
+                  <span>{props.editedEntity.mdtbNumber}</span>
+                )}{' '}
+                / {props.editedEntity.gred}
               </label>
             </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+            <div className='mb-3'>
+              <label className='block p-1 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.email}
+              </label>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-3 mt-2 text-lg font-bold text-adminBlack'>
+                Peranan :{' '}
+                {props.editedEntity.role === 'admin'
+                  ? 'Pentadbir Klinik'
+                  : 'Pengguna'}
+              </label>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                CSCSP Verified
+              </label>
+              <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    checked={
+                      props.editedEntity.cscspVerified === true ? true : false
+                    }
+                    type='radio'
+                    name='statusAktif'
+                    value='true'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        cscspVerified: true,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Mempunyai Sijil CSCSP</span>
+                </label>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    checked={
+                      props.editedEntity.cscspVerified === false ? true : false
+                    }
+                    type='radio'
+                    name='statusTidakAktif'
+                    value='false'
+                    onChange={(e) => {
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        cscspVerified: false,
+                      });
+                    }}
+                  />
+                  <span className='ml-2'>Tidak Mempunyai Sijil CSCSP</span>
+                </label>
+              </div>
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
@@ -4017,323 +4013,282 @@ export function InputKpEditFacility(props) {
   ]);
 
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini {Dictionary[props.FType]}{' '}
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini {Dictionary[props.FType]}{' '}
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <div className='px-3 py-1'>
-              <div className='grid gap-2'>
-                <p>
-                  <span className='bg-user15 text-userBlack py-1 px-2 rounded-md'>
-                    {props.editedEntity.jenisFasiliti}{' '}
-                    {props.editedEntity.govKe}
-                  </span>
-                </p>
-                <p>
-                  Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
-                </p>
-                <div className='grid grid-cols-[3fr_1fr]'>
-                  <label
-                    htmlFor='enrolmentKurang4Tahun'
-                    className='flex justify-start text-left'
-                  >
-                    JUMLAH ENROLMEN :
-                    <span className='font-semibold text-lg text-user6'>*</span>
-                  </label>
-                  <input
-                    disabled
-                    required
-                    type='number'
-                    min='1'
-                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    value={props.editedEntity.enrolmenTastad}
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        enrolmenTastad: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='grid grid-cols-[3fr_1fr]'>
-                  <label
-                    htmlFor='enrolmentKurang4Tahun'
-                    className='flex justify-start text-left'
-                  >
-                    Enrolmen ≤ 4 Tahun:
-                  </label>
-                  <input
-                    type='number'
-                    min='0'
-                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    value={props.editedEntity.enrolmenKurang4Tahun}
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        enrolmenKurang4Tahun: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='grid grid-cols-[3fr_1fr]'>
-                  <label
-                    htmlFor='enrolment5Tahun'
-                    className='flex justify-start text-left'
-                  >
-                    Enrolmen Semua 5 Tahun:
-                  </label>
-                  <input
-                    type='number'
-                    min='0'
-                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    value={props.editedEntity.enrolmen5Tahun}
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        enrolmen5Tahun: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='grid grid-cols-[3fr_1fr]'>
-                  <label
-                    htmlFor='enrolment6Tahun'
-                    className='flex justify-start text-left'
-                  >
-                    Enrolmen Semua 6 Tahun:
-                  </label>
-                  <input
-                    type='number'
-                    min='0'
-                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    value={props.editedEntity.enrolmen6Tahun}
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        enrolmen6Tahun: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='grid grid-cols-[3fr_1fr]'>
-                  <label
-                    htmlFor='enrolmenMuridBerkeperluanKhas'
-                    className='flex justify-start text-left'
-                  >
-                    Enrolmen Murid Berkeperluan Khas:
-                  </label>
-                  <input
-                    type='number'
-                    min='0'
-                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    value={props.editedEntity.enrolmenMuridBerkeperluanKhas}
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        enrolmenMuridBerkeperluanKhas: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                <div className='grid grid-cols-[3fr_1fr] border rounded-md p-2 place-items-center'>
-                  <label
-                    htmlFor='enrolmentMuridOaPenan'
-                    className='flex justify-start text-left'
-                  >
-                    Enrolmen Murid OA/Penan:
-                  </label>
-                  <input
-                    type='number'
-                    min='0'
-                    max={props.editedEntity.enrolmenTastad}
-                    className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                    value={props.editedEntity.enrolmenMuridOaPenan}
-                    onChange={(e) => {
-                      props.setEditedEntity({
-                        ...props.editedEntity,
-                        enrolmenMuridOaPenan: e.target.value,
-                      });
-                    }}
-                  />
-                </div>
-                {props.editedEntity.govKe === 'Kerajaan' && (
-                  <div className='grid grid-cols-3 gap-3'>
-                    <p className='col-span-3'>
-                      Jenis Tadika Kerajaan{' '}
-                      <strong className='text-user9'>*</strong>
-                    </p>
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
+                >
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <div className='px-3 py-1'>
+                <div className='grid gap-2'>
+                  <p>
+                    <span className='bg-user15 text-userBlack py-1 px-2 rounded-md'>
+                      {props.editedEntity.jenisFasiliti}{' '}
+                      {props.editedEntity.govKe}
+                    </span>
+                  </p>
+                  <p>
+                    Nama {Dictionary[props.FType]}: {props.editedEntity.nama}{' '}
+                  </p>
+                  <div className='grid grid-cols-[3fr_1fr]'>
                     <label
-                      htmlFor='kemasKerajaan'
-                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
-                        props.editedEntity.jenisTadikaKerajaan ===
-                        'kemasKerajaan'
-                          ? ' ring ring-offset-user12 transition-all duration-500'
-                          : ''
-                      }`}
+                      htmlFor='enrolmentKurang4Tahun'
+                      className='flex justify-start text-left'
                     >
-                      <input
-                        required
-                        type='radio'
-                        name='jenisTadikaKerajaan'
-                        id='kemasKerajaan'
-                        value='kemasKerajaan'
-                        checked={
+                      JUMLAH ENROLMEN :
+                      <span className='font-semibold text-lg text-user6'>
+                        *
+                      </span>
+                    </label>
+                    <input
+                      disabled
+                      required
+                      type='number'
+                      min='1'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={props.editedEntity.enrolmenTastad}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          enrolmenTastad: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='grid grid-cols-[3fr_1fr]'>
+                    <label
+                      htmlFor='enrolmentKurang4Tahun'
+                      className='flex justify-start text-left'
+                    >
+                      Enrolmen ≤ 4 Tahun:
+                    </label>
+                    <input
+                      type='number'
+                      min='0'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={props.editedEntity.enrolmenKurang4Tahun}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          enrolmenKurang4Tahun: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='grid grid-cols-[3fr_1fr]'>
+                    <label
+                      htmlFor='enrolment5Tahun'
+                      className='flex justify-start text-left'
+                    >
+                      Enrolmen Semua 5 Tahun:
+                    </label>
+                    <input
+                      type='number'
+                      min='0'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={props.editedEntity.enrolmen5Tahun}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          enrolmen5Tahun: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='grid grid-cols-[3fr_1fr]'>
+                    <label
+                      htmlFor='enrolment6Tahun'
+                      className='flex justify-start text-left'
+                    >
+                      Enrolmen Semua 6 Tahun:
+                    </label>
+                    <input
+                      type='number'
+                      min='0'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={props.editedEntity.enrolmen6Tahun}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          enrolmen6Tahun: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='grid grid-cols-[3fr_1fr]'>
+                    <label
+                      htmlFor='enrolmenMuridBerkeperluanKhas'
+                      className='flex justify-start text-left'
+                    >
+                      Enrolmen Murid Berkeperluan Khas:
+                    </label>
+                    <input
+                      type='number'
+                      min='0'
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={props.editedEntity.enrolmenMuridBerkeperluanKhas}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          enrolmenMuridBerkeperluanKhas: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  <div className='grid grid-cols-[3fr_1fr] border rounded-md p-2 place-items-center'>
+                    <label
+                      htmlFor='enrolmentMuridOaPenan'
+                      className='flex justify-start text-left'
+                    >
+                      Enrolmen Murid OA/Penan:
+                    </label>
+                    <input
+                      type='number'
+                      min='0'
+                      max={props.editedEntity.enrolmenTastad}
+                      className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                      value={props.editedEntity.enrolmenMuridOaPenan}
+                      onChange={(e) => {
+                        props.setEditedEntity({
+                          ...props.editedEntity,
+                          enrolmenMuridOaPenan: e.target.value,
+                        });
+                      }}
+                    />
+                  </div>
+                  {props.editedEntity.govKe === 'Kerajaan' && (
+                    <div className='grid grid-cols-3 gap-3'>
+                      <p className='col-span-3'>
+                        Jenis Tadika Kerajaan{' '}
+                        <strong className='text-user9'>*</strong>
+                      </p>
+                      <label
+                        htmlFor='kemasKerajaan'
+                        className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'kemasKerajaan'
-                        }
-                        onChange={(e) => {
-                          props.setEditedEntity({
-                            ...props.editedEntity,
-                            jenisTadikaKerajaan: e.target.value,
-                          });
-                        }}
-                        className='w-4 h-4'
-                      />
-                      <span>KEMAS</span>
-                    </label>
-                    <label
-                      htmlFor='perpaduanKerajaan'
-                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
-                        props.editedEntity.jenisTadikaKerajaan ===
-                        'perpaduanKerajaan'
-                          ? ' ring ring-offset-user12 transition-all duration-500'
-                          : ''
-                      }`}
-                    >
-                      <input
-                        required
-                        type='radio'
-                        name='jenisTadikaKerajaan'
-                        id='perpaduanKerajaan'
-                        value='perpaduanKerajaan'
-                        checked={
+                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisTadikaKerajaan'
+                          id='kemasKerajaan'
+                          value='kemasKerajaan'
+                          checked={
+                            props.editedEntity.jenisTadikaKerajaan ===
+                            'kemasKerajaan'
+                          }
+                          onChange={(e) => {
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              jenisTadikaKerajaan: e.target.value,
+                            });
+                          }}
+                          className='w-4 h-4'
+                        />
+                        <span>KEMAS</span>
+                      </label>
+                      <label
+                        htmlFor='perpaduanKerajaan'
+                        className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'perpaduanKerajaan'
-                        }
-                        onChange={(e) => {
-                          props.setEditedEntity({
-                            ...props.editedEntity,
-                            jenisTadikaKerajaan: e.target.value,
-                          });
-                        }}
-                        className='w-4 h-4'
-                      />
-                      <span>Perpaduan</span>
-                    </label>
-                    <label
-                      htmlFor='lainLainKerajaan'
-                      className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
-                        props.editedEntity.jenisTadikaKerajaan ===
-                        'lainLainKerajaan'
-                          ? ' ring ring-offset-user12 transition-all duration-500'
-                          : ''
-                      }`}
-                    >
-                      <input
-                        required
-                        type='radio'
-                        name='jenisTadikaKerajaan'
-                        id='lainLainKerajaan'
-                        value='lainLainKerajaan'
-                        checked={
+                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisTadikaKerajaan'
+                          id='perpaduanKerajaan'
+                          value='perpaduanKerajaan'
+                          checked={
+                            props.editedEntity.jenisTadikaKerajaan ===
+                            'perpaduanKerajaan'
+                          }
+                          onChange={(e) => {
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              jenisTadikaKerajaan: e.target.value,
+                            });
+                          }}
+                          className='w-4 h-4'
+                        />
+                        <span>Perpaduan</span>
+                      </label>
+                      <label
+                        htmlFor='lainLainKerajaan'
+                        className={`flex justify-center items-center space-x-2 py-2 rounded-md shadow-sm shadow-user1 ${
                           props.editedEntity.jenisTadikaKerajaan ===
                           'lainLainKerajaan'
-                        }
-                        onChange={(e) => {
-                          props.setEditedEntity({
-                            ...props.editedEntity,
-                            jenisTadikaKerajaan: e.target.value,
-                          });
-                        }}
-                        className='w-4 h-4'
-                      />
-                      <span>Lain-lain</span>
-                    </label>
-                  </div>
-                )}
+                            ? ' ring ring-offset-user12 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisTadikaKerajaan'
+                          id='lainLainKerajaan'
+                          value='lainLainKerajaan'
+                          checked={
+                            props.editedEntity.jenisTadikaKerajaan ===
+                            'lainLainKerajaan'
+                          }
+                          onChange={(e) => {
+                            props.setEditedEntity({
+                              ...props.editedEntity,
+                              jenisTadikaKerajaan: e.target.value,
+                            });
+                          }}
+                          className='w-4 h-4'
+                        />
+                        <span>Lain-lain</span>
+                      </label>
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            <div className='grid grid-cols-[3fr_1fr] mt-2'>
-              <label htmlFor='enrolmentKurang4Tahun'>Enrolmen ≤ 4 Tahun:</label>
-              <input
-                type='number'
-                min='0'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                value={props.editedEntity.enrolmenKurang4Tahun}
-                onChange={(e) => {
-                  props.setEditedEntity({
-                    ...props.editedEntity,
-                    enrolmenKurang4Tahun: e.target.value,
-                  });
-                }}
-              />
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
             </div>
-            <div className='grid grid-cols-[3fr_1fr] mt-2'>
-              <label htmlFor='enrolment5Tahun'>Enrolmen 5 Tahun:</label>
-              <input
-                type='number'
-                min='0'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                value={props.editedEntity.enrolmen5Tahun}
-                onChange={(e) => {
-                  props.setEditedEntity({
-                    ...props.editedEntity,
-                    enrolmen5Tahun: e.target.value,
-                  });
-                }}
-              />
-            </div>
-            <div className='grid grid-cols-[3fr_1fr] mt-2'>
-              <label htmlFor='enrolment6Tahun'>Enrolmen 6 Tahun:</label>
-              <input
-                type='number'
-                min='0'
-                className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                value={props.editedEntity.enrolmen6Tahun}
-                onChange={(e) => {
-                  props.setEditedEntity({
-                    ...props.editedEntity,
-                    enrolmen6Tahun: e.target.value,
-                  });
-                }}
-              />
-            </div>
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
 
@@ -4342,12 +4297,12 @@ export function InputKpEditEvent(props) {
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowEditModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowEditModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
@@ -4370,7 +4325,7 @@ export function InputKpEditEvent(props) {
                 </svg>
               </button>
             </div>
-            <div className='grid grid-cols-3 gap-1 mb-3'>
+            <div className='grid gap-1 mb-3'>
               <div className='px-3 py-1'>
                 <label className='block mb-3 mt-2 text-xl font-bold text-adminBlack'>
                   {Dictionary[props.editedEntity.jenisEvent]} /{' '}
@@ -4434,7 +4389,7 @@ export function InputKpEditEvent(props) {
                 ) : null}
               </div>
               <div className='px-3 py-1'>
-                <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                <div className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
                   Mod Penyampaian Perkhidmatan
                   <div className='w-auto mt-2'>
                     <PasukanPergigianBergerakSelector {...props} />
@@ -4442,7 +4397,7 @@ export function InputKpEditEvent(props) {
                     <MakmalPergigianBergerakSelector {...props} />
                     <SubProgramSelector {...props} />
                   </div>
-                </label>
+                </div>
               </div>
             </div>
             <div className='mt-5'>
@@ -4464,12 +4419,12 @@ export function InputKpEditEventFromDaerah(props) {
 
   return (
     <>
+      <div
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
+        onClick={() => props.setShowEditModal(false)}
+      />
       <form onSubmit={props.confirm(props.handleSubmit)}>
-        <div
-          className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
-          onClick={() => props.setShowEditModal(false)}
-        />
-        <div className='fixed inset-0 flex items-center justify-center z-20'>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
           <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
             <div className='flex justify-between items-center mb-3'>
               <h5 className='text-lg font-medium'>
@@ -4492,7 +4447,7 @@ export function InputKpEditEventFromDaerah(props) {
                 </svg>
               </button>
             </div>
-            <div className='grid grid-cols-3 gap-1 mb-3'>
+            <div className='grid gap-1 mb-3'>
               <div className='px-3 py-1'>
                 <label className='block mb-3 mt-2 text-xl font-bold text-adminBlack'>
                   {Dictionary[props.editedEntity.jenisEvent]} /{' '}
@@ -4558,7 +4513,7 @@ export function InputKpEditEventFromDaerah(props) {
                 ) : null}
               </div>
               <div className='px-3 py-1'>
-                <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                <div className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
                   Mod Penyampaian Perkhidmatan
                   <div className='w-auto mt-2'>
                     <PasukanPergigianBergerakSelector {...props} />
@@ -4566,7 +4521,7 @@ export function InputKpEditEventFromDaerah(props) {
                     <MakmalPergigianBergerakSelector {...props} />
                     <SubProgramSelector {...props} />
                   </div>
-                </label>
+                </div>
               </div>
             </div>
             <div className='mt-5'>
@@ -4585,239 +4540,241 @@ export function InputKpEditEventFromDaerah(props) {
 
 export function InputKpEditKPBMPB(props) {
   return (
-    <form onSubmit={props.confirm(props.handleSubmit)}>
+    <>
       <div
-        className='fixed inset-0 flex items-center justify-center bg-adminBlack bg-opacity-50 z-10'
+        className='absolute inset-0 bg-user1 z-10 opacity-75'
         onClick={() => props.setShowEditModal(false)}
       />
-      <div className='fixed inset-0 flex items-center justify-center z-20'>
-        <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
-          <div className='flex justify-between items-center mb-3'>
-            <h5 className='text-lg font-medium'>
-              Kemaskini Program / Aktiviti
-            </h5>
-            <button
-              onClick={() => props.setShowEditModal(false)}
-              className='text-2xl font-medium text-adminBlack'
-            >
-              <svg
-                viewBox='0 0 20 20'
-                fill='currentColor'
-                className='x-circle w-6 h-6'
+      <form onSubmit={props.confirm(props.handleSubmit)}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
+                Kemaskini Program / Aktiviti
+              </h5>
+              <button
+                onClick={() => props.setShowEditModal(false)}
+                className='text-2xl font-medium text-adminBlack'
               >
-                <path
-                  fillRule='evenodd'
-                  d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
-                  clipRule='evenodd'
-                ></path>
-              </svg>
-            </button>
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-2 text-lg font-bold text-adminBlack'>
-              {props.editedEntity.nama} / {props.editedEntity.subJenisKPBMPB}
-            </label>
-          </div>
-          <div className='mb-3'>
-            {props.tempatPenggunaan !== 'sekolah-rendah' &&
-            props.tempatPenggunaan !== 'sekolah-menengah' ? (
-              <div className='flex flex-row justify-center items-center px-5'>
-                <p className='whitespace-nowrap text-sm text-bold text-right mr-2'>
-                  tarikh mula :
-                </p>
-                <StartDate {...props} />
-                <p className='whitespace-nowrap text-sm text-bold text-right ml-5 mr-2'>
-                  tarikh akhir :
-                </p>
-                <EndDate {...props} />
-              </div>
-            ) : null}
-          </div>
-          <div className='mb-3'>
-            <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
-              Tempat Penggunaan:{' '}
-              <span className='font-semibold text-lg text-user6'>*</span>
-            </label>
-            <select
-              required
-              onChange={(e) => {
-                props.setTempatPenggunaan(e.target.value);
-                // reset value
-                delete props.editedEntity.handlerKp;
-                delete props.editedEntity.kodKpHandler;
-                delete props.editedEntity.handlerKkiaKd;
-                delete props.editedEntity.kodKkiaKdHandler;
-                delete props.editedEntity.handlerTastad;
-                delete props.editedEntity.kodTastadHandler;
-                delete props.editedEntity.handlerSR;
-                delete props.editedEntity.handlerSM;
-                delete props.editedEntity.kodSekolahHandler;
-              }}
-              className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-            >
-              <option value=''>Pilih fasiliti</option>
-              <option value='kp'>Klinik Pergigian</option>
-              <option value='kkiakd'>KKIA / KD</option>
-              <option value='tastad'>Taska / Tadika</option>
-              <option value='sekolah-rendah'>Sekolah Rendah</option>
-              <option value='sekolah-menengah'>Sekolah Menengah</option>
-            </select>
-            {props.tempatPenggunaan === 'kp' ? (
-              <>
-                <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
-                  Klinik Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </label>
-                <select
-                  required
-                  onChange={(e) => {
-                    const selectedKlinik = props.allKlinik.find(
-                      (k) => k.kodFasiliti === e.target.value
-                    );
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handlerKp: selectedKlinik.kp,
-                      kodKpHandler: selectedKlinik.kodFasiliti,
-                    });
-                  }}
-                  className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+                <svg
+                  viewBox='0 0 20 20'
+                  fill='currentColor'
+                  className='x-circle w-6 h-6'
                 >
-                  <option value=''>Pilih Klinik</option>
-                  {props.allKlinik.map((k) => (
-                    <option className='capitalize' value={k.kodFasiliti}>
-                      {k.daerah} | {k.kp}
-                    </option>
-                  ))}
-                </select>
-              </>
-            ) : null}
-            {props.tempatPenggunaan === 'kkiakd' ? (
-              <>
-                <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
-                  KKIA / KD Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </label>
-                <select
-                  required
-                  onChange={(e) => {
-                    const selectedKkiaKd = props.allKkiaKd.find(
-                      (k) => k.kodKkiaKd === e.target.value
-                    );
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handlerKkiaKd: selectedKkiaKd.nama,
-                      kodKkiaKdHandler: selectedKkiaKd.kodKkiaKd,
-                    });
-                  }}
-                  className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-                >
-                  <option value=''>Pilih KKIA / KD</option>
-                  {props.allKkiaKd.map((k) => (
-                    <option className='capitalize' value={k.kodKkiaKd}>
-                      {k.nama}
-                    </option>
-                  ))}
-                </select>
-              </>
-            ) : null}
-            {props.tempatPenggunaan === 'tastad' ? (
-              <>
-                <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
-                  Taska / Tadika Bertanggungjawab{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </label>
-                <select
-                  required
-                  onChange={(e) => {
-                    const selectedTastad = props.allTastad.find(
-                      (k) => k.kodTastad === e.target.value
-                    );
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handlerTastad: selectedTastad.nama,
-                      kodTastadHandler: selectedTastad.kodTastad,
-                    });
-                  }}
-                  className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-                >
-                  <option value=''>Pilih Taska / Tadika</option>
-                  {props.allTastad.map((tt) => (
-                    <option className='capitalize' value={tt.kodTastad}>
-                      {tt.createdByDaerah} | {tt.nama}
-                    </option>
-                  ))}
-                </select>
-              </>
-            ) : null}
-            {props.tempatPenggunaan === 'sekolah-rendah' && (
-              <>
-                <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
-                  Nama Sekolah Rendah{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </label>
-                <select
-                  required
-                  onChange={(e) => {
-                    const selectedSR = props.allSR.find(
-                      (sr) => sr.kodSekolah === e.target.value
-                    );
-                    console.log(selectedSR);
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handlerSR: selectedSR.nama,
-                      kodSekolahHandler: selectedSR.kodSekolah,
-                    });
-                  }}
-                  className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-                >
-                  <option value=''>Pilih Sekolah Rendah</option>
-                  {props.allSR.map((sr) => (
-                    <option className='capitalize' value={sr.kodSekolah}>
-                      {sr.nama} | {sr.kodSekolah}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
-            {props.tempatPenggunaan === 'sekolah-menengah' && (
-              <>
-                <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
-                  Nama Sekolah Menengah{' '}
-                  <span className='font-semibold text-lg text-user6'>*</span>
-                </label>
-                <select
-                  required
-                  onChange={(e) => {
-                    const selectedSM = props.allSM.find(
-                      (sm) => sm.kodSekolah === e.target.value
-                    );
-                    props.setEditedEntity({
-                      ...props.editedEntity,
-                      handlerSM: selectedSM.nama,
-                      kodSekolahHandler: selectedSM.kodSekolah,
-                    });
-                  }}
-                  className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
-                >
-                  <option value=''>Pilih Sekolah Menengah</option>
-                  {props.allSM.map((sm) => (
-                    <option className='capitalize' value={sm.kodSekolah}>
-                      {sm.nama} | {sm.kodSekolah}
-                    </option>
-                  ))}
-                </select>
-              </>
-            )}
-          </div>
-          <div className='mt-5'>
-            {props.editingData ? (
-              <BusyButton func='edit' />
-            ) : (
-              <SubmitButton func='edit' />
-            )}
+                  <path
+                    fillRule='evenodd'
+                    d='M10 18a8 8 0 100-16 8 8 0 000 16zM8.707 7.293a1 1 0 00-1.414 1.414L8.586 10l-1.293 1.293a1 1 0 101.414 1.414L10 11.414l1.293 1.293a1 1 0 001.414-1.414L11.414 10l1.293-1.293a1 1 0 00-1.414-1.414L10 8.586 8.707 7.293z'
+                    clipRule='evenodd'
+                  ></path>
+                </svg>
+              </button>
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-2 text-lg font-bold text-adminBlack'>
+                {props.editedEntity.nama} / {props.editedEntity.subJenisKPBMPB}
+              </label>
+            </div>
+            <div className='mb-3'>
+              {props.tempatPenggunaan !== 'sekolah-rendah' &&
+              props.tempatPenggunaan !== 'sekolah-menengah' ? (
+                <div className='flex flex-row justify-center items-center px-5'>
+                  <p className='whitespace-nowrap text-sm text-bold text-right mr-2'>
+                    tarikh mula :
+                  </p>
+                  <StartDate {...props} />
+                  <p className='whitespace-nowrap text-sm text-bold text-right ml-5 mr-2'>
+                    tarikh akhir :
+                  </p>
+                  <EndDate {...props} />
+                </div>
+              ) : null}
+            </div>
+            <div className='mb-3'>
+              <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                Tempat Penggunaan:{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <select
+                required
+                onChange={(e) => {
+                  props.setTempatPenggunaan(e.target.value);
+                  // reset value
+                  delete props.editedEntity.handlerKp;
+                  delete props.editedEntity.kodKpHandler;
+                  delete props.editedEntity.handlerKkiaKd;
+                  delete props.editedEntity.kodKkiaKdHandler;
+                  delete props.editedEntity.handlerTastad;
+                  delete props.editedEntity.kodTastadHandler;
+                  delete props.editedEntity.handlerSR;
+                  delete props.editedEntity.handlerSM;
+                  delete props.editedEntity.kodSekolahHandler;
+                }}
+                className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+              >
+                <option value=''>Pilih fasiliti</option>
+                <option value='kp'>Klinik Pergigian</option>
+                <option value='kkiakd'>KKIA / KD</option>
+                <option value='tastad'>Taska / Tadika</option>
+                <option value='sekolah-rendah'>Sekolah Rendah</option>
+                <option value='sekolah-menengah'>Sekolah Menengah</option>
+              </select>
+              {props.tempatPenggunaan === 'kp' ? (
+                <>
+                  <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                    Klinik Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </label>
+                  <select
+                    required
+                    onChange={(e) => {
+                      const selectedKlinik = props.allKlinik.find(
+                        (k) => k.kodFasiliti === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerKp: selectedKlinik.kp,
+                        kodKpHandler: selectedKlinik.kodFasiliti,
+                      });
+                    }}
+                    className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+                  >
+                    <option value=''>Pilih Klinik</option>
+                    {props.allKlinik.map((k) => (
+                      <option className='capitalize' value={k.kodFasiliti}>
+                        {k.daerah} | {k.kp}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ) : null}
+              {props.tempatPenggunaan === 'kkiakd' ? (
+                <>
+                  <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                    KKIA / KD Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </label>
+                  <select
+                    required
+                    onChange={(e) => {
+                      const selectedKkiaKd = props.allKkiaKd.find(
+                        (k) => k.kodKkiaKd === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerKkiaKd: selectedKkiaKd.nama,
+                        kodKkiaKdHandler: selectedKkiaKd.kodKkiaKd,
+                      });
+                    }}
+                    className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+                  >
+                    <option value=''>Pilih KKIA / KD</option>
+                    {props.allKkiaKd.map((k) => (
+                      <option className='capitalize' value={k.kodKkiaKd}>
+                        {k.nama}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ) : null}
+              {props.tempatPenggunaan === 'tastad' ? (
+                <>
+                  <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                    Taska / Tadika Bertanggungjawab{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </label>
+                  <select
+                    required
+                    onChange={(e) => {
+                      const selectedTastad = props.allTastad.find(
+                        (k) => k.kodTastad === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerTastad: selectedTastad.nama,
+                        kodTastadHandler: selectedTastad.kodTastad,
+                      });
+                    }}
+                    className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+                  >
+                    <option value=''>Pilih Taska / Tadika</option>
+                    {props.allTastad.map((tt) => (
+                      <option className='capitalize' value={tt.kodTastad}>
+                        {tt.createdByDaerah} | {tt.nama}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              ) : null}
+              {props.tempatPenggunaan === 'sekolah-rendah' && (
+                <>
+                  <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                    Nama Sekolah Rendah{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </label>
+                  <select
+                    required
+                    onChange={(e) => {
+                      const selectedSR = props.allSR.find(
+                        (sr) => sr.kodSekolah === e.target.value
+                      );
+                      console.log(selectedSR);
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerSR: selectedSR.nama,
+                        kodSekolahHandler: selectedSR.kodSekolah,
+                      });
+                    }}
+                    className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+                  >
+                    <option value=''>Pilih Sekolah Rendah</option>
+                    {props.allSR.map((sr) => (
+                      <option className='capitalize' value={sr.kodSekolah}>
+                        {sr.nama} | {sr.kodSekolah}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
+              {props.tempatPenggunaan === 'sekolah-menengah' && (
+                <>
+                  <label className='block mb-3 mt-2 text-sm font-medium text-adminBlack'>
+                    Nama Sekolah Menengah{' '}
+                    <span className='font-semibold text-lg text-user6'>*</span>
+                  </label>
+                  <select
+                    required
+                    onChange={(e) => {
+                      const selectedSM = props.allSM.find(
+                        (sm) => sm.kodSekolah === e.target.value
+                      );
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        handlerSM: selectedSM.nama,
+                        kodSekolahHandler: selectedSM.kodSekolah,
+                      });
+                    }}
+                    className='block w-full rounded-md border-2 p-2 leading-5 text-adminBlack'
+                  >
+                    <option value=''>Pilih Sekolah Menengah</option>
+                    {props.allSM.map((sm) => (
+                      <option className='capitalize' value={sm.kodSekolah}>
+                        {sm.nama} | {sm.kodSekolah}
+                      </option>
+                    ))}
+                  </select>
+                </>
+              )}
+            </div>
+            <div className='mt-5'>
+              {props.editingData ? (
+                <BusyButton func='edit' />
+              ) : (
+                <SubmitButton func='edit' />
+              )}
+            </div>
           </div>
         </div>
-      </div>
-    </form>
+      </form>
+    </>
   );
 }
