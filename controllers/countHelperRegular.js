@@ -3403,6 +3403,10 @@ const countPG206 = async (payload) => {
     {
       $match: {
         'merged.createdByMdcMdtb': { $regex: /^mdtb/i },
+        'merged.tarikhPemeriksaanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
       },
     },
     {
@@ -3851,12 +3855,6 @@ const countPG206 = async (payload) => {
         preserveNullAndEmptyArrays: true,
       },
     },
-    // {
-    //   $addFields: {
-    //     pemeriksaanOleh: '$pemeriksaanSekolah.createdByMdcMdtb',
-    //     rawatanOleh: '$pemeriksaanSekolah.createdByMdcMdtb',
-    //   },
-    // },
     {
       $project: {
         statusRawatan: 1,
@@ -3879,6 +3877,10 @@ const countPG206 = async (payload) => {
     {
       $match: {
         'merged.createdByMdcMdtb': { $regex: /^mdtb/i },
+        'merged.tarikhRawatanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
       },
     },
     {
@@ -5623,20 +5625,6 @@ const countPG207 = async (payload) => {
         preserveNullAndEmptyArrays: false,
       },
     },
-    // {
-    //   $lookup: {
-    //     from: 'rawatansekolahs',
-    //     localField: 'rawatanSekolah',
-    //     foreignField: '_id',
-    //     as: 'rawatanSekolah',
-    //   },
-    // },
-    // {
-    //   $unwind: {
-    //     path: '$rawatanSekolah',
-    //     preserveNullAndEmptyArrays: true,
-    //   },
-    // },
     {
       $project: {
         statusRawatan: 1,
@@ -5659,6 +5647,10 @@ const countPG207 = async (payload) => {
     {
       $match: {
         'merged.createdByMdcMdtb': { $regex: /^(?!mdtb).*$/i },
+        'merged.tarikhPemeriksaanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
       },
     },
     {
@@ -6109,20 +6101,6 @@ const countPG207 = async (payload) => {
         result: 0,
       },
     },
-    // {
-    //   $lookup: {
-    //     from: 'pemeriksaansekolahs',
-    //     localField: 'pemeriksaanSekolah',
-    //     foreignField: '_id',
-    //     as: 'pemeriksaanSekolah',
-    //   },
-    // },
-    // {
-    //   $unwind: {
-    //     path: '$pemeriksaanSekolah',
-    //     preserveNullAndEmptyArrays: false,
-    //   },
-    // },
     {
       $lookup: {
         from: 'rawatansekolahs',
@@ -6159,6 +6137,10 @@ const countPG207 = async (payload) => {
     {
       $match: {
         'merged.createdByMdcMdtb': { $regex: /^(?!mdtb).*$/i },
+        'merged.tarikhRawatanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
       },
     },
     {
