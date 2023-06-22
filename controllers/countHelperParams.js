@@ -330,7 +330,7 @@ const getParams206 = (payload) => {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
     deleted: false,
-    statusReten: 'telah diisi',
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
 
   if (negeri !== 'all') {
@@ -363,7 +363,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -375,7 +375,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -388,7 +388,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -400,7 +400,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -411,7 +411,7 @@ const getParams206sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -440,7 +440,7 @@ const getParams207 = (payload) => {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
     deleted: false,
-    statusReten: 'telah diisi',
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
 
   if (negeri !== 'all') {
@@ -473,7 +473,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -485,7 +485,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -498,7 +498,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -510,7 +510,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -520,7 +520,7 @@ const getParams207sekolah = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -549,7 +549,7 @@ const getParamsPgpr201 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -560,7 +560,7 @@ const getParamsPgpr201 = (payload) => {
       createdByNegeri: { $eq: negeri },
       createdByDaerah: { $eq: daerah },
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -570,7 +570,7 @@ const getParamsPgpr201 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -579,7 +579,7 @@ const getParamsPgpr201 = (payload) => {
     let param = {
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -606,7 +606,7 @@ const getParamsPGS201 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -618,7 +618,7 @@ const getParamsPGS201 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -631,7 +631,7 @@ const getParamsPGS201 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -643,7 +643,7 @@ const getParamsPGS201 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -671,7 +671,7 @@ const getParamsPGS203 = (payload) => {
       jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -683,7 +683,7 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -696,7 +696,7 @@ const getParamsPGS203 = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -708,7 +708,7 @@ const getParamsPGS203 = (payload) => {
       jenisFasiliti: { $eq: 'taska-tadika' },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
     return param;
   };
@@ -801,7 +801,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -814,7 +814,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -826,7 +826,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -837,7 +837,7 @@ const getParamsGender = (payload) => {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -866,7 +866,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -881,7 +881,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -895,7 +895,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -908,7 +908,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -980,7 +980,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -997,7 +997,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -1013,7 +1013,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
       tarikhKedatangan: dateModifier(payload),
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -1027,7 +1027,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       deleted: false,
       kedatangan: { $eq: 'baru-kedatangan' },
       statusKehadiran: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
     return param;
@@ -1055,7 +1055,7 @@ const getParamsBPE = (payload) => {
       //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
@@ -1070,7 +1070,7 @@ const getParamsBPE = (payload) => {
       //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
@@ -1086,7 +1086,7 @@ const getParamsBPE = (payload) => {
       //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
@@ -1101,7 +1101,7 @@ const getParamsBPE = (payload) => {
       //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
@@ -1115,7 +1115,7 @@ const getParamsBPE = (payload) => {
       //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
       deleted: false,
-      statusReten: 'telah diisi',
+      statusReten: { $in: ['telah diisi', 'reten salah'] },
       yaTidakPesakitMempunyaiGigi: 'ya-pesakit-mempunyai-gigi',
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
@@ -1148,7 +1148,7 @@ const getParamsTOD = (payload) => {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
     deleted: false,
-    statusReten: 'telah diisi',
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
 
   if (negeri !== 'all') {
@@ -1205,7 +1205,7 @@ const getParamsKOM = (payload) => {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
     deleted: false,
-    statusReten: 'telah diisi',
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
     jenisProgram: { $ne: 'incremental' },
   };
 
@@ -1235,7 +1235,7 @@ const getParamsOAP = (payload) => {
     kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
     statusKehadiran: false,
     deleted: false,
-    statusReten: 'telah diisi',
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
     jenisProgram: { $ne: 'incremental' },
   };
 
@@ -1264,7 +1264,7 @@ const getParamsUTCRTC = (payload) => {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
     deleted: false,
-    statusReten: 'telah diisi',
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
     jenisProgram: { $ne: 'incremental' },
   };
 
@@ -1292,7 +1292,7 @@ const getParamsPKAP = (payload) => {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
     deleted: false,
-    statusReten: 'telah diisi',
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
     jenisProgram: { $ne: 'incremental' },
   };
 
