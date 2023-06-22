@@ -23,6 +23,7 @@ const {
 const {
   countPPIM03,
   countPPIM04,
+  countPPIM05,
   countBEGIN,
   countDEWASAMUDA,
   countOAP,
@@ -64,6 +65,7 @@ module.exports = {
   countAdHocQuery,
   countPPIM03,
   countPPIM04,
+  countPPIM05,
   countBEGIN,
   countDEWASAMUDA,
   countOAP,

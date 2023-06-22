@@ -5864,7 +5864,6 @@ const makePPIM03 = async (payload) => {
     tarikhMula,
     tarikhAkhir,
     bulan,
-    pilihanIndividu,
     username,
     fromEtl,
     jenisReten,
@@ -5910,57 +5909,255 @@ const makePPIM03 = async (payload) => {
     );
     worksheet.getCell('B7').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('B8').value = `${daerah.toUpperCase()}`;
-    worksheet.getCell('B9').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
+    // worksheet.getCell('B9').value = `${klinik.toUpperCase()}`;
+    // worksheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
+    let rowNumber = 0;
+    //
+    if (data[0].some((obj) => obj._id.includes('T'))) {
+      const newSheet = workbook.addWorksheet('PPIM 05-2023 SM');
+      newSheet.model = Object.assign(worksheet.model, {
+        mergeCells: worksheet.model.merges,
+      });
+      worksheet.columns.forEach((column, colNumber) => {
+        const copyColumn = newSheet.getColumn(colNumber + 1);
+        copyColumn.width = column.width;
+        copyColumn.style = Object.assign({}, column.style);
+      });
+      worksheet.eachRow((row, rowNumber) => {
+        const copyRow = newSheet.getRow(rowNumber);
+        row.eachCell((cell, colNumber) => {
+          const copyCell = copyRow.getCell(colNumber);
+          copyCell.value = cell.value;
+          copyCell.style = Object.assign({}, cell.style);
+          copyCell.alignment = Object.assign({}, cell.alignment);
+        });
+      });
+      newSheet.name = 'PPIM 03-2023 SM';
+      newSheet.getCell('S5').value = moment(new Date()).format('YYYY');
+      newSheet.getCell('O5').value = moment(bulan ? bulan : tarikhMula).format(
+        'MMMM'
+      );
+      newSheet.getCell('B7').value = `${negeri.toUpperCase()}`;
+      newSheet.getCell('B8').value = `${daerah.toUpperCase()}`;
+      // newSheet.getCell('B8').value = `${klinik.toUpperCase()}`;
+      // newSheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
+      //
+      for (let i = 0; i < data[0].length; i++) {
+        if (data[0][i]) {
+          switch (data[0][i]._id) {
+            case 'T1':
+              rowNumber = 15;
+              console.log('t 1');
+              break;
+            case 'T2':
+              rowNumber = 16;
+              console.log('T 2');
+              break;
+            case 'T3':
+              rowNumber = 17;
+              console.log('T 3');
+              break;
+            case 'T4':
+              rowNumber = 18;
+              console.log('T 4');
+              break;
+            case 'T5':
+              rowNumber = 19;
+              console.log('T 5');
+              break;
+            default:
+              console.log('no data');
+          }
+
+          newSheet.getRow(rowNumber).getCell(18).value =
+            data[0][i].bilPerokokSemasaRokokBiasa;
+          newSheet.getRow(rowNumber).getCell(19).value =
+            data[0][i].bilPerokokSemasaElecVape;
+          newSheet.getRow(rowNumber).getCell(20).value =
+            data[0][i].bilPerokokSemasaShisha;
+          newSheet.getRow(rowNumber).getCell(21).value =
+            data[0][i].bilPerokokSemasaLainlain;
+          newSheet.getRow(rowNumber).getCell(22).value =
+            data[0][i].bilPerokokSemasaDirujukIntervensi;
+        }
+      }
+      for (let i = 0; i < data[1].length; i++) {
+        if (data[1][i]) {
+          switch (data[1][i]._id) {
+            case 'T1':
+              rowNumber = 15;
+              console.log('t 1');
+              break;
+            case 'T2':
+              rowNumber = 16;
+              console.log('T 2');
+              break;
+            case 'T3':
+              rowNumber = 17;
+              console.log('T 3');
+              break;
+            case 'T4':
+              rowNumber = 18;
+              console.log('T 4');
+              break;
+            case 'T5':
+              rowNumber = 19;
+              console.log('T 5');
+              break;
+            default:
+              console.log('no data');
+          }
+
+          newSheet.getRow(rowNumber).getCell(9).value =
+            data[1][i].bilPerokokSemasaLelakiMelayu;
+          newSheet.getRow(rowNumber).getCell(10).value =
+            data[1][i].bilPerokokSemasaLelakiCina;
+          newSheet.getRow(rowNumber).getCell(11).value =
+            data[1][i].bilPerokokSemasaLelakiIndia;
+          newSheet.getRow(rowNumber).getCell(12).value =
+            data[1][i].bilPerokokSemasaLelakiLainlain;
+          newSheet.getRow(rowNumber).getCell(14).value =
+            data[1][i].bilPerokokSemasaPerempuanMelayu;
+          newSheet.getRow(rowNumber).getCell(15).value =
+            data[1][i].bilPerokokSemasaPerempuanCina;
+          newSheet.getRow(rowNumber).getCell(16).value =
+            data[1][i].bilPerokokSemasaPerempuanMelayu;
+          newSheet.getRow(rowNumber).getCell(17).value =
+            data[1][i].bilPerokokSemasaPerempuanLainlain;
+          newSheet.getRow(rowNumber).getCell(25).value =
+            data[1][i].bilBekasPerokokLelaki;
+          newSheet.getRow(rowNumber).getCell(26).value =
+            data[1][i].bilBekasPerokokPerempuan;
+          newSheet.getRow(rowNumber).getCell(29).value =
+            data[1][i].bilPerokokPasifLelaki;
+          newSheet.getRow(rowNumber).getCell(30).value =
+            data[1][i].bilPerokokPasifPerempuan;
+          newSheet.getRow(rowNumber).getCell(33).value =
+            data[1][i].bilBukanPerokokLelaki;
+          newSheet.getRow(rowNumber).getCell(34).value =
+            data[1][i].bilBukanPerokokPerempuan;
+          newSheet.getRow(rowNumber).getCell(37).value =
+            data[1][i].bilDalamIntervensiLelaki;
+          newSheet.getRow(rowNumber).getCell(38).value =
+            data[1][i].bilDalamIntervensiPerempuan;
+        }
+      }
+    }
     //
     for (let i = 0; i < data[0].length; i++) {
-      let row = worksheet.getRow(18 + i);
-      if (data[0][i].queryPPIM03[0]) {
-        row.getCell(3).value = data[0][i].queryPPIM03[0].bilEnrolmen;
-        // skipping cells - PEROKOK SEMASA
-        row.getCell(9).value = data[0][i].queryPPIM03[0].jumlahKesMelayuLelaki;
-        row.getCell(10).value = data[0][i].queryPPIM03[0].jumlahKesCinaLelaki;
-        row.getCell(11).value = data[0][i].queryPPIM03[0].jumlahKesIndiaLelaki;
-        row.getCell(12).value =
-          data[0][i].queryPPIM03[0].jumlahKesLainLainLelaki;
-        //skipping cells
-        row.getCell(14).value =
-          data[0][i].queryPPIM03[0].jumlahKesMelayuPerempuan;
-        row.getCell(15).value =
-          data[0][i].queryPPIM03[0].jumlahKesCinaPerempuan;
-        row.getCell(16).value =
-          data[0][i].queryPPIM03[0].jumlahKesIndiaPerempuan;
-        row.getCell(17).value =
-          data[0][i].queryPPIM03[0].jumlahKesLainLainPerempuan;
-        row.getCell(18).value = data[0][i].queryPPIM03[0].jumlahRokokBiasa;
-        row.getCell(19).value = data[0][i].queryPPIM03[0].jumlahRokokElektronik;
-        row.getCell(20).value = data[0][i].queryPPIM03[0].jumlahRokokShisha;
-        row.getCell(21).value = data[0][i].queryPPIM03[0].jumlahRokokLainlain;
-        row.getCell(22).value =
-          data[0][i].queryPPIM03[0].bilanganDirujukIntervensi;
-        // skipping cells - BEKAS PEROKOK
-        row.getCell(25).value =
-          data[0][i].queryPPIM03[0].jumlahBekasPerokokLelaki;
-        row.getCell(26).value =
-          data[0][i].queryPPIM03[0].jumlahBekasPerokokLelaki;
-        // skipping cells - PEROKOK PASIF
-        row.getCell(25).value =
-          data[0][i].queryPPIM03[0].jumlahPerokokPasifLelaki;
-        row.getCell(26).value =
-          data[0][i].queryPPIM03[0].jumlahPerokokPasifLelaki;
-        // skipping cells - BUKAN PEROKOK
-        row.getCell(25).value =
-          data[0][i].queryPPIM03[0].jumlahBukanPerokokLelaki;
-        row.getCell(26).value =
-          data[0][i].queryPPIM03[0].jumlahBukanPerokokLelaki;
-        // skipping cells - DALAM INTERVENSI
-        row.getCell(25).value =
-          data[0][i].queryPPIM03[0].jumlahDalamIntervensiLelaki;
-        row.getCell(26).value =
-          data[0][i].queryPPIM03[0].jumlahDalamIntervensiLelaki;
+      if (data[0][i]) {
+        console.log(data[0][i]);
+        switch (data[0][i]._id) {
+          case 'D1':
+            rowNumber = 15;
+            console.log('derajah 1');
+            break;
+          case 'D2':
+            rowNumber = 16;
+            console.log('derajah 2');
+            break;
+          case 'D3':
+            rowNumber = 17;
+            console.log('derajah 3');
+            break;
+          case 'D4':
+            rowNumber = 1189;
+            console.log('derajah 4');
+            break;
+          case 'D5':
+            rowNumber = 19;
+            console.log('derajah 5');
+            break;
+          case 'D6':
+            rowNumber = 20;
+            console.log('derajah 6');
+            break;
+          default:
+            console.log('no data');
+        }
+
+        worksheet.name = 'PPIM 03-2023 SR';
+        // worksheet.getRow(rowNumber).getCell(2).value +=
+        //   data[0][i].enrolmen???;
+        worksheet.getRow(rowNumber).getCell(18).value =
+          data[0][i].bilPerokokSemasaRokokBiasa;
+        worksheet.getRow(rowNumber).getCell(19).value =
+          data[0][i].bilPerokokSemasaElecVape;
+        worksheet.getRow(rowNumber).getCell(20).value =
+          data[0][i].bilPerokokSemasaShisha;
+        worksheet.getRow(rowNumber).getCell(21).value =
+          data[0][i].bilPerokokSemasaLainlain;
+        worksheet.getRow(rowNumber).getCell(22).value =
+          data[0][i].bilPerokokSemasaDirujukIntervensi;
+      }
+    }
+    for (let i = 0; i < data[1].length; i++) {
+      if (data[1][i]) {
+        console.log(data[1][i]);
+        switch (data[1][i]._id) {
+          case 'D1':
+            rowNumber = 15;
+            console.log('derajah 1');
+            break;
+          case 'D2':
+            rowNumber = 16;
+            console.log('derajah 2');
+            break;
+          case 'D3':
+            rowNumber = 17;
+            console.log('derajah 3');
+            break;
+          case 'D4':
+            rowNumber = 1189;
+            console.log('derajah 4');
+            break;
+          case 'D5':
+            rowNumber = 19;
+            console.log('derajah 5');
+            break;
+          case 'D6':
+            rowNumber = 20;
+            console.log('derajah 6');
+            break;
+          default:
+            console.log('no data');
+        }
+
+        worksheet.getRow(rowNumber).getCell(9).value =
+          data[1][i].bilPerokokSemasaLelakiMelayu;
+        worksheet.getRow(rowNumber).getCell(10).value =
+          data[1][i].bilPerokokSemasaLelakiCina;
+        worksheet.getRow(rowNumber).getCell(11).value =
+          data[1][i].bilPerokokSemasaLelakiIndia;
+        worksheet.getRow(rowNumber).getCell(12).value =
+          data[1][i].bilPerokokSemasaLelakiLainlain;
+        worksheet.getRow(rowNumber).getCell(14).value =
+          data[1][i].bilPerokokSemasaPerempuanMelayu;
+        worksheet.getRow(rowNumber).getCell(15).value =
+          data[1][i].bilPerokokSemasaPerempuanCina;
+        worksheet.getRow(rowNumber).getCell(16).value =
+          data[1][i].bilPerokokSemasaPerempuanMelayu;
+        worksheet.getRow(rowNumber).getCell(17).value =
+          data[1][i].bilPerokokSemasaPerempuanLainlain;
+        worksheet.getRow(rowNumber).getCell(25).value =
+          data[1][i].bilBekasPerokokLelaki;
+        worksheet.getRow(rowNumber).getCell(26).value =
+          data[1][i].bilBekasPerokokPerempuan;
+        worksheet.getRow(rowNumber).getCell(29).value =
+          data[1][i].bilPerokokPasifLelaki;
+        worksheet.getRow(rowNumber).getCell(30).value =
+          data[1][i].bilPerokokPasifPerempuan;
+        worksheet.getRow(rowNumber).getCell(33).value =
+          data[1][i].bilBukanPerokokLelaki;
+        worksheet.getRow(rowNumber).getCell(34).value =
+          data[1][i].bilBukanPerokokPerempuan;
+        worksheet.getRow(rowNumber).getCell(37).value =
+          data[1][i].bilDalamIntervensiLelaki;
+        worksheet.getRow(rowNumber).getCell(38).value =
+          data[1][i].bilDalamIntervensiPerempuan;
       }
     }
 
@@ -6011,14 +6208,14 @@ const makePPIM03 = async (payload) => {
     const { jenisFasiliti } = Fasiliti.findOne({
       kodSekolah: sekolah,
     });
-    worksheet.getCell('AI1').value =
-      jenisFasiliti === 'sekolah-rendah'
-        ? 'BORANG PPIM 03-2023 (SR)'
-        : 'BORANG PPIM 03-2023 (SM)';
-    worksheet.name =
-      jenisFasiliti === 'sekolah-rendah'
-        ? 'BORANG PPIM 03-2023 (SR)'
-        : 'BORANG PPIM 03-2023 (SM)';
+    // worksheet.getCell('AI1').value =
+    //   jenisFasiliti === 'sekolah-rendah'
+    //     ? 'BORANG PPIM 03-2023 (SR)'
+    //     : 'BORANG PPIM 03-2023 (SM)';
+    // worksheet.name =
+    //   jenisFasiliti === 'sekolah-rendah'
+    //     ? 'BORANG PPIM 03-2023 (SR)'
+    //     : 'BORANG PPIM 03-2023 (SM)';
 
     const newfile = makeFile();
 
@@ -6094,9 +6291,9 @@ const makePPIM04 = async (payload) => {
     worksheet.getCell('E4').value = moment(bulan ? bulan : tarikhMula).format(
       'MMMM'
     );
-    worksheet.getCell('B6').value = `${sekolah.toUpperCase()}`;
+    // worksheet.getCell('B6').value = `${sekolah.toUpperCase()}`;
     worksheet.getCell('B7').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B8').value = `${pegawai.toUpperCase()}`;
+    // worksheet.getCell('B8').value = `${pegawai.toUpperCase()}`;
     // jumlah perokok semasa berhenti merokok dalam tempoh 6 bulan
     // worksheet.getCell('B10').value = `${pegawai.toUpperCase()}`;
     //
@@ -6104,41 +6301,22 @@ const makePPIM04 = async (payload) => {
     let jumlahRetenSalah = 0;
     //
     for (let i = 0; i < data.length; i++) {
-      let row = worksheet.getRow(15 + i);
-      if (data[i]) {
-        row.getCell(1).value = data[i].nama;
-        row.getCell(2).value = data[i].kelasPelajar;
-        row.getCell(3).value = data[i].noTelefon;
-        row.getCell(4).value = data[i].tarikhIntervensi1;
-        row.getCell(5).value = data[i].tarikhIntervensi2;
-        row.getCell(6).value = data[i].tarikhIntervensi3;
-        row.getCell(7).value = data[i].tarikhIntervensi4;
-        row.getCell(8).value =
-          data[i].adaTiadaQTarikh1 &&
-          data[i].adaTiadaQTarikh2 &&
-          data[i].adaTiadaQTarikh3 &&
-          data[i].adaTiadaQTarikh4
-            ? '1'
-            : '';
-        row.getCell(9).value =
-          !data[i].adaTiadaQTarikh1 &&
-          !data[i].adaTiadaQTarikh2 &&
-          !data[i].adaTiadaQTarikh3 &&
-          !data[i].adaTiadaQTarikh4
-            ? '1'
-            : '';
-        row.getCell(10).value = data[i].tarikhQ;
-        row.getCell(11).value =
-          data[i].tarikhIntervensi1 &&
-          data[i].tarikhIntervensi2 &&
-          data[i].tarikhIntervensi3 &&
-          data[i].tarikhIntervensi4
-            ? '1'
-            : '';
-        row.getCell(12).value =
-          data[i].statusSelepas6Bulan === 'berhenti' ? '1' : '';
-        row.getCell(13).value =
-          data[i].statusSelepas6Bulan === 'berhenti' ? '' : '1';
+      if (data[0][i]) {
+        console.log(data[0][i]);
+        let rowNew = worksheet.getRow(15 + i);
+        rowNew.getCell(1).value = data[0][i].nama;
+        rowNew.getCell(2).value = data[0][i].kelasPelajar;
+        rowNew.getCell(3).value = data[0][i].noTelefon;
+        rowNew.getCell(4).value = data[0][i].tarikhIntervensi1;
+        rowNew.getCell(5).value = data[0][i].tarikhIntervensi2;
+        rowNew.getCell(6).value = data[0][i].tarikhIntervensi3;
+        rowNew.getCell(7).value = data[0][i].tarikhIntervensi4;
+        rowNew.getCell(8).value = data[0][i].adaQuitDate;
+        rowNew.getCell(9).value = data[0][i].tiadaQuitDate;
+        rowNew.getCell(10).value = data[0][i].tarikhQuit;
+        rowNew.getCell(11).value = data[0][i].rujukGuruKaunseling;
+        rowNew.getCell(12).value = data[0][i].berhentiMerokok;
+        rowNew.getCell(13).value = data[0][i].takBerhentiMerokok;
       }
     }
 
@@ -6186,17 +6364,17 @@ const makePPIM04 = async (payload) => {
       horizontal: 'right',
     };
     // oter nama form dan nama worksheet
-    const { jenisFasiliti } = Fasiliti.findOne({
-      kodSekolah: sekolah,
-    });
-    worksheet.getCell('A1').value =
-      jenisFasiliti === 'sekolah-rendah'
-        ? 'BORANG PPIM 04-2023 (SR) (SULIT)'
-        : 'BORANG PPIM 04-2023 (SM) (SULIT)';
-    worksheet.name =
-      jenisFasiliti === 'sekolah-rendah'
-        ? 'BORANG PPIM 04-2023 (SR)(SULIT)'
-        : 'BORANG PPIM 04-2023 (SM)(SULIT)';
+    // const { jenisFasiliti } = Fasiliti.findOne({
+    //   kodSekolah: sekolah,
+    // });
+    // worksheet.getCell('A1').value =
+    //   jenisFasiliti === 'sekolah-rendah'
+    //     ? 'BORANG PPIM 04-2023 (SR) (SULIT)'
+    //     : 'BORANG PPIM 04-2023 (SM) (SULIT)';
+    // worksheet.name =
+    //   jenisFasiliti === 'sekolah-rendah'
+    //     ? 'BORANG PPIM 04-2023 (SR)(SULIT)'
+    //     : 'BORANG PPIM 04-2023 (SM)(SULIT)';
 
     const newfile = makeFile();
 
@@ -6212,6 +6390,7 @@ const makePPIM04 = async (payload) => {
 
     return file;
   } catch (err) {
+    console.log(err);
     penjanaanRetenLogger.error(
       `[generateRetenController/makePPIM04] Excel making error. Reason: ${err}`
     );
@@ -6274,36 +6453,152 @@ const makePPIM05 = async (payload) => {
     );
     worksheet.getCell('B6').value = `${negeri.toUpperCase()}`;
     worksheet.getCell('B7').value = `${daerah.toUpperCase()}`;
-    worksheet.getCell('B8').value = `${klinik.toUpperCase()}`;
-    worksheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
+    // worksheet.getCell('B8').value = `${klinik.toUpperCase()}`;
+    // worksheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
     //
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
+    let rowNumber = 0;
     //
-    for (let i = 0; i < data[0].length; i++) {
-      let row = worksheet.getRow(14 + i);
-      if (data[0][i].queryPPIM05[0]) {
-        row.getCell(2).value = data[0][i].queryPPIM05[0].bilPerokokSemasa;
-        row.getCell(3).value =
-          data[0][i].queryPPIM05[0].bilPerokokMenyertaiIntervensi;
-        row.getCell(4).value =
-          data[0][i].queryPPIM05[0].jumlahAdaQuitDateLebih3Int;
+    // buat identical copy untuk sm
+    if (data[0].some((obj) => obj._id.includes('T'))) {
+      const newSheet = workbook.addWorksheet('PPIM 05-2023 SM');
+      newSheet.model = Object.assign(worksheet.model, {
+        mergeCells: worksheet.model.merges,
+      });
+      worksheet.columns.forEach((column, colNumber) => {
+        const copyColumn = newSheet.getColumn(colNumber + 1);
+        copyColumn.width = column.width;
+        copyColumn.style = Object.assign({}, column.style);
+      });
+      worksheet.eachRow((row, rowNumber) => {
+        const copyRow = newSheet.getRow(rowNumber);
+        row.eachCell((cell, colNumber) => {
+          const copyCell = copyRow.getCell(colNumber);
+          copyCell.value = cell.value;
+          copyCell.style = Object.assign({}, cell.style);
+          copyCell.alignment = Object.assign({}, cell.alignment);
+        });
+      });
+      newSheet.name = 'PPIM 05-2023 SM';
+      newSheet.getCell('I4').value = moment(new Date()).format('YYYY');
+      newSheet.getCell('F4').value = moment(bulan ? bulan : tarikhMula).format(
+        'MMMM'
+      );
+      newSheet.getCell('B6').value = `${negeri.toUpperCase()}`;
+      newSheet.getCell('B7').value = `${daerah.toUpperCase()}`;
+      // newSheet.getCell('B8').value = `${klinik.toUpperCase()}`;
+      // newSheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
+      worksheet.getCell('N6').value = '';
+      worksheet.getCell('N7').value = '';
+      worksheet.getCell('N8').value = '';
+      worksheet.getCell('N9').value = '';
+      //
+      for (let i = 0; i < data[0].length; i++) {
+        if (data[0][i]) {
+          switch (data[0][i]._id) {
+            case 'T1':
+              rowNumber = 14;
+              console.log('t 1');
+              break;
+            case 'T2':
+              rowNumber = 15;
+              console.log('T 2');
+              break;
+            case 'T3':
+              rowNumber = 16;
+              console.log('T 3');
+              break;
+            case 'T4':
+              rowNumber = 17;
+              console.log('T 4');
+              break;
+            case 'T5':
+              rowNumber = 18;
+              console.log('T 5');
+              break;
+            default:
+              console.log('no data');
+          }
+
+          newSheet.getRow(rowNumber).getCell(2).value =
+            data[0][i].bilPerokokSemasa;
+          newSheet.getRow(rowNumber).getCell(3).value =
+            data[0][i].bilPerokokSertaiIntervensi;
+          newSheet.getRow(rowNumber).getCell(4).value =
+            data[0][i].bilPerokokAdaQuitDate3Int;
+          // skipping cells
+          newSheet.getRow(rowNumber).getCell(6).value =
+            data[0][i].bilPerokokTiadaQuitDate3Int;
+          // skipping cells
+          newSheet.getRow(rowNumber).getCell(8).value =
+            data[0][i].bilPerokokAdaQuitDateKur3Int;
+          // skipping cells
+          newSheet.getRow(rowNumber).getCell(10).value =
+            data[0][i].bilPerokokTiadaQuitDateKur3Int;
+          //skipping cells
+          newSheet.getRow(rowNumber).getCell(12).value =
+            data[0][i].bilPerokokDirujukGuru;
+          newSheet.getRow(rowNumber).getCell(13).value =
+            data[0][i].bilPerokokBerhenti6Bulan;
+          newSheet.getRow(rowNumber).getCell(14).value =
+            data[0][i].bilPerokokTidakBerhenti6Bulan;
+        }
+      }
+    }
+    for (let i = 0; i < data.length; i++) {
+      if (data[0][i]) {
+        switch (data[0][i]._id) {
+          case 'D1':
+            rowNumber = 14;
+            console.log('derajah 1');
+            break;
+          case 'D2':
+            rowNumber = 15;
+            console.log('derajah 2');
+            break;
+          case 'D3':
+            rowNumber = 16;
+            console.log('derajah 3');
+            break;
+          case 'D4':
+            rowNumber = 17;
+            console.log('derajah 4');
+            break;
+          case 'D5':
+            rowNumber = 18;
+            console.log('derajah 5');
+            break;
+          case 'D6':
+            rowNumber = 19;
+            console.log('derajah 6');
+            break;
+          default:
+            console.log('no data');
+        }
+
+        worksheet.getRow(rowNumber).getCell(2).value =
+          data[0][i].bilPerokokSemasa;
+        worksheet.getRow(rowNumber).getCell(3).value =
+          data[0][i].bilPerokokSertaiIntervensi;
+        worksheet.getRow(rowNumber).getCell(4).value =
+          data[0][i].bilPerokokAdaQuitDate3Int;
         // skipping cells
-        row.getCell(6).value =
-          data[0][i].queryPPIM05[0].jumlahTiadaQuitDateLebih3Int;
+        worksheet.getRow(rowNumber).getCell(6).value =
+          data[0][i].bilPerokokTiadaQuitDate3Int;
         // skipping cells
-        row.getCell(8).value =
-          data[0][i].queryPPIM05[0].jumlahAdaQuitDateKurang3Int;
+        worksheet.getRow(rowNumber).getCell(8).value =
+          data[0][i].bilPerokokAdaQuitDateKur3Int;
         // skipping cells
-        row.getCell(10).value =
-          data[0][i].queryPPIM05[0].jumlahTiadaQuitDateKurang3Int;
+        worksheet.getRow(rowNumber).getCell(10).value =
+          data[0][i].bilPerokokTiadaQuitDateKur3Int;
         //skipping cells
-        row.getCell(12).value =
-          data[0][i].queryPPIM05[0].bilanganDirujukGuruKaunseling;
-        row.getCell(13).value =
-          data[0][i].queryPPIM05[0].jumlahBerhentiMerokokSelepas6Bulan;
-        row.getCell(14).value =
-          data[0][i].queryPPIM05[0].jumlahTidakBerhentiMerokokSelepas6Bulan;
+        worksheet.getRow(rowNumber).getCell(12).value =
+          data[0][i].bilPerokokDirujukGuru;
+        worksheet.getRow(rowNumber).getCell(13).value =
+          data[0][i].bilPerokokBerhenti6Bulan;
+        worksheet.getRow(rowNumber).getCell(14).value =
+          data[0][i].bilPerokokTidakBerhenti6Bulan;
       }
     }
 
