@@ -69,12 +69,14 @@ const getParams101 = (payload, reten) => {
       createdByNegeri: { $eq: negeri },
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
+      oncall: { $in: [false, null] },
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       createdByDaerah: { $eq: daerah },
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $eq: 'kk-kd' },
+      oncall: { $in: [false, null] },
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
@@ -82,6 +84,7 @@ const getParams101 = (payload, reten) => {
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $eq: 'projek-komuniti-lain' },
       namaProgram: { $eq: pilihanProgram },
+      oncall: { $in: [false, null] },
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
@@ -89,6 +92,7 @@ const getParams101 = (payload, reten) => {
       // createdByNegeri: { $eq: negeri },
       // jenisFasiliti: { $eq: 'projek-komuniti-lain' },
       penggunaanKPBMPB: { $eq: pilihanKpbMpb },
+      oncall: { $in: [false, null] },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -109,24 +113,28 @@ const getParams101 = (payload, reten) => {
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
       // deleted: false,
+      oncall: { $in: [false, null] },
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $eq: 'kk-kd' },
       // deleted: false,
+      oncall: { $in: [false, null] },
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       jenisFasiliti: { $eq: 'projek-komuniti-lain' },
       namaProgram: { $eq: pilihanProgram },
+      oncall: { $in: [false, null] },
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
       // createdByNegeri: { $eq: negeri },
       // jenisFasiliti: { $eq: 'projek-komuniti-lain' },
       penggunaanKPBMPB: { $eq: pilihanKpbMpb },
+      oncall: { $in: [false, null] },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
@@ -145,19 +153,23 @@ const getParams101 = (payload, reten) => {
       tarikhKedatangan: dateModifier(payload),
       jenisProgram: { $ne: 'incremental' }, // ONLY FOR yg idc skrg ni
       jenisFasiliti: AorC(reten),
+      oncall: { $in: [false, null] },
     };
     const forKkia = {
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'kk-kd' },
+      oncall: { $in: [false, null] },
     };
     const forProgram = {
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'projek-komuniti-lain' },
       namaProgram: { $eq: pilihanProgram },
+      oncall: { $in: [false, null] },
     };
     const forKpbmpb = {
       tarikhKedatangan: dateModifier(payload),
       penggunaanKPBMPB: { $eq: pilihanKpbMpb },
+      oncall: { $in: [false, null] },
     };
     if (pilihanFasiliti === 'kkiakd' && pilihanKkia !== '') {
       return forKkia;
