@@ -534,8 +534,10 @@ export default function Pemeriksaan(props) {
                       <div className='flex flex-row items-center'>
                         <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
                           Penggunaan KPB / MPB :
+                          <span className='font-semibold text-user6'>*</span>
                         </p>
                         <select
+                          required
                           disabled={isDisabled}
                           name='penggunaan-kpb-mpb'
                           id='penggunaan-kpb-mpb'
