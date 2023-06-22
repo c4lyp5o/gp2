@@ -10385,7 +10385,7 @@ const countPGS203 = async (payload) => {
         ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
         ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        jenisFasiliti: { $regex: /sekolah/i },
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
     {
@@ -12472,6 +12472,7 @@ const countGender = async (payload) => {
   //
   const pesakitLelakiPrimer1859 = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       jantina: 'lelaki',
       umur: { $gte: 18, $lte: 59 },
@@ -12480,6 +12481,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanPrimer1859 = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $in: ['kp', 'kk-kd'] },
       jantina: 'perempuan',
       umur: { $gte: 18, $lte: 59 },
@@ -12544,6 +12546,7 @@ const countGender = async (payload) => {
 
   const pesakitLelakiPrimer60above = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $in: ['kp'] },
       jantina: 'lelaki',
       umur: { $gte: 60 },
@@ -12552,6 +12555,7 @@ const countGender = async (payload) => {
 
   const pesakitPerempuanPrimer60above = {
     $match: {
+      createdByKp: { $regex: /^((?!utc).)*$/i },
       jenisFasiliti: { $in: ['kp'] },
       jantina: 'perempuan',
       umur: { $gte: 60 },
