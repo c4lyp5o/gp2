@@ -6575,7 +6575,7 @@ const countKOM = async (payload) => {
     },
     {
       $lookup: {
-        from: 'Events',
+        from: 'events',
         localField: 'jenisProgram',
         foreignField: 'subProgram',
         as: 'event_data',
@@ -9398,7 +9398,7 @@ const countPPR = async (payload) => {
     },
     {
       $lookup: {
-        from: 'Events',
+        from: 'events',
         localField: 'jenisProgram',
         foreignField: 'subProgram',
         as: 'event_data',
@@ -17488,7 +17488,7 @@ const countPKAP2 = async (payload) => {
     },
     {
       $lookup: {
-        from: 'Events',
+        from: 'events',
         localField: 'jenisProgram',
         foreignField: 'subProgram',
         as: 'event_data',
