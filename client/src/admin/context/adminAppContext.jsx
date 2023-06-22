@@ -527,6 +527,55 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
+  const readSpesifikJanaTadikaData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=janatadika`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error('Tiada Data Tadika Ditemui');
+    }
+  };
+  const readSpesifikJanaSekolahRendahData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=janasekolahrendah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+      );
+    }
+  };
+  const readSpesifikJanaSekolahMenengahData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=janasekolahmenengah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+      );
+    }
+  };
 
   // spesifik kp data
   const readSpesifikKkiaDataForKp = async (kp) => {
@@ -1280,6 +1329,9 @@ function AdminAppProvider({ children }) {
         readSpesifikKPBMPBData,
         readSpesifikIndividuData,
         readSpesifikRTCData,
+        readSpesifikJanaTadikaData,
+        readSpesifikJanaSekolahRendahData,
+        readSpesifikJanaSekolahMenengahData,
         // spesifik kp data
         readSpesifikKkiaDataForKp,
         readSpesifikProgramDataForKp,

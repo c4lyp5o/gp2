@@ -5,7 +5,7 @@ import moment from 'moment';
 import { useGlobalAdminAppContext } from '../../context/adminAppContext';
 
 import { RiCloseLine } from 'react-icons/ri';
-import { AiOutlineStop } from 'react-icons/ai';
+import { AiOutlineStop, AiFillCloseCircle } from 'react-icons/ai';
 
 import styles from '../../Modal.module.css';
 
@@ -24,6 +24,9 @@ const ModalGenerateAdHoc = (props) => {
   // reten spesial
   const pilihanRetenMASA = ['MASA'].includes(props.jenisReten);
   const pilihanRetenAdaProgramDanKPBMPB = ['PG101C', 'PG211C'].includes(
+    props.jenisReten
+  );
+  const pilihanRetenTasTadSekolah = ['PGS201', 'BEGIN', 'PPIM03'].includes(
     props.jenisReten
   );
   const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB'].includes(props.jenisReten);
@@ -281,15 +284,18 @@ const ModalGenerateAdHoc = (props) => {
           className='absolute inset-0 bg-user1 z-0 opacity-75'
           onClick={noWayBack}
         />
-        <div className={styles.centered}>
-          <div className={styles.modalJana}>
+        <div className=''>
+          <div className='absolute z-20 inset-x-1 lg:inset-x-1/4 inset-y-4 px-5 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto overflow-x-hidden'>
             <div className={styles.modalHeader}>
               <h5 className={styles.heading}>
                 Penjanaan Reten {props.jenisReten}
               </h5>
             </div>
-            <span className={styles.closeBtn} onClick={noWayBack}>
-              <RiCloseLine style={{ marginBottom: '-3px' }} />
+            <span
+              className='absolute right-2 top-2 cursor-pointer'
+              onClick={noWayBack}
+            >
+              <AiFillCloseCircle className='text-xl rounded-full' />
             </span>
             <div className={styles.modalContent}>
               <div className='admin-pegawai-handler-container'>
@@ -434,9 +440,211 @@ const ModalGenerateAdHoc = (props) => {
                     </div>
                   </>
                 )}
+                {pilihanRetenTasTadSekolah && (
+                  <>
+                    <div className='grid grid-cols-4 gap-2 my-2'>
+                      <label
+                        htmlFor='tadika'
+                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                          props.jenisFasiliti === 'tadika'
+                            ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisFasiliti'
+                          id='tadika'
+                          value='tadika'
+                          checked={props.jenisFasiliti === 'tadika'}
+                          onChange={(e) => {
+                            props.setJenisFasiliti(e.target.value);
+                            props.setCarianJana('');
+                            props.setPilihanJanaSpesifikFasiliti('');
+                          }}
+                          className='hidden'
+                        />
+                        <span>Tadika</span>
+                      </label>
+                      <label
+                        htmlFor='sek-rendah'
+                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                          props.jenisFasiliti === 'sekolah rendah'
+                            ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisFasiliti'
+                          id='sek-rendah'
+                          value='sekolah rendah'
+                          checked={props.jenisFasiliti === 'sekolah rendah'}
+                          onChange={(e) => {
+                            props.setJenisFasiliti(e.target.value);
+                            props.setCarianJana('');
+                            props.setPilihanJanaSpesifikFasiliti('');
+                          }}
+                          className='hidden'
+                        />
+                        <span>Sekolah Rendah</span>
+                      </label>
+                      <label
+                        htmlFor='sek-menengah'
+                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                          props.jenisFasiliti === 'sekolah menengah'
+                            ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisFasiliti'
+                          id='sek-menengah'
+                          value='sekolah menengah'
+                          checked={props.jenisFasiliti === 'sekolah menengah'}
+                          onChange={(e) => {
+                            props.setJenisFasiliti(e.target.value);
+                            props.setCarianJana('');
+                            props.setPilihanJanaSpesifikFasiliti('');
+                          }}
+                          className='hidden'
+                        />
+                        <span>Sekolah Menengah</span>
+                      </label>
+                      <label
+                        htmlFor='semua'
+                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                          props.jenisFasiliti === 'semua'
+                            ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisFasiliti'
+                          id='semua'
+                          value='semua'
+                          checked={props.jenisFasiliti === 'semua'}
+                          onChange={(e) => {
+                            props.setJenisFasiliti(e.target.value);
+                            props.setCarianJana('');
+                            props.setPilihanJanaSpesifikFasiliti('');
+                          }}
+                          className='hidden'
+                        />
+                        <span>Semua</span>
+                      </label>
+                    </div>
+                    {props.jenisFasiliti && props.jenisFasiliti !== 'semua' && (
+                      <div className='my-2 mt-6'>
+                        <h1 className='flex justify-start my-1 font-semibold'>
+                          Carian {props.jenisFasiliti}
+                        </h1>
+                        <div className='grid grid-cols-[3fr_1fr] gap-2'>
+                          <input
+                            value={props.carianJana}
+                            type='search'
+                            name='carianJana'
+                            className='w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                            onChange={(e) => {
+                              props.setCarianJana(e.target.value);
+                            }}
+                          />
+                          <span
+                            className={` ${
+                              props.sedangCarianJana &&
+                              'cursor-not-allowed pointer-events-none'
+                            } flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 cursor-pointer hover:bg-user4 hover:bg-opacity-30 transition-all duration-500`}
+                            onClick={
+                              props.jenisFasiliti === 'tadika'
+                                ? props.handleJanaCarianTadika
+                                : props.jenisFasiliti === 'sekolah rendah'
+                                ? props.handleJanaCarianSekolahRendah
+                                : props.jenisFasiliti === 'sekolah menengah' &&
+                                  props.handleJanaCarianSekolahMenengah
+                            }
+                          >
+                            {props.sedangCarianJana ? 'Mencari' : 'Cari'}
+                          </span>
+                        </div>
+                        {props.carianJana ? (
+                          <>
+                            <h1 className='flex justify-start my-1 mt-2 font-semibold'>
+                              Pilihan {props.jenisFasiliti}
+                            </h1>
+                            <select
+                              className='w-full p-2 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                              name='pilihanSpesifikFasiliti'
+                              id='pilihanSpesifikFasiliti'
+                              value={props.pilihanJanaSpesifikFasiliti}
+                              onChange={(e) => {
+                                props.setPilihanJanaSpesifikFasiliti(
+                                  e.target.value
+                                );
+                              }}
+                            >
+                              <option value=''>Sila pilih..</option>
+                              {props.jenisFasiliti === 'tadika' &&
+                                props.allTadika &&
+                                props.allTadika
+                                  .filter((t) =>
+                                    t.nama
+                                      .toLowerCase()
+                                      .includes(props.carianJana.toLowerCase())
+                                  )
+                                  .map((t, index) => {
+                                    return (
+                                      <option key={index} value={t.nama}>
+                                        {t.nama}
+                                      </option>
+                                    );
+                                  })}
+                              {props.jenisFasiliti === 'sekolah rendah' &&
+                                props.allSekRendah &&
+                                props.allSekRendah
+                                  .filter((t) =>
+                                    t.nama
+                                      .toLowerCase()
+                                      .includes(props.carianJana.toLowerCase())
+                                  )
+                                  .map((t, index) => {
+                                    return (
+                                      <option key={index} value={t.nama}>
+                                        {t.nama}
+                                      </option>
+                                    );
+                                  })}
+                              {props.jenisFasiliti === 'sekolah menengah' &&
+                                props.allSekMenengah &&
+                                props.allSekMenengah
+                                  .filter((t) =>
+                                    t.nama
+                                      .toLowerCase()
+                                      .includes(props.carianJana.toLowerCase())
+                                  )
+                                  .map((t, index) => {
+                                    return (
+                                      <option key={index} value={t.nama}>
+                                        {t.nama}
+                                      </option>
+                                    );
+                                  })}
+                            </select>
+                          </>
+                        ) : null}
+                      </div>
+                    )}
+                  </>
+                )}
                 {!pilihanRetenMASA &&
                   !pilihanRetenRTC &&
-                  !pilihanRetenAdaKPBSahaja && (
+                  !pilihanRetenAdaKPBSahaja &&
+                  !pilihanRetenTasTadSekolah && (
                     <>
                       <div className='grid grid-cols-2 gap-2'>
                         <div className='px-3 py-1'>
@@ -1740,6 +1948,9 @@ const Generate = () => {
     readSpesifikKPBMPBData,
     readSpesifikIndividuData,
     readSpesifikRTCData,
+    readSpesifikJanaTadikaData,
+    readSpesifikJanaSekolahRendahData,
+    readSpesifikJanaSekolahMenengahData,
     readGenerateTokenData,
     readOndemandSetting,
     semuaJenisReten,
@@ -1781,6 +1992,14 @@ const Generate = () => {
   const [pilihanDaerah, setPilihanDaerah] = useState('');
   const [pilihanKlinik, setPilihanKlinik] = useState('');
   const [pilihanFasiliti, setPilihanFasiliti] = useState('');
+  const [jenisFasiliti, setJenisFasiliti] = useState('');
+  const [carianJana, setCarianJana] = useState('');
+  const [allTadika, setAllTadika] = useState([]);
+  const [pilihanJanaSpesifikFasiliti, setPilihanJanaSpesifikFasiliti] =
+    useState('');
+  const [allSekRendah, setAllSekRendah] = useState([]);
+  const [allSekMenengah, setAllSekMenengah] = useState([]);
+  const [sedangCarianJana, setSedangCarianJana] = useState(false);
   const [pilihanKkia, setPilihanKkia] = useState('');
   const [pilihanProgram, setPilihanProgram] = useState('');
   const [pilihanKpbMpb, setPilihanKpbMpb] = useState('');
@@ -1862,6 +2081,48 @@ const Generate = () => {
       .then((res) => {
         // console.log(res.data);
         setRtcData(res.data);
+      })
+      .catch((err) => {
+        // console.log(err);
+        // toast.error('Sila cuba lagi');
+      });
+  };
+
+  const handleJanaCarianTadika = async (e) => {
+    setSedangCarianJana(true);
+    await readSpesifikJanaTadikaData()
+      .then((res) => {
+        // console.log(res.data);
+        setAllTadika(res.data);
+        setSedangCarianJana(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        // toast.error('Sila cuba lagi');
+      });
+  };
+  const handleJanaCarianSekolahRendah = async (e) => {
+    setSedangCarianJana(true);
+    await readSpesifikJanaSekolahRendahData()
+      .then((res) => {
+        // console.log(res.data);
+        setAllSekRendah(res.data);
+        setSedangCarianJana(false);
+      })
+      .catch((err) => {
+        // console.log(err);
+        if (err.response.status === 404) {
+          toast.error('Tiada data sekolah rendah');
+        }
+      });
+  };
+  const handleJanaCarianSekolahMenengah = async (e) => {
+    setSedangCarianJana(true);
+    await readSpesifikJanaSekolahMenengahData()
+      .then((res) => {
+        // console.log(res.data);
+        setAllSekMenengah(res.data);
+        setSedangCarianJana(false);
       })
       .catch((err) => {
         // console.log(err);
@@ -2072,6 +2333,21 @@ const Generate = () => {
     setPilihanKpbMpb,
     pilihanFasiliti,
     setPilihanFasiliti,
+    //generate ikut tadika sek rendah sek menengah
+    jenisFasiliti,
+    setJenisFasiliti,
+    carianJana,
+    setCarianJana,
+    allTadika,
+    setAllTadika,
+    pilihanJanaSpesifikFasiliti,
+    setPilihanJanaSpesifikFasiliti,
+    allSekRendah,
+    setAllSekRendah,
+    allSekMenengah,
+    setAllSekMenengah,
+    sedangCarianJana,
+    setSedangCarianJana,
     pilihanKkia,
     setPilihanKkia,
     namaKkia,
@@ -2094,6 +2370,9 @@ const Generate = () => {
     handleGetKPBMPB,
     handleGetIndividu,
     handleGetRTC,
+    handleJanaCarianTadika,
+    handleJanaCarianSekolahRendah,
+    handleJanaCarianSekolahMenengah,
     // data
     kkiaData,
     programData,
