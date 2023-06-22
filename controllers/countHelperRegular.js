@@ -5557,8 +5557,6 @@ const countPG207 = async (payload) => {
     },
   };
 
-  console.log('buat sekolah pemeriksaan');
-
   // for frodo
   const monsterOfDataSekolahPemeriksaan = await Fasiliti.aggregate([
     {
