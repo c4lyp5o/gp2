@@ -2228,7 +2228,7 @@ const makePG207 = async (payload) => {
             row.getCell(77).value += operatorLain.immediateDenture;
             row.getCell(78).value += operatorLain.pembaikanDenture;
           }
-          row.getCell(79).value += operatorLain.kesSelesai;
+          // row.getCell(79).value += operatorLain.kesSelesai;
           row.getCell(80).value += operatorLain.xrayDiambil;
           // row.getCell(81).value += operatorLain.pesakitDisaringOC;
         }
@@ -5857,7 +5857,6 @@ const makeBEGIN = async (payload) => {
 const makePPIM03 = async (payload) => {
   logger.info('[generateRetenController/makePPIM03] makePPIM03');
   let {
-    sekolah,
     klinik,
     daerah,
     negeri,
@@ -5903,6 +5902,34 @@ const makePPIM03 = async (payload) => {
     await workbook.xlsx.readFile(filename);
     let worksheet = workbook.getWorksheet('BORANG PPIM 03-2023');
     //
+    const newSheet = workbook.addWorksheet('PPIM 05-2023 SM');
+    newSheet.model = Object.assign(worksheet.model, {
+      mergeCells: worksheet.model.merges,
+    });
+    worksheet.columns.forEach((column, colNumber) => {
+      const copyColumn = newSheet.getColumn(colNumber + 1);
+      copyColumn.width = column.width;
+      copyColumn.style = Object.assign({}, column.style);
+    });
+    worksheet.eachRow((row, rowNumber) => {
+      const copyRow = newSheet.getRow(rowNumber);
+      row.eachCell((cell, colNumber) => {
+        const copyCell = copyRow.getCell(colNumber);
+        copyCell.value = cell.value;
+        copyCell.style = Object.assign({}, cell.style);
+        copyCell.alignment = Object.assign({}, cell.alignment);
+      });
+    });
+    newSheet.name = 'PPIM 03-2023 SM';
+    newSheet.getCell('S5').value = moment(new Date()).format('YYYY');
+    newSheet.getCell('O5').value = moment(bulan ? bulan : tarikhMula).format(
+      'MMMM'
+    );
+    newSheet.getCell('B7').value = `${negeri.toUpperCase()}`;
+    newSheet.getCell('B8').value = `${daerah.toUpperCase()}`;
+    // newSheet.getCell('B8').value = `${klinik.toUpperCase()}`;
+    // newSheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
+    //
     worksheet.getCell('S5').value = moment(new Date()).format('YYYY');
     worksheet.getCell('O5').value = moment(bulan ? bulan : tarikhMula).format(
       'MMMM'
@@ -5916,167 +5943,162 @@ const makePPIM03 = async (payload) => {
     let jumlahRetenSalah = 0;
     let rowNumber = 0;
     //
-    if (data[0].some((obj) => obj._id.includes('T'))) {
-      const newSheet = workbook.addWorksheet('PPIM 05-2023 SM');
-      newSheet.model = Object.assign(worksheet.model, {
-        mergeCells: worksheet.model.merges,
-      });
-      worksheet.columns.forEach((column, colNumber) => {
-        const copyColumn = newSheet.getColumn(colNumber + 1);
-        copyColumn.width = column.width;
-        copyColumn.style = Object.assign({}, column.style);
-      });
-      worksheet.eachRow((row, rowNumber) => {
-        const copyRow = newSheet.getRow(rowNumber);
-        row.eachCell((cell, colNumber) => {
-          const copyCell = copyRow.getCell(colNumber);
-          copyCell.value = cell.value;
-          copyCell.style = Object.assign({}, cell.style);
-          copyCell.alignment = Object.assign({}, cell.alignment);
-        });
-      });
-      newSheet.name = 'PPIM 03-2023 SM';
-      newSheet.getCell('S5').value = moment(new Date()).format('YYYY');
-      newSheet.getCell('O5').value = moment(bulan ? bulan : tarikhMula).format(
-        'MMMM'
-      );
-      newSheet.getCell('B7').value = `${negeri.toUpperCase()}`;
-      newSheet.getCell('B8').value = `${daerah.toUpperCase()}`;
-      // newSheet.getCell('B8').value = `${klinik.toUpperCase()}`;
-      // newSheet.getCell('B9').value = `${sekolah.toUpperCase()}`;
-      //
-      for (let i = 0; i < data[0].length; i++) {
-        if (data[0][i]) {
-          switch (data[0][i]._id) {
-            case 'T1':
-              rowNumber = 15;
-              console.log('t 1');
-              break;
-            case 'T2':
-              rowNumber = 16;
-              console.log('T 2');
-              break;
-            case 'T3':
-              rowNumber = 17;
-              console.log('T 3');
-              break;
-            case 'T4':
-              rowNumber = 18;
-              console.log('T 4');
-              break;
-            case 'T5':
-              rowNumber = 19;
-              console.log('T 5');
-              break;
-            default:
-              console.log('no data');
-          }
-
-          newSheet.getRow(rowNumber).getCell(18).value =
-            data[0][i].bilPerokokSemasaRokokBiasa;
-          newSheet.getRow(rowNumber).getCell(19).value =
-            data[0][i].bilPerokokSemasaElecVape;
-          newSheet.getRow(rowNumber).getCell(20).value =
-            data[0][i].bilPerokokSemasaShisha;
-          newSheet.getRow(rowNumber).getCell(21).value =
-            data[0][i].bilPerokokSemasaLainlain;
-          newSheet.getRow(rowNumber).getCell(22).value =
-            data[0][i].bilPerokokSemasaDirujukIntervensi;
+    for (let i = 0; i < data[0].length; i++) {
+      if (data[0][i]) {
+        switch (data[0][i]._id) {
+          case 'T1':
+            rowNumber = 16;
+            console.log('T 1');
+            break;
+          case 'T2':
+            rowNumber = 17;
+            console.log('T 2');
+            break;
+          case 'T3':
+            rowNumber = 18;
+            console.log('T 3');
+            break;
+          case 'T4':
+            rowNumber = 19;
+            console.log('T 4');
+            break;
+          case 'T5':
+            rowNumber = 20;
+            console.log('T 5');
+            break;
+          case 'P':
+            rowNumber = 22;
+            console.log('P');
+            break;
+          case 'KHAM':
+            rowNumber = 23;
+            console.log('KHAM');
+            break;
+          default:
+            rowNumber = 0;
+            console.log('no data');
+            break;
         }
+
+        newSheet.getRow(rowNumber).getCell(18).value =
+          data[0][i].bilPerokokSemasaRokokBiasa;
+        newSheet.getRow(rowNumber).getCell(19).value =
+          data[0][i].bilPerokokSemasaElecVape;
+        newSheet.getRow(rowNumber).getCell(20).value =
+          data[0][i].bilPerokokSemasaShisha;
+        newSheet.getRow(rowNumber).getCell(21).value =
+          data[0][i].bilPerokokSemasaLainlain;
+        newSheet.getRow(rowNumber).getCell(22).value =
+          data[0][i].bilPerokokSemasaDirujukIntervensi;
       }
-      for (let i = 0; i < data[1].length; i++) {
-        if (data[1][i]) {
-          switch (data[1][i]._id) {
-            case 'T1':
-              rowNumber = 15;
-              console.log('t 1');
-              break;
-            case 'T2':
-              rowNumber = 16;
-              console.log('T 2');
-              break;
-            case 'T3':
-              rowNumber = 17;
-              console.log('T 3');
-              break;
-            case 'T4':
-              rowNumber = 18;
-              console.log('T 4');
-              break;
-            case 'T5':
-              rowNumber = 19;
-              console.log('T 5');
-              break;
-            default:
-              console.log('no data');
-          }
-
-          newSheet.getRow(rowNumber).getCell(9).value =
-            data[1][i].bilPerokokSemasaLelakiMelayu;
-          newSheet.getRow(rowNumber).getCell(10).value =
-            data[1][i].bilPerokokSemasaLelakiCina;
-          newSheet.getRow(rowNumber).getCell(11).value =
-            data[1][i].bilPerokokSemasaLelakiIndia;
-          newSheet.getRow(rowNumber).getCell(12).value =
-            data[1][i].bilPerokokSemasaLelakiLainlain;
-          newSheet.getRow(rowNumber).getCell(14).value =
-            data[1][i].bilPerokokSemasaPerempuanMelayu;
-          newSheet.getRow(rowNumber).getCell(15).value =
-            data[1][i].bilPerokokSemasaPerempuanCina;
-          newSheet.getRow(rowNumber).getCell(16).value =
-            data[1][i].bilPerokokSemasaPerempuanMelayu;
-          newSheet.getRow(rowNumber).getCell(17).value =
-            data[1][i].bilPerokokSemasaPerempuanLainlain;
-          newSheet.getRow(rowNumber).getCell(25).value =
-            data[1][i].bilBekasPerokokLelaki;
-          newSheet.getRow(rowNumber).getCell(26).value =
-            data[1][i].bilBekasPerokokPerempuan;
-          newSheet.getRow(rowNumber).getCell(29).value =
-            data[1][i].bilPerokokPasifLelaki;
-          newSheet.getRow(rowNumber).getCell(30).value =
-            data[1][i].bilPerokokPasifPerempuan;
-          newSheet.getRow(rowNumber).getCell(33).value =
-            data[1][i].bilBukanPerokokLelaki;
-          newSheet.getRow(rowNumber).getCell(34).value =
-            data[1][i].bilBukanPerokokPerempuan;
-          newSheet.getRow(rowNumber).getCell(37).value =
-            data[1][i].bilDalamIntervensiLelaki;
-          newSheet.getRow(rowNumber).getCell(38).value =
-            data[1][i].bilDalamIntervensiPerempuan;
+    }
+    for (let i = 0; i < data[1].length; i++) {
+      if (data[1][i]) {
+        switch (data[0][i]._id) {
+          case 'T1':
+            rowNumber = 16;
+            console.log('T 1');
+            break;
+          case 'T2':
+            rowNumber = 17;
+            console.log('T 2');
+            break;
+          case 'T3':
+            rowNumber = 18;
+            console.log('T 3');
+            break;
+          case 'T4':
+            rowNumber = 19;
+            console.log('T 4');
+            break;
+          case 'T5':
+            rowNumber = 20;
+            console.log('T 5');
+            break;
+          case 'P':
+            rowNumber = 22;
+            console.log('P');
+            break;
+          case 'KHAM':
+            rowNumber = 23;
+            console.log('KHAM');
+            break;
+          default:
+            rowNumber = 0;
+            console.log('no data');
+            break;
         }
+
+        newSheet.getRow(rowNumber).getCell(9).value =
+          data[1][i].bilPerokokSemasaLelakiMelayu;
+        newSheet.getRow(rowNumber).getCell(10).value =
+          data[1][i].bilPerokokSemasaLelakiCina;
+        newSheet.getRow(rowNumber).getCell(11).value =
+          data[1][i].bilPerokokSemasaLelakiIndia;
+        newSheet.getRow(rowNumber).getCell(12).value =
+          data[1][i].bilPerokokSemasaLelakiLainlain;
+        newSheet.getRow(rowNumber).getCell(14).value =
+          data[1][i].bilPerokokSemasaPerempuanMelayu;
+        newSheet.getRow(rowNumber).getCell(15).value =
+          data[1][i].bilPerokokSemasaPerempuanCina;
+        newSheet.getRow(rowNumber).getCell(16).value =
+          data[1][i].bilPerokokSemasaPerempuanMelayu;
+        newSheet.getRow(rowNumber).getCell(17).value =
+          data[1][i].bilPerokokSemasaPerempuanLainlain;
+        newSheet.getRow(rowNumber).getCell(25).value =
+          data[1][i].bilBekasPerokokLelaki;
+        newSheet.getRow(rowNumber).getCell(26).value =
+          data[1][i].bilBekasPerokokPerempuan;
+        newSheet.getRow(rowNumber).getCell(29).value =
+          data[1][i].bilPerokokPasifLelaki;
+        newSheet.getRow(rowNumber).getCell(30).value =
+          data[1][i].bilPerokokPasifPerempuan;
+        newSheet.getRow(rowNumber).getCell(33).value =
+          data[1][i].bilBukanPerokokLelaki;
+        newSheet.getRow(rowNumber).getCell(34).value =
+          data[1][i].bilBukanPerokokPerempuan;
+        newSheet.getRow(rowNumber).getCell(37).value =
+          data[1][i].bilDalamIntervensiLelaki;
+        newSheet.getRow(rowNumber).getCell(38).value =
+          data[1][i].bilDalamIntervensiPerempuan;
       }
     }
     //
     for (let i = 0; i < data[0].length; i++) {
       if (data[0][i]) {
-        console.log(data[0][i]);
         switch (data[0][i]._id) {
           case 'D1':
-            rowNumber = 15;
-            console.log('derajah 1');
+            rowNumber = 16;
+            console.log('D 1');
             break;
           case 'D2':
-            rowNumber = 16;
-            console.log('derajah 2');
+            rowNumber = 17;
+            console.log('D 2');
             break;
           case 'D3':
-            rowNumber = 17;
-            console.log('derajah 3');
+            rowNumber = 18;
+            console.log('D 3');
             break;
           case 'D4':
-            rowNumber = 1189;
-            console.log('derajah 4');
+            rowNumber = 19;
+            console.log('D 4');
             break;
           case 'D5':
-            rowNumber = 19;
-            console.log('derajah 5');
+            rowNumber = 20;
+            console.log('D 5');
             break;
           case 'D6':
-            rowNumber = 20;
-            console.log('derajah 6');
+            rowNumber = 21;
+            console.log('D 6');
+            break;
+          case 'KHAS':
+            rowNumber = 23;
+            console.log('KHAS');
             break;
           default:
+            rowNumber = 0;
             console.log('no data');
+            break;
         }
 
         worksheet.name = 'PPIM 03-2023 SR';
@@ -6096,34 +6118,39 @@ const makePPIM03 = async (payload) => {
     }
     for (let i = 0; i < data[1].length; i++) {
       if (data[1][i]) {
-        console.log(data[1][i]);
-        switch (data[1][i]._id) {
+        switch (data[0][i]._id) {
           case 'D1':
-            rowNumber = 15;
-            console.log('derajah 1');
+            rowNumber = 16;
+            console.log('D 1');
             break;
           case 'D2':
-            rowNumber = 16;
-            console.log('derajah 2');
+            rowNumber = 17;
+            console.log('D 2');
             break;
           case 'D3':
-            rowNumber = 17;
-            console.log('derajah 3');
+            rowNumber = 18;
+            console.log('D 3');
             break;
           case 'D4':
-            rowNumber = 1189;
-            console.log('derajah 4');
+            rowNumber = 19;
+            console.log('D 4');
             break;
           case 'D5':
-            rowNumber = 19;
-            console.log('derajah 5');
+            rowNumber = 20;
+            console.log('D 5');
             break;
           case 'D6':
-            rowNumber = 20;
-            console.log('derajah 6');
+            rowNumber = 21;
+            console.log('D 6');
+            break;
+          case 'KHAS':
+            rowNumber = 23;
+            console.log('KHAS');
             break;
           default:
+            rowNumber = 0;
             console.log('no data');
+            break;
         }
 
         worksheet.getRow(rowNumber).getCell(9).value =
@@ -6160,7 +6187,7 @@ const makePPIM03 = async (payload) => {
           data[1][i].bilDalamIntervensiPerempuan;
       }
     }
-
+    //
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
 
     worksheet.getCell(
@@ -6205,9 +6232,9 @@ const makePPIM03 = async (payload) => {
       horizontal: 'right',
     };
     // oter nama form dan nama worksheet
-    const { jenisFasiliti } = Fasiliti.findOne({
-      kodSekolah: sekolah,
-    });
+    // const { jenisFasiliti } = Fasiliti.findOne({
+    //   kodSekolah: sekolah,
+    // });
     // worksheet.getCell('AI1').value =
     //   jenisFasiliti === 'sekolah-rendah'
     //     ? 'BORANG PPIM 03-2023 (SR)'
@@ -8231,30 +8258,30 @@ const makePPR = async (payload) => {
           row.getCell(46).value = rawatan.tampalanPostAmgGkSemula;
         }
         // skipping cells
-        row.getCell(47).value = rawatan.tampalanSementara;
-        row.getCell(48).value = rawatan.cabutanGd;
-        row.getCell(49).value = rawatan.cabutanGk;
-        row.getCell(50).value = rawatan.komplikasiSelepasCabutan;
-        row.getCell(51).value = rawatan.penskaleran;
-        row.getCell(52).value = rawatan.abses;
-        row.getCell(53).value = rawatan.kecederaanTulangMuka;
-        row.getCell(54).value = rawatan.kecederaanGigi;
-        row.getCell(55).value = rawatan.kecederaanTisuLembut;
+        row.getCell(49).value = rawatan.tampalanSementara;
+        row.getCell(50).value = rawatan.cabutanGd;
+        row.getCell(51).value = rawatan.cabutanGk;
+        row.getCell(52).value = rawatan.komplikasiSelepasCabutan;
+        row.getCell(53).value = rawatan.penskaleran;
+        row.getCell(54).value = rawatan.abses;
+        row.getCell(55).value = rawatan.kecederaanTulangMuka;
+        row.getCell(56).value = rawatan.kecederaanGigi;
+        row.getCell(57).value = rawatan.kecederaanTisuLembut;
         //
         if (i > 1) {
-          row.getCell(56).value = rawatan.prosthodontikPenuhDenturBaru;
-          row.getCell(57).value = rawatan.prosthodontikPenuhDenturSemula;
-          row.getCell(58).value = rawatan.jumlahPesakitBuatDenturPenuh;
-          row.getCell(59).value = rawatan.prosthodontikSeparaDenturBaru;
-          row.getCell(60).value = rawatan.prosthodontikSeparaDenturSemula;
-          row.getCell(61).value = rawatan.jumlahPesakitBuatDenturSepara;
+          row.getCell(58).value = rawatan.prosthodontikPenuhDenturBaru;
+          row.getCell(59).value = rawatan.prosthodontikPenuhDenturSemula;
+          row.getCell(60).value = rawatan.jumlahPesakitBuatDenturPenuh;
+          row.getCell(61).value = rawatan.prosthodontikSeparaDenturBaru;
+          row.getCell(62).value = rawatan.prosthodontikSeparaDenturSemula;
+          row.getCell(63).value = rawatan.jumlahPesakitBuatDenturSepara;
           //
-          row.getCell(62).value = rawatan.immediateDenture;
-          row.getCell(63).value = rawatan.pembaikanDenture;
+          row.getCell(64).value = rawatan.immediateDenture;
+          row.getCell(65).value = rawatan.pembaikanDenture;
         }
-        row.getCell(64).value = rawatan.kesSelesai;
-        row.getCell(65).value = rawatan.xrayDiambil;
-        row.getCell(66).value = rawatan.pesakitDisaringOC;
+        row.getCell(66).value = rawatan.kesSelesai;
+        row.getCell(67).value = rawatan.xrayDiambil;
+        row.getCell(68).value = rawatan.pesakitDisaringOC;
       }
       j++;
       if (i === 11) {
@@ -9100,30 +9127,30 @@ const makePKAP2 = async (payload) => {
           row.getCell(46).value = rawatan.tampalanPostAmgGkSemula;
         }
         // skipping cells
-        row.getCell(47).value = rawatan.tampalanSementara;
-        row.getCell(48).value = rawatan.cabutanGd;
-        row.getCell(49).value = rawatan.cabutanGk;
-        row.getCell(50).value = rawatan.komplikasiSelepasCabutan;
-        row.getCell(51).value = rawatan.penskaleran;
-        row.getCell(52).value = rawatan.abses;
-        row.getCell(53).value = rawatan.kecederaanTulangMuka;
-        row.getCell(54).value = rawatan.kecederaanGigi;
-        row.getCell(55).value = rawatan.kecederaanTisuLembut;
+        row.getCell(49).value = rawatan.tampalanSementara;
+        row.getCell(50).value = rawatan.cabutanGd;
+        row.getCell(51).value = rawatan.cabutanGk;
+        row.getCell(52).value = rawatan.komplikasiSelepasCabutan;
+        row.getCell(53).value = rawatan.penskaleran;
+        row.getCell(54).value = rawatan.abses;
+        row.getCell(55).value = rawatan.kecederaanTulangMuka;
+        row.getCell(56).value = rawatan.kecederaanGigi;
+        row.getCell(57).value = rawatan.kecederaanTisuLembut;
         //
         if (i > 1) {
-          row.getCell(56).value = rawatan.prosthodontikPenuhDenturBaru;
-          row.getCell(57).value = rawatan.prosthodontikPenuhDenturSemula;
-          row.getCell(58).value = rawatan.jumlahPesakitBuatDenturPenuh;
-          row.getCell(59).value = rawatan.prosthodontikSeparaDenturBaru;
-          row.getCell(60).value = rawatan.prosthodontikSeparaDenturSemula;
-          row.getCell(61).value = rawatan.jumlahPesakitBuatDenturSepara;
+          row.getCell(58).value = rawatan.prosthodontikPenuhDenturBaru;
+          row.getCell(59).value = rawatan.prosthodontikPenuhDenturSemula;
+          row.getCell(60).value = rawatan.jumlahPesakitBuatDenturPenuh;
+          row.getCell(61).value = rawatan.prosthodontikSeparaDenturBaru;
+          row.getCell(62).value = rawatan.prosthodontikSeparaDenturSemula;
+          row.getCell(63).value = rawatan.jumlahPesakitBuatDenturSepara;
           //
-          row.getCell(62).value = rawatan.immediateDenture;
-          row.getCell(63).value = rawatan.pembaikanDenture;
+          row.getCell(64).value = rawatan.immediateDenture;
+          row.getCell(65).value = rawatan.pembaikanDenture;
         }
-        row.getCell(64).value = rawatan.kesSelesai;
-        row.getCell(65).value = rawatan.xrayDiambil;
-        row.getCell(66).value = rawatan.pesakitDisaringOC;
+        row.getCell(66).value = rawatan.kesSelesai;
+        row.getCell(67).value = rawatan.xrayDiambil;
+        row.getCell(68).value = rawatan.pesakitDisaringOC;
       }
       j++;
       if (i === 11) {
