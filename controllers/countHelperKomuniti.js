@@ -11,6 +11,7 @@ const {
   getParamsKOM,
   getParamsOAP,
   getParamsUTCRTC,
+  getParamsPKAP,
   // getParamsOperatorLain,
 } = require('../controllers/countHelperParams');
 
@@ -17874,14 +17875,14 @@ const countPKAP2 = async (payload) => {
   const main_switch = [
     {
       $match: {
-        ...getParamsKOM(payload),
+        ...getParamsPKAP(payload),
       },
     },
     {
       $lookup: {
         from: 'events',
-        localField: 'jenisProgram',
-        foreignField: 'subProgram',
+        localField: 'namaProgram',
+        foreignField: 'nama',
         as: 'event_data',
       },
     },
@@ -20497,8 +20498,6 @@ const countPKAP2 = async (payload) => {
   //   },
   // };
 
-  //
-
   try {
     let dataPemeriksaan = [];
     let dataRawatan = [];
@@ -20513,12 +20512,14 @@ const countPKAP2 = async (payload) => {
         group_pemeriksaan,
       ];
       const queryPKAP2Pemeriksaan = await Umum.aggregate(pipeline_pemeriksaan);
+      console.log(queryPKAP2Pemeriksaan);
       dataPemeriksaan.push({ queryPKAP2Pemeriksaan });
     }
 
     for (let i = 0; i < match_stage.length; i++) {
       const pipeline = [...main_switch, match_stage[i], group];
       const queryPKAP2Rawatan = await Umum.aggregate(pipeline);
+      console.log(queryPKAP2Rawatan);
       dataRawatan.push({ queryPKAP2Rawatan });
     }
 

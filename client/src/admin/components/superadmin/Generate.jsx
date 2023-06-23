@@ -851,7 +851,7 @@ const ModalGenerateAdHoc = (props) => {
                                             'KOM-Komuniti': 'projek-komuniti',
                                             'KOM-Penjara':
                                               'penjara-koreksional',
-                                            'KOM-OAP': '',
+                                            'KOM-OAP': 'oap',
                                             'KOM-FDS': 'fds',
                                             'KOM-ISN': 'isn',
                                             'KOM-HRC': 'hrc',
@@ -2039,6 +2039,7 @@ const Generate = () => {
     setPilihanFasiliti('program');
     await readSpesifikProgramData(klinik)
       .then((res) => {
+        console.log(res);
         setProgramData(res.data);
       })
       .catch((err) => {
