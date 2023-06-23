@@ -106,6 +106,7 @@ const updatePersonUmum = async (req, res) => {
 
   // handling penggunaanKPBMPB, kedatanganKPBMPB & noPendaftaranKPBMPB
   if (
+    req.body.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' &&
     req.body.penggunaanKPBMPB !== '' &&
     req.query.operatorLain !== 'rawatan-operator-lain'
   ) {
@@ -165,6 +166,135 @@ const updatePersonUmum = async (req, res) => {
     }
   }
 
+  // handling penggunaanKPBMPB, kedantanganKPBMPB & noPendaftaranKPBMPB untuk rawatan-operator-lain
+  if (
+    req.body.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' &&
+    req.body.penggunaanKPBMPB !== '' &&
+    singlePersonUmum.penggunaanKPBMPB !== req.body.penggunaanKPBMPB &&
+    req.query.operatorLain === 'rawatan-operator-lain'
+  ) {
+    // find if this person already use this KPBMPB, find by ic
+    const personExistForKPBMPB = await Umum.findOne({
+      ic: singlePersonUmum.ic,
+      penggunaanKPBMPB: req.body.penggunaanKPBMPB,
+      tahunDaftar: new Date().getFullYear(),
+      deleted: false,
+    });
+    if (personExistForKPBMPB) {
+      console.log(
+        'pernah guna KPBMPB ni rawatan-operator-lain' +
+          req.body.penggunaanKPBMPB
+      );
+      req.body.kedatanganKPBMPB = 'ulangan-kedatangan-KPBMPB';
+      req.body.noPendaftaranUlanganKPBMPB =
+        personExistForKPBMPB.noPendaftaranBaruKPBMPB;
+      console.log(
+        'no pendaftaran ulangan KPBMPB rawatan-operator-lain: ',
+        req.body.noPendaftaranUlanganKPBMPB
+      );
+
+      // update KPBMPB tu kat sini kalau ada isi kat rawatan-operator-lain
+      const updatedUlanganKPBMPBSinglePersonUmum = await Umum.findOneAndUpdate(
+        {
+          _id: personUmumId,
+          tahunDaftar: new Date().getFullYear(),
+          deleted: false,
+        },
+        {
+          $set: {
+            menggunakanKPBMPB: req.body.menggunakanKPBMPB,
+            penggunaanKPBMPB: req.body.penggunaanKPBMPB,
+            kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+            noPendaftaranUlanganKPBMPB: req.body.noPendaftaranUlanganKPBMPB,
+          },
+        },
+        { new: true }
+      );
+    }
+    if (!personExistForKPBMPB) {
+      console.log(
+        'tak pernah guna KPBMPB ni rawatan-operator-lain' +
+          req.body.penggunaanKPBMPB
+      );
+      req.body.kedatanganKPBMPB = 'baru-kedatangan-KPBMPB';
+
+      // check running number for this KPBMPB
+      let currentRunningNumberKPBMPB = await Runningnumber.findOne({
+        jenis: 'KPBMPB',
+        tahun: new Date().getFullYear(),
+        kodFasiliti: req.body.penggunaanKPBMPB,
+      });
+
+      // start no 1 running number kalau tak exist untuk KPBMPB ni
+      if (!currentRunningNumberKPBMPB) {
+        const newRunningNumberKPBMPB = await Runningnumber.create({
+          runningnumber: 1,
+          jenis: 'KPBMPB',
+          tahun: new Date().getFullYear(),
+          kodFasiliti: req.body.penggunaanKPBMPB,
+        });
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          newRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log(
+          'no pendaftaran baru KPBMPB rawatan-operator-lain: ',
+          newRegKPBMPB
+        );
+
+        // update KPBMPB tu kat sini kalau ada isi kat rawatan-operator-lain
+        const updatedBaruKPBMPBSinglePersonUmum = await Umum.findOneAndUpdate(
+          {
+            _id: personUmumId,
+            tahunDaftar: new Date().getFullYear(),
+            deleted: false,
+          },
+          {
+            $set: {
+              menggunakanKPBMPB: req.body.menggunakanKPBMPB,
+              penggunaanKPBMPB: req.body.penggunaanKPBMPB,
+              kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+              noPendaftaranBaruKPBMPB: req.body.noPendaftaranBaruKPBMPB,
+            },
+          },
+          { new: true }
+        );
+      }
+
+      // increment +1 running number KPBMPB ni kalau exist
+      if (currentRunningNumberKPBMPB) {
+        currentRunningNumberKPBMPB.runningnumber += 1;
+        await currentRunningNumberKPBMPB.save();
+        const newRegKPBMPB = `KPBMPB/${req.body.penggunaanKPBMPB}/${
+          currentRunningNumberKPBMPB.runningnumber
+        }/${new Date().getFullYear()}`;
+        req.body.noPendaftaranBaruKPBMPB = newRegKPBMPB;
+        console.log(
+          'no pendaftaran baru KPBMPB rawatan-operator-lain: ',
+          newRegKPBMPB
+        );
+
+        // update KPBMPB tu kat sini kalau ada isi kat rawatan-operator-lain
+        const updatedBaruKPBMPBSinglePersonUmum = await Umum.findOneAndUpdate(
+          {
+            _id: personUmumId,
+            tahunDaftar: new Date().getFullYear(),
+            deleted: false,
+          },
+          {
+            $set: {
+              menggunakanKPBMPB: req.body.menggunakanKPBMPB,
+              penggunaanKPBMPB: req.body.penggunaanKPBMPB,
+              kedatanganKPBMPB: req.body.kedatanganKPBMPB,
+              noPendaftaranBaruKPBMPB: req.body.noPendaftaranBaruKPBMPB,
+            },
+          },
+          { new: true }
+        );
+      }
+    }
+  }
+
   // save summary of patient history to each operator
   let summary = {};
   let shortened = {};
@@ -193,13 +323,13 @@ const updatePersonUmum = async (req, res) => {
     }
   }
 
-  let regNum = {};
-  if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
-    regNum = { mdcNumber: req.body.createdByMdcMdtb };
-  }
-  if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
-    regNum = { mdtbNumber: req.body.createdByMdcMdtb };
-  }
+  // let regNum = {};
+  // if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
+  //   regNum = { mdcNumber: req.body.createdByMdcMdtb };
+  // }
+  // if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
+  //   regNum = { mdtbNumber: req.body.createdByMdcMdtb };
+  // }
   // const updatedOfficerSummary = await Operator.findOneAndUpdate(
   //   regNum,
   //   { $push: { summary } },

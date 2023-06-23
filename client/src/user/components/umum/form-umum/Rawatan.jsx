@@ -2,6 +2,8 @@ import { FaInfoCircle } from 'react-icons/fa';
 import { useEffect, useState } from 'react';
 import Select from 'react-select';
 
+import { useGlobalUserAppContext } from '../../../context/userAppContext';
+
 const optionsRawatan = [
   { value: 'lihat-semua', label: 'Lihat Semua' },
   { value: 'pengapan-fisur', label: 'Pengapan Fisur' },
@@ -21,6 +23,8 @@ const optionsRawatan = [
 ];
 
 export default function Rawatan(props) {
+  const { dictionaryJenisFasiliti } = useGlobalUserAppContext();
+
   const [pilihanRawatan, setPilihanRawatan] = useState([]);
   const [showKesSelesai, setShowKesSelesai] = useState(false);
   let isDisabled = false;
@@ -58,6 +62,144 @@ export default function Rawatan(props) {
               <span className='flex bg-user3 p-2 w-full capitalize col-span-2'>
                 <p className='ml-3 text-xl font-semibold'>Rawatan</p>
               </span>
+              {props.singlePersonUmum.penggunaanKPBMPB === '' &&
+                props.operatorLain === 'rawatan-operator-lain' &&
+                props.allUsedKPBMPB.length > 0 && (
+                  <div className='flex flex-col mt-3'>
+                    <div className='flex flex-row items-center pl-5'>
+                      <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
+                        Menggunakan KPB / MPB
+                        <span className='font-semibold text-user6'>*</span>
+                      </p>
+                      <input
+                        disabled={isDisabled}
+                        required
+                        type='radio'
+                        name='menggunakan-kpb-mpb'
+                        id='ya-menggunakan-kpb-mpb'
+                        value='ya-menggunakan-kpb-mpb'
+                        checked={
+                          props.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setMenggunakanKPBMPB(e.target.value);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='ya-menggunakan-kpb-mpb'
+                        className='m-2 text-sm font-m'
+                      >
+                        Ya
+                      </label>
+                      <input
+                        disabled={isDisabled}
+                        required
+                        type='radio'
+                        name='menggunakan-kpb-mpb'
+                        id='tidak-menggunakan-kpb-mpb'
+                        value='tidak-menggunakan-kpb-mpb'
+                        checked={
+                          props.menggunakanKPBMPB ===
+                          'tidak-menggunakan-kpb-mpb'
+                            ? true
+                            : false
+                        }
+                        onChange={(e) => {
+                          props.setMenggunakanKPBMPB(e.target.value);
+                        }}
+                        className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                      />
+                      <label
+                        htmlFor='tidak-menggunakan-kpb-mpb'
+                        className='m-2 text-sm font-m'
+                      >
+                        Tidak
+                      </label>
+                    </div>
+                    {props.menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
+                      <div className='flex flex-row items-center'>
+                        <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                          Penggunaan KPB / MPB :
+                          <span className='font-semibold text-user6'>*</span>
+                        </p>
+                        <select
+                          required
+                          disabled={isDisabled}
+                          name='penggunaan-kpb-mpb'
+                          id='penggunaan-kpb-mpb'
+                          value={props.penggunaanKPBMPB}
+                          onChange={(e) => {
+                            props.setPenggunaanKPBMPB(e.target.value);
+                          }}
+                          className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                        >
+                          <option value=''>Pilih Jika Berkenaan</option>
+                          {props.singlePersonUmum.jenisFasiliti !==
+                          'projek-komuniti-lain'
+                            ? props.allUsedKPBMPB.map((kpbmpb) => (
+                                <option value={kpbmpb.nama}>
+                                  {
+                                    dictionaryJenisFasiliti[
+                                      kpbmpb.jenisFasiliti
+                                    ]
+                                  }{' '}
+                                  | {kpbmpb.nama}
+                                </option>
+                              ))
+                            : null}
+                          {props.singlePersonUmum.jenisFasiliti ===
+                          'projek-komuniti-lain'
+                            ? props.allUsedKPBMPB.map((kpbmpb) => {
+                                return (
+                                  <>
+                                    {kpbmpb.penggunaanKpb !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanKpb}>
+                                        KPB | {kpbmpb.penggunaanKpb}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanKpb2 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanKpb2}>
+                                        KPB | {kpbmpb.penggunaanKpb2}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanKpb3 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanKpb3}>
+                                        KPB | {kpbmpb.penggunaanKpb3}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanMpb !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanMpb}>
+                                        MPB | {kpbmpb.penggunaanMpb}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanMpb2 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanMpb2}>
+                                        MPB | {kpbmpb.penggunaanMpb2}
+                                      </option>
+                                    )}
+                                    {kpbmpb.penggunaanMpb3 !==
+                                      'NOT APPLICABLE' && (
+                                      <option value={kpbmpb.penggunaanMpb3}>
+                                        MPB | {kpbmpb.penggunaanMpb3}
+                                      </option>
+                                    )}
+                                  </>
+                                );
+                              })
+                            : null}
+                        </select>
+                      </div>
+                    ) : null}
+                  </div>
+                )}
               <section className='grid grid-cols-1 lg:grid-cols-2 gap-2 mt-3 mb-3 w-full col-span-2 auto-rows-min'>
                 {props.statusKehadiran === false ? (
                   <>
