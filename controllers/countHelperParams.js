@@ -1182,33 +1182,7 @@ const getParamsTOD = (payload) => {
   return param;
 };
 // countHelperKomuniti params
-// ppim03
-const getParamsPPIM04 = (payload, reten) => {
-  const { negeri, daerah, klinik, sekolah, pilihanIndividu } = payload;
-
-  const bySekolah = () => {
-    const forSekolah = {
-      createdByKodFasiliti: { $eq: klinik },
-    };
-  };
-
-  const byPegawai = () => {
-    const forPegawai = {
-      createdByKodFasiliti: { $eq: klinik },
-      createdByNameMdcMdtb: { $eq: pilihanIndividu },
-    };
-  };
-
-  if (pilihanIndividu === 'all') {
-    return bySekolah(payload);
-  } else {
-    return byPegawai(payload);
-  }
-};
-// ppim05
 // begin
-// kpbmpb hari
-// kpbmbp bulan
 const getParamsKOM = (payload) => {
   const { negeri, daerah, klinik, pilihanProgram } = payload;
 
@@ -1234,6 +1208,9 @@ const getParamsKOM = (payload) => {
   }
 
   if (pilihanProgram !== 'all' && pilihanProgram) {
+    delete param.createdByNegeri;
+    delete param.createdByDaerah;
+    delete param.createdByKodFasiliti;
     param.namaProgram = pilihanProgram;
   }
 
@@ -1242,7 +1219,7 @@ const getParamsKOM = (payload) => {
 const getParamsOAP = (payload) => {
   const { negeri, daerah, klinik, pilihanProgram } = payload;
 
-  const param = {
+  const params = {
     tarikhKedatangan: dateModifier(payload),
     kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
     statusKehadiran: false,
@@ -1252,19 +1229,22 @@ const getParamsOAP = (payload) => {
   };
 
   if (negeri !== 'all') {
-    param.createdByNegeri = negeri;
+    params.createdByNegeri = negeri;
   }
 
   if (daerah !== 'all') {
-    param.createdByDaerah = daerah;
+    params.createdByDaerah = daerah;
   }
 
   if (klinik !== 'all') {
-    param.createdByKodFasiliti = klinik;
+    params.createdByKodFasiliti = klinik;
   }
 
   if (pilihanProgram !== 'all' && pilihanProgram) {
-    param.namaProgram = pilihanProgram;
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
+    params.namaProgram = pilihanProgram;
   }
 
   return param;
@@ -1320,7 +1300,10 @@ const getParamsPKAP = (payload) => {
     params.createdByKodFasiliti = klinik;
   }
 
-  if (pilihanProgram) {
+  if (pilihanProgram !== 'all' && pilihanProgram) {
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
     params.namaProgram = pilihanProgram;
   }
 
@@ -1407,12 +1390,7 @@ module.exports = {
   getParamsBPE,
   getParamsTOD,
   // countHelper KOM
-  // ppim03,
-  getParamsPPIM04,
-  // ppim05,
   // begin
-  // kpbmpb hari
-  // kpbmpb bulan
   getParamsKOM,
   getParamsOAP,
   getParamsUTCRTC,
