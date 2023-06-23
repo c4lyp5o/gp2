@@ -193,13 +193,13 @@ const updatePersonUmum = async (req, res) => {
     }
   }
 
-  let regNum = {};
-  if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
-    regNum = { mdcNumber: req.body.createdByMdcMdtb };
-  }
-  if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
-    regNum = { mdtbNumber: req.body.createdByMdcMdtb };
-  }
+  // let regNum = {};
+  // if (req.body.createdByMdcMdtb.includes('MDTB') === false) {
+  //   regNum = { mdcNumber: req.body.createdByMdcMdtb };
+  // }
+  // if (req.body.createdByMdcMdtb.includes('MDTB') === true) {
+  //   regNum = { mdtbNumber: req.body.createdByMdcMdtb };
+  // }
   // const updatedOfficerSummary = await Operator.findOneAndUpdate(
   //   regNum,
   //   { $push: { summary } },
