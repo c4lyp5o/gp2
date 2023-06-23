@@ -425,10 +425,10 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
   const [waktuDipanggil, setWaktuDipanggil] = useState('');
   masterForm.waktuDipanggil = waktuDipanggil;
   masterForm.setWaktuDipanggil = setWaktuDipanggil;
-  const [menggunakanKPBMPB, setMenggunakanKPBMPB] = useState('');
+  const [menggunakanKPBMPB, setMenggunakanKPBMPB] = useState(''); // state ni masuk dalam rawatan-operator-lain
   masterForm.menggunakanKPBMPB = menggunakanKPBMPB;
   masterForm.setMenggunakanKPBMPB = setMenggunakanKPBMPB;
-  const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState('');
+  const [penggunaanKPBMPB, setPenggunaanKPBMPB] = useState(''); // state ni masuk dalam rawatan-operator-lain
   masterForm.penggunaanKPBMPB = penggunaanKPBMPB;
   masterForm.setPenggunaanKPBMPB = setPenggunaanKPBMPB;
   const [systolicTekananDarah, setSystolicTekananDarah] = useState('');
@@ -2022,11 +2022,17 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
           }
         });
         setAllUsedKPBMPB(KPBMPBInRangeDate);
+
+        // reset tidak-menggunakan-kpb-mpb to empty string untuk rawatan operator lain
+        if (
+          dataSinglePersonUmum.data.singlePersonUmum.penggunaanKPBMPB === '' &&
+          operatorLain === 'rawatan-operator-lain' &&
+          KPBMPBInRangeDate.length > 0
+        ) {
+          setMenggunakanKPBMPB('');
+        }
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
-        // );
       }
     };
     getAllKPBMPBForNegeri();
@@ -2366,6 +2372,9 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
               createdByUsername: masterForm.createdByUsername,
               createdByMdcMdtb: mdcMdtbNum,
               statusReten,
+              // penggunaanKPBMPB untuk rawatan-operator-lain ---------------------------
+              menggunakanKPBMPB,
+              penggunaanKPBMPB,
               //rawatan ----------------------------------------------------------------
               // pesakitDibuatFissureSealant,
               baruJumlahGigiKekalDibuatFSRawatanUmum,
@@ -2672,6 +2681,7 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       operatorLain={operatorLain}
+                      allUsedKPBMPB={allUsedKPBMPB}
                     />
                     <Promosi
                       {...masterForm}
@@ -2686,6 +2696,7 @@ function UserFormUmumHeader(/*{ sekolahIdc }*/) {
                       {...masterForm}
                       singlePersonUmum={singlePersonUmum}
                       operatorLain={operatorLain}
+                      allUsedKPBMPB={allUsedKPBMPB}
                     />
                     <Promosi
                       {...masterForm}
