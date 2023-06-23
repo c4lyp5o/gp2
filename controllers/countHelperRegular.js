@@ -5482,10 +5482,7 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
-                'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum',
-              ],
+              $eq: ['$yaTidakPembedahanKecilMulutPembedahanRawatanUmum', true],
             },
             1,
             0,
@@ -7025,10 +7022,7 @@ const countPG207 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$yaTidakPembedahanKecilMulutPembedahanRawatanUmum',
-                'ya-pembedahan-kecil-mulut-pembedahan-rawatan-umum',
-              ],
+              $eq: ['$yaTidakPembedahanKecilMulutPembedahanRawatanUmum', true],
             },
             1,
             0,

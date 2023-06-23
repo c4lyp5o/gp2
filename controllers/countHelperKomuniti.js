@@ -16,7 +16,7 @@ const {
 } = require('../controllers/countHelperParams');
 
 const countPPIM03 = async (payload) => {
-  const dataPPIM03 = await KohortKotak.aggregate([
+  const dataKohort = await KohortKotak.aggregate([
     {
       $match: {
         ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
@@ -28,60 +28,6 @@ const countPPIM03 = async (payload) => {
       },
     },
     {
-      $lookup: {
-        from: 'sekolahs',
-        let: { nama: '$nama' },
-        pipeline: [
-          {
-            $match: {
-              $expr: { $eq: ['$nama', '$$nama'] },
-            },
-          },
-          { $limit: 1 },
-        ],
-        as: 'data_sekolah',
-      },
-    },
-    {
-      $unwind: '$data_sekolah',
-    },
-    {
-      $lookup: {
-        from: 'pemeriksaansekolahs',
-        let: {
-          pemeriksaanSekolah: '$data_sekolah.pemeriksaanSekolah',
-        },
-        pipeline: [
-          {
-            $match: {
-              $expr: {
-                $eq: ['$_id', '$$pemeriksaanSekolah'],
-              },
-            },
-          },
-          { $limit: 1 },
-        ],
-        as: 'data_pemeriksaan',
-      },
-    },
-    {
-      $unwind: '$data_pemeriksaan',
-    },
-    {
-      $addFields: {
-        statusMerokok: '$data_pemeriksaan.statusM',
-      },
-    },
-    {
-      $project: {
-        data_sekolah: 0,
-        data_pemeriksaan: 0,
-        createdAt: 0,
-        updatedAt: 0,
-        __v: 0,
-      },
-    },
-    {
       $group: {
         _id: '$tahunTingkatan',
         bilPerokokSemasaRokokBiasa: {
@@ -89,9 +35,6 @@ const countPPIM03 = async (payload) => {
             $cond: [
               {
                 $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
                   {
                     $eq: ['$rokokBiasaKotak', true],
                   },
@@ -108,9 +51,6 @@ const countPPIM03 = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
                     $eq: ['$elektronikVapeKotak', true],
                   },
                 ],
@@ -125,9 +65,6 @@ const countPPIM03 = async (payload) => {
             $cond: [
               {
                 $and: [
-                  {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
                   {
                     $eq: ['$shishaKotak', true],
                   },
@@ -144,9 +81,6 @@ const countPPIM03 = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
                     $eq: ['$lainLainKotak', true],
                   },
                 ],
@@ -162,9 +96,6 @@ const countPPIM03 = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$statusMerokok', 'perokok-semasa'],
-                  },
-                  {
                     $ne: ['$tarikhIntervensi1', ''],
                   },
                 ],
@@ -178,24 +109,13 @@ const countPPIM03 = async (payload) => {
     },
   ]);
 
-  const monsterOfDataSekolah = await Fasiliti.aggregate([
+  const dataSekolah = await Fasiliti.aggregate([
     {
       $match: {
-        sekolahSelesaiReten: true,
         ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
         ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        // nama: 1,
-        // jenisFasiliti: 1,
-        // kodFasilitiHandler: 1,
-        kodSekolah: 1,
-        sesiTakwimSekolah: 1,
       },
     },
     {
@@ -204,6 +124,15 @@ const countPPIM03 = async (payload) => {
         localField: 'kodSekolah',
         foreignField: 'kodSekolah',
         as: 'result',
+        pipeline: [
+          {
+            $match: {
+              pemeriksaanSekolah: {
+                $ne: null,
+              },
+            },
+          },
+        ],
       },
     },
     {
@@ -213,50 +142,40 @@ const countPPIM03 = async (payload) => {
       },
     },
     {
-      $match: {
-        'result.pemeriksaanSekolah': {
-          $ne: null,
-        },
-      },
-    },
-    {
-      $addFields: {
-        keturunan: '$result.keturunan',
-        tahunTingkatan: '$result.tahunTingkatan',
-        kelasPelajar: '$result.kelasPelajar',
-        jantina: '$result.jantina',
-        statusM: '$result.statusM',
-        pemeriksaanSekolah: '$result.pemeriksaanSekolah',
-      },
-    },
-    {
-      $project: {
-        result: 0,
-      },
-    },
-    {
       $lookup: {
         from: 'pemeriksaansekolahs',
-        localField: 'pemeriksaanSekolah',
+        localField: 'result.pemeriksaanSekolah',
         foreignField: '_id',
-        as: 'pemeriksaanSekolah',
+        as: 'pemeriksaan',
       },
     },
     {
       $unwind: {
-        path: '$pemeriksaanSekolah',
+        path: '$pemeriksaan',
         preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $addFields: {
+        jantina: '$result.jantina',
+        keturunan: '$result.keturunan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        statusMerokok: '$pemeriksaan.statusM',
+      },
+    },
+    {
+      $match: {
+        statusMerokok: {
+          $ne: '',
+        },
       },
     },
     {
       $project: {
         jantina: 1,
-        umur: 1,
         keturunan: 1,
-        warganegara: 1,
         tahunTingkatan: 1,
-        kelasPelajar: 1,
-        statusMerokok: '$pemeriksaanSekolah.statusM',
+        statusMerokok: 1,
       },
     },
     {
@@ -590,16 +509,12 @@ const countPPIM03 = async (payload) => {
     },
   ]);
 
-  // console.log(monsterOfDataSekolah);
-
-  // throw new Error('test');
-
   // bismillah
   try {
     let bigData = [];
 
-    bigData.push(dataPPIM03);
-    bigData.push(monsterOfDataSekolah);
+    bigData.push(dataKohort);
+    bigData.push(dataSekolah);
 
     return bigData;
   } catch (error) {
