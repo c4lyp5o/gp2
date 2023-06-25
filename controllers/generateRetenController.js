@@ -5994,7 +5994,7 @@ const makePPIM03 = async (payload) => {
     }
     for (let i = 0; i < data[1].length; i++) {
       if (data[1][i]) {
-        switch (data[0][i]._id) {
+        switch (data[1][i]._id) {
           case 'T1':
             rowNumber = 16;
             console.log('T 1');
@@ -6118,7 +6118,7 @@ const makePPIM03 = async (payload) => {
     }
     for (let i = 0; i < data[1].length; i++) {
       if (data[1][i]) {
-        switch (data[0][i]._id) {
+        switch (data[1][i]._id) {
           case 'D1':
             rowNumber = 16;
             console.log('D 1');
