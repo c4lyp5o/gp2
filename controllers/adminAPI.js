@@ -72,6 +72,10 @@ const Dictionary = {
   pemeriksaanWE: 'wargaemas-pemeriksaan',
   // token
   tokenbal: 'token-balance',
+  // carian jana
+  janatadika: 'jana-tadika',
+  janasekolahrendah: 'jana-sekolah-rendah',
+  janasekolahmenengah: 'jana-sekolah-menengah',
   // negeri
   negerijohor: 'Johor',
   negerikedah: 'Kedah',
@@ -614,6 +618,7 @@ const getDataRoute = async (req, res) => {
       data = await PemeriksaanagensiLuar.find({
         _id: singleFormId,
       });
+      break;
     default:
       data = await Fasiliti.find({
         jenisFasiliti: type,

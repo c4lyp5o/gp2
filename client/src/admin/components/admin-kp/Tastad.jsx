@@ -18,18 +18,9 @@ export default function Tastad(props) {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Jenis Fasiliti
                 </th>
-                {/* <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Nama Klinik Pergigian
-                </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Kod Fasiliti
+                  Status Fasiliti
                 </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Status
-                </th>
-                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Alamat Fasiliti
-                </th> */}
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Enrolmen
                 </th>
@@ -50,26 +41,17 @@ export default function Tastad(props) {
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {f.jenisFasiliti}
                   </td>
-                  {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.handler}
-                  </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
-                    {f.kodTastad}
-                  </td>
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.statusPerkhidmatan === 'active' ? (
+                    {f.govKe === 'Kerajaan' ? (
                       <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
-                        Aktif
+                        Kerajaan
                       </span>
                     ) : (
                       <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
-                        Tidak Aktif
+                        Swasta
                       </span>
                     )}
                   </td>
-                  <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                    {f.alamatTastad}
-                  </td> */}
                   <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                     {f.enrolmenTastad === 'NOT APPLICABLE' ||
                     f.enrolmenTastad === null ||
