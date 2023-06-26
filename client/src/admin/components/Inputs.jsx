@@ -2823,8 +2823,7 @@ export function InputEditSR(props) {
                     checked={
                       props.editedEntity.jenisPerkhidmatanSekolah === 'kps'
                     }
-                    id='act-stat'
-                    name='checkbox'
+                    name='kps-kpb'
                     value='kps'
                     onChange={(e) =>
                       props.setEditedEntity({
@@ -2842,13 +2841,54 @@ export function InputEditSR(props) {
                     checked={
                       props.editedEntity.jenisPerkhidmatanSekolah === 'kpb'
                     }
-                    id='act-stat'
-                    name='checkbox'
+                    name='kps-kpb'
                     value='kpb'
                     onChange={(e) =>
                       props.setEditedEntity({
                         ...props.editedEntity,
                         jenisPerkhidmatanSekolah: e.target.value,
+                      })
+                    }
+                  />
+                  Tidak
+                </label>
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Sekolah KKI{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <div className='grid grid-cols-2 mb-3 p-2'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={props.editedEntity.sekolahKki === 'ya-sekolah-kki'}
+                    name='sekolah-kki'
+                    value='ya-sekolah-kki'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        sekolahKki: e.target.value,
+                      })
+                    }
+                  />
+                  Ya
+                </label>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={
+                      props.editedEntity.sekolahKki === 'tidak-sekolah-kki'
+                    }
+                    name='sekolah-kki'
+                    value='tidak-sekolah-kki'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        sekolahKki: e.target.value,
                       })
                     }
                   />
@@ -2864,13 +2904,14 @@ export function InputEditSR(props) {
               <div className='grid grid-cols-2 gap-2 mb-3 p-2'>
                 <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
                   <input
+                    required
                     checked={
                       props.editedEntity.statusFMRSekolah === 'ya'
                         ? true
                         : false
                     }
                     type='radio'
-                    name='ya-fmr'
+                    name='sekolah-fmr'
                     value='ya'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -2883,13 +2924,14 @@ export function InputEditSR(props) {
                 </label>
                 <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
                   <input
+                    required
                     checked={
                       props.editedEntity.statusFMRSekolah === 'tidak'
                         ? true
                         : false
                     }
                     type='radio'
-                    name='tidak-fmr'
+                    name='sekolah-fmr'
                     value='tidak'
                     onChange={(e) => {
                       props.setEditedEntity({
@@ -3066,8 +3108,7 @@ export function InputEditSM(props) {
                     checked={
                       props.editedEntity.jenisPerkhidmatanSekolah === 'kps'
                     }
-                    id='act-stat'
-                    name='checkbox'
+                    name='kps-kpb'
                     value='kps'
                     onChange={(e) =>
                       props.setEditedEntity({
@@ -3085,13 +3126,54 @@ export function InputEditSM(props) {
                     checked={
                       props.editedEntity.jenisPerkhidmatanSekolah === 'kpb'
                     }
-                    id='act-stat'
-                    name='checkbox'
+                    name='kps-kpb'
                     value='kpb'
                     onChange={(e) =>
                       props.setEditedEntity({
                         ...props.editedEntity,
                         jenisPerkhidmatanSekolah: e.target.value,
+                      })
+                    }
+                  />
+                  Tidak
+                </label>
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
+                Sekolah KKI{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <div className='grid grid-cols-2 mb-3 p-2'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={props.editedEntity.sekolahKki === 'ya-sekolah-kki'}
+                    name='sekolah-kki'
+                    value='ya-sekolah-kki'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        sekolahKki: e.target.value,
+                      })
+                    }
+                  />
+                  Ya
+                </label>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={
+                      props.editedEntity.sekolahKki === 'tidak-sekolah-kki'
+                    }
+                    name='sekolah-kki'
+                    value='tidak-sekolah-kki'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        sekolahKki: e.target.value,
                       })
                     }
                   />
