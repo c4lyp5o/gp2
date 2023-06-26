@@ -284,20 +284,20 @@ const ModalGenerateAdHoc = (props) => {
           className='absolute inset-0 bg-user1 z-0 opacity-75'
           onClick={noWayBack}
         />
-        <div className=''>
-          <div className='absolute z-20 inset-x-1 lg:inset-x-1/4 inset-y-4 px-5 bg-userWhite text-user1 rounded-md shadow-md overflow-y-auto overflow-x-hidden'>
-            <div className={styles.modalHeader}>
-              <h5 className={styles.heading}>
+        <div className='absolute inset-x-1/4 inset-y-7 mt-5 z-20 overflow-y-auto rounded-lg'>
+          <div className='bg-adminWhite shadow-lg rounded-lg p-6 w-auto'>
+            <div className='flex justify-between items-center mb-3'>
+              <h5 className='text-lg font-medium'>
                 Penjanaan Reten {props.jenisReten}
               </h5>
+              <span
+                className='absolute right-3 top-3 cursor-pointer'
+                onClick={noWayBack}
+              >
+                <AiFillCloseCircle className='text-xl rounded-full' />
+              </span>
             </div>
-            <span
-              className='absolute right-2 top-2 cursor-pointer'
-              onClick={noWayBack}
-            >
-              <AiFillCloseCircle className='text-xl rounded-full' />
-            </span>
-            <div className={styles.modalContent}>
+            <div className='mb-3'>
               <div className='admin-pegawai-handler-container'>
                 {pilihanRetenMASA && (
                   <div className='grid grid-row-2 gap-2 p-2 normal-case'>
@@ -1120,53 +1120,51 @@ const ModalGenerateAdHoc = (props) => {
                     </>
                   )}
               </div>
-              <div className={styles.modalActions}>
-                <div className={styles.actionsContainer}>
-                  {props.generating ? (
-                    <button
-                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3 cursor-not-allowed'
-                      type='button'
-                    >
-                      <div className='flex flex-row items-center'>
-                        <svg
-                          className='animate-spin -ml-1 mr-3 h-5 w-5 text-userWhite'
-                          xmlns='http://www.w3.org/2000/svg'
-                          fill='none'
-                          viewBox='0 0 24 24'
-                        >
-                          <circle
-                            className='opacity-25'
-                            cx='12'
-                            cy='12'
-                            r='10'
-                            stroke='currentColor'
-                            strokeWidth='4'
-                          ></circle>
-                          <path
-                            className='opacity-75'
-                            fill='currentColor'
-                            d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
-                          ></path>
-                        </svg>
-                        <span>menjana...</span>
-                      </div>
-                    </button>
-                  ) : (
-                    <button
-                      className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-admin1 transition-all col-start-2 lg:col-start-3 mt-3'
-                      type='submit'
-                    >
-                      jana
-                    </button>
-                  )}
+              <div className='mt-5'>
+                {props.generating ? (
                   <button
+                    className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all mt-3 cursor-not-allowed'
                     type='button'
-                    className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all col-start-2 lg:col-start-3 mt-3'
-                    onClick={noWayBack}
                   >
-                    Kembali
+                    <div className='flex flex-row items-center'>
+                      <svg
+                        className='animate-spin -ml-1 mr-3 h-5 w-5 text-userWhite'
+                        xmlns='http://www.w3.org/2000/svg'
+                        fill='none'
+                        viewBox='0 0 24 24'
+                      >
+                        <circle
+                          className='opacity-25'
+                          cx='12'
+                          cy='12'
+                          r='10'
+                          stroke='currentColor'
+                          strokeWidth='4'
+                        ></circle>
+                        <path
+                          className='opacity-75'
+                          fill='currentColor'
+                          d='M4 12a8 8 0 018-8v1a7 7 0 00-7 7h1z'
+                        ></path>
+                      </svg>
+                      <span>menjana...</span>
+                    </div>
                   </button>
-                </div>
+                ) : (
+                  <button
+                    className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 hover:bg-admin1 transition-all mt-3'
+                    type='submit'
+                  >
+                    jana
+                  </button>
+                )}
+                <button
+                  type='button'
+                  className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all mt-3'
+                  onClick={noWayBack}
+                >
+                  Kembali
+                </button>
               </div>
             </div>
           </div>
