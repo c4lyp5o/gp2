@@ -65,6 +65,10 @@ const Dictionary = {
   mad: 'maklumat-asas-daerah',
   // token
   tokenbal: 'token-balance',
+  // carian jana
+  janatadika: 'jana-tadika',
+  janasekolahrendah: 'jana-sekolah-rendah',
+  janasekolahmenengah: 'jana-sekolah-menengah',
   // negeri
   negerijohor: 'Johor',
   negerikedah: 'Kedah',
@@ -556,6 +560,38 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         createdByDaerah: daerah,
       }).lean();
+      break;
+    case 'jana-tadika':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'tadika',
+        ...(daerah === '-'
+          ? { createdByNegeri: negeri }
+          : { createdByNegeri: negeri, createdByDaerah: daerah }),
+      })
+        .select('nama kodFasilitiHandler handler kodTastad')
+        .lean();
+      break;
+    case 'jana-sekolah-rendah':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-rendah',
+        sekolahSelesaiReten: true,
+        ...(daerah === '-'
+          ? { createdByNegeri: negeri }
+          : { createdByNegeri: negeri, createdByDaerah: daerah }),
+      })
+        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
+        .lean();
+      break;
+    case 'jana-sekolah-menengah':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-menengah',
+        sekolahSelesaiReten: true,
+        ...(daerah === '-'
+          ? { createdByNegeri: negeri }
+          : { createdByNegeri: negeri, createdByDaerah: daerah }),
+      })
+        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
+        .lean();
       break;
     default:
       data = await Fasiliti.find({
