@@ -3343,6 +3343,7 @@ export function InputEditTastad(props) {
                 <span className='font-semibold text-lg text-admin3'>*</span>
               </label>
               <select
+                required
                 value={props.editedEntity.kodFasilitiHandler}
                 onChange={(e) => {
                   const selectedKlinik = props.klinik.find(
@@ -3396,6 +3397,7 @@ export function InputEditTastad(props) {
                   htmlFor='statusactive'
                 >
                   <input
+                    required
                     checked={
                       props.editedEntity.statusPerkhidmatan === 'active'
                         ? true
@@ -3418,6 +3420,7 @@ export function InputEditTastad(props) {
                   htmlFor='statusinactive'
                 >
                   <input
+                    required
                     checked={
                       props.editedEntity.statusPerkhidmatan === 'non-active'
                         ? true
