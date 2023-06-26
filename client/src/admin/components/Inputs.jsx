@@ -1541,8 +1541,7 @@ export function InputSMSR(props) {
                   <input
                     required
                     type='radio'
-                    id='act-stat'
-                    name='checkbox'
+                    name='kps-kpb'
                     value='kps'
                     onChange={(e) =>
                       props.setJenisPerkhidmatanSekolah(e.target.value)
@@ -1554,8 +1553,7 @@ export function InputSMSR(props) {
                   <input
                     required
                     type='radio'
-                    id='act-stat'
-                    name='checkbox'
+                    name='kps-kpb'
                     value='kpb'
                     onChange={(e) =>
                       props.setJenisPerkhidmatanSekolah(e.target.value)
