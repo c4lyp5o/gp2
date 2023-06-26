@@ -48,6 +48,14 @@ const MaklumatAsasDaerah = lazy(() =>
   import('../components/superadmin/MaklumatAsasDaerah')
 );
 
+// agensi luar
+const ProgramGTodDaerah = lazy(() =>
+  import('../components/superadmin/AgensiLuar/ProgramGTod')
+);
+const ProgramWargaEmasDaerah = lazy(() =>
+  import('../components/superadmin/AgensiLuar/ProgramWargaEmas')
+);
+
 // settings
 const Settings = lazy(() => import('../components/superadmin/Settings'));
 
@@ -449,6 +457,28 @@ function AdminAfterLogin() {
                   element={
                     <Suspense fallback={<Loading />}>
                       <MaklumatAsasDaerah />
+                    </Suspense>
+                  }
+                />
+              ) : null}
+              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+              import.meta.env.VITE_ENV === 'DEV' ? (
+                <Route
+                  path='program-gtod'
+                  element={
+                    <Suspense fallback={<Loading />}>
+                      <ProgramGTodDaerah />
+                    </Suspense>
+                  }
+                />
+              ) : null}
+              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+              import.meta.env.VITE_ENV === 'DEV' ? (
+                <Route
+                  path='program-warga-emas'
+                  element={
+                    <Suspense fallback={<Loading />}>
+                      <ProgramWargaEmasDaerah />
                     </Suspense>
                   }
                 />

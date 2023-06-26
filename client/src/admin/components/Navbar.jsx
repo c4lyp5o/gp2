@@ -12,12 +12,14 @@ export default function Navbar(props) {
   const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
   const [showPromosiSubMenu, setShowPromosiSubMenu] = useState(false);
   const [showMaklumatLainSubMenu, setShowMaklumatLainSubMenu] = useState(false);
+  const [showAgensiLuarSubMenu, setShowAgensiLuarSubMenu] = useState(false);
 
   const togglePenetapanSubMenu = () => {
     setShowPenetapanSubMenu(!showPenetapanSubMenu);
     setShowPromosiSubMenu(false);
     setShowMedSosSubMenu(false);
     setShowMaklumatLainSubMenu(false);
+    setShowAgensiLuarSubMenu(false);
   };
 
   const toggleSubMenuPromosi = () => {
@@ -25,6 +27,7 @@ export default function Navbar(props) {
     setShowPenetapanSubMenu(false);
     setShowMedSosSubMenu(false);
     setShowMaklumatLainSubMenu(false);
+    setShowAgensiLuarSubMenu(false);
   };
 
   const toggleSubMenuMedSos = () => {
@@ -39,6 +42,15 @@ export default function Navbar(props) {
     setShowPenetapanSubMenu(false);
     setShowPromosiSubMenu(false);
     setShowMedSosSubMenu(false);
+    setShowAgensiLuarSubMenu(false);
+  };
+
+  const toggleSubMenuAgensiLuar = () => {
+    setShowAgensiLuarSubMenu(!showAgensiLuarSubMenu);
+    setShowPenetapanSubMenu(false);
+    setShowPromosiSubMenu(false);
+    setShowMedSosSubMenu(false);
+    setShowMaklumatLainSubMenu(false);
   };
 
   const toggleLinks = () => {
@@ -341,6 +353,51 @@ export default function Navbar(props) {
                 >
                   PENJANAAN RETEN
                 </NavLink>
+                <div
+                  className={`${
+                    showAgensiLuarSubMenu ? 'bg-admin3' : 'bg-admin2'
+                  } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                  onClick={toggleSubMenuAgensiLuar}
+                >
+                  <span>AGENSI LUAR</span>
+                  <span className='inline-flex ml-2'>
+                    <FaArrowAltCircleUp
+                      className={`transition-all ${
+                        showAgensiLuarSubMenu && 'rotate-180'
+                      }`}
+                    />
+                  </span>
+                </div>
+                <div
+                  className={`grid transition-all ${
+                    showAgensiLuarSubMenu
+                      ? 'max-h-[50rem]'
+                      : 'max-h-0 overflow-hidden'
+                  }`}
+                >
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                        : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                    }
+                    to='program-gtod'
+                    onClick={() => setShowLinks(!showLinks)}
+                  >
+                    PROGRAM G-TOD
+                  </NavLink>
+                  <NavLink
+                    className={({ isActive }) =>
+                      isActive
+                        ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                        : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                    }
+                    to='program-warga-emas'
+                    onClick={() => setShowLinks(!showLinks)}
+                  >
+                    PROGRAM WARGA EMAS
+                  </NavLink>
+                </div>
                 {/* <NavLink
                   className={({ isActive }) =>
                     isActive
