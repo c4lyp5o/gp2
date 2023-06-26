@@ -1016,6 +1016,7 @@ function AdminAppProvider({ children }) {
     startDate,
     endDate,
     minDate,
+    disabled,
     className,
   }) => {
     return (
@@ -1041,6 +1042,7 @@ function AdminAppProvider({ children }) {
           e.preventDefault();
         }}
         onFocus={(e) => e.target.blur()} // disable keyboad input
+        disabled={disabled}
         className={className}
         portalId='root-portal'
       />
