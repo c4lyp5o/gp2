@@ -379,6 +379,16 @@ function UserSekolah() {
                   </div>
                 )}
                 <div>
+                  {pilihanTahunTingkatan === '' &&
+                    pilihanTahunTingkatan !== 'T1' &&
+                    !tahunTingkatan.includes('T1') &&
+                    pilihanSekolah.includes('MAKTAB RENDAH SAINS MARA') && (
+                      <button className='bg-user14 text-xs text-userWhite rounded-md shadow-xl p-1 mb-2 mr-2 hover:bg-user1 transition-all'>
+                        Tambah Pelajar Tingkatan 1
+                      </button>
+                    )}
+                </div>
+                <div>
                   <button
                     onClick={() => {
                       navigate(-1);
