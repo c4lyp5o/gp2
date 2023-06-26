@@ -90,21 +90,23 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  sekolahSelesaiReten: {
-    type: Boolean,
-    default: false,
-  },
-  // sr sm => PERSiS
   risikoSekolahPersis: {
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // sr sm => KOHORT FMR
+  sekolahKki: {
+    type: String,
+    default: 'tidak',
+  },
   statusFMRSekolah: {
     type: String,
     default: 'tidak',
   },
   statusFMRTelahDaftarDarjahSatu: {
+    type: Boolean,
+    default: false,
+  },
+  sekolahSelesaiReten: {
     type: Boolean,
     default: false,
   },

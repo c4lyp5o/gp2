@@ -538,19 +538,21 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
-    if (
-      FType === 'sr' ||
-      FType === 'sm' ||
-      FType === 'taska' ||
-      FType === 'tadika'
-    ) {
+    if (FType === 'taska' || FType === 'tadika') {
       Data = {
         ...Data,
         govKe: editedEntity.govKe,
-        risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
+      };
+    }
+    if (FType === 'sr' || FType === 'sm') {
+      Data = {
+        ...Data,
+        risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
+        sekolahKki: editedEntity.sekolahKki,
         statusFMRSekolah: editedEntity.statusFMRSekolah,
+        statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
     if (FType === 'program') {
