@@ -281,7 +281,7 @@ function AdminAfterLogin() {
                 index
                 element={
                   <Suspense fallback={<Loading />}>
-                    <AdminCenterStage {...props} />{' '}
+                    <AdminCenterStage {...props} />
                   </Suspense>
                 }
               />
@@ -321,7 +321,7 @@ function AdminAfterLogin() {
                 path='tetapan'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Settings />{' '}
+                    <Settings />
                   </Suspense>
                 }
               />
@@ -333,7 +333,7 @@ function AdminAfterLogin() {
               path='ondemand'
               element={
                 <Suspense fallback={<Loading />}>
-                  <OndemandSetting />{' '}
+                  <OndemandSetting />
                 </Suspense>
               }
             />
@@ -345,7 +345,7 @@ function AdminAfterLogin() {
                 path='negeri/pp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataNegeri DType='ppspn' />{' '}
+                    <DataNegeri DType='ppspn' />
                   </Suspense>
                 }
               />
@@ -353,7 +353,7 @@ function AdminAfterLogin() {
                 path='negeri/jp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataNegeri DType='jpspn' />{' '}
+                    <DataNegeri DType='jpspn' />
                   </Suspense>
                 }
               />
@@ -366,7 +366,7 @@ function AdminAfterLogin() {
                 path='kp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='kp' />{' '}
+                    <Data FType='kp' />
                   </Suspense>
                 }
               />
@@ -374,7 +374,7 @@ function AdminAfterLogin() {
                 path='kkiakd'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='kkiakd' />{' '}
+                    <Data FType='kkiakd' />
                   </Suspense>
                 }
               />
@@ -382,7 +382,7 @@ function AdminAfterLogin() {
                 path='pp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='pp' />{' '}
+                    <Data FType='pp' />
                   </Suspense>
                 }
               />
@@ -390,7 +390,7 @@ function AdminAfterLogin() {
                 path='jp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='jp' />{' '}
+                    <Data FType='jp' />
                   </Suspense>
                 }
               />
@@ -398,7 +398,7 @@ function AdminAfterLogin() {
                 path='taska'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='taska' />{' '}
+                    <Data FType='taska' />
                   </Suspense>
                 }
               />
@@ -406,7 +406,7 @@ function AdminAfterLogin() {
                 path='tadika'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='tadika' />{' '}
+                    <Data FType='tadika' />
                   </Suspense>
                 }
               />
@@ -414,7 +414,7 @@ function AdminAfterLogin() {
                 path='sr'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='sr' />{' '}
+                    <Data FType='sr' />
                   </Suspense>
                 }
               />
@@ -422,7 +422,7 @@ function AdminAfterLogin() {
                 path='sm'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='sm' />{' '}
+                    <Data FType='sm' />
                   </Suspense>
                 }
               />
@@ -430,7 +430,7 @@ function AdminAfterLogin() {
                 path='program'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='program' />{' '}
+                    <Data FType='program' />
                   </Suspense>
                 }
               />
@@ -438,7 +438,7 @@ function AdminAfterLogin() {
                 path='kpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='kpb' />{' '}
+                    <Data FType='kpb' />
                   </Suspense>
                 }
               />
@@ -446,7 +446,7 @@ function AdminAfterLogin() {
                 path='mpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='mpb' />{' '}
+                    <Data FType='mpb' />
                   </Suspense>
                 }
               />
@@ -492,7 +492,7 @@ function AdminAfterLogin() {
                 index
                 element={
                   <Suspense fallback={<Loading />}>
-                    <KpCenterStage {...props} />{' '}
+                    <KpCenterStage {...props} />
                   </Suspense>
                 }
               />
@@ -500,7 +500,7 @@ function AdminAfterLogin() {
                 path='kp/pp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='pp' />{' '}
+                    <DataKp FType='pp' />
                   </Suspense>
                 }
               />
@@ -508,7 +508,7 @@ function AdminAfterLogin() {
                 path='kp/jp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='jp' />{' '}
+                    <DataKp FType='jp' />
                   </Suspense>
                 }
               />
@@ -516,7 +516,7 @@ function AdminAfterLogin() {
                 path='kp/tastad'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='tastad' />{' '}
+                    <DataKp FType='tastad' />
                   </Suspense>
                 }
               />
@@ -524,7 +524,7 @@ function AdminAfterLogin() {
                 path='kp/program'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='program' />{' '}
+                    <DataKp FType='program' />
                   </Suspense>
                 }
               />
@@ -532,7 +532,7 @@ function AdminAfterLogin() {
                 path='kp/kpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='kpb' />{' '}
+                    <DataKp FType='kpb' />
                   </Suspense>
                 }
               />
@@ -540,7 +540,7 @@ function AdminAfterLogin() {
                 path='kp/mpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='mpb' />{' '}
+                    <DataKp FType='mpb' />
                   </Suspense>
                 }
               />
@@ -548,7 +548,7 @@ function AdminAfterLogin() {
                 path='kp/generate'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <GenerateKp {...props} />{' '}
+                    <GenerateKp {...props} />
                   </Suspense>
                 }
               />
@@ -561,7 +561,7 @@ function AdminAfterLogin() {
                 index
                 element={
                   <Suspense fallback={<Loading />}>
-                    <KpCenterStage {...props} />{' '}
+                    <KpCenterStage {...props} />
                   </Suspense>
                 }
               />
