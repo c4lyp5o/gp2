@@ -16,14 +16,8 @@ function UserTambahKemaskiniPelajarSekolah({
   setReloadState,
   dataFromPilihanTahunTingkatan,
 }) {
-  const {
-    userToken,
-    userinfo,
-    reliefUserToken,
-    masterDatePicker,
-    toast,
-    dateToday,
-  } = useGlobalUserAppContext();
+  const { userToken, reliefUserToken, masterDatePicker, toast } =
+    useGlobalUserAppContext();
 
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
