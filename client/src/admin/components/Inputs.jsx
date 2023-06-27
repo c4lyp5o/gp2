@@ -2583,7 +2583,7 @@ export function InputEditPegawai(props) {
                   {props.FType === 'pp' && (
                     <select
                       required
-                      defaultValue={props.editedEntity.gred}
+                      value={props.editedEntity.gred}
                       className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
                       onChange={(e) => {
                         props.setEditedEntity({
@@ -2605,7 +2605,7 @@ export function InputEditPegawai(props) {
                   {props.FType === 'jp' && (
                     <select
                       required
-                      defaultValue={props.editedEntity.gred}
+                      value={props.editedEntity.gred}
                       className='block w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
                       onChange={(e) => {
                         props.setEditedEntity({
@@ -2660,7 +2660,7 @@ export function InputEditPegawai(props) {
                   </label>
                   <select
                     required
-                    defaultValue={props.editedEntity.role}
+                    value={props.editedEntity.role}
                     className='w-full rounded-md border-2 p-2 text-base leading-5 text-adminBlack focus:outline-none focus:border-black-dark'
                     onChange={(e) => {
                       props.setEditedEntity({
