@@ -3,106 +3,25 @@ import { BsPlusCircleDotted, BsTable } from 'react-icons/bs';
 
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 
-import FormProgramGtod from './FormProgramGtod';
+import FormPemeriksaanProgramGtod from './FormPemeriksaanProgram';
+import FormTambahProgramGtod from './FormTambahProgram';
+import ModalDeleteGtod from './ModalProgram';
 
-import { SubmitButton, BusyButton } from '../../Buttons';
 import { set } from 'lodash';
 
 export default function ProgramGTod() {
-  const {
-    loginInfo,
-    readData,
-    readOneData,
-    createData,
-    updateData,
-    deleteData,
-    newRouteCreateData,
-    newRouteUpdateData,
-    newRouteDeleteData,
-    toast,
-  } = useGlobalAdminAppContext();
+  const { loginInfo, readData, readOneData, createData, toast } =
+    useGlobalAdminAppContext();
 
   const [showForm, setShowForm] = useState(false);
   const [showTable, setShowTable] = useState(true);
   const [showFormPemeriksaan, setShowFormPemeriksaan] = useState(false);
+  const [showModalDelete, setShowModalDelete] = useState(false);
   const [singleAgensiLuarGTod, setSingleAgensiLuarGTod] = useState(null);
   const [tableGtod, setTableGtod] = useState([]);
-  const [kemaskiniGTod, setKemaskiniGTod] = useState('');
+  const [idGTod, setIdGTod] = useState('');
   const [pemeriksaanSatu, setPemeriksaanSatu] = useState(null);
   const [pemeriksaanDua, setPemeriksaanDua] = useState(null);
-
-  const [jenisAgensiLuar, setJenisAgensiLuar] = useState('');
-  const [namaAgensiLuar, setNamaAgensiLuar] = useState('');
-  const [namaTaskaTadika, setNamaTaskaTadika] = useState('');
-  const [alamatTaskaTadika, setAlamatTaskaTadika] = useState('');
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    let Data;
-    Data = {
-      tahunSemasa: new Date().getFullYear(),
-      createdByNegeri: loginInfo?.negeri,
-      createdByDaerah: loginInfo?.daerah,
-      jenisAgensiLuar: singleAgensiLuarGTod
-        ? singleAgensiLuarGTod.jenisAgensiLuar
-        : jenisAgensiLuar,
-      namaAgensiLuar: singleAgensiLuarGTod
-        ? singleAgensiLuarGTod.namaAgensiLuar
-        : namaAgensiLuar,
-      namaTaskaTadika: singleAgensiLuarGTod
-        ? singleAgensiLuarGTod.namaTaskaTadika
-        : namaTaskaTadika,
-      alamatTaskaTadika: singleAgensiLuarGTod
-        ? singleAgensiLuarGTod.alamatTaskaTadika
-        : alamatTaskaTadika,
-    };
-    // console.log(Data);
-    const kemaskiniAda = singleAgensiLuarGTod
-      ? updateData('gtod', kemaskiniGTod, Data)
-      : createData('gtod', Data);
-    await toast
-      .promise(
-        kemaskiniAda,
-        {
-          pending: 'Memproses ...',
-          success: 'Berjaya menambah data agensi luar',
-          error: 'Gagal menambah data agensi luar',
-        },
-        {
-          autoclose: 3000,
-        }
-      )
-      .then((result) => {
-        setShowForm(false);
-        // reload page
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
-
-  const handleDelete = async (id) => {
-    await toast
-      .promise(
-        deleteData('gtod', id),
-        {
-          pending: 'Memproses ...',
-          success: 'Berjaya memadam data agensi luar',
-          error: 'Gagal memadam data agensi luar',
-        },
-        {
-          autoclose: 3000,
-        }
-      )
-      .then((result) => {
-        // reload page
-        window.location.reload();
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  };
 
   useEffect(() => {
     const fetchGtod = async () => {
@@ -118,10 +37,10 @@ export default function ProgramGTod() {
   }, []);
 
   useEffect(() => {
-    if (kemaskiniGTod) {
+    if (idGTod) {
       const fetchSingleGtod = async () => {
         try {
-          const { data } = await readOneData('gtod', kemaskiniGTod);
+          const { data } = await readOneData('gtod', idGTod);
 
           setSingleAgensiLuarGTod(data);
         } catch (error) {
@@ -130,12 +49,12 @@ export default function ProgramGTod() {
       };
       fetchSingleGtod();
     }
-  }, [kemaskiniGTod]);
+  }, [idGTod]);
 
   return (
     <>
-      <div className='grid grid-cols-[1fr_7fr] gap-5 mt-4 relative'>
-        <div className=''>
+      <div className='grid grid-cols-1 lg:grid-cols-[1fr_7fr] gap-5 mt-4 relative'>
+        <div className='hidden lg:block'>
           <div className='py-6 px-3 shadow-md shadow-user1 rounded-md flex justify-center'>
             <button
               className='outline-none focus:outline-none flex items-center flex-col'
@@ -167,7 +86,7 @@ export default function ProgramGTod() {
           <div className='flex items-center justify-start pb-5'>
             <h1 className='text-3xl font-bold'>Program G-Tod</h1>
           </div>
-          {showTable && !showForm && (
+          {showTable && (
             <>
               <div className='overflow-x-auto text-sm rounded-md h-min max-w-max '>
                 <table className='table-auto'>
@@ -223,22 +142,22 @@ export default function ProgramGTod() {
                             <button
                               className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
                               onClick={() => {
-                                setKemaskiniGTod(agensi._id);
+                                setIdGTod(agensi._id);
                                 setShowForm(true);
-
                                 setShowTable(false);
                               }}
                             >
                               Kemaskini
                             </button>
                             <button
+                              id={agensi._id}
                               className='px-2 py-1 bg-user9 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
                               onClick={() => {
-                                setKemaskiniGTod(agensi._id);
-                                handleDelete(agensi._id);
+                                setShowModalDelete(true);
+                                setIdGTod(agensi._id);
                               }}
                             >
-                              Padam
+                              Hapus
                             </button>
                           </span>
                         </td>
@@ -246,9 +165,9 @@ export default function ProgramGTod() {
                           <span className='flex items-center justify-center space-x-1'>
                             {agensi.pemeriksaanAgensiLuar1 && (
                               <button
-                                className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
+                                className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
                                 onClick={() => {
-                                  setKemaskiniGTod(agensi._id);
+                                  setIdGTod(agensi._id);
                                   setPemeriksaanSatu(
                                     agensi.pemeriksaanAgensiLuar1
                                   );
@@ -261,9 +180,9 @@ export default function ProgramGTod() {
                             )}
                             {agensi.pemeriksaanAgensiLuar2 ? (
                               <button
-                                className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs'
+                                className='px-2 py-1 bg-user11 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs whitespace-nowrap'
                                 onClick={() => {
-                                  setKemaskiniGTod(agensi._id);
+                                  setIdGTod(agensi._id);
                                   setPemeriksaanDua(
                                     agensi.pemeriksaanAgensiLuar2
                                   );
@@ -277,12 +196,12 @@ export default function ProgramGTod() {
                               <button
                                 className='px-2 py-1 bg-user6 text-adminWhite rounded-md outline-none focus:outline-none hover:bg-admin2 transition duration-200 ease-in-out text-xs flex flex-row items-center'
                                 onClick={() => {
-                                  setKemaskiniGTod(agensi._id);
+                                  setIdGTod(agensi._id);
                                   setShowFormPemeriksaan(true);
                                   setShowTable(false);
                                 }}
                               >
-                                <BsPlusCircleDotted /> Lawatan
+                                <BsPlusCircleDotted className='mr-1' /> Lawatan
                               </button>
                             )}
                           </span>
@@ -294,164 +213,18 @@ export default function ProgramGTod() {
               </div>
             </>
           )}
-          {showForm && !showTable && (
-            <form
-              className='grid grid-cols-2 auto-rows-min gap-5 mx-10'
-              onSubmit={handleSubmit}
-            >
-              <div className='grid grid-cols-2'>
-                <label
-                  htmlFor='nama-agensi-luar'
-                  className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'
-                >
-                  Nama Agensi Luar
-                </label>
-                <input
-                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  type='text'
-                  name='nama-agensi-luar'
-                  id='nama-agensi-luar'
-                  required
-                  value={
-                    singleAgensiLuarGTod
-                      ? singleAgensiLuarGTod.namaAgensiLuar
-                      : namaAgensiLuar
-                  }
-                  onChange={(e) => {
-                    if (singleAgensiLuarGTod) {
-                      setSingleAgensiLuarGTod({
-                        ...singleAgensiLuarGTod,
-                        namaAgensiLuar: e.target.value,
-                      });
-                    } else {
-                      setNamaAgensiLuar(e.target.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className='grid grid-cols-2'>
-                <label
-                  htmlFor='jenis-agensi-luar'
-                  className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'
-                >
-                  Jenis Agensi Luar
-                </label>
-                <select
-                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  name='jenis-agensi-luar'
-                  id='jenis-agensi-luar'
-                  required
-                  value={
-                    singleAgensiLuarGTod
-                      ? singleAgensiLuarGTod.jenisAgensiLuar
-                      : jenisAgensiLuar
-                  }
-                  onChange={(e) => {
-                    if (singleAgensiLuarGTod) {
-                      setSingleAgensiLuarGTod({
-                        ...singleAgensiLuarGTod,
-                        jenisAgensiLuar: e.target.value,
-                      });
-                    } else {
-                      setJenisAgensiLuar(e.target.value);
-                    }
-                  }}
-                >
-                  <option value=''>Pilih Jenis Agensi Luar</option>
-                  <option value='angkatan tentera malaysia'>
-                    Angkatan Tentera Malaysia
-                  </option>
-                  <option value='universiti awam'>universiti awam</option>
-                  <option value='universiti swasta'>universiti swasta</option>
-                  <option value='pengamal pergigian swasta'>
-                    pengamal pergigian swasta
-                  </option>
-                  <option value='badan bukan kerajaan'>
-                    badan bukan kerajaan (NGO)
-                  </option>
-                  <option value='pemain industri'>pemain industri</option>
-                  <option value='lain-lain agensi'>lain-lain agensi</option>
-                </select>
-              </div>
-              <div className='grid grid-cols-2'>
-                <label
-                  htmlFor='nama-taska-tadika'
-                  className='font-bold uppercase text-xs lg:text-sm flex justify-end pt-1 mr-2'
-                >
-                  Nama Taska/Tadika
-                </label>
-                <input
-                  className='appearance-none w-full h-8 px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  type='text'
-                  name='nama-taska-tadika'
-                  id='nama-taska-tadika'
-                  required
-                  value={
-                    singleAgensiLuarGTod
-                      ? singleAgensiLuarGTod.namaTaskaTadika
-                      : namaTaskaTadika
-                  }
-                  onChange={(e) => {
-                    if (singleAgensiLuarGTod) {
-                      setSingleAgensiLuarGTod({
-                        ...singleAgensiLuarGTod,
-                        namaTaskaTadika: e.target.value,
-                      });
-                    } else {
-                      setNamaTaskaTadika(e.target.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className='grid grid-cols-2'>
-                <label
-                  htmlFor='alamat-taska-tadika'
-                  className='font-bold uppercase text-xs lg:text-sm flex justify-end pt-1 mr-2'
-                >
-                  Alamat Taska/Tadika
-                </label>
-                <textarea
-                  className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                  name='alamat-taska-tadika'
-                  id='alamat-taska-tadika'
-                  required
-                  value={
-                    singleAgensiLuarGTod
-                      ? singleAgensiLuarGTod.alamatTaskaTadika
-                      : alamatTaskaTadika
-                  }
-                  onChange={(e) => {
-                    if (singleAgensiLuarGTod) {
-                      setSingleAgensiLuarGTod({
-                        ...singleAgensiLuarGTod,
-                        alamatTaskaTadika: e.target.value,
-                      });
-                    } else {
-                      setAlamatTaskaTadika(e.target.value);
-                    }
-                  }}
-                />
-              </div>
-              <div className='grid grid-cols-2'>
-                <span
-                  className='flex flex-col gap-5'
-                  onClick={() => {
-                    setShowForm(false);
-                    window.location.reload();
-                  }}
-                >
-                  batal
-                </span>
-                <button className='flex flex-col gap-5' type='submit'>
-                  hantar
-                </button>
-              </div>
-            </form>
+          {showForm && (
+            <FormTambahProgramGtod
+              singleAgensiLuarGTod={singleAgensiLuarGTod}
+              setSingleAgensiLuarGTod={setSingleAgensiLuarGTod}
+              setShowForm={setShowForm}
+              idGTod={idGTod}
+            />
           )}
           {showFormPemeriksaan && (
-            <FormProgramGtod
+            <FormPemeriksaanProgramGtod
               singleAgensiLuarGTod={singleAgensiLuarGTod}
-              kemaskiniGTod={kemaskiniGTod}
+              idGTod={idGTod}
               setShowFormPemeriksaan={setShowFormPemeriksaan}
               setShowTable={setShowTable}
               pemeriksaanSatu={pemeriksaanSatu}
@@ -460,6 +233,15 @@ export default function ProgramGTod() {
           )}
         </div>
       </div>
+      {showModalDelete && (
+        <>
+          <ModalDeleteGtod
+            setShowModalDelete={setShowModalDelete}
+            idGTod={idGTod}
+            singleAgensiLuarGTod={singleAgensiLuarGTod}
+          />
+        </>
+      )}
     </>
   );
 }
