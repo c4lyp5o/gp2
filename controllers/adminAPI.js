@@ -186,12 +186,24 @@ const initialDataKlinik = async (req, res) => {
 
 const initialDataAdmins = async (req, res) => {
   const { kodFasiliti } = req.query;
-  const all = await Operator.find({
+
+  const allRoleAdmin = await Operator.find({
     kodFasiliti: kodFasiliti,
     role: 'admin',
     activationStatus: true,
   }).select('nama email mdcNumber mdtbNumber');
+
+  const allRoleMediaSosialKlinik = await Operator.find({
+    kodFasiliti: kodFasiliti,
+    role: 'umum',
+    roleMediaSosialKlinik: true,
+    activationStatus: true,
+  }).select('nama email mdcNumber mdtbNumber');
+
+  const all = allRoleAdmin.concat(allRoleMediaSosialKlinik);
+
   let admins = [];
+
   all.forEach((item) => {
     let regNum = {};
     let adminDetails = {};
@@ -205,6 +217,7 @@ const initialDataAdmins = async (req, res) => {
     };
     admins.push(adminDetails);
   });
+
   if (admins.length === 0) {
     res.status(404).json({ message: 'No operators found' });
   } else {
