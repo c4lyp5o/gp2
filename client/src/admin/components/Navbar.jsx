@@ -292,8 +292,8 @@ export default function Navbar(props) {
                     ) : null}
                     <div
                       className={`${
-                        showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
-                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                        showMedSosSubMenu ? 'bg-admin7' : 'bg-admin7'
+                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl text-adminBlack p-3 m-1 hover:bg-admin5 cursor-pointer transition-all`}
                       onClick={toggleSubMenuMedSos}
                     >
                       <span>MEDIA SOSIAL</span>
@@ -337,22 +337,6 @@ export default function Navbar(props) {
                     </div>
                   </div>
                 </div>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                  }
-                  to='generate'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowPenetapanSubMenu(false);
-                    setShowMedSosSubMenu(false);
-                    setShowMaklumatLainSubMenu(false);
-                  }}
-                >
-                  PENJANAAN RETEN
-                </NavLink>
                 <div
                   className={`${
                     showAgensiLuarSubMenu ? 'bg-admin3' : 'bg-admin2'
@@ -398,6 +382,22 @@ export default function Navbar(props) {
                     PROGRAM WARGA EMAS
                   </NavLink>
                 </div>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='generate'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowPenetapanSubMenu(false);
+                    setShowMedSosSubMenu(false);
+                    setShowMaklumatLainSubMenu(false);
+                  }}
+                >
+                  PENJANAAN RETEN
+                </NavLink>
                 {/* <NavLink
                   className={({ isActive }) =>
                     isActive
@@ -570,7 +570,7 @@ export default function Navbar(props) {
                   </NavLink>
                 </>
               )}
-            {loginInfo.role === 'sosmedadmin' && (
+            {/* {loginInfo.role === 'sosmedadmin' && (
               <div>
                 <div
                   className={`${
@@ -616,7 +616,7 @@ export default function Navbar(props) {
                   </NavLink>
                 </div>
               </div>
-            )}
+            )} */}
             {loginInfo.accountType === 'negeriSuperadmin' && (
               <>
                 {/* <NavLink
