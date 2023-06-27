@@ -255,7 +255,7 @@ function AdminAfterLogin() {
       <Navbar {...props} />
       <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pt-2 pb-2 px-3'>
         <Routes>
-          {/* route for all: hq, negeri, daerah, kp superadmin sharing all these */}
+          {/* route for all: hq, negeri, daerah, kp superadmin, kp sosmedadmin sharing all these */}
           <Route
             path='followers'
             element={
@@ -486,7 +486,7 @@ function AdminAfterLogin() {
             </>
           ) : null}
           {/* route kp superadmin sahaja */}
-          {loginInfo.accountType === 'kpUser' ? (
+          {loginInfo.accountType === 'kpUser' && loginInfo.role === 'admin' ? (
             <>
               <Route
                 index
@@ -549,6 +549,19 @@ function AdminAfterLogin() {
                 element={
                   <Suspense fallback={<Loading />}>
                     <GenerateKp {...props} />{' '}
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
+          {/* route kp sosmedadmin sahaja */}
+          {loginInfo.role === 'sosmedadmin' ? (
+            <>
+              <Route
+                index
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <KpCenterStage {...props} />{' '}
                   </Suspense>
                 }
               />
