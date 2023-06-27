@@ -29,7 +29,9 @@ const ModalGenerateAdHoc = (props) => {
   const pilihanRetenTasTadSekolah = ['PGS201', 'BEGIN', 'PPIM03'].includes(
     props.jenisReten
   );
-  const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB'].includes(props.jenisReten);
+  const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
+    props.jenisReten
+  );
   const pilihanRetenRTC = ['RTC'].includes(props.jenisReten);
   const tunjukProgram =
     [
@@ -173,6 +175,17 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
+    if (
+      ['tadika', 'sekolah rendah', 'sekolah menengah'].includes(
+        props.jenisFasiliti
+      )
+    ) {
+      console.log('masuk tadika sekolah');
+      if (props.pilihanJanaSpesifikFasiliti === '') {
+        toast.error(`Sila lengkapkan pilihan ${props.jenisFasiliti}`);
+        return;
+      }
+    }
     props.setGenerating(true);
     props.setGeneratingNoWayBack(true);
     const id = toast.loading('Sedang menjana reten...');
@@ -769,15 +782,15 @@ const ModalGenerateAdHoc = (props) => {
                             {tunjukKPBMPB && (
                               <div className='px-3 py-1'>
                                 <label
-                                  htmlFor='program'
+                                  htmlFor='pilihanKpbMpb'
                                   className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
                                 >
                                   KPB / MPB
                                 </label>
                                 <select
                                   required
-                                  name='program'
-                                  id='program'
+                                  name='pilihanKpbMpb'
+                                  id='pilihanKpbMpb'
                                   value={props.pilihanKpbMpb}
                                   onChange={(e) => {
                                     props.setPilihanKpbMpb(e.target.value);
@@ -787,13 +800,6 @@ const ModalGenerateAdHoc = (props) => {
                                   <option value=''>Sila pilih..</option>
                                   {props.kpbmpbData &&
                                     props.kpbmpbData
-                                      .filter(
-                                        (km) =>
-                                          km &&
-                                          km.tarikhStart >=
-                                            startDateRef.current &&
-                                          km.tarikhStart <= endDateRef.current
-                                      )
                                       .filter((km) => {
                                         if (km) {
                                           return km;
