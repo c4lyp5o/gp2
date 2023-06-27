@@ -12,7 +12,6 @@ import {
   FaMinus,
   FaPlus,
   FaInfoCircle,
-  // RiBook2Fill
 } from 'react-icons/fa';
 
 import UserTambahKemaskiniPelajarSekolah from './UserTambahKemaskiniPelajarSekolah';
