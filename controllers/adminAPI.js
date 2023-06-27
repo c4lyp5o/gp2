@@ -20,7 +20,7 @@ const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const MaklumatAsasDaerah = require('../models/MaklumatAsasDaerah');
 const AgensiLuar = require('../models/AgensiLuar');
-const PemeriksaanagensiLuar = require('../models/FormAgensiLuar');
+const PemeriksaanagensiLuar = require('../models/AgensiLuarForm');
 const emailGen = require('../lib/emailgen');
 const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const insertToSekolah = require('./helpers/insertToSekolah');
@@ -2065,7 +2065,9 @@ const getData = async (req, res) => {
             theType !== 'sosmed' &&
             theType !== 'followers' &&
             theType !== 'sekolah-rendah' &&
-            theType !== 'sekolah-menengah'
+            theType !== 'sekolah-menengah' &&
+            theType !== 'program-gtod' &&
+            theType !== 'program-wargaemas'
           ) {
             const data = await Fasiliti.findByIdAndDelete({
               _id: Id,
@@ -2231,7 +2233,7 @@ const getData = async (req, res) => {
           }
           if (theType === 'program-gtod' || theType === 'program-wargaemas') {
             const data = await AgensiLuar.findByIdAndDelete({
-              _id: Data.Id,
+              _id: Id,
             });
             if (!data) {
               return res.status(404).json({ msg: 'Data not found' });
