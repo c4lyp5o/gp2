@@ -3096,6 +3096,7 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     statusPeriodontium: e.target.value,
                                   });
+                                  setSkorBpeOralHygiene('');
                                 }}
                                 className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
                               />
@@ -3123,6 +3124,7 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     statusPeriodontium: e.target.value,
                                   });
+                                  setSkorGisMulutOralHygiene('');
                                 }}
                                 className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 m-2'
                               />
