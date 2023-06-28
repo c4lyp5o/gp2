@@ -2233,6 +2233,7 @@ const Generate = () => {
     setPilihanIndividu('');
     setNamaKlinik('');
     // sekolah
+    setJenisFasiliti('');
     setCarianJana('');
     setPilihanJanaSpesifikFasiliti('');
     setAllTadika([]);

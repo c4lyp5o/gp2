@@ -1726,6 +1726,7 @@ const Generate = () => {
     setPilihanKpbMpb('');
     setPilihanIndividu('');
     // sekolah
+    setJenisFasiliti('');
     setCarianJana('');
     setPilihanJanaSpesifikFasiliti('');
     setAllTadika([]);
