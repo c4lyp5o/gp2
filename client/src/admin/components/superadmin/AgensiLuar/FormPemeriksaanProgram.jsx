@@ -10,6 +10,8 @@ const FormPemeriksaanProgramGtod = ({
   setShowTable,
   pemeriksaanSatu,
   pemeriksaanDua,
+  reloadState,
+  setReloadState,
 }) => {
   const {
     loginInfo,
@@ -23,9 +25,9 @@ const FormPemeriksaanProgramGtod = ({
 
   const [tarikhMulaLawatan, setTarikhMulaLawatan] = useState('');
   const [tarikhAkhirLawatan, setTarikhAkhirLawatan] = useState('');
-  const [enrolmenKurang4Tahun, setEnrolmenKurang4Tahun] = useState(0);
-  const [enrolmen5Tahun, setEnrolmen5Tahun] = useState(0);
-  const [enrolmen6Tahun, setEnrolmen6Tahun] = useState(0);
+  // const [enrolmenKurang4Tahun, setEnrolmenKurang4Tahun] = useState(0);
+  // const [enrolmen5Tahun, setEnrolmen5Tahun] = useState(0);
+  // const [enrolmen6Tahun, setEnrolmen6Tahun] = useState(0);
   const [kedatanganBaru, setKedatanganBaru] = useState(0);
   const [kedatanganUlangan, setKedatanganUlangan] = useState(0);
   const [dDesidus, setDDesidus] = useState(0);
@@ -116,9 +118,9 @@ const FormPemeriksaanProgramGtod = ({
       Id: idGTod,
       tarikhMulaLawatan: tarikhMulaLawatan,
       tarikhAkhirLawatan: tarikhAkhirLawatan,
-      enrolmenKurang4Tahun: enrolmenKurang4Tahun,
-      enrolmen5Tahun: enrolmen5Tahun,
-      enrolmen6Tahun: enrolmen6Tahun,
+      // enrolmenKurang4Tahun: enrolmenKurang4Tahun,
+      // enrolmen5Tahun: enrolmen5Tahun,
+      // enrolmen6Tahun: enrolmen6Tahun,
       kedatanganBaru: kedatanganBaru,
       kedatanganUlangan: kedatanganUlangan,
       dDesidus: dDesidus,
@@ -151,9 +153,8 @@ const FormPemeriksaanProgramGtod = ({
       )
       .then((res) => {
         setShowFormPemeriksaan(false);
-        // window reload
-        window.location.reload();
         setShowTable(true);
+        setReloadState(!reloadState);
       })
       .catch((err) => {
         console.log(err);
@@ -166,16 +167,20 @@ const FormPemeriksaanProgramGtod = ({
         onSubmit={handleSubmitPemeriksaan}
         className='grid grid-cols-1 lg:grid-cols-2 gap-2'
       >
-        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
+        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md col-span-1 lg:col-span-2'>
           <p className='flex font-semibold'>Tarikh Lawatan</p>
           <div className='flex justify-start place-items-center text-left space-x-2'>
-            <p className='whitespace-nowrap'>Tarikh Mula</p>
+            <p className='whitespace-nowrap'>
+              Tarikh Mula<strong className='text-user9'>*</strong>
+            </p>
             <TarikhMulaLawatan />
-            <p className='whitespace-nowrap'>Tarikh Akhir</p>
+            <p className='whitespace-nowrap'>
+              Tarikh Akhir<strong className='text-user9'>*</strong>
+            </p>
             <TarikhAkhirLawatan />
           </div>
         </article>
-        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
+        {/* <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Enrolmen Tahun Semasa</p>
           <div className='flex flex-wrap space-x-3 items-center'>
             <label className='text-center'>{'< 4 tahun'}</label>
@@ -233,11 +238,13 @@ const FormPemeriksaanProgramGtod = ({
               }}
             />
           </div>
-        </article>
+        </article> */}
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Kedatangan</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Baru</label>
+            <label className='text-center'>
+              Baru <strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -255,7 +262,9 @@ const FormPemeriksaanProgramGtod = ({
                 setKedatanganBaru(e.target.value);
               }}
             />
-            <label className='text-center'>Ulangan</label>
+            <label className='text-center'>
+              Ulangan<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -278,7 +287,9 @@ const FormPemeriksaanProgramGtod = ({
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md normal-case'>
           <p className='flex font-semibold'>Status dmfx</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>d</label>
+            <label className='text-center'>
+              d<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -292,7 +303,9 @@ const FormPemeriksaanProgramGtod = ({
                 setDDesidus(e.target.value);
               }}
             />
-            <label className='text-center'>m</label>
+            <label className='text-center'>
+              m<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -306,7 +319,9 @@ const FormPemeriksaanProgramGtod = ({
                 setMDesidus(e.target.value);
               }}
             />
-            <label className='text-center'>f</label>
+            <label className='text-center'>
+              f<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -320,7 +335,9 @@ const FormPemeriksaanProgramGtod = ({
                 setFDesidus(e.target.value);
               }}
             />
-            <label className='text-center'>x</label>
+            <label className='text-center'>
+              x<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -339,7 +356,9 @@ const FormPemeriksaanProgramGtod = ({
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Kebersihan Mulut</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>a</label>
+            <label className='text-center'>
+              a<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -357,7 +376,9 @@ const FormPemeriksaanProgramGtod = ({
                 setAKebersihanMulut(e.target.value);
               }}
             />
-            <label className='text-center'>c</label>
+            <label className='text-center'>
+              c<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -375,7 +396,9 @@ const FormPemeriksaanProgramGtod = ({
                 setCKebersihanMulut(e.target.value);
               }}
             />
-            <label className='text-center'>e</label>
+            <label className='text-center'>
+              e<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -400,7 +423,9 @@ const FormPemeriksaanProgramGtod = ({
             Bilangan Tidak Perlu Rawatan (TPR)
           </p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Tak Perlu Rawatan</label>
+            <label className='text-center'>
+              Tak Perlu Rawatan<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -425,7 +450,10 @@ const FormPemeriksaanProgramGtod = ({
             Bilangan Toddler Perlu Sapuan Varnish Berfluorida
           </p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Sapuan Varnish Berfluorida</label>
+            <label className='text-center'>
+              Sapuan Varnish Berfluorida
+              <strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -450,7 +478,9 @@ const FormPemeriksaanProgramGtod = ({
             Bilangan toddler dirujuk ke klinik pergigian (kali pertama)
           </p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Dirujuk</label>
+            <label className='text-center'>
+              Dirujuk<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -469,7 +499,9 @@ const FormPemeriksaanProgramGtod = ({
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Bilangan Abses</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Abses</label>
+            <label className='text-center'>
+              Abses<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
               min='0'
@@ -548,8 +580,8 @@ const FormPemeriksaanProgramGtod = ({
           className='px-4 py-2 text-adminBlack rounded-md cursor-pointer hover:bg-user1 hover:bg-opacity-25'
           onClick={() => {
             setShowFormPemeriksaan(false);
-            window.location.reload();
             setShowTable(true);
+            setReloadState(!reloadState);
           }}
         >
           batal
