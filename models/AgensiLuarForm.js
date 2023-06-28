@@ -12,18 +12,6 @@ const PemeriksaanAgensiLuarSchema = new Schema(
       type: String,
       default: '',
     },
-    enrolmenKurang4Tahun: {
-      type: Number,
-      default: 0,
-    },
-    enrolmen5Tahun: {
-      type: Number,
-      default: 0,
-    },
-    enrolmen6Tahun: {
-      type: Number,
-      default: 0,
-    },
     kedatanganBaru: {
       type: Number,
       default: 0,
