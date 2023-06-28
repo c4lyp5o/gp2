@@ -8,7 +8,10 @@ const FormTambahProgramGtod = ({
   singleAgensiLuarGTod,
   setSingleAgensiLuarGTod,
   setShowForm,
+  setShowTable,
   idGTod,
+  reloadState,
+  setReloadState,
 }) => {
   const {
     loginInfo,
@@ -26,6 +29,7 @@ const FormTambahProgramGtod = ({
   const [alamatTaskaTadika, setAlamatTaskaTadika] = useState('');
   const [bilPegawaiPergigian, setBilPegawaiPergigian] = useState(0);
   const [bilJuruterapi, setBilJuruterapi] = useState(0);
+  const [enrolmenKurang4Tahun, setEnrolmenKurang4Tahun] = useState(0);
 
   const [addingData, setAddingData] = useState(false);
 
@@ -49,6 +53,9 @@ const FormTambahProgramGtod = ({
       bilJuruterapi: singleAgensiLuarGTod
         ? singleAgensiLuarGTod.bilJuruterapi
         : bilJuruterapi,
+      enrolmenKurang4Tahun: singleAgensiLuarGTod
+        ? singleAgensiLuarGTod.enrolmenKurang4Tahun
+        : enrolmenKurang4Tahun,
       namaTaskaTadika: singleAgensiLuarGTod
         ? singleAgensiLuarGTod.namaTaskaTadika
         : namaTaskaTadika,
@@ -74,8 +81,8 @@ const FormTambahProgramGtod = ({
       )
       .then((result) => {
         setShowForm(false);
-        // reload page
-        window.location.reload();
+        setShowTable(true);
+        setReloadState(!reloadState);
       })
       .catch((err) => {
         console.log(err);
@@ -91,7 +98,7 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='nama-agensi-luar'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start place-items-center mr-2'
+            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left place-items-center mr-2'
           >
             Nama Agensi Luar :
           </label>
@@ -121,7 +128,7 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='jenis-agensi-luar'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start place-items-center mr-2'
+            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left place-items-center mr-2'
           >
             Jenis Agensi Luar :
           </label>
@@ -165,7 +172,7 @@ const FormTambahProgramGtod = ({
         <div className='grid grid-cols-2'>
           <label
             htmlFor='bil-pegawai-pergigian'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start place-items-center mr-2'
+            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left place-items-center mr-2'
           >
             Bilangan Pegawai Pergigian :
           </label>
@@ -226,8 +233,39 @@ const FormTambahProgramGtod = ({
         </div>
         <div className='grid grid-cols-2'>
           <label
+            htmlFor='bilangan-enrolmen-kurang4-tahun'
+            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left mr-2'
+          >
+            Bilangan Enrolmen Kurang 4 Tahun :
+          </label>
+          <input
+            className='appearance-none w-full h-8 px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+            type='number'
+            min='0'
+            name='bilangan-enrolmen-kurang4-tahun'
+            id='bilangan-enrolmen-kurang4-tahun'
+            required
+            value={
+              singleAgensiLuarGTod
+                ? singleAgensiLuarGTod.enrolmenKurang4Tahun
+                : enrolmenKurang4Tahun
+            }
+            onChange={(e) => {
+              if (singleAgensiLuarGTod) {
+                setSingleAgensiLuarGTod({
+                  ...singleAgensiLuarGTod,
+                  enrolmenKurang4Tahun: e.target.value,
+                });
+              } else {
+                setEnrolmenKurang4Tahun(e.target.value);
+              }
+            }}
+          />
+        </div>
+        <div className='grid grid-cols-2'>
+          <label
             htmlFor='nama-taska-tadika'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start pt-1 mr-2'
+            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left pt-1 mr-2'
           >
             Nama Taska/Tadika :
           </label>
@@ -254,10 +292,10 @@ const FormTambahProgramGtod = ({
             }}
           />
         </div>
-        <div className='grid grid-cols-2'>
+        <div className='grid grid-cols-[1fr_3fr] col-span-2'>
           <label
             htmlFor='alamat-taska-tadika'
-            className='font-bold uppercase text-xs lg:text-sm flex justify-start pt-1 mr-2'
+            className='font-bold uppercase text-xs lg:text-sm flex justify-start text-left pt-1 mr-2'
           >
             Alamat Taska/Tadika :
           </label>
@@ -287,7 +325,8 @@ const FormTambahProgramGtod = ({
           className='px-4 py-2 text-adminBlack rounded-md cursor-pointer hover:bg-user1 hover:bg-opacity-25'
           onClick={() => {
             setShowForm(false);
-            window.location.reload();
+            setShowTable(true);
+            setReloadState(!reloadState);
           }}
         >
           Batal
