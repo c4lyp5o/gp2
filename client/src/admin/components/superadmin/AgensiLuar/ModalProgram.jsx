@@ -5,8 +5,12 @@ import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 
 export default function ModalDeleteGtod({
   setShowModalDelete,
+  setShowTable,
   idGTod,
+  setIdGTod,
   singleAgensiLuarGTod,
+  reloadState,
+  setReloadState,
 }) {
   const { deleteData, toast } = useGlobalAdminAppContext();
 
@@ -15,15 +19,22 @@ export default function ModalDeleteGtod({
 
   useEffect(() => {
     generateCaptcha();
-  }, []);
+  }, [singleAgensiLuarGTod]);
 
   const generateCaptcha = () => {
-    const captcha = Math.floor(Math.random() * 90000) + 10000;
+    const captcha =
+      singleAgensiLuarGTod &&
+      singleAgensiLuarGTod.namaTaskaTadika
+        .split(' ')
+        .slice(0, 3)
+        .map((word) => word)
+        .join('');
     setGeneratedCaptcha(captcha);
   };
 
-  const handleDelete = async () => {
-    if (captchaValue.toUpperCase() !== generatedCaptcha) {
+  const handleDelete = async (e) => {
+    e.preventDefault();
+    if (captchaValue.toLowerCase() !== generatedCaptcha.toLowerCase()) {
       toast.error('Captcha tidak sah');
       setShowModalDelete(true);
       return;
@@ -44,9 +55,11 @@ export default function ModalDeleteGtod({
       .then((result) => {
         // reload page
         // window.location.reload();
-        if (captchaValue.toUpperCase() === generatedCaptcha) {
-          setShowModalDelete(false);
-        }
+        setReloadState(!reloadState);
+        setShowModalDelete(false);
+        // if (captchaValue.toUpperCase() === generatedCaptcha) {
+        //   setShowModalDelete(false);
+        // }
       })
       .catch((err) => {
         console.log(err);
@@ -54,8 +67,10 @@ export default function ModalDeleteGtod({
   };
 
   const handleCancel = () => {
-    window.location.reload();
+    setReloadState(!reloadState);
+    setIdGTod('');
     setShowModalDelete(false);
+    setShowTable(true);
   };
 
   return (
@@ -80,16 +95,16 @@ export default function ModalDeleteGtod({
             </p>
             <div className='flex flex-col items-center my-4 space-y-2'>
               <p className='text-xs'>
-                Sila isi semula <i>captcha</i> di bawah
+                Sila isi semula nama taska/tadika di bawah
               </p>
-              <span className=' bg-admin4 bg-opacity-60 text-xl font-mono oldstyle-nums px-7 py-2 text-opacity-75'>
+              <span className=' bg-admin4 bg-opacity-60 text-xl font-mono oldstyle-nums px-7 py-2 text-opacity-75 lowercase'>
                 {generatedCaptcha}
               </span>
               <input
                 type='text'
                 value={captchaValue}
                 onChange={(e) => setCaptchaValue(e.target.value)}
-                className='ml-2 border border-user1 rounded-md px-2 py-1 uppercase'
+                className='ml-2 border border-user1 rounded-md px-2 py-1 lowercase'
               />
             </div>
           </div>
