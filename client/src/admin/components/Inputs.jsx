@@ -4167,7 +4167,7 @@ export function InputKpEditFacility(props) {
                       htmlFor='enrolmentKurang4Tahun'
                       className='flex justify-start text-left'
                     >
-                      Enrolmen ≤ 4 Tahun:
+                      Enrolmen ≤ 4 Tahun Mengikut Tahun Kelahiran:
                     </label>
                     <input
                       type='number'
@@ -4187,7 +4187,7 @@ export function InputKpEditFacility(props) {
                       htmlFor='enrolment5Tahun'
                       className='flex justify-start text-left'
                     >
-                      Enrolmen Semua 5 Tahun:
+                      Enrolmen Semua 5 Tahun Mengikut Tahun Kelahiran:
                     </label>
                     <input
                       type='number'
@@ -4207,7 +4207,7 @@ export function InputKpEditFacility(props) {
                       htmlFor='enrolment6Tahun'
                       className='flex justify-start text-left'
                     >
-                      Enrolmen Semua 6 Tahun:
+                      Enrolmen Semua 6 Tahun Mengikut Tahun Kelahiran:
                     </label>
                     <input
                       type='number'
