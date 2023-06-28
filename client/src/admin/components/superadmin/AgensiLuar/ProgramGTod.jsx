@@ -7,8 +7,6 @@ import FormPemeriksaanProgramGtod from './FormPemeriksaanProgram';
 import FormTambahProgramGtod from './FormTambahProgram';
 import ModalDeleteGtod from './ModalProgram';
 
-import { set } from 'lodash';
-
 export default function ProgramGTod() {
   const { loginInfo, readData, readOneData, createData, toast } =
     useGlobalAdminAppContext();
@@ -23,6 +21,8 @@ export default function ProgramGTod() {
   const [pemeriksaanSatu, setPemeriksaanSatu] = useState(null);
   const [pemeriksaanDua, setPemeriksaanDua] = useState(null);
 
+  const [reloadState, setReloadState] = useState(false);
+
   useEffect(() => {
     const fetchGtod = async () => {
       try {
@@ -34,7 +34,7 @@ export default function ProgramGTod() {
       }
     };
     fetchGtod();
-  }, []);
+  }, [reloadState]);
 
   useEffect(() => {
     if (idGTod) {
@@ -49,7 +49,7 @@ export default function ProgramGTod() {
       };
       fetchSingleGtod();
     }
-  }, [idGTod]);
+  }, [idGTod, reloadState]);
 
   return (
     <>
@@ -62,6 +62,8 @@ export default function ProgramGTod() {
                 setShowForm(true);
                 setShowTable(false);
                 setShowFormPemeriksaan(false);
+                setIdGTod('');
+                setSingleAgensiLuarGTod(null);
               }}
             >
               <BsPlusCircleDotted className='text-8xl text-admin1' />
@@ -199,6 +201,8 @@ export default function ProgramGTod() {
                                   setIdGTod(agensi._id);
                                   setShowFormPemeriksaan(true);
                                   setShowTable(false);
+                                  setPemeriksaanSatu(null);
+                                  setPemeriksaanDua(null);
                                 }}
                               >
                                 <BsPlusCircleDotted className='mr-1' /> Lawatan
@@ -218,7 +222,10 @@ export default function ProgramGTod() {
               singleAgensiLuarGTod={singleAgensiLuarGTod}
               setSingleAgensiLuarGTod={setSingleAgensiLuarGTod}
               setShowForm={setShowForm}
+              setShowTable={setShowTable}
               idGTod={idGTod}
+              reloadState={reloadState}
+              setReloadState={setReloadState}
             />
           )}
           {showFormPemeriksaan && (
@@ -229,6 +236,8 @@ export default function ProgramGTod() {
               setShowTable={setShowTable}
               pemeriksaanSatu={pemeriksaanSatu}
               pemeriksaanDua={pemeriksaanDua}
+              reloadState={reloadState}
+              setReloadState={setReloadState}
             />
           )}
         </div>
@@ -237,8 +246,12 @@ export default function ProgramGTod() {
         <>
           <ModalDeleteGtod
             setShowModalDelete={setShowModalDelete}
+            setShowTable={setShowTable}
             idGTod={idGTod}
+            setIdGTod={setIdGTod}
             singleAgensiLuarGTod={singleAgensiLuarGTod}
+            reloadState={reloadState}
+            setReloadState={setReloadState}
           />
         </>
       )}
