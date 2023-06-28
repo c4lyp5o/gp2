@@ -11,9 +11,12 @@ import {
   FaTooth,
   FaMinus,
   FaPlus,
+  FaInfoCircle,
 } from 'react-icons/fa';
 
 import UserTambahKemaskiniPelajarSekolah from './UserTambahKemaskiniPelajarSekolah';
+
+import UserTambahT1Sekolah from './UserTambahT1Sekolah';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
@@ -53,6 +56,7 @@ function UserSekolah() {
 
   const [modalTambahKemaskiniPelajar, setModalTambahKemaskiniPelajar] =
     useState(false);
+  const [modalTambahT1Sekolah, setModalTambahT1Sekolah] = useState(false);
   const [kemaskiniPelajarId, setKemaskiniPelajarId] = useState('');
   const [submittingTambahPelajar, setSubmittingTambahPelajar] = useState(false);
   const [dataFromPilihanTahunTingkatan, setDataFromPilihanTahunTingkatan] =
@@ -378,6 +382,25 @@ function UserSekolah() {
                     )}
                   </div>
                 )}
+                <div>
+                  {pilihanTahunTingkatan === '' &&
+                    pilihanTahunTingkatan !== 'T1' &&
+                    !tahunTingkatan.includes('T1') &&
+                    pilihanSekolah.includes('MAKTAB RENDAH SAINS MARA') && (
+                      <button
+                        onClick={() => {
+                          setModalTambahT1Sekolah(true);
+                        }}
+                        className='flex bg-user14 text-xs text-userWhite rounded-md shadow-xl p-1 my-3 mb-3 mr-2 hover:bg-user1 transition-all'
+                      >
+                        Tambah Pelajar Tingkatan 1
+                        <FaInfoCircle
+                          title='Penambahan ini adalah buat murid pertama Tingkatan 1 sahaja. Penambahan seterusnya boleh dibuat selepas memilih Tahun/Tingkatan >> T1'
+                          className='m-1 mx-2 text-md'
+                        />
+                      </button>
+                    )}
+                </div>
                 <div>
                   <button
                     onClick={() => {
@@ -1341,6 +1364,20 @@ function UserSekolah() {
             reloadState={reloadState}
             setReloadState={setReloadState}
             dataFromPilihanTahunTingkatan={dataFromPilihanTahunTingkatan}
+          />
+        )}
+        {modalTambahT1Sekolah && (
+          <UserTambahT1Sekolah
+            modalTambahT1Sekolah={modalTambahT1Sekolah}
+            setModalTambahT1Sekolah={setModalTambahT1Sekolah}
+            kemaskiniPelajarId={kemaskiniPelajarId}
+            setKemaskiniPelajarId={setKemaskiniPelajarId}
+            submittingTambahPelajar={submittingTambahPelajar}
+            setSubmittingTambahPelajar={setSubmittingTambahPelajar}
+            reloadState={reloadState}
+            setReloadState={setReloadState}
+            dataFromPilihanTahunTingkatan={dataFromPilihanTahunTingkatan}
+            fasilitiSekolah={fasilitiSekolah}
           />
         )}
         {modalHapus && (
