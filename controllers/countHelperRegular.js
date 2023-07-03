@@ -3311,7 +3311,7 @@ const countPG206 = async (payload) => {
   };
 
   // for frodo
-  const pipeline_sekolah = [
+  const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
         ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
@@ -3388,6 +3388,90 @@ const countPG206 = async (payload) => {
           ? payload.pilihanIndividu
           : { $regex: /^mdtb/i },
         'pemeriksaanSekolah.tarikhPemeriksaanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
+      },
+    },
+  ];
+  const pipeline_rawatan_sekolah = [
+    {
+      $match: {
+        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        // nama: 1,
+        // jenisFasiliti: 1,
+        // kodFasilitiHandler: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              pemeriksaanSekolah: { $exists: true, $ne: [] },
+              rawatanSekolah: { $exists: true, $ne: [] },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        umur: '$result.umur',
+        keturunan: '$result.keturunan',
+        warganegara: '$result.warganegara',
+        statusOku: '$result.statusOku',
+        statusRawatan: '$result.statusRawatan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        kelasPelajar: '$result.kelasPelajar',
+        jantina: '$result.jantina',
+        rawatanSekolah: '$result.rawatanSekolah',
+      },
+    },
+    {
+      $project: {
+        result: 0,
+      },
+    },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$rawatanSekolah',
+        preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $match: {
+        'rawatanSekolah.createdByMdcMdtb': payload.pilihanIndividu
+          ? payload.pilihanIndividu
+          : { $regex: /^mdtb/i },
+        'rawatanSekolah.tarikhRawatanSemasa': {
           $gte: payload.tarikhMula,
           $lte: payload.tarikhAkhir,
         },
@@ -4338,7 +4422,7 @@ const countPG206 = async (payload) => {
   ];
 
   const dataSekolahPemeriksaan = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_pemeriksaan_sekolah,
     {
       $group: {
         ...group_sekolah_pemeriksaan,
@@ -4347,6 +4431,7 @@ const countPG206 = async (payload) => {
   ]);
 
   const dataSekolahRawatan = await Fasiliti.aggregate([
+    ...pipeline_rawatan_sekolah,
     {
       $group: {
         ...group_sekolah_rawatan,
@@ -4355,7 +4440,7 @@ const countPG206 = async (payload) => {
   ]);
 
   const dataSekolahPemeriksaanOKU = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_pemeriksaan_sekolah,
     {
       $match: {
         statusOku: 'OKU',
@@ -4369,7 +4454,7 @@ const countPG206 = async (payload) => {
   ]);
 
   const dataSekolahRawatanOKU = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_rawatan_sekolah,
     {
       $match: {
         statusOku: 'OKU',
@@ -4383,7 +4468,7 @@ const countPG206 = async (payload) => {
   ]);
 
   const dataSekolahPemeriksaanBW = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_pemeriksaan_sekolah,
     {
       $match: {
         warganegara: { $ne: 'WARGANEGARA' },
@@ -4397,7 +4482,7 @@ const countPG206 = async (payload) => {
   ]);
 
   const dataSekolahRawatanBW = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_rawatan_sekolah,
     {
       $match: {
         warganegara: { $ne: 'WARGANEGARA' },
@@ -5894,7 +5979,7 @@ const countPG207 = async (payload) => {
   };
 
   // for frodo
-  const pipeline_sekolah = [
+  const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
         ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
@@ -5971,6 +6056,90 @@ const countPG207 = async (payload) => {
           ? payload.pilihanIndividu
           : { $regex: /^(?!mdtb).*$/i },
         'pemeriksaanSekolah.tarikhPemeriksaanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
+      },
+    },
+  ];
+  const pipeline_rawatan_sekolah = [
+    {
+      $match: {
+        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        // nama: 1,
+        // jenisFasiliti: 1,
+        // kodFasilitiHandler: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              pemeriksaanSekolah: { $exists: true, $ne: [] },
+              rawatanSekolah: { $exists: true, $ne: [] },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        umur: '$result.umur',
+        keturunan: '$result.keturunan',
+        warganegara: '$result.warganegara',
+        statusOku: '$result.statusOku',
+        statusRawatan: '$result.statusRawatan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        kelasPelajar: '$result.kelasPelajar',
+        jantina: '$result.jantina',
+        rawatanSekolah: '$result.rawatanSekolah',
+      },
+    },
+    {
+      $project: {
+        result: 0,
+      },
+    },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$rawatanSekolah',
+        preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $match: {
+        'rawatanSekolah.createdByMdcMdtb': payload.pilihanIndividu
+          ? payload.pilihanIndividu
+          : { $regex: /^(?!mdtb).*$/i },
+        'rawatanSekolah.tarikhRawatanSemasa': {
           $gte: payload.tarikhMula,
           $lte: payload.tarikhAkhir,
         },
@@ -6921,7 +7090,7 @@ const countPG207 = async (payload) => {
   ];
 
   const dataSekolahPemeriksaan = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_pemeriksaan_sekolah,
     {
       $group: {
         ...group_sekolah_pemeriksaan,
@@ -6930,7 +7099,7 @@ const countPG207 = async (payload) => {
   ]);
 
   const dataSekolahRawatan = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_rawatan_sekolah,
     {
       $group: {
         ...group_sekolah_rawatan,
@@ -6939,7 +7108,7 @@ const countPG207 = async (payload) => {
   ]);
 
   const dataSekolahPemeriksaanOKU = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_pemeriksaan_sekolah,
     {
       $match: {
         statusOku: 'OKU',
@@ -6953,7 +7122,7 @@ const countPG207 = async (payload) => {
   ]);
 
   const dataSekolahRawatanOKU = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_rawatan_sekolah,
     {
       $match: {
         statusOku: 'OKU',
@@ -6967,7 +7136,7 @@ const countPG207 = async (payload) => {
   ]);
 
   const dataSekolahPemeriksaanBW = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_pemeriksaan_sekolah,
     {
       $match: {
         warganegara: { $ne: 'WARGANEGARA' },
@@ -6981,7 +7150,7 @@ const countPG207 = async (payload) => {
   ]);
 
   const dataSekolahRawatanBW = await Fasiliti.aggregate([
-    ...pipeline_sekolah,
+    ...pipeline_rawatan_sekolah,
     {
       $match: {
         warganegara: { $ne: 'WARGANEGARA' },
