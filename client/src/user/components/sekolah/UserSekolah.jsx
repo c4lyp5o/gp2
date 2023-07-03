@@ -536,7 +536,7 @@ function UserSekolah() {
                 ref={statusRawatanRef}
               >
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end  mr-2'>
-                  Status:
+                  Status Murid:
                 </span>
                 <span className='text-xs lg:text-sm w-full relative'>
                   {/* {pilihanTahunTingkatan ? (
