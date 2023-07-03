@@ -237,7 +237,12 @@ function UserSekolahList() {
       .filter((person) =>
         person.kodSekolah.includes(singleNamaSekolah.kodSekolah)
       )
-      .filter((person) => person.pemeriksaanSekolah).length;
+      .filter(
+        (person) =>
+          person.pemeriksaanSekolah &&
+          person.statusRawatan !== 'enggan' &&
+          person.statusRawatan !== 'tidak hadir'
+      ).length;
   }
 
   function kiraKesSelesai(allPersonSekolahs, singleNamaSekolah) {
