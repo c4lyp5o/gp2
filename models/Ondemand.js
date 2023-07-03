@@ -27,6 +27,8 @@ const ondemandSchema = new Schema(
     GENDER: { type: Boolean, required: true, default: false },
     KEPP: { type: Boolean, required: true, default: false },
     BEGIN: { type: Boolean, required: true, default: false },
+    CPPC1: { type: Boolean, required: true, default: false },
+    CPPC2: { type: Boolean, required: true, default: false },
     PPIM03: { type: Boolean, required: true, default: false },
     PPIM04: { type: Boolean, required: true, default: false },
     PPIM05: { type: Boolean, required: true, default: false },
