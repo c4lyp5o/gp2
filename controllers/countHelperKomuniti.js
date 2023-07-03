@@ -1,4 +1,3 @@
-// const User = require('../models/User');
 const Umum = require('../models/Umum');
 const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
@@ -11,6 +10,12 @@ const {
   getParamsPKAP,
   // getParamsOperatorLain,
 } = require('../controllers/countHelperParams');
+const {
+  pipelineCPPC1Biasa,
+  pipelineCPPC1PraSekolah,
+  pipelineCPPC2Biasa,
+  pipelineCPPC2PraSekolah,
+} = require('../controllers/countHelperPipeline');
 
 const countPPIM03 = async (payload) => {
   const dataKohort = await KohortKotak.aggregate([
@@ -1302,6 +1307,26 @@ const countBEGIN = async (payload) => {
     );
     throw new Error(error);
   }
+};
+const countCPPC1 = async (payload) => {
+  const dataCPPC1biasa = await Fasiliti.aggregate(pipelineCPPC1Biasa(payload));
+  const dataCPPC1pra = await Fasiliti.aggregate(
+    pipelineCPPC1PraSekolah(payload)
+  );
+
+  dataCPPC1biasa.push(...dataCPPC1pra);
+
+  return dataCPPC1biasa;
+};
+const countCPPC2 = async (payload) => {
+  const dataCPPC2biasa = await Fasiliti.aggregate(pipelineCPPC2Biasa(payload));
+  const dataCPPC2pra = await Fasiliti.aggregate(
+    pipelineCPPC2PraSekolah(payload)
+  );
+
+  dataCPPC2biasa.push(...dataCPPC2pra);
+
+  return dataCPPC2biasa;
 };
 const countDEWASAMUDA = async (payload) => {
   const main_switch = [
@@ -20521,6 +20546,8 @@ module.exports = {
   countPPIM04,
   countPPIM05,
   countBEGIN,
+  countCPPC1,
+  countCPPC2,
   countDEWASAMUDA,
   countOAP,
   countLiputanOA,

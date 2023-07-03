@@ -860,6 +860,18 @@ function AdminAppProvider({ children }) {
         'Laporan Aktiviti Latihan Memberus Gigi Berkesan (Begin) Di Taska, Pra-Sekolah Dan Sekolah Rendah',
     },
     {
+      kod: 'CPPC1',
+      kodRingkas: 'CPPC1',
+      deskripsi:
+        'CPPC Treatment Need and Treament Rendered by Year of Preschool/School Children',
+    },
+    {
+      kod: 'CPPC2',
+      kodRingkas: 'CPPC2',
+      deskripsi:
+        'Trend Data of Decayed Teeth with Occlusal Caries in Preschool/School Children',
+    },
+    {
       kod: 'PPIM 03',
       kodRingkas: 'PPIM03',
       deskripsi:
