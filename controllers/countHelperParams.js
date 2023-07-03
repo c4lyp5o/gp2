@@ -270,7 +270,7 @@ const getParams214 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
   const byKp = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       // jenisFasiliti: 'kp',
@@ -279,11 +279,11 @@ const getParams214 = (payload) => {
       statusKehadiran: false,
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       createdByDaerah: { $eq: daerah },
@@ -293,11 +293,11 @@ const getParams214 = (payload) => {
       statusKehadiran: false,
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       // jenisFasiliti: 'kp',
@@ -306,11 +306,11 @@ const getParams214 = (payload) => {
       statusKehadiran: false,
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const satuMalaysia = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       // jenisFasiliti: 'kp',
       kedatangan: 'baru-kedatangan',
@@ -318,7 +318,7 @@ const getParams214 = (payload) => {
       statusKehadiran: false,
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   switch (true) {
@@ -366,84 +366,6 @@ const getParams206 = (payload) => {
 
   return params;
 };
-const getParams206sekolah = (payload) => {
-  const { negeri, daerah, klinik, pilihanIndividu } = payload;
-
-  const byPegawai = () => {
-    let param = {
-      createdByMdcMdtb: pilihanIndividu,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  const satuMalaysia = () => {
-    let param = {
-      createdByMdcMdtb: { $regex: /^mdtb/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
-  }
-  if (pilihanIndividu) {
-    return byPegawai(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
-};
 const getParams207 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
@@ -476,124 +398,47 @@ const getParams207 = (payload) => {
 
   return params;
 };
-const getParams207sekolah = (payload) => {
-  const { negeri, daerah, klinik, pilihanIndividu } = payload;
-
-  const byPegawai = () => {
-    let param = {
-      createdByMdcMdtb: pilihanIndividu,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  const byKp = () => {
-    let param = {
-      createdByKodFasiliti: klinik,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  const byDaerah = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  const byNegeri = () => {
-    let param = {
-      createdByNegeri: negeri,
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-  const satuMalaysia = () => {
-    let param = {
-      createdByMdcMdtb: { $regex: /^(?!mdtb).*$/, $options: 'i' },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return param;
-  };
-
-  if (negeri === 'all') {
-    return satuMalaysia(payload);
-  }
-  if (pilihanIndividu) {
-    return byPegawai(payload);
-  }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if (daerah !== 'all' && klinik === 'all') {
-    return byDaerah(payload);
-  }
-  if (daerah === 'all') {
-    return byNegeri(payload);
-  }
-};
 const getParamsPgpr201 = (payload) => {
   const { negeri, daerah, klinik } = payload;
 
   const byKp = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       createdByKodFasiliti: { $eq: klinik },
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       createdByDaerah: { $eq: daerah },
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       createdByNegeri: { $eq: negeri },
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const satuMalaysia = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   if (negeri === 'all') {
@@ -613,18 +458,18 @@ const getParamsPGS201 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
-    let param = {
+    let params = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byKp = () => {
-    let param = {
+    let params = {
       createdByKodFasiliti: klinik,
       // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
@@ -632,11 +477,11 @@ const getParamsPGS201 = (payload) => {
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       // createdByMdcMdtb: { $regex: /mdtb/i },
@@ -645,11 +490,11 @@ const getParamsPGS201 = (payload) => {
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       // createdByMdcMdtb: { $regex: /mdtb/i },
       tarikhKedatangan: dateModifier(payload),
@@ -657,7 +502,7 @@ const getParamsPGS201 = (payload) => {
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   if (pilihanIndividu) {
@@ -677,7 +522,7 @@ const getParamsPGS203 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
-    let param = {
+    let params = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'taska-tadika' },
@@ -685,11 +530,11 @@ const getParamsPGS203 = (payload) => {
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byKp = () => {
-    let param = {
+    let params = {
       createdByKodFasiliti: klinik,
       jenisFasiliti: { $eq: 'taska-tadika' },
       tarikhKedatangan: dateModifier(payload),
@@ -697,11 +542,11 @@ const getParamsPGS203 = (payload) => {
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       jenisFasiliti: { $eq: 'taska-tadika' },
@@ -710,11 +555,11 @@ const getParamsPGS203 = (payload) => {
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
       jenisFasiliti: { $eq: 'taska-tadika' },
@@ -722,7 +567,7 @@ const getParamsPGS203 = (payload) => {
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
     };
-    return param;
+    return params;
   };
 
   if (pilihanIndividu) {
@@ -742,23 +587,23 @@ const getParamsPgPro = (payload) => {
   const { pilihanIndividu, klinik, daerah, negeri } = payload;
 
   const byIndividu = () => {
-    let param = {
+    let params = {
       tarikhMula: dateModifier(payload),
       promosiIndividu: true,
       createdByMdcMdtb: pilihanIndividu,
       deleted: false,
     };
-    return param;
+    return params;
   };
 
   const byKp = () => {
-    let param = {
+    let params = {
       tarikhMula: dateModifier(payload),
       promosiKlinik: true,
       createdByKodFasiliti: klinik,
       deleted: false,
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
@@ -808,7 +653,7 @@ const getParamsGender = (payload) => {
   const { klinik, daerah, negeri } = payload;
 
   const byKp = () => {
-    let param = {
+    let params = {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
@@ -816,11 +661,11 @@ const getParamsGender = (payload) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
@@ -829,11 +674,11 @@ const getParamsGender = (payload) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
@@ -841,18 +686,18 @@ const getParamsGender = (payload) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const satuMalaysia = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       statusKehadiran: false,
       deleted: false,
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   if (negeri === 'all') {
@@ -871,7 +716,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
   const { klinik, daerah, negeri } = payload;
   //
   const byKp = () => {
-    let param = {
+    let params = {
       createdByKodFasiliti: klinik,
       jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
@@ -881,11 +726,11 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       createdByDaerah: daerah,
       createdByNegeri: negeri,
       jenisFasiliti: { $eq: 'kp' },
@@ -896,11 +741,11 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
@@ -910,11 +755,11 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const satuMalaysia = () => {
-    let param = {
+    let params = {
       jenisFasiliti: { $eq: 'kp' },
       waktuSampai: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
       waktuDipanggil: { $regex: /^([0-1][0-9]|2[0-3]):[0-5][0-9]$/ },
@@ -923,7 +768,7 @@ const getParamsPiagamMasa = (payload, jenis) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   if (negeri === 'all') {
@@ -983,7 +828,7 @@ const getParamsBp = (payload, kaum, jantina) => {
   }
 
   const byKp = () => {
-    let param = {
+    let params = {
       createdByKodFasiliti: klinik,
       kumpulanEtnik: pilihanKaum,
       jantina: theSex,
@@ -995,11 +840,11 @@ const getParamsBp = (payload, kaum, jantina) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       kumpulanEtnik: pilihanKaum,
@@ -1012,11 +857,11 @@ const getParamsBp = (payload, kaum, jantina) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       kumpulanEtnik: pilihanKaum,
       jantina: theSex,
@@ -1028,10 +873,11 @@ const getParamsBp = (payload, kaum, jantina) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
+
   const satuMalaysia = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       kumpulanEtnik: pilihanKaum,
       jantina: theSex,
@@ -1042,7 +888,7 @@ const getParamsBp = (payload, kaum, jantina) => {
       statusReten: { $in: ['telah diisi', 'reten salah'] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   if (negeri === 'all') {
@@ -1061,7 +907,7 @@ const getParamsBPE = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
   const byPegawai = () => {
-    let param = {
+    let params = {
       createdByMdcMdtb: pilihanIndividu,
       tarikhKedatangan: dateModifier(payload),
       //   jenisFasiliti: { $eq: 'kp' },
@@ -1072,11 +918,11 @@ const getParamsBPE = (payload) => {
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byKp = () => {
-    let param = {
+    let params = {
       createdByKodFasiliti: klinik,
       tarikhKedatangan: dateModifier(payload),
       //   jenisFasiliti: { $eq: 'kp' },
@@ -1087,11 +933,11 @@ const getParamsBPE = (payload) => {
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byDaerah = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       createdByDaerah: daerah,
       tarikhKedatangan: dateModifier(payload),
@@ -1103,11 +949,11 @@ const getParamsBPE = (payload) => {
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const byNegeri = () => {
-    let param = {
+    let params = {
       createdByNegeri: negeri,
       tarikhKedatangan: dateModifier(payload),
       //   jenisFasiliti: { $eq: 'kp' },
@@ -1118,11 +964,11 @@ const getParamsBPE = (payload) => {
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   const satuMalaysia = () => {
-    let param = {
+    let params = {
       tarikhKedatangan: dateModifier(payload),
       //   jenisFasiliti: { $eq: 'kp' },
       statusKehadiran: false,
@@ -1132,7 +978,7 @@ const getParamsBPE = (payload) => {
       skorBpeOralHygienePemeriksaanUmum: { $nin: ['tiada', '', null] },
       oncall: { $in: [false, null] },
     };
-    return param;
+    return params;
   };
 
   if (negeri === 'all') {
@@ -1156,7 +1002,7 @@ const getParamsBPE = (payload) => {
 const getParamsTOD = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
-  const param = {
+  const params = {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
     deleted: false,
@@ -1164,32 +1010,32 @@ const getParamsTOD = (payload) => {
   };
 
   if (negeri !== 'all') {
-    param.createdByNegeri = negeri;
+    params.createdByNegeri = negeri;
   }
 
   if (daerah !== 'all') {
-    param.createdByDaerah = daerah;
+    params.createdByDaerah = daerah;
   }
 
   if (klinik !== 'all') {
-    param.createdByKodFasiliti = klinik;
+    params.createdByKodFasiliti = klinik;
   }
 
   if (pilihanIndividu) {
     delete param.createdByNegeri;
     delete param.createdByDaerah;
     delete param.createdByKodFasiliti;
-    param.createdByMdcMdtb = pilihanIndividu;
+    params.createdByMdcMdtb = pilihanIndividu;
   }
 
-  return param;
+  return params;
 };
 // countHelperKomuniti params
 // begin
 const getParamsKOM = (payload) => {
   const { negeri, daerah, klinik, pilihanProgram } = payload;
 
-  const param = {
+  const params = {
     jenisFasiliti: 'projek-komuniti-lain',
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
@@ -1199,25 +1045,25 @@ const getParamsKOM = (payload) => {
   };
 
   if (negeri !== 'all') {
-    param.createdByNegeri = negeri;
+    params.createdByNegeri = negeri;
   }
 
   if (daerah !== 'all') {
-    param.createdByDaerah = daerah;
+    params.createdByDaerah = daerah;
   }
 
   if (klinik !== 'all') {
-    param.createdByKodFasiliti = klinik;
+    params.createdByKodFasiliti = klinik;
   }
 
   if (pilihanProgram !== 'all' && pilihanProgram) {
-    delete param.createdByNegeri;
-    delete param.createdByDaerah;
-    delete param.createdByKodFasiliti;
-    param.namaProgram = pilihanProgram;
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
+    params.namaProgram = pilihanProgram;
   }
 
-  return param;
+  return params;
 };
 const getParamsOAP = (payload) => {
   const { negeri, daerah, klinik, pilihanProgram } = payload;
@@ -1250,7 +1096,7 @@ const getParamsOAP = (payload) => {
     params.namaProgram = pilihanProgram;
   }
 
-  return param;
+  return params;
 };
 const getParamsUTCRTC = (payload) => {
   const { negeri, daerah, klinik } = payload;
@@ -1380,9 +1226,7 @@ module.exports = {
   getParams211,
   getParams214,
   getParams206,
-  getParams206sekolah,
   getParams207,
-  getParams207sekolah,
   getParamsPgpr201,
   getParamsPGS201,
   getParamsPGS203,

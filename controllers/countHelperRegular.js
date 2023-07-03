@@ -6249,7 +6249,7 @@ const countPG207 = async (payload) => {
         ],
       },
     },
-    skorGISZero: {
+    skorBPEZero: {
       $sum: {
         $cond: [
           {
@@ -6260,7 +6260,7 @@ const countPG207 = async (payload) => {
         ],
       },
     },
-    skorGISNotZero: {
+    skorBPEMoreThanZero: {
       $sum: {
         $cond: [
           {

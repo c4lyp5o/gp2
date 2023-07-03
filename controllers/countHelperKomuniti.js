@@ -6674,8 +6674,13 @@ const countOAP = async (payload) => {
   }
 };
 const countLiputanOA = async (payload) => {
+  const { negeri, daerah, klinik } = payload;
+
   const match = {
     $match: {
+      ...(negeri !== 'all' && { createdByNegeri: negeri }),
+      ...(daerah !== 'all' && { createdByDaerah: daerah }),
+      ...(klinik !== 'all' && { klinik: klinik }),
       kumpulanEtnik: { $in: ['orang asli semenanjung'] },
       kedatangan: 'baru-kedatangan',
       jenisFasiliti: { $ne: 'kp' },
@@ -6708,8 +6713,13 @@ const countLiputanOA = async (payload) => {
   }
 };
 const countLiputanPenan = async (payload) => {
+  const { negeri, daerah, klinik } = payload;
+
   const match = {
     $match: {
+      ...(negeri !== 'all' && { createdByNegeri: negeri }),
+      ...(daerah !== 'all' && { createdByDaerah: daerah }),
+      ...(klinik !== 'all' && { klinik: klinik }),
       kumpulanEtnik: { $in: ['penan'] },
       kedatangan: 'baru-kedatangan',
       jenisFasiliti: { $ne: 'kp' },
@@ -6748,9 +6758,9 @@ const countKPBMPBHarian = async (payload) => {
 
   let match = {
     $match: {
-      ...(negeri ? { createdByNegeri: negeri } : []),
-      ...(daerah ? { createdByDaerah: daerah } : []),
-      ...(klinik ? { createdByKodFasiliti: klinik } : []),
+      ...(negeri && { createdByNegeri: negeri }),
+      ...(daerah && { createdByDaerah: daerah }),
+      ...(klinik && { createdByKodFasiliti: klinik }),
       jenisFasiliti: { $in: ['kpb', 'mpb'] },
     },
   };
