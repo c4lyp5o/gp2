@@ -29,7 +29,9 @@ const ModalGenerateAdHoc = (props) => {
   const pilihanRetenTasTadSekolah = ['PGS201', 'BEGIN', 'PPIM03'].includes(
     props.jenisReten
   );
-  const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB'].includes(props.jenisReten);
+  const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
+    props.jenisReten
+  );
   const pilihanRetenRTC = ['RTC'].includes(props.jenisReten);
   const tunjukProgram =
     [
@@ -142,7 +144,7 @@ const ModalGenerateAdHoc = (props) => {
     link.click();
   };
 
-  const penjanaanReten = async (e) => {
+  const penjanaanReten = async () => {
     try {
       const url = `/api/v1/generate/download?jenisReten=${
         props.jenisReten
@@ -151,12 +153,12 @@ const ModalGenerateAdHoc = (props) => {
           ? Dictionary[props.pilihanNegeri]
           : loginInfo.negeri
       }&daerah=${
-        props.pilihanDaerah === '' ? 'all' : props.pilihanDaerah
+        props.jenisFasiliti === 'semua'
+          ? loginInfo.daerah
+          : props.pilihanDaerah === ''
+          ? 'all'
+          : props.pilihanDaerah
       }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
-        props.pilihanFasiliti === 'kkiakd'
-          ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanKkia=${props.pilihanKkia}`
-          : ''
-      }${
         props.pilihanFasiliti === 'program'
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
           : ''
@@ -168,10 +170,14 @@ const ModalGenerateAdHoc = (props) => {
         props.pilihanFasiliti === 'individu'
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
           : ''
+      }${
+        ['sekolah rendah', 'sekolah menengah'].includes(props.jenisFasiliti)
+          ? `&pilihanSekolah=${props.pilihanJanaSpesifikFasiliti}`
+          : ''
       }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
         endDateRef.current
       }&fromEtl=false`;
-      console.log(url);
+      // console.log(url);
       const res = await axios.get(url, {
         headers: {
           Authorization: adminToken,
@@ -204,6 +210,17 @@ const ModalGenerateAdHoc = (props) => {
 
   const handleJana = async (e) => {
     e.preventDefault();
+    if (
+      ['tadika', 'sekolah rendah', 'sekolah menengah'].includes(
+        props.jenisFasiliti
+      )
+    ) {
+      console.log('masuk tadika sekolah');
+      if (props.pilihanJanaSpesifikFasiliti === '') {
+        toast.error(`Sila lengkapkan pilihan ${props.jenisFasiliti}`);
+        return;
+      }
+    }
     props.setGenerating(true);
     props.setGeneratingNoWayBack(true);
     const id = toast.loading('Sedang menjana reten...');
@@ -255,7 +272,7 @@ const ModalGenerateAdHoc = (props) => {
 
   // fetch kpb atau rtc
   useEffect(() => {
-    console.log(pilihanRetenAdaKPBSahaja ? 'ada kpb sahaja' : 'ada rtc sahaja');
+    // console.log(pilihanRetenAdaKPBSahaja ? 'ada kpb sahaja' : 'ada rtc sahaja');
 
     if (
       (pilihanRetenAdaKPBSahaja || pilihanRetenRTC) &&
@@ -583,6 +600,7 @@ const ModalGenerateAdHoc = (props) => {
                               id='pilihanSpesifikFasiliti'
                               value={props.pilihanJanaSpesifikFasiliti}
                               onChange={(e) => {
+                                console.log(e.target.value);
                                 props.setPilihanJanaSpesifikFasiliti(
                                   e.target.value
                                 );
@@ -614,7 +632,11 @@ const ModalGenerateAdHoc = (props) => {
                                   )
                                   .map((t, index) => {
                                     return (
-                                      <option key={index} value={t.nama}>
+                                      <option
+                                        key={index}
+                                        data-key={t.kodSekolah}
+                                        value={t.kodSekolah}
+                                      >
                                         {t.nama}
                                       </option>
                                     );
@@ -629,7 +651,11 @@ const ModalGenerateAdHoc = (props) => {
                                   )
                                   .map((t, index) => {
                                     return (
-                                      <option key={index} value={t.nama}>
+                                      <option
+                                        key={index}
+                                        data-key={t.kodSekolah}
+                                        value={t.kodSekolah}
+                                      >
                                         {t.nama}
                                       </option>
                                     );
@@ -791,7 +817,21 @@ const ModalGenerateAdHoc = (props) => {
                                   id='factype'
                                   value={props.pilihanFasiliti}
                                   onChange={(e) => {
-                                    props.handleGetKPBMPB(e.target.value);
+                                    props.setPilihanFasiliti(e.target.value);
+                                    switch (e.target.value) {
+                                      case 'program':
+                                        props.handleGetProgram(
+                                          props.pilihanKlinik
+                                        );
+                                        break;
+                                      case 'kpbmpb':
+                                        props.handleGetKPBMPB(
+                                          props.pilihanKlinik
+                                        );
+                                        break;
+                                      default:
+                                        break;
+                                    }
                                   }}
                                   className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                                 >
@@ -803,10 +843,7 @@ const ModalGenerateAdHoc = (props) => {
                             ) : null}
                             {tunjukProgram && (
                               <div className='px-3 py-1'>
-                                <label
-                                  htmlFor='program'
-                                  className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
-                                >
+                                <label className='text-sm font-semibold text-user1 flex flex-row items-center p-2'>
                                   Program
                                 </label>
                                 <select
@@ -835,14 +872,14 @@ const ModalGenerateAdHoc = (props) => {
                                       .filter(
                                         (p) =>
                                           p &&
-                                          p.tarikhStart >=
-                                            startDateRef.current &&
-                                          p.tarikhStart <= endDateRef.current
+                                          p.tarikhStart >= startDateRef.current
                                       )
                                       .filter((p) => {
                                         if (
                                           p &&
-                                          props.jenisReten !== 'PG101C'
+                                          !['PG101C', 'PG211C'].includes(
+                                            props.jenisReten
+                                          )
                                         ) {
                                           const eventMap = {
                                             DEWASAMUDA: 'programDewasaMuda',
@@ -867,7 +904,9 @@ const ModalGenerateAdHoc = (props) => {
                                           );
                                         } else if (
                                           p &&
-                                          props.jenisReten === 'PG101C'
+                                          ['PG101C', 'PG211C'].includes(
+                                            props.jenisReten
+                                          )
                                         ) {
                                           return p;
                                         } else {
@@ -891,15 +930,15 @@ const ModalGenerateAdHoc = (props) => {
                             {tunjukKPBMPB && (
                               <div className='px-3 py-1'>
                                 <label
-                                  htmlFor='program'
+                                  htmlFor='pilihanKpbMpb'
                                   className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
                                 >
                                   KPB / MPB
                                 </label>
                                 <select
                                   required
-                                  name='program'
-                                  id='program'
+                                  name='pilihanKpbMpb'
+                                  id='pilihanKpbMpb'
                                   value={props.pilihanKpbMpb}
                                   onChange={(e) => {
                                     props.setPilihanKpbMpb(e.target.value);
@@ -909,13 +948,6 @@ const ModalGenerateAdHoc = (props) => {
                                   <option value=''>Sila pilih..</option>
                                   {props.kpbmpbData &&
                                     props.kpbmpbData
-                                      .filter(
-                                        (km) =>
-                                          km &&
-                                          km.tarikhStart >=
-                                            startDateRef.current &&
-                                          km.tarikhStart <= endDateRef.current
-                                      )
                                       .filter((km) => {
                                         if (km) {
                                           return km;
@@ -1158,13 +1190,6 @@ const ModalGenerateAdHoc = (props) => {
                     jana
                   </button>
                 )}
-                <button
-                  type='button'
-                  className='capitalize bg-admin3 text-userWhite rounded-md shadow-xl px-3 py-2 mx-3 my-2 transition-all mt-3'
-                  onClick={noWayBack}
-                >
-                  Kembali
-                </button>
               </div>
             </div>
           </div>
@@ -1941,7 +1966,6 @@ const Generate = () => {
     readNegeri,
     readDaerah,
     readKlinik,
-    readSpesifikKkiaData,
     readSpesifikProgramData,
     readSpesifikKPBMPBData,
     readSpesifikIndividuData,
@@ -1965,7 +1989,6 @@ const Generate = () => {
   const [generating, setGenerating] = useState(false);
   const [generatingNoWayBack, setGeneratingNoWayBack] = useState(false);
 
-  const [kkiaData, setKkiaData] = useState([]);
   const [programData, setProgramData] = useState([]);
   const [kpbmpbData, setKpbmpbData] = useState([]);
   const [individuData, setIndividuData] = useState([]);
@@ -1979,17 +2002,7 @@ const Generate = () => {
   const [statusToken, setStatusToken] = useState([]);
   const [statusReten, setStatusReten] = useState('');
 
-  // masalah negara
-  const [negeri, setNegeri] = useState([]);
-  const [daerah, setDaerah] = useState([]);
-  const [klinik, setKlinik] = useState([]);
-  const [namaKlinik, setNamaKlinik] = useState('');
-  const [namaRtc, setNamaRtc] = useState('');
-  const [namaKkia, setNamaKkia] = useState('');
-  const [pilihanNegeri, setPilihanNegeri] = useState('');
-  const [pilihanDaerah, setPilihanDaerah] = useState('');
-  const [pilihanKlinik, setPilihanKlinik] = useState('');
-  const [pilihanFasiliti, setPilihanFasiliti] = useState('');
+  // khusus sekolah
   const [jenisFasiliti, setJenisFasiliti] = useState('');
   const [carianJana, setCarianJana] = useState('');
   const [allTadika, setAllTadika] = useState([]);
@@ -1998,7 +2011,19 @@ const Generate = () => {
   const [allSekRendah, setAllSekRendah] = useState([]);
   const [allSekMenengah, setAllSekMenengah] = useState([]);
   const [sedangCarianJana, setSedangCarianJana] = useState(false);
-  const [pilihanKkia, setPilihanKkia] = useState('');
+  //
+
+  // masalah negara
+  const [negeri, setNegeri] = useState([]);
+  const [daerah, setDaerah] = useState([]);
+  const [klinik, setKlinik] = useState([]);
+  const [namaKlinik, setNamaKlinik] = useState('');
+  const [namaRtc, setNamaRtc] = useState('');
+  const [pilihanNegeri, setPilihanNegeri] = useState('');
+  const [pilihanDaerah, setPilihanDaerah] = useState('');
+  const [pilihanKlinik, setPilihanKlinik] = useState('');
+  const [pilihanFasiliti, setPilihanFasiliti] = useState('');
+
   const [pilihanProgram, setPilihanProgram] = useState('');
   const [pilihanKpbMpb, setPilihanKpbMpb] = useState('');
   const [pilihanIndividu, setPilihanIndividu] = useState('');
@@ -2016,22 +2041,6 @@ const Generate = () => {
     'PPKPS',
     'PKAP2',
   ].includes(jenisReten);
-
-  const handleGetKkia = async (e) => {
-    setPilihanFasiliti(e);
-    if (e === 'klinik') {
-      return;
-    } else {
-      await readSpesifikKkiaData(pilihanKlinik)
-        .then((res) => {
-          setKkiaData(res.data);
-        })
-        .catch((err) => {
-          console.log(err);
-          toast.error('Sila cuba lagi');
-        });
-    }
-  };
 
   const handleGetProgram = async (klinik) => {
     setPilihanFasiliti('program');
@@ -2100,6 +2109,7 @@ const Generate = () => {
         // toast.error('Sila cuba lagi');
       });
   };
+
   const handleJanaCarianSekolahRendah = async (e) => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahRendahData()
@@ -2115,6 +2125,7 @@ const Generate = () => {
         }
       });
   };
+
   const handleJanaCarianSekolahMenengah = async (e) => {
     setSedangCarianJana(true);
     await readSpesifikJanaSekolahMenengahData()
@@ -2196,26 +2207,49 @@ const Generate = () => {
     resetPilihanBiasa();
   };
 
+  const handlePilihSekolah = (e) => {
+    setPilihanJanaSpesifikFasiliti(
+      e.target.options[e.target.selectedIndex].getAttribute('data-key')
+    );
+  };
+
   // reset the usual suspects
   const resetPilihanBiasa = () => {
     setPilihanFasiliti('');
-    setPilihanKkia('');
     setPilihanProgram('');
     setPilihanKpbMpb('');
     setPilihanIndividu('');
   };
 
+  // full reset
+  const fullReset = () => {
+    // setJenisReten('');
+    setPilihanNegeri('');
+    setPilihanDaerah('');
+    setPilihanKlinik('');
+    setPilihanFasiliti('');
+    setPilihanProgram('');
+    setPilihanKpbMpb('');
+    setPilihanIndividu('');
+    setNamaKlinik('');
+    // sekolah
+    setJenisFasiliti('');
+    setCarianJana('');
+    setPilihanJanaSpesifikFasiliti('');
+    setAllTadika([]);
+    setAllSekRendah([]);
+    setAllSekMenengah([]);
+  };
+
   // reset stuff
   useEffect(() => {
     // if (pilihanFasiliti === '') {
-    //   setPilihanKkia('');
     //   setPilihanProgram('');
     //   setPilihanKpbMpb('');
     //   setPilihanIndividu('');
     // }
     if (pilihanKlinik === '') {
       setPilihanFasiliti('');
-      setPilihanKkia('');
       setPilihanProgram('');
       setPilihanKpbMpb('');
       setPilihanIndividu('');
@@ -2223,7 +2257,6 @@ const Generate = () => {
     // if (pilihanDaerah === '') {
     //   setPilihanKlinik('');
     //   setPilihanFasiliti('');
-    //   setPilihanKkia('');
     //   setPilihanProgram('');
     //   setPilihanKpbMpb('');
     //   setPilihanIndividu('');
@@ -2232,7 +2265,6 @@ const Generate = () => {
     //   setPilihanDaerah('');
     //   setPilihanKlinik('');
     //   setPilihanFasiliti('');
-    //   setPilihanKkia('');
     //   setPilihanProgram('');
     //   setPilihanKpbMpb('');
     //   setPilihanIndividu('');
@@ -2240,22 +2272,22 @@ const Generate = () => {
   }, [pilihanKlinik]);
 
   useEffect(() => {
-    if (loginInfo.accountType === 'hqSuperadmin') {
-      setPilihanNegeri('');
-    }
-    if (
-      loginInfo.accountType === 'hqSuperadmin' ||
-      loginInfo.accountType === 'negeriSuperadmin'
-    ) {
-      setPilihanDaerah('');
-    }
-    setPilihanKlinik('');
-    setNamaKlinik('');
-    setPilihanFasiliti('');
-    setPilihanKkia('');
-    setPilihanProgram('');
-    setPilihanKpbMpb('');
-    setPilihanIndividu('');
+    // if (loginInfo.accountType === 'hqSuperadmin') {
+    //   setPilihanNegeri('');
+    // }
+    // if (
+    //   loginInfo.accountType === 'hqSuperadmin' ||
+    //   loginInfo.accountType === 'negeriSuperadmin'
+    // ) {
+    //   setPilihanDaerah('');
+    // }
+    // setPilihanKlinik('');
+    // setNamaKlinik('');
+    // setPilihanFasiliti('');
+    // setPilihanProgram('');
+    // setPilihanKpbMpb('');
+    // setPilihanIndividu('');
+    fullReset();
     // refetch token after init.current = true
     if (init.current === true) {
       readGenerateTokenData()
@@ -2347,10 +2379,7 @@ const Generate = () => {
     setAllSekMenengah,
     sedangCarianJana,
     setSedangCarianJana,
-    pilihanKkia,
-    setPilihanKkia,
-    namaKkia,
-    setNamaKkia,
+    // pilihan lain2
     namaKlinik,
     setNamaKlinik,
     pilihanKlinik,
@@ -2364,16 +2393,15 @@ const Generate = () => {
     handlePilihDaerah,
     handlePilihKlinik,
     // trigger get data
-    handleGetKkia,
     handleGetProgram,
     handleGetKPBMPB,
     handleGetIndividu,
     handleGetRTC,
+    // handlePilihSekolah,
     handleJanaCarianTadika,
     handleJanaCarianSekolahRendah,
     handleJanaCarianSekolahMenengah,
     // data
-    kkiaData,
     programData,
     kpbmpbData,
     individuData,

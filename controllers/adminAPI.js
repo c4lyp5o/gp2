@@ -830,6 +830,37 @@ const getDataKpRoute = async (req, res) => {
         jenisFasiliti: 'sekolah-menengah',
       }).lean();
       break;
+    case 'jana-tadika':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'tadika',
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        kodFasilitiHandler: kodFasiliti,
+      })
+        .select('nama kodFasilitiHandler handler kodTastad')
+        .lean();
+      break;
+    case 'jana-sekolah-rendah':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-rendah',
+        sekolahSelesaiReten: true,
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        kodFasilitiHandler: kodFasiliti,
+      })
+        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
+        .lean();
+      break;
+    case 'jana-sekolah-menengah':
+      data = await Fasiliti.find({
+        jenisFasiliti: 'sekolah-menengah',
+        sekolahSelesaiReten: true,
+        createdByNegeri: negeri,
+        createdByDaerah: daerah,
+        kodFasilitiHandler: kodFasiliti,
+      })
+        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
+        .lean();
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: username,
