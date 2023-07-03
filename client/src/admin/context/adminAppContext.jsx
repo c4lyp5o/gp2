@@ -638,6 +638,55 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
+  const readSpesifikJanaTadikaDataForKp = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=janatadika`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error('Tiada Data Tadika Ditemui');
+    }
+  };
+  const readSpesifikJanaSekolahRendahDataForKp = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=janasekolahrendah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+      );
+    }
+  };
+  const readSpesifikJanaSekolahMenengahDataForKp = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=janasekolahmenengah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+      );
+    }
+  };
 
   // hq functions
   const getAllNegeriAndDaerah = async () => {
@@ -1339,6 +1388,9 @@ function AdminAppProvider({ children }) {
         readSpesifikProgramDataForKp,
         readSpesifikKPBMPBDataForKp,
         readSpesifikIndividuDataForKp,
+        readSpesifikJanaTadikaDataForKp,
+        readSpesifikJanaSekolahRendahDataForKp,
+        readSpesifikJanaSekolahMenengahDataForKp,
         // hq functions
         getStatsData,
         getAllNegeriAndDaerah,
