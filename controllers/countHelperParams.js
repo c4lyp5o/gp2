@@ -1176,6 +1176,9 @@ const getParamsTOD = (payload) => {
   }
 
   if (pilihanIndividu) {
+    delete param.createdByNegeri;
+    delete param.createdByDaerah;
+    delete param.createdByKodFasiliti;
     param.createdByMdcMdtb = pilihanIndividu;
   }
 

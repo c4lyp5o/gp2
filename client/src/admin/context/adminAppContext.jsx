@@ -961,10 +961,16 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Etnik Orang Asli/Penan',
     },
     {
-      kod: 'Liputan OAP',
-      kodRingkas: 'LiputanOAP',
+      kod: 'Liputan ORANG ASLI',
+      kodRingkas: 'LiputanOA',
       deskripsi:
-        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli/Penan',
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli',
+    },
+    {
+      kod: 'Liputan PENAN',
+      kodRingkas: 'LiputanPenan',
+      deskripsi:
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Penan',
     },
     {
       kod: 'RTC',

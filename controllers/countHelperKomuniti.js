@@ -1,8 +1,5 @@
 // const User = require('../models/User');
 const Umum = require('../models/Umum');
-const Sekolah = require('../models/Sekolah');
-const Pemeriksaan = require('../models/Pemeriksaansekolah');
-const Rawatan = require('../models/Rawatansekolah');
 const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
 const { errorRetenLogger } = require('../logs/logger');
@@ -6676,10 +6673,10 @@ const countOAP = async (payload) => {
     throw Error(error.message);
   }
 };
-const countLiputanOAP = async (payload) => {
+const countLiputanOA = async (payload) => {
   const match = {
     $match: {
-      kumpulanEtnik: { $in: ['orang asli semenanjung', 'penan'] },
+      kumpulanEtnik: { $in: ['orang asli semenanjung'] },
       kedatangan: 'baru-kedatangan',
       jenisFasiliti: { $ne: 'kp' },
       statusKehadiran: false,
@@ -6691,6 +6688,40 @@ const countLiputanOAP = async (payload) => {
   const group = {
     $group: {
       _id: '$negeriAlamat',
+      jumlah: { $sum: 1 },
+    },
+  };
+
+  try {
+    const data = await Umum.aggregate([match, group]);
+
+    if (data.length === 0) {
+      errorRetenLogger.error(
+        `Error mengira reten: ${payload.jenisReten}. Tiada data yang dijumpai.`
+      );
+      throw new Error('Tiada data yang dijumpai');
+    }
+
+    return data;
+  } catch (error) {
+    throw new Error(error);
+  }
+};
+const countLiputanPenan = async (payload) => {
+  const match = {
+    $match: {
+      kumpulanEtnik: { $in: ['penan'] },
+      kedatangan: 'baru-kedatangan',
+      jenisFasiliti: { $ne: 'kp' },
+      statusKehadiran: false,
+      deleted: false,
+      statusReten: 'telah diisi',
+    },
+  };
+
+  const group = {
+    $group: {
+      _id: '$kumpulanEtnik',
       jumlah: { $sum: 1 },
     },
   };
@@ -20482,7 +20513,8 @@ module.exports = {
   countBEGIN,
   countDEWASAMUDA,
   countOAP,
-  countLiputanOAP,
+  countLiputanOA,
+  countLiputanPenan,
   countKPBMPBHarian,
   countKPBMPBBulanan,
   countKOM,
