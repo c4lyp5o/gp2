@@ -1826,10 +1826,10 @@ const makePG206 = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/PG206] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(`[generateRetenController/PG206] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
@@ -7776,6 +7776,280 @@ const makeBEGIN = async (payload) => {
     excelMakerError(jenisReten);
   }
 };
+const makeCPPC1 = async (payload) => {
+  logger.info('[generateRetenController/makeCPPC1] makeCPPC1');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    pilihanSekolah,
+    fromEtl,
+    jenisReten,
+  } = payload;
+
+  try {
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countCPPC1(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'CPPC 1.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('CPPC 1');
+    //
+    switch (true) {
+      case negeri !== 'all' && negeri !== '-':
+        worksheet.getCell('E4').value = negeri;
+        break;
+      case daerah !== 'all' && daerah !== '-':
+        worksheet.getCell('E4').value = daerah;
+        break;
+      case klinik:
+        worksheet.getCell('E4').value = klinik;
+        break;
+      case pilihanSekolah:
+        worksheet.getCell('E4').value = pilihanSekolah;
+      default:
+        break;
+    }
+    //
+    worksheet.getCell('E5').value = moment(new Date()).format('YYYY');
+    //
+    const colNumbers = {
+      5: 'E',
+      6: 'F',
+      D1: 'G',
+      T1: 'G',
+      D2: 'H',
+      T2: 'H',
+      D3: 'I',
+      T3: 'I',
+      D4: 'J',
+      T4: 'J',
+      D5: 'K',
+      T5: 'K',
+      D6: 'L',
+      P: 'M',
+      KHAS: 'N',
+      KHAM: 'N',
+    };
+
+    for (let i = 0; i < data.length; i++) {
+      const {
+        _id,
+        totalStudents,
+        totalStudentFsNeed,
+        totalTeethFsNeed,
+        totalStudentFsRendered,
+        totalTeethFsRendered,
+        totalStudentPrrNeed,
+        totalTeethPrrNeed,
+        totalStudentPrrRendered,
+        totalTeethPrrRendered,
+        totalStudentFvNeed,
+        totalTeethFvNeed,
+        totalStudentFvRendered,
+        totalTeethFvRendered,
+        totalCariesFreeStatus,
+        totalDMFX,
+      } = data[i];
+      const cellNumber = 9;
+      const colNumber = colNumbers[_id];
+      const worksheetCells = [
+        { cell: `${colNumber}${cellNumber}`, value: totalStudents },
+        { cell: `${colNumber}${cellNumber + 1}`, value: totalStudentFsNeed },
+        { cell: `${colNumber}${cellNumber + 2}`, value: totalTeethFsNeed },
+        {
+          cell: `${colNumber}${cellNumber + 4}`,
+          value: totalStudentFsRendered,
+        },
+        { cell: `${colNumber}${cellNumber + 6}`, value: totalTeethFsRendered },
+        { cell: `${colNumber}${cellNumber + 8}`, value: totalStudentPrrNeed },
+        { cell: `${colNumber}${cellNumber + 9}`, value: totalTeethPrrNeed },
+        {
+          cell: `${colNumber}${cellNumber + 11}`,
+          value: totalStudentPrrRendered,
+        },
+        {
+          cell: `${colNumber}${cellNumber + 13}`,
+          value: totalTeethPrrRendered,
+        },
+        { cell: `${colNumber}${cellNumber + 15}`, value: totalStudentFvNeed },
+        { cell: `${colNumber}${cellNumber + 16}`, value: totalTeethFvNeed },
+        {
+          cell: `${colNumber}${cellNumber + 18}`,
+          value: totalStudentFvRendered,
+        },
+        { cell: `${colNumber}${cellNumber + 20}`, value: totalTeethFvRendered },
+        {
+          cell: `${colNumber}${cellNumber + 22}`,
+          value: totalCariesFreeStatus,
+        },
+        { cell: `${colNumber}${cellNumber + 24}`, value: totalDMFX },
+      ];
+      worksheetCells.forEach(({ cell, value }) => {
+        const cellValue = worksheet.getCell(cell).value || 0;
+        worksheet.getCell(cell).value = cellValue + value;
+      });
+    }
+    //
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(`[generateRetenController/makeCPPC1] writing file ${newfile}`);
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeCPPC1] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeCPPC1] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeCPPC2 = async (payload) => {
+  logger.info('[generateRetenController/makeCPPC2] makeCPPC2');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    pilihanSekolah,
+    fromEtl,
+    jenisReten,
+  } = payload;
+
+  try {
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countCPPC2(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'CPPC 2.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('CPPC 2');
+    //
+    switch (true) {
+      case negeri:
+        worksheet.getCell('E4').value = negeri;
+        break;
+      case daerah:
+        worksheet.getCell('E4').value = daerah;
+        break;
+      case klinik:
+        worksheet.getCell('E4').value = klinik;
+        break;
+      case pilihanSekolah:
+        worksheet.getCell('E4').value = pilihanSekolah;
+        break;
+      default:
+        break;
+    }
+    worksheet.getCell('E5').value = moment(new Date()).format('YYYY');
+    //
+    const rowNumbers = {
+      5: 11,
+      6: 12,
+      D1: 13,
+      T1: 13,
+      D2: 14,
+      T2: 14,
+      D3: 15,
+      T3: 15,
+      D4: 16,
+      T4: 16,
+      D5: 17,
+      T5: 17,
+      D6: 18,
+      P: 19,
+      KHAS: 20,
+      KHAM: 20,
+    };
+
+    for (let i = 0; i < data.length; i++) {
+      const {
+        _id,
+        noOfDandF,
+        noOfTeethWithDandFAllClass,
+        noOfTeethWithDandFClassI,
+      } = data[i];
+
+      const rowNumber = rowNumbers[_id];
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(2).value += noOfDandF;
+      row.getCell(3).value += noOfTeethWithDandFAllClass;
+      row.getCell(5).value += noOfTeethWithDandFClassI;
+    }
+    //
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(`[generateRetenController/makeCPPC2] writing file ${newfile}`);
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeCPPC2] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+
+    return file;
+  } catch (err) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeCPPC2] Excel making error. Reason: ${err}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
 const makePPIM03 = async (payload) => {
   logger.info('[generateRetenController/makePPIM03] makePPIM03');
   let {
@@ -11410,6 +11684,8 @@ const mapsOfSeveralRetens = new Map([
   ['KEPP', makeKEPP],
   // new
   ['BEGIN', makeBEGIN],
+  ['CPPC1', makeCPPC1],
+  ['CPPC2', makeCPPC2],
   ['PPIM03', makePPIM03],
   ['PPIM04', makePPIM04],
   ['PPIM05', makePPIM05],
