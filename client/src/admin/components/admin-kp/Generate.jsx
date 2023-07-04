@@ -151,8 +151,7 @@ const ModalGenerateAdHoc = (props) => {
         ['semua sekolah menengah mmi'].includes(props.jenisFasiliti)
           ? '&menengahMmi=jana-menengah-mmi'
           : ''
-      }
-      &tarikhMula=${startDateRef.current}&tarikhAkhir=${
+      }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
         endDateRef.current
       }&fromEtl=false`;
       // console.log(url);
