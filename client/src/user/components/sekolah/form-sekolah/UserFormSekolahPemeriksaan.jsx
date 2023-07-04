@@ -260,6 +260,11 @@ function UserFormSekolahPemeriksaan() {
     ) {
       setPenandaRisikoKaries('tinggi');
     } else if (
+      parseInt(jumlahFaktorRisiko) >= 1 &&
+      (parseInt(xAdaGigiDesidus) >= 1 || parseInt(xAdaGigiKekal) >= 1)
+    ) {
+      setPenandaRisikoKaries('tinggi');
+    } else if (
       parseInt(jumlahFaktorRisiko) <= 2 &&
       parseInt(eAdaGigiKekal) >= 1
     ) {
@@ -272,6 +277,11 @@ function UserFormSekolahPemeriksaan() {
     } else if (
       parseInt(jumlahFaktorRisiko) === 0 &&
       (parseInt(dAdaGigiDesidus) >= 1 || parseInt(dAdaGigiKekal) >= 1)
+    ) {
+      setPenandaRisikoKaries('sederhana');
+    } else if (
+      parseInt(jumlahFaktorRisiko) === 0 &&
+      (parseInt(xAdaGigiDesidus) >= 1 || parseInt(xAdaGigiKekal) >= 1)
     ) {
       setPenandaRisikoKaries('sederhana');
     } else if (
