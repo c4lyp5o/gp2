@@ -8,7 +8,9 @@ const pipelineCPPC1 = (payload) => {
         ...(!['all', '-'].includes(payload.daerah) && {
           createdByDaerah: payload.daerah,
         }),
-        ...(payload.kp !== 'all' && { createdByKp: payload.kp }),
+        ...(payload.klinik !== 'all' && {
+          createdByKodFasiliti: payload.klinik,
+        }),
         ...(payload.pilihanSekolah && {
           kodSekolah: payload.pilihanSekolah,
         }),
@@ -466,7 +468,9 @@ const pipelineCPPC2 = (payload) => {
         ...(!['all', '-'].includes(payload.daerah) && {
           createdByDaerah: payload.daerah,
         }),
-        ...(payload.kp !== 'all' && { createdByKp: payload.kp }),
+        ...(payload.klinik !== 'all' && {
+          createdByKodFasiliti: payload.klinik,
+        }),
         ...(payload.pilihanSekolah && {
           kodSekolah: payload.pilihanSekolah,
         }),
