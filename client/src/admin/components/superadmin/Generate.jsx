@@ -31,7 +31,6 @@ const ModalGenerateAdHoc = (props) => {
     'BEGIN',
     'CPPC1',
     'CPPC2',
-    'PPIM03',
   ].includes(props.jenisReten);
   const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
     props.jenisReten
