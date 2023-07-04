@@ -175,6 +175,10 @@ const ModalGenerateAdHoc = (props) => {
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
           : ''
       }${
+        ['tadika'].includes(props.jenisFasiliti)
+          ? `&pilihanTadika=${props.pilihanJanaSpesifikFasiliti}`
+          : ''
+      }${
         ['sekolah rendah', 'sekolah menengah'].includes(props.jenisFasiliti)
           ? `&pilihanSekolah=${props.pilihanJanaSpesifikFasiliti}`
           : ''
@@ -767,7 +771,7 @@ const ModalGenerateAdHoc = (props) => {
                                     )
                                     .map((t, index) => {
                                       return (
-                                        <option key={index} value={t.nama}>
+                                        <option key={index} value={t.kodTastad}>
                                           {t.nama}
                                         </option>
                                       );
@@ -2205,7 +2209,6 @@ const Generate = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Sila cuba lagi');
       });
   };
 
@@ -2218,7 +2221,6 @@ const Generate = () => {
       })
       .catch((err) => {
         console.log(err);
-        // toast.error('Sila cuba lagi');
       });
   };
 
@@ -2233,7 +2235,6 @@ const Generate = () => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error('Sila cuba lagi');
         });
     }
   };
@@ -2245,8 +2246,7 @@ const Generate = () => {
         setRtcData(res.data);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
@@ -2259,8 +2259,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
@@ -2273,10 +2272,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        if (err.response.status === 404) {
-          toast.error('Tiada data sekolah rendah');
-        }
+        console.log(err);
       });
   };
 
@@ -2289,8 +2285,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
