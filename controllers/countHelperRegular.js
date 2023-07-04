@@ -14223,7 +14223,7 @@ const countMasa = async (payload) => {
     $match: {
       tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-02-01`,
-        $lte: `${new Date().getFullYear()}-02-28`,
+        $lte: `${new Date().getFullYear()}-02-29`,
       },
       temujanji: false,
     },
@@ -14347,7 +14347,7 @@ const countMasa = async (payload) => {
     $match: {
       tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-02-01`,
-        $lte: `${new Date().getFullYear()}-02-28`,
+        $lte: `${new Date().getFullYear()}-02-29`,
       },
       temujanji: true,
     },
@@ -14518,6 +14518,59 @@ const countMasa = async (payload) => {
     },
   };
 
+  const group_stage_temujanji = {
+    $group: {
+      _id: placeModifier(payload),
+      // stats
+      jumlahReten: { $sum: 1 },
+      statusReten: {
+        $sum: {
+          $cond: [
+            {
+              $eq: ['$statusReten', 'reten salah'],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      //
+      jumlahPesakit: { $sum: 1 },
+      jumlahPesakitYangDipanggilSebelum30Minit: {
+        $sum: {
+          $cond: [
+            {
+              $lt: [
+                {
+                  $subtract: ['$waktuDipanggilUnix', '$waktuSampaiUnix'],
+                },
+                30 * 60 * 1000,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+      jumlahPesakitYangDipanggilLebih30Minit: {
+        $sum: {
+          $cond: [
+            {
+              $gt: [
+                {
+                  $subtract: ['$waktuDipanggilUnix', '$waktuSampaiUnix'],
+                },
+                30 * 60 * 1000,
+              ],
+            },
+            1,
+            0,
+          ],
+        },
+      },
+    },
+  };
+
   //bismillah
   let bigData = [];
   let temujanjiData = [];
@@ -14539,7 +14592,7 @@ const countMasa = async (payload) => {
         main_switch,
         match_stage_temujanji[i],
         add_fields_stage,
-        group_stage,
+        group_stage_temujanji,
       ]);
       temujanjiData.push(dataTemujanji[0]);
     }
