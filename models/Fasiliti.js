@@ -96,7 +96,7 @@ const fasilitiSchema = new Schema({
   },
   sekolahKki: {
     type: String,
-    default: 'tidak',
+    default: 'tidak-sekolah-kki',
   },
   statusFMRSekolah: {
     type: String,
