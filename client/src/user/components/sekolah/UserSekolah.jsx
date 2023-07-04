@@ -1174,12 +1174,18 @@ function UserSekolah() {
                                       [singlePersonSekolah._id]: true,
                                     });
                                   }}
-                                  className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                  className={`hover:cursor-pointer hover:bg-user6 text-xs font-medium rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap
+                                  ${
+                                    singlePersonSekolah.tarikhMelaksanakanBegin
+                                      ? 'bg-user7'
+                                      : 'bg-user8'
+                                  }
+                                  `}
                                 >
                                   {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                    <span className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userWhite text-center flex items-center'>
                                       Selesai
-                                      <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                      <FaCheckCircle className='text-userWhite inline-flex text-center ml-1' />
                                     </span>
                                   ) : (
                                     <span className='text-xs text-userBlack text-center flex items-center'>
