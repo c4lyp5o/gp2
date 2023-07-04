@@ -713,10 +713,25 @@ function UserSekolah() {
                                 UMUR : {singlePersonSekolah.umur}
                               </p>
                               <p className='whitespace-nowrap'>
-                                KETURUNAN : {singlePersonSekolah.keturunan}
+                                KETURUNAN :{' '}
+                                {singlePersonSekolah.keturunan ===
+                                'TIADA MAKLUMAT' ? (
+                                  <span className='font-semibold text-user9'>
+                                    {singlePersonSekolah.keturunan}
+                                  </span>
+                                ) : (
+                                  <span>{singlePersonSekolah.keturunan}</span>
+                                )}
                               </p>
                               <p className='whitespace-nowrap'>
-                                WARGANEGARA : {singlePersonSekolah.warganegara}
+                                WARGANEGARA :{' '}
+                                {singlePersonSekolah.warganegara ? (
+                                  singlePersonSekolah.warganegara
+                                ) : (
+                                  <span className='font-semibold text-user9'>
+                                    TIADA MAKLUMAT
+                                  </span>
+                                )}
                               </p>
                               <p className='whitespace-nowrap'>
                                 STATUS OKU :{' '}

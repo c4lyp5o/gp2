@@ -140,10 +140,19 @@ const ModalGenerateAdHoc = (props) => {
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
           : ''
       }${
+        ['tadika'].includes(props.jenisFasiliti)
+          ? `&pilihanTadika=${props.pilihanJanaSpesifikFasiliti}`
+          : ''
+      }${
         ['sekolah rendah', 'sekolah menengah'].includes(props.jenisFasiliti)
           ? `&pilihanSekolah=${props.pilihanJanaSpesifikFasiliti}`
           : ''
-      }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
+      }${
+        ['semua sekolah menengah mmi'].includes(props.jenisFasiliti)
+          ? '&menengahMmi=jana-menengah-mmi'
+          : ''
+      }
+      &tarikhMula=${startDateRef.current}&tarikhAkhir=${
         endDateRef.current
       }&fromEtl=false`;
       // console.log(url);
@@ -428,10 +437,10 @@ const ModalGenerateAdHoc = (props) => {
                 )}
                 {pilihanRetenTasTadSekolah && (
                   <>
-                    <div className='grid grid-cols-4 gap-2 my-2'>
+                    <div className='grid grid-cols-5 gap-2 my-2'>
                       <label
                         htmlFor='tadika'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'tadika'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -455,7 +464,7 @@ const ModalGenerateAdHoc = (props) => {
                       </label>
                       <label
                         htmlFor='sek-rendah'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'sekolah rendah'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -479,7 +488,7 @@ const ModalGenerateAdHoc = (props) => {
                       </label>
                       <label
                         htmlFor='sek-menengah'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'sekolah menengah'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -502,8 +511,34 @@ const ModalGenerateAdHoc = (props) => {
                         <span>Sekolah Menengah</span>
                       </label>
                       <label
+                        htmlFor='semua-sekolah-menengah-mmi'
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
+                          props.jenisFasiliti === 'semua sekolah menengah mmi'
+                            ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisFasiliti'
+                          id='semua-sekolah-menengah-mmi'
+                          value='semua sekolah menengah mmi'
+                          checked={
+                            props.jenisFasiliti === 'semua sekolah menengah mmi'
+                          }
+                          onChange={(e) => {
+                            props.setJenisFasiliti(e.target.value);
+                            props.setCarianJana('');
+                            props.setPilihanJanaSpesifikFasiliti('');
+                          }}
+                          className='hidden'
+                        />
+                        <span>Semua Sekolah Menengah MMI</span>
+                      </label>
+                      <label
                         htmlFor='semua'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'semua'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -526,113 +561,123 @@ const ModalGenerateAdHoc = (props) => {
                         <span>Semua</span>
                       </label>
                     </div>
-                    {props.jenisFasiliti && props.jenisFasiliti !== 'semua' && (
-                      <div className='my-2 mt-6'>
-                        <h1 className='flex justify-start my-1 font-semibold'>
-                          Carian {props.jenisFasiliti}
-                        </h1>
-                        <div className='grid grid-cols-[3fr_1fr] gap-2'>
-                          <input
-                            value={props.carianJana}
-                            type='search'
-                            name='carianJana'
-                            className='w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                            onChange={(e) => {
-                              props.setCarianJana(e.target.value);
-                            }}
-                          />
-                          <span
-                            className={` ${
-                              props.sedangCarianJana &&
-                              'cursor-not-allowed pointer-events-none'
-                            } flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 cursor-pointer hover:bg-user4 hover:bg-opacity-30 transition-all duration-500`}
-                            onClick={
-                              props.jenisFasiliti === 'tadika'
-                                ? props.handleJanaCarianTadika
-                                : props.jenisFasiliti === 'sekolah rendah'
-                                ? props.handleJanaCarianSekolahRendah
-                                : props.jenisFasiliti === 'sekolah menengah' &&
-                                  props.handleJanaCarianSekolahMenengah
-                            }
-                          >
-                            {props.sedangCarianJana ? 'Mencari' : 'Cari'}
-                          </span>
-                        </div>
-                        {props.carianJana ? (
-                          <>
-                            <h1 className='flex justify-start my-1 mt-2 font-semibold'>
-                              Pilihan {props.jenisFasiliti}
-                            </h1>
-                            <select
-                              className='w-full p-2 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                              name='pilihanSpesifikFasiliti'
-                              id='pilihanSpesifikFasiliti'
-                              value={props.pilihanJanaSpesifikFasiliti}
+                    {props.jenisFasiliti &&
+                      (props.jenisFasiliti === 'tadika' ||
+                        props.jenisFasiliti === 'sekolah rendah' ||
+                        props.jenisFasiliti === 'sekolah menengah') && (
+                        <div className='my-2 mt-6'>
+                          <h1 className='flex justify-start my-1 font-semibold'>
+                            Carian {props.jenisFasiliti}
+                          </h1>
+                          <div className='grid grid-cols-[3fr_1fr] gap-2'>
+                            <input
+                              value={props.carianJana}
+                              type='search'
+                              name='carianJana'
+                              className='w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                               onChange={(e) => {
-                                props.setPilihanJanaSpesifikFasiliti(
-                                  e.target.value
-                                );
+                                props.setCarianJana(e.target.value);
                               }}
+                            />
+                            <span
+                              className={` ${
+                                props.sedangCarianJana &&
+                                'cursor-not-allowed pointer-events-none'
+                              } flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 cursor-pointer hover:bg-user4 hover:bg-opacity-30 transition-all duration-500`}
+                              onClick={
+                                props.jenisFasiliti === 'tadika'
+                                  ? props.handleJanaCarianTadika
+                                  : props.jenisFasiliti === 'sekolah rendah'
+                                  ? props.handleJanaCarianSekolahRendah
+                                  : props.jenisFasiliti ===
+                                      'sekolah menengah' &&
+                                    props.handleJanaCarianSekolahMenengah
+                              }
                             >
-                              <option value=''>Sila pilih..</option>
-                              {props.jenisFasiliti === 'tadika' &&
-                                props.allTadika &&
-                                props.allTadika
-                                  .filter((t) =>
-                                    t.nama
-                                      .toLowerCase()
-                                      .includes(props.carianJana.toLowerCase())
-                                  )
-                                  .map((t, index) => {
-                                    return (
-                                      <option key={index} value={t.nama}>
-                                        {t.nama}
-                                      </option>
-                                    );
-                                  })}
-                              {props.jenisFasiliti === 'sekolah rendah' &&
-                                props.allSekRendah &&
-                                props.allSekRendah
-                                  .filter((t) =>
-                                    t.nama
-                                      .toLowerCase()
-                                      .includes(props.carianJana.toLowerCase())
-                                  )
-                                  .map((t, index) => {
-                                    return (
-                                      <option
-                                        key={index}
-                                        data-key={t.kodSekolah}
-                                        value={t.kodSekolah}
-                                      >
-                                        {t.nama}
-                                      </option>
-                                    );
-                                  })}
-                              {props.jenisFasiliti === 'sekolah menengah' &&
-                                props.allSekMenengah &&
-                                props.allSekMenengah
-                                  .filter((t) =>
-                                    t.nama
-                                      .toLowerCase()
-                                      .includes(props.carianJana.toLowerCase())
-                                  )
-                                  .map((t, index) => {
-                                    return (
-                                      <option
-                                        key={index}
-                                        data-key={t.kodSekolah}
-                                        value={t.kodSekolah}
-                                      >
-                                        {t.nama}
-                                      </option>
-                                    );
-                                  })}
-                            </select>
-                          </>
-                        ) : null}
-                      </div>
-                    )}
+                              {props.sedangCarianJana ? 'Mencari' : 'Cari'}
+                            </span>
+                          </div>
+                          {props.carianJana ? (
+                            <>
+                              <h1 className='flex justify-start my-1 mt-2 font-semibold'>
+                                Pilihan {props.jenisFasiliti}
+                              </h1>
+                              <select
+                                className='w-full p-2 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                name='pilihanSpesifikFasiliti'
+                                id='pilihanSpesifikFasiliti'
+                                value={props.pilihanJanaSpesifikFasiliti}
+                                onChange={(e) => {
+                                  props.setPilihanJanaSpesifikFasiliti(
+                                    e.target.value
+                                  );
+                                }}
+                              >
+                                <option value=''>Sila pilih..</option>
+                                {props.jenisFasiliti === 'tadika' &&
+                                  props.allTadika &&
+                                  props.allTadika
+                                    .filter((t) =>
+                                      t.nama
+                                        .toLowerCase()
+                                        .includes(
+                                          props.carianJana.toLowerCase()
+                                        )
+                                    )
+                                    .map((t, index) => {
+                                      return (
+                                        <option key={index} value={t.kodTastad}>
+                                          {t.nama}
+                                        </option>
+                                      );
+                                    })}
+                                {props.jenisFasiliti === 'sekolah rendah' &&
+                                  props.allSekRendah &&
+                                  props.allSekRendah
+                                    .filter((t) =>
+                                      t.nama
+                                        .toLowerCase()
+                                        .includes(
+                                          props.carianJana.toLowerCase()
+                                        )
+                                    )
+                                    .map((t, index) => {
+                                      return (
+                                        <option
+                                          key={index}
+                                          data-key={t.kodSekolah}
+                                          value={t.kodSekolah}
+                                        >
+                                          {t.nama}
+                                        </option>
+                                      );
+                                    })}
+                                {props.jenisFasiliti === 'sekolah menengah' &&
+                                  props.allSekMenengah &&
+                                  props.allSekMenengah
+                                    .filter((t) =>
+                                      t.nama
+                                        .toLowerCase()
+                                        .includes(
+                                          props.carianJana.toLowerCase()
+                                        )
+                                    )
+                                    .map((t, index) => {
+                                      return (
+                                        <option
+                                          key={index}
+                                          data-key={t.kodSekolah}
+                                          value={t.kodSekolah}
+                                        >
+                                          {t.nama}
+                                        </option>
+                                      );
+                                    })}
+                              </select>
+                            </>
+                          ) : null}
+                        </div>
+                      )}
                   </>
                 )}
                 {!pilihanRetenMASA &&
@@ -1623,7 +1668,6 @@ const Generate = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Sila cuba lagi');
       });
   };
 
@@ -1636,7 +1680,6 @@ const Generate = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Sila cuba lagi');
       });
   };
 
@@ -1651,9 +1694,6 @@ const Generate = () => {
         })
         .catch((err) => {
           console.log(err);
-          // toast.error(
-          //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: gkp-data-individu'
-          // );
         });
     }
   };
@@ -1665,8 +1705,7 @@ const Generate = () => {
         setRtcData(res.data);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
@@ -1679,8 +1718,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
@@ -1693,10 +1731,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        if (err.response.status === 404) {
-          toast.error('Tiada data sekolah rendah');
-        }
+        console.log(err);
       });
   };
 
@@ -1709,8 +1744,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
