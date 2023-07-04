@@ -432,6 +432,12 @@ const muatturunSenaraiPelajar = async (req, res) => {
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
     });
 
+    worksheet.getColumn('nama').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
+      }
+    });
+
     worksheet.getColumn('warganegara').eachCell((cell) => {
       cell.value = cell.value || 'TIADA MAKLUMAT';
     });
@@ -442,13 +448,8 @@ const muatturunSenaraiPelajar = async (req, res) => {
       });
     });
 
-    worksheet.getColumn('nama').eachCell((cell, number) => {
-      if (number !== 1) {
-        cell.alignment = { vertical: 'middle', horizontal: 'left' };
-      }
-    });
-
     worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+
     worksheet.getRow(1).alignment = {
       vertical: 'middle',
       horizontal: 'center',

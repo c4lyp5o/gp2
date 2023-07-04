@@ -60,6 +60,11 @@ export default function Sekolah(props) {
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Status
                 </th>
+                {props.FType === 'sm' && (
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Sekolah MMI
+                  </th>
+                )}
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Sekolah KKI
                 </th>
@@ -112,6 +117,19 @@ export default function Sekolah(props) {
                         </span>
                       )}
                     </td>
+                    {props.FType === 'sm' && (
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {f.sekolahMmi === 'ya-sekolah-mmi' ? (
+                          <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                            Ya
+                          </span>
+                        ) : (
+                          <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            Tidak
+                          </span>
+                        )}
+                      </td>
+                    )}
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {f.sekolahKki === 'ya-sekolah-kki' ? (
                         <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>

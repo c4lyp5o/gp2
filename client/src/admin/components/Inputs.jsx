@@ -3141,6 +3141,48 @@ export function InputEditSM(props) {
             </div>
             <div className='mb-3'>
               <label className='text-sm font-medium text-adminBlack'>
+                Sekolah MMI{' '}
+                <span className='font-semibold text-lg text-user6'>*</span>
+              </label>
+              <div className='grid grid-cols-2 mb-3 p-2'>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={props.editedEntity.sekolahMmi === 'ya-sekolah-mmi'}
+                    name='sekolah-mmi'
+                    value='ya-sekolah-mmi'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        sekolahMmi: e.target.value,
+                      })
+                    }
+                  />
+                  Ya
+                </label>
+                <label className='inline-flex items-center text-sm font-medium text-adminBlack m-auto'>
+                  <input
+                    required
+                    type='radio'
+                    checked={
+                      props.editedEntity.sekolahMmi === 'tidak-sekolah-mmi'
+                    }
+                    name='sekolah-mmi'
+                    value='tidak-sekolah-mmi'
+                    onChange={(e) =>
+                      props.setEditedEntity({
+                        ...props.editedEntity,
+                        sekolahMmi: e.target.value,
+                      })
+                    }
+                  />
+                  Tidak
+                </label>
+              </div>
+            </div>
+            <div className='mb-3'>
+              <label className='text-sm font-medium text-adminBlack'>
                 Sekolah KKI{' '}
                 <span className='font-semibold text-lg text-user6'>*</span>
               </label>

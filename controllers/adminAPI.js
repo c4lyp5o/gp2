@@ -599,6 +599,7 @@ const getDataRoute = async (req, res) => {
       })
         .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
         .lean();
+      break;
     case 'program-gtod':
       console.log('masuk gtod', type);
       data = await AgensiLuar.find({
@@ -861,6 +862,7 @@ const getDataKpRoute = async (req, res) => {
       })
         .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
         .lean();
+      break;
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: username,
@@ -1838,6 +1840,9 @@ const getData = async (req, res) => {
             }
           }
           if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
+            if (theType === 'sekolah-rendah') {
+              Data.sekolahMmi = 'ya-sekolah-mmi';
+            }
             Data = {
               ...Data,
               jenisFasiliti: theType,
