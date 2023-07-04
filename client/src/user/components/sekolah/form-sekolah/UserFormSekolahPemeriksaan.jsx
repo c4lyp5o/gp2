@@ -494,18 +494,7 @@ function UserFormSekolahPemeriksaan() {
     }
   }, [statusPeriodontium]);
 
-  //reset modal
-  useEffect(() => {
-    if (engganTidakHadirPemeriksaan === 'tidak-hadir-pemeriksaan') {
-      setEngganPemeriksaan('');
-      setKebenaranPemeriksaan('');
-    }
-    if (engganTidakHadirPemeriksaan === 'enggan-pemeriksaan') {
-      setTidakHadirPemeriksaan('');
-    }
-  }, [engganTidakHadirPemeriksaan]);
-
-  // pull kpbmpb data for whole negeri that is used for this kp
+  // pull kpbmpb data for whole negeri that is used for this sekolah
   useEffect(() => {
     const getAllKPBMPBForNegeri = async () => {
       try {
@@ -523,9 +512,6 @@ function UserFormSekolahPemeriksaan() {
         // console.log(dataKPBMPB.data.penggunaanKPBMPBForPtSekolah);
       } catch (error) {
         console.log(error);
-        // toast.error(
-        //   'Uh oh, server kita sedang mengalami masalah. Sila berhubung dengan team Gi-Ret 2.0 untuk bantuan. Kod: user-form-umum-header-getallusedkpbmpb'
-        // );
       }
     };
     getAllKPBMPBForNegeri();
@@ -1453,6 +1439,13 @@ function UserFormSekolahPemeriksaan() {
                             className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                             onClick={() => {
                               setPadamPemeriksaan(true);
+                              setEngganPemeriksaan('');
+                              setKebenaranPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                engganPemeriksaan: '',
+                                kebenaranPemeriksaan: '',
+                              });
                             }}
                           >
                             X
@@ -1495,6 +1488,13 @@ function UserFormSekolahPemeriksaan() {
                             className='px-2 py-1 bg-user4 text-userWhite text-xs rounded-full cursor-pointer hover:bg-user2'
                             onClick={() => {
                               setPadamPemeriksaan(true);
+                              setTidakHadirPemeriksaan('');
+                              setKebenaranPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                tidakHadirPemeriksaan: '',
+                                kebenaranPemeriksaan: '',
+                              });
                             }}
                           >
                             X
@@ -1502,6 +1502,7 @@ function UserFormSekolahPemeriksaan() {
                         ) : null}
                       </div>
                       <div>
+                        {/* modal enggan */}
                         <div
                           className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-7 lg:inset-y-28 bg-userWhite rounded-md pb-5 ${
                             modalEnggan ? 'block' : 'hidden'
@@ -1510,13 +1511,28 @@ function UserFormSekolahPemeriksaan() {
                           <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
                             PERHATIAN
                           </h5>
-                          <h1 className='font-bold text-xl'>ENGGAN</h1>
+                          <span
+                            className='absolute top-0.5 right-2 px-2 py-1 text-userBlack font-bold text-xs rounded-full cursor-pointer hover:bg-user2 hover:text-userWhite'
+                            onClick={() => {
+                              setModalEnggan(false);
+                              setEngganTidakHadirPemeriksaan('');
+                              setEngganPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                engganTidakHadirPemeriksaan: '',
+                                engganPemeriksaan: '',
+                              });
+                            }}
+                          >
+                            X
+                          </span>
+                          <h1 className='font-bold text-xl mt-4'>ENGGAN</h1>
                           <p>
                             Murid yang <strong>Enggan</strong> Pemeriksaan
                             sehingga hari terakhir Pasukan Pergigian berada di
                             Sekolah
                           </p>
-                          <div className='flex flex-row justify-center mt-2'>
+                          <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
                             <div>
                               <input
                                 type='radio'
@@ -1539,41 +1555,32 @@ function UserFormSekolahPemeriksaan() {
                               />
                               <label
                                 htmlFor='ya-enggan-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                  engganPemeriksaan === 'ya-enggan-pemeriksaan'
+                                    ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                    : ''
+                                }`}
                               >
                                 Ya
                               </label>
                             </div>
-                            <div>
-                              <input
-                                type='radio'
-                                name='ya-tidak-enggan-pemeriksaan'
-                                id='tidak-enggan-pemeriksaan'
-                                value='tidak-enggan-pemeriksaan'
-                                className='peer hidden'
-                                checked={
-                                  engganPemeriksaan ===
-                                  'tidak-enggan-pemeriksaan'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setEngganPemeriksaan(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    engganPemeriksaan: e.target.value,
-                                  });
+                            {/* <div>
+                              <span
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 `}
+                                onClick={() => {
                                   setModalEnggan(false);
                                   setEngganTidakHadirPemeriksaan('');
+                                  setEngganPemeriksaan('');
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganTidakHadirPemeriksaan: '',
+                                    engganPemeriksaan: '',
+                                  });
                                 }}
-                              />
-                              <label
-                                htmlFor='tidak-enggan-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
                               >
                                 Tidak
-                              </label>
-                            </div>
+                              </span>
+                            </div> */}
                           </div>
                           {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
                             <p className='mt-2'>
@@ -1582,7 +1589,7 @@ function UserFormSekolahPemeriksaan() {
                             </p>
                           ) : null}
                           {engganPemeriksaan === 'ya-enggan-pemeriksaan' ? (
-                            <div className='flex flex-row justify-center mt-2'>
+                            <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
                               <div>
                                 <input
                                   type='radio'
@@ -1607,7 +1614,12 @@ function UserFormSekolahPemeriksaan() {
                                 />
                                 <label
                                   htmlFor='ya-kebenaran-pemeriksaan'
-                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
                                 >
                                   Ya
                                 </label>
@@ -1636,7 +1648,12 @@ function UserFormSekolahPemeriksaan() {
                                 />
                                 <label
                                   htmlFor='tidak-kebenaran-pemeriksaan'
-                                  className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
                                 >
                                   Tidak
                                 </label>
@@ -1644,6 +1661,7 @@ function UserFormSekolahPemeriksaan() {
                             </div>
                           ) : null}
                         </div>
+                        {/* modal tidak hadir */}
                         <div
                           className={` absolute z-30 inset-x-1 lg:inset-x-60 inset-y-28 bg-userWhite rounded-md pb-5 ${
                             modalTidakHadir ? 'block' : 'hidden'
@@ -1652,12 +1670,27 @@ function UserFormSekolahPemeriksaan() {
                           <h5 className='bg-user9 text-userWhite font-semibold text-xl h-7 rounded-t-md'>
                             PERHATIAN
                           </h5>
+                          <span
+                            className='absolute top-0.5 right-2 px-2 py-1 text-userBlack font-bold text-xs rounded-full cursor-pointer hover:bg-user2 hover:text-userWhite'
+                            onClick={() => {
+                              setModalTidakHadir(false);
+                              setEngganTidakHadirPemeriksaan('');
+                              setTidakHadirPemeriksaan('');
+                              setConfirmData({
+                                ...confirmData,
+                                engganTidakHadirPemeriksaan: '',
+                                tidakHadirPemeriksaan: '',
+                              });
+                            }}
+                          >
+                            X
+                          </span>
                           <h1 className='font-bold text-xl'>TIDAK HADIR</h1>
                           <p>
                             Murid yang TIDAK HADIR Pemeriksaan sehingga hari
                             terakhir Pasukan Pergigian berada di Sekolah
                           </p>
-                          <div className='flex flex-row justify-center mt-2'>
+                          <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
                             <div>
                               <input
                                 type='radio'
@@ -1677,47 +1710,118 @@ function UserFormSekolahPemeriksaan() {
                                     ...confirmData,
                                     tidakHadirPemeriksaan: e.target.value,
                                   });
-                                  setModalTidakHadir(false);
                                 }}
                               />
                               <label
                                 htmlFor='ya-kehadiran-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-7 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                  tidakHadirPemeriksaan ===
+                                  'ya-kehadiran-pemeriksaan'
+                                    ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                    : ''
+                                }`}
                               >
                                 Ya
                               </label>
                             </div>
-                            <div>
-                              <input
-                                type='radio'
-                                name='ya-tidak-kehadiran-pemeriksaan'
-                                id='tidak-kehadiran-pemeriksaan'
-                                value='tidak-kehadiran-pemeriksaan'
-                                className='peer hidden'
-                                checked={
-                                  tidakHadirPemeriksaan ===
-                                  'tidak-kehadiran-pemeriksaan'
-                                    ? true
-                                    : false
-                                }
-                                onChange={(e) => {
-                                  setTidakHadirPemeriksaan(e.target.value);
-                                  setConfirmData({
-                                    ...confirmData,
-                                    tidakHadirPemeriksaan: e.target.value,
-                                  });
+                            {/* <div>
+                              <span
+                                className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 `}
+                                onClick={() => {
                                   setModalTidakHadir(false);
                                   setEngganTidakHadirPemeriksaan('');
+                                  setTidakHadirPemeriksaan('');
+                                  setConfirmData({
+                                    ...confirmData,
+                                    engganTidakHadirPemeriksaan: '',
+                                    tidakHadirPemeriksaan: '',
+                                  });
                                 }}
-                              />
-                              <label
-                                htmlFor='tidak-kehadiran-pemeriksaan'
-                                className='text-sm peer-checked:ring-2 peer-checked:ring-user2 text-userBlack text-opacity-70 py-2 px-5 bg-admin5 m-3 rounded-md cursor-pointer focus:outline-none peer-checked:border-none'
                               >
                                 Tidak
-                              </label>
-                            </div>
+                              </span>
+                            </div> */}
                           </div>
+                          {tidakHadirPemeriksaan ===
+                          'ya-kehadiran-pemeriksaan' ? (
+                            <p className='mt-2'>
+                              Adakah murid <strong>DIBERI</strong> kebenaran
+                              rawatan daripada ibu bapa/penjaga?
+                            </p>
+                          ) : null}
+                          {tidakHadirPemeriksaan ===
+                          'ya-kehadiran-pemeriksaan' ? (
+                            <div className='grid grid-cols-2 gap-9 justify-center mt-2 px-36'>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='ya-kebenaran-pemeriksaan'
+                                  value='ya-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                    setModalTidakHadir(false);
+                                  }}
+                                />
+                                <label
+                                  htmlFor='ya-kebenaran-pemeriksaan'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'ya-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
+                                >
+                                  Ya
+                                </label>
+                              </div>
+                              <div>
+                                <input
+                                  type='radio'
+                                  name='ya-tidak-kebenaran-pemeriksaan'
+                                  id='tidak-kebenaran-pemeriksaan'
+                                  value='tidak-kebenaran-pemeriksaan'
+                                  className='peer hidden'
+                                  checked={
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? true
+                                      : false
+                                  }
+                                  onChange={(e) => {
+                                    setKebenaranPemeriksaan(e.target.value);
+                                    setConfirmData({
+                                      ...confirmData,
+                                      kebenaranPemeriksaan: e.target.value,
+                                    });
+                                    setModalTidakHadir(false);
+                                  }}
+                                />
+                                <label
+                                  htmlFor='tidak-kebenaran-pemeriksaan'
+                                  className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 hover:bg-user12 hover:bg-opacity-30 ${
+                                    kebenaranPemeriksaan ===
+                                    'tidak-kebenaran-pemeriksaan'
+                                      ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                                      : ''
+                                  }`}
+                                >
+                                  Tidak
+                                </label>
+                              </div>
+                            </div>
+                          ) : null}
                         </div>
                         <div
                           className={`absolute z-10 inset-0 bg-user1 bg-opacity-30 ${
@@ -1739,28 +1843,45 @@ function UserFormSekolahPemeriksaan() {
                             <p className='normal-case'>
                               {kebenaranPemeriksaan ===
                               'ya-kebenaran-pemeriksaan' ? (
-                                <p>
+                                <span>
                                   Enggan pemeriksaan
                                   <span className='text-user7 font-bold mx-1'>
                                     DENGAN
                                   </span>
                                   kebenaran rawatan daripada ibu bapa/penjaga
-                                </p>
+                                </span>
                               ) : (
-                                <p>
+                                <span>
                                   Enggan pemeriksaan
                                   <span className='text-user6 font-bold mx-1'>
                                     TANPA
                                   </span>
                                   kebenaran rawatan daripada ibu bapa/penjaga
-                                </p>
+                                </span>
                               )}
                             </p>
                           ) : null}
                           {tidakHadirPemeriksaan ===
                           'ya-kehadiran-pemeriksaan' ? (
-                            <p>
-                              Murid <strong>TIDAK HADIR</strong> Pemeriksaan
+                            <p className='normal-case'>
+                              {kebenaranPemeriksaan ===
+                              'ya-kebenaran-pemeriksaan' ? (
+                                <span>
+                                  Murid <strong>TIDAK HADIR</strong> pemeriksaan
+                                  <span className='text-user7 font-bold mx-1'>
+                                    DENGAN
+                                  </span>
+                                  kebenaran rawatan daripada ibu bapa/penjaga
+                                </span>
+                              ) : (
+                                <span>
+                                  Murid <strong>TIDAK HADIR</strong> pemeriksaan
+                                  <span className='text-user6 font-bold mx-1'>
+                                    TANPA
+                                  </span>
+                                  kebenaran rawatan daripada ibu bapa/penjaga
+                                </span>
+                              )}
                             </p>
                           ) : null}
                         </p>
@@ -1774,91 +1895,97 @@ function UserFormSekolahPemeriksaan() {
                         <TarikhPemeriksaanSemasa />
                       </div>
                     )}
-                    {allUsedKPBMPB.length > 0 && (
-                      <div className='flex flex-col'>
-                        <div className='flex flex-row items-center pl-5'>
-                          <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
-                            Menggunakan KPB / MPB
-                            <span className='font-semibold text-user6'>*</span>
-                          </p>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='menggunakan-kpb-mpb'
-                            id='ya-menggunakan-kpb-mpb'
-                            value='ya-menggunakan-kpb-mpb'
-                            checked={
-                              menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenggunakanKPBMPB(e.target.value);
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='ya-menggunakan-kpb-mpb'
-                            className='m-2 text-sm font-m'
-                          >
-                            Ya
-                          </label>
-                          <input
-                            disabled={isDisabled}
-                            required
-                            type='radio'
-                            name='menggunakan-kpb-mpb'
-                            id='tidak-menggunakan-kpb-mpb'
-                            value='tidak-menggunakan-kpb-mpb'
-                            checked={
-                              menggunakanKPBMPB === 'tidak-menggunakan-kpb-mpb'
-                                ? true
-                                : false
-                            }
-                            onChange={(e) => {
-                              setMenggunakanKPBMPB(e.target.value);
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='tidak-menggunakan-kpb-mpb'
-                            className='m-2 text-sm font-m'
-                          >
-                            Tidak
-                          </label>
-                        </div>
-                        {menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
-                          <div className='flex flex-row items-center'>
-                            <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
-                              Penggunaan KPB / MPB :
-                            </p>
-                            <select
-                              disabled={isDisabled}
-                              name='penggunaan-kpb-mpb'
-                              id='penggunaan-kpb-mpb'
-                              value={penggunaanKPBMPB}
-                              onChange={(e) => {
-                                setPenggunaanKPBMPB(e.target.value);
-                              }}
-                              className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
-                            >
-                              <option value=''>Pilih Jika Berkenaan</option>
-                              {allUsedKPBMPB.map((kpbmpb) => (
-                                <option value={kpbmpb.nama}>
-                                  {
-                                    dictionaryJenisFasiliti[
-                                      kpbmpb.jenisFasiliti
-                                    ]
-                                  }{' '}
-                                  | {kpbmpb.nama}
-                                </option>
-                              ))}
-                            </select>
+                    {tidakHadirPemeriksaan === 'ya-kehadiran-pemeriksaan' ||
+                    engganPemeriksaan === 'ya-enggan-pemeriksaan'
+                      ? null
+                      : allUsedKPBMPB.length > 0 && (
+                          <div className='flex flex-col'>
+                            <div className='flex flex-row items-center pl-5'>
+                              <p className='flex flex-row items-center font-bold whitespace-nowrap mr-2'>
+                                Menggunakan KPB / MPB
+                                <span className='font-semibold text-user6'>
+                                  *
+                                </span>
+                              </p>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                type='radio'
+                                name='menggunakan-kpb-mpb'
+                                id='ya-menggunakan-kpb-mpb'
+                                value='ya-menggunakan-kpb-mpb'
+                                checked={
+                                  menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setMenggunakanKPBMPB(e.target.value);
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='ya-menggunakan-kpb-mpb'
+                                className='m-2 text-sm font-m'
+                              >
+                                Ya
+                              </label>
+                              <input
+                                disabled={isDisabled}
+                                required
+                                type='radio'
+                                name='menggunakan-kpb-mpb'
+                                id='tidak-menggunakan-kpb-mpb'
+                                value='tidak-menggunakan-kpb-mpb'
+                                checked={
+                                  menggunakanKPBMPB ===
+                                  'tidak-menggunakan-kpb-mpb'
+                                    ? true
+                                    : false
+                                }
+                                onChange={(e) => {
+                                  setMenggunakanKPBMPB(e.target.value);
+                                }}
+                                className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                              />
+                              <label
+                                htmlFor='tidak-menggunakan-kpb-mpb'
+                                className='m-2 text-sm font-m'
+                              >
+                                Tidak
+                              </label>
+                            </div>
+                            {menggunakanKPBMPB === 'ya-menggunakan-kpb-mpb' ? (
+                              <div className='flex flex-row items-center'>
+                                <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
+                                  Penggunaan KPB / MPB :
+                                </p>
+                                <select
+                                  disabled={isDisabled}
+                                  name='penggunaan-kpb-mpb'
+                                  id='penggunaan-kpb-mpb'
+                                  value={penggunaanKPBMPB}
+                                  onChange={(e) => {
+                                    setPenggunaanKPBMPB(e.target.value);
+                                  }}
+                                  className='appearance-none w-44 h-min leading-7 m-3 px-3 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user3 focus:outline-none shadow-md'
+                                >
+                                  <option value=''>Pilih Jika Berkenaan</option>
+                                  {allUsedKPBMPB.map((kpbmpb) => (
+                                    <option value={kpbmpb.nama}>
+                                      {
+                                        dictionaryJenisFasiliti[
+                                          kpbmpb.jenisFasiliti
+                                        ]
+                                      }{' '}
+                                      | {kpbmpb.nama}
+                                    </option>
+                                  ))}
+                                </select>
+                              </div>
+                            ) : null}
                           </div>
-                        ) : null}
-                      </div>
-                    )}
+                        )}
                     {/* <div
                       className={`${
                         engganKedatanganPendaftaran ||
