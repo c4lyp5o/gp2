@@ -1,4 +1,3 @@
-// const User = require('../models/User');
 const Umum = require('../models/Umum');
 const KohortKotak = require('../models/KohortKotak');
 const Fasiliti = require('../models/Fasiliti');
@@ -11,13 +10,23 @@ const {
   getParamsPKAP,
   // getParamsOperatorLain,
 } = require('../controllers/countHelperParams');
+const {
+  pipelineCPPC1Biasa,
+  pipelineCPPC1PraSekolah,
+  pipelineCPPC2Biasa,
+  pipelineCPPC2PraSekolah,
+} = require('../controllers/countHelperPipeline');
 
 const countPPIM03 = async (payload) => {
   const dataKohort = await KohortKotak.aggregate([
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
         ...(payload.klinik !== 'all' && {
           createdByKodFasiliti: payload.klinik,
         }),
@@ -109,8 +118,12 @@ const countPPIM03 = async (payload) => {
   const dataSekolah = await Fasiliti.aggregate([
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
@@ -987,7 +1000,7 @@ const countBEGIN = async (payload) => {
     {
       $match: {
         ...getParamsPGS201(payload),
-        tahunTingkatan: 'TAHUN SATU',
+        tahunTingkatan: 'T1',
         tarikhMelaksanakanBegin: { $ne: '' },
       },
     },
@@ -996,7 +1009,7 @@ const countBEGIN = async (payload) => {
     {
       $match: {
         ...getParamsPGS201(payload),
-        tahunTingkatan: { $ne: 'TAHUN SATU' },
+        tahunTingkatan: { $ne: 'T1' },
         tarikhMelaksanakanBegin: { $ne: '' },
       },
     },
@@ -1302,6 +1315,26 @@ const countBEGIN = async (payload) => {
     );
     throw new Error(error);
   }
+};
+const countCPPC1 = async (payload) => {
+  const dataCPPC1biasa = await Fasiliti.aggregate(pipelineCPPC1Biasa(payload));
+  const dataCPPC1pra = await Fasiliti.aggregate(
+    pipelineCPPC1PraSekolah(payload)
+  );
+
+  dataCPPC1biasa.push(...dataCPPC1pra);
+
+  return dataCPPC1biasa;
+};
+const countCPPC2 = async (payload) => {
+  const dataCPPC2biasa = await Fasiliti.aggregate(pipelineCPPC2Biasa(payload));
+  const dataCPPC2pra = await Fasiliti.aggregate(
+    pipelineCPPC2PraSekolah(payload)
+  );
+
+  dataCPPC2biasa.push(...dataCPPC2pra);
+
+  return dataCPPC2biasa;
 };
 const countDEWASAMUDA = async (payload) => {
   const main_switch = [
@@ -6680,7 +6713,7 @@ const countLiputanOA = async (payload) => {
     $match: {
       ...(negeri !== 'all' && { createdByNegeri: negeri }),
       ...(daerah !== 'all' && { createdByDaerah: daerah }),
-      ...(klinik !== 'all' && { klinik: klinik }),
+      ...(klinik !== 'all' && { createdByKodFasiliti: klinik }),
       kumpulanEtnik: { $in: ['orang asli semenanjung'] },
       kedatangan: 'baru-kedatangan',
       jenisFasiliti: { $ne: 'kp' },
@@ -6719,7 +6752,7 @@ const countLiputanPenan = async (payload) => {
     $match: {
       ...(negeri !== 'all' && { createdByNegeri: negeri }),
       ...(daerah !== 'all' && { createdByDaerah: daerah }),
-      ...(klinik !== 'all' && { klinik: klinik }),
+      ...(klinik !== 'all' && { createdByKodFasiliti: klinik }),
       kumpulanEtnik: { $in: ['penan'] },
       kedatangan: 'baru-kedatangan',
       jenisFasiliti: { $ne: 'kp' },
@@ -20521,6 +20554,8 @@ module.exports = {
   countPPIM04,
   countPPIM05,
   countBEGIN,
+  countCPPC1,
+  countCPPC2,
   countDEWASAMUDA,
   countOAP,
   countLiputanOA,

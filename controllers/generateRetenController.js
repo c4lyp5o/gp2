@@ -133,8 +133,8 @@ exports.startQueue = async function (req, res) {
         res.setHeader('Content-Type', 'application/vnd.ms-excel');
         res.status(200).send(result);
         resolve(result);
-      } catch (err) {
-        reject(err);
+      } catch (error) {
+        reject(error);
       }
     });
   });
@@ -225,8 +225,8 @@ exports.startQueueKp = async function (req, res) {
         res.setHeader('Content-Type', 'application/vnd.ms-excel');
         res.status(200).send(result);
         resolve(result);
-      } catch (err) {
-        reject(err);
+      } catch (error) {
+        reject(error);
       }
     });
   });
@@ -743,10 +743,9 @@ const makePG101A = async (payload) => {
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePG101] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePG101] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -970,9 +969,9 @@ const makePG101C = async (payload) => {
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PG101C] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG101C] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -1150,9 +1149,9 @@ const makePG211A = async (payload) => {
     // read file for returning
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PG211A] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG211A] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -1319,9 +1318,9 @@ const makePG211C = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PG211C] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG211C] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -1826,18 +1825,17 @@ const makePG206 = async (payload) => {
     const newfile = makeFile();
 
     await workbook.xlsx.writeFile(newfile);
-    logger.info(`[generateRetenController] writing file ${newfile}`);
+    logger.info(`[generateRetenController/PG206] writing file ${newfile}`);
     setTimeout(() => {
       fs.unlinkSync(newfile);
-      logger.info(`[generateRetenController] deleting file ${newfile}`);
+      logger.info(`[generateRetenController/PG206] deleting file ${newfile}`);
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PG206] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG206] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -2463,9 +2461,9 @@ const makePG207 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PG207] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG207] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -2665,9 +2663,9 @@ const makePG214 = async (payload) => {
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PG214] Excel making error. Reason: ${err}`
+      `[generateRetenController/PG214] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -2869,9 +2867,9 @@ const makePGPR201 = async (payload) => {
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGPR201] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGPR201] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -3256,9 +3254,9 @@ const makePgPro01 = async (payload) => {
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGPRO01] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGPRO01] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -3458,9 +3456,9 @@ const makePgPro01Combined = async (payload) => {
     // read file
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGPRO01Combined] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGPRO01Combined] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -5089,10 +5087,9 @@ const makePGS201 = async (payload) => {
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGS201] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGS201] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -6302,9 +6299,9 @@ const makePGS203P2 = async (payload) => {
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/PGS203P2] Excel making error. Reason: ${err}`
+      `[generateRetenController/PGS203P2] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -6359,17 +6356,19 @@ const makeMasa = async (payload) => {
 
     // let jumlahRetenSalah = 0;
     // let jumlahReten = 0;
+    let j;
+    let cellNumber;
 
-    let cellNumber = 2;
-
+    cellNumber = 2;
+    j = 0;
     for (let i = 0; i < data[0].opData.length; i++) {
       if (data[0].opData[i]) {
         // jumlahRetenSalah += data[0].opData[i].statusReten;
         // jumlahReten += data[0].opData[i].jumlahReten;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[0].opData[i].jumlahPesakit;
         cellNumber = cellNumber + 3;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[0].opData[i].jumlahPesakitYangDipanggilSebelum30Minit;
         cellNumber = cellNumber + 3;
         // worksheet.getRow(i + 15).getCell(cellNumber).value = (
@@ -6379,23 +6378,30 @@ const makeMasa = async (payload) => {
       }
       // jumlahReten = 0;
       // jumlahRetenSalah = 0;
+      j++;
       if (i === 5) {
-        i += 2;
+        j++;
       }
       cellNumber = 2;
     }
 
     cellNumber = 3;
-
+    j = 0;
     for (let i = 0; i < data[1].temujanjiData.length; i++) {
       if (data[1].temujanjiData[i]) {
         // jumlahRetenSalah += data[1].temujanjiData[i].statusReten;
         // jumlahReten += data[1].temujanjiData[i].jumlahReten;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[1].temujanjiData[i].jumlahPesakit;
         cellNumber = cellNumber + 3;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[1].temujanjiData[i].jumlahPesakitYangDipanggilSebelum30Minit;
+        cellNumber = cellNumber + 2;
+        worksheet
+          .getRow(j + 15)
+          .getCell(
+            cellNumber
+          ).value = `${data[1].temujanjiData[i].jumlahPesakitYangDipanggilLebih30Minit} pesakit dikeluarkan kerana lewat`;
         // cellNumber = cellNumber + 3;
         // worksheet.getRow(j + 15).getCell(cellNumber).value = (
         //   (jumlahRetenSalah / jumlahReten) *
@@ -6404,8 +6410,9 @@ const makeMasa = async (payload) => {
       }
       // jumlahReten = 0;
       // jumlahRetenSalah = 0;
+      j++;
       if (i === 5) {
-        i += 2;
+        j++;
       }
       cellNumber = 3;
     }
@@ -6457,9 +6464,9 @@ const makeMasa = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/MASA] Excel making error. Reason: ${err}`
+      `[generateRetenController/MASA] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -6866,9 +6873,9 @@ const makeBp = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/BP] Excel making error. Reason: ${err}`
+      `[generateRetenController/BP] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -7033,9 +7040,9 @@ const makeBPE = async (payload) => {
     }, 1000);
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/BPE] Excel making error. Reason: ${err}`
+      `[generateRetenController/BPE] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -7243,9 +7250,9 @@ const makeGender = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/GENDER] Excel making error. Reason: ${err}`
+      `[generateRetenController/GENDER] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -7392,9 +7399,9 @@ const makeKEPP = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/KEPP] Excel making error. Reason: ${err}`
+      `[generateRetenController/KEPP] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -7610,9 +7617,9 @@ const makeTOD = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/TOD] Excel making error. Reason: ${err}`
+      `[generateRetenController/TOD] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -7769,9 +7776,283 @@ const makeBEGIN = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/BEGIN] Excel making error. Reason: ${err}`
+      `[generateRetenController/BEGIN] Excel making error. Reason: ${error}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeCPPC1 = async (payload) => {
+  logger.info('[generateRetenController/makeCPPC1] makeCPPC1');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    pilihanSekolah,
+    fromEtl,
+    jenisReten,
+  } = payload;
+
+  try {
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countCPPC1(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'CPPC 1.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('CPPC 1');
+    //
+    switch (true) {
+      case negeri !== 'all' && negeri !== '-':
+        worksheet.getCell('E4').value = negeri;
+        break;
+      case daerah !== 'all' && daerah !== '-':
+        worksheet.getCell('E4').value = daerah;
+        break;
+      case klinik:
+        worksheet.getCell('E4').value = klinik;
+        break;
+      case pilihanSekolah:
+        worksheet.getCell('E4').value = pilihanSekolah;
+      default:
+        break;
+    }
+    //
+    worksheet.getCell('E5').value = moment(new Date()).format('YYYY');
+    //
+    const colNumbers = {
+      5: 'E',
+      6: 'F',
+      D1: 'G',
+      T1: 'G',
+      D2: 'H',
+      T2: 'H',
+      D3: 'I',
+      T3: 'I',
+      D4: 'J',
+      T4: 'J',
+      D5: 'K',
+      T5: 'K',
+      D6: 'L',
+      P: 'M',
+      KHAS: 'N',
+      KHAM: 'N',
+    };
+
+    for (let i = 0; i < data.length; i++) {
+      const {
+        _id,
+        totalStudents,
+        totalStudentFsNeed,
+        totalTeethFsNeed,
+        totalStudentFsRendered,
+        totalTeethFsRendered,
+        totalStudentPrrNeed,
+        totalTeethPrrNeed,
+        totalStudentPrrRendered,
+        totalTeethPrrRendered,
+        totalStudentFvNeed,
+        totalTeethFvNeed,
+        totalStudentFvRendered,
+        totalTeethFvRendered,
+        totalCariesFreeStatus,
+        totalDMFX,
+      } = data[i];
+      const cellNumber = 9;
+      const colNumber = colNumbers[_id];
+      const worksheetCells = [
+        { cell: `${colNumber}${cellNumber}`, value: totalStudents },
+        { cell: `${colNumber}${cellNumber + 1}`, value: totalStudentFsNeed },
+        { cell: `${colNumber}${cellNumber + 2}`, value: totalTeethFsNeed },
+        {
+          cell: `${colNumber}${cellNumber + 4}`,
+          value: totalStudentFsRendered,
+        },
+        { cell: `${colNumber}${cellNumber + 6}`, value: totalTeethFsRendered },
+        { cell: `${colNumber}${cellNumber + 8}`, value: totalStudentPrrNeed },
+        { cell: `${colNumber}${cellNumber + 9}`, value: totalTeethPrrNeed },
+        {
+          cell: `${colNumber}${cellNumber + 11}`,
+          value: totalStudentPrrRendered,
+        },
+        {
+          cell: `${colNumber}${cellNumber + 13}`,
+          value: totalTeethPrrRendered,
+        },
+        { cell: `${colNumber}${cellNumber + 15}`, value: totalStudentFvNeed },
+        { cell: `${colNumber}${cellNumber + 16}`, value: totalTeethFvNeed },
+        {
+          cell: `${colNumber}${cellNumber + 18}`,
+          value: totalStudentFvRendered,
+        },
+        { cell: `${colNumber}${cellNumber + 20}`, value: totalTeethFvRendered },
+        {
+          cell: `${colNumber}${cellNumber + 22}`,
+          value: totalCariesFreeStatus,
+        },
+        { cell: `${colNumber}${cellNumber + 24}`, value: totalDMFX },
+      ];
+      worksheetCells.forEach(({ cell, value }) => {
+        const cellValue = worksheet.getCell(cell).value || 0;
+        worksheet.getCell(cell).value = cellValue + value;
+      });
+    }
+    //
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(`[generateRetenController/makeCPPC1] writing file ${newfile}`);
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeCPPC1] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+
+    return file;
+  } catch (error) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeCPPC1] Excel making error. Reason: ${error}`
+    );
+    excelMakerError(jenisReten);
+  }
+};
+const makeCPPC2 = async (payload) => {
+  logger.info('[generateRetenController/makeCPPC2] makeCPPC2');
+  let {
+    klinik,
+    daerah,
+    negeri,
+    tarikhMula,
+    tarikhAkhir,
+    bulan,
+    username,
+    pilihanSekolah,
+    fromEtl,
+    jenisReten,
+  } = payload;
+
+  try {
+    let data;
+    switch (fromEtl) {
+      case 'true':
+        const query = createQuery(payload);
+        data = await Reservoir.find(query).sort({ createdAt: -1 });
+        break;
+      default:
+        data = await Helper.countCPPC2(payload);
+        break;
+    }
+    //
+    if (data.length === 0) {
+      return 'No data found';
+    }
+    //
+    let filename = path.join(
+      __dirname,
+      '..',
+      'public',
+      'exports',
+      'CPPC 2.xlsx'
+    );
+    //
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(filename);
+    let worksheet = workbook.getWorksheet('CPPC 2');
+    //
+    switch (true) {
+      case negeri:
+        worksheet.getCell('E4').value = negeri;
+        break;
+      case daerah:
+        worksheet.getCell('E4').value = daerah;
+        break;
+      case klinik:
+        worksheet.getCell('E4').value = klinik;
+        break;
+      case pilihanSekolah:
+        worksheet.getCell('E4').value = pilihanSekolah;
+        break;
+      default:
+        break;
+    }
+    worksheet.getCell('E5').value = moment(new Date()).format('YYYY');
+    //
+    const rowNumbers = {
+      5: 11,
+      6: 12,
+      D1: 13,
+      T1: 13,
+      D2: 14,
+      T2: 14,
+      D3: 15,
+      T3: 15,
+      D4: 16,
+      T4: 16,
+      D5: 17,
+      T5: 17,
+      D6: 18,
+      P: 19,
+      KHAS: 20,
+      KHAM: 20,
+    };
+
+    for (let i = 0; i < data.length; i++) {
+      const {
+        _id,
+        noOfDandF,
+        noOfTeethWithDandFAllClass,
+        noOfTeethWithDandFClassI,
+      } = data[i];
+
+      const rowNumber = rowNumbers[_id];
+      const row = worksheet.getRow(rowNumber);
+      row.getCell(2).value += noOfDandF;
+      row.getCell(3).value += noOfTeethWithDandFAllClass;
+      row.getCell(5).value += noOfTeethWithDandFClassI;
+    }
+    //
+    const newfile = makeFile();
+
+    await workbook.xlsx.writeFile(newfile);
+    logger.info(`[generateRetenController/makeCPPC2] writing file ${newfile}`);
+    setTimeout(() => {
+      fs.unlinkSync(newfile);
+      logger.info(
+        `[generateRetenController/makeCPPC2] deleting file ${newfile}`
+      );
+    }, 1000);
+    const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
+
+    return file;
+  } catch (error) {
+    penjanaanRetenLogger.error(
+      `[generateRetenController/makeCPPC2] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -8179,9 +8460,9 @@ const makePPIM03 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePPIM03] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePPIM03] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -8338,10 +8619,9 @@ const makePPIM04 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePPIM04] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePPIM04] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -8608,9 +8888,9 @@ const makePPIM05 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePPIM05] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePPIM05] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -9058,10 +9338,9 @@ const makeDEWASAMUDA = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeDEWASAMUDA] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeDEWASAMUDA] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -9299,9 +9578,9 @@ const makeOAP = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeOAP] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeOAP] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -9450,9 +9729,9 @@ const makeLiputanOA = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeLiputanOA] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeLiputanOA] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -9552,9 +9831,9 @@ const makeLiputanPenan = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeLiputanPenan] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeLiputanPenan] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -9717,9 +9996,9 @@ const makeKPBMPBHarian = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeKPBMPB] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeKPBMPB] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -9880,9 +10159,9 @@ const makeKPBMPBBulanan = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeKPBMPB] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeKPBMPB] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -10120,10 +10399,9 @@ const makeKOM = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeKOM] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeKOM] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -10358,9 +10636,9 @@ const makePPR = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePPR] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePPR] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -10615,10 +10893,9 @@ const makeUTCRTC = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
-    console.log(err);
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makeUTCRTC] Excel making error. Reason: ${err}`
+      `[generateRetenController/makeUTCRTC] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -10859,9 +11136,9 @@ const makePPKPS = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePPKPS] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePPKPS] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -10984,9 +11261,9 @@ const makePKAP1 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePKAP1] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePKAP1] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -11229,9 +11506,9 @@ const makePKAP2 = async (payload) => {
     const file = fs.readFileSync(path.resolve(process.cwd(), newfile));
 
     return file;
-  } catch (err) {
+  } catch (error) {
     penjanaanRetenLogger.error(
-      `[generateRetenController/makePKAP2] Excel making error. Reason: ${err}`
+      `[generateRetenController/makePKAP2] Excel making error. Reason: ${error}`
     );
     excelMakerError(jenisReten);
   }
@@ -11410,6 +11687,8 @@ const mapsOfSeveralRetens = new Map([
   ['KEPP', makeKEPP],
   // new
   ['BEGIN', makeBEGIN],
+  ['CPPC1', makeCPPC1],
+  ['CPPC2', makeCPPC2],
   ['PPIM03', makePPIM03],
   ['PPIM04', makePPIM04],
   ['PPIM05', makePPIM05],

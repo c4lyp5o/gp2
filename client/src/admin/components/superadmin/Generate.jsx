@@ -26,9 +26,13 @@ const ModalGenerateAdHoc = (props) => {
   const pilihanRetenAdaProgramDanKPBMPB = ['PG101C', 'PG211C'].includes(
     props.jenisReten
   );
-  const pilihanRetenTasTadSekolah = ['PGS201', 'BEGIN', 'PPIM03'].includes(
-    props.jenisReten
-  );
+  const pilihanRetenTasTadSekolah = [
+    'PGS201',
+    'BEGIN',
+    'CPPC1',
+    'CPPC2',
+    'PPIM03',
+  ].includes(props.jenisReten);
   const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
     props.jenisReten
   );
@@ -272,8 +276,6 @@ const ModalGenerateAdHoc = (props) => {
 
   // fetch kpb atau rtc
   useEffect(() => {
-    // console.log(pilihanRetenAdaKPBSahaja ? 'ada kpb sahaja' : 'ada rtc sahaja');
-
     if (
       (pilihanRetenAdaKPBSahaja || pilihanRetenRTC) &&
       (loginInfo.accountType === 'hqSuperadmin' ||
@@ -317,11 +319,122 @@ const ModalGenerateAdHoc = (props) => {
             <div className='mb-3'>
               <div className='admin-pegawai-handler-container'>
                 {pilihanRetenMASA && (
-                  <div className='grid grid-row-2 gap-2 p-2 normal-case'>
-                    Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
-                    PENUH, maklumat yang akan dijana adalah yang terbaru
-                    sehingga yang diisi sekarang
-                  </div>
+                  <>
+                    <div className='grid grid-row-2 gap-2 p-2 normal-case'>
+                      Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
+                      PENUH, maklumat yang akan dijana adalah yang terbaru
+                      sehingga yang diisi sekarang
+                    </div>
+                    <div className='mb-3'>
+                      <div className='grid gap-1'>
+                        {loginInfo.accountType === 'hqSuperadmin' ? (
+                          <div className='px-3 py-1'>
+                            <label
+                              htmlFor='negeri'
+                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                            >
+                              Negeri:
+                            </label>
+                            <select
+                              required
+                              name='negeri'
+                              id='negeri'
+                              value={props.pilihanNegeri}
+                              onChange={(e) => props.handlePilihNegeri(e)}
+                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                            >
+                              <option value=''>Sila pilih..</option>
+                              <option value='all'>Semua Negeri</option>
+                              {props.negeri.map((n, index) => {
+                                return (
+                                  <option
+                                    value={n.username}
+                                    key={index}
+                                    className='capitalize'
+                                  >
+                                    {n.negeri}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        ) : null}
+                        {loginInfo.accountType === 'negeriSuperadmin' ||
+                        (props.pilihanNegeri !== '' &&
+                          props.pilihanNegeri !== 'all') ? (
+                          <div className='px-3 py-1'>
+                            <label
+                              htmlFor='daerah'
+                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                            >
+                              Daerah:
+                            </label>
+                            <select
+                              required
+                              name='daerah'
+                              id='daerah'
+                              value={props.pilihanDaerah}
+                              onChange={(e) => props.handlePilihDaerah(e)}
+                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
+                            >
+                              <option value=''>Sila pilih..</option>
+                              <option value='all'>
+                                Semua daerah (Jana Negeri)
+                              </option>
+                              {props.daerah.map((d, index) => {
+                                return (
+                                  <option
+                                    value={d.daerah}
+                                    key={index}
+                                    className='capitalize'
+                                  >
+                                    {d.daerah}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        ) : null}
+                        {loginInfo.accountType === 'daerahSuperadmin' ||
+                        (props.pilihanDaerah !== '' &&
+                          props.pilihanDaerah !== 'all') ? (
+                          <div className='px-3 py-1'>
+                            <label
+                              htmlFor='klinik'
+                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                            >
+                              Klinik:
+                            </label>
+                            <select
+                              required
+                              name='klinik'
+                              id='klinik'
+                              value={props.pilihanKlinik}
+                              onChange={(e) => props.handlePilihKlinik(e)}
+                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                            >
+                              <option value=''>Sila pilih..</option>
+                              <option value='all'>
+                                Semua klinik (Jana Daerah)
+                              </option>
+                              {props.klinik.map((k, index) => {
+                                return (
+                                  <option
+                                    key={index}
+                                    data-key={k.kp}
+                                    value={k.kodFasiliti}
+                                    className='capitalize'
+                                  >
+                                    {k.kp}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </>
                 )}
                 {pilihanRetenRTC && (
                   <>
