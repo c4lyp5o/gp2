@@ -1838,6 +1838,9 @@ const getData = async (req, res) => {
             }
           }
           if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
+            if (theType === 'sekolah-rendah') {
+              Data.sekolahMmi = 'ya-sekolah-mmi'
+            }
             Data = {
               ...Data,
               jenisFasiliti: theType,
