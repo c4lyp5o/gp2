@@ -26,9 +26,13 @@ const ModalGenerateAdHoc = (props) => {
   const pilihanRetenAdaProgramDanKPBMPB = ['PG101C', 'PG211C'].includes(
     props.jenisReten
   );
-  const pilihanRetenTasTadSekolah = ['PGS201', 'BEGIN', 'PPIM03'].includes(
-    props.jenisReten
-  );
+  const pilihanRetenTasTadSekolah = [
+    'PGS201',
+    'BEGIN',
+    'CPPC1',
+    'CPPC2',
+    'PPIM03',
+  ].includes(props.jenisReten);
   const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
     props.jenisReten
   );

@@ -14223,7 +14223,7 @@ const countMasa = async (payload) => {
     $match: {
       tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-02-01`,
-        $lte: `${new Date().getFullYear()}-02-28`,
+        $lte: `${new Date().getFullYear()}-02-29`,
       },
       temujanji: false,
     },
@@ -14347,7 +14347,7 @@ const countMasa = async (payload) => {
     $match: {
       tarikhKedatangan: {
         $gte: `${new Date().getFullYear()}-02-01`,
-        $lte: `${new Date().getFullYear()}-02-28`,
+        $lte: `${new Date().getFullYear()}-02-29`,
       },
       temujanji: true,
     },
