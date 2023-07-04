@@ -862,6 +862,7 @@ const getDataKpRoute = async (req, res) => {
       })
         .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
         .lean();
+      break;
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: username,
