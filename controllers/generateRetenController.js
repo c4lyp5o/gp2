@@ -6356,17 +6356,19 @@ const makeMasa = async (payload) => {
 
     // let jumlahRetenSalah = 0;
     // let jumlahReten = 0;
+    let j;
+    let cellNumber;
 
-    let cellNumber = 2;
-
+    cellNumber = 2;
+    j = 0;
     for (let i = 0; i < data[0].opData.length; i++) {
       if (data[0].opData[i]) {
         // jumlahRetenSalah += data[0].opData[i].statusReten;
         // jumlahReten += data[0].opData[i].jumlahReten;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[0].opData[i].jumlahPesakit;
         cellNumber = cellNumber + 3;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[0].opData[i].jumlahPesakitYangDipanggilSebelum30Minit;
         cellNumber = cellNumber + 3;
         // worksheet.getRow(i + 15).getCell(cellNumber).value = (
@@ -6376,23 +6378,30 @@ const makeMasa = async (payload) => {
       }
       // jumlahReten = 0;
       // jumlahRetenSalah = 0;
+      j++;
       if (i === 5) {
-        i += 2;
+        j++;
       }
       cellNumber = 2;
     }
 
     cellNumber = 3;
-
+    j = 0;
     for (let i = 0; i < data[1].temujanjiData.length; i++) {
       if (data[1].temujanjiData[i]) {
         // jumlahRetenSalah += data[1].temujanjiData[i].statusReten;
         // jumlahReten += data[1].temujanjiData[i].jumlahReten;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[1].temujanjiData[i].jumlahPesakit;
         cellNumber = cellNumber + 3;
-        worksheet.getRow(i + 15).getCell(cellNumber).value =
+        worksheet.getRow(j + 15).getCell(cellNumber).value =
           data[1].temujanjiData[i].jumlahPesakitYangDipanggilSebelum30Minit;
+        cellNumber = cellNumber + 2;
+        worksheet
+          .getRow(j + 15)
+          .getCell(
+            cellNumber
+          ).value = `${data[1].temujanjiData[i].jumlahPesakitYangDipanggilLebih30Minit} pesakit dikeluarkan kerana lewat`;
         // cellNumber = cellNumber + 3;
         // worksheet.getRow(j + 15).getCell(cellNumber).value = (
         //   (jumlahRetenSalah / jumlahReten) *
@@ -6401,8 +6410,9 @@ const makeMasa = async (payload) => {
       }
       // jumlahReten = 0;
       // jumlahRetenSalah = 0;
+      j++;
       if (i === 5) {
-        i += 2;
+        j++;
       }
       cellNumber = 3;
     }
