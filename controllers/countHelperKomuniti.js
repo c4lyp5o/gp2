@@ -21,8 +21,12 @@ const countPPIM03 = async (payload) => {
   const dataKohort = await KohortKotak.aggregate([
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
         ...(payload.klinik !== 'all' && {
           createdByKodFasiliti: payload.klinik,
         }),
@@ -114,8 +118,12 @@ const countPPIM03 = async (payload) => {
   const dataSekolah = await Fasiliti.aggregate([
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
@@ -992,7 +1000,7 @@ const countBEGIN = async (payload) => {
     {
       $match: {
         ...getParamsPGS201(payload),
-        tahunTingkatan: 'TAHUN SATU',
+        tahunTingkatan: 'T1',
         tarikhMelaksanakanBegin: { $ne: '' },
       },
     },
@@ -1001,7 +1009,7 @@ const countBEGIN = async (payload) => {
     {
       $match: {
         ...getParamsPGS201(payload),
-        tahunTingkatan: { $ne: 'TAHUN SATU' },
+        tahunTingkatan: { $ne: 'T1' },
         tarikhMelaksanakanBegin: { $ne: '' },
       },
     },
@@ -6705,7 +6713,7 @@ const countLiputanOA = async (payload) => {
     $match: {
       ...(negeri !== 'all' && { createdByNegeri: negeri }),
       ...(daerah !== 'all' && { createdByDaerah: daerah }),
-      ...(klinik !== 'all' && { klinik: klinik }),
+      ...(klinik !== 'all' && { createdByKodFasiliti: klinik }),
       kumpulanEtnik: { $in: ['orang asli semenanjung'] },
       kedatangan: 'baru-kedatangan',
       jenisFasiliti: { $ne: 'kp' },
@@ -6744,7 +6752,7 @@ const countLiputanPenan = async (payload) => {
     $match: {
       ...(negeri !== 'all' && { createdByNegeri: negeri }),
       ...(daerah !== 'all' && { createdByDaerah: daerah }),
-      ...(klinik !== 'all' && { klinik: klinik }),
+      ...(klinik !== 'all' && { createdByKodFasiliti: klinik }),
       kumpulanEtnik: { $in: ['penan'] },
       kedatangan: 'baru-kedatangan',
       jenisFasiliti: { $ne: 'kp' },
