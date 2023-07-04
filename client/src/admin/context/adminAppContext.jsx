@@ -539,7 +539,7 @@ function AdminAppProvider({ children }) {
       );
       return response;
     } catch (err) {
-      return toast.error('Tiada Data Tadika Ditemui');
+      return toast.error('Tiada tadika ditemui');
     }
   };
   const readSpesifikJanaSekolahRendahData = async (kp) => {
@@ -555,7 +555,7 @@ function AdminAppProvider({ children }) {
       return response;
     } catch (err) {
       return toast.error(
-        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+        'Tiada sekolah ditemui atau sekolah masih menjalankan pemeriksaan atau rawatan'
       );
     }
   };
@@ -572,7 +572,7 @@ function AdminAppProvider({ children }) {
       return response;
     } catch (err) {
       return toast.error(
-        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+        'Tiada sekolah ditemui atau sekolah masih menjalankan pemeriksaan atau rawatan'
       );
     }
   };

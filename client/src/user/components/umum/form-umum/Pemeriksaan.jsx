@@ -496,6 +496,7 @@ export default function Pemeriksaan(props) {
                         }
                         onChange={(e) => {
                           props.setMenggunakanKPBMPB(e.target.value);
+                          props.setPenggunaanKPBMPB('');
                         }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
@@ -520,6 +521,7 @@ export default function Pemeriksaan(props) {
                         }
                         onChange={(e) => {
                           props.setMenggunakanKPBMPB(e.target.value);
+                          props.setPenggunaanKPBMPB('');
                         }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
