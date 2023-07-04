@@ -599,6 +599,7 @@ const getDataRoute = async (req, res) => {
       })
         .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
         .lean();
+      break;
     case 'program-gtod':
       console.log('masuk gtod', type);
       data = await AgensiLuar.find({
@@ -1839,7 +1840,7 @@ const getData = async (req, res) => {
           }
           if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
             if (theType === 'sekolah-rendah') {
-              Data.sekolahMmi = 'ya-sekolah-mmi'
+              Data.sekolahMmi = 'ya-sekolah-mmi';
             }
             Data = {
               ...Data,
