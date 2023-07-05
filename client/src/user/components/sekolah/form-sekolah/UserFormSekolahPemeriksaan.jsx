@@ -227,8 +227,7 @@ function UserFormSekolahPemeriksaan() {
   const TarikhPemeriksaanSemasa = () => {
     let isDisabled = false;
     if (
-      singlePersonSekolah.statusRawatan === 'selesai' ||
-      singlePersonSekolah.statusRawatan === 'belum selesai'
+      singlePersonSekolah.statusRawatan !== 'belum mula'
     ) {
       isDisabled = true;
     }
