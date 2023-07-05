@@ -149,19 +149,26 @@ const ModalGenerateAdHoc = (props) => {
 
   const penjanaanReten = async () => {
     try {
+      // ubat pening
+      const daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
+        props.jenisReten
+      )
+        ? props.jenisFasiliti === 'semua'
+          ? 'all'
+          : loginInfo.daerah
+        : loginInfo.accountType === 'daerahSuperadmin'
+        ? loginInfo.daerah
+        : props.pilihanDaerah;
+      //
       const url = `/api/v1/generate/download?jenisReten=${
         props.jenisReten
       }&negeri=${
         loginInfo.accountType === 'hqSuperadmin'
           ? Dictionary[props.pilihanNegeri]
           : loginInfo.negeri
-      }&daerah=${
-        props.jenisFasiliti === 'semua'
-          ? loginInfo.daerah
-          : props.pilihanDaerah === ''
-          ? 'all'
-          : props.pilihanDaerah
-      }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
+      }&daerah=${daerah}&klinik=${
+        props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
+      }${
         props.pilihanFasiliti === 'program'
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
           : ''
