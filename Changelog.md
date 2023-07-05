@@ -1,6 +1,6 @@
 # Changelog
 
-### 3/7/2023 (v2.1.3)
+### 5/7/2023 (v2.1.3)
 
 #### Added
 
@@ -10,6 +10,7 @@
 - Penambahan pilihan Tadika/Sekolah Rendah/Sekolah Menengah untuk reten PGS201, BEGIN, PPIM03.
 - Penambahan sub-program dalam reten KOM
 - Bagi Taska dan Tadika, jumlah enrolmen kini boleh dimasukkan bagi kategori 4 tahun,5 tahun,6 tahun,murid berkeperluan khas dan Orang Asli/Penan.Boleh didapati di Modul Pentadbir Pentadbir Klinik
+- Penambahan fungsi sekolah MMI di Modul Pentadbir Daerah
 
 #### Changed
 
@@ -17,7 +18,7 @@
 
 #### Fixed
 
-- Memperkemas dan membaikpulih reten PGS203,PGS201,PPIM03,PG207,PKAP,PPR
+- Memperkemas dan membaikpulih reten PGS203,PGS201,PPIM03,PG207,PKAP,PPR,PIAGAM MASA
 - Beban tugas di sekolah turut dimasukkan ke dalam reten PG206 & PG207
 - Pembetulan bagi senarai nama pelajar yang dimuat turun di senari sekolah ; Penambahan 'Tiada Maklumat' bagi pelajar yang tiada maklumat warganegara.
 - Fungsi memilih SM (space maintenance) hanya untuk pelajar-pelajar Darjah 4,5 dan 6 sahaja.
