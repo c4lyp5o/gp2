@@ -489,14 +489,6 @@ function UserFormSekolahPemeriksaan() {
   // }, [yaTidakPesakitMempunyaiGigi]);
 
   useEffect(() => {
-    if (melaksanakanSaringanMerokok === 'tidak-melaksanakan-saringan-merokok') {
-      setStatusM('');
-      setMenerimaNasihatRingkas('');
-      setBersediaDirujuk('');
-    }
-  }, [melaksanakanSaringanMerokok]);
-
-  useEffect(() => {
     if (statusPeriodontium === 'gis-status-periodontium') {
       setSkorBpeOralHygiene('');
     } else if (statusPeriodontium === 'bpe-status-periodontium') {
@@ -4574,6 +4566,9 @@ function UserFormSekolahPemeriksaan() {
                                 ...confirmData,
                                 melaksanakanSaringanMerokok: e.target.value,
                               });
+                              setStatusM('');
+                              setMenerimaNasihatRingkas('');
+                              setBersediaDirujuk('');
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4602,6 +4597,9 @@ function UserFormSekolahPemeriksaan() {
                                 ...confirmData,
                                 melaksanakanSaringanMerokok: e.target.value,
                               });
+                              setStatusM('');
+                              setMenerimaNasihatRingkas('');
+                              setBersediaDirujuk('');
                             }}
                             className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
                           />
@@ -4634,6 +4632,7 @@ function UserFormSekolahPemeriksaan() {
                                 ...confirmData,
                                 statusM: e.target.value,
                               });
+                              setBersediaDirujuk('');
                             }}
                             className='appearance-none w-36 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none drop-shadow-lg'
                           >
@@ -4781,40 +4780,8 @@ function UserFormSekolahPemeriksaan() {
                           </div>
                         </div>
                       )}
-                      {/* {bersediaDirujuk === 'ya-bersedia-dirujuk' && (
-                        <div className='col-span-2 grid grid-cols-[3fr_2fr]'>
-                          <p className='flex items-center text-sm'>
-                            nombor telefon yang boleh dihubungi
-                            <span className='text-user6'>*</span>
-                          </p>
-                          <div className='flex items-center'>
-                            <input
-                              disabled={isDisabled}
-                              required
-                              type='text'
-                              pattern='[0-9]+'
-                              title='Nombor telefon'
-                              name='no-tel-murid-kotak'
-                              id='no-tel-murid-kotak'
-                              value={noTelMuridKotak}
-                              onChange={(e) => {
-                                setNoTelMuridKotak(e.target.value);
-                                setConfirmData({
-                                  ...confirmData,
-                                  noTelMuridKotak: e.target.value,
-                                });
-                              }}
-                              className='w-40 h-10 border border-userBlack rounded-md pl-2'
-                              placeholder='0123456678'
-                            />
-                          </div>
-                        </div>
-                      )} */}
                     </article>
                     <article className='grid grid-cols-2 gap-2 border border-userBlack pl-3 p-2 rounded-md auto-rows-min'>
-                      {/* <h4 className='font-bold col-span-2 flex pl-5'>
-                        Kes Selesai
-                      </h4> */}
                       <div className='pl-5 col-span-2 grid grid-cols-2 lg:grid-cols-[1fr_3fr]'>
                         <p className='font-bold text-lg mr-2 flex items-center'>
                           Kes Selesai
