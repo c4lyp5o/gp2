@@ -73,8 +73,8 @@ function UserSekolah() {
 
   //multiple select
   const [selectedOptions, setSelectedOptions] = useState([]);
-  const [showOptions, setShowOptions] = useState(false);
-  let statusRawatanRef = useRef();
+  // const [showOptions, setShowOptions] = useState(false);
+  // let statusRawatanRef = useRef();
 
   const [reloadState, setReloadState] = useState(false);
 
@@ -95,17 +95,17 @@ function UserSekolah() {
     });
   };
 
-  useEffect(() => {
-    let tutupStatusRawatan = (e) => {
-      if (!statusRawatanRef.current.contains(e.target)) {
-        setShowOptions(false);
-      }
-    };
-    document.addEventListener('mousedown', tutupStatusRawatan);
-    return () => {
-      document.removeEventListener('mousedown', tutupStatusRawatan);
-    };
-  });
+  // useEffect(() => {
+  //   let tutupStatusRawatan = (e) => {
+  //     if (!statusRawatanRef.current.contains(e.target)) {
+  //       setShowOptions(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', tutupStatusRawatan);
+  //   return () => {
+  //     document.removeEventListener('mousedown', tutupStatusRawatan);
+  //   };
+  // });
 
   // Options Multi Select
   const optionsFiltered = [
@@ -533,7 +533,7 @@ function UserSekolah() {
               </div>
               <div
                 className='grid grid-cols-[1fr_3fr] pb-1 row-span-2'
-                ref={statusRawatanRef}
+                // ref={statusRawatanRef}
               >
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end  mr-2'>
                   Status Murid:
@@ -576,7 +576,7 @@ function UserSekolah() {
                             } else {
                               setSelectedOptions((prevSelectedOptions) =>
                                 prevSelectedOptions.filter(
-                                  (option) => option !== value
+                                  (valueOption) => valueOption !== value
                                 )
                               );
                             }
