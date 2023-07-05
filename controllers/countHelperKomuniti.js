@@ -8933,6 +8933,9 @@ const countKOM = async (payload) => {
     $group: {
       _id: placeModifier(payload),
       // dibuat rawatan
+      jumlahPesakit: {
+        $sum: 1
+      },
       sapuanFluorida: {
         //fvMuridB
         $sum: {
