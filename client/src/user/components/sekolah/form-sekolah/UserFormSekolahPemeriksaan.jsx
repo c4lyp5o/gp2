@@ -4644,9 +4644,9 @@ function UserFormSekolahPemeriksaan() {
                             <option value='bekas-perokok'>Bekas Perokok</option>
                             <option value='perokok-pasif'>Perokok Pasif</option>
                             <option value='bukan-perokok'>Bukan Perokok</option>
-                            <option value='dalam-intervensi'>
+                            {/* <option value='dalam-intervensi'>
                               Dalam Intervensi
-                            </option>
+                            </option> */}
                           </select>
                         </div>
                       )}
