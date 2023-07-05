@@ -16381,7 +16381,7 @@ const countTOD = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '0'],
+                    $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'A'],
                   },
                   {
                     $eq: [
@@ -16402,7 +16402,7 @@ const countTOD = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '1'],
+                    $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'C'],
                   },
                   {
                     $eq: [
@@ -16423,7 +16423,7 @@ const countTOD = async (payload) => {
               {
                 $and: [
                   {
-                    $eq: ['$skorGisMulutOralHygienePemeriksaanUmum', '2'],
+                    $eq: ['$kebersihanMulutOralHygienePemeriksaanUmum', 'E'],
                   },
                   {
                     $eq: [
@@ -17062,17 +17062,148 @@ const countTOD = async (payload) => {
     },
   ];
 
+  // oplain
+  const group_oplain = [
+    {
+      $group: {
+        _id: '$jenisFasiliti',
+        // dibuat rawatan
+        perluSapuanFluoridaBu: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: [
+                      '$fvPerluSapuanPemeriksaanUmum',
+                      'ya-fv-perlu-sapuan-pemeriksaan-umum',
+                    ],
+                  },
+                  {
+                    $eq: ['$kedatangan', 'ulangan-kedatangan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        sudahSapuanFluoridaBu: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$pesakitDibuatFluorideVarnish', true],
+                  },
+                  {
+                    $eq: ['$kedatangan', 'ulangan-kedatangan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahTampalanAnteriorBaru: {
+          $sum: {
+            $toInt: '$gdBaruAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          },
+        },
+        jumlahTampalanPosteriorBaru: {
+          $sum: {
+            $add: [
+              {
+                $toInt:
+                  '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              },
+              {
+                $toInt:
+                  '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              },
+            ],
+          },
+        },
+        jumlahTampalanAnteriorBu: {
+          $sum: {
+            $toInt: '$gdSemulaAnteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+          },
+        },
+        jumlahTampalanPosteriorBu: {
+          $sum: {
+            $add: [
+              {
+                $toInt:
+                  '$gdSemulaPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              },
+              {
+                $toInt:
+                  '$gdSemulaPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              },
+            ],
+          },
+        },
+        jumlahCabutan: {
+          $sum: { $toInt: '$cabutDesidusRawatanUmum' },
+        },
+        jumlahAbses: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $eq: ['$yaTidakAbsesPembedahanRawatanUmum', true],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        jumlahPulpotomi: {
+          $sum: {
+            $add: [
+              { $toInt: '$jumlahAnteriorKesEndodontikSelesaiRawatanUmum' },
+              { $toInt: '$jumlahPremolarKesEndodontikSelesaiRawatanUmum' },
+              { $toInt: '$jumlahMolarKesEndodontikSelesaiRawatanUmum' },
+              {
+                $toInt:
+                  '$rawatanSemulaEndodontikDariPrimerKesEndodontikSelesaiRawatanUmum',
+              },
+            ],
+          },
+        },
+        rujukanAgensiLuar: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$rujukDaripada', 'hospital/institusi-kerajaan'],
+                  },
+                  { $eq: ['$rujukDaripada', 'swasta'] },
+                  { $eq: ['$rujukDaripada', 'lain-lain'] },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ];
+
   try {
     let dataBaru = [];
     let dataBu = [];
     let data1836 = [];
+    let dataOplain = [];
     let bigData = [];
 
-    // for (let i = 0; i < match_stage_baru.length; i++) {
-    //   const pipeline_baru = [match_stage_baru[i], group_baru];
-    //   const queryBaru = await Umum.aggregate(pipeline_baru);
-    //   dataBaru.push({ queryBaru });
-    // }
     for (const stage of match_stage_baru) {
       const queryBaru = await Umum.aggregate([
         ...stage,
@@ -17081,11 +17212,7 @@ const countTOD = async (payload) => {
       ]);
       dataBaru.push({ queryBaru });
     }
-    // for (let i = 0; i < match_stage_bu.length; i++) {
-    //   const pipeline_bu = [match_stage_bu[i], add_field_bu, group_bu];
-    //   const queryBu = await Umum.aggregate(pipeline_bu);
-    //   dataBu.push({ queryBu });
-    // }
+
     for (const stage of match_stage_bu) {
       const queryBu = await Umum.aggregate([...stage, ...group_bu]);
       dataBu.push({ queryBu });
@@ -17096,9 +17223,16 @@ const countTOD = async (payload) => {
       data1836.push({ query1836 });
     }
 
-    bigData.push(dataBaru);
-    bigData.push(dataBu);
-    bigData.push(data1836);
+    for (const stage of match_stage_bu) {
+      const queryOplain = await Umum.aggregate([
+        ...stage,
+        ...getParamsOperatorLain,
+        ...group_oplain,
+      ]);
+      dataOplain.push({ queryOplain });
+    }
+
+    bigData.push(dataBaru, dataBu, data1836, dataOplain);
 
     return bigData;
   } catch (error) {
