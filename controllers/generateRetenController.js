@@ -1391,9 +1391,7 @@ const makePG206 = async (payload) => {
     if (pilihanIndividu) {
       const currentIndividu = await Operator.findOne({
         mdtbNumber: pilihanIndividu,
-      })
-        .select('nama')
-        .lean();
+      }).select('nama');
       worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
     }
 
@@ -1881,9 +1879,7 @@ const makePG207 = async (payload) => {
     if (klinik !== 'all') {
       const currentKlinik = await User.findOne({
         kodFasiliti: klinik,
-      })
-        .select('kp')
-        .lean();
+      }).select('kp');
       klinik = currentKlinik.kp;
     }
     //
@@ -1908,9 +1904,7 @@ const makePG207 = async (payload) => {
     if (pilihanIndividu) {
       const currentIndividu = await Operator.findOne({
         mdcNumber: pilihanIndividu,
-      })
-        .select('nama')
-        .lean();
+      }).select('nama');
       worksheet.getCell('A6').value = 'PEGAWAI: ';
       worksheet.getCell('A6').font = {
         bold: true,
@@ -2944,9 +2938,7 @@ const makePgPro01 = async (payload) => {
         }
       };
       const query = mdcMdtbPicker();
-      const currentIndividu = await Operator.findOne(query)
-        .select('nama')
-        .lean();
+      const currentIndividu = await Operator.findOne(query).select('nama');
       worksheet.getCell('D11').value = `${currentIndividu.nama.toUpperCase()}`;
     }
     //
@@ -3342,9 +3334,7 @@ const makePgPro01Combined = async (payload) => {
         }
       };
       const query = mdcMdtbPicker();
-      const currentIndividu = await Operator.findOne(query)
-        .select('nama')
-        .lean();
+      const currentIndividu = await Operator.findOne(query).select('nama');
       worksheet.getCell('E11').value = `${currentIndividu.nama.toUpperCase()}`;
     }
 
@@ -8462,7 +8452,6 @@ const makeTOD = async (payload) => {
     //     mdtbNumber: pilihanIndividu,
     //   })
     //     .select('nama')
-    //     .lean();
     //   worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
     // }
 
@@ -8699,7 +8688,6 @@ const makeBEGIN = async (payload) => {
     //     mdtbNumber: pilihanIndividu,
     //   })
     //     .select('nama')
-    //     .lean();
     //   worksheet.getCell('B9').value = `${currentIndividu.nama.toUpperCase()}`;
     // }
 
