@@ -93,9 +93,7 @@ const countPG101A = async (payload) => {
     kkiaMatch = await Fasiliti.find({
       jenisFasiliti: 'kkiakd',
       kodFasilitiHandler: klinik,
-    })
-      .select('nama kodKkiaKd createdByNegeri createdByDaerah')
-      .lean();
+    }).select('nama kodKkiaKd createdByNegeri createdByDaerah');
   }
   if (daerah !== 'all' && klinik === 'all') {
     // kkiaMatch = await Fasiliti.find({
@@ -103,7 +101,6 @@ const countPG101A = async (payload) => {
     //   createdByDaerah: daerah,
     // })
     //   .select('nama kodKkiaKd createdByNegeri createdByDaerah')
-    //   .lean();
     console.log('KKIA find for DAERAH not yet implemented');
   }
   if (daerah === 'all') {
@@ -112,7 +109,6 @@ const countPG101A = async (payload) => {
     //   createdByNegeri: negeri,
     // })
     //   .select('nama kodKkiaKd createdByNegeri createdByDaerah')
-    //   .lean();
     console.log('KKIA find for NEGERI not yet implemented');
   }
 
@@ -11962,10 +11958,7 @@ const countPGS201 = async (payload) => {
         kodFasilitiHandler: payload.klinik,
       }),
       jenisFasiliti: { $in: ['taska', 'tadika'] },
-    })
-      .select('jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan')
-      .lean();
-
+    }).select('jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan');
     // nnt nk kena masuk taska
     const totalEnrolmentTastadPra = dataFasiliti.reduce(
       (
@@ -14234,9 +14227,9 @@ const countPGS203 = async (payload) => {
       for (const kodTastad of dataPemeriksaan[0]?.queryPemeriksaanPGS203[0]
         .jumlahFasilitiDilawati) {
         try {
-          const dataFasiliti = await Fasiliti.find({ kodTastad })
-            .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
-            .lean();
+          const dataFasiliti = await Fasiliti.find({ kodTastad }).select(
+            'jenisFasiliti govKe enrolmenTastad statusPerkhidmatan'
+          );
           allFasilitiDilawati.push(dataFasiliti[0]);
         } catch (error) {
           console.error(error);
@@ -14248,9 +14241,9 @@ const countPGS203 = async (payload) => {
       for (const kodTastad of dataPemeriksaan[1]?.queryPemeriksaanPGS203[0]
         .jumlahFasilitiDilawati) {
         try {
-          const dataFasiliti = await Fasiliti.find({ kodTastad })
-            .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
-            .lean();
+          const dataFasiliti = await Fasiliti.find({ kodTastad }).select(
+            'jenisFasiliti govKe enrolmenTastad statusPerkhidmatan'
+          );
           allFasilitiDilawati.push(dataFasiliti[0]);
         } catch (error) {
           console.error(error);

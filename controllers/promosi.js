@@ -250,7 +250,7 @@ const queryAktivitiPromosi = async (req, res) => {
     queryObject.statusReten = statusReten;
   }
 
-  const aktivitiPromosiResultQuery = await Promosi.find(queryObject).lean();
+  const aktivitiPromosiResultQuery = await Promosi.find(queryObject);
 
   if (aktivitiPromosiResultQuery.length < 1) {
     return res.status(404).json({ msg: 'No aktiviti promosi found' });
