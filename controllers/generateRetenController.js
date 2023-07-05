@@ -8387,51 +8387,74 @@ const makeTOD = async (payload) => {
     //
     let j = 0;
     for (let i = 0; i < data[0].length; i++) {
-      let row = worksheet.getRow(19 + j);
-      if (data[0][i].queryBaru[0]) {
-        row.getCell(3).value =
-          data[0][i].queryBaru[0].kedatanganTahunSemasaBaru;
-        row.getCell(5).value = data[0][i].queryBaru[0].jumlahd;
-        row.getCell(7).value = data[0][i].queryBaru[0].jumlahf;
-        row.getCell(8).value = data[0][i].queryBaru[0].jumlahx;
-        // row.getCell(10).value = data[0][i].queryBaru[0].jumlahdfx;
-        row.getCell(11).value = data[0][i].queryBaru[0].dfxEqualToZero;
-        row.getCell(12).value = data[0][i].queryBaru[0].skorPlakA;
-        row.getCell(13).value = data[0][i].queryBaru[0].skorPlakC;
-        row.getCell(14).value = data[0][i].queryBaru[0].skorPlakE;
-        row.getCell(15).value = data[0][i].queryBaru[0].TPR;
-        row.getCell(16).value =
-          data[0][i].queryBaru[0].jumlahKecederaanTisuLembut;
-        row.getCell(17).value =
-          data[0][i].queryBaru[0].jumlahKecederaanTisuKeras;
-        row.getCell(19).value = data[0][i].queryBaru[0].perluSapuanFluorida;
-        row.getCell(20).value = data[0][i].queryBaru[0].sudahSapuanFluorida;
-        row.getCell(21).value =
-          data[0][i].queryBaru[0].jumlahTampalanAnteriorBaru;
-        row.getCell(22).value =
-          data[0][i].queryBaru[0].jumlahTampalanPosteriorBaru;
+      const [queryBaru] = data[0][i].queryBaru || [];
+
+      if (queryBaru) {
+        const row = worksheet.getRow(19 + j);
+        row.getCell(3).value = queryBaru.kedatanganTahunSemasaBaru;
+        row.getCell(5).value = queryBaru.jumlahd;
+        row.getCell(7).value = queryBaru.jumlahf;
+        row.getCell(8).value = queryBaru.jumlahx;
+        // row.getCell(10).value = queryBaru.jumlahdfx;
+        row.getCell(11).value = queryBaru.dfxEqualToZero;
+        row.getCell(12).value = queryBaru.skorPlakA;
+        row.getCell(13).value = queryBaru.skorPlakC;
+        row.getCell(14).value = queryBaru.skorPlakE;
+        row.getCell(15).value = queryBaru.TPR;
+        row.getCell(16).value = queryBaru.jumlahKecederaanTisuLembut;
+        row.getCell(17).value = queryBaru.jumlahKecederaanTisuKeras;
+        row.getCell(19).value = queryBaru.perluSapuanFluorida;
+        row.getCell(20).value = queryBaru.sudahSapuanFluorida;
+        row.getCell(21).value = queryBaru.jumlahTampalanAnteriorBaru;
+        row.getCell(22).value = queryBaru.jumlahTampalanPosteriorBaru;
         // CRA nak data baru je
-        row.getCell(30).value = data[0][i].queryBaru[0].craRendah;
-        row.getCell(31).value = data[0][i].queryBaru[0].craSederhana;
-        row.getCell(32).value = data[0][i].queryBaru[0].craTinggi;
+        row.getCell(30).value = queryBaru.craRendah;
+        row.getCell(31).value = queryBaru.craSederhana;
+        row.getCell(32).value = queryBaru.craTinggi;
       }
       j += 2;
     }
 
     j = 0;
     for (let i = 0; i < data[1].length; i++) {
-      let row = worksheet.getRow(20 + j);
-      if (data[1][i].queryBu[0]) {
-        row.getCell(4).value =
-          data[1][i].queryBu[0].kedatanganTahunSemasaUlangan;
-        row.getCell(19).value = data[1][i].queryBu[0].perluSapuanFluoridaBu;
-        row.getCell(20).value = data[1][i].queryBu[0].sudahSapuanFluoridaBu;
-        row.getCell(21).value = data[1][i].queryBu[0].jumlahTampalanAnteriorBu;
-        row.getCell(22).value = data[1][i].queryBu[0].jumlahTampalanPosteriorBu;
-        row.getCell(24).value = data[1][i].queryBu[0].jumlahCabutan;
-        row.getCell(25).value = data[1][i].queryBu[0].jumlahAbses;
-        row.getCell(26).value = data[1][i].queryBu[0].jumlahPulpotomi;
-        row.getCell(27).value = data[1][i].queryBu[0].rujukanAgensiLuar;
+      const [queryBu] = data[1][i].queryBu || [];
+
+      if (queryBu) {
+        let row = worksheet.getRow(20 + j);
+        row.getCell(4).value = queryBu.kedatanganTahunSemasaUlangan;
+        row.getCell(19).value = queryBu.perluSapuanFluoridaBu;
+        row.getCell(20).value = queryBu.sudahSapuanFluoridaBu;
+        row.getCell(21).value = queryBu.jumlahTampalanAnteriorBu;
+        row.getCell(22).value = queryBu.jumlahTampalanPosteriorBu;
+        row.getCell(24).value = queryBu.jumlahCabutan;
+        row.getCell(25).value = queryBu.jumlahAbses;
+        row.getCell(26).value = queryBu.jumlahPulpotomi;
+        row.getCell(27).value = queryBu.rujukanAgensiLuar;
+      }
+      j += 2;
+    }
+
+    j = 0;
+    for (let i = 0; i < data[3].length; i++) {
+      const [queryOplain] = data[3][i].queryOplain || [];
+
+      if (queryOplain) {
+        let row = worksheet.getRow(20 + j);
+        // row.getCell(4).value += queryOplain.kedatanganTahunSemasaUlangan;
+        row.getCell(19).value += queryOplain.perluSapuanFluoridaBu;
+        row.getCell(20).value += queryOplain.sudahSapuanFluoridaBu;
+        j--;
+        row = worksheet.getRow(20 + j);
+        row.getCell(21).value += queryOplain.jumlahTampalanAnteriorBaru;
+        row.getCell(22).value += queryOplain.jumlahTampalanPosteriorBaru;
+        j++;
+        row = worksheet.getRow(20 + j);
+        row.getCell(21).value += queryOplain.jumlahTampalanAnteriorBu;
+        row.getCell(22).value += queryOplain.jumlahTampalanPosteriorBu;
+        row.getCell(24).value += queryOplain.jumlahCabutan;
+        row.getCell(25).value += queryOplain.jumlahAbses;
+        row.getCell(26).value += queryOplain.jumlahPulpotomi;
+        row.getCell(27).value += queryOplain.rujukanAgensiLuar;
       }
       j += 2;
     }
