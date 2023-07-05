@@ -9449,6 +9449,8 @@ const countPGS201 = async (payload) => {
         // kodFasilitiHandler: 1,
         kodSekolah: 1,
         sesiTakwimSekolah: 1,
+        sekolahMmi: 1,
+        sekolahKki: 1,
       },
     },
     {
@@ -10434,6 +10436,461 @@ const countPGS201 = async (payload) => {
       },
     },
   };
+  const pipeline_kedatangan_sekolah = [
+    {
+      $match: {
+        sekolahSelesaiReten: true,
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
+        jenisFasiliti: {
+          $in: ['sekolah-rendah', 'sekolah-menengah'],
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        jenisFasiliti: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              pemeriksaanSekolah: {
+                $exists: true,
+                $ne: null,
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        nama: '$result.nama',
+        umur: '$result.umur',
+        tahunTingkatan: '$result.tahunTingkatan',
+        warganegara: '$result.warganegara',
+        statusOku: '$result.statusOku',
+        pemeriksaanSekolah: '$result.pemeriksaanSekolah',
+        rawatanSekolah: '$result.rawatanSekolah',
+      },
+    },
+    {
+      $lookup: {
+        from: 'pemeriksaansekolahs',
+        localField: 'pemeriksaanSekolah',
+        foreignField: '_id',
+        as: 'pemeriksaanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$pemeriksaanSekolah',
+        preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    {
+      $addFields: {
+        tarikhPemeriksaan: '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+        operatorPemeriksaan: '$pemeriksaanSekolah.createdByMdcMdtb',
+        lastRawatan: {
+          $arrayElemAt: [
+            '$rawatanSekolah',
+            {
+              $subtract: [
+                {
+                  $size: '$rawatanSekolah',
+                },
+                1,
+              ],
+            },
+          ],
+        },
+      },
+    },
+    {
+      $project: {
+        nama: 1,
+        umur: 1,
+        tahunTingkatan: 1,
+        warganegara: 1,
+        statusOku: 1,
+        tarikhPemeriksaan: 1,
+        operatorPemeriksaan: 1,
+        tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
+        operatorRawatan: '$lastRawatan.createdByMdcMdtb',
+      },
+    },
+  ];
+  const pipeline_kedatangan_sekolah_mmi = [
+    {
+      $match: {
+        sekolahSelesaiReten: true,
+        sekolahMmi: 'ya-sekolah-mmi',
+        ...(!['all', '-'].includes(payload.negeri) && {
+          createdByNegeri: payload.negeri,
+        }),
+        ...(!['all', '-'].includes(payload.daerah) && {
+          createdByDaerah: payload.daerah,
+        }),
+        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
+        jenisFasiliti: {
+          $in: ['sekolah-menengah'],
+        },
+      },
+    },
+    {
+      $project: {
+        _id: 1,
+        jenisFasiliti: 1,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              pemeriksaanSekolah: {
+                $exists: true,
+                $ne: null,
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        nama: '$result.nama',
+        umur: '$result.umur',
+        tahunTingkatan: '$result.tahunTingkatan',
+        warganegara: '$result.warganegara',
+        statusOku: '$result.statusOku',
+        pemeriksaanSekolah: '$result.pemeriksaanSekolah',
+        rawatanSekolah: '$result.rawatanSekolah',
+      },
+    },
+    {
+      $lookup: {
+        from: 'pemeriksaansekolahs',
+        localField: 'pemeriksaanSekolah',
+        foreignField: '_id',
+        as: 'pemeriksaanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$pemeriksaanSekolah',
+        preserveNullAndEmptyArrays: false,
+      },
+    },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    {
+      $addFields: {
+        tarikhPemeriksaan: '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+        operatorPemeriksaan: '$pemeriksaanSekolah.createdByMdcMdtb',
+        lastRawatan: {
+          $arrayElemAt: [
+            '$rawatanSekolah',
+            {
+              $subtract: [
+                {
+                  $size: '$rawatanSekolah',
+                },
+                1,
+              ],
+            },
+          ],
+        },
+      },
+    },
+    {
+      $project: {
+        nama: 1,
+        umur: 1,
+        tahunTingkatan: 1,
+        warganegara: 1,
+        statusOku: 1,
+        tarikhPemeriksaan: 1,
+        operatorPemeriksaan: 1,
+        tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
+        operatorRawatan: '$lastRawatan.createdByMdcMdtb',
+      },
+    },
+  ];
+  const group_kedatangan_sekolah = [
+    {
+      $group: {
+        _id: {
+          $switch: {
+            branches: [
+              {
+                case: {
+                  $and: [
+                    {
+                      $eq: ['$umur', 5],
+                    },
+                    {
+                      $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+                    },
+                  ],
+                },
+                then: 'prasek-5tahun',
+              },
+              {
+                case: {
+                  $and: [
+                    {
+                      $eq: ['$umur', 6],
+                    },
+                    {
+                      $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+                    },
+                  ],
+                },
+                then: 'prasek-6tahun',
+              },
+              {
+                case: {
+                  $and: [
+                    {
+                      $eq: ['$umur', 7],
+                    },
+                    {
+                      $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+                    },
+                  ],
+                },
+                then: 'prasek-7tahun',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'D1'],
+                },
+                then: 'darjah1',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'D2'],
+                },
+                then: 'darjah2',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'D3'],
+                },
+                then: 'darjah3',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'D4'],
+                },
+                then: 'darjah4',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'D5'],
+                },
+                then: 'darjah5',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'D6'],
+                },
+                then: 'darjah6',
+              },
+              {
+                case: {
+                  $and: [
+                    {
+                      $eq: ['$tahunTingkatan', 'KHAS'],
+                    },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                    },
+                  ],
+                },
+                then: 'darjah-kki',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'P'],
+                },
+                then: 'tingkatanPeralihan',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'T1'],
+                },
+                then: 'tingkatan1',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'T2'],
+                },
+                then: 'tingkatan2',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'T3'],
+                },
+                then: 'tingkatan3',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'T4'],
+                },
+                then: 'tingkatan4',
+              },
+              {
+                case: {
+                  $eq: ['$tahunTingkatan', 'T5'],
+                },
+                then: 'tingkatan5',
+              },
+              {
+                case: {
+                  $and: [
+                    {
+                      $eq: ['$tahunTingkatan', 'KHAM'],
+                    },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                  ],
+                },
+                then: 'tingkatan-kki',
+              },
+            ],
+            default: 'Unknown',
+          },
+        },
+        kedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  { $ifNull: ['$tarikhRawatan', true] },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $ne: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganUlangan: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $ifNull: ['$tarikhRawatan', false],
+                  },
+                  {
+                    $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                  },
+                  {
+                    $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ];
+
+  // for sam
+
+  // const kedatanganSekolahOKU = await Fasiliti.aggregate([
+  //   ...pipeline_kedatangan_sekolah,
+  //   {
+  //     $match: {
+  //       statusOku: 'OKU',
+  //     },
+  //   },
+  //   ...group_kedatangan_sekolah,
+  // ]);
+
+  // const kedatanganSekolahBW = await Fasiliti.aggregate([
+  //   ...pipeline_kedatangan_sekolah,
+  //   {
+  //     $match: {
+  //       warganegara: { $ne: 'WARGANEGARA' },
+  //     },
+  //   },
+  //   ...group_kedatangan_sekolah,
+  // ]);
 
   // bismillah
   try {
@@ -10935,6 +11392,10 @@ const countPGS201 = async (payload) => {
             },
           },
         ]);
+        const kedatanganSekolahMmi = await Fasiliti.aggregate([
+          ...pipeline_kedatangan_sekolah_mmi,
+          ...group_kedatangan_sekolah,
+        ]);
         // MUATKANNNNNNN
         bigData.push(
           dataSekolahMMI,
@@ -10942,7 +11403,8 @@ const countPGS201 = async (payload) => {
           dataSekolahMMIOAP,
           dataSekolahMMIAllOAP,
           dataSekolahMMIAllOKU,
-          dataSekolahMMIAll
+          dataSekolahMMIAll,
+          kedatanganSekolahMmi,
         );
         break;
       default:
@@ -11099,7 +11561,6 @@ const countPGS201 = async (payload) => {
             },
           },
         ]);
-        console.log(dataSekolahBiasa);
         const dataSekolahOKU = await Fasiliti.aggregate([
           ...pipeline_sekolah,
           {
@@ -11148,7 +11609,6 @@ const countPGS201 = async (payload) => {
             },
           },
         ]);
-        console.log(dataSekolahOKU);
         const dataSekolahOAP = await Fasiliti.aggregate([
           ...pipeline_sekolah,
           {
@@ -11328,7 +11788,6 @@ const countPGS201 = async (payload) => {
             },
           },
         ]);
-        console.log(dataSekolahOAP);
         const dataSekolahAllOAP = await Fasiliti.aggregate([
           ...pipeline_sekolah,
           {
@@ -11382,7 +11841,6 @@ const countPGS201 = async (payload) => {
             },
           },
         ]);
-        console.log(dataSekolahAllOAP);
         const dataSekolahAllOKU = await Fasiliti.aggregate([
           ...pipeline_sekolah,
           {
@@ -11411,7 +11869,6 @@ const countPGS201 = async (payload) => {
             },
           },
         ]);
-        console.log(dataSekolahAllOKU);
         const dataSekolahAll = await Fasiliti.aggregate([
           ...pipeline_sekolah,
           {
@@ -11440,7 +11897,10 @@ const countPGS201 = async (payload) => {
             },
           },
         ]);
-        console.log(dataSekolahAll);
+        const kedatanganSekolah = await Fasiliti.aggregate([
+          ...pipeline_kedatangan_sekolah,
+          ...group_kedatangan_sekolah,
+        ]);
         // MASUKKANNNNNNN
         bigData.push(
           dataSekolahBiasa,
@@ -11448,7 +11908,8 @@ const countPGS201 = async (payload) => {
           dataSekolahOAP,
           dataSekolahAllOAP,
           dataSekolahAllOKU,
-          dataSekolahAll
+          dataSekolahAll,
+          kedatanganSekolah
         );
         break;
     }

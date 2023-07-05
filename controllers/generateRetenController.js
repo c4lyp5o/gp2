@@ -3805,9 +3805,7 @@ const makePGS201 = async (payload) => {
                 console.log('T KKI');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data sekolah biasa. row ${rowNumber}`);
@@ -3836,12 +3834,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahMMI.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahMMI.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahMMI.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value += dataSekolahMMI.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahMMI.jumlahKebersihanMulutA; //Column H (8)
@@ -3971,9 +3963,7 @@ const makePGS201 = async (payload) => {
                 console.log('pra-oku');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data sekolah oku. row ${rowNumber}`);
@@ -4002,13 +3992,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahMMIOKU.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahMMIOKU.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahMMIOKU.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahMMIOKU.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahMMIOKU.jumlahKebersihanMulutA; //Column H (8)
@@ -4153,9 +4136,7 @@ const makePGS201 = async (payload) => {
                 console.log('T4 OAP');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data sekolah oap. row ${rowNumber}`);
@@ -4184,13 +4165,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahMMIOAP.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahMMIOAP.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahMMIOAP.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahMMIOAP.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahMMIOAP.jumlahKebersihanMulutA; //Column H (8)
@@ -4323,9 +4297,7 @@ const makePGS201 = async (payload) => {
                 console.log('OAP');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data all oap. row ${rowNumber}`);
@@ -4354,14 +4326,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahMMIAllOAP.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahMMIAllOAP.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value +=
-              dataSekolahMMIAllOAP.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahMMIAllOAP.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahMMIAllOAP.jumlahKebersihanMulutA; //Column H (8)
@@ -4500,9 +4464,7 @@ const makePGS201 = async (payload) => {
                 console.log('OKU');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data all oku. row ${rowNumber}`);
@@ -4531,14 +4493,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahMMIAllOKU.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahMMIAllOKU.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value +=
-              dataSekolahMMIAllOKU.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahMMIAllOKU.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahMMIAllOKU.jumlahKebersihanMulutA; //Column H (8)
@@ -4677,9 +4631,7 @@ const makePGS201 = async (payload) => {
                 console.log('all');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data all. row ${rowNumber}`);
@@ -4708,13 +4660,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahMMIAll.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahMMIAll.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahMMIAll.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahMMIAll.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahMMIAll.jumlahKebersihanMulutA; //Column H (8)
@@ -4837,6 +4782,113 @@ const makePGS201 = async (payload) => {
             row.getCell(86).value += dataSekolahMMIAll.kesSelesai; //Column CH (86)
           }
         }
+        for (let i = 0; i < data[10].length; i++) {
+          const dataKedatanganSekolahMmi = data[10][i] || [];
+
+          if (dataKedatanganSekolahMmi) {
+            switch (dataKedatanganSekolahMmi._id) {
+              case 'prasek-5tahun':
+                rowNumber = 18;
+                console.log('pra5');
+                break;
+              case 'prasek-6tahun':
+                rowNumber = 19;
+                console.log('pra6');
+                break;
+              case 'darjah1':
+                rowNumber = 23;
+                console.log('darjah 1');
+                break;
+              case 'darjah2':
+                rowNumber = 24;
+                console.log('darjah 2');
+                break;
+              case 'darjah3':
+                rowNumber = 25;
+                console.log('darjah 3');
+                break;
+              case 'darjah4':
+                rowNumber = 26;
+                console.log('darjah 4');
+                break;
+              case 'darjah5':
+                rowNumber = 27;
+                console.log('darjah 5');
+                break;
+              case 'darjah6':
+                rowNumber = 28;
+                console.log('darjah 6');
+                break;
+              case 'darjah-kki':
+                rowNumber = 29;
+                console.log('darjah kki');
+                break;
+              case 'tingkatanPeralihan':
+                rowNumber = 33;
+                console.log('TP');
+                break;
+              case 'tingkatan1':
+                rowNumber = 34;
+                console.log('T1');
+                break;
+              case 'tingkatan2':
+                rowNumber = 35;
+                console.log('T2');
+                break;
+              case 'tingkatan3':
+                rowNumber = 36;
+                console.log('T3');
+                break;
+              case 'tingkatan4':
+                rowNumber = 37;
+                console.log('T4');
+                break;
+              case 'tingkatan5':
+                rowNumber = 38;
+                console.log('T5');
+                break;
+              case 'tingkatan-kki':
+                rowNumber = 39;
+                console.log('T KKI');
+                break;
+              default:
+                continue;
+            }
+
+            console.log(`data kedatangan all. row ${rowNumber}`);
+            console.log(`we have data`);
+            console.log('-------------');
+
+            const row = worksheet.getRow(rowNumber);
+            // console.log(dataSekolahAll.jumlahReten, dataSekolahAll.jumlahRetenSalah);
+            // jumlahReten += dataSekolahAll.jumlahReten;
+            // jumlahRetenSalah += dataSekolahAll.jumlahRetenSalah;
+
+            // bila masuk sekolah kena pakai switch
+            // switch (i) {
+            //   case 0:
+            //     row.getCell(3).value = data[0][0]
+            //       .enrolmen5Tahun
+            //       ? data[0][0].enrolmen5Tahun
+            //       : 'BELUM DIISI'; //column C (3)
+            //     break;
+            //   case 1:
+            //     row.getCell(3).value = data[0][0]
+            //       .enrolmen6Tahun
+            //       ? data[0][0].enrolmen6Tahun
+            //       : 'BELUM DIISI'; //column C (3)
+            //     break;
+            //   default:
+            //     break;
+            // }
+
+            //Kedatangan
+            // row.getCell(4).value += dataSekolahAll.engganKedatangan; //column D (4)
+            // row.getCell(5).value += dataSekolahAll.tidakHadirKehadiran; //column E (5)
+            row.getCell(6).value += dataKedatanganSekolahMmi.kedatanganBaru; //Column F (6)
+            row.getCell(7).value += dataKedatanganSekolahMmi.kedatanganUlangan; //Column G (7)
+          }
+        }
         break;
       default:
         for (let i = 0; i < data[4].length; i++) {
@@ -4909,9 +4961,7 @@ const makePGS201 = async (payload) => {
                 console.log('T KKI');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data sekolah biasa. row ${rowNumber}`);
@@ -4940,13 +4990,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahBiasa.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahBiasa.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahBiasa.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahBiasa.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahBiasa.jumlahKebersihanMulutA; //Column H (8)
@@ -5079,9 +5122,7 @@ const makePGS201 = async (payload) => {
                 console.log('pra-oku');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data sekolah oku. row ${rowNumber}`);
@@ -5110,12 +5151,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahOKU.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahOKU.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahOKU.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value += dataSekolahOKU.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahOKU.jumlahKebersihanMulutA; //Column H (8)
@@ -5257,9 +5292,7 @@ const makePGS201 = async (payload) => {
                 console.log('T4 OAP');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data sekolah oap. row ${rowNumber}`);
@@ -5288,12 +5321,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahOAP.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahOAP.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahOAP.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value += dataSekolahOAP.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahOAP.jumlahKebersihanMulutA; //Column H (8)
@@ -5423,9 +5450,7 @@ const makePGS201 = async (payload) => {
                 console.log('OAP');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data all oap. row ${rowNumber}`);
@@ -5454,13 +5479,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahAllOAP.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahAllOAP.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahAllOAP.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahAllOAP.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahAllOAP.jumlahKebersihanMulutA; //Column H (8)
@@ -5593,9 +5611,7 @@ const makePGS201 = async (payload) => {
                 console.log('OKU');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data all oku. row ${rowNumber}`);
@@ -5624,13 +5640,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahAllOKU.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahAllOKU.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahAllOKU.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value +=
-              dataSekolahAllOKU.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahAllOKU.jumlahKebersihanMulutA; //Column H (8)
@@ -5763,9 +5772,7 @@ const makePGS201 = async (payload) => {
                 console.log('all');
                 break;
               default:
-                rowNumber = 47;
-                console.log('no data');
-                break;
+                continue;
             }
 
             console.log(`data all. row ${rowNumber}`);
@@ -5794,12 +5801,6 @@ const makePGS201 = async (payload) => {
             //   default:
             //     break;
             // }
-
-            //Kedatangan
-            row.getCell(4).value += dataSekolahAll.engganKedatangan; //column D (4)
-            row.getCell(5).value += dataSekolahAll.tidakHadirKehadiran; //column E (5)
-            row.getCell(6).value += dataSekolahAll.kedatanganTahunSemasaBaru; //Column F (6)
-            row.getCell(7).value += dataSekolahAll.kedatanganTahunSemasaUlangan; //Column G (7)
 
             //Kebersihan Mulut
             row.getCell(8).value += dataSekolahAll.jumlahKebersihanMulutA; //Column H (8)
@@ -5917,6 +5918,113 @@ const makePGS201 = async (payload) => {
 
             row.getCell(85).value += dataSekolahAll.kesSelesaiMMI; //Column CG (85)
             row.getCell(86).value += dataSekolahAll.kesSelesai; //Column CH (86)
+          }
+        }
+        for (let i = 0; i < data[10].length; i++) {
+          const dataKedatanganSekolah = data[10][i] || [];
+
+          if (dataKedatanganSekolah) {
+            switch (dataKedatanganSekolah._id) {
+              case 'prasek-5tahun':
+                rowNumber = 18;
+                console.log('pra5');
+                break;
+              case 'prasek-6tahun':
+                rowNumber = 19;
+                console.log('pra6');
+                break;
+              case 'darjah1':
+                rowNumber = 23;
+                console.log('darjah 1');
+                break;
+              case 'darjah2':
+                rowNumber = 24;
+                console.log('darjah 2');
+                break;
+              case 'darjah3':
+                rowNumber = 25;
+                console.log('darjah 3');
+                break;
+              case 'darjah4':
+                rowNumber = 26;
+                console.log('darjah 4');
+                break;
+              case 'darjah5':
+                rowNumber = 27;
+                console.log('darjah 5');
+                break;
+              case 'darjah6':
+                rowNumber = 28;
+                console.log('darjah 6');
+                break;
+              case 'darjah-kki':
+                rowNumber = 29;
+                console.log('darjah kki');
+                break;
+              case 'tingkatanPeralihan':
+                rowNumber = 33;
+                console.log('TP');
+                break;
+              case 'tingkatan1':
+                rowNumber = 34;
+                console.log('T1');
+                break;
+              case 'tingkatan2':
+                rowNumber = 35;
+                console.log('T2');
+                break;
+              case 'tingkatan3':
+                rowNumber = 36;
+                console.log('T3');
+                break;
+              case 'tingkatan4':
+                rowNumber = 37;
+                console.log('T4');
+                break;
+              case 'tingkatan5':
+                rowNumber = 38;
+                console.log('T5');
+                break;
+              case 'tingkatan-kki':
+                rowNumber = 39;
+                console.log('T KKI');
+                break;
+              default:
+                continue;
+            }
+
+            console.log(`data kedatangan all. row ${rowNumber}`);
+            console.log(`we have data`);
+            console.log('-------------');
+
+            const row = worksheet.getRow(rowNumber);
+            // console.log(dataSekolahAll.jumlahReten, dataSekolahAll.jumlahRetenSalah);
+            // jumlahReten += dataSekolahAll.jumlahReten;
+            // jumlahRetenSalah += dataSekolahAll.jumlahRetenSalah;
+
+            // bila masuk sekolah kena pakai switch
+            // switch (i) {
+            //   case 0:
+            //     row.getCell(3).value = data[0][0]
+            //       .enrolmen5Tahun
+            //       ? data[0][0].enrolmen5Tahun
+            //       : 'BELUM DIISI'; //column C (3)
+            //     break;
+            //   case 1:
+            //     row.getCell(3).value = data[0][0]
+            //       .enrolmen6Tahun
+            //       ? data[0][0].enrolmen6Tahun
+            //       : 'BELUM DIISI'; //column C (3)
+            //     break;
+            //   default:
+            //     break;
+            // }
+
+            //Kedatangan
+            // row.getCell(4).value += dataSekolahAll.engganKedatangan; //column D (4)
+            // row.getCell(5).value += dataSekolahAll.tidakHadirKehadiran; //column E (5)
+            row.getCell(6).value += dataKedatanganSekolah.kedatanganBaru; //Column F (6)
+            row.getCell(7).value += dataKedatanganSekolah.kedatanganUlangan; //Column G (7)
           }
         }
         break;
