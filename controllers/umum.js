@@ -552,7 +552,7 @@ const queryPersonUmum = async (req, res) => {
     queryObject.jenisProgram = jenisProgram;
   }
 
-  const umumResultQuery = await Umum.find(queryObject).lean();
+  const umumResultQuery = await Umum.find(queryObject);
 
   res.status(200).json({ umumResultQuery });
 };
