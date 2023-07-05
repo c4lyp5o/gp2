@@ -93,7 +93,7 @@ const SekolahSchema = new mongoose.Schema(
     },
     warganegara: {
       type: String,
-      default: 'MISSING warganegara',
+      default: 'MISSING warganegara', // 'WARGANEGARA', 'MALAYSIA', 'BUKAN WARGANEGARA', 'PEMASTAUTIN SEMENTARA'
     },
     // pindah marker -----------------------------------------------------
     berpindah: {
