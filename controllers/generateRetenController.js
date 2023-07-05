@@ -11264,7 +11264,6 @@ const makeKOM = async (payload) => {
       if (opLain) {
         const row = worksheet.getRow(20 + j);
         // opLain
-        row.getCell(4).value = opLain.jumlahPesakit;
         row.getCell(30).value = opLain.sapuanFluorida;
         if (i > 1) {
           row.getCell(31).value = opLain.jumlahPesakitPrrJenis1;
