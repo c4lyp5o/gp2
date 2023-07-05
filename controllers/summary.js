@@ -13,9 +13,7 @@ const getSinglePersonOperator = async (req, res) => {
 
   const { id } = req.query;
 
-  const singlePersonOperator = await Operator.findById(id)
-    .select('nama')
-    .lean();
+  const singlePersonOperator = await Operator.findById(id).select('nama');
 
   if (!singlePersonOperator) {
     return res.status(404).json({ msg: `No person with id ${id}` });
@@ -34,9 +32,9 @@ const getSinglePersonOperatorSummary = async (req, res) => {
 
   const { id, bulan, tahun } = req.query;
 
-  const singlePersonOperator = await Operator.findById(id)
-    .select('nama mdcNumber mdtbNumber createdByNegeri')
-    .lean();
+  const singlePersonOperator = await Operator.findById(id).select(
+    'nama mdcNumber mdtbNumber createdByNegeri'
+  );
 
   if (!singlePersonOperator) {
     return res.status(404).json({ msg: `No person with id ${id}` });
