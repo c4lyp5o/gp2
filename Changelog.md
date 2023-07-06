@@ -1,28 +1,33 @@
 # Changelog
 
+### Unreleased
+
+- Mewujudkan submodul baru Agensi Luar di Modul Pentadbir Daerah.
+
 ### 5/7/2023 (v2.1.3)
 
 #### Added
 
-- Penambahan fungsi tambah Tingkatan 1 hanya untuk sekolah MRSM
-- Sekolah KKI kini boleh ditetapkan di butang kemaskini Sekolah Rendah dan Sekolah Menengah di Modul Pentadbir, bagi peringkat Pentadbir Daerah.
-- Mewujudkan modul baru iaitu Agensi Luar,boleh dimasuk melalui Modul Pentadbir Daerah.
-- Penambahan pilihan Tadika/Sekolah Rendah/Sekolah Menengah untuk reten PGS201, BEGIN, PPIM03.
-- Penambahan sub-program dalam reten KOM
-- Bagi Taska dan Tadika, jumlah enrolmen kini boleh dimasukkan bagi kategori 4 tahun,5 tahun,6 tahun,murid berkeperluan khas dan Orang Asli/Penan.Boleh didapati di Modul Pentadbir Pentadbir Klinik
-- Penambahan fungsi sekolah MMI di Modul Pentadbir Daerah
+- Penambahan fungsi pelajar Tingkatan 1 hanya untuk sekolah Maktab Rendah Sains Mara
+- Sekolah KKI kini boleh ditetapkan di butang kemaskini Sekolah Rendah dan Sekolah Menengah di Modul Pentadbir bagi peringkat Pentadbir Daerah
+- Penambahan pilihan Tadika/Sekolah Menengah/Sekolah MMI/Semua Sekolah untuk reten PGS201, BEGIN, CPPC1 dan CPPC2
+- Penambahan sub program dalam pengemaskinian program komuniti dia Modul Pentadbir bagi peringkat Pentadbir Klinik
+- Enrolmen bagi taska dan tadika ditambah bagi Murid Berkeperluan Khas, Murid OA/Penan, jumlah Murid Enggan dan jumlah Murid Tidak Hadir ketika mengemaskini taska tadika di Modul Pentadbir bagi peringkat Pentadbir Klinik
+- Boleh mengemaskini kerajaan atau swasta bagi taska dan tadika di Pentadbir Klinik
+- Sekolah MMI kini boleh ditetapkan di butang kemaskini Sekolah Menengah di Modul Pentadbir bagi peringkat Pentadbir Daerah
+- Pelajar sekolah rendah yang berada di sekolah yang telah ditetapkan sebagai sekolah Pendidikan Khas boleh mengisi bilangan SM di borang pemeriksaan sekolah
 
 #### Changed
 
-- Soalan pesakit mempunyai gigi ya/tidak ; untuk pilihan tidak, dikhaskan hanya untuk belum pernah ada gigi atau 'congenitally missing'
+- Di borang pesakit umum soalan pesakit mempunyai gigi ya/tidak bagi pilihan tidak, dikhaskan hanya untuk belum pernah ada gigi atau _congenitally missing_
+- Pegawai media sosial boleh log masuk di peringkat Pentadbir Klinik bagi mengemaskini borang Media Sosial & _Followers_
 
 #### Fixed
 
-- Memperkemas dan membaikpulih reten PGS203,PGS201,PPIM03,PG207,PKAP,PPR,PIAGAM MASA
-- Beban tugas di sekolah turut dimasukkan ke dalam reten PG206 & PG207
-- Pembetulan bagi senarai nama pelajar yang dimuat turun di senari sekolah ; Penambahan 'Tiada Maklumat' bagi pelajar yang tiada maklumat warganegara.
-- Fungsi memilih SM (space maintenance) hanya untuk pelajar-pelajar Darjah 4,5 dan 6 sahaja.
-- Penukaran ayat kepastian untuk gigi SM setelah memilih kes selesai.
+- Memperkemas dan membaikpulih reten semua reten-reten yang terdapat di semua peringkat Pentadbir
+- Beban tugas operator di sekolah turut dimasukkan ke dalam reten PG206 & PG207
+- Pembetulan bagi senarai nama pelajar yang dimuat turun di senarai sekolah kepada 'Tiada Maklumat' bagi pelajar yang tiada maklumat warganegara
+- Fungsi memilih SM di borang pemeriksaan sekolah hanya untuk pelajar Darjah 4, 5, 6 dan KHAS sahaja bagi sekolah yang bukan ditetapkan sebagai sekolah Pendidikan Khas
 
 ### 12/6/2023 (v2.1.2)
 
