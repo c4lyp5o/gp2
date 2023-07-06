@@ -511,10 +511,10 @@ const getParamsPGS201 = (payload) => {
   if (daerah !== 'all' && klinik !== 'all') {
     return byKp(payload);
   }
-  if (daerah !== 'all' && klinik === 'all') {
+  if ((daerah !== 'all' || daerah !== '-') && klinik === 'all') {
     return byDaerah(payload);
   }
-  if (daerah === 'all') {
+  if (daerah === 'all' || daerah === '-') {
     return byNegeri(payload);
   }
 };

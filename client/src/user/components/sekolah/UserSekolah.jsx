@@ -71,6 +71,11 @@ function UserSekolah() {
   // accordian rawatan
   const [accordian, setAccordian] = useState([]);
 
+  //multiple select
+  const [selectedOptions, setSelectedOptions] = useState([]);
+  // const [showOptions, setShowOptions] = useState(false);
+  // let statusRawatanRef = useRef();
+
   const [reloadState, setReloadState] = useState(false);
 
   const TarikhBegin = () => {
@@ -89,6 +94,29 @@ function UserSekolah() {
         'appearance-none w-auto text-sm leading-7 px-2 py-1 ring-2 ring-user3 focus:ring-2 focus:ring-user2 focus:outline-none rounded-md shadow-md uppercase flex flex-row lg:ml-2',
     });
   };
+
+  // useEffect(() => {
+  //   let tutupStatusRawatan = (e) => {
+  //     if (!statusRawatanRef.current.contains(e.target)) {
+  //       setShowOptions(false);
+  //     }
+  //   };
+  //   document.addEventListener('mousedown', tutupStatusRawatan);
+  //   return () => {
+  //     document.removeEventListener('mousedown', tutupStatusRawatan);
+  //   };
+  // });
+
+  // Options Multi Select
+  const optionsFiltered = [
+    { value: 'belum mula', label: 'Belum mula' },
+    { value: 'enggan', label: 'Enggan' },
+    { value: 'tidak hadir', label: 'Tidak hadir' },
+    { value: 'belum selesai', label: 'Belum selesai' },
+    { value: 'enggan rawatan', label: 'Enggan rawatan' },
+    { value: 'tidak hadir rawatan', label: 'Tidak hadir rawatan' },
+    { value: 'selesai', label: 'Selesai' },
+  ];
 
   // init fetch allPersonSekolahs
   useEffect(() => {
@@ -121,8 +149,8 @@ function UserSekolah() {
         setTahunTingkatan(tahunTingkatan);
 
         setAllPersonSekolahs(data.allPersonSekolahs);
-        setPilihanSekolah(data.fasilitiSekolahs.nama);
-        setFasilitiSekolah(data.fasilitiSekolahs);
+        setPilihanSekolah(data.fasilitiSekolah.nama);
+        setFasilitiSekolah(data.fasilitiSekolah);
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
@@ -359,7 +387,7 @@ function UserSekolah() {
   return (
     <>
       <div className='px-3 lg:px-7 h-full p-3 overflow-y-auto'>
-        <div className='relative shadow-md drop-shadow-sm mb-2'>
+        <div className='relative mb-2'>
           <div className=''>
             <div className='flex justify-between'>
               <h2 className='text-sm lg:text-xl font-semibold flex flex-row pl-2 lg:pl-12 pt-2'>
@@ -413,7 +441,7 @@ function UserSekolah() {
                 </div>
               </div>
             </div>
-            <div className='grid grid-cols-2'>
+            <div className='grid grid-cols-1 lg:grid-cols-2'>
               <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
                   Sekolah:
@@ -431,7 +459,7 @@ function UserSekolah() {
               </div>
               <div className='grid grid-cols-[1fr_3fr] pb-1'>
                 <span className='font-bold uppercase text-xs lg:text-sm flex justify-end place-items-center mr-2'>
-                  Tahun/Tingkatan:
+                  Tahun / Tingkatan:
                 </span>
                 <span className='uppercase text-xs lg:text-sm w-full'>
                   <select
@@ -495,11 +523,69 @@ function UserSekolah() {
                   <input
                     type='text'
                     value={filterNama}
+                    placeholder='SILA MASUKKAN NAMA PELAJAR'
                     onChange={(e) => {
                       setFilterNama(e.target.value.toUpperCase());
                     }}
                     className='appearance-none w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                   />
+                </span>
+              </div>
+              <div
+                className='grid grid-cols-[1fr_3fr] pb-1 row-span-2'
+                // ref={statusRawatanRef}
+              >
+                <span className='font-bold uppercase text-xs lg:text-sm flex justify-end  mr-2'>
+                  Status Murid:
+                </span>
+                <span className='text-xs lg:text-sm w-full relative'>
+                  {/* {pilihanTahunTingkatan ? (
+                    <input
+                      type='text'
+                      className='appearance-none text-xs lg:text-sm w-full px-2 py-1 text-user1 uppercase border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent cursor-pointer'
+                      value={selectedOptions.join(', ')}
+                      placeholder='SILA PILIH STATUS'
+                      readOnly
+                      onClick={() => setShowOptions(!showOptions)}
+                    />
+                  ) : (
+                    <input
+                      type='text'
+                      className='appearance-none text-xs text-user1 lg:text-sm w-full px-2 py-1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:border-transparent cursor-not-allowed'
+                      value='SILA PILIH TAHUN/TINGKATAN'
+                      readOnly
+                    />
+                  )} */}
+                  <span className='grid grid-cols-3 justify-start text-left bg-userWhite'>
+                    {optionsFiltered.map((option) => (
+                      <label
+                        key={option.value}
+                        className='flex items-center space-x-2'
+                      >
+                        <input
+                          type='checkbox'
+                          value={option.value}
+                          checked={selectedOptions.includes(option.value)}
+                          onChange={(event) => {
+                            const { value, checked } = event.target;
+                            if (checked) {
+                              setSelectedOptions((prevSelectedOptions) => [
+                                ...prevSelectedOptions,
+                                value,
+                              ]);
+                            } else {
+                              setSelectedOptions((prevSelectedOptions) =>
+                                prevSelectedOptions.filter(
+                                  (valueOption) => valueOption !== value
+                                )
+                              );
+                            }
+                          }}
+                        />
+                        <span className='uppercase'>{option.label}</span>
+                      </label>
+                    ))}
+                  </span>
                 </span>
               </div>
               <div className='grid grid-cols-[1fr_3fr] pb-1'>
@@ -591,6 +677,12 @@ function UserSekolah() {
                     person.tahunTingkatan.includes(pilihanTahunTingkatan) &&
                     person.nama.includes(filterNama)
                 )
+                .filter((person) => {
+                  if (selectedOptions.length === 0) {
+                    return true;
+                  }
+                  return selectedOptions.includes(person.statusRawatan);
+                })
                 .map((singlePersonSekolah, index) => {
                   return (
                     <>
@@ -621,10 +713,25 @@ function UserSekolah() {
                                 UMUR : {singlePersonSekolah.umur}
                               </p>
                               <p className='whitespace-nowrap'>
-                                KETURUNAN : {singlePersonSekolah.keturunan}
+                                KETURUNAN :{' '}
+                                {singlePersonSekolah.keturunan ===
+                                'TIADA MAKLUMAT' ? (
+                                  <span className='font-semibold text-user9'>
+                                    {singlePersonSekolah.keturunan}
+                                  </span>
+                                ) : (
+                                  <span>{singlePersonSekolah.keturunan}</span>
+                                )}
                               </p>
                               <p className='whitespace-nowrap'>
-                                WARGANEGARA : {singlePersonSekolah.warganegara}
+                                WARGANEGARA :{' '}
+                                {singlePersonSekolah.warganegara ? (
+                                  singlePersonSekolah.warganegara
+                                ) : (
+                                  <span className='font-semibold text-user9'>
+                                    TIADA MAKLUMAT
+                                  </span>
+                                )}
                               </p>
                               <p className='whitespace-nowrap'>
                                 STATUS OKU :{' '}
@@ -844,7 +951,7 @@ function UserSekolah() {
                                               }
                                               className='text-sm text-start font-semibold bg-user1 bg-opacity-5 flex flex-row items-center rounded-md p-1 m-1 cursor-pointer'
                                             >
-                                              {accordian === index ? (
+                                              {accordian.includes(index) ? (
                                                 <FaMinus className='m-1' />
                                               ) : (
                                                 <FaPlus className='m-1' />
@@ -1067,12 +1174,18 @@ function UserSekolah() {
                                       [singlePersonSekolah._id]: true,
                                     });
                                   }}
-                                  className='hover:cursor-pointer hover:bg-user6 text-xs font-medium bg-user8 rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap'
+                                  className={`hover:cursor-pointer hover:bg-user6 text-xs font-medium rounded-full px-2 py-1 capitalize transition-all whitespace-nowrap
+                                  ${
+                                    singlePersonSekolah.tarikhMelaksanakanBegin
+                                      ? 'bg-user7'
+                                      : 'bg-user8'
+                                  }
+                                  `}
                                 >
                                   {singlePersonSekolah.tarikhMelaksanakanBegin ? (
-                                    <span className='text-xs text-userBlack text-center flex items-center'>
+                                    <span className='text-xs text-userWhite text-center flex items-center'>
                                       Selesai
-                                      <FaCheckCircle className='text-user7 inline-flex text-center ml-1' />
+                                      <FaCheckCircle className='text-userWhite inline-flex text-center ml-1' />
                                     </span>
                                   ) : (
                                     <span className='text-xs text-userBlack text-center flex items-center'>

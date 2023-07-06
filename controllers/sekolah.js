@@ -75,6 +75,8 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const { kp, kodFasiliti } = req.user;
+
   const sesiTakwim = sesiTakwimSekolah();
 
   const personSekolahWithPopulate = await Sekolah.findOne({
@@ -86,13 +88,23 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     .populate('rawatanSekolah');
   // .populate('kotakSekolah');
 
+  const fasilitiSekolah = await Fasiliti.findOne({
+    handler: kp,
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: personSekolahWithPopulate.kodSekolah,
+    sesiTakwimSekolah: sesiTakwim,
+  });
+
   if (!personSekolahWithPopulate) {
     return res
       .status(404)
       .json({ msg: `No person with id ${req.params.personSekolahId}` });
   }
 
-  res.status(201).json({ personSekolahWithPopulate });
+  res.status(201).json({
+    personSekolahWithPopulate,
+    fasilitiSekolah,
+  });
 };
 
 // GET /populate-satu-sekolah/:kodSekolah
@@ -105,14 +117,14 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
 
   const sesiTakwim = sesiTakwimSekolah();
 
-  const fasilitiSekolahs = await Fasiliti.findOne({
+  const fasilitiSekolah = await Fasiliti.findOne({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
     kodSekolah: req.params.kodSekolah,
     sesiTakwimSekolah: sesiTakwim,
   });
 
-  // const namaSekolahs = fasilitiSekolahs.reduce(
+  // const namaSekolahs = fasilitiSekolah.reduce(
   //   (arrNamaSekolahs, singleFasilitiSekolah) => {
   //     if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
   //       arrNamaSekolahs.push(singleFasilitiSekolah.nama);
@@ -122,7 +134,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   //   ['']
   // );
 
-  // const kodSekolahs = fasilitiSekolahs.reduce(
+  // const kodSekolahs = fasilitiSekolah.reduce(
   //   (arrKodSekolahs, singleFasilitiSekolah) => {
   //     if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
   //       arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
@@ -142,7 +154,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     .sort({ nama: 1 });
   // .populate('kotakSekolah');
 
-  res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
+  res.status(200).json({ allPersonSekolahs, fasilitiSekolah });
 };
 
 // not used
@@ -432,6 +444,12 @@ const muatturunSenaraiPelajar = async (req, res) => {
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
     });
 
+    worksheet.getColumn('nama').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
+      }
+    });
+
     worksheet.getColumn('warganegara').eachCell((cell) => {
       cell.value = cell.value || 'TIADA MAKLUMAT';
     });
@@ -442,13 +460,8 @@ const muatturunSenaraiPelajar = async (req, res) => {
       });
     });
 
-    worksheet.getColumn('nama').eachCell((cell, number) => {
-      if (number !== 1) {
-        cell.alignment = { vertical: 'middle', horizontal: 'left' };
-      }
-    });
-
     worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+
     worksheet.getRow(1).alignment = {
       vertical: 'middle',
       horizontal: 'center',

@@ -69,6 +69,14 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  jumlahEngganTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahTidakHadirTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   jenisTadikaKerajaan: {
     type: String,
     default: 'NOT APPLICABLE',
@@ -94,9 +102,13 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  sekolahMmi: {
+    type: String,
+    default: 'tidak-sekolah-mmi', // sekolah rendah akan sentiasa ya-sekolah-mmi
+  },
   sekolahKki: {
     type: String,
-    default: 'tidak',
+    default: 'tidak-sekolah-kki',
   },
   statusFMRSekolah: {
     type: String,

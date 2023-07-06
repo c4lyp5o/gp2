@@ -550,6 +550,7 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
         ...Data,
         risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
+        sekolahMmi: editedEntity.sekolahMmi,
         sekolahKki: editedEntity.sekolahKki,
         statusFMRSekolah: editedEntity.statusFMRSekolah,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
@@ -714,6 +715,20 @@ const EditModalForKp = ({
           ) {
             res.data.enrolmenMuridOaPenan = 0;
           }
+          if (
+            res.data.jumlahEngganTasTad === 'NOT APPLICABLE' ||
+            res.data.jumlahEngganTasTad === null ||
+            res.data.jumlahEngganTasTad === undefined
+          ) {
+            res.data.jumlahEngganTasTad = 0;
+          }
+          if (
+            res.data.jumlahTidakHadirTasTad === 'NOT APPLICABLE' ||
+            res.data.jumlahTidakHadirTasTad === null ||
+            res.data.jumlahTidakHadirTasTad === undefined
+          ) {
+            res.data.jumlahTidakHadirTasTad = 0;
+          }
         }
         // console.log(res.data);
         setEditedEntity(res.data);
@@ -810,6 +825,8 @@ const EditModalForKp = ({
           editedEntity.enrolmenMuridBerkeperluanKhas,
         enrolmenMuridOaPenan: editedEntity.enrolmenMuridOaPenan,
         jenisTadikaKerajaan: editedEntity.jenisTadikaKerajaan,
+        jumlahEngganTasTad: editedEntity.jumlahEngganTasTad,
+        jumlahTidakHadirTasTad: editedEntity.jumlahTidakHadirTasTad,
       };
     }
     if (FType === 'kpb' || FType === 'mpb') {

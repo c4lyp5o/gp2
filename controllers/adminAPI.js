@@ -416,15 +416,13 @@ const getDataRoute = async (req, res) => {
         kp: { $regex: /rtc/i },
         accountType: 'kpUser',
       };
-      data = await User.find(query).select('kp negeri kodFasiliti').lean();
+      data = await User.find(query).select('kp negeri kodFasiliti');
       break;
     case 'kkiakd-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kp,
         jenisFasiliti: 'kkiakd',
-      })
-        .select('nama kodKkiaKd')
-        .lean();
+      }).select('nama kodKkiaKd');
       break;
     case 'kpbmpb-spesifik':
       query = {
@@ -436,13 +434,13 @@ const getDataRoute = async (req, res) => {
         ...(kp !== '-' && { kodFasilitiHandler: kp }),
         jenisFasiliti: ['kp-bergerak', 'makmal-pergigian'],
       };
-      data = await Fasiliti.find(query).select('nama proposedName').lean();
+      data = await Fasiliti.find(query).select('nama proposedName');
       break;
     case 'pegawai-all':
       data = await Operator.find({
         statusPegawai: 'pp',
         activationStatus: true,
-      }).lean();
+      });
       break;
     case 'pegawai':
       data = await Operator.find({
@@ -450,30 +448,26 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      }).lean();
+      });
       break;
     case 'pegawai-spesifik':
       data = await Operator.find({
         kodFasiliti: kp,
         activationStatus: true,
-      })
-        .select('nama mdcNumber mdtbNumber statusPegawai')
-        .lean();
+      }).select('nama mdcNumber mdtbNumber statusPegawai');
       break;
     case 'pegawai-spesifik-negeri':
       data = await Operator.find({
         createdByNegeri: negeri,
         statusPegawai: 'pp',
         activationStatus: true,
-      })
-        .sort({ nama: 1 })
-        .lean();
+      }).sort({ nama: 1 });
       break;
     case 'jp-all':
       data = await Operator.find({
         statusPegawai: 'jp',
         activationStatus: true,
-      }).lean();
+      });
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -481,7 +475,7 @@ const getDataRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         activationStatus: true,
-      }).lean();
+      });
       break;
     case 'jp-spesifik-negeri':
       data = await Operator.find({
@@ -489,9 +483,7 @@ const getDataRoute = async (req, res) => {
         statusPegawai: 'jp',
         nama: { $regex: /^((?!jp).)*$/i },
         activationStatus: true,
-      })
-        .sort({ nama: 1 })
-        .lean();
+      }).sort({ nama: 1 });
       break;
     case 'sekolah-rendah':
       data = await Fasiliti.find({
@@ -520,14 +512,12 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         assignedByDaerah: true,
         tahunDibuat: new Date().getFullYear(),
-      }).lean();
+      });
       break;
     case 'program-spesifik':
       data = await Event.find({
         createdByKodFasiliti: kp,
-      })
-        .select('nama jenisEvent tarikhStart tarikhEnd')
-        .lean();
+      }).select('nama jenisEvent tarikhStart tarikhEnd');
       break;
     case 'sosmed':
       countedData = [];
@@ -540,7 +530,7 @@ const getDataRoute = async (req, res) => {
       }
       sosMeddata = await Sosmed.find({
         belongsTo: owner,
-      }).lean();
+      });
       countedData = sosmedDataCompactor(sosMeddata);
       data = countedData;
       break;
@@ -554,7 +544,7 @@ const getDataRoute = async (req, res) => {
       }
       data = await Sosmed.find({
         belongsTo: owner,
-      }).lean();
+      });
       break;
     case 'followers':
       owner = '';
@@ -566,20 +556,18 @@ const getDataRoute = async (req, res) => {
       }
       data = await Followers.find({
         belongsTo: owner,
-      }).lean();
+      });
       break;
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: user_name,
-      })
-        .select('jumlahToken jenisReten')
-        .lean();
+      }).select('jumlahToken jenisReten');
       break;
     case 'maklumat-asas-daerah':
       data = await MaklumatAsasDaerah.find({
         createdByNegeri: negeri,
         createdByDaerah: daerah,
-      }).lean();
+      });
       break;
     case 'jana-tadika':
       data = await Fasiliti.find({
@@ -587,9 +575,7 @@ const getDataRoute = async (req, res) => {
         ...(daerah === '-'
           ? { createdByNegeri: negeri }
           : { createdByNegeri: negeri, createdByDaerah: daerah }),
-      })
-        .select('nama kodFasilitiHandler handler kodTastad')
-        .lean();
+      }).select('nama kodFasilitiHandler handler kodTastad');
       break;
     case 'jana-sekolah-rendah':
       data = await Fasiliti.find({
@@ -598,9 +584,7 @@ const getDataRoute = async (req, res) => {
         ...(daerah === '-'
           ? { createdByNegeri: negeri }
           : { createdByNegeri: negeri, createdByDaerah: daerah }),
-      })
-        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
-        .lean();
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
       break;
     case 'jana-sekolah-menengah':
       data = await Fasiliti.find({
@@ -609,9 +593,8 @@ const getDataRoute = async (req, res) => {
         ...(daerah === '-'
           ? { createdByNegeri: negeri }
           : { createdByNegeri: negeri, createdByDaerah: daerah }),
-      })
-        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
-        .lean();
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
+      break;
     case 'program-gtod':
       console.log('masuk gtod', type);
       data = await AgensiLuar.find({
@@ -625,7 +608,7 @@ const getDataRoute = async (req, res) => {
         createdByNegeri: negeri,
         createdByDaerah: daerah,
         tahunSemasa: new Date().getFullYear(),
-      }).lean();
+      });
       break;
     case 'gtod-pemeriksaan':
       data = await PemeriksaanagensiLuar.find({
@@ -637,7 +620,7 @@ const getDataRoute = async (req, res) => {
         jenisFasiliti: type,
         createdByDaerah: daerah,
         createdByNegeri: negeri,
-      }).lean();
+      });
       break;
   }
   // 3rd phase
@@ -689,7 +672,7 @@ const getDataKpRoute = async (req, res) => {
         createdByDaerah: daerah,
         createdByNegeri: negeri,
         tahunDibuat: new Date().getFullYear(),
-      }).lean();
+      });
       break;
     case 'sosmed':
       countedData = [];
@@ -705,25 +688,25 @@ const getDataKpRoute = async (req, res) => {
     case 'sosmedByKodProgram':
       data = await Sosmed.find({
         belongsTo: kp,
-      }).lean();
+      });
       break;
     case 'followers':
       data = await Followers.find({
         belongsTo: kp,
-      }).lean();
+      });
       break;
     case 'kkiakd':
       data = await Fasiliti.find({
         jenisFasiliti: 'kkiakd',
         createdByNegeri: negeri,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
     case 'kkiakd-all-negeri':
       data = await Fasiliti.find({
         jenisFasiliti: 'kkiakd',
         createdByNegeri: negeri,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'tastad':
       data = await Fasiliti.find({
@@ -731,7 +714,7 @@ const getDataKpRoute = async (req, res) => {
         handler: kp,
         kodFasilitiHandler: kodFasiliti,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       data.sort((a, b) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
       });
@@ -741,7 +724,7 @@ const getDataKpRoute = async (req, res) => {
         jenisFasiliti: ['taska', 'tadika'],
         createdByNegeri: negeri,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       data.sort((a, b) => {
         return a.jenisFasiliti.localeCompare(b.jenisFasiliti);
       });
@@ -752,9 +735,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).select('-summary');
       break;
     case 'juruterapi pergigian':
       data = await Operator.find({
@@ -762,9 +743,7 @@ const getDataKpRoute = async (req, res) => {
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      })
-        .select('-summary')
-        .lean();
+      }).select('-summary');
       break;
     case 'institusi':
       data = await Fasiliti.find({
@@ -778,70 +757,62 @@ const getDataKpRoute = async (req, res) => {
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'kp-bergerak-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'kp-bergerak',
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'makmal-pergigian':
       data = await Fasiliti.find({
         jenisFasiliti: type,
         kodFasilitiHandler: kodFasiliti,
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'makmal-pergigian-all':
       data = await Fasiliti.find({
         jenisFasiliti: 'makmal-pergigian',
         statusPerkhidmatan: 'active',
-      }).lean();
+      });
       break;
     case 'kkiakd-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kodFasiliti,
         jenisFasiliti: 'kkiakd',
-      })
-        .select('nama kodKkiaKd')
-        .lean();
+      }).select('nama kodKkiaKd');
       break;
     case 'kpbmpb-spesifik':
       data = await Fasiliti.find({
         kodFasilitiHandler: kodFasiliti,
         jenisFasiliti: { $in: ['kp-bergerak', 'makmal-pergigian'] },
-      })
-        .select('nama proposedName')
-        .lean();
+      }).select('nama proposedName');
       break;
     case 'program-spesifik':
       data = await Event.find({
         createdByKodFasiliti: kodFasiliti,
-      })
-        .select('nama jenisEvent tarikhStart tarikhEnd')
-        .lean();
+      }).select('nama jenisEvent tarikhStart tarikhEnd');
       break;
     case 'pegawai-spesifik':
       data = await Operator.find({
         kpSkrg: kp,
         kodFasiliti: kodFasiliti,
         activationStatus: true,
-      })
-        .select('nama mdcNumber mdtbNumber statusPegawai')
-        .lean();
+      }).select('nama mdcNumber mdtbNumber statusPegawai');
       break;
     case 'sekolah-rendah':
       data = await Fasiliti.find({
         createdByNegeri: negeri,
         jenisFasiliti: 'sekolah-rendah',
-      }).lean();
+      });
       break;
     case 'sekolah-menengah':
       data = await Fasiliti.find({
         createdByNegeri: negeri,
         jenisFasiliti: 'sekolah-menengah',
-      }).lean();
+      });
       break;
     case 'jana-tadika':
       data = await Fasiliti.find({
@@ -849,9 +820,7 @@ const getDataKpRoute = async (req, res) => {
         createdByNegeri: negeri,
         createdByDaerah: daerah,
         kodFasilitiHandler: kodFasiliti,
-      })
-        .select('nama kodFasilitiHandler handler kodTastad')
-        .lean();
+      }).select('nama kodFasilitiHandler handler kodTastad');
       break;
     case 'jana-sekolah-rendah':
       data = await Fasiliti.find({
@@ -860,9 +829,7 @@ const getDataKpRoute = async (req, res) => {
         createdByNegeri: negeri,
         createdByDaerah: daerah,
         kodFasilitiHandler: kodFasiliti,
-      })
-        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
-        .lean();
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
       break;
     case 'jana-sekolah-menengah':
       data = await Fasiliti.find({
@@ -871,15 +838,12 @@ const getDataKpRoute = async (req, res) => {
         createdByNegeri: negeri,
         createdByDaerah: daerah,
         kodFasilitiHandler: kodFasiliti,
-      })
-        .select('nama kodFasilitiHandler kodSekolah idInstitusi handler')
-        .lean();
+      }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
+      break;
     case 'token-balance':
       data = await GenerateToken.find({
         belongsTo: username,
-      })
-        .select('jumlahToken jenisReten')
-        .lean();
+      }).select('jumlahToken jenisReten');
       break;
     default:
       console.log('default');
@@ -915,27 +879,27 @@ const getOneDataRoute = async (req, res) => {
   switch (type) {
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id).select('-summary').lean();
+      data = await Operator.findById(Id).select('-summary');
       break;
     case 'klinik':
-      data = await User.findById(Id).lean();
+      data = await User.findById(Id);
       break;
     case 'program':
-      data = await Event.findById(Id).lean();
+      data = await Event.findById(Id);
       break;
     case 'program-gtod':
       console.log('masuk gtod', type);
-      data = await AgensiLuar.findById(Id).lean();
+      data = await AgensiLuar.findById(Id);
       console.log(data);
       break;
     case 'program-wargaemas':
-      data = await AgensiLuar.findById(Id).lean();
+      data = await AgensiLuar.findById(Id);
       break;
     case 'gtod-pemeriksaan':
-      data = await PemeriksaanagensiLuar.findById(Id).lean();
+      data = await PemeriksaanagensiLuar.findById(Id);
       break;
     default:
-      data = await Fasiliti.findById(Id).lean();
+      data = await Fasiliti.findById(Id);
       break;
   }
   // 3rd phase
@@ -965,14 +929,14 @@ const getOneDataKpRoute = async (req, res) => {
 
   switch (type) {
     case 'program':
-      data = await Event.findById(Id).lean();
+      data = await Event.findById(Id);
       break;
     case 'pegawai':
     case 'juruterapi pergigian':
-      data = await Operator.findById(Id).select('-summary').lean();
+      data = await Operator.findById(Id).select('-summary');
       break;
     default:
-      data = await Fasiliti.findById(Id).lean();
+      data = await Fasiliti.findById(Id);
       break;
   }
   // 3rd phase
@@ -1851,6 +1815,9 @@ const getData = async (req, res) => {
             }
           }
           if (theType === 'sekolah-rendah' || theType === 'sekolah-menengah') {
+            if (theType === 'sekolah-rendah') {
+              Data.sekolahMmi = 'ya-sekolah-mmi';
+            }
             Data = {
               ...Data,
               jenisFasiliti: theType,
@@ -2850,8 +2817,7 @@ const getData = async (req, res) => {
             `[adminAPI/HqCenter] readOne for ${id || idd || idn} accessed`
           );
           const ptData = await Umum.find(queryObj)
-            .lean()
-            .select('kedatangan tarikhKedatangan');
+          .select('kedatangan tarikhKedatangan');
           const countPtByDate = (daysAgo) => {
             const date = moment()
               .subtract(daysAgo, 'days')
@@ -2916,9 +2882,7 @@ const getData = async (req, res) => {
             kedatanganPt,
           };
           if (id) {
-            const { kp } = await User.findOne({ kodFasiliti: id })
-              .select('kp')
-              .lean();
+            const { kp } = await User.findOne({ kodFasiliti: id }).select('kp');
             result.nama = kp;
           }
           if (idn && !idd) {
@@ -3168,18 +3132,14 @@ const getStatisticsData = async (req, res) => {
     data = await Umum.find({
       createdByNegeri: negeri,
       createdByDaerah: daerah,
-    })
-      .select(
-        'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
-      )
-      .lean();
+    }).select(
+      'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
+    );
   } else if (negeri && !daerah) {
     // data = await User.find({ negeri: negeri }).distinct('daerah');
-    data = await Umum.find({ createdByNegeri: negeri })
-      .select(
-        'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
-      )
-      .lean();
+    data = await Umum.find({ createdByNegeri: negeri }).select(
+      'kedatangan jantina kumpulanEtnik umur tarikhKedatangan createdByKodFasiliti'
+    );
   }
   // 3rd phase
   res.status(200).json(data);

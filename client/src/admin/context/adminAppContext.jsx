@@ -539,7 +539,7 @@ function AdminAppProvider({ children }) {
       );
       return response;
     } catch (err) {
-      return toast.error('Tiada Data Tadika Ditemui');
+      return toast.error('Tiada tadika ditemui');
     }
   };
   const readSpesifikJanaSekolahRendahData = async (kp) => {
@@ -555,7 +555,7 @@ function AdminAppProvider({ children }) {
       return response;
     } catch (err) {
       return toast.error(
-        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+        'Tiada sekolah ditemui atau sekolah masih menjalankan pemeriksaan atau rawatan'
       );
     }
   };
@@ -572,7 +572,7 @@ function AdminAppProvider({ children }) {
       return response;
     } catch (err) {
       return toast.error(
-        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+        'Tiada sekolah ditemui atau sekolah masih menjalankan pemeriksaan atau rawatan'
       );
     }
   };
@@ -860,21 +860,32 @@ function AdminAppProvider({ children }) {
         'Laporan Aktiviti Latihan Memberus Gigi Berkesan (Begin) Di Taska, Pra-Sekolah Dan Sekolah Rendah',
     },
     {
+      kod: 'CPPC1',
+      kodRingkas: 'CPPC1',
+      deskripsi:
+        'CPPC Treatment Need and Treament Rendered by Year of Preschool/School Children',
+    },
+    {
+      kod: 'CPPC2',
+      kodRingkas: 'CPPC2',
+      deskripsi:
+        'Trend Data of Decayed Teeth with Occlusal Caries in Preschool/School Children',
+    },
+    {
       kod: 'PPIM 03',
       kodRingkas: 'PPIM03',
       deskripsi:
-        'Rekod Saringan Dan Intervensi Merokok Melalui Perkhidmatan Pergigian Sekolah Rendah',
+        'Rekod Saringan Dan Intervensi Merokok Melalui Perkhidmatan Pergigian Sekolah',
     },
     {
       kod: 'PPIM 04',
       kodRingkas: 'PPIM04',
-      deskripsi:
-        'Daftar Murid Menjalani Intervensi Program Kotak Di Sekolah Rendah',
+      deskripsi: 'Daftar Murid Menjalani Intervensi Program Kotak Di Sekolah',
     },
     {
       kod: 'PPIM 05',
       kodRingkas: 'PPIM05',
-      deskripsi: 'Rekod Intervensi Program Kotak Di Sekolah Rendah',
+      deskripsi: 'Rekod Intervensi Program Kotak Di Sekolah',
     },
     {
       kod: 'Dewasa Muda',

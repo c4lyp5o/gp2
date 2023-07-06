@@ -26,9 +26,12 @@ const ModalGenerateAdHoc = (props) => {
   const pilihanRetenAdaProgramDanKPBMPB = ['PG101C', 'PG211C'].includes(
     props.jenisReten
   );
-  const pilihanRetenTasTadSekolah = ['PGS201', 'BEGIN', 'PPIM03'].includes(
-    props.jenisReten
-  );
+  const pilihanRetenTasTadSekolah = [
+    'PGS201',
+    'BEGIN',
+    'CPPC1',
+    'CPPC2',
+  ].includes(props.jenisReten);
   const pilihanRetenAdaKPBSahaja = ['PG211C-KPBMPB', 'KPBMPBBulanan'].includes(
     props.jenisReten
   );
@@ -146,19 +149,26 @@ const ModalGenerateAdHoc = (props) => {
 
   const penjanaanReten = async () => {
     try {
+      // ubat pening
+      const daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
+        props.jenisReten
+      )
+        ? props.jenisFasiliti === 'semua'
+          ? 'all'
+          : loginInfo.daerah
+        : loginInfo.accountType === 'daerahSuperadmin'
+        ? loginInfo.daerah
+        : props.pilihanDaerah;
+      //
       const url = `/api/v1/generate/download?jenisReten=${
         props.jenisReten
       }&negeri=${
         loginInfo.accountType === 'hqSuperadmin'
           ? Dictionary[props.pilihanNegeri]
           : loginInfo.negeri
-      }&daerah=${
-        props.jenisFasiliti === 'semua'
-          ? loginInfo.daerah
-          : props.pilihanDaerah === ''
-          ? 'all'
-          : props.pilihanDaerah
-      }&klinik=${props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik}${
+      }&daerah=${daerah}&klinik=${
+        props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
+      }${
         props.pilihanFasiliti === 'program'
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
           : ''
@@ -171,8 +181,16 @@ const ModalGenerateAdHoc = (props) => {
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanIndividu=${props.pilihanIndividu}`
           : ''
       }${
+        ['tadika'].includes(props.jenisFasiliti)
+          ? `&pilihanTadika=${props.pilihanJanaSpesifikFasiliti}`
+          : ''
+      }${
         ['sekolah rendah', 'sekolah menengah'].includes(props.jenisFasiliti)
           ? `&pilihanSekolah=${props.pilihanJanaSpesifikFasiliti}`
+          : ''
+      }${
+        ['semua sekolah menengah mmi'].includes(props.jenisFasiliti)
+          ? '&menengahMmi=jana-menengah-mmi'
           : ''
       }&tarikhMula=${startDateRef.current}&tarikhAkhir=${
         endDateRef.current
@@ -272,8 +290,6 @@ const ModalGenerateAdHoc = (props) => {
 
   // fetch kpb atau rtc
   useEffect(() => {
-    // console.log(pilihanRetenAdaKPBSahaja ? 'ada kpb sahaja' : 'ada rtc sahaja');
-
     if (
       (pilihanRetenAdaKPBSahaja || pilihanRetenRTC) &&
       (loginInfo.accountType === 'hqSuperadmin' ||
@@ -317,11 +333,122 @@ const ModalGenerateAdHoc = (props) => {
             <div className='mb-3'>
               <div className='admin-pegawai-handler-container'>
                 {pilihanRetenMASA && (
-                  <div className='grid grid-row-2 gap-2 p-2 normal-case'>
-                    Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
-                    PENUH, maklumat yang akan dijana adalah yang terbaru
-                    sehingga yang diisi sekarang
-                  </div>
+                  <>
+                    <div className='grid grid-row-2 gap-2 p-2 normal-case'>
+                      Penjanaan PIAGAM MASA dengan token adalah untuk SATU TAHUN
+                      PENUH, maklumat yang akan dijana adalah yang terbaru
+                      sehingga yang diisi sekarang
+                    </div>
+                    <div className='mb-3'>
+                      <div className='grid gap-1'>
+                        {loginInfo.accountType === 'hqSuperadmin' ? (
+                          <div className='px-3 py-1'>
+                            <label
+                              htmlFor='negeri'
+                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                            >
+                              Negeri:
+                            </label>
+                            <select
+                              required
+                              name='negeri'
+                              id='negeri'
+                              value={props.pilihanNegeri}
+                              onChange={(e) => props.handlePilihNegeri(e)}
+                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                            >
+                              <option value=''>Sila pilih..</option>
+                              <option value='all'>Semua Negeri</option>
+                              {props.negeri.map((n, index) => {
+                                return (
+                                  <option
+                                    value={n.username}
+                                    key={index}
+                                    className='capitalize'
+                                  >
+                                    {n.negeri}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        ) : null}
+                        {loginInfo.accountType === 'negeriSuperadmin' ||
+                        (props.pilihanNegeri !== '' &&
+                          props.pilihanNegeri !== 'all') ? (
+                          <div className='px-3 py-1'>
+                            <label
+                              htmlFor='daerah'
+                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                            >
+                              Daerah:
+                            </label>
+                            <select
+                              required
+                              name='daerah'
+                              id='daerah'
+                              value={props.pilihanDaerah}
+                              onChange={(e) => props.handlePilihDaerah(e)}
+                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent capitalize'
+                            >
+                              <option value=''>Sila pilih..</option>
+                              <option value='all'>
+                                Semua daerah (Jana Negeri)
+                              </option>
+                              {props.daerah.map((d, index) => {
+                                return (
+                                  <option
+                                    value={d.daerah}
+                                    key={index}
+                                    className='capitalize'
+                                  >
+                                    {d.daerah}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        ) : null}
+                        {loginInfo.accountType === 'daerahSuperadmin' ||
+                        (props.pilihanDaerah !== '' &&
+                          props.pilihanDaerah !== 'all') ? (
+                          <div className='px-3 py-1'>
+                            <label
+                              htmlFor='klinik'
+                              className='text-sm font-semibold text-user1 flex flex-row items-center p-2'
+                            >
+                              Klinik:
+                            </label>
+                            <select
+                              required
+                              name='klinik'
+                              id='klinik'
+                              value={props.pilihanKlinik}
+                              onChange={(e) => props.handlePilihKlinik(e)}
+                              className='appearance-none w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                            >
+                              <option value=''>Sila pilih..</option>
+                              <option value='all'>
+                                Semua klinik (Jana Daerah)
+                              </option>
+                              {props.klinik.map((k, index) => {
+                                return (
+                                  <option
+                                    key={index}
+                                    data-key={k.kp}
+                                    value={k.kodFasiliti}
+                                    className='capitalize'
+                                  >
+                                    {k.kp}
+                                  </option>
+                                );
+                              })}
+                            </select>
+                          </div>
+                        ) : null}
+                      </div>
+                    </div>
+                  </>
                 )}
                 {pilihanRetenRTC && (
                   <>
@@ -459,10 +586,10 @@ const ModalGenerateAdHoc = (props) => {
                 )}
                 {pilihanRetenTasTadSekolah && (
                   <>
-                    <div className='grid grid-cols-4 gap-2 my-2'>
+                    <div className='grid grid-cols-5 gap-2 my-2'>
                       <label
                         htmlFor='tadika'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'tadika'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -486,7 +613,7 @@ const ModalGenerateAdHoc = (props) => {
                       </label>
                       <label
                         htmlFor='sek-rendah'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'sekolah rendah'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -510,7 +637,7 @@ const ModalGenerateAdHoc = (props) => {
                       </label>
                       <label
                         htmlFor='sek-menengah'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'sekolah menengah'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -533,8 +660,34 @@ const ModalGenerateAdHoc = (props) => {
                         <span>Sekolah Menengah</span>
                       </label>
                       <label
+                        htmlFor='semua-sekolah-menengah-mmi'
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
+                          props.jenisFasiliti === 'semua sekolah menengah mmi'
+                            ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
+                            : ''
+                        }`}
+                      >
+                        <input
+                          required
+                          type='radio'
+                          name='jenisFasiliti'
+                          id='semua-sekolah-menengah-mmi'
+                          value='semua sekolah menengah mmi'
+                          checked={
+                            props.jenisFasiliti === 'semua sekolah menengah mmi'
+                          }
+                          onChange={(e) => {
+                            props.setJenisFasiliti(e.target.value);
+                            props.setCarianJana('');
+                            props.setPilihanJanaSpesifikFasiliti('');
+                          }}
+                          className='hidden'
+                        />
+                        <span>Semua Sekolah Menengah MMI</span>
+                      </label>
+                      <label
                         htmlFor='semua'
-                        className={`flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 ${
+                        className={`flex justify-center items-center py-2 px-1 rounded-md shadow-sm shadow-user1 ${
                           props.jenisFasiliti === 'semua'
                             ? ' ring ring-offset-user12 bg-user4 bg-opacity-30 transition-all duration-500'
                             : ''
@@ -557,114 +710,124 @@ const ModalGenerateAdHoc = (props) => {
                         <span>Semua</span>
                       </label>
                     </div>
-                    {props.jenisFasiliti && props.jenisFasiliti !== 'semua' && (
-                      <div className='my-2 mt-6'>
-                        <h1 className='flex justify-start my-1 font-semibold'>
-                          Carian {props.jenisFasiliti}
-                        </h1>
-                        <div className='grid grid-cols-[3fr_1fr] gap-2'>
-                          <input
-                            value={props.carianJana}
-                            type='search'
-                            name='carianJana'
-                            className='w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                            onChange={(e) => {
-                              props.setCarianJana(e.target.value);
-                            }}
-                          />
-                          <span
-                            className={` ${
-                              props.sedangCarianJana &&
-                              'cursor-not-allowed pointer-events-none'
-                            } flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 cursor-pointer hover:bg-user4 hover:bg-opacity-30 transition-all duration-500`}
-                            onClick={
-                              props.jenisFasiliti === 'tadika'
-                                ? props.handleJanaCarianTadika
-                                : props.jenisFasiliti === 'sekolah rendah'
-                                ? props.handleJanaCarianSekolahRendah
-                                : props.jenisFasiliti === 'sekolah menengah' &&
-                                  props.handleJanaCarianSekolahMenengah
-                            }
-                          >
-                            {props.sedangCarianJana ? 'Mencari' : 'Cari'}
-                          </span>
-                        </div>
-                        {props.carianJana ? (
-                          <>
-                            <h1 className='flex justify-start my-1 mt-2 font-semibold'>
-                              Pilihan {props.jenisFasiliti}
-                            </h1>
-                            <select
-                              className='w-full p-2 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                              name='pilihanSpesifikFasiliti'
-                              id='pilihanSpesifikFasiliti'
-                              value={props.pilihanJanaSpesifikFasiliti}
+                    {props.jenisFasiliti &&
+                      (props.jenisFasiliti === 'tadika' ||
+                        props.jenisFasiliti === 'sekolah rendah' ||
+                        props.jenisFasiliti === 'sekolah menengah') && (
+                        <div className='my-2 mt-6'>
+                          <h1 className='flex justify-start my-1 font-semibold'>
+                            Carian {props.jenisFasiliti}
+                          </h1>
+                          <div className='grid grid-cols-[3fr_1fr] gap-2'>
+                            <input
+                              value={props.carianJana}
+                              type='search'
+                              name='carianJana'
+                              className='w-full px-2 py-1 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
                               onChange={(e) => {
-                                console.log(e.target.value);
-                                props.setPilihanJanaSpesifikFasiliti(
-                                  e.target.value
-                                );
+                                props.setCarianJana(e.target.value);
                               }}
+                            />
+                            <span
+                              className={` ${
+                                props.sedangCarianJana &&
+                                'cursor-not-allowed pointer-events-none'
+                              } flex justify-center items-center py-2 rounded-md shadow-sm shadow-user1 cursor-pointer hover:bg-user4 hover:bg-opacity-30 transition-all duration-500`}
+                              onClick={
+                                props.jenisFasiliti === 'tadika'
+                                  ? props.handleJanaCarianTadika
+                                  : props.jenisFasiliti === 'sekolah rendah'
+                                  ? props.handleJanaCarianSekolahRendah
+                                  : props.jenisFasiliti ===
+                                      'sekolah menengah' &&
+                                    props.handleJanaCarianSekolahMenengah
+                              }
                             >
-                              <option value=''>Sila pilih..</option>
-                              {props.jenisFasiliti === 'tadika' &&
-                                props.allTadika &&
-                                props.allTadika
-                                  .filter((t) =>
-                                    t.nama
-                                      .toLowerCase()
-                                      .includes(props.carianJana.toLowerCase())
-                                  )
-                                  .map((t, index) => {
-                                    return (
-                                      <option key={index} value={t.nama}>
-                                        {t.nama}
-                                      </option>
-                                    );
-                                  })}
-                              {props.jenisFasiliti === 'sekolah rendah' &&
-                                props.allSekRendah &&
-                                props.allSekRendah
-                                  .filter((t) =>
-                                    t.nama
-                                      .toLowerCase()
-                                      .includes(props.carianJana.toLowerCase())
-                                  )
-                                  .map((t, index) => {
-                                    return (
-                                      <option
-                                        key={index}
-                                        data-key={t.kodSekolah}
-                                        value={t.kodSekolah}
-                                      >
-                                        {t.nama}
-                                      </option>
-                                    );
-                                  })}
-                              {props.jenisFasiliti === 'sekolah menengah' &&
-                                props.allSekMenengah &&
-                                props.allSekMenengah
-                                  .filter((t) =>
-                                    t.nama
-                                      .toLowerCase()
-                                      .includes(props.carianJana.toLowerCase())
-                                  )
-                                  .map((t, index) => {
-                                    return (
-                                      <option
-                                        key={index}
-                                        data-key={t.kodSekolah}
-                                        value={t.kodSekolah}
-                                      >
-                                        {t.nama}
-                                      </option>
-                                    );
-                                  })}
-                            </select>
-                          </>
-                        ) : null}
-                      </div>
-                    )}
+                              {props.sedangCarianJana ? 'Mencari' : 'Cari'}
+                            </span>
+                          </div>
+                          {props.carianJana ? (
+                            <>
+                              <h1 className='flex justify-start my-1 mt-2 font-semibold'>
+                                Pilihan {props.jenisFasiliti}
+                              </h1>
+                              <select
+                                className='w-full p-2 text-sm text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                                name='pilihanSpesifikFasiliti'
+                                id='pilihanSpesifikFasiliti'
+                                value={props.pilihanJanaSpesifikFasiliti}
+                                onChange={(e) => {
+                                  console.log(e.target.value);
+                                  props.setPilihanJanaSpesifikFasiliti(
+                                    e.target.value
+                                  );
+                                }}
+                              >
+                                <option value=''>Sila pilih..</option>
+                                {props.jenisFasiliti === 'tadika' &&
+                                  props.allTadika &&
+                                  props.allTadika
+                                    .filter((t) =>
+                                      t.nama
+                                        .toLowerCase()
+                                        .includes(
+                                          props.carianJana.toLowerCase()
+                                        )
+                                    )
+                                    .map((t, index) => {
+                                      return (
+                                        <option key={index} value={t.kodTastad}>
+                                          {t.nama}
+                                        </option>
+                                      );
+                                    })}
+                                {props.jenisFasiliti === 'sekolah rendah' &&
+                                  props.allSekRendah &&
+                                  props.allSekRendah
+                                    .filter((t) =>
+                                      t.nama
+                                        .toLowerCase()
+                                        .includes(
+                                          props.carianJana.toLowerCase()
+                                        )
+                                    )
+                                    .map((t, index) => {
+                                      return (
+                                        <option
+                                          key={index}
+                                          data-key={t.kodSekolah}
+                                          value={t.kodSekolah}
+                                        >
+                                          {t.nama}
+                                        </option>
+                                      );
+                                    })}
+                                {props.jenisFasiliti === 'sekolah menengah' &&
+                                  props.allSekMenengah &&
+                                  props.allSekMenengah
+                                    .filter((t) =>
+                                      t.nama
+                                        .toLowerCase()
+                                        .includes(
+                                          props.carianJana.toLowerCase()
+                                        )
+                                    )
+                                    .map((t, index) => {
+                                      return (
+                                        <option
+                                          key={index}
+                                          data-key={t.kodSekolah}
+                                          value={t.kodSekolah}
+                                        >
+                                          {t.nama}
+                                        </option>
+                                      );
+                                    })}
+                              </select>
+                            </>
+                          ) : null}
+                        </div>
+                      )}
                   </>
                 )}
                 {!pilihanRetenMASA &&
@@ -2051,7 +2214,6 @@ const Generate = () => {
       })
       .catch((err) => {
         console.log(err);
-        toast.error('Sila cuba lagi');
       });
   };
 
@@ -2064,7 +2226,6 @@ const Generate = () => {
       })
       .catch((err) => {
         console.log(err);
-        // toast.error('Sila cuba lagi');
       });
   };
 
@@ -2079,7 +2240,6 @@ const Generate = () => {
         })
         .catch((err) => {
           console.log(err);
-          toast.error('Sila cuba lagi');
         });
     }
   };
@@ -2091,8 +2251,7 @@ const Generate = () => {
         setRtcData(res.data);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
@@ -2105,8 +2264,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
@@ -2119,10 +2277,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        if (err.response.status === 404) {
-          toast.error('Tiada data sekolah rendah');
-        }
+        console.log(err);
       });
   };
 
@@ -2135,8 +2290,7 @@ const Generate = () => {
         setSedangCarianJana(false);
       })
       .catch((err) => {
-        // console.log(err);
-        // toast.error('Sila cuba lagi');
+        console.log(err);
       });
   };
 
