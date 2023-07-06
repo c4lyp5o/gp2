@@ -1,15 +1,18 @@
 import { useState, useEffect } from 'react';
 import moment from 'moment';
+import { BiWorld } from 'react-icons/bi';
 
 import { useGlobalAdminAppContext } from '../../../context/adminAppContext';
 
-export default function FormProgramGtod({
-  kemaskiniGTod,
+const FormPemeriksaanProgramGtod = ({
+  idGTod,
   setShowFormPemeriksaan,
   setShowTable,
   pemeriksaanSatu,
   pemeriksaanDua,
-}) {
+  reloadState,
+  setReloadState,
+}) => {
   const {
     loginInfo,
     readData,
@@ -20,10 +23,11 @@ export default function FormProgramGtod({
     toast,
   } = useGlobalAdminAppContext();
 
-  const [tarikhLawatan, setTarikhLawatan] = useState('');
-  const [enrolmenKurang4Tahun, setEnrolmenKurang4Tahun] = useState(0);
-  const [enrolmen5Tahun, setEnrolmen5Tahun] = useState(0);
-  const [enrolmen6Tahun, setEnrolmen6Tahun] = useState(0);
+  const [tarikhMulaLawatan, setTarikhMulaLawatan] = useState('');
+  const [tarikhAkhirLawatan, setTarikhAkhirLawatan] = useState('');
+  // const [enrolmenKurang4Tahun, setEnrolmenKurang4Tahun] = useState(0);
+  // const [enrolmen5Tahun, setEnrolmen5Tahun] = useState(0);
+  // const [enrolmen6Tahun, setEnrolmen6Tahun] = useState(0);
   const [kedatanganBaru, setKedatanganBaru] = useState(0);
   const [kedatanganUlangan, setKedatanganUlangan] = useState(0);
   const [dDesidus, setDDesidus] = useState(0);
@@ -42,7 +46,10 @@ export default function FormProgramGtod({
   const [penilaianRisikoTinggi, setPenilaianRisikoTinggi] = useState(0);
 
   //datePicker issue
-  const [tarikhLawatanDP, setTarikhLawatanDP] = useState(null);
+  const [tarikhMulaLawatanDP, setTarikhMulaLawatanDP] = useState(null);
+  const [tarikhAkhirLawatanDP, setTarikhAkhirLawatanDP] = useState(null);
+
+  const [addingData, setAddingData] = useState(false);
 
   let dataPemeriksaan = null;
   if (!pemeriksaanSatu) {
@@ -56,16 +63,44 @@ export default function FormProgramGtod({
     isDisabled = true;
   }
 
-  const TarikhLawatan = () => {
+  const TarikhMulaLawatan = () => {
     return masterDatePicker({
       selected: dataPemeriksaan
-        ? new Date(dataPemeriksaan.tarikhLawatan)
-        : tarikhLawatanDP,
+        ? new Date(dataPemeriksaan.tarikhMulaLawatan)
+        : tarikhMulaLawatanDP,
       disabled: isDisabled,
+      required: true,
+      selectsStart: true,
+      startDate: tarikhMulaLawatanDP,
+      endDate: tarikhAkhirLawatanDP,
       onChange: (date) => {
         const tempDate = moment(date).format('YYYY-MM-DD');
-        setTarikhLawatan(tempDate);
-        setTarikhLawatanDP(date);
+        setTarikhMulaLawatan(tempDate);
+        setTarikhMulaLawatanDP(date);
+      },
+      filterDate: (date) => {
+        return moment() > date;
+      },
+      className:
+        'appearance-none w-28 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1',
+    });
+  };
+
+  const TarikhAkhirLawatan = () => {
+    return masterDatePicker({
+      selected: dataPemeriksaan
+        ? new Date(dataPemeriksaan.tarikhAkhirLawatan)
+        : tarikhAkhirLawatanDP,
+      disabled: isDisabled,
+      required: true,
+      selectsEnd: true,
+      startDate: tarikhMulaLawatanDP,
+      endDate: tarikhAkhirLawatanDP,
+      minDate: tarikhMulaLawatanDP,
+      onChange: (date) => {
+        const tempDate = moment(date).format('YYYY-MM-DD');
+        setTarikhAkhirLawatan(tempDate);
+        setTarikhAkhirLawatanDP(date);
       },
       filterDate: (date) => {
         return moment() > date;
@@ -77,13 +112,15 @@ export default function FormProgramGtod({
 
   const handleSubmitPemeriksaan = async (e) => {
     e.preventDefault();
+    setAddingData(true);
     let Data;
     Data = {
-      Id: kemaskiniGTod,
-      tarikhLawatan: tarikhLawatan,
-      enrolmenKurang4Tahun: enrolmenKurang4Tahun,
-      enrolmen5Tahun: enrolmen5Tahun,
-      enrolmen6Tahun: enrolmen6Tahun,
+      Id: idGTod,
+      tarikhMulaLawatan: tarikhMulaLawatan,
+      tarikhAkhirLawatan: tarikhAkhirLawatan,
+      // enrolmenKurang4Tahun: enrolmenKurang4Tahun,
+      // enrolmen5Tahun: enrolmen5Tahun,
+      // enrolmen6Tahun: enrolmen6Tahun,
       kedatanganBaru: kedatanganBaru,
       kedatanganUlangan: kedatanganUlangan,
       dDesidus: dDesidus,
@@ -101,7 +138,7 @@ export default function FormProgramGtod({
       penilaianRisikoSederhana: penilaianRisikoSederhana,
       penilaianRisikoTinggi: penilaianRisikoTinggi,
     };
-    console.log(Data);
+    // console.log(Data);
     await toast
       .promise(
         createData('pemeriksaanGtod', Data),
@@ -116,9 +153,8 @@ export default function FormProgramGtod({
       )
       .then((res) => {
         setShowFormPemeriksaan(false);
-        // window reload
-        window.location.reload();
         setShowTable(true);
+        setReloadState(!reloadState);
       })
       .catch((err) => {
         console.log(err);
@@ -131,19 +167,26 @@ export default function FormProgramGtod({
         onSubmit={handleSubmitPemeriksaan}
         className='grid grid-cols-1 lg:grid-cols-2 gap-2'
       >
-        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
+        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md col-span-1 lg:col-span-2'>
           <p className='flex font-semibold'>Tarikh Lawatan</p>
-          <div className='flex justify-start text-left'>
-            <TarikhLawatan />
+          <div className='flex justify-start place-items-center text-left space-x-2'>
+            <p className='whitespace-nowrap'>
+              Tarikh Mula<strong className='text-user9'>*</strong>
+            </p>
+            <TarikhMulaLawatan />
+            <p className='whitespace-nowrap'>
+              Tarikh Akhir<strong className='text-user9'>*</strong>
+            </p>
+            <TarikhAkhirLawatan />
           </div>
         </article>
-        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
+        {/* <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Enrolmen Tahun Semasa</p>
           <div className='flex flex-wrap space-x-3 items-center'>
             <label className='text-center'>{'< 4 tahun'}</label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -161,7 +204,7 @@ export default function FormProgramGtod({
             <label className='text-center'>5 tahun</label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -179,7 +222,7 @@ export default function FormProgramGtod({
             <label className='text-center'>6 tahun</label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -195,14 +238,16 @@ export default function FormProgramGtod({
               }}
             />
           </div>
-        </article>
+        </article> */}
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Kedatangan</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Baru</label>
+            <label className='text-center'>
+              Baru <strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -217,10 +262,12 @@ export default function FormProgramGtod({
                 setKedatanganBaru(e.target.value);
               }}
             />
-            <label className='text-center'>Ulangan</label>
+            <label className='text-center'>
+              Ulangan<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -237,13 +284,15 @@ export default function FormProgramGtod({
             />
           </div>
         </article>
-        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
+        <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md normal-case'>
           <p className='flex font-semibold'>Status dmfx</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>d</label>
+            <label className='text-center'>
+              d<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -254,10 +303,12 @@ export default function FormProgramGtod({
                 setDDesidus(e.target.value);
               }}
             />
-            <label className='text-center'>m</label>
+            <label className='text-center'>
+              m<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -268,10 +319,12 @@ export default function FormProgramGtod({
                 setMDesidus(e.target.value);
               }}
             />
-            <label className='text-center'>f</label>
+            <label className='text-center'>
+              f<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -282,10 +335,12 @@ export default function FormProgramGtod({
                 setFDesidus(e.target.value);
               }}
             />
-            <label className='text-center'>x</label>
+            <label className='text-center'>
+              x<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -301,10 +356,12 @@ export default function FormProgramGtod({
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Kebersihan Mulut</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>a</label>
+            <label className='text-center'>
+              a<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2 focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1 '
@@ -319,10 +376,12 @@ export default function FormProgramGtod({
                 setAKebersihanMulut(e.target.value);
               }}
             />
-            <label className='text-center'>c</label>
+            <label className='text-center'>
+              c<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -337,10 +396,12 @@ export default function FormProgramGtod({
                 setCKebersihanMulut(e.target.value);
               }}
             />
-            <label className='text-center'>e</label>
+            <label className='text-center'>
+              e<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -362,10 +423,12 @@ export default function FormProgramGtod({
             Bilangan Tidak Perlu Rawatan (TPR)
           </p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Tak Perlu Rawatan</label>
+            <label className='text-center'>
+              Tak Perlu Rawatan<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -383,12 +446,17 @@ export default function FormProgramGtod({
           </div>
         </article>
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
-          <p className='flex font-semibold'>Bilangan Toddler Perlu Sapuan FV</p>
+          <p className='flex font-semibold'>
+            Bilangan Toddler Perlu Sapuan Varnish Berfluorida
+          </p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Sapuan Fvarnish</label>
+            <label className='text-center'>
+              Sapuan Varnish Berfluorida
+              <strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -407,13 +475,15 @@ export default function FormProgramGtod({
         </article>
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>
-            Bilangan toddler dirujuk (kali pertama)
+            Bilangan toddler dirujuk ke klinik pergigian (kali pertama)
           </p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Dirujuk</label>
+            <label className='text-center'>
+              Dirujuk<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -429,10 +499,12 @@ export default function FormProgramGtod({
         <article className='flex flex-col p-2 pl-5 space-y-2 border border-user1 rounded-md'>
           <p className='flex font-semibold'>Bilangan Abses</p>
           <div className='flex flex-wrap space-x-3 items-center'>
-            <label className='text-center'>Abses</label>
+            <label className='text-center'>
+              Abses<strong className='text-user9'>*</strong>
+            </label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -451,7 +523,7 @@ export default function FormProgramGtod({
             <label className='text-center'>Rendah</label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -469,7 +541,7 @@ export default function FormProgramGtod({
             <label className='text-center'>Sederhana</label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -487,7 +559,7 @@ export default function FormProgramGtod({
             <label className='text-center'>Tinggi</label>
             <input
               type='number'
-              min={1}
+              min='0'
               required
               disabled={isDisabled}
               className='appearance-none w-14 h-9 border-b-4 border-b-admin2 py-1 px-2  focus:border-b-admin1 focus:outline-none mb-1 shadow-md shadow-user1'
@@ -505,23 +577,33 @@ export default function FormProgramGtod({
           </div>
         </article>
         <span
-          className='px-4 py-2 mt-5 ml-5 text-adminWhite bg-admin3 rounded-md cursor-pointer hover:bg-admin1'
+          className='px-4 py-2 text-adminBlack rounded-md cursor-pointer hover:bg-user1 hover:bg-opacity-25'
           onClick={() => {
             setShowFormPemeriksaan(false);
-            window.location.reload();
             setShowTable(true);
+            setReloadState(!reloadState);
           }}
         >
           batal
         </span>
-        <button
-          className='px-4 py-2 mt-5 mr-5 text-adminWhite bg-admin1 rounded-md cursor-pointer hover:bg-admin3'
-          type='submit'
-        >
-          {' '}
-          Hantar
-        </button>
+        {addingData ? (
+          <span
+            className='px-4 py-2 text-adminWhite bg-admin1 rounded-md cursor-not-allowed inline-flex justify-center items-center space-x-2'
+            disabled
+          >
+            <BiWorld className='animate-spin' /> Menghantar
+          </span>
+        ) : dataPemeriksaan ? null : (
+          <button
+            className='px-4 py-2 text-adminWhite bg-admin1 rounded-md cursor-pointer hover:bg-admin3'
+            type='submit'
+          >
+            Hantar
+          </button>
+        )}
       </form>
     </>
   );
-}
+};
+
+export default FormPemeriksaanProgramGtod;

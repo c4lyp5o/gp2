@@ -20,7 +20,7 @@ const PromosiType = require('../models/PromosiType');
 const GenerateToken = require('../models/GenerateToken');
 const MaklumatAsasDaerah = require('../models/MaklumatAsasDaerah');
 const AgensiLuar = require('../models/AgensiLuar');
-const PemeriksaanagensiLuar = require('../models/FormAgensiLuar');
+const PemeriksaanagensiLuar = require('../models/AgensiLuarForm');
 const emailGen = require('../lib/emailgen');
 const sesiTakwimSekolah = require('./helpers/sesiTakwimSekolah');
 const insertToSekolah = require('./helpers/insertToSekolah');
@@ -186,12 +186,24 @@ const initialDataKlinik = async (req, res) => {
 
 const initialDataAdmins = async (req, res) => {
   const { kodFasiliti } = req.query;
-  const all = await Operator.find({
+
+  const allRoleAdmin = await Operator.find({
     kodFasiliti: kodFasiliti,
     role: 'admin',
     activationStatus: true,
   }).select('nama email mdcNumber mdtbNumber');
+
+  const allRoleMediaSosialKlinik = await Operator.find({
+    kodFasiliti: kodFasiliti,
+    role: 'umum',
+    roleMediaSosialKlinik: true,
+    activationStatus: true,
+  }).select('nama email mdcNumber mdtbNumber');
+
+  const all = allRoleAdmin.concat(allRoleMediaSosialKlinik);
+
   let admins = [];
+
   all.forEach((item) => {
     let regNum = {};
     let adminDetails = {};
@@ -205,6 +217,7 @@ const initialDataAdmins = async (req, res) => {
     };
     admins.push(adminDetails);
   });
+
   if (admins.length === 0) {
     res.status(404).json({ message: 'No operators found' });
   } else {
@@ -2063,7 +2076,9 @@ const getData = async (req, res) => {
             theType !== 'sosmed' &&
             theType !== 'followers' &&
             theType !== 'sekolah-rendah' &&
-            theType !== 'sekolah-menengah'
+            theType !== 'sekolah-menengah' &&
+            theType !== 'program-gtod' &&
+            theType !== 'program-wargaemas'
           ) {
             const data = await Fasiliti.findByIdAndDelete({
               _id: Id,
@@ -2229,7 +2244,7 @@ const getData = async (req, res) => {
           }
           if (theType === 'program-gtod' || theType === 'program-wargaemas') {
             const data = await AgensiLuar.findByIdAndDelete({
-              _id: Data.Id,
+              _id: Id,
             });
             if (!data) {
               return res.status(404).json({ msg: 'Data not found' });
