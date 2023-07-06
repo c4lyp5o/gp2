@@ -72,14 +72,23 @@ export default function MakmalPergigianBergerak(props) {
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       {index + 1}
                     </td>
-                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
-                      {moment(mpb.tarikhStart).format('DD/MM/YYYY')} -{' '}
-                      {moment(mpb.tarikhEnd).format('DD/MM/YYYY')}
-                    </td>
+                    {!mpb.SRbertanggungjawab && !mpb.SMbertanggungjawab ? (
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {moment(mpb.tarikhStart).format('DD/MM/YYYY')} -{' '}
+                        {moment(mpb.tarikhEnd).format('DD/MM/YYYY')}
+                      </td>
+                    ) : (
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        Tidak Berkenaan
+                      </td>
+                    )}
+
                     <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1 uppercase'>
                       {mpb.klinikBertanggungjawab ||
                         mpb.kkiaKdBertanggungjawab ||
-                        mpb.tastadBertanggungjawab}
+                        mpb.tastadBertanggungjawab ||
+                        mpb.SRbertanggungjawab ||
+                        mpb.SMbertanggungjawab}
                     </td>
                     {/* <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
                       <button
@@ -100,7 +109,7 @@ export default function MakmalPergigianBergerak(props) {
             </table>
           </div>
         ) : (
-          <span className='font-mono'>
+          <span>
             Tiada Maklumat Penggunaan{' '}
             {singleMpbData ? <span>bagi {singleMpbData.nama}</span> : null}
           </span>

@@ -38,6 +38,11 @@ const EventSchema = new Schema({
     type: String,
     default: '',
   },
+  // sub program
+  subProgram: {
+    type: Array,
+    default: [],
+  },
   // for programDewasaMuda
   kategoriInstitusi: {
     type: String,

@@ -16,11 +16,11 @@ const RunningnumberSchema = new mongoose.Schema({
   kp: {
     type: String,
   },
-  tahun: {
-    type: Number,
-  },
   kodFasiliti: {
     type: String,
+  },
+  tahun: {
+    type: Number,
   },
 });
 

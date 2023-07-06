@@ -8,34 +8,51 @@ export default function Navbar(props) {
   const { loginInfo } = useGlobalAdminAppContext();
 
   const [showLinks, setShowLinks] = useState(false);
-  const [showPenetapanSubMenu, setShowPenetapanSubMenu] = useState(false);
-  const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
-  const [showPromosiSubMenu, setShowPromosiSubMenu] = useState(false);
+
+  // negeri superadmin state
   const [showMaklumatLainSubMenu, setShowMaklumatLainSubMenu] = useState(false);
+
+  // daerah superadmin, kp superadmin, kp sosmedadmin state
+  const [showPenetapanSubMenu, setShowPenetapanSubMenu] = useState(false);
+  const [showPromosiSubMenu, setShowPromosiSubMenu] = useState(false);
+  const [showMedSosSubMenu, setShowMedSosSubMenu] = useState(false);
+  const [showAgensiLuarSubMenu, setShowAgensiLuarSubMenu] = useState(false);
+
+  const toggleSubMenuMaklumatLain = () => {
+    setShowMaklumatLainSubMenu(!showMaklumatLainSubMenu);
+    setShowPenetapanSubMenu(false);
+    setShowPromosiSubMenu(false);
+    setShowMedSosSubMenu(false);
+    setShowAgensiLuarSubMenu(false);
+  };
 
   const togglePenetapanSubMenu = () => {
     setShowPenetapanSubMenu(!showPenetapanSubMenu);
     setShowPromosiSubMenu(false);
     setShowMedSosSubMenu(false);
+    setShowAgensiLuarSubMenu(false);
     setShowMaklumatLainSubMenu(false);
   };
 
   const toggleSubMenuPromosi = () => {
     setShowPromosiSubMenu(!showPromosiSubMenu);
-    setShowPenetapanSubMenu(false);
     setShowMedSosSubMenu(false);
+    setShowAgensiLuarSubMenu(false);
     setShowMaklumatLainSubMenu(false);
+    setShowPenetapanSubMenu(false);
   };
 
   const toggleSubMenuMedSos = () => {
     setShowMedSosSubMenu(!showMedSosSubMenu);
+    setShowAgensiLuarSubMenu(false);
+    setShowMaklumatLainSubMenu(false);
     setShowPenetapanSubMenu(false);
     // setShowPromosiSubMenu(false);
-    setShowMaklumatLainSubMenu(false);
   };
 
-  const toggleSubMenuMaklumatLain = () => {
-    setShowMaklumatLainSubMenu(!showMaklumatLainSubMenu);
+  const toggleSubMenuAgensiLuar = () => {
+    setShowAgensiLuarSubMenu(!showAgensiLuarSubMenu);
+    setShowMaklumatLainSubMenu(false);
     setShowPenetapanSubMenu(false);
     setShowPromosiSubMenu(false);
     setShowMedSosSubMenu(false);
@@ -81,7 +98,147 @@ export default function Navbar(props) {
             >
               PAPARAN UTAMA
             </NavLink>
-            {/* TODO rearrange pentadbir navbar according to AdminAfterLogin, easier to maintain & read for all the CSS and design stuff */}
+            {loginInfo.accountType === 'hqSuperadmin' && (
+              <>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='generate'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                >
+                  PENJANAAN RETEN
+                </NavLink>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='ondemand'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                  }}
+                >
+                  ON DEMAND SETTING
+                </NavLink>
+              </>
+            )}
+            {loginInfo.accountType === 'negeriSuperadmin' && (
+              <>
+                <div>
+                  <div
+                    className={`${
+                      showMaklumatLainSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                    onClick={toggleSubMenuMaklumatLain}
+                  >
+                    <span>MAKLUMAT OPERATOR</span>
+                    <span className='inline-flex ml-2'>
+                      <FaArrowAltCircleUp
+                        className={`transition-all ${
+                          showMaklumatLainSubMenu && 'rotate-180'
+                        }`}
+                      />
+                    </span>
+                  </div>
+                  <div
+                    className={`grid transition-all ${
+                      showMaklumatLainSubMenu
+                        ? 'max-h-96'
+                        : 'max-h-0 overflow-hidden'
+                    }`}
+                  >
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='negeri/pp'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      PEGAWAI PERGIGIAN
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='negeri/jp'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      JURUTERAPI PERGIGIAN
+                    </NavLink>
+                  </div>
+                </div>
+                <div>
+                  <div
+                    className={`${
+                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
+                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                    onClick={toggleSubMenuMedSos}
+                  >
+                    <span>MEDIA SOSIAL</span>
+                    <span className='inline-flex ml-2'>
+                      <FaArrowAltCircleUp
+                        className={`transition-all ${
+                          showMedSosSubMenu && 'rotate-180'
+                        }`}
+                      />
+                    </span>
+                  </div>
+                  <div
+                    className={`grid transition-all ${
+                      showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
+                    }`}
+                  >
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='followers'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      <i>FOLLOWERS</i> MEDIA SOSIAL
+                    </NavLink>
+                    <NavLink
+                      className={({ isActive }) =>
+                        isActive
+                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                      }
+                      to='sosmed'
+                      onClick={() => setShowLinks(!showLinks)}
+                    >
+                      AKTIVITI MEDIA SOSIAL
+                    </NavLink>
+                  </div>
+                </div>
+                <NavLink
+                  className={({ isActive }) =>
+                    isActive
+                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
+                  }
+                  to='generate'
+                  onClick={() => {
+                    setShowLinks(!showLinks);
+                    setShowMaklumatLainSubMenu(false);
+                    setShowMedSosSubMenu(false);
+                  }}
+                >
+                  PENJANAAN RETEN
+                </NavLink>
+              </>
+            )}
             {loginInfo.accountType === 'daerahSuperadmin' && (
               <>
                 <div>
@@ -195,17 +352,6 @@ export default function Navbar(props) {
                     >
                       SEKOLAH MENENGAH
                     </NavLink>
-                    {/* <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
-                      }
-                      to='ins'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      INSTITUSI
-                    </NavLink> */}
                     <NavLink
                       className={({ isActive }) =>
                         isActive
@@ -280,8 +426,8 @@ export default function Navbar(props) {
                     ) : null}
                     <div
                       className={`${
-                        showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
-                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                        showMedSosSubMenu ? 'bg-admin7' : 'bg-admin7'
+                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl text-adminBlack p-3 m-1 hover:bg-admin5 cursor-pointer transition-all`}
                       onClick={toggleSubMenuMedSos}
                     >
                       <span>MEDIA SOSIAL</span>
@@ -325,6 +471,56 @@ export default function Navbar(props) {
                     </div>
                   </div>
                 </div>
+                {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+                import.meta.env.VITE_ENV === 'DEV' ? (
+                  <div>
+                    <div
+                      className={`${
+                        showAgensiLuarSubMenu ? 'bg-admin3' : 'bg-admin2'
+                      } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
+                      onClick={toggleSubMenuAgensiLuar}
+                    >
+                      <span>AGENSI LUAR</span>
+                      <span className='inline-flex ml-2'>
+                        <FaArrowAltCircleUp
+                          className={`transition-all ${
+                            showAgensiLuarSubMenu && 'rotate-180'
+                          }`}
+                        />
+                      </span>
+                    </div>
+                    <div
+                      className={`grid transition-all ${
+                        showAgensiLuarSubMenu
+                          ? 'max-h-[50rem]'
+                          : 'max-h-0 overflow-hidden'
+                      }`}
+                    >
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive
+                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                        }
+                        to='program-gtod'
+                        onClick={() => setShowLinks(!showLinks)}
+                      >
+                        PROGRAM G-TOD
+                      </NavLink>
+                      <NavLink
+                        className={({ isActive }) =>
+                          isActive
+                            ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                            : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack transition-all'
+                        }
+                        to='program-warga-emas'
+                        onClick={() => setShowLinks(!showLinks)}
+                      >
+                        PROGRAM WARGA EMAS
+                      </NavLink>
+                    </div>
+                  </div>
+                ) : null}
                 <NavLink
                   className={({ isActive }) =>
                     isActive
@@ -335,23 +531,13 @@ export default function Navbar(props) {
                   onClick={() => {
                     setShowLinks(!showLinks);
                     setShowPenetapanSubMenu(false);
+                    setShowPromosiSubMenu(false);
                     setShowMedSosSubMenu(false);
-                    setShowMaklumatLainSubMenu(false);
+                    setShowAgensiLuarSubMenu(false);
                   }}
                 >
                   PENJANAAN RETEN
                 </NavLink>
-                {/* <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                  }
-                  to='aq'
-                  onClick={() => setShowLinks(!showLinks)}
-                >
-                  AD-HOC QUERY
-                </NavLink> */}
               </>
             )}
             {loginInfo.accountType === 'kpUser' &&
@@ -506,7 +692,6 @@ export default function Navbar(props) {
                       setShowLinks(!showLinks);
                       setShowPenetapanSubMenu(false);
                       setShowMedSosSubMenu(false);
-                      setShowMaklumatLainSubMenu(false);
                     }}
                   >
                     PENJANAAN RETEN
@@ -538,7 +723,7 @@ export default function Navbar(props) {
                   <NavLink
                     className={({ isActive }) =>
                       isActive
-                        ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                         : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                     }
                     to='followers'
@@ -549,7 +734,7 @@ export default function Navbar(props) {
                   <NavLink
                     className={({ isActive }) =>
                       isActive
-                        ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
+                        ? 'outline outline-admin3 outline-1 bg-admin7 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                         : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
                     }
                     to='sosmed'
@@ -559,221 +744,6 @@ export default function Navbar(props) {
                   </NavLink>
                 </div>
               </div>
-            )}
-            {loginInfo.accountType === 'negeriSuperadmin' && (
-              <>
-                {/* <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='aq'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                AD-HOC QUERY
-              </NavLink> */}
-                <div>
-                  <div
-                    className={`${
-                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
-                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
-                    onClick={toggleSubMenuMedSos}
-                  >
-                    <span>MEDIA SOSIAL</span>
-                    <span className='inline-flex ml-2'>
-                      <FaArrowAltCircleUp
-                        className={`transition-all ${
-                          showMedSosSubMenu && 'rotate-180'
-                        }`}
-                      />
-                    </span>
-                  </div>
-                  <div
-                    className={`grid transition-all ${
-                      showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
-                    }`}
-                  >
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                      }
-                      to='followers'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      <i>FOLLOWERS</i> MEDIA SOSIAL
-                    </NavLink>
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                      }
-                      to='sosmed'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      AKTIVITI MEDIA SOSIAL
-                    </NavLink>
-                  </div>
-                </div>
-                <div>
-                  <div
-                    className={`${
-                      showMaklumatLainSubMenu ? 'bg-admin3' : 'bg-admin2'
-                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
-                    onClick={toggleSubMenuMaklumatLain}
-                  >
-                    <span>MAKLUMAT LAIN</span>
-                    <span className='inline-flex ml-2'>
-                      <FaArrowAltCircleUp
-                        className={`transition-all ${
-                          showMaklumatLainSubMenu && 'rotate-180'
-                        }`}
-                      />
-                    </span>
-                  </div>
-                  <div
-                    className={`grid transition-all ${
-                      showMaklumatLainSubMenu
-                        ? 'max-h-96'
-                        : 'max-h-0 overflow-hidden'
-                    }`}
-                  >
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                      }
-                      to='negeri/pp'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      PEGAWAI PERGIGIAN
-                    </NavLink>
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                      }
-                      to='negeri/jp'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      JURUTERAPI PERGIGIAN
-                    </NavLink>
-                  </div>
-                </div>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                  }
-                  to='generate'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowPenetapanSubMenu(false);
-                    setShowMedSosSubMenu(false);
-                    setShowMaklumatLainSubMenu(false);
-                  }}
-                >
-                  PENJANAAN RETEN
-                </NavLink>
-              </>
-            )}
-            {loginInfo.accountType === 'hqSuperadmin' && (
-              <>
-                {/* <NavLink
-                className={({ isActive }) =>
-                  isActive
-                    ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                    : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                }
-                to='aq'
-                onClick={() => setShowLinks(!showLinks)}
-              >
-                AD-HOC QUERY
-              </NavLink> */}
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                  }
-                  to='generate'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowPenetapanSubMenu(false);
-                    setShowMedSosSubMenu(false);
-                    setShowMaklumatLainSubMenu(false);
-                  }}
-                >
-                  PENJANAAN RETEN
-                </NavLink>
-                <NavLink
-                  className={({ isActive }) =>
-                    isActive
-                      ? 'outline outline-admin3 outline-1 bg-admin3 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                      : 'outline outline-admin3 outline-1 bg-admin2 rounded-md shadow-xl p-3 m-1 hover:bg-admin3 transition-all'
-                  }
-                  to='ondemand'
-                  onClick={() => {
-                    setShowLinks(!showLinks);
-                    setShowPenetapanSubMenu(false);
-                    setShowMedSosSubMenu(false);
-                    setShowMaklumatLainSubMenu(false);
-                  }}
-                >
-                  ON DEMAND SETTING
-                </NavLink>
-                {/* <div>
-                  <div
-                    className={`${
-                      showMedSosSubMenu ? 'bg-admin3' : 'bg-admin2'
-                    } outline outline-admin3 outline-1 flex items-center justify-center rounded-md shadow-xl p-3 m-1 hover:bg-admin3 cursor-pointer transition-all`}
-                    onClick={toggleSubMenuMedSos}
-                  >
-                    <span>MEDIA SOSIAL</span>
-                    <span className='inline-flex ml-2'>
-                      <FaArrowAltCircleUp
-                        className={`transition-all ${
-                          showMedSosSubMenu && 'rotate-180'
-                        }`}
-                      />
-                    </span>
-                  </div>
-                  <div
-                    className={`grid transition-all ${
-                      showMedSosSubMenu ? 'max-h-96' : 'max-h-0 overflow-hidden'
-                    }`}
-                  >
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                      }
-                      to='followers'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      <i>FOLLOWERS</i> MEDIA SOSIAL
-                    </NavLink>
-                    <NavLink
-                      className={({ isActive }) =>
-                        isActive
-                          ? 'outline outline-admin3 outline-1 bg-user8 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                          : 'outline outline-admin3 outline-1 bg-admin4 rounded-md shadow-xl p-3 m-1 hover:bg-admin5 hover:text-adminBlack text-sm transition-all'
-                      }
-                      to='sosmed'
-                      onClick={() => setShowLinks(!showLinks)}
-                    >
-                      AKTIVITI MEDIA SOSIAL
-                    </NavLink>
-                  </div>
-                </div> */}
-              </>
             )}
           </div>
         </nav>

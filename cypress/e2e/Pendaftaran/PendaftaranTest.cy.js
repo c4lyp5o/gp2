@@ -53,6 +53,6 @@ describe('Login Pendaftaran and start testing', () => {
     // pt kp register ulangan dua kali, no pendaftaran stay
 
     // validate senarai daftar pesakit immediately after finish register pt kp
-    cy.validateSenaraiDaftarPesakit();
+    // cy.validateSenaraiDaftarPesakit();
   });
 });

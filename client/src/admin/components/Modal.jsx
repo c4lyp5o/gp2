@@ -14,6 +14,7 @@ import {
   InputFacility,
   InputEvent,
   InputEditKlinik,
+  InputEditKkiakd,
   InputEditPegawai,
   InputEditFacility,
   InputEditEvent,
@@ -537,19 +538,22 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
-    if (
-      FType === 'sr' ||
-      FType === 'sm' ||
-      FType === 'taska' ||
-      FType === 'tadika'
-    ) {
+    if (FType === 'taska' || FType === 'tadika') {
       Data = {
         ...Data,
         govKe: editedEntity.govKe,
-        risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
+      };
+    }
+    if (FType === 'sr' || FType === 'sm') {
+      Data = {
+        ...Data,
+        risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
+        sekolahMmi: editedEntity.sekolahMmi,
+        sekolahKki: editedEntity.sekolahKki,
         statusFMRSekolah: editedEntity.statusFMRSekolah,
+        statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
     }
     if (FType === 'program') {
@@ -592,6 +596,11 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
           {(confirm) => <InputEditKlinik {...props} confirm={confirm} />}
         </ConfirmModalForData>
       )}
+      {FType === 'kkiakd' && (
+        <ConfirmModalForData callbackFunction={handleSubmit} func='add'>
+          {(confirm) => <InputEditKkiakd {...props} confirm={confirm} />}
+        </ConfirmModalForData>
+      )}
       {(FType === 'pp' || FType === 'jp') && (
         <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
           {(confirm) => <InputEditPegawai {...props} confirm={confirm} />}
@@ -600,7 +609,8 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
       {FType !== 'pp' &&
         FType !== 'kp' &&
         FType !== 'jp' &&
-        FType !== 'program' && (
+        FType !== 'program' &&
+        FType !== 'kkiakd' && (
           <ConfirmModalForData callbackFunction={handleSubmit} func='edit'>
             {(confirm) => <InputEditFacility {...props} confirm={confirm} />}
           </ConfirmModalForData>
@@ -632,6 +642,7 @@ const EditModalForKp = ({
   const [allSR, setAllSR] = useState([]);
   const [allSM, setAllSM] = useState([]);
   const [editedEntity, setEditedEntity] = useState([]);
+  const [showSubProgram, setShowSubProgram] = useState(false); // kena pass state showSubProgram yang first dari atas sebab nak catch dalam handleSubmit
   const [loading, setLoading] = useState(true);
 
   //datepicker
@@ -690,7 +701,36 @@ const EditModalForKp = ({
           ) {
             res.data.enrolmen6Tahun = 0;
           }
+          if (
+            res.data.enrolmenMuridBerkeperluanKhas === 'NOT APPLICABLE' ||
+            res.data.enrolmenMuridBerkeperluanKhas === null ||
+            res.data.enrolmenMuridBerkeperluanKhas === undefined
+          ) {
+            res.data.enrolmenMuridBerkeperluanKhas = 0;
+          }
+          if (
+            res.data.enrolmenMuridOaPenan === 'NOT APPLICABLE' ||
+            res.data.enrolmenMuridOaPenan === null ||
+            res.data.enrolmenMuridOaPenan === undefined
+          ) {
+            res.data.enrolmenMuridOaPenan = 0;
+          }
+          if (
+            res.data.jumlahEngganTasTad === 'NOT APPLICABLE' ||
+            res.data.jumlahEngganTasTad === null ||
+            res.data.jumlahEngganTasTad === undefined
+          ) {
+            res.data.jumlahEngganTasTad = 0;
+          }
+          if (
+            res.data.jumlahTidakHadirTasTad === 'NOT APPLICABLE' ||
+            res.data.jumlahTidakHadirTasTad === null ||
+            res.data.jumlahTidakHadirTasTad === undefined
+          ) {
+            res.data.jumlahTidakHadirTasTad = 0;
+          }
         }
+        // console.log(res.data);
         setEditedEntity(res.data);
         res.data.tarikhStart
           ? setStartDateDP(new Date(res.data.tarikhStart))
@@ -722,13 +762,24 @@ const EditModalForKp = ({
     if (FType === 'program') {
       if (editedEntity.modPenyampaianPerkhidmatan.includes('kpb')) {
         if (editedEntity.penggunaanKpb === 'NOT APPLICABLE') {
-          toast.error(`Sila masukkan penggunaan KPB`);
+          toast.error('Sila masukkan penggunaan KPB');
           return;
         }
       }
       if (editedEntity.modPenyampaianPerkhidmatan.includes('mpb')) {
         if (editedEntity.penggunaanMpb === 'NOT APPLICABLE') {
-          toast.error(`Sila masukkan penggunaan MPB`);
+          toast.error('Sila masukkan penggunaan MPB');
+          return;
+        }
+      }
+      if (showSubProgram) {
+        if (
+          editedEntity.subProgram.length === 0 ||
+          editedEntity.subProgram[0] === 'NOT APPLICABLE' ||
+          editedEntity.subProgram[1] === 'NOT APPLICABLE' ||
+          editedEntity.subProgram[2] === 'NOT APPLICABLE'
+        ) {
+          toast.error('Sila masukkan sub program');
           return;
         }
       }
@@ -736,6 +787,7 @@ const EditModalForKp = ({
         // nama: currentName.current,
         createdByKp: kp,
         jenisEvent: editedEntity.jenisEvent,
+        subProgram: editedEntity.subProgram,
         enrolmenInstitusi: editedEntity.enrolmenInstitusi,
         penggunaanKpb: editedEntity.penggunaanKpb,
         penggunaanKpb2: editedEntity.penggunaanKpb2,
@@ -769,6 +821,12 @@ const EditModalForKp = ({
         enrolmenKurang4Tahun: editedEntity.enrolmenKurang4Tahun,
         enrolmen5Tahun: editedEntity.enrolmen5Tahun,
         enrolmen6Tahun: editedEntity.enrolmen6Tahun,
+        enrolmenMuridBerkeperluanKhas:
+          editedEntity.enrolmenMuridBerkeperluanKhas,
+        enrolmenMuridOaPenan: editedEntity.enrolmenMuridOaPenan,
+        jenisTadikaKerajaan: editedEntity.jenisTadikaKerajaan,
+        jumlahEngganTasTad: editedEntity.jumlahEngganTasTad,
+        jumlahTidakHadirTasTad: editedEntity.jumlahTidakHadirTasTad,
       };
     }
     if (FType === 'kpb' || FType === 'mpb') {
@@ -837,6 +895,8 @@ const EditModalForKp = ({
     startDateDP,
     setEndDateDP,
     endDateDP,
+    showSubProgram,
+    setShowSubProgram,
     // ---
     setShowEditModal,
     tempatPenggunaan,

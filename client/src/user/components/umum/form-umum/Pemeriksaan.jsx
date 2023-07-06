@@ -496,6 +496,7 @@ export default function Pemeriksaan(props) {
                         }
                         onChange={(e) => {
                           props.setMenggunakanKPBMPB(e.target.value);
+                          props.setPenggunaanKPBMPB('');
                         }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
@@ -520,6 +521,7 @@ export default function Pemeriksaan(props) {
                         }
                         onChange={(e) => {
                           props.setMenggunakanKPBMPB(e.target.value);
+                          props.setPenggunaanKPBMPB('');
                         }}
                         className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
                       />
@@ -534,8 +536,10 @@ export default function Pemeriksaan(props) {
                       <div className='flex flex-row items-center'>
                         <p className='flex flex-row items-center pl-5 font-bold col-span-2 whitespace-nowrap'>
                           Penggunaan KPB / MPB :
+                          <span className='font-semibold text-user6'>*</span>
                         </p>
                         <select
+                          required
                           disabled={isDisabled}
                           name='penggunaan-kpb-mpb'
                           id='penggunaan-kpb-mpb'
@@ -954,32 +958,38 @@ export default function Pemeriksaan(props) {
                         >
                           Ya
                         </label>
-                        <input
-                          disabled={isDisabled}
-                          required
-                          type='radio'
-                          name='pesakit-mempunyai-gigi'
-                          id='tidak-pesakit-mempunyai-gigi'
-                          value='tidak-pesakit-mempunyai-gigi'
-                          checked={
-                            props.yaTidakPesakitMempunyaiGigi ===
-                            'tidak-pesakit-mempunyai-gigi'
-                              ? true
-                              : false
-                          }
-                          onChange={(e) => {
-                            props.setYaTidakPesakitMempunyaiGigi(
-                              e.target.value
-                            );
-                          }}
-                          className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
-                        />
-                        <label
-                          htmlFor='tidak-pesakit-mempunyai-gigi'
-                          className='m-2 text-sm font-m'
-                        >
-                          Tidak
-                        </label>
+                        <div className='outline outline-1 p-1 m-1'>
+                          <input
+                            disabled={isDisabled}
+                            required
+                            type='radio'
+                            name='pesakit-mempunyai-gigi'
+                            id='tidak-pesakit-mempunyai-gigi'
+                            value='tidak-pesakit-mempunyai-gigi'
+                            checked={
+                              props.yaTidakPesakitMempunyaiGigi ===
+                              'tidak-pesakit-mempunyai-gigi'
+                                ? true
+                                : false
+                            }
+                            onChange={(e) => {
+                              props.setYaTidakPesakitMempunyaiGigi(
+                                e.target.value
+                              );
+                            }}
+                            className='w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500'
+                          />
+                          <label
+                            htmlFor='tidak-pesakit-mempunyai-gigi'
+                            className='m-2 text-sm font-m'
+                          >
+                            Tidak{' '}
+                            <span className='text-user9 lowercase font-bold'>
+                              (belum pernah ada gigi atau
+                              <i> congenitally missing</i>)
+                            </span>
+                          </label>
+                        </div>
                       </div>
                       {props.yaTidakPesakitMempunyaiGigi ===
                         'ya-pesakit-mempunyai-gigi' && (
@@ -994,13 +1004,18 @@ export default function Pemeriksaan(props) {
                       'ya-pesakit-mempunyai-gigi' && (
                       <article className=' border border-userBlack pl-3 p-2 rounded-md grid lg:grid-cols-2'>
                         <div className='shadow-lg  grid grid-cols-1 auto-rows-min items-center justify-start py-2'>
-                          <h4 className='font-bold flex flex-row pl-5'>
-                            Status Gigi Desidus
-                            {props.adaDesidusPemeriksaanUmum === true ||
-                            props.adaKekalPemeriksaanUmum === true ? null : (
-                              <span className='text-user6'>*</span>
-                            )}
-                          </h4>
+                          <div className='flex'>
+                            <h4 className='font-bold flex flex-row pl-5'>
+                              Status Gigi Desidus
+                              {props.adaDesidusPemeriksaanUmum === true ||
+                              props.adaKekalPemeriksaanUmum === true ? null : (
+                                <span className='text-user6'>*</span>
+                              )}
+                            </h4>
+                            {/* <span className='text-left ml-1 lowercase'>
+                              (melibatkan karies)
+                            </span> */}
+                          </div>
                           <div className='grid gap-1'>
                             <div className='flex items-center pl-5'>
                               <input
@@ -1058,6 +1073,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi berkaries perlu ditampal
+                                </span>
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m lowercase'>f: </p>
@@ -1078,6 +1097,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi berkaries telah ditampal
+                                </span>
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m lowercase'>x: </p>
@@ -1103,6 +1126,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi berkaries perlu dicabut
+                                </span>
                               </div>
                               {/* {props.singlePersonUmum.umur >= 10 &&
                               props.dAdaGigiDesidusPemeriksaanUmum > 0 ? (
@@ -1204,6 +1231,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi berkaries perlu ditampal
+                                </span>
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m '>M: </p>
@@ -1224,6 +1255,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi berkaries telah dicabut
+                                </span>
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m '>F: </p>
@@ -1244,6 +1279,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi berkaries telah ditampal
+                                </span>
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m '>X: </p>
@@ -1269,6 +1308,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi berkaries perlu dicabut
+                                </span>
                               </div>
                               <div className='flex flex-row items-center pl-5'>
                                 <p className='text-sm font-m '>E: </p>
@@ -1289,10 +1332,10 @@ export default function Pemeriksaan(props) {
                                   }}
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
-                                <FaInfoCircle
-                                  title='Hanya masukkan E10 , E12 & E13'
-                                  className='text-lg m-1'
-                                />
+                                <span className='text-xs text-left ml-1 normal-case'>
+                                  {' '}
+                                  - Bil. gigi yang ada E10 , E12 & E13
+                                </span>
                               </div>
                             </div>
                             {props.sumDMFXKekalUmum > 32 && (

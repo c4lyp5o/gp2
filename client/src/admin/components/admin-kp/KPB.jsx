@@ -108,7 +108,7 @@ export default function KlinikPergigianBergerak(props) {
             </table>
           </div>
         ) : (
-          <span className='font-mono'>
+          <span>
             Tiada Maklumat Penggunaan{' '}
             {singleKpbData ? <span>bagi {singleKpbData.nama}</span> : null}
           </span>

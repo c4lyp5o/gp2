@@ -61,6 +61,26 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  enrolmenMuridBerkeperluanKhas: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  enrolmenMuridOaPenan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahEngganTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahTidakHadirTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jenisTadikaKerajaan: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   // sekolah-rendah, sekolah-menengah ----------------------------------------------
   idInstitusi: {
     type: String,
@@ -78,21 +98,27 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
-  sekolahSelesaiReten: {
-    type: Boolean,
-    default: false,
-  },
-  // sr sm => PERSiS
   risikoSekolahPersis: {
     type: String,
     default: 'NOT APPLICABLE',
   },
-  // sr sm => KOHORT FMR
+  sekolahMmi: {
+    type: String,
+    default: 'tidak-sekolah-mmi', // sekolah-rendah akan sentiasa ya-sekolah-mmi
+  },
+  sekolahKki: {
+    type: String,
+    default: 'tidak-sekolah-kki',
+  },
   statusFMRSekolah: {
     type: String,
     default: 'tidak',
   },
   statusFMRTelahDaftarDarjahSatu: {
+    type: Boolean,
+    default: false,
+  },
+  sekolahSelesaiReten: {
     type: Boolean,
     default: false,
   },

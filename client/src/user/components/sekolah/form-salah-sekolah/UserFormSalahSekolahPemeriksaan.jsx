@@ -1518,7 +1518,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
                               >
                                 {pilihanDataSalah.adaCleftLipCBox === true ? (
-                                  <FaTimes className='text-2xl' />
+                                  <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                 ) : (
                                   <FaRegHandPointLeft className='text-2xl' />
                                 )}
@@ -1542,7 +1542,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Ada
                               </label>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -1612,7 +1612,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
                               >
                                 {pilihanDataSalah.rujukCleftLipCBox === true ? (
-                                  <FaTimes className='text-2xl' />
+                                  <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                 ) : (
                                   <FaRegHandPointLeft className='text-2xl' />
                                 )}
@@ -1636,7 +1636,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Rujuk
                               </label>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -1845,7 +1845,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.yaTidakSediaAdaStatusDentureCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -2041,7 +2041,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}
@@ -2163,7 +2163,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.separaPenuhAtasSediaAdaDentureCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-3 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -2366,7 +2366,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}
@@ -2488,7 +2488,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.separaPenuhBawahSediaAdaDentureCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-3 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -2689,7 +2689,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -2801,7 +2801,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.yaTidakPerluStatusDentureCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -2988,7 +2988,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}
@@ -3108,7 +3108,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.separaPenuhAtasPerluDentureCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-3 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -3309,7 +3309,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}
@@ -3431,7 +3431,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.separaPenuhBawahPerluDentureCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-3 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -3632,7 +3632,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}
@@ -3722,7 +3722,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.kebersihanMulutOralHygieneCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -3806,7 +3806,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 )}
                               </select>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -3914,7 +3914,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             >
                               {pilihanDataSalah.perluPenskaleranOralHygieneCBox ===
                               true ? (
-                                <FaTimes className='text-2xl' />
+                                <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                               ) : (
                                 <FaRegHandPointLeft className='text-2xl' />
                               )}
@@ -3941,7 +3941,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               Perlu Penskaleran
                             </label>
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -4094,7 +4094,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -4188,7 +4188,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   )}
                                 </select>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -4281,7 +4281,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.skorGisMulutOralHygieneCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -4375,7 +4375,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   )}
                                 </select>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -4470,7 +4470,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.skorBpeOralHygieneCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -4574,7 +4574,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   )}
                                 </select>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -4721,7 +4721,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
                                 >
                                   {pilihanDataSalah.adaDesidusCBox === true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -4745,7 +4745,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   ada gigi desidus
                                 </label>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -4817,7 +4817,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.dAdaGigiDesidusCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -4875,7 +4875,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -4945,7 +4945,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.fAdaGigiDesidusCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -5003,7 +5003,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -5073,7 +5073,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.xAdaGigiDesidusCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -5131,7 +5131,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -5226,7 +5226,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className=' text-user9 h-6 w-6 rounded-full flex items-center justify-center cursor-pointer'
                                 >
                                   {pilihanDataSalah.adaKekalCBox === true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -5250,7 +5250,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   ada gigi kekal
                                 </label>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -5323,7 +5323,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.dAdaGigiKekalCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -5381,7 +5381,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl' />
+                                    {/* <FaCheck className='text-2xl' /> */}
                                   </span>
                                 </div>
                               )}
@@ -5448,7 +5448,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   >
                                     {pilihanDataSalah.classIDCBox === true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -5505,7 +5505,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl' />
+                                    {/* <FaCheck className='text-2xl' /> */}
                                   </span>
                                 </div>
                               )}
@@ -5572,7 +5572,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   >
                                     {pilihanDataSalah.classIIDCBox === true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -5629,7 +5629,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl' />
+                                    {/* <FaCheck className='text-2xl' /> */}
                                   </span>
                                 </div>
                               )}
@@ -5706,7 +5706,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.mAdaGigiKekalCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -5764,7 +5764,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -5835,7 +5835,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.fAdaGigiKekalCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -5893,7 +5893,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl' />
+                                    {/* <FaCheck className='text-2xl' /> */}
                                   </span>
                                 </div>
                               )}
@@ -5960,7 +5960,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   >
                                     {pilihanDataSalah.classIFCBox === true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -6017,7 +6017,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl' />
+                                    {/* <FaCheck className='text-2xl' /> */}
                                   </span>
                                 </div>
                               )}
@@ -6084,7 +6084,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   >
                                     {pilihanDataSalah.classIIFCBox === true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -6141,7 +6141,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                   />
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl' />
+                                    {/* <FaCheck className='text-2xl' /> */}
                                   </span>
                                 </div>
                               )}
@@ -6218,7 +6218,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.xAdaGigiKekalCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -6276,7 +6276,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -6346,7 +6346,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   {pilihanDataSalah.eAdaGigiKekalCBox ===
                                   true ? (
                                     <FaTimes
-                                      className='text-2xl'
+                                      className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                       onClick={() => {
                                         setPilihanDataSalah({
                                           ...pilihanDataSalah,
@@ -6404,7 +6404,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none m-1 drop-shadow-lg'
                                 />
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -6539,7 +6539,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.jumlahFaktorRisikoCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -6704,7 +6704,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     )}
                                   </select>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl' />
+                                    {/* <FaCheck className='text-2xl' /> */}
                                   </span>
                                 </div>
                               )}
@@ -6787,7 +6787,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               >
                                 {pilihanDataSalah.toothSurfaceLossCBox ===
                                 true ? (
-                                  <FaTimes className='text-2xl' />
+                                  <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                 ) : (
                                   <FaRegHandPointLeft className='text-2xl' />
                                 )}
@@ -6811,7 +6811,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 Kehilangan Permukaan Gigi
                               </label>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -6899,7 +6899,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 >
                                   {pilihanDataSalah.kecederaanGigiAnteriorTraumaCBox ===
                                   true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -6926,7 +6926,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   Kecederaan Gigi
                                 </label>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -7004,7 +7004,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 >
                                   {pilihanDataSalah.tisuLembutTraumaCBox ===
                                   true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -7028,7 +7028,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   Kecederaan Tisu Lembut
                                 </label>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -7104,7 +7104,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 >
                                   {pilihanDataSalah.tisuKerasTraumaCBox ===
                                   true ? (
-                                    <FaTimes className='text-2xl' />
+                                    <FaTimes className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full' />
                                   ) : (
                                     <FaRegHandPointLeft className='text-2xl' />
                                   )}
@@ -7128,7 +7128,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   kecederaan tulang muka
                                 </label>
                                 <span className='text-kaunter4'>
-                                  <FaCheck className='text-2xl' />
+                                  {/* <FaCheck className='text-2xl' /> */}
                                 </span>
                               </div>
                             )}
@@ -7212,7 +7212,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.gicBilanganFsDibuat3TahunLepasCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -7274,7 +7274,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <p className='text-sm font-m '>GIC</p>
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -7354,7 +7354,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.resinBilanganFsDibuat3TahunLepasCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -7416,7 +7416,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <p className='text-sm font-m '>Resin</p>
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -7496,7 +7496,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.lainLainBilanganFsDibuat3TahunLepasCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -7558,7 +7558,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                             />
                             <p className='text-sm font-m '>Lain-lain</p>
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -7644,7 +7644,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.dBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -7706,7 +7706,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
                             />
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -7786,7 +7786,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.mBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -7848,7 +7848,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
                             />
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -7928,7 +7928,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.fBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -7990,7 +7990,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
                             />
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -8070,7 +8070,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.xBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -8132,7 +8132,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
                             />
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -8212,7 +8212,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               {pilihanDataSalah.eBilanganFsDibuat3TahunLepasTerjadiCBox ===
                               true ? (
                                 <FaTimes
-                                  className='text-2xl'
+                                  className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                   onClick={() => {
                                     setPilihanDataSalah({
                                       ...pilihanDataSalah,
@@ -8274,7 +8274,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               className='appearance-none w-16 border-b-4 border-b-user4 py-1 px-2 text-base focus:border-b-user2 focus:outline-none mr-3 drop-shadow-lg'
                             />
                             <span className='text-kaunter4'>
-                              <FaCheck className='text-2xl' />
+                              {/* <FaCheck className='text-2xl' /> */}
                             </span>
                           </div>
                         )}
@@ -8415,7 +8415,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.baruJumlahGigiKekalPerluFsCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -8480,7 +8480,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 jumlah gigi kekal perlu Pengapan Fisur (E10)
                               </label>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -8612,7 +8612,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.baruJumlahGigiKekalPerluFvCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -8678,7 +8678,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 (E13)
                               </label>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -8813,7 +8813,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.baruJumlahGigiKekalPerluPrrJenis1CBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -8881,7 +8881,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 (PRR Type I) (E12)
                               </label>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -9076,7 +9076,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.baruGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -9141,7 +9141,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GD Baru</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -9230,7 +9230,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.semulaGDAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -9295,7 +9295,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GD Semula</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -9384,7 +9384,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.baruGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -9449,7 +9449,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GK Baru</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -9538,7 +9538,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.semulaGKAnteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -9603,7 +9603,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GK Semula</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -9697,7 +9697,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.baruGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -9762,7 +9762,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GD Baru</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -9851,7 +9851,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.semulaGDPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -9916,7 +9916,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GD Semula</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -10005,7 +10005,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.baruGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -10070,7 +10070,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GK Baru</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -10159,7 +10159,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.semulaGKPosteriorSewarnaJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -10224,7 +10224,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GK Semula</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -10318,7 +10318,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.baruGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -10383,7 +10383,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GD Baru</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -10472,7 +10472,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.semulaGDPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -10537,7 +10537,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GD Semula</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -10626,7 +10626,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.baruGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -10691,7 +10691,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GK Baru</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -10780,7 +10780,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                     {pilihanDataSalah.semulaGKPosteriorAmalgamJumlahTampalanDiperlukanCBox ===
                                     true ? (
                                       <FaTimes
-                                        className='text-2xl'
+                                        className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                         onClick={() => {
                                           setPilihanDataSalah({
                                             ...pilihanDataSalah,
@@ -10845,7 +10845,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   />
                                   <p className='text-sm font-m '>GK Semula</p>
                                   <span className='text-kaunter4'>
-                                    <FaCheck className='text-2xl ml-2' />
+                                    {/* <FaCheck className='text-2xl ml-2' /> */}
                                   </span>
                                 </div>
                               )}
@@ -10980,7 +10980,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.melaksanakanSaringanMerokokCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -11172,7 +11172,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}
@@ -11266,7 +11266,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                               >
                                 {pilihanDataSalah.statusMCBox === true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -11417,7 +11417,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 )}
                               </select>
                               <span className='text-kaunter4'>
-                                <FaCheck className='text-2xl' />
+                                {/* <FaCheck className='text-2xl' /> */}
                               </span>
                             </div>
                           )}
@@ -11533,7 +11533,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.menerimaNasihatRingkasCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -11722,7 +11722,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}
@@ -11834,7 +11834,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                 {pilihanDataSalah.bersediaDirujukCBox ===
                                 true ? (
                                   <FaTimes
-                                    className='text-2xl'
+                                    className='text-lg absolute -right-7 -top-2 bg-userWhite shadow-sm shadow-user1 rounded-full'
                                     onClick={() => {
                                       setPilihanDataSalah({
                                         ...pilihanDataSalah,
@@ -12020,7 +12020,7 @@ function UserFormSalahSekolahPemeriksaan({ salahReten }) {
                                   });
                                 }}
                               >
-                                <FaCheck className='text-xl' />
+                                {/* <FaCheck className='text-xl' /> */}
                               </span>
                             </div>
                           )}

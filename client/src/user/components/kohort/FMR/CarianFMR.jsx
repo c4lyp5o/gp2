@@ -76,7 +76,7 @@ export default function UserCarianPromosi() {
             }`,
           },
         });
-        import.meta.env.VITE_ENV === 'dev' &&
+        import.meta.env.VITE_ENV === 'DEV' &&
           console.log(data.muridDalamKohortFMR);
         setAllMuridKohort(data.muridDalamKohortFMR);
         const nama2Sekolah = _.uniq(
