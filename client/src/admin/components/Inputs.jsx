@@ -4350,7 +4350,7 @@ export function InputKpEditFacility(props) {
                   {props.editedEntity.govKe === 'Kerajaan' && (
                     <div className='grid grid-cols-3 gap-3'>
                       <p className='col-span-3'>
-                        Jenis Tadika Kerajaan{' '}
+                        Jenis Tadika/Taska Kerajaan{' '}
                         <strong className='text-user9'>*</strong>
                       </p>
                       <label
