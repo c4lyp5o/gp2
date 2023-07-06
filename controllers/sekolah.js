@@ -105,14 +105,14 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
 
   const sesiTakwim = sesiTakwimSekolah();
 
-  const fasilitiSekolahs = await Fasiliti.findOne({
+  const fasilitiSekolah = await Fasiliti.findOne({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
     kodSekolah: req.params.kodSekolah,
     sesiTakwimSekolah: sesiTakwim,
   });
 
-  // const namaSekolahs = fasilitiSekolahs.reduce(
+  // const namaSekolahs = fasilitiSekolah.reduce(
   //   (arrNamaSekolahs, singleFasilitiSekolah) => {
   //     if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
   //       arrNamaSekolahs.push(singleFasilitiSekolah.nama);
@@ -122,7 +122,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   //   ['']
   // );
 
-  // const kodSekolahs = fasilitiSekolahs.reduce(
+  // const kodSekolahs = fasilitiSekolah.reduce(
   //   (arrKodSekolahs, singleFasilitiSekolah) => {
   //     if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
   //       arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
@@ -142,7 +142,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     .sort({ nama: 1 });
   // .populate('kotakSekolah');
 
-  res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
+  res.status(200).json({ allPersonSekolahs, fasilitiSekolah });
 };
 
 // not used
