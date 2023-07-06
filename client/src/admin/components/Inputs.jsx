@@ -2856,7 +2856,7 @@ export function InputEditSR(props) {
             </div>
             <div className='mb-3'>
               <label className='text-sm font-medium text-adminBlack'>
-                Sekolah KKI{' '}
+                Sekolah Pendidikan Khas{' '}
                 <span className='font-semibold text-lg text-user6'>*</span>
               </label>
               <div className='grid grid-cols-2 mb-3 p-2'>
@@ -3183,7 +3183,7 @@ export function InputEditSM(props) {
             </div>
             <div className='mb-3'>
               <label className='text-sm font-medium text-adminBlack'>
-                Sekolah KKI{' '}
+                Sekolah Pendidikan Khas{' '}
                 <span className='font-semibold text-lg text-user6'>*</span>
               </label>
               <div className='grid grid-cols-2 mb-3 p-2'>

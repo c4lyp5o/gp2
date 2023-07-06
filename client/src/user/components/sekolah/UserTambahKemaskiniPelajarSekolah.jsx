@@ -379,11 +379,8 @@ function UserTambahKemaskiniPelajarSekolah({
                     }}
                   >
                     <option value=''>Sila Pilih</option>
-                    <option value='MALAYSIA'>MALAYSIA</option>
+                    <option value='WARGANEGARA'>WARGANEGARA</option>
                     <option value='BUKAN WARGANEGARA'>BUKAN WARGANEGARA</option>
-                    {kemaskiniPelajarId && warganegara !== 'MALAYSIA' && (
-                      <option value={warganegara}>{warganegara}</option>
-                    )}
                   </select>
                 </div>
                 <div className='relative'>
@@ -2315,8 +2312,8 @@ const keturunanList = [
   },
   {
     id: '1544',
-    value: 'TRINIDAD &amp; TOBAGO',
-    label: 'TRINIDAD &amp; TOBAGO',
+    value: 'TRINIDAD & TOBAGO',
+    label: 'TRINIDAD & TOBAGO',
   },
   {
     id: '1545',
