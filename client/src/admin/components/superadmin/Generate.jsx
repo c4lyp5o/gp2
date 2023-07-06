@@ -155,9 +155,7 @@ const ModalGenerateAdHoc = (props) => {
       switch (loginInfo.accountType) {
         case 'hqSuperadmin':
           negeri = Dictionary[props.pilihanNegeri];
-          daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
-            props.jenisReten
-          )
+          daerah = pilihanRetenTasTadSekolah
             ? props.jenisFasiliti === 'semua'
               ? 'all'
               : props.pilihanDaerah
@@ -168,9 +166,7 @@ const ModalGenerateAdHoc = (props) => {
           break;
         case 'negeriSuperadmin':
           negeri = loginInfo.negeri;
-          daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
-            props.jenisReten
-          )
+          daerah = pilihanRetenTasTadSekolah
             ? // kalau jenisFasiliti semua, dia akan jadi all
               props.jenisFasiliti === 'semua'
               ? 'all'
@@ -191,9 +187,7 @@ const ModalGenerateAdHoc = (props) => {
           break;
         case 'daerahSuperadmin':
           negeri = loginInfo.negeri;
-          daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
-            props.jenisReten
-          )
+          daerah = pilihanRetenTasTadSekolah
             ? props.jenisFasiliti === 'semua'
               ? 'all'
               : loginInfo.daerah
