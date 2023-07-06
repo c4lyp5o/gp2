@@ -150,25 +150,62 @@ const ModalGenerateAdHoc = (props) => {
   const penjanaanReten = async () => {
     try {
       // ubat pening
-      const daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
-        props.jenisReten
-      )
-        ? props.jenisFasiliti === 'semua'
-          ? 'all'
-          : loginInfo.daerah
-        : loginInfo.accountType === 'daerahSuperadmin'
-        ? loginInfo.daerah
-        : props.pilihanDaerah;
-      //
+      let negeri, daerah, klinik;
+      // makan ubat
+      switch (loginInfo.accountType) {
+        case 'hqSuperadmin':
+          negeri = Dictionary[props.pilihanNegeri];
+          daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
+            props.jenisReten
+          )
+            ? props.jenisFasiliti === 'semua'
+              ? 'all'
+              : props.pilihanDaerah
+            : props.pilihanDaerah
+            ? props.pilihanDaerah
+            : 'all';
+          klinik = props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik;
+          break;
+        case 'negeriSuperadmin':
+          negeri = loginInfo.negeri;
+          daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
+            props.jenisReten
+          )
+            ? // kalau jenisFasiliti semua, dia akan jadi all
+              props.jenisFasiliti === 'semua'
+              ? 'all'
+              : // kalau jenisFasiliti bukan semua, dia akan check pilihanDaerah
+              props.pilihanDaerah
+              ? // kalau pilihanDaerah ada, dia akan jadi pilihanDaerah
+                props.pilihanDaerah
+              : // kalau pilihanDaerah kosong, dia akan jadi all
+                'all'
+            : // kalau jenisFasiliti x semua, dia akan check pilihanDaerah
+            props.pilihanDaerah
+            ? // kalau pilihanDaerah ada, dia akan jadi pilihanDaerah
+              props.pilihanDaerah
+            : // kalau pilihanDaerah kosong, dia akan jadi all
+              'all';
+          // sekian lah kandungan ubat pening
+          klinik = props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik;
+          break;
+        case 'daerahSuperadmin':
+          negeri = loginInfo.negeri;
+          daerah = ['PGS201', 'BEGIN', 'CPPC1', 'CPPC2'].includes(
+            props.jenisReten
+          )
+            ? props.jenisFasiliti === 'semua'
+              ? 'all'
+              : loginInfo.daerah
+            : loginInfo.daerah;
+          break;
+        default:
+          break;
+      }
+      // ahh lega
       const url = `/api/v1/generate/download?jenisReten=${
         props.jenisReten
-      }&negeri=${
-        loginInfo.accountType === 'hqSuperadmin'
-          ? Dictionary[props.pilihanNegeri]
-          : loginInfo.negeri
-      }&daerah=${daerah}&klinik=${
-        props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik
-      }${
+      }&negeri=${negeri}&daerah=${daerah}&klinik=${klinik}${
         props.pilihanFasiliti === 'program'
           ? `&pilihanFasiliti=${props.pilihanFasiliti}&pilihanProgram=${props.pilihanProgram}`
           : ''
