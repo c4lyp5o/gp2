@@ -182,9 +182,7 @@ const getAllD1StudentInSingleSekolahFMR = async (req, res) => {
   const dataSemuaPelajarD1SingleSekolah = await Sekolah.find({
     kodSekolah: singleSekolahFMRId,
     tahunTingkatan: 'TAHUN DUA',
-  })
-    .sort({ nama: 1 })
-    .lean();
+  }).sort({ nama: 1 });
 
   res.status(200).json({ dataSemuaPelajarD1SingleSekolah });
 };

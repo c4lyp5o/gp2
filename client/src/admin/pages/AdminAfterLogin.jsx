@@ -48,6 +48,14 @@ const MaklumatAsasDaerah = lazy(() =>
   import('../components/superadmin/MaklumatAsasDaerah')
 );
 
+// agensi luar
+const ProgramGTodDaerah = lazy(() =>
+  import('../components/superadmin/AgensiLuar/ProgramGTod')
+);
+const ProgramWargaEmasDaerah = lazy(() =>
+  import('../components/superadmin/AgensiLuar/ProgramWargaEmas')
+);
+
 // settings
 const Settings = lazy(() => import('../components/superadmin/Settings'));
 
@@ -247,7 +255,7 @@ function AdminAfterLogin() {
       <Navbar {...props} />
       <div className='absolute inset-2 top-[7.5rem] bottom-[2rem] -z-10 bg-adminWhite text-center justify-center items-center outline outline-1 outline-adminBlack rounded-md shadow-xl capitalize overflow-y-auto overflow-x-hidden pt-2 pb-2 px-3'>
         <Routes>
-          {/* route for all: hq, negeri, daerah, kp superadmin sharing all these */}
+          {/* route for all: hq, negeri, daerah, kp superadmin, kp sosmedadmin sharing all these */}
           <Route
             path='followers'
             element={
@@ -273,7 +281,7 @@ function AdminAfterLogin() {
                 index
                 element={
                   <Suspense fallback={<Loading />}>
-                    <AdminCenterStage {...props} />{' '}
+                    <AdminCenterStage {...props} />
                   </Suspense>
                 }
               />
@@ -313,7 +321,7 @@ function AdminAfterLogin() {
                 path='tetapan'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Settings />{' '}
+                    <Settings />
                   </Suspense>
                 }
               />
@@ -321,24 +329,14 @@ function AdminAfterLogin() {
           ) : null}
           {/* route hq superadmin sahaja */}
           {loginInfo.accountType === 'hqSuperadmin' ? (
-            <>
-              <Route
-                path='generate'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <Generate {...props} />
-                  </Suspense>
-                }
-              />
-              <Route
-                path='ondemand'
-                element={
-                  <Suspense fallback={<Loading />}>
-                    <OndemandSetting />{' '}
-                  </Suspense>
-                }
-              />
-            </>
+            <Route
+              path='ondemand'
+              element={
+                <Suspense fallback={<Loading />}>
+                  <OndemandSetting />
+                </Suspense>
+              }
+            />
           ) : null}
           {/* route negeri superadmin sahaja */}
           {loginInfo.accountType === 'negeriSuperadmin' ? (
@@ -347,7 +345,7 @@ function AdminAfterLogin() {
                 path='negeri/pp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataNegeri DType='ppspn' />{' '}
+                    <DataNegeri DType='ppspn' />
                   </Suspense>
                 }
               />
@@ -355,7 +353,7 @@ function AdminAfterLogin() {
                 path='negeri/jp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataNegeri DType='jpspn' />{' '}
+                    <DataNegeri DType='jpspn' />
                   </Suspense>
                 }
               />
@@ -368,7 +366,7 @@ function AdminAfterLogin() {
                 path='kp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='kp' />{' '}
+                    <Data FType='kp' />
                   </Suspense>
                 }
               />
@@ -376,7 +374,7 @@ function AdminAfterLogin() {
                 path='kkiakd'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='kkiakd' />{' '}
+                    <Data FType='kkiakd' />
                   </Suspense>
                 }
               />
@@ -384,7 +382,7 @@ function AdminAfterLogin() {
                 path='pp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='pp' />{' '}
+                    <Data FType='pp' />
                   </Suspense>
                 }
               />
@@ -392,7 +390,7 @@ function AdminAfterLogin() {
                 path='jp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='jp' />{' '}
+                    <Data FType='jp' />
                   </Suspense>
                 }
               />
@@ -400,7 +398,7 @@ function AdminAfterLogin() {
                 path='taska'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='taska' />{' '}
+                    <Data FType='taska' />
                   </Suspense>
                 }
               />
@@ -408,7 +406,7 @@ function AdminAfterLogin() {
                 path='tadika'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='tadika' />{' '}
+                    <Data FType='tadika' />
                   </Suspense>
                 }
               />
@@ -416,7 +414,7 @@ function AdminAfterLogin() {
                 path='sr'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='sr' />{' '}
+                    <Data FType='sr' />
                   </Suspense>
                 }
               />
@@ -424,7 +422,7 @@ function AdminAfterLogin() {
                 path='sm'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='sm' />{' '}
+                    <Data FType='sm' />
                   </Suspense>
                 }
               />
@@ -432,7 +430,7 @@ function AdminAfterLogin() {
                 path='program'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='program' />{' '}
+                    <Data FType='program' />
                   </Suspense>
                 }
               />
@@ -440,7 +438,7 @@ function AdminAfterLogin() {
                 path='kpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='kpb' />{' '}
+                    <Data FType='kpb' />
                   </Suspense>
                 }
               />
@@ -448,7 +446,7 @@ function AdminAfterLogin() {
                 path='mpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <Data FType='mpb' />{' '}
+                    <Data FType='mpb' />
                   </Suspense>
                 }
               />
@@ -463,16 +461,38 @@ function AdminAfterLogin() {
                   }
                 />
               ) : null}
+              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+              import.meta.env.VITE_ENV === 'DEV' ? (
+                <Route
+                  path='program-gtod'
+                  element={
+                    <Suspense fallback={<Loading />}>
+                      <ProgramGTodDaerah />
+                    </Suspense>
+                  }
+                />
+              ) : null}
+              {import.meta.env.VITE_ENV === 'UNSTABLE' ||
+              import.meta.env.VITE_ENV === 'DEV' ? (
+                <Route
+                  path='program-warga-emas'
+                  element={
+                    <Suspense fallback={<Loading />}>
+                      <ProgramWargaEmasDaerah />
+                    </Suspense>
+                  }
+                />
+              ) : null}
             </>
           ) : null}
           {/* route kp superadmin sahaja */}
-          {loginInfo.accountType === 'kpUser' ? (
+          {loginInfo.accountType === 'kpUser' && loginInfo.role === 'admin' ? (
             <>
               <Route
                 index
                 element={
                   <Suspense fallback={<Loading />}>
-                    <KpCenterStage {...props} />{' '}
+                    <KpCenterStage {...props} />
                   </Suspense>
                 }
               />
@@ -480,7 +500,7 @@ function AdminAfterLogin() {
                 path='kp/pp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='pp' />{' '}
+                    <DataKp FType='pp' />
                   </Suspense>
                 }
               />
@@ -488,7 +508,7 @@ function AdminAfterLogin() {
                 path='kp/jp'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='jp' />{' '}
+                    <DataKp FType='jp' />
                   </Suspense>
                 }
               />
@@ -496,7 +516,7 @@ function AdminAfterLogin() {
                 path='kp/tastad'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='tastad' />{' '}
+                    <DataKp FType='tastad' />
                   </Suspense>
                 }
               />
@@ -504,7 +524,7 @@ function AdminAfterLogin() {
                 path='kp/program'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='program' />{' '}
+                    <DataKp FType='program' />
                   </Suspense>
                 }
               />
@@ -512,7 +532,7 @@ function AdminAfterLogin() {
                 path='kp/kpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='kpb' />{' '}
+                    <DataKp FType='kpb' />
                   </Suspense>
                 }
               />
@@ -520,7 +540,7 @@ function AdminAfterLogin() {
                 path='kp/mpb'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <DataKp FType='mpb' />{' '}
+                    <DataKp FType='mpb' />
                   </Suspense>
                 }
               />
@@ -528,7 +548,20 @@ function AdminAfterLogin() {
                 path='kp/generate'
                 element={
                   <Suspense fallback={<Loading />}>
-                    <GenerateKp {...props} />{' '}
+                    <GenerateKp {...props} />
+                  </Suspense>
+                }
+              />
+            </>
+          ) : null}
+          {/* route kp sosmedadmin sahaja */}
+          {loginInfo.role === 'sosmedadmin' ? (
+            <>
+              <Route
+                index
+                element={
+                  <Suspense fallback={<Loading />}>
+                    <KpCenterStage {...props} />
                   </Suspense>
                 }
               />

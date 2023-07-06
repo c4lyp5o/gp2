@@ -75,6 +75,8 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const { kp, kodFasiliti } = req.user;
+
   const sesiTakwim = sesiTakwimSekolah();
 
   const personSekolahWithPopulate = await Sekolah.findOne({
@@ -86,13 +88,23 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     .populate('rawatanSekolah');
   // .populate('kotakSekolah');
 
+  const fasilitiSekolah = await Fasiliti.findOne({
+    handler: kp,
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: personSekolahWithPopulate.kodSekolah,
+    sesiTakwimSekolah: sesiTakwim,
+  });
+
   if (!personSekolahWithPopulate) {
     return res
       .status(404)
       .json({ msg: `No person with id ${req.params.personSekolahId}` });
   }
 
-  res.status(201).json({ personSekolahWithPopulate });
+  res.status(201).json({
+    personSekolahWithPopulate,
+    fasilitiSekolah,
+  });
 };
 
 // GET /populate-satu-sekolah/:kodSekolah
@@ -105,14 +117,14 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
 
   const sesiTakwim = sesiTakwimSekolah();
 
-  const fasilitiSekolahs = await Fasiliti.findOne({
+  const fasilitiSekolah = await Fasiliti.findOne({
     handler: kp,
     kodFasilitiHandler: kodFasiliti,
     kodSekolah: req.params.kodSekolah,
     sesiTakwimSekolah: sesiTakwim,
   });
 
-  // const namaSekolahs = fasilitiSekolahs.reduce(
+  // const namaSekolahs = fasilitiSekolah.reduce(
   //   (arrNamaSekolahs, singleFasilitiSekolah) => {
   //     if (!arrNamaSekolahs.includes(singleFasilitiSekolah.nama)) {
   //       arrNamaSekolahs.push(singleFasilitiSekolah.nama);
@@ -122,7 +134,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
   //   ['']
   // );
 
-  // const kodSekolahs = fasilitiSekolahs.reduce(
+  // const kodSekolahs = fasilitiSekolah.reduce(
   //   (arrKodSekolahs, singleFasilitiSekolah) => {
   //     if (!arrKodSekolahs.includes(singleFasilitiSekolah.kodSekolah)) {
   //       arrKodSekolahs.push(singleFasilitiSekolah.kodSekolah);
@@ -142,7 +154,7 @@ const getAllPersonSekolahsWithPopulate = async (req, res) => {
     .sort({ nama: 1 });
   // .populate('kotakSekolah');
 
-  res.status(200).json({ allPersonSekolahs, fasilitiSekolahs });
+  res.status(200).json({ allPersonSekolahs, fasilitiSekolah });
 };
 
 // not used
@@ -348,21 +360,20 @@ const muatturunSenaraiPelajar = async (req, res) => {
   let match_stage = {
     $match: {
       kodSekolah: kodSekolah,
+      deleted: false,
     },
   };
 
   let project_stage = {
     $project: {
       nama: 1,
-      // nomborId: 1,
-      tahunTingkatan: 1,
       namaSekolah: 1,
+      tahunTingkatan: 1,
       kelasPelajar: 1,
-      // tarikhLahir: 1,
-      // umur: 1,
       jantina: 1,
+      umur: 1,
+      keturunan: 1,
       warganegara: 1,
-      sesiTakwimPelajar: 1,
     },
   };
 
@@ -406,7 +417,6 @@ const muatturunSenaraiPelajar = async (req, res) => {
     worksheet.columns = [
       { header: 'BIL', key: 'bil', width: 5, height: 26 },
       { header: 'NAMA', key: 'nama', width: 60, height: 26 },
-      // { header: 'NOMBOR IC', key: 'nomborId', width: 20 },
       {
         header: 'TAHUN/TINGKATAN',
         key: 'tahunTingkatan',
@@ -414,21 +424,15 @@ const muatturunSenaraiPelajar = async (req, res) => {
         height: 26,
       },
       { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
-      // { header: 'TARIKH LAHIR', key: 'tarikhLahir', width: 25 },
-      // { header: 'UMUR', key: 'umur', width: 10, height: 26 },
       { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+      { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+      { header: 'KETURUNAN', key: 'keturunan', width: 15, height: 26 },
       {
         header: 'WARGANEGARA',
         key: 'warganegara',
         width: 40,
         height: 26,
       },
-      // {
-      //   header: 'SESI TAKWIM',
-      //   key: 'sesiTakwimPelajar',
-      //   width: 18,
-      //   height: 26,
-      // },
     ];
 
     worksheet.addRows(studentsInClass);
@@ -440,8 +444,14 @@ const muatturunSenaraiPelajar = async (req, res) => {
       cell.alignment = { vertical: 'middle', horizontal: 'center' };
     });
 
+    worksheet.getColumn('nama').eachCell((cell, number) => {
+      if (number !== 1) {
+        cell.alignment = { vertical: 'middle', horizontal: 'left' };
+      }
+    });
+
     worksheet.getColumn('warganegara').eachCell((cell) => {
-      cell.value = cell.value || 'BUKAN WARGANEGARA';
+      cell.value = cell.value || 'TIADA MAKLUMAT';
     });
 
     worksheet.columns.forEach((column) => {
@@ -450,13 +460,8 @@ const muatturunSenaraiPelajar = async (req, res) => {
       });
     });
 
-    worksheet.getColumn('nama').eachCell((cell, number) => {
-      if (number !== 1) {
-        cell.alignment = { vertical: 'middle', horizontal: 'left' };
-      }
-    });
-
     worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+
     worksheet.getRow(1).alignment = {
       vertical: 'middle',
       horizontal: 'center',

@@ -23,10 +23,14 @@ const {
 const {
   countPPIM03,
   countPPIM04,
+  countPPIM05,
   countBEGIN,
+  countCPPC1,
+  countCPPC2,
   countDEWASAMUDA,
   countOAP,
-  countLiputanOAP,
+  countLiputanOA,
+  countLiputanPenan,
   countKPBMPBHarian,
   countKPBMPBBulanan,
   countKOM,
@@ -36,7 +40,7 @@ const {
   countPKAP2,
 } = require('./countHelperKomuniti');
 
-const reten_engine_version = '1.6.4';
+const reten_engine_version = '1.6.6';
 
 module.exports = {
   // version
@@ -64,10 +68,14 @@ module.exports = {
   countAdHocQuery,
   countPPIM03,
   countPPIM04,
+  countPPIM05,
   countBEGIN,
+  countCPPC1,
+  countCPPC2,
   countDEWASAMUDA,
   countOAP,
-  countLiputanOAP,
+  countLiputanOA,
+  countLiputanPenan,
   countKOM,
   countKPBMPBHarian,
   countKPBMPBBulanan,

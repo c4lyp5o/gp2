@@ -21,14 +21,14 @@ export default function Sekolah(props) {
         <h1 className='text-3xl font-bold mt-10 mb-10'>
           Senarai {Dictionary[props.FType]} Daerah {props.daerah}
         </h1>
-        <div className='grid gap-1 absolute top-5 left-5'>
+        <div className='grid gap-1 absolute top-4 left-5 p-1.5 bg-adminWhite rounded-md'>
           <p>carian</p>
           <select
             value={pilihanKlinik}
             onChange={(e) => {
               setPilihanKlinik(e.target.value);
             }}
-            className='outline outline-adminBlack outline-1 capitalize w-40'
+            className='w-40 leading-7 px-3 py-1 ring-2 ring-admin4 focus:ring-2 focus:ring-admin1 focus:outline-none rounded-md peer shadow-md capitalize text-xs'
           >
             <option value=''>Klinik..</option>
             {namaKliniks.map((k, index) => (
@@ -59,6 +59,14 @@ export default function Sekolah(props) {
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   Status
+                </th>
+                {props.FType === 'sm' && (
+                  <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                    Sekolah MMI
+                  </th>
+                )}
+                <th className='px-2 py-1 outline outline-1 outline-offset-1'>
+                  Sekolah Pendidikan Khas
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   FMR
@@ -106,6 +114,30 @@ export default function Sekolah(props) {
                       ) : (
                         <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
                           Tidak Aktif
+                        </span>
+                      )}
+                    </td>
+                    {props.FType === 'sm' && (
+                      <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                        {f.sekolahMmi === 'ya-sekolah-mmi' ? (
+                          <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                            Ya
+                          </span>
+                        ) : (
+                          <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                            Tidak
+                          </span>
+                        )}
+                      </td>
+                    )}
+                    <td className='px-2 py-1 outline outline-1 outline-adminWhite outline-offset-1'>
+                      {f.sekolahKki === 'ya-sekolah-kki' ? (
+                        <span className='bg-user7 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded'>
+                          Ya
+                        </span>
+                      ) : (
+                        <span className='bg-admin2 text-adminWhite text-xs font-semibold px-1.5 py-0.5 rounded whitespace-nowrap'>
+                          Tidak
                         </span>
                       )}
                     </td>

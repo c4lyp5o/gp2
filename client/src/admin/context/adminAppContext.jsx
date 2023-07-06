@@ -527,6 +527,55 @@ function AdminAppProvider({ children }) {
       return false;
     }
   };
+  const readSpesifikJanaTadikaData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=janatadika`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error('Tiada tadika ditemui');
+    }
+  };
+  const readSpesifikJanaSekolahRendahData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=janasekolahrendah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada sekolah ditemui atau sekolah masih menjalankan pemeriksaan atau rawatan'
+      );
+    }
+  };
+  const readSpesifikJanaSekolahMenengahData = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getdata?FType=janasekolahmenengah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada sekolah ditemui atau sekolah masih menjalankan pemeriksaan atau rawatan'
+      );
+    }
+  };
 
   // spesifik kp data
   const readSpesifikKkiaDataForKp = async (kp) => {
@@ -587,6 +636,55 @@ function AdminAppProvider({ children }) {
       return response;
     } catch (err) {
       return false;
+    }
+  };
+  const readSpesifikJanaTadikaDataForKp = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=janatadika`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error('Tiada Data Tadika Ditemui');
+    }
+  };
+  const readSpesifikJanaSekolahRendahDataForKp = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=janasekolahrendah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+      );
+    }
+  };
+  const readSpesifikJanaSekolahMenengahDataForKp = async (kp) => {
+    try {
+      const response = await axios.get(
+        `/api/v1/superadmin/getkpdata?FType=janasekolahmenengah`,
+        {
+          headers: {
+            Authorization: adminToken,
+          },
+        }
+      );
+      return response;
+    } catch (err) {
+      return toast.error(
+        'Tiada Data Sekolah Ditemui Atau Sekolah Masih Menjalankan Pemeriksaan Atau Rawatan'
+      );
     }
   };
 
@@ -762,21 +860,32 @@ function AdminAppProvider({ children }) {
         'Laporan Aktiviti Latihan Memberus Gigi Berkesan (Begin) Di Taska, Pra-Sekolah Dan Sekolah Rendah',
     },
     {
+      kod: 'CPPC1',
+      kodRingkas: 'CPPC1',
+      deskripsi:
+        'CPPC Treatment Need and Treament Rendered by Year of Preschool/School Children',
+    },
+    {
+      kod: 'CPPC2',
+      kodRingkas: 'CPPC2',
+      deskripsi:
+        'Trend Data of Decayed Teeth with Occlusal Caries in Preschool/School Children',
+    },
+    {
       kod: 'PPIM 03',
       kodRingkas: 'PPIM03',
       deskripsi:
-        'Rekod Saringan Dan Intervensi Merokok Melalui Perkhidmatan Pergigian Sekolah Rendah',
+        'Rekod Saringan Dan Intervensi Merokok Melalui Perkhidmatan Pergigian Sekolah',
     },
     {
       kod: 'PPIM 04',
       kodRingkas: 'PPIM04',
-      deskripsi:
-        'Daftar Murid Menjalani Intervensi Program Kotak Di Sekolah Rendah',
+      deskripsi: 'Daftar Murid Menjalani Intervensi Program Kotak Di Sekolah',
     },
     {
       kod: 'PPIM 05',
       kodRingkas: 'PPIM05',
-      deskripsi: 'Rekod Intervensi Program Kotak Di Sekolah Rendah',
+      deskripsi: 'Rekod Intervensi Program Kotak Di Sekolah',
     },
     {
       kod: 'Dewasa Muda',
@@ -863,10 +972,16 @@ function AdminAppProvider({ children }) {
         'Laporan Bulanan Klinik/Daerah/Negeri Bagi Perkhidmatan Pergigian Etnik Orang Asli/Penan',
     },
     {
-      kod: 'Liputan OAP',
-      kodRingkas: 'LiputanOAP',
+      kod: 'Liputan ORANG ASLI',
+      kodRingkas: 'LiputanOA',
       deskripsi:
-        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli/Penan',
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Orang Asli',
+    },
+    {
+      kod: 'Liputan PENAN',
+      kodRingkas: 'LiputanPenan',
+      deskripsi:
+        'Laporan Bulanan/Tahunan Di Negeri Bagi Liputan Populasi Etnik Penan',
     },
     {
       kod: 'RTC',
@@ -967,6 +1082,7 @@ function AdminAppProvider({ children }) {
     startDate,
     endDate,
     minDate,
+    disabled,
     className,
   }) => {
     return (
@@ -992,6 +1108,7 @@ function AdminAppProvider({ children }) {
           e.preventDefault();
         }}
         onFocus={(e) => e.target.blur()} // disable keyboad input
+        disabled={disabled}
         className={className}
         portalId='root-portal'
       />
@@ -1101,11 +1218,11 @@ function AdminAppProvider({ children }) {
     program: 'Program',
     sosmed: 'Media Sosial',
     followers: 'Followers',
-    tastad: 'Tadika dan Taska',
+    tastad: 'Tadika/Taska',
     'kolej-komuniti': 'Kolej Komuniti',
     'kolej-vokasional': 'Kolej Vokasional',
     ipg: 'Institusi Pendidikan Guru (IPG)',
-    ipta: 'Institusi Pengajian Tinggi Awam (IPTA)',
+    ipta: 'Pra Universiti (PRA U) & Universiti Awam (UA)',
     'lain-lain': 'Lain-lain Institusi Pengajian',
     // this is for program-komuniti ------------------------------------------
     programDewasaMuda: 'Program Dewasa Muda',
@@ -1162,6 +1279,12 @@ function AdminAppProvider({ children }) {
     'WP Labuan': 'L',
     'WP Putrajaya': 'F',
     ILK: 'ILK',
+  };
+  const DictionarySubProgram = {
+    kampungAngkatPergigian: 'Program Kampung Angkat Pergigian',
+    oap: 'Program Orang Asli dan Penan',
+    ppr: 'Projek Perumahan Rakyat',
+    hrc: 'Komuniti Berisiko Tinggi',
   };
   const DictionarySosMedParam = (data) => {
     if (data.includes('bilAktivitiShareKurang10') === true) {
@@ -1274,11 +1397,17 @@ function AdminAppProvider({ children }) {
         readSpesifikKPBMPBData,
         readSpesifikIndividuData,
         readSpesifikRTCData,
+        readSpesifikJanaTadikaData,
+        readSpesifikJanaSekolahRendahData,
+        readSpesifikJanaSekolahMenengahData,
         // spesifik kp data
         readSpesifikKkiaDataForKp,
         readSpesifikProgramDataForKp,
         readSpesifikKPBMPBDataForKp,
         readSpesifikIndividuDataForKp,
+        readSpesifikJanaTadikaDataForKp,
+        readSpesifikJanaSekolahRendahDataForKp,
+        readSpesifikJanaSekolahMenengahDataForKp,
         // hq functions
         getStatsData,
         getAllNegeriAndDaerah,
@@ -1299,6 +1428,7 @@ function AdminAppProvider({ children }) {
         InfoDecoder,
         Dictionary,
         DictionaryHurufNegeri,
+        DictionarySubProgram,
         DictionarySosMedParam,
         DictionarySosMedAcronym,
         // ad hoc query (he he boi)

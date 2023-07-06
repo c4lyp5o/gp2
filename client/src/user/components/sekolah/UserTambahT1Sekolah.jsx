@@ -5,26 +5,24 @@ import { FaWindowClose, FaRegPaperPlane, FaYinYang } from 'react-icons/fa';
 
 import { useGlobalUserAppContext } from '../../context/userAppContext';
 
-function UserTambahKemaskiniPelajarSekolah({
-  modalTambahKemaskiniPelajar,
-  setModalTambahKemaskiniPelajar,
-  kemaskiniPelajarId,
-  setKemaskiniPelajarId,
+function UserTambahT1Sekolah({
+  modalTambahT1Sekolah,
+  setModalTambahT1Sekolah,
   submittingTambahPelajar,
   setSubmittingTambahPelajar,
   reloadState,
   setReloadState,
   dataFromPilihanTahunTingkatan,
+  fasilitiSekolah,
 }) {
   const { userToken, reliefUserToken, masterDatePicker, toast } =
     useGlobalUserAppContext();
-
-  const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
 
   //form
   const [showForm, setShowForm] = useState(false);
   const [nomborId, setNomborId] = useState('');
   const [nama, setNama] = useState('');
+  const tahunTingkatan = 'T1';
   const [jantina, setJantina] = useState('');
   const [statusOku, setStatusOku] = useState('');
   const [tarikhLahir, setTarikhLahir] = useState('');
@@ -63,161 +61,65 @@ function UserTambahKemaskiniPelajarSekolah({
   const handleSubmit = async (e) => {
     e.preventDefault();
     setSubmittingTambahPelajar(true);
-    if (!kemaskiniPelajarId) {
-      const {
-        idInstitusi,
-        kodSekolah,
-        namaSekolah,
-        sesiTakwimPelajar,
-        tahunTingkatan,
-      } = dataFromPilihanTahunTingkatan;
 
-      await toast
-        .promise(
-          axios.post(
-            '/api/v1/sekolah',
-            {
-              idInstitusi,
-              kodSekolah,
-              namaSekolah,
-              //
-              nomborId,
-              nama: nama.toUpperCase(),
-              sesiTakwimPelajar,
-              tahunTingkatan,
-              jantina,
-              statusOku,
-              tarikhLahir,
-              umur,
-              keturunan: keturunan.toUpperCase(),
-              warganegara,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
+    await toast
+      .promise(
+        axios.post(
+          '/api/v1/sekolah',
           {
-            pending: 'Sedang menambah pelajar',
-            success: 'Berjaya menambah pelajar',
-            error: {
-              render({ data }) {
-                if (data.response.status === 409) {
-                  return data.response.data.msg;
-                } else {
-                  return 'Gagal menambah pelajar';
-                }
-              },
+            idInstitusi: fasilitiSekolah.idInstitusi,
+            kodSekolah: fasilitiSekolah.kodSekolah,
+            namaSekolah: fasilitiSekolah.nama,
+            //
+            nomborId,
+            nama: nama.toUpperCase(),
+            sesiTakwimPelajar: fasilitiSekolah.sesiTakwimSekolah,
+            tahunTingkatan,
+            jantina,
+            statusOku,
+            tarikhLahir,
+            umur,
+            keturunan: keturunan.toUpperCase(),
+            warganegara,
+          },
+          {
+            headers: {
+              Authorization: `Bearer ${
+                reliefUserToken ? reliefUserToken : userToken
+              }`,
+            },
+          }
+        ),
+        {
+          pending: 'Sedang menambah pelajar',
+          success: 'Berjaya menambah pelajar',
+          error: {
+            render({ data }) {
+              if (data.response.status === 409) {
+                return data.response.data.msg;
+              } else {
+                return 'Gagal menambah pelajar';
+              }
             },
           },
-          { autoClose: 5000 }
-        )
-        .then(() => {
-          setReloadState(!reloadState);
-          setSubmittingTambahPelajar(false);
-          setModalTambahKemaskiniPelajar(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          // setReloadState(!reloadState);
-          setSubmittingTambahPelajar(false);
-          // setModalTambahKemaskiniPelajar(false);
-        });
-    }
-
-    if (kemaskiniPelajarId) {
-      await toast
-        .promise(
-          axios.patch(
-            `/api/v1/sekolah/ubah/${kemaskiniPelajarId}`,
-            {
-              nama: nama.toUpperCase(),
-              jantina,
-              statusOku,
-              tarikhLahir,
-              umur,
-              keturunan: keturunan.toUpperCase(),
-              warganegara,
-            },
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          ),
-          {
-            pending: 'Sedang mengemaskini pelajar',
-            success: 'Berjaya mengemaskini pelajar',
-            error: {
-              render({ data }) {
-                if (data.response.status === 409) {
-                  return data.response.data.msg;
-                } else {
-                  return 'Gagal mengemaskini pelajar';
-                }
-              },
-            },
-          },
-          { autoClose: 5000 }
-        )
-        .then(() => {
-          setReloadState(!reloadState);
-          setSubmittingTambahPelajar(false);
-          setModalTambahKemaskiniPelajar(false);
-        })
-        .catch((err) => {
-          console.log(err);
-          // setReloadState(!reloadState);
-          setSubmittingTambahPelajar(false);
-          // setModalTambahKemaskiniPelajar(false);
-        });
-    }
+        },
+        { autoClose: 5000 }
+      )
+      .then(() => {
+        setReloadState(!reloadState);
+        setSubmittingTambahPelajar(false);
+        setModalTambahT1Sekolah(false);
+      })
+      .catch((err) => {
+        console.log(err);
+        // setReloadState(!reloadState);
+        setSubmittingTambahPelajar(false);
+        // setModalTambahKemaskiniPelajar(false);
+      });
   };
 
-  // fetch singlePersonSekolah to edit if kemaskiniPelajarId === true
-  useEffect(() => {
-    if (kemaskiniPelajarId) {
-      const fetchSinglePersonSekolah = async () => {
-        try {
-          const { data } = await axios.get(
-            `/api/v1/sekolah/${kemaskiniPelajarId}`,
-            {
-              headers: {
-                Authorization: `Bearer ${
-                  reliefUserToken ? reliefUserToken : userToken
-                }`,
-              },
-            }
-          );
-          setSinglePersonSekolah(data.singlePersonSekolah);
-
-          setNama(data.singlePersonSekolah.nama);
-          setNomborId(data.singlePersonSekolah.nomborId);
-          setStatusOku(data.singlePersonSekolah.statusOku);
-          setTarikhLahir(data.singlePersonSekolah.tarikhLahir);
-          if (moment(data.singlePersonSekolah.tarikhLahir).isValid()) {
-            setTarikhLahirDP(new Date(data.singlePersonSekolah.tarikhLahir));
-          }
-          setJantina(data.singlePersonSekolah.jantina);
-          setUmur(data.singlePersonSekolah.umur);
-          setKeturunan(data.singlePersonSekolah.keturunan);
-          setWarganegara(data.singlePersonSekolah.warganegara);
-        } catch (error) {
-          console.log(error);
-        }
-      };
-      fetchSinglePersonSekolah();
-    }
-  }, [kemaskiniPelajarId]);
-
   const closeModal = () => {
-    setModalTambahKemaskiniPelajar(false);
-    setKemaskiniPelajarId('');
+    setModalTambahT1Sekolah(false);
     setShowForm(false);
   };
 
@@ -233,105 +135,35 @@ function UserTambahKemaskiniPelajarSekolah({
           className='grid grid-rows-[1fr_8fr_1fr] h-full'
         >
           <h5 className='bg-user3 text-userWhite font-semibold text-xl h-7'>
-            {kemaskiniPelajarId ? 'Kemaskini Pelajar' : 'Tambah Pelajar'}
+            Tambah Pelajar Tingkatan 1
           </h5>
-          {kemaskiniPelajarId && !showForm ? (
+          {!showForm && (
             <div className='mt-1 py-1'>
               <p className='flex justify-center text-lg font-bold p-3'>
-                Anda pasti untuk mengemaskini pelajar ini?
+                Pendaftaran ini adalah untuk pelajar di sekolah dan tahun /
+                tingkatan ini
               </p>
               <div className='grid grid-cols-[1fr_2fr]'>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Nama
+                  Nama Sekolah
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.nama}
-                </p>
-                {/* <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Nombor Kad Pengenalan
-                </p>
-                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.nomborId}
-                </p> */}
-                {/* <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Tarikh Lahir
-                </p>
-                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {moment(singlePersonSekolah.tarikhLahir).format('DD/MM/YYYY')}
-                </p> */}
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Jantina
-                </p>
-                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.jantina}
+                  {fasilitiSekolah.nama}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Umur
+                  Takwim Sekolah
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.umur}
+                  {fasilitiSekolah.sesiTakwimSekolah}
                 </p>
                 <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
                   Tahun / Tingkatan
                 </p>
                 <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.tahunTingkatan}
-                </p>
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Keturunan
-                </p>
-                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.keturunan}
-                </p>
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Warganegara
-                </p>
-                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.warganegara}
-                </p>
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Status OKU
-                </p>
-                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                  {singlePersonSekolah.statusOku === ':' ? 'Bukan OKU' : 'OKU'}
-                </p>
-                <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                  Status Rawatan
-                </p>
-                <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10 uppercase'>
-                  {singlePersonSekolah.statusRawatan}
+                  {tahunTingkatan}
                 </p>
               </div>
             </div>
-          ) : (
-            !showForm && (
-              <div className='mt-1 py-1'>
-                <p className='flex justify-center text-lg font-bold p-3'>
-                  Pendaftaran ini adalah untuk pelajar di sekolah dan tahun /
-                  tingkatan ini
-                </p>
-                <div className='grid grid-cols-[1fr_2fr]'>
-                  <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                    Nama Sekolah
-                  </p>
-                  <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    {dataFromPilihanTahunTingkatan.namaSekolah}
-                  </p>
-                  <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                    Takwim Pelajar
-                  </p>
-                  <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    {dataFromPilihanTahunTingkatan.sesiTakwimPelajar}
-                  </p>
-                  <p className='text-xs p-1 flex justify-end text-right bg-user1 bg-opacity-5'>
-                    Tahun / Tingkatan
-                  </p>
-                  <p className='text-xs p-1 flex flex-col justify-start text-left border-y border-y-user1 border-opacity-10'>
-                    {dataFromPilihanTahunTingkatan.tahunTingkatan}
-                  </p>
-                </div>
-              </div>
-            )
           )}
           {showForm && (
             <div className='mt-1 py-1'>
@@ -379,54 +211,52 @@ function UserTambahKemaskiniPelajarSekolah({
                     }}
                   >
                     <option value=''>Sila Pilih</option>
-                    <option value='WARGANEGARA'>WARGANEGARA</option>
+                    <option value='MALAYSIA'>MALAYSIA</option>
                     <option value='BUKAN WARGANEGARA'>BUKAN WARGANEGARA</option>
                   </select>
                 </div>
                 <div className='relative'>
-                  {!kemaskiniPelajarId ? (
-                    <>
-                      <label
-                        htmlFor='nomborId'
-                        className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
-                      >
-                        Nombor Pengenalan Diri
-                        <span className='font-semibold text-user6'>*</span>
-                      </label>
-                      {warganegara === 'MALAYSIA' ? (
-                        <input
-                          disabled={warganegara === '' ? true : false}
-                          type='text'
-                          name='nomborId'
-                          id='nomborId'
-                          placeholder=' '
-                          pattern='[0-9]+'
-                          title='12 numbers MyKad / MyKid'
-                          minLength={12}
-                          maxLength={12}
-                          className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                          value={nomborId}
-                          onChange={(e) => {
-                            setNomborId(e.target.value);
-                            // handleIc(e.target.value);
-                          }}
-                        />
-                      ) : (
-                        <input
-                          disabled={warganegara === '' ? true : false}
-                          type='text'
-                          name='nomborId'
-                          id='nomborId'
-                          placeholder=' '
-                          className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
-                          value={nomborId}
-                          onChange={(e) => {
-                            setNomborId(e.target.value);
-                          }}
-                        />
-                      )}
-                    </>
-                  ) : null}
+                  <>
+                    <label
+                      htmlFor='nomborId'
+                      className='text-sm text-left text-user1 bg-userWhite flex rounded-md'
+                    >
+                      Nombor Pengenalan Diri
+                      <span className='font-semibold text-user6'>*</span>
+                    </label>
+                    {warganegara === 'MALAYSIA' ? (
+                      <input
+                        disabled={warganegara === '' ? true : false}
+                        type='text'
+                        name='nomborId'
+                        id='nomborId'
+                        placeholder=' '
+                        pattern='[0-9]+'
+                        title='12 numbers MyKad / MyKid'
+                        minLength={12}
+                        maxLength={12}
+                        className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={nomborId}
+                        onChange={(e) => {
+                          setNomborId(e.target.value);
+                          // handleIc(e.target.value);
+                        }}
+                      />
+                    ) : (
+                      <input
+                        disabled={warganegara === '' ? true : false}
+                        type='text'
+                        name='nomborId'
+                        id='nomborId'
+                        placeholder=' '
+                        className='appearance-none text-sm w-full px-2 py-1 text-user1 border border-user1 rounded-lg shadow-sm focus:outline-none focus:ring-1 focus:ring-user1 focus:border-transparent'
+                        value={nomborId}
+                        onChange={(e) => {
+                          setNomborId(e.target.value);
+                        }}
+                      />
+                    )}
+                  </>
                 </div>
                 <div className='relative'>
                   <label
@@ -555,9 +385,6 @@ function UserTambahKemaskiniPelajarSekolah({
                     <option value=''>Sila Pilih</option>
                     <option value='OKU'>OKU</option>
                     <option value=':'>BUKAN OKU</option>
-                    {kemaskiniPelajarId && statusOku !== ':' && (
-                      <option value={statusOku}>{statusOku}</option>
-                    )}
                   </select>
                 </div>
               </div>
@@ -2312,8 +2139,8 @@ const keturunanList = [
   },
   {
     id: '1544',
-    value: 'TRINIDAD & TOBAGO',
-    label: 'TRINIDAD & TOBAGO',
+    value: 'TRINIDAD &amp; TOBAGO',
+    label: 'TRINIDAD &amp; TOBAGO',
   },
   {
     id: '1545',
@@ -2427,4 +2254,4 @@ const keturunanList = [
   // },
 ];
 
-export default UserTambahKemaskiniPelajarSekolah;
+export default UserTambahT1Sekolah;

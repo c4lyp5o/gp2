@@ -6,7 +6,7 @@ import 'react-datepicker/dist/react-datepicker.css';
 import 'react-datetime/css/react-datetime.css';
 import 'react-calendar/dist/Calendar.css';
 import './react-calendar.css';
-import App from './App';
+import App from './App.jsx';
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
