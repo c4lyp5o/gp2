@@ -1509,6 +1509,7 @@ const makePG206 = async (payload) => {
     // data pemeriksaan sekolah
     for (const item of data[2]) {
       const rowNumber = rowNumbers[item._id];
+
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
         row.getCell(4).value += item.jumlahd;
@@ -1546,6 +1547,7 @@ const makePG206 = async (payload) => {
     // data rawatan sekolah
     for (const item of data[3]) {
       const rowNumber = rowNumbers[item._id];
+
       if (rowNumber !== undefined) {
         const row = worksheet.getRow(rowNumber);
         row.getCell(24).value += item.sapuanFluorida;
