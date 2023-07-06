@@ -75,6 +75,8 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     return res.status(401).json({ msg: 'Unauthorized' });
   }
 
+  const { kp, kodFasiliti } = req.user;
+
   const sesiTakwim = sesiTakwimSekolah();
 
   const personSekolahWithPopulate = await Sekolah.findOne({
@@ -86,13 +88,23 @@ const getSinglePersonSekolahWithPopulate = async (req, res) => {
     .populate('rawatanSekolah');
   // .populate('kotakSekolah');
 
+  const fasilitiSekolah = await Fasiliti.findOne({
+    handler: kp,
+    kodFasilitiHandler: kodFasiliti,
+    kodSekolah: personSekolahWithPopulate.kodSekolah,
+    sesiTakwimSekolah: sesiTakwim,
+  });
+
   if (!personSekolahWithPopulate) {
     return res
       .status(404)
       .json({ msg: `No person with id ${req.params.personSekolahId}` });
   }
 
-  res.status(201).json({ personSekolahWithPopulate });
+  res.status(201).json({
+    personSekolahWithPopulate,
+    fasilitiSekolah,
+  });
 };
 
 // GET /populate-satu-sekolah/:kodSekolah
