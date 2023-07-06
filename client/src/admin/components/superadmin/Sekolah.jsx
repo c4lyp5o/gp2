@@ -66,7 +66,7 @@ export default function Sekolah(props) {
                   </th>
                 )}
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
-                  Sekolah KKI
+                  Sekolah Pendidikan Khas
                 </th>
                 <th className='px-2 py-1 outline outline-1 outline-offset-1'>
                   FMR

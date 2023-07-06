@@ -26,6 +26,7 @@ function UserFormSekolahPemeriksaan() {
   const [isLoading, setIsLoading] = useState(true);
   const [isShown, setIsShown] = useState(false);
   const [singlePersonSekolah, setSinglePersonSekolah] = useState([]);
+  const [fasilitiSekolah, setFasilitiSekolah] = useState({});
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   //confirm data
@@ -226,10 +227,7 @@ function UserFormSekolahPemeriksaan() {
 
   const TarikhPemeriksaanSemasa = () => {
     let isDisabled = false;
-    if (
-      singlePersonSekolah.statusRawatan === 'selesai' ||
-      singlePersonSekolah.statusRawatan === 'belum selesai'
-    ) {
+    if (singlePersonSekolah.statusRawatan !== 'belum mula') {
       isDisabled = true;
     }
     return masterDatePicker({
@@ -535,6 +533,7 @@ function UserFormSekolahPemeriksaan() {
           }
         );
         setSinglePersonSekolah(data.personSekolahWithPopulate);
+        setFasilitiSekolah(data.fasilitiSekolah);
 
         // map to form if pemeriksaanSekolahId exist
         if (pemeriksaanSekolahId !== 'tambah-pemeriksaan') {
@@ -860,7 +859,9 @@ function UserFormSekolahPemeriksaan() {
           singlePersonSekolah.tahunTingkatan === 'D4' ||
           singlePersonSekolah.tahunTingkatan === 'D5' ||
           singlePersonSekolah.tahunTingkatan === 'D6' ||
-          singlePersonSekolah.tahunTingkatan === 'KHAS'
+          singlePersonSekolah.tahunTingkatan === 'KHAS' ||
+          (fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
+            fasilitiSekolah.sekolahKki === 'ya-sekolah-kki')
         ) {
           await showToast(
             'Kes tidak selesai kerana d gigi desidus tidak sama sm (space maintainer)'
@@ -923,7 +924,9 @@ function UserFormSekolahPemeriksaan() {
           singlePersonSekolah.tahunTingkatan === 'D4' ||
           singlePersonSekolah.tahunTingkatan === 'D5' ||
           singlePersonSekolah.tahunTingkatan === 'D6' ||
-          singlePersonSekolah.tahunTingkatan === 'KHAS'
+          singlePersonSekolah.tahunTingkatan === 'KHAS' ||
+          (fasilitiSekolah.jenisFasiliti === 'sekolah-rendah' &&
+            fasilitiSekolah.sekolahKki === 'ya-sekolah-kki')
         ) {
           await showToast(
             'Kes tidak selesai MMI kerana d gigi desidus tidak sama sm (space maintainer)'
@@ -1249,53 +1252,6 @@ function UserFormSekolahPemeriksaan() {
           }, 5000);
         });
     }
-
-    //salah reten buat dekat form lain pulak
-    // if (salahReten === 'pemeriksaan-salah') {
-    //   let mdcMdtbNumSalah = '';
-    //   if (!userinfo.mdtbNumber) {
-    //     mdcMdtbNumSalah = userinfo.mdcNumber;
-    //   }
-    //   if (!userinfo.mdcNumber) {
-    //     mdcMdtbNumSalah = userinfo.mdtbNumber;
-    //   }
-    //   await toast
-    //     .promise(
-    //       axios.patch(
-    //         `/api/v1/sekolah/pemeriksaan/ubah/${pemeriksaanSekolahId}?personSekolahId=${personSekolahId}`,
-    //         {
-    //           createdByUsernameSalah: userinfo.nama,
-    //           createdByMdcMdtbSalah: mdcMdtbNumSalah,
-    //           dataRetenSalah,
-    //         },
-    //         {
-    //           headers: {
-    //             Authorization: `Bearer ${
-    //               reliefUserToken ? reliefUserToken : userToken
-    //             }`,
-    //           },
-    //         }
-    //       ),
-    //       {
-    //         pending: 'Mengemaskini...',
-    //         success: 'Pemeriksaan pelajar berjaya dikemaskini',
-    //         error: 'Pemeriksaan pelajar gagal dikemaskini',
-    //       },
-    //       {
-    //         autoClose: 2000,
-    //       }
-    //     )
-    //     .then(() => {
-    //       toast.info(`Tab akan ditutup dalam masa 3 saat...`, {
-    //         autoClose: 2000,
-    //       });
-    //       setTimeout(() => {
-    //         window.opener = null;
-    //         window.open('', '_self');
-    //         window.close();
-    //       }, 3000);
-    //     });
-    // }
   };
 
   return (
@@ -2700,7 +2656,11 @@ function UserFormSekolahPemeriksaan() {
                                     singlePersonSekolah.tahunTingkatan ===
                                       'D6' ||
                                     singlePersonSekolah.tahunTingkatan ===
-                                      'KHAS') &&
+                                      'KHAS' ||
+                                    (fasilitiSekolah.jenisFasiliti ===
+                                      'sekolah-rendah' &&
+                                      fasilitiSekolah.sekolahKki ===
+                                        'ya-sekolah-kki')) &&
                                   dAdaGigiDesidus > 0
                                     ? 'outline-dashed'
                                     : ''
@@ -2733,7 +2693,11 @@ function UserFormSekolahPemeriksaan() {
                                   singlePersonSekolah.tahunTingkatan === 'D5' ||
                                   singlePersonSekolah.tahunTingkatan === 'D6' ||
                                   singlePersonSekolah.tahunTingkatan ===
-                                    'KHAS') &&
+                                    'KHAS' ||
+                                  (fasilitiSekolah.jenisFasiliti ===
+                                    'sekolah-rendah' &&
+                                    fasilitiSekolah.sekolahKki ===
+                                      'ya-sekolah-kki')) &&
                                   dAdaGigiDesidus > 0 && (
                                     <div className='flex flex-row items-center pl-5'>
                                       <p className='text-sm font-m lowercase'>
