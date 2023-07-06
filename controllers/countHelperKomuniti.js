@@ -6814,13 +6814,14 @@ const countKPBMPBHarian = async (payload) => {
   }
 };
 const countKPBMPBBulanan = async (payload) => {
-  const { negeri, daerah, klinik } = payload;
+  const { pilihanKpbMpb } = payload;
 
   let match = {
     $match: {
-      ...(negeri !== 'all' ? { createdByNegeri: negeri } : []),
-      ...(daerah !== 'all' ? { createdByDaerah: daerah } : []),
-      ...(klinik !== 'all' ? { createdByKodFasiliti: klinik } : []),
+      // ...(negeri !== 'all' ? { createdByNegeri: negeri } : []),
+      // ...(daerah !== 'all' ? { createdByDaerah: daerah } : []),
+      // ...(klinik !== 'all' ? { createdByKodFasiliti: klinik } : []),
+      nama: pilihanKpbMpb,
       jenisFasiliti: 'kp-bergerak',
     },
   };
@@ -6840,7 +6841,7 @@ const countKPBMPBBulanan = async (payload) => {
         const data = await Umum.aggregate([
           {
             $match: {
-              penggunaanKPBMPB: item.nama,
+              penggunaanKPBMPB: pilihanKpbMpb,
             },
           },
           {
@@ -6898,8 +6899,6 @@ const countKPBMPBBulanan = async (payload) => {
         return { ...item, ...data[0] };
       })
     );
-
-    // console.log(kpbMpbData);
 
     if (kpbMpbData.length === 0) {
       errorRetenLogger.error(
@@ -10207,7 +10206,11 @@ const countPPR = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$skorBpeOralHygienePemeriksaanUmum', '1'],
+              $and: [
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''] },
+              ],
             },
             1,
             0,
@@ -15110,8 +15113,7 @@ const countUTCRTC = async (payload) => {
   try {
     let dataPemeriksaan = [];
     let dataRawatan = [];
-    // let dataSekolah = [];
-    // let dataOperatorLain = [];
+    let dataOperatorLain = [];
     let bigData = [];
 
     for (let i = 0; i < match_stage_pemeriksaan.length; i++) {
@@ -15130,33 +15132,20 @@ const countUTCRTC = async (payload) => {
       dataRawatan.push({ queryUTCRTCRawatan });
     }
 
-    // for (let i = 0; i < match_stage_sekolah.length; i++) {
-    //   const pipeline = [
-    //     ...pipeline_sekolah,
-    //     match_stage_sekolah[i],
-    //     group_sekolah,
-    //   ];
-    //   const querySekolah = await Sekolah.aggregate(pipeline);
-    //   dataSekolah.push({ querySekolah });
-    // }
-
-    // if (!payload.pilihanIndividu) {
-    //   for (let i = 0; i < match_stage_operatorLain.length; i++) {
-    //     const pipeline = [
-    //       ...main_switch(),
-    //       match_stage_operatorLain[i],
-    //       ...getParamsOperatorLain,
-    //       group_operatorLain,
-    //     ];
-    //     const queryOperatorLain = await Umum.aggregate(pipeline);
-    //     dataOperatorLain.push({ queryOperatorLain });
-    //   }
-    // }
+    for (let i = 0; i < match_stage_operatorLain.length; i++) {
+      const pipeline = [
+        ...main_switch(),
+        match_stage_operatorLain[i],
+        ...getParamsOperatorLain,
+        group_operatorLain,
+      ];
+      const queryUTCRTCOperatorLain = await Umum.aggregate(pipeline);
+      dataOperatorLain.push({ queryUTCRTCOperatorLain });
+    }
 
     bigData.push(dataPemeriksaan);
     bigData.push(dataRawatan);
-    // bigData.push(dataSekolah);
-    // bigData.push(dataOperatorLain);
+    bigData.push(dataOperatorLain);
 
     return bigData;
   } catch (error) {
@@ -18297,7 +18286,11 @@ const countPKAP2 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $gte: ['$skorBpeOralHygienePemeriksaanUmum', '1'],
+              $and: [
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', 'tiada'] },
+                { $ne: ['$skorBpeOralHygienePemeriksaanUmum', ''] },
+              ],
             },
             1,
             0,
