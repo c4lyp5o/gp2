@@ -4,21 +4,13 @@ const Schema = mongoose.Schema;
 const PemeriksaanAgensiLuarSchema = new Schema(
   {
     // main header -----------------------------------------------------------------
-    tarikhLawatan: {
+    tarikhMulaLawatan: {
       type: String,
       default: '',
     },
-    enrolmenKurang4Tahun: {
-      type: Number,
-      default: 0,
-    },
-    enrolmen5Tahun: {
-      type: Number,
-      default: 0,
-    },
-    enrolmen6Tahun: {
-      type: Number,
-      default: 0,
+    tarikhAkhirLawatan: {
+      type: String,
+      default: '',
     },
     kedatanganBaru: {
       type: Number,
