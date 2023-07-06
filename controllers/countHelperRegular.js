@@ -8568,14 +8568,27 @@ const countPGPR201Baru = async (payload) => {
     },
   };
 
+  let dataOperatorPrimary = [];
+  let dataOperatorLain = [];
   let bigData = [];
 
   try {
-    for (let i = 0; i < match_stage.length; i++) {
-      const pipeline = [main_switch, match_stage[i], group_stage];
+    for (const stage of match_stage) {
+      const pipeline = [main_switch, stage, group_stage];
+      const pipelineOplain = [
+        main_switch,
+        stage,
+        ...getParamsOperatorLain,
+        group_stage,
+      ];
       const query = await Umum.aggregate(pipeline);
-      bigData.push(query);
+      const queryOplain = await Umum.aggregate(pipelineOplain);
+      dataOperatorPrimary.push(query);
+      dataOperatorLain.push(queryOplain);
     }
+
+    bigData.push(dataOperatorPrimary, dataOperatorLain);
+
     return bigData;
   } catch (error) {
     errorRetenLogger.error(

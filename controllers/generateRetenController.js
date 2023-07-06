@@ -2733,77 +2733,157 @@ const makePGPR201 = async (payload) => {
 
     let jumlahReten = 0;
     let jumlahRetenSalah = 0;
+    let j;
 
-    let j = 0;
-    for (let i = 0; i < data.length; i++) {
+    j = 0;
+    for (let i = 0; i < data[0].length; i++) {
       let rowNew = worksheet.getRow(17 + j);
       j++;
-      if (data[i][0]) {
-        jumlahReten += data[i][0].jumlahReten;
-        jumlahRetenSalah += data[i][0].statusReten;
+      if (data[0][i][0]) {
+        jumlahReten += data[0][i][0].jumlahReten;
+        jumlahRetenSalah += data[0][i][0].statusReten;
         if (i === 6) {
           let jumlahBesarAG1517 = 0;
-          for (let k = 0; k < data.length; k++) {
-            if (data[k][0]) {
-              jumlahBesarAG1517 += data[k][0].jumlahAGumur1517;
+          for (let k = 0; k < data[0].length; k++) {
+            if (data[0][k][0]) {
+              jumlahBesarAG1517 += data[0][k][0].jumlahAGumur1517;
             }
           }
           rowNew.getCell(2).value = jumlahBesarAG1517;
         }
         if (i === 7) {
           let jumlahBesarAG1819 = 0;
-          for (let k = 0; k < data.length; k++) {
-            if (data[k][0]) {
-              jumlahBesarAG1819 += data[k][0].jumlahAGumur1819;
+          for (let k = 0; k < data[0].length; k++) {
+            if (data[0][k][0]) {
+              jumlahBesarAG1819 += data[0][k][0].jumlahAGumur1819;
             }
           }
           rowNew.getCell(2).value = jumlahBesarAG1819;
         }
         if (i === 8) {
           let jumlahBesarAG2029 = 0;
-          for (let k = 0; k < data.length; k++) {
-            if (data[k][0]) {
-              jumlahBesarAG2029 += data[k][0].jumlahAGumur2029;
+          for (let k = 0; k < data[0].length; k++) {
+            if (data[0][k][0]) {
+              jumlahBesarAG2029 += data[0][k][0].jumlahAGumur2029;
             }
           }
           rowNew.getCell(2).value = jumlahBesarAG2029;
         }
         if (i === 9) {
           let jumlahBesarAG3049 = 0;
-          for (let k = 0; k < data.length; k++) {
-            if (data[k][0]) {
-              jumlahBesarAG3049 += data[k][0].jumlahAGumur3049;
+          for (let k = 0; k < data[0].length; k++) {
+            if (data[0][k][0]) {
+              jumlahBesarAG3049 += data[0][k][0].jumlahAGumur3049;
             }
           }
           rowNew.getCell(2).value = jumlahBesarAG3049;
         }
         if (i === 10) {
           let jumlahBesarAG5059 = 0;
-          for (let k = 0; k < data.length; k++) {
-            if (data[k][0]) {
-              jumlahBesarAG5059 += data[k][0].jumlahAGumur5059;
+          for (let k = 0; k < data[0].length; k++) {
+            if (data[0][k][0]) {
+              jumlahBesarAG5059 += data[0][k][0].jumlahAGumur5059;
             }
           }
           rowNew.getCell(2).value = jumlahBesarAG5059;
         }
         if (i === 11) {
           let jumlahBesarAG60KeAtas = 0;
-          for (let k = 0; k < data.length; k++) {
-            if (data[k][0]) {
-              jumlahBesarAG60KeAtas += data[k][0].jumlahAGumur60KeAtas;
+          for (let k = 0; k < data[0].length; k++) {
+            if (data[0][k][0]) {
+              jumlahBesarAG60KeAtas += data[0][k][0].jumlahAGumur60KeAtas;
             }
           }
           rowNew.getCell(2).value = jumlahBesarAG60KeAtas;
         }
-        rowNew.getCell(3).value = data[i][0].jumlahLawatanKeRumah; //LMG Ulangan Bawah 1 Tahun
+        rowNew.getCell(3).value = data[0][i][0].jumlahLawatanKeRumah; //LMG Ulangan Bawah 1 Tahun
         if (i > 0) {
-          rowNew.getCell(4).value = data[i][0].jumlahNasihatPergigianIndividu; //Ceramah Baru Bawah 1 Tahun
-          rowNew.getCell(5).value = data[i][0].jumlahNasihatKesihatanOral; //Ceramah Ulangan Bawah 1 Tahun
-          rowNew.getCell(6).value = data[i][0].jumlahNasihatPemakanan; //Kursus Seminar Bengkel Bawah 1 Tahun
-          rowNew.getCell(7).value = data[i][0].jumlahNasihatKanserMulut; //Main Peranan Bawah 1 Tahun
-          rowNew.getCell(8).value = data[i][0].pertunjukanBoneka; //Pertunjukan Boneka Bawah 1 Tahun
-          rowNew.getCell(8).value = data[i][0].bercerita; //Bercerita Bawah 1 Tahun
-          rowNew.getCell(10).value = data[i][0].kanserMulut; //Kanser Mulut Bawah 1 Tahun
+          rowNew.getCell(4).value =
+            data[0][i][0].jumlahNasihatPergigianIndividu; //Ceramah Baru Bawah 1 Tahun
+          rowNew.getCell(5).value = data[0][i][0].jumlahNasihatKesihatanOral; //Ceramah Ulangan Bawah 1 Tahun
+          rowNew.getCell(6).value = data[0][i][0].jumlahNasihatPemakanan; //Kursus Seminar Bengkel Bawah 1 Tahun
+          rowNew.getCell(7).value = data[0][i][0].jumlahNasihatKanserMulut; //Main Peranan Bawah 1 Tahun
+          // rowNew.getCell(8).value = data[0][i][0].pertunjukanBoneka; //Pertunjukan Boneka Bawah 1 Tahun
+          // rowNew.getCell(8).value = data[0][i][0].bercerita; //Bercerita Bawah 1 Tahun
+          // rowNew.getCell(10).value = data[0][i][0].kanserMulut; //Kanser Mulut Bawah 1 Tahun
+        }
+      }
+      if (i === 11) {
+        j++;
+      }
+    }
+
+    j = 0;
+    for (let i = 0; i < data[1].length; i++) {
+      let rowNew = worksheet.getRow(17 + j);
+      j++;
+      if (data[1][i][0]) {
+        jumlahReten += data[1][i][0].jumlahReten;
+        jumlahRetenSalah += data[1][i][0].statusReten;
+        if (i === 6) {
+          let jumlahBesarAG1517 = rowNew.getCell(2).value;
+          for (let k = 0; k < data[1].length; k++) {
+            if (data[1][k][0]) {
+              jumlahBesarAG1517 += data[1][k][0].jumlahAGumur1517;
+            }
+          }
+          rowNew.getCell(2).value += jumlahBesarAG1517;
+        }
+        if (i === 7) {
+          let jumlahBesarAG1819 = rowNew.getCell(2).value;
+          for (let k = 0; k < data[1].length; k++) {
+            if (data[1][k][0]) {
+              jumlahBesarAG1819 += data[1][k][0].jumlahAGumur1819;
+            }
+          }
+          rowNew.getCell(2).value += jumlahBesarAG1819;
+        }
+        if (i === 8) {
+          let jumlahBesarAG2029 = rowNew.getCell(2).value;
+          for (let k = 0; k < data[1].length; k++) {
+            if (data[1][k][0]) {
+              jumlahBesarAG2029 += data[1][k][0].jumlahAGumur2029;
+            }
+          }
+          rowNew.getCell(2).value += jumlahBesarAG2029;
+        }
+        if (i === 9) {
+          let jumlahBesarAG3049 = rowNew.getCell(2).value;
+          for (let k = 0; k < data[1].length; k++) {
+            if (data[1][k][0]) {
+              jumlahBesarAG3049 += data[1][k][0].jumlahAGumur3049;
+            }
+          }
+          rowNew.getCell(2).value += jumlahBesarAG3049;
+        }
+        if (i === 10) {
+          let jumlahBesarAG5059 = rowNew.getCell(2).value;
+          for (let k = 0; k < data[1].length; k++) {
+            if (data[1][k][0]) {
+              jumlahBesarAG5059 += data[1][k][0].jumlahAGumur5059;
+            }
+          }
+          rowNew.getCell(2).value += jumlahBesarAG5059;
+        }
+        if (i === 11) {
+          let jumlahBesarAG60KeAtas = rowNew.getCell(2).value;
+          for (let k = 0; k < data[1].length; k++) {
+            if (data[1][k][0]) {
+              jumlahBesarAG60KeAtas += data[1][k][0].jumlahAGumur60KeAtas;
+            }
+          }
+          rowNew.getCell(2).value += jumlahBesarAG60KeAtas;
+        }
+        rowNew.getCell(3).value += data[1][i][0].jumlahLawatanKeRumah; //LMG Ulangan Bawah 1 Tahun
+        if (i > 0) {
+          rowNew.getCell(4).value +=
+            data[1][i][0].jumlahNasihatPergigianIndividu; //Ceramah Baru Bawah 1 Tahun
+          rowNew.getCell(5).value += data[1][i][0].jumlahNasihatKesihatanOral; //Ceramah Ulangan Bawah 1 Tahun
+          rowNew.getCell(6).value += data[1][i][0].jumlahNasihatPemakanan; //Kursus Seminar Bengkel Bawah 1 Tahun
+          rowNew.getCell(7).value += data[1][i][0].jumlahNasihatKanserMulut; //Main Peranan Bawah 1 Tahun
+          // rowNew.getCell(8).value += data[1][i][0].pertunjukanBoneka; //Pertunjukan Boneka Bawah 1 Tahun
+          // rowNew.getCell(8).value += data[1][i][0].bercerita; //Bercerita Bawah 1 Tahun
+          // rowNew.getCell(10).value += data[1][i][0].kanserMulut; //Kanser Mulut Bawah 1 Tahun
         }
       }
       if (i === 11) {
