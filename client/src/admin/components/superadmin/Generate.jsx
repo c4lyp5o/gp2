@@ -198,6 +198,7 @@ const ModalGenerateAdHoc = (props) => {
               ? 'all'
               : loginInfo.daerah
             : loginInfo.daerah;
+          klinik = props.pilihanKlinik === '' ? 'all' : props.pilihanKlinik;
           break;
         default:
           break;
