@@ -10,6 +10,12 @@ const agensiLuarSchema = new Schema(
     // Program G-tod --------------------------------------------------
     jenisAgensiLuar: { type: String, default: 'NOT APPLICABLE' },
     namaAgensiLuar: { type: String, default: 'NOT APPLICABLE' },
+    bilPegawaiPergigian: { type: Number, default: 0 },
+    bilJuruterapi: { type: Number, default: 0 },
+    enrolmenKurang4Tahun: {
+      type: Number,
+      default: 0,
+    },
     namaTaskaTadika: { type: String, default: 'NOT APPLICABLE' },
     alamatTaskaTadika: { type: String, default: 'NOT APPLICABLE' },
     // pemeriksaan -------------------------------------------------------
