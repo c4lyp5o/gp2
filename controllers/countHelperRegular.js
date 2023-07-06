@@ -93,9 +93,7 @@ const countPG101A = async (payload) => {
     kkiaMatch = await Fasiliti.find({
       jenisFasiliti: 'kkiakd',
       kodFasilitiHandler: klinik,
-    })
-      .select('nama kodKkiaKd createdByNegeri createdByDaerah')
-      .lean();
+    }).select('nama kodKkiaKd createdByNegeri createdByDaerah');
   }
   if (daerah !== 'all' && klinik === 'all') {
     // kkiaMatch = await Fasiliti.find({
@@ -103,7 +101,6 @@ const countPG101A = async (payload) => {
     //   createdByDaerah: daerah,
     // })
     //   .select('nama kodKkiaKd createdByNegeri createdByDaerah')
-    //   .lean();
     console.log('KKIA find for DAERAH not yet implemented');
   }
   if (daerah === 'all') {
@@ -112,7 +109,6 @@ const countPG101A = async (payload) => {
     //   createdByNegeri: negeri,
     // })
     //   .select('nama kodKkiaKd createdByNegeri createdByDaerah')
-    //   .lean();
     console.log('KKIA find for NEGERI not yet implemented');
   }
 
@@ -3314,9 +3310,15 @@ const countPG206 = async (payload) => {
   const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        ...(payload.pilihanIndividu
+          ? { createdByNegeri: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
@@ -3397,9 +3399,15 @@ const countPG206 = async (payload) => {
   const pipeline_rawatan_sekolah = [
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        ...(payload.pilihanIndividu
+          ? { createdByNegeri: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
@@ -3829,10 +3837,7 @@ const countPG206 = async (payload) => {
           {
             $and: [
               {
-                $eq: ['$pemeriksaanSekolah.baruJumlahMuridPerluFs', true],
-              },
-              {
-                $gt: ['$pemeriksaanSekolah.semulaJumlahMuridPerluFs', 0],
+                $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs', 0],
               },
             ],
           },
@@ -3842,7 +3847,7 @@ const countPG206 = async (payload) => {
       },
     },
     perluJumlahGigiFS: {
-      $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFs',
+      $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
     },
     //
     perluPenskaleran: {
@@ -4144,7 +4149,24 @@ const countPG206 = async (payload) => {
       $sum: {
         $cond: [
           {
-            $eq: ['$rawatanSekolah.kesSelesaiSekolahRawatan', true],
+            $eq: [
+              '$rawatanSekolah.kesSelesaiSekolahRawatan',
+              'ya-kes-selesai-penyata-akhir-2',
+            ],
+          },
+          1,
+          0,
+        ],
+      },
+    },
+    kesSelesaiICDAS: {
+      $sum: {
+        $cond: [
+          {
+            $eq: [
+              '$rawatanSekolah.kesSelesaiIcdasSekolahRawatan',
+              'ya-kes-selesai-icdas-penyata-akhir-2',
+            ],
           },
           1,
           0,
@@ -4521,6 +4543,7 @@ const countPG206 = async (payload) => {
     ...group_kedatangan_sekolah,
   ]);
 
+  console.log(pipeline_pemeriksaan_sekolah);
   // throw new Error('test');
 
   let match_stage_operatorLain = [];
@@ -4989,6 +5012,8 @@ const countPG206 = async (payload) => {
       const queryOperatorLain = await Umum.aggregate(pipeline);
       dataOperatorLain.push({ queryOperatorLain });
     }
+
+    console.log(dataSekolahPemeriksaan);
 
     bigData.push(
       dataPemeriksaan,
@@ -5982,9 +6007,15 @@ const countPG207 = async (payload) => {
   const pipeline_pemeriksaan_sekolah = [
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        ...(payload.pilihanIndividu
+          ? { createdByNegeri: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
@@ -6065,9 +6096,15 @@ const countPG207 = async (payload) => {
   const pipeline_rawatan_sekolah = [
     {
       $match: {
-        ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
-        ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        ...(payload.pilihanIndividu
+          ? { createdByNegeri: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
       },
     },
@@ -6497,10 +6534,7 @@ const countPG207 = async (payload) => {
           {
             $and: [
               {
-                $eq: ['$pemeriksaanSekolah.baruJumlahMuridPerluFs', true],
-              },
-              {
-                $gt: ['$pemeriksaanSekolah.semulaJumlahMuridPerluFs', 0],
+                $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs', 0],
               },
             ],
           },
@@ -6510,7 +6544,7 @@ const countPG207 = async (payload) => {
       },
     },
     perluJumlahGigiFS: {
-      $sum: '$pemeriksaanSekolah.semulaJumlahGigiKekalPerluFs',
+      $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
     },
     //
     perluPenskaleran: {
@@ -10223,10 +10257,7 @@ const countPGS201 = async (payload) => {
           {
             $and: [
               {
-                $eq: ['$merged.baruJumlahMuridPerluFs', true],
-              },
-              {
-                $gt: ['$merged.semulaJumlahMuridPerluFs', 0],
+                $gt: ['$merged.baruJumlahGigiKekalPerluFs', 0],
               },
             ],
           },
@@ -10236,7 +10267,7 @@ const countPGS201 = async (payload) => {
       },
     },
     perluJumlahGigiFS: {
-      $sum: '$merged.semulaJumlahGigiKekalPerluFs',
+      $sum: '$merged.baruJumlahGigiKekalPerluFs',
     },
     //
     jumlahGigiPerluTampalanAntSewarnaGdBaru: {
@@ -11404,7 +11435,7 @@ const countPGS201 = async (payload) => {
           dataSekolahMMIAllOAP,
           dataSekolahMMIAllOKU,
           dataSekolahMMIAll,
-          kedatanganSekolahMmi,
+          kedatanganSekolahMmi
         );
         break;
       default:
@@ -11927,10 +11958,7 @@ const countPGS201 = async (payload) => {
         kodFasilitiHandler: payload.klinik,
       }),
       jenisFasiliti: { $in: ['taska', 'tadika'] },
-    })
-      .select('jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan')
-      .lean();
-
+    }).select('jenisFasiliti enrolmen5Tahun enrolmen6Tahun statusPerkhidmatan');
     // nnt nk kena masuk taska
     const totalEnrolmentTastadPra = dataFasiliti.reduce(
       (
@@ -13356,10 +13384,7 @@ const countPGS203 = async (payload) => {
           {
             $and: [
               {
-                $eq: ['$merged.baruJumlahMuridPerluFs', true],
-              },
-              {
-                $gt: ['$merged.semulaJumlahMuridPerluFs', 0],
+                $gt: ['$merged.baruJumlahGigiKekalPerluFs', 0],
               },
             ],
           },
@@ -13369,7 +13394,7 @@ const countPGS203 = async (payload) => {
       },
     },
     perluJumlahGigiFS: {
-      $sum: '$merged.semulaJumlahGigiKekalPerluFs',
+      $sum: '$merged.baruJumlahGigiKekalPerluFs',
     },
     //
     jumlahGigiPerluTampalanAntSewarnaGdBaru: {
@@ -14202,9 +14227,9 @@ const countPGS203 = async (payload) => {
       for (const kodTastad of dataPemeriksaan[0]?.queryPemeriksaanPGS203[0]
         .jumlahFasilitiDilawati) {
         try {
-          const dataFasiliti = await Fasiliti.find({ kodTastad })
-            .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
-            .lean();
+          const dataFasiliti = await Fasiliti.find({ kodTastad }).select(
+            'jenisFasiliti govKe enrolmenTastad statusPerkhidmatan'
+          );
           allFasilitiDilawati.push(dataFasiliti[0]);
         } catch (error) {
           console.error(error);
@@ -14216,9 +14241,9 @@ const countPGS203 = async (payload) => {
       for (const kodTastad of dataPemeriksaan[1]?.queryPemeriksaanPGS203[0]
         .jumlahFasilitiDilawati) {
         try {
-          const dataFasiliti = await Fasiliti.find({ kodTastad })
-            .select('jenisFasiliti govKe enrolmenTastad statusPerkhidmatan')
-            .lean();
+          const dataFasiliti = await Fasiliti.find({ kodTastad }).select(
+            'jenisFasiliti govKe enrolmenTastad statusPerkhidmatan'
+          );
           allFasilitiDilawati.push(dataFasiliti[0]);
         } catch (error) {
           console.error(error);

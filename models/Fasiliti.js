@@ -69,6 +69,14 @@ const fasilitiSchema = new Schema({
     type: String,
     default: 'NOT APPLICABLE',
   },
+  jumlahEngganTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
+  jumlahTidakHadirTasTad: {
+    type: String,
+    default: 'NOT APPLICABLE',
+  },
   jenisTadikaKerajaan: {
     type: String,
     default: 'NOT APPLICABLE',
