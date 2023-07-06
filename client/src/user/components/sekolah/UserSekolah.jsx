@@ -149,8 +149,8 @@ function UserSekolah() {
         setTahunTingkatan(tahunTingkatan);
 
         setAllPersonSekolahs(data.allPersonSekolahs);
-        setPilihanSekolah(data.fasilitiSekolahs.nama);
-        setFasilitiSekolah(data.fasilitiSekolahs);
+        setPilihanSekolah(data.fasilitiSekolah.nama);
+        setFasilitiSekolah(data.fasilitiSekolah);
         setRefreshTimer(!refreshTimer);
         setIsLoading(false);
       } catch (error) {
