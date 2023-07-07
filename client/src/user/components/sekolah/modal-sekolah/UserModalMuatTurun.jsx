@@ -4,6 +4,7 @@ import { useGlobalUserAppContext } from '../../../context/userAppContext';
 
 export default function UserModalMuatTurun({
   handleDownloadSenaraiSekolah,
+  handleDownloadSenaraiSekolahRujukan,
   sekolahMuatTurun,
   setModalMuatTurun,
   isDownloading,
@@ -38,8 +39,7 @@ export default function UserModalMuatTurun({
               }
               className={`${
                 isDownloading ? 'pointer-events-none opacity-50' : ''
-              } capitalize text-userWhite rounded-md py-2 hover:cursor-pointer transition-all bg-user2 hover:bg-user3 
-          `}
+              } capitalize text-userWhite rounded-md py-2 hover:cursor-pointer transition-all bg-user2 hover:bg-user3`}
             >
               {isDownloading ? (
                 <>
@@ -55,17 +55,27 @@ export default function UserModalMuatTurun({
             </button>
             <button
               // onClick={() =>
-              //   handleDownloadSenaraiSekolah(
+              //   handleDownloadSenaraiSekolahRujukan(
               //     sekolahMuatTurun.kodSekolah,
               //     sekolahMuatTurun.nama,
               //     sekolahMuatTurun.sesiTakwimSekolah
               //   )
               // }
-              className={`cursor-not-allowed capitalize text-userWhite rounded-md py-2 transition-all bg-user2 hover:bg-user3 
-          `}
+              className={`${
+                isDownloading ? 'pointer-events-none opacity-50' : ''
+              } capitalize text-userWhite rounded-md py-2 hover:cursor-not-allowed transition-all bg-user2 hover:bg-user3`}
             >
-              <FaDownload className='inline-flex mx-1' />
-              Murid Rujukan
+              {isDownloading ? (
+                <>
+                  <FaYinYang className='inline-flex mx-1 animate-spin' />
+                  Sedang Muat Turun <i className='animate-pulse'>..</i>
+                </>
+              ) : (
+                <>
+                  <FaDownload className='inline-flex mx-1' />
+                  Murid Rujukan
+                </>
+              )}
             </button>
           </div>
         </div>
