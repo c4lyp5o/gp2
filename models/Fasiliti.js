@@ -122,6 +122,10 @@ const fasilitiSchema = new Schema({
     type: Boolean,
     default: false,
   },
+  tarikhSekolahSelesaiReten: {
+    type: String,
+    default: '',
+  },
   // kp-bergerak makmal-pergigian ------------------------------------------------
   subJenisKPBMPB: {
     type: String,
