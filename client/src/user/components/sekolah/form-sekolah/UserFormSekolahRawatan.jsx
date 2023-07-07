@@ -2337,18 +2337,13 @@ function UserFormSekolahRawatan() {
                     </article>
                   )}
                 </section>
-                {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
-                engganRawatan === 'ya-enggan-rawatan' ? null : (
-                  <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2 mb-2'>
-                    <p className='ml-3 text-xl font-semibold'>
-                      promosi & pendidikan kesihatan pergigian
-                    </p>
-                  </span>
-                )}
-                {tidakHadirRawatan === 'ya-kehadiran-rawatan' ||
-                engganRawatan === 'ya-enggan-rawatan' ? null : (
-                  <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min mb-2'>
-                    {/* <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                <span className='flex bg-user3 p-2 w-full capitalize col-span-1 md:col-span-2 mb-2'>
+                  <p className='ml-3 text-xl font-semibold'>
+                    promosi & pendidikan kesihatan pergigian
+                  </p>
+                </span>
+                <div className='grid grid-cols-1 lg:grid-cols-2 gap-2 auto-rows-min mb-2'>
+                  {/* <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
                       <h4 className='font-bold flex flex-row pl-5'>
                         melaksanakan aktiviti
                       </h4>
@@ -2419,123 +2414,122 @@ function UserFormSekolahRawatan() {
                         </div>
                       </div>
                     </article> */}
-                    <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
-                      <h4 className='font-bold flex flex-row pl-5'>
-                        menerima aktiviti nasihat pergigian individu
-                      </h4>
-                      <div className='grid grid-cols-1'>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan plak gigi
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan diet pemakanan
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan penjagaan kesihatan oral
-                          </label>
-                        </div>
-                        <div className='flex items-center flex-row pl-5'>
-                          <input
-                            type='checkbox'
-                            name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            checked={
-                              kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                            }
-                            onChange={() => {
-                              setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
-                                !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
-                              );
-                              setConfirmData({
-                                ...confirmData,
-                                kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
-                                  !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
-                              });
-                            }}
-                            className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
-                          />
-                          <label
-                            htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
-                            className='m-2 text-sm font-m'
-                          >
-                            nasihat berkaitan kanser mulut
-                          </label>
-                        </div>
+                  <article className='grid grid-cols-1 gap-2 border border-userBlack pl-3 p-2 rounded-md'>
+                    <h4 className='font-bold flex flex-row pl-5'>
+                      menerima aktiviti nasihat pergigian individu
+                    </h4>
+                    <div className='grid grid-cols-1'>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          id='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          checked={
+                            plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                          }
+                          onChange={() => {
+                            setPlakGigiNasihatPergigianIndividuPromosiSekolahRawatan(
+                              !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              plakGigiNasihatPergigianIndividuPromosiSekolahRawatan:
+                                !plakGigiNasihatPergigianIndividuPromosiSekolahRawatan,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='plak-gigi-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          nasihat berkaitan plak gigi
+                        </label>
                       </div>
-                    </article>
-                  </div>
-                )}
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          id='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          checked={
+                            dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                          }
+                          onChange={() => {
+                            setDietPemakananNasihatPergigianIndividuPromosiSekolahRawatan(
+                              !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan:
+                                !dietPemakananNasihatPergigianIndividuPromosiSekolahRawatan,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='diet-pemakanan-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          nasihat berkaitan diet pemakanan
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          id='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          checked={
+                            penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                          }
+                          onChange={() => {
+                            setPenjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                              !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                !penjagaanKesihatanMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='penjagaan-kesihatan-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          nasihat berkaitan penjagaan kesihatan oral
+                        </label>
+                      </div>
+                      <div className='flex items-center flex-row pl-5'>
+                        <input
+                          type='checkbox'
+                          name='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          id='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          checked={
+                            kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                          }
+                          onChange={() => {
+                            setKanserMulutNasihatPergigianIndividuPromosiSekolahRawatan(
+                              !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan
+                            );
+                            setConfirmData({
+                              ...confirmData,
+                              kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan:
+                                !kanserMulutNasihatPergigianIndividuPromosiSekolahRawatan,
+                            });
+                          }}
+                          className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500 focus:ring-2 '
+                        />
+                        <label
+                          htmlFor='kanser-mulut-nasihat-pergigian-individu-promosi-penyata-akhir-2'
+                          className='m-2 text-sm font-m'
+                        >
+                          nasihat berkaitan kanser mulut
+                        </label>
+                      </div>
+                    </div>
+                  </article>
+                </div>
                 <div className='grid grid-cols-1 md:grid-cols-2 col-start-1 lg:col-start-2 gap-2 col-span-1 md:col-span-2 '>
                   <span
                     onClick={() => {
