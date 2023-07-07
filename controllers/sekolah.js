@@ -1,9 +1,9 @@
 const https = require('https');
 const axios = require('axios');
 const fs = require('fs');
-const async = require('async');
 const path = require('path');
 const Excel = require('exceljs');
+const moment = require('moment');
 const Sekolah = require('../models/Sekolah');
 const Runningnumber = require('../models/Runningnumber');
 const Pemeriksaansekolah = require('../models/Pemeriksaansekolah');
@@ -1000,7 +1000,12 @@ const updateFasiliti = async (req, res) => {
 
   const updatedFasiliti = await Fasiliti.findOneAndUpdate(
     { _id: req.params.fasilitiId },
-    { $set: { sekolahSelesaiReten: req.body.sekolahSelesaiReten } },
+    {
+      $set: {
+        sekolahSelesaiReten: req.body.sekolahSelesaiReten,
+        tarikhSekolahSelesaiReten: moment().format('YYYY-MM-DD'),
+      },
+    },
     { new: true }
   );
 
