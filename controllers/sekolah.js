@@ -347,6 +347,160 @@ const muatturunSenaraiPelajar = async (req, res) => {
 
   const { kodSekolah } = req.params;
 
+  const { rujukan } = req.query;
+
+  // download murid rujukan
+  if (rujukan === 'true') {
+    const makeFile = () => {
+      return path.join(
+        __dirname,
+        '..',
+        'public',
+        'exports',
+        `${generateRandomString(20)}.xlsx`
+      );
+    };
+
+    let match_stage = {
+      $match: {
+        kodSekolah: kodSekolah,
+        deleted: false,
+      },
+    };
+
+    let project_stage = {
+      $project: {
+        nama: 1,
+        namaSekolah: 1,
+        tahunTingkatan: 1,
+        kelasPelajar: 1,
+        jantina: 1,
+        umur: 1,
+        keturunan: 1,
+        warganegara: 1,
+      },
+    };
+
+    const semuaPelajarSatuSekolah = await Sekolah.aggregate([
+      match_stage,
+      project_stage,
+    ]);
+    const semuaTahun = new Set(
+      semuaPelajarSatuSekolah.map((budak) => budak.tahunTingkatan)
+    );
+
+    let blank = path.join(__dirname, '..', 'public', 'exports', 'blank.xlsx');
+    let workbook = new Excel.Workbook();
+    await workbook.xlsx.readFile(blank);
+
+    workbook.removeWorksheet('Sheet1');
+
+    for (const tahun of semuaTahun) {
+      const worksheet = workbook.addWorksheet(tahun);
+
+      const studentsInClass = semuaPelajarSatuSekolah.filter(
+        (student) => student.tahunTingkatan === tahun
+      );
+
+      studentsInClass.sort((a, b) => {
+        if (a.kelasPelajar < b.kelasPelajar) {
+          return -1;
+        }
+        if (a.kelasPelajar > b.kelasPelajar) {
+          return 1;
+        }
+        if (a.nama < b.nama) {
+          return -1;
+        }
+        if (a.nama > b.nama) {
+          return 1;
+        }
+        return 0;
+      });
+
+      worksheet.columns = [
+        { header: 'BIL', key: 'bil', width: 5, height: 26 },
+        { header: 'NAMA', key: 'nama', width: 60, height: 26 },
+        {
+          header: 'TAHUN/TINGKATAN',
+          key: 'tahunTingkatan',
+          width: 35,
+          height: 26,
+        },
+        { header: 'KELAS', key: 'kelasPelajar', width: 15, height: 26 },
+        { header: 'JANTINA', key: 'jantina', width: 15, height: 26 },
+        { header: 'UMUR', key: 'umur', width: 10, height: 26 },
+        { header: 'KETURUNAN', key: 'keturunan', width: 15, height: 26 },
+        {
+          header: 'WARGANEGARA',
+          key: 'warganegara',
+          width: 40,
+          height: 26,
+        },
+      ];
+
+      worksheet.addRows(studentsInClass);
+
+      worksheet.getColumn('bil').eachCell((cell, number) => {
+        if (number !== 1) {
+          cell.value = number - 1;
+        }
+        cell.alignment = { vertical: 'middle', horizontal: 'center' };
+      });
+
+      worksheet.getColumn('nama').eachCell((cell, number) => {
+        if (number !== 1) {
+          cell.alignment = { vertical: 'middle', horizontal: 'left' };
+        }
+      });
+
+      worksheet.getColumn('warganegara').eachCell((cell) => {
+        cell.value = cell.value || 'TIADA MAKLUMAT';
+      });
+
+      worksheet.columns.forEach((column) => {
+        column.eachCell((cell) => {
+          cell.alignment = { vertical: 'middle', horizontal: 'center' };
+        });
+      });
+
+      worksheet.getRow(1).font = { bold: true, size: 15, name: 'Calibri' };
+
+      worksheet.getRow(1).alignment = {
+        vertical: 'middle',
+        horizontal: 'center',
+      };
+
+      worksheet.eachRow((row) => {
+        row.height = 15;
+        row.eachCell((cell) => {
+          cell.border = {
+            top: { style: 'thin' },
+            left: { style: 'thin' },
+            bottom: { style: 'thin' },
+            right: { style: 'thin' },
+          };
+        });
+      });
+    }
+
+    const listPelajar = makeFile();
+
+    await workbook.xlsx.writeFile(listPelajar);
+
+    res.setHeader(
+      'Content-Type',
+      'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet'
+    );
+    const fileStream = fs.createReadStream(listPelajar);
+    fileStream.pipe(res);
+    fileStream.on('close', () => {
+      return fs.unlinkSync(listPelajar);
+    });
+    return;
+  }
+
+  // download murid biasa
   const makeFile = () => {
     return path.join(
       __dirname,
@@ -493,6 +647,7 @@ const muatturunSenaraiPelajar = async (req, res) => {
   fileStream.on('close', () => {
     return fs.unlinkSync(listPelajar);
   });
+  return;
 };
 
 // POST /

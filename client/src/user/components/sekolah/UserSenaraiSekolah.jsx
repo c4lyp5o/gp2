@@ -172,6 +172,56 @@ function UserSekolahList() {
       });
       console.log(error);
     } finally {
+      setModalMuatTurun(false);
+      setTimeout(() => {
+        setIsDownloading(false);
+      }, 10000);
+    }
+  };
+
+  const handleDownloadSenaraiSekolahRujukan = async (
+    kodSekolah,
+    namaSekolah,
+    sesiTakwimSekolah
+  ) => {
+    const id = toast.loading('Sedang mencetak senarai pelajar rujukan...');
+    try {
+      setIsDownloading(true);
+      const { data } = await axios.get(
+        `/api/v1/sekolah/muatturun/${kodSekolah}?rujukan=true`,
+        {
+          headers: {
+            Authorization: `Bearer ${
+              reliefUserToken ? reliefUserToken : userToken
+            }`,
+          },
+          responseType: 'blob',
+        }
+      );
+      const currentTakwim = sesiTakwimSekolah.replace('/', '-');
+      const link = document.createElement('a');
+      link.download = `SENARAI PELAJAR RUJUKAN ${namaSekolah} - ${currentTakwim}.xlsx`;
+      link.href = URL.createObjectURL(new Blob([data]));
+      link.addEventListener('click', (e) => {
+        setTimeout(() => URL.revokeObjectURL(link.href), 100);
+      });
+      link.click();
+      toast.update(id, {
+        render: `Berjaya memuat turun senarai pelajar rujukan ${namaSekolah}`,
+        type: 'success',
+        isLoading: false,
+        autoClose: 3000,
+      });
+    } catch (error) {
+      toast.update(id, {
+        render: 'Harap maaf, senarai pelajar rujukan tidak dapat dimuat turun',
+        type: 'error',
+        isLoading: false,
+        autoClose: 3000,
+      });
+      console.log(error);
+    } finally {
+      setModalMuatTurun(false);
       setTimeout(() => {
         setIsDownloading(false);
       }, 10000);
@@ -709,6 +759,9 @@ function UserSekolahList() {
         {modalMuatTurun && (
           <UserModalMuatTurun
             handleDownloadSenaraiSekolah={handleDownloadSenaraiSekolah}
+            handleDownloadSenaraiSekolahRujukan={
+              handleDownloadSenaraiSekolahRujukan
+            }
             sekolahMuatTurun={sekolahMuatTurun}
             setModalMuatTurun={setModalMuatTurun}
             isDownloading={isDownloading}
