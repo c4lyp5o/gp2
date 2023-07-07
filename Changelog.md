@@ -28,6 +28,7 @@
 - Beban tugas operator di sekolah turut dimasukkan ke dalam reten PG206 & PG207
 - Pembetulan bagi senarai nama pelajar yang dimuat turun di senarai sekolah kepada 'Tiada Maklumat' bagi pelajar yang tiada maklumat warganegara
 - Pengisian SM di borang pemeriksaan sekolah hanya untuk pelajar Darjah 4, 5, 6 dan KHAS sahaja bagi sekolah yang bukan sekolah Pendidikan Khas
+- Boleh mengisi bahagian promosi bagi borang rawatan pelajar sekolah sekiranya pelajar enggan atau tidak hadir
 
 ### 12/6/2023 (v2.1.2)
 
