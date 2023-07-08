@@ -1563,7 +1563,6 @@ const makePG206 = async (payload) => {
         row.getCell(44).value += item.cabutanGd;
         row.getCell(45).value += item.cabutanGk;
         row.getCell(46).value += item.penskaleran;
-        row.getCell(47).value += item.kesSelesai;
       }
     }
 
@@ -1618,7 +1617,7 @@ const makePG206 = async (payload) => {
       }
     }
 
-    // data kedatangan
+    // data kedatangan sekolah
     for (const item of data[5]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
@@ -1630,7 +1629,7 @@ const makePG206 = async (payload) => {
       }
     }
 
-    // data OKU pemeriksaan
+    // data OKU sekolah pemeriksaan
     for (const item of data[6]) {
       const row = worksheet.getRow(25);
       row.getCell(4).value += item.jumlahd;
@@ -1655,7 +1654,7 @@ const makePG206 = async (payload) => {
       row.getCell(23).value += item.perluPenskaleran;
     }
 
-    // data OKU rawatan
+    // data OKU sekolah rawatan
     for (const item of data[7]) {
       const row = worksheet.getRow(25);
       row.getCell(24).value += item.sapuanFluorida;
@@ -1679,10 +1678,9 @@ const makePG206 = async (payload) => {
       row.getCell(44).value += item.cabutanGd;
       row.getCell(45).value += item.cabutanGk;
       row.getCell(46).value += item.penskaleran;
-      row.getCell(47).value += item.kesSelesai;
     }
 
-    // data BW pemeriksaan
+    // data BW sekolah pemeriksaan
     for (const item of data[8]) {
       const row = worksheet.getRow(26);
       row.getCell(4).value += item.jumlahd;
@@ -1707,7 +1705,7 @@ const makePG206 = async (payload) => {
       row.getCell(23).value += item.perluPenskaleran;
     }
 
-    // data BW rawatan
+    // data BW sekolah rawatan
     for (const item of data[9]) {
       const row = worksheet.getRow(26);
       row.getCell(24).value += item.sapuanFluorida;
@@ -1731,10 +1729,9 @@ const makePG206 = async (payload) => {
       row.getCell(44).value += item.cabutanGd;
       row.getCell(45).value += item.cabutanGk;
       row.getCell(46).value += item.penskaleran;
-      row.getCell(47).value += item.kesSelesai;
     }
 
-    // data kedatangan OKU
+    // data kedatangan sekolah OKU
     for (const item of data[10]) {
       const row = worksheet.getRow(25);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
@@ -1743,13 +1740,35 @@ const makePG206 = async (payload) => {
       row.getCell(3).value = ulanganAddedUp;
     }
 
-    // data kedatangan BW
+    // data kedatangan sekolah BW
     for (const item of data[11]) {
       const row = worksheet.getRow(26);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
       row.getCell(2).value = baruAddedUp;
       row.getCell(3).value = ulanganAddedUp;
+    }
+
+    // kes selesai sekolah
+    for (const item of data[12]) {
+      const rowNumber = rowNumbers[item._id];
+
+      if (rowNumber !== undefined) {
+        const row = worksheet.getRow(rowNumber);
+        row.getCell(47).value += item.kesSelesai;
+      }
+    }
+
+    // kes selesai sekolah oku
+    for (const item of data[13]) {
+      const row = worksheet.getRow(25);
+      row.getCell(47).value += item.kesSelesai;
+    }
+
+    // kes selesai sekolah bw
+    for (const item of data[14]) {
+      const row = worksheet.getRow(26);
+      row.getCell(47).value += item.kesSelesai;
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
@@ -2110,8 +2129,6 @@ const makePG207 = async (payload) => {
         row.getCell(54).value += item.penskaleran;
         // skipping
         row.getCell(61).value += item.abses;
-        // skipping
-        row.getCell(79).value += item.kesSelesai;
       }
     }
 
@@ -2214,7 +2231,7 @@ const makePG207 = async (payload) => {
       }
     }
 
-    // data kedatangan
+    // data kedatangan sekolah
     for (const item of data[6]) {
       const rowNumber = rowNumbers[item._id];
       if (rowNumber !== undefined) {
@@ -2226,9 +2243,9 @@ const makePG207 = async (payload) => {
       }
     }
 
-    // data OKU pemeriksaan
+    // data OKU sekolah pemeriksaan
     for (const item of data[7]) {
-      const row = worksheet.getRow(25);
+      const row = worksheet.getRow(31);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
       row.getCell(6).value += item.jumlahx;
@@ -2241,17 +2258,8 @@ const makePG207 = async (payload) => {
       row.getCell(13).value += item.jumlahMBK;
       row.getCell(14).value += item.statusBebasKaries;
       row.getCell(15).value += item.TPR;
-      if (
-        ![
-          'lima-enam',
-          'tujuh-sembilan',
-          'sepuluh-dua-belas',
-          'tiga-belas-empat-belas',
-        ].includes(item._id)
-      ) {
-        row.getCell(16).value += item.skorBPEZero;
-        row.getCell(17).value += item.skorBPEMoreThanZero;
-      }
+      row.getCell(16).value += item.skorBPEZero;
+      row.getCell(17).value += item.skorBPEMoreThanZero;
       row.getCell(18).value += item.perluSapuanFluorida;
       row.getCell(19).value += item.perluJumlahPesakitPrrJenis1;
       row.getCell(20).value += item.perluJumlahGigiPrrJenis1;
@@ -2260,9 +2268,9 @@ const makePG207 = async (payload) => {
       row.getCell(23).value += item.perluPenskaleran;
     }
 
-    // data OKU rawatan
+    // data OKU sekolah rawatan
     for (const item of data[8]) {
-      const row = worksheet.getRow(25);
+      const row = worksheet.getRow(31);
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
       row.getCell(31).value += item.jumlahGigiPrrJenis1;
@@ -2288,13 +2296,11 @@ const makePG207 = async (payload) => {
       row.getCell(54).value += item.penskaleran;
       // skipping
       row.getCell(61).value += item.abses;
-      // skipping
-      row.getCell(79).value += item.kesSelesai;
     }
 
-    // data BW pemeriksaan
+    // data BW sekolah pemeriksaan
     for (const item of data[9]) {
-      const row = worksheet.getRow(26);
+      const row = worksheet.getRow(32);
       row.getCell(4).value += item.jumlahd;
       row.getCell(5).value += item.jumlahf;
       row.getCell(6).value += item.jumlahx;
@@ -2307,17 +2313,8 @@ const makePG207 = async (payload) => {
       row.getCell(13).value += item.jumlahMBK;
       row.getCell(14).value += item.statusBebasKaries;
       row.getCell(15).value += item.TPR;
-      if (
-        ![
-          'lima-enam',
-          'tujuh-sembilan',
-          'sepuluh-dua-belas',
-          'tiga-belas-empat-belas',
-        ].includes(item._id)
-      ) {
-        row.getCell(16).value += item.skorBPEZero;
-        row.getCell(17).value += item.skorBPEMoreThanZero;
-      }
+      row.getCell(16).value += item.skorBPEZero;
+      row.getCell(17).value += item.skorBPEMoreThanZero;
       row.getCell(18).value += item.perluSapuanFluorida;
       row.getCell(19).value += item.perluJumlahPesakitPrrJenis1;
       row.getCell(20).value += item.perluJumlahGigiPrrJenis1;
@@ -2326,9 +2323,9 @@ const makePG207 = async (payload) => {
       row.getCell(23).value += item.perluPenskaleran;
     }
 
-    // data BW rawatan
+    // data BW sekolah rawatan
     for (const item of data[10]) {
-      const row = worksheet.getRow(26);
+      const row = worksheet.getRow(32);
       row.getCell(29).value += item.sapuanFluorida;
       row.getCell(30).value += item.jumlahPesakitPrrJenis1;
       row.getCell(31).value += item.jumlahGigiPrrJenis1;
@@ -2354,13 +2351,11 @@ const makePG207 = async (payload) => {
       row.getCell(54).value += item.penskaleran;
       // skipping
       row.getCell(61).value += item.abses;
-      // skipping
-      row.getCell(79).value += item.kesSelesai;
     }
 
     // data kedatangan OKU
     for (const item of data[11]) {
-      const row = worksheet.getRow(25);
+      const row = worksheet.getRow(31);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
       row.getCell(2).value = baruAddedUp;
@@ -2369,11 +2364,33 @@ const makePG207 = async (payload) => {
 
     // data kedatangan BW
     for (const item of data[12]) {
-      const row = worksheet.getRow(26);
+      const row = worksheet.getRow(32);
       const baruAddedUp = row.getCell(2).value + item.kedatanganBaru;
       const ulanganAddedUp = row.getCell(3).value + item.kedatanganUlangan;
       row.getCell(2).value = baruAddedUp;
       row.getCell(3).value = ulanganAddedUp;
+    }
+
+    // kes selesai sekolah
+    for (const item of data[13]) {
+      const rowNumber = rowNumbers[item._id];
+
+      if (rowNumber !== undefined) {
+        const row = worksheet.getRow(rowNumber);
+        row.getCell(79).value += item.kesSelesai;
+      }
+    }
+
+    // kes selesai sekolah oku
+    for (const item of data[14]) {
+      const row = worksheet.getRow(31);
+      row.getCell(79).value += item.kesSelesai;
+    }
+
+    // kes selesai sekolah bw
+    for (const item of data[15]) {
+      const row = worksheet.getRow(32);
+      row.getCell(79).value += item.kesSelesai;
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;

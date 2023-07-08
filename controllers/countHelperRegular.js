@@ -28,6 +28,10 @@ const {
   groupSekolah,
   groupSekolahPemeriksaan,
   groupSekolahRawatan,
+  groupSekolahPemeriksaanOKUBW,
+  groupSekolahRawatanOKUBW,
+  groupKesSelesaiSekolah,
+  groupKesSelesaiSekolahOKUBW,
   pipelineKedatanganSekolah,
   groupKedatanganSekolah,
   groupKedatanganSekolahAllOAP,
@@ -3775,6 +3779,117 @@ const countPG206 = async (payload) => {
       },
     },
   ];
+  const pipeline_kesSelesai_sekolah = [
+    {
+      $match: {
+        ...(payload.pilihanIndividu
+          ? { createdByNegeri: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+              pemeriksaanSekolah: {
+                $exists: true,
+                $ne: null,
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        umur: '$result.umur',
+        keturunan: '$result.keturunan',
+        warganegara: '$result.warganegara',
+        statusOku: '$result.statusOku',
+        statusRawatan: '$result.statusRawatan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        kelasPelajar: '$result.kelasPelajar',
+        jantina: '$result.jantina',
+        pemeriksaanSekolah: '$result.pemeriksaanSekolah',
+        rawatanSekolah: '$result.rawatanSekolah',
+      },
+    },
+    {
+      $lookup: {
+        from: 'pemeriksaansekolahs',
+        localField: 'pemeriksaanSekolah',
+        foreignField: '_id',
+        as: 'pemeriksaanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$pemeriksaanSekolah',
+      },
+    },
+    {
+      $match: {
+        'pemeriksaanSekolah.createdByMdcMdtb': payload.pilihanIndividu
+          ? payload.pilihanIndividu
+          : { $regex: /mdtb/i },
+        'pemeriksaanSekolah.tarikhPemeriksaanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$rawatanSekolah',
+      },
+    },
+    {
+      $addFields: {
+        kesSelesaiPemeriksaan: '$pemeriksaanSekolah.kesSelesai',
+        kesSelesaiRawatan: '$rawatanSekolah.kesSelesaiSekolahRawatan',
+      },
+    },
+    {
+      $project: {
+        result: 0,
+        pemeriksaanSekolah: 0,
+        rawatanSekolah: 0,
+      },
+    },
+  ];
 
   const dataSekolahPemeriksaan = await Fasiliti.aggregate([
     ...pipeline_pemeriksaan_sekolah,
@@ -3784,7 +3899,6 @@ const countPG206 = async (payload) => {
       },
     },
   ]);
-
   const dataSekolahRawatan = await Fasiliti.aggregate([
     ...pipeline_rawatan_sekolah,
     {
@@ -3793,7 +3907,6 @@ const countPG206 = async (payload) => {
       },
     },
   ]);
-
   const dataSekolahPemeriksaanOKU = await Fasiliti.aggregate([
     ...pipeline_pemeriksaan_sekolah,
     {
@@ -3807,7 +3920,6 @@ const countPG206 = async (payload) => {
       },
     },
   ]);
-
   const dataSekolahRawatanOKU = await Fasiliti.aggregate([
     ...pipeline_rawatan_sekolah,
     {
@@ -3821,7 +3933,6 @@ const countPG206 = async (payload) => {
       },
     },
   ]);
-
   const dataSekolahPemeriksaanBW = await Fasiliti.aggregate([
     ...pipeline_pemeriksaan_sekolah,
     {
@@ -3835,7 +3946,6 @@ const countPG206 = async (payload) => {
       },
     },
   ]);
-
   const dataSekolahRawatanBW = await Fasiliti.aggregate([
     ...pipeline_rawatan_sekolah,
     {
@@ -3855,7 +3965,6 @@ const countPG206 = async (payload) => {
     ...pipeline_kedatangan_sekolah,
     ...group_kedatangan_sekolah,
   ]);
-
   const kedatanganSekolahOKU = await Fasiliti.aggregate([
     ...pipeline_kedatangan_sekolah,
     {
@@ -3863,9 +3972,103 @@ const countPG206 = async (payload) => {
         statusOku: 'OKU',
       },
     },
-    ...group_kedatangan_sekolah,
+    {
+      $group: {
+        _id: null,
+        jumlah: { $sum: 1 },
+        kedatanganEnggan: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'enggan'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'enggan rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganTidakHadir: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  { $ifNull: ['$tarikhPemeriksaan', false] },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $ne: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganUlangan: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $ifNull: ['$tarikhRawatan', false],
+                  },
+                  {
+                    $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                  },
+                  {
+                    $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
   ]);
-
   const kedatanganSekolahBW = await Fasiliti.aggregate([
     ...pipeline_kedatangan_sekolah,
     {
@@ -3873,7 +4076,138 @@ const countPG206 = async (payload) => {
         warganegara: { $nin: ['WARGANEGARA', 'MALAYSIA'] },
       },
     },
-    ...group_kedatangan_sekolah,
+    {
+      $group: {
+        _id: null,
+        jumlah: { $sum: 1 },
+        kedatanganEnggan: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'enggan'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'enggan rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganTidakHadir: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  { $ifNull: ['$tarikhPemeriksaan', false] },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $ne: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganUlangan: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $ifNull: ['$tarikhRawatan', false],
+                  },
+                  {
+                    $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                  },
+                  {
+                    $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ]);
+
+  // for aragorn
+  const kesSelesaiBiasa = await Fasiliti.aggregate([
+    ...pipeline_kesSelesai_sekolah,
+    {
+      $group: {
+        ...groupKesSelesaiSekolah,
+      },
+    },
+  ]);
+  const kesSelesaiOKU = await Fasiliti.aggregate([
+    ...pipeline_kesSelesai_sekolah,
+    {
+      $match: {
+        statusOku: 'OKU',
+      },
+    },
+    {
+      $group: {
+        ...groupKesSelesaiSekolahOKUBW,
+      },
+    },
+  ]);
+  const kesSelesaiBW = await Fasiliti.aggregate([
+    ...pipeline_kesSelesai_sekolah,
+    {
+      $match: {
+        warganegara: { $nin: ['WARGANEGARA', 'MALAYSIA'] },
+      },
+    },
+    {
+      $group: {
+        ...groupKesSelesaiSekolahOKUBW,
+      },
+    },
   ]);
 
   let match_stage_operatorLain = [];
@@ -4357,7 +4691,11 @@ const countPG206 = async (payload) => {
       dataSekolahPemeriksaanBW,
       dataSekolahRawatanBW,
       kedatanganSekolahOKU,
-      kedatanganSekolahBW
+      kedatanganSekolahBW,
+      // kes selesai
+      kesSelesaiBiasa,
+      kesSelesaiOKU,
+      kesSelesaiBW
     );
 
     return bigData;
@@ -5372,7 +5710,7 @@ const countPG207 = async (payload) => {
           {
             $match: {
               deleted: false,
-              pemeriksaanSekolah: { $exists: true, $ne: [] },
+              pemeriksaanSekolah: { $exists: true, $ne: null },
             },
           },
         ],
@@ -5521,7 +5859,6 @@ const countPG207 = async (payload) => {
         ...(payload.negeri !== 'all' && { createdByNegeri: payload.negeri }),
         ...(payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        sekolahSelesaiReten: true,
         jenisFasiliti: {
           $in: ['sekolah-rendah', 'sekolah-menengah'],
         },
@@ -5784,6 +6121,117 @@ const countPG207 = async (payload) => {
       },
     },
   ];
+  const pipeline_kesSelesai_sekolah = [
+    {
+      $match: {
+        ...(payload.pilihanIndividu
+          ? { createdByNegeri: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByNegeri: payload.negeri }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { createdByDaerah: payload.daerah }),
+        ...(payload.pilihanIndividu
+          ? { createdByDaerah: { $exists: true } }
+          : payload.daerah !== 'all' && { kodFasilitiHandler: payload.klinik }),
+        jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+      },
+    },
+    {
+      $project: {
+        _id: 0,
+        kodSekolah: 1,
+        sesiTakwimSekolah: 1,
+      },
+    },
+    {
+      $lookup: {
+        from: 'sekolahs',
+        localField: 'kodSekolah',
+        foreignField: 'kodSekolah',
+        as: 'result',
+        pipeline: [
+          {
+            $match: {
+              deleted: false,
+              pemeriksaanSekolah: {
+                $exists: true,
+                $ne: null,
+              },
+            },
+          },
+        ],
+      },
+    },
+    {
+      $unwind: {
+        path: '$result',
+      },
+    },
+    {
+      $addFields: {
+        umur: '$result.umur',
+        keturunan: '$result.keturunan',
+        warganegara: '$result.warganegara',
+        statusOku: '$result.statusOku',
+        statusRawatan: '$result.statusRawatan',
+        tahunTingkatan: '$result.tahunTingkatan',
+        kelasPelajar: '$result.kelasPelajar',
+        jantina: '$result.jantina',
+        pemeriksaanSekolah: '$result.pemeriksaanSekolah',
+        rawatanSekolah: '$result.rawatanSekolah',
+      },
+    },
+    {
+      $lookup: {
+        from: 'pemeriksaansekolahs',
+        localField: 'pemeriksaanSekolah',
+        foreignField: '_id',
+        as: 'pemeriksaanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$pemeriksaanSekolah',
+      },
+    },
+    {
+      $match: {
+        'pemeriksaanSekolah.createdByMdcMdtb': payload.pilihanIndividu
+          ? payload.pilihanIndividu
+          : { $regex: /^(?!mdtb).*$/i },
+        'pemeriksaanSekolah.tarikhPemeriksaanSemasa': {
+          $gte: payload.tarikhMula,
+          $lte: payload.tarikhAkhir,
+        },
+      },
+    },
+    {
+      $lookup: {
+        from: 'rawatansekolahs',
+        localField: 'rawatanSekolah',
+        foreignField: '_id',
+        as: 'rawatanSekolah',
+      },
+    },
+    {
+      $unwind: {
+        path: '$rawatanSekolah',
+      },
+    },
+    {
+      $addFields: {
+        kesSelesaiPemeriksaan: '$pemeriksaanSekolah.kesSelesai',
+        kesSelesaiRawatan: '$rawatanSekolah.kesSelesaiSekolahRawatan',
+      },
+    },
+    {
+      $project: {
+        result: 0,
+        pemeriksaanSekolah: 0,
+        rawatanSekolah: 0,
+      },
+    },
+  ];
 
   const dataSekolahPemeriksaan = await Fasiliti.aggregate([
     ...pipeline_pemeriksaan_sekolah,
@@ -5793,7 +6241,6 @@ const countPG207 = async (payload) => {
       },
     },
   ]);
-
   const dataSekolahRawatan = await Fasiliti.aggregate([
     ...pipeline_rawatan_sekolah,
     {
@@ -5802,7 +6249,6 @@ const countPG207 = async (payload) => {
       },
     },
   ]);
-
   const dataSekolahPemeriksaanOKU = await Fasiliti.aggregate([
     ...pipeline_pemeriksaan_sekolah,
     {
@@ -5812,11 +6258,10 @@ const countPG207 = async (payload) => {
     },
     {
       $group: {
-        ...groupSekolahPemeriksaan,
+        ...groupSekolahPemeriksaanOKUBW,
       },
     },
   ]);
-
   const dataSekolahRawatanOKU = await Fasiliti.aggregate([
     ...pipeline_rawatan_sekolah,
     {
@@ -5826,11 +6271,10 @@ const countPG207 = async (payload) => {
     },
     {
       $group: {
-        ...groupSekolahRawatan,
+        ...groupSekolahRawatanOKUBW,
       },
     },
   ]);
-
   const dataSekolahPemeriksaanBW = await Fasiliti.aggregate([
     ...pipeline_pemeriksaan_sekolah,
     {
@@ -5840,11 +6284,10 @@ const countPG207 = async (payload) => {
     },
     {
       $group: {
-        ...groupSekolahPemeriksaan,
+        ...groupSekolahPemeriksaanOKUBW,
       },
     },
   ]);
-
   const dataSekolahRawatanBW = await Fasiliti.aggregate([
     ...pipeline_rawatan_sekolah,
     {
@@ -5854,7 +6297,7 @@ const countPG207 = async (payload) => {
     },
     {
       $group: {
-        ...groupSekolahRawatan,
+        ...groupSekolahRawatanOKUBW,
       },
     },
   ]);
@@ -5864,7 +6307,6 @@ const countPG207 = async (payload) => {
     ...pipeline_kedatangan_sekolah,
     ...group_kedatangan_sekolah,
   ]);
-
   const kedatanganSekolahOKU = await Fasiliti.aggregate([
     ...pipeline_kedatangan_sekolah,
     {
@@ -5872,9 +6314,103 @@ const countPG207 = async (payload) => {
         statusOku: 'OKU',
       },
     },
-    ...group_kedatangan_sekolah,
+    {
+      $group: {
+        _id: null,
+        jumlah: { $sum: 1 },
+        kedatanganEnggan: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'enggan'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'enggan rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganTidakHadir: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  { $ifNull: ['$tarikhPemeriksaan', false] },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $ne: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganUlangan: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $ifNull: ['$tarikhRawatan', false],
+                  },
+                  {
+                    $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                  },
+                  {
+                    $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
   ]);
-
   const kedatanganSekolahBW = await Fasiliti.aggregate([
     ...pipeline_kedatangan_sekolah,
     {
@@ -5882,7 +6418,138 @@ const countPG207 = async (payload) => {
         warganegara: { $nin: ['WARGANEGARA', 'MALAYSIA'] },
       },
     },
-    ...group_kedatangan_sekolah,
+    {
+      $group: {
+        _id: null,
+        jumlah: { $sum: 1 },
+        kedatanganEnggan: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'enggan'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'enggan rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganTidakHadir: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir'],
+                  },
+                  {
+                    $eq: ['$statusRawatan', 'tidak hadir rawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganBaru: {
+          $sum: {
+            $cond: [
+              {
+                $or: [
+                  { $ifNull: ['$tarikhPemeriksaan', false] },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      {
+                        $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                      },
+                      {
+                        $ne: ['$operatorPemeriksaan', '$operatorRawatan'],
+                      },
+                    ],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+        kedatanganUlangan: {
+          $sum: {
+            $cond: [
+              {
+                $and: [
+                  {
+                    $ifNull: ['$tarikhRawatan', false],
+                  },
+                  {
+                    $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                  },
+                  {
+                    $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                  },
+                ],
+              },
+              1,
+              0,
+            ],
+          },
+        },
+      },
+    },
+  ]);
+
+  // for aragorn
+  const kesSelesaiBiasa = await Fasiliti.aggregate([
+    ...pipeline_kesSelesai_sekolah,
+    {
+      $group: {
+        ...groupKesSelesaiSekolah,
+      },
+    },
+  ]);
+  const kesSelesaiOKU = await Fasiliti.aggregate([
+    ...pipeline_kesSelesai_sekolah,
+    {
+      $match: {
+        statusOku: 'OKU',
+      },
+    },
+    {
+      $group: {
+        ...groupKesSelesaiSekolahOKUBW,
+      },
+    },
+  ]);
+  const kesSelesaiBW = await Fasiliti.aggregate([
+    ...pipeline_kesSelesai_sekolah,
+    {
+      $match: {
+        warganegara: { $nin: ['WARGANEGARA', 'MALAYSIA'] },
+      },
+    },
+    {
+      $group: {
+        ...groupKesSelesaiSekolahOKUBW,
+      },
+    },
   ]);
 
   let match_stage_operatorLain = [];
@@ -6921,7 +7588,11 @@ const countPG207 = async (payload) => {
       dataSekolahPemeriksaanBW,
       dataSekolahRawatanBW,
       kedatanganSekolahOKU,
-      kedatanganSekolahBW
+      kedatanganSekolahBW,
+      // kes selesai
+      kesSelesaiBiasa,
+      kesSelesaiOKU,
+      kesSelesaiBW
     );
 
     return bigData;
@@ -10049,9 +10720,6 @@ const countPGS203 = async (payload) => {
                 case: {
                   $and: [
                     {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
-                    {
                       $eq: ['$jenisFasiliti', 'sekolah-rendah'],
                     },
                     {
@@ -10064,9 +10732,6 @@ const countPGS203 = async (payload) => {
               {
                 case: {
                   $and: [
-                    {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
                     {
                       $eq: ['$jenisFasiliti', 'sekolah-rendah'],
                     },
@@ -10081,9 +10746,6 @@ const countPGS203 = async (payload) => {
                 case: {
                   $and: [
                     {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
-                    {
                       $eq: ['$jenisFasiliti', 'sekolah-menengah'],
                     },
                     {
@@ -10096,9 +10758,6 @@ const countPGS203 = async (payload) => {
               {
                 case: {
                   $and: [
-                    {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
                     {
                       $eq: ['$jenisFasiliti', 'sekolah-menengah'],
                     },
@@ -10952,9 +11611,6 @@ const countPGS203 = async (payload) => {
                 case: {
                   $and: [
                     {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
-                    {
                       $eq: ['$jenisFasiliti', 'sekolah-rendah'],
                     },
                     {
@@ -10967,9 +11623,6 @@ const countPGS203 = async (payload) => {
               {
                 case: {
                   $and: [
-                    {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
                     {
                       $eq: ['$jenisFasiliti', 'sekolah-rendah'],
                     },
@@ -10984,9 +11637,6 @@ const countPGS203 = async (payload) => {
                 case: {
                   $and: [
                     {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
-                    {
                       $eq: ['$jenisFasiliti', 'sekolah-menengah'],
                     },
                     {
@@ -10999,9 +11649,6 @@ const countPGS203 = async (payload) => {
               {
                 case: {
                   $and: [
-                    {
-                      $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
-                    },
                     {
                       $eq: ['$jenisFasiliti', 'sekolah-menengah'],
                     },

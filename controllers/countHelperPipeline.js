@@ -1848,6 +1848,649 @@ const groupSekolahRawatan = {
   },
 };
 
+const groupSekolahPemeriksaanOKUBW = {
+  _id: null,
+  jumlahPelajar: {
+    $sum: 1,
+  },
+  jumlahd: {
+    $sum: '$pemeriksaanSekolah.dAdaGigiDesidus',
+  },
+  jumlahf: {
+    $sum: '$pemeriksaanSekolah.fAdaGigiDesidus',
+  },
+  jumlahx: {
+    $sum: '$pemeriksaanSekolah.xAdaGigiDesidus',
+  },
+  jumlahdfx: {
+    $sum: {
+      $add: [
+        '$pemeriksaanSekolah.dAdaGigiDesidus',
+        '$pemeriksaanSekolah.fAdaGigiDesidus',
+        '$pemeriksaanSekolah.xAdaGigiDesidus',
+      ],
+    },
+  },
+  jumlahD: {
+    $sum: '$pemeriksaanSekolah.dAdaGigiKekal',
+  },
+  jumlahM: {
+    $sum: '$pemeriksaanSekolah.mAdaGigiKekal',
+  },
+  jumlahF: {
+    $sum: '$pemeriksaanSekolah.fAdaGigiKekal',
+  },
+  jumlahX: {
+    $sum: '$pemeriksaanSekolah.xAdaGigiKekal',
+  },
+  jumlahDMFX: {
+    $sum: {
+      $add: [
+        '$pemeriksaanSekolah.dAdaGigiKekal',
+        '$pemeriksaanSekolah.mAdaGigiKekal',
+        '$pemeriksaanSekolah.fAdaGigiKekal',
+        '$pemeriksaanSekolah.xAdaGigiKekal',
+      ],
+    },
+  },
+  jumlahMBK: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $and: [
+                { $eq: ['$pemeriksaanSekolah.adaDesidus', true] },
+                { $eq: ['$pemeriksaanSekolah.adaKekal', false] },
+                { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                { $eq: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
+                { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+              ],
+            },
+            {
+              $and: [
+                { $eq: ['$pemeriksaanSekolah.adaDesidus', true] },
+                { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+                { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                { $eq: ['$pemeriksaanSekolah.fAdaGigiDesidus', 0] },
+                { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+              ],
+            },
+            {
+              $and: [
+                { $eq: ['$pemeriksaanSekolah.adaDesidus', false] },
+                { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+              ],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  statusBebasKaries: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $and: [
+                { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+                { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.mAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.fAdaGigiKekal', 0] },
+                { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+              ],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  TPR: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $or: [
+                {
+                  $and: [
+                    { $eq: ['$pemeriksaanSekolah.adaDesidus', true] },
+                    { $eq: ['$pemeriksaanSekolah.dAdaGigiDesidus', 0] },
+                    { $eq: ['$pemeriksaanSekolah.xAdaGigiDesidus', 0] },
+                  ],
+                },
+                {
+                  $and: [
+                    { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+                    { $eq: ['$pemeriksaanSekolah.dAdaGigiKekal', 0] },
+                    { $eq: ['$pemeriksaanSekolah.xAdaGigiKekal', 0] },
+                  ],
+                },
+              ],
+            },
+            { $eq: ['$pemeriksaanSekolah.perluPenskaleranOralHygiene', false] },
+            {
+              $or: [
+                { $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'] },
+                { $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '2'] },
+              ],
+            },
+            { $eq: ['$pemeriksaanSekolah.skorBpeOralHygiene', 0] },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  skorGISZero: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $or: [
+                { $eq: ['$pemeriksaanSekolah.adaDesidus', true] },
+                { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+              ],
+            },
+            {
+              $eq: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  skorGISMoreThanZero: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $or: [
+                { $eq: ['$pemeriksaanSekolah.adaDesidus', true] },
+                { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+              ],
+            },
+            {
+              $ne: ['$pemeriksaanSekolah.skorGisMulutOralHygiene', '0'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  skorBPEZero: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $or: [
+                { $eq: ['$pemeriksaanSekolah.adaDesidus', true] },
+                { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+              ],
+            },
+            {
+              $or: [
+                { $eq: ['$tahunTingkatan', 'T3'] },
+                { $eq: ['$tahunTingkatan', 'T4'] },
+                { $eq: ['$tahunTingkatan', 'T5'] },
+              ],
+            },
+            {
+              $eq: ['$pemeriksaanSekolah.skorBpeOralHygiene', '0'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  skorBPEMoreThanZero: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $or: [
+                { $eq: ['$pemeriksaanSekolah.adaDesidus', true] },
+                { $eq: ['$pemeriksaanSekolah.adaKekal', true] },
+              ],
+            },
+            {
+              $or: [
+                { $eq: ['$tahunTingkatan', 'T3'] },
+                { $eq: ['$tahunTingkatan', 'T4'] },
+                { $eq: ['$tahunTingkatan', 'T5'] },
+              ],
+            },
+            {
+              $ne: ['$pemeriksaanSekolah.skorBpeOralHygiene', '0'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  // perlu rawatan
+  perluSapuanFluorida: {
+    $sum: {
+      $cond: [
+        {
+          $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFv', 0],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  perluJumlahPesakitPrrJenis1: {
+    $sum: {
+      $cond: [
+        {
+          $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1', 0],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  perluJumlahGigiPrrJenis1: {
+    $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluPrrJenis1',
+  },
+  perluJumlahPesakitFS: {
+    $sum: {
+      $cond: [
+        {
+          $gt: ['$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs', 0],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  perluJumlahGigiFS: {
+    $sum: '$pemeriksaanSekolah.baruJumlahGigiKekalPerluFs',
+  },
+  //
+  perluPenskaleran: {
+    $sum: {
+      $cond: [
+        {
+          $eq: ['$pemeriksaanSekolah.perluPenskaleranOralHygiene', true],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  // mungkin akan digunakan di masa depan hehe boi
+  // perluEndoAnterior: {
+  //   $sum: '$jumlahAnteriorKesEndodontikDiperlukanPemeriksaanUmum',
+  // },
+  // perluEndoPremolar: {
+  //   $sum: '$jumlahPremolarKesEndodontikDiperlukanPemeriksaanUmum',
+  // },
+  // perluEndoMolar: {
+  //   $sum: '$jumlahMolarKesEndodontikDiperlukanPemeriksaanUmum',
+  // },
+  // jumlahPerluDenturPenuh: {
+  //   $sum: {
+  //     $cond: [
+  //       {
+  //         $or: [
+  //           {
+  //             $eq: [
+  //               '$separaPenuhAtasPerluDenturePemeriksaanUmum',
+  //               'penuh-atas-perlu-denture-pemeriksaan-umum',
+  //             ],
+  //           },
+  //           {
+  //             $eq: [
+  //               '$separaPenuhBawahPerluDenturePemeriksaanUmum',
+  //               'penuh-bawah-perlu-denture-pemeriksaan-umum',
+  //             ],
+  //           },
+  //         ],
+  //       },
+  //       1,
+  //       0,
+  //     ],
+  //   },
+  // },
+  // jumlahPerluDenturSepara: {
+  //   $sum: {
+  //     $cond: [
+  //       {
+  //         $or: [
+  //           {
+  //             $eq: [
+  //               '$separaPenuhAtasPerluDenturePemeriksaanUmum',
+  //               'separa-atas-perlu-denture-pemeriksaan-umum',
+  //             ],
+  //           },
+  //           {
+  //             $eq: [
+  //               '$separaPenuhBawahPerluDenturePemeriksaanUmum',
+  //               'separa-bawah-perlu-denture-pemeriksaan-umum',
+  //             ],
+  //           },
+  //         ],
+  //       },
+  //       1,
+  //       0,
+  //     ],
+  //   },
+  // },
+};
+
+const groupSekolahRawatanOKUBW = {
+  _id: null,
+  jumlahPelajar: {
+    $sum: 1,
+  },
+  // rawatan
+  sapuanFluorida: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
+            },
+            {
+              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiFv', 0],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  jumlahPesakitPrrJenis1: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
+            },
+            {
+              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1', 0],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  jumlahGigiPrrJenis1: {
+    $sum: '$rawatanSekolah.baruJumlahGigiKekalDiberiPrrJenis1',
+  },
+  jumlahPesakitDiBuatFs: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: ['$rawatanSekolah.kedatangan', 'baru-kedatangan'],
+            },
+            {
+              $gt: ['$rawatanSekolah.baruJumlahGigiKekalDibuatFs', 0],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  jumlahGigiDibuatFs: {
+    $sum: '$rawatanSekolah.baruJumlahGigiKekalDibuatFs',
+  },
+  tampalanAntGdBaru: {
+    $sum: '$rawatanSekolah.gdBaruAnteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanAntGdSemula: {
+    $sum: '$rawatanSekolah.gdSemulaAnteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanAntGkBaru: {
+    $sum: '$rawatanSekolah.gkBaruAnteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanAntGkSemula: {
+    $sum: '$rawatanSekolah.gkSemulaAnteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanPostGdBaru: {
+    $sum: '$rawatanSekolah.gdBaruPosteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanPostGdSemula: {
+    $sum: '$rawatanSekolah.gdSemulaPosteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanPostGkBaru: {
+    $sum: '$rawatanSekolah.gkBaruPosteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanPostGkSemula: {
+    $sum: '$rawatanSekolah.gkSemulaPosteriorSewarnaJumlahTampalanDibuat',
+  },
+  tampalanPostAmgGdBaru: {
+    $sum: '$rawatanSekolah.gdBaruPosteriorAmalgamJumlahTampalanDibuat',
+  },
+  tampalanPostAmgGdSemula: {
+    $sum: '$rawatanSekolah.gdSemulaPosteriorAmalgamJumlahTampalanDibuat',
+  },
+  tampalanPostAmgGkBaru: {
+    $sum: '$rawatanSekolah.gkBaruPosteriorAmalgamJumlahTampalanDibuat',
+  },
+  tampalanPostAmgGkSemula: {
+    $sum: '$rawatanSekolah.gkSemulaPosteriorAmalgamJumlahTampalanDibuat',
+  },
+  tampalanSementara: {
+    $sum: '$rawatanSekolah.jumlahTampalanSementaraSekolahRawatan',
+  },
+  cabutanGd: {
+    $sum: '$rawatanSekolah.cabutDesidusSekolahRawatan',
+  },
+  cabutanGk: {
+    $sum: '$rawatanSekolah.cabutKekalSekolahRawatan',
+  },
+  penskaleran: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: ['$rawatanSekolah.penskaleranSekolahRawatan', true],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  abses: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $eq: ['$rawatanSekolah.absesSekolahRawatan', true],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  kesSelesai: {
+    $sum: {
+      $cond: [
+        {
+          $eq: [
+            '$rawatanSekolah.kesSelesaiSekolahRawatan',
+            'ya-kes-selesai-penyata-akhir-2',
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+};
+
+const groupKesSelesaiSekolah = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $gte: ['$umur', 5],
+              },
+              {
+                $lte: ['$umur', 6],
+              },
+            ],
+          },
+          then: 'lima-enam',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $gte: ['$umur', 7],
+              },
+              {
+                $lte: ['$umur', 9],
+              },
+            ],
+          },
+          then: 'tujuh-sembilan',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $gte: ['$umur', 10],
+              },
+              {
+                $lte: ['$umur', 12],
+              },
+            ],
+          },
+          then: 'sepuluh-dua-belas',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $gte: ['$umur', 13],
+              },
+              {
+                $lte: ['$umur', 14],
+              },
+            ],
+          },
+          then: 'tiga-belas-empat-belas',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $gte: ['$umur', 15],
+              },
+              {
+                $lte: ['$umur', 17],
+              },
+            ],
+          },
+          then: 'lima-belas-tujuh-belas',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $gte: ['$umur', 18],
+              },
+              {
+                $lte: ['$umur', 19],
+              },
+            ],
+          },
+          then: 'lapan-belas-sembilan-belas',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+  kesSelesai: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $eq: ['$kesSelesaiPemeriksaan', 'ya-kes-selesai'],
+            },
+            {
+              $eq: ['$kesSelesaiRawatan', 'ya-kes-selesai-penyata-akhir-2'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+};
+
+const groupKesSelesaiSekolahOKUBW = {
+  _id: null,
+  kesSelesai: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $eq: ['$kesSelesaiPemeriksaan', 'ya-kes-selesai'],
+            },
+            {
+              $eq: ['$kesSelesaiRawatan', 'ya-kes-selesai-penyata-akhir-2'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+};
+
 const pipelineKedatanganSekolah = (payload) => {
   return [
     {
@@ -3192,6 +3835,10 @@ module.exports = {
   groupSekolah,
   groupSekolahPemeriksaan,
   groupSekolahRawatan,
+  groupSekolahPemeriksaanOKUBW,
+  groupSekolahRawatanOKUBW,
+  groupKesSelesaiSekolah,
+  groupKesSelesaiSekolahOKUBW,
   pipelineKedatanganSekolah,
   groupKedatanganSekolah,
   groupKedatanganSekolahAllOAP,
