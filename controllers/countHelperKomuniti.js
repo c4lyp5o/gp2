@@ -2283,9 +2283,16 @@ const countDEWASAMUDA = async (payload) => {
           $sum: {
             $cond: [
               {
-                $eq: [
-                  '$disaringProgramKanserMulutPemeriksaanUmum',
-                  'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                $and: [
+                  {
+                    $eq: [
+                      '$disaringProgramKanserMulutPemeriksaanUmum',
+                      'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                    ],
+                  },
+                  {
+                    $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                  },
                 ],
               },
               1,
@@ -4930,9 +4937,16 @@ const countOAP = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
@@ -6714,7 +6728,7 @@ const countLiputanOA = async (payload) => {
       ...(klinik !== 'all' && { createdByKodFasiliti: klinik }),
       kumpulanEtnik: { $in: ['orang asli semenanjung'] },
       kedatangan: 'baru-kedatangan',
-      jenisFasiliti: { $ne: 'kp' },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
@@ -6753,7 +6767,7 @@ const countLiputanPenan = async (payload) => {
       ...(klinik !== 'all' && { createdByKodFasiliti: klinik }),
       kumpulanEtnik: { $in: ['penan'] },
       kedatangan: 'baru-kedatangan',
-      jenisFasiliti: { $ne: 'kp' },
+      jenisFasiliti: { $nin: ['kp', 'kk-kd'] },
       statusKehadiran: false,
       deleted: false,
       statusReten: 'telah diisi',
@@ -7926,9 +7940,16 @@ const countKOM = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
@@ -9693,9 +9714,16 @@ const countKOM = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
@@ -10659,9 +10687,16 @@ const countPPR = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
@@ -13388,9 +13423,16 @@ const countUTCRTC = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
@@ -15095,9 +15137,16 @@ const countUTCRTC = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
@@ -16049,9 +16098,16 @@ const countPPKPS = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
@@ -18742,9 +18798,16 @@ const countPKAP2 = async (payload) => {
         $sum: {
           $cond: [
             {
-              $eq: [
-                '$disaringProgramKanserMulutPemeriksaanUmum',
-                'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+              $and: [
+                {
+                  $eq: [
+                    '$disaringProgramKanserMulutPemeriksaanUmum',
+                    'ya-disaring-program-kanser-mulut-pemeriksaan-umum',
+                  ],
+                },
+                {
+                  $ne: ['$kumpulanEtnik', 'bukan warganegara'],
+                },
               ],
             },
             1,
