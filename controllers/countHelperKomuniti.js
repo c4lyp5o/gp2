@@ -15185,7 +15185,7 @@ const countUTCRTC = async (payload) => {
 
     for (let i = 0; i < match_stage_operatorLain.length; i++) {
       const pipeline = [
-        ...main_switch(),
+        main_switch(),
         match_stage_operatorLain[i],
         ...getParamsOperatorLain,
         group_operatorLain,
