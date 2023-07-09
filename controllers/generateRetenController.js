@@ -3876,27 +3876,6 @@ const makePGS201 = async (payload) => {
         console.log('-------------');
 
         const row = worksheet.getRow(rowNumber);
-        // console.log(data[4][i].jumlahReten, data[4][i].jumlahRetenSalah);
-        // jumlahReten += data[4][i].jumlahReten;
-        // jumlahRetenSalah += data[4][i].jumlahRetenSalah;
-
-        // bila masuk sekolah kena pakai switch
-        // switch (i) {
-        //   case 0:
-        //     worksheet.getRow(rowNumber).getCell(3).value = data[0][0]
-        //       .enrolmen5Tahun
-        //       ? data[0][0].enrolmen5Tahun
-        //       : 'BELUM DIISI'; //column C (3)
-        //     break;
-        //   case 1:
-        //     worksheet.getRow(rowNumber).getCell(3).value = data[0][0]
-        //       .enrolmen6Tahun
-        //       ? data[0][0].enrolmen6Tahun
-        //       : 'BELUM DIISI'; //column C (3)
-        //     break;
-        //   default:
-        //     break;
-        // }
 
         //Kebersihan Mulut
         row.getCell(8).value += dataSekolahBiasa.jumlahKebersihanMulutA; //Column H (8)
@@ -7983,7 +7962,7 @@ const makeBEGIN = async (payload) => {
     //
     let workbook = new Excel.Workbook();
     await workbook.xlsx.readFile(filename);
-    let worksheet = workbook.getWorksheet('BEGIN');
+    let worksheet = workbook.getWorksheet('1');
     //
     // if (pilihanIndividu) {
     //   const currentIndividu = await Operator.findOne({
@@ -8030,6 +8009,8 @@ const makeBEGIN = async (payload) => {
     }
 
     let peratusRetenSalah = (jumlahRetenSalah / jumlahReten) * 100;
+
+    worksheet.name = 'BEGIN';
 
     worksheet.getCell(
       'M10'
