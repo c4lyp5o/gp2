@@ -572,16 +572,21 @@ const getDataRoute = async (req, res) => {
     case 'jana-tadika':
       data = await Fasiliti.find({
         jenisFasiliti: 'tadika',
-        ...(daerah === '-'
+        ...(accountType === 'hqSuperadmin'
+          ? null
+          : accountType === 'negeriSuperadmin'
           ? { createdByNegeri: negeri }
           : { createdByNegeri: negeri, createdByDaerah: daerah }),
       }).select('nama kodFasilitiHandler handler kodTastad');
       break;
     case 'jana-sekolah-rendah':
+      console.log('masuk sini');
       data = await Fasiliti.find({
         jenisFasiliti: 'sekolah-rendah',
         sekolahSelesaiReten: true,
-        ...(daerah === '-'
+        ...(accountType === 'hqSuperadmin'
+          ? null
+          : accountType === 'negeriSuperadmin'
           ? { createdByNegeri: negeri }
           : { createdByNegeri: negeri, createdByDaerah: daerah }),
       }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
@@ -590,7 +595,9 @@ const getDataRoute = async (req, res) => {
       data = await Fasiliti.find({
         jenisFasiliti: 'sekolah-menengah',
         sekolahSelesaiReten: true,
-        ...(daerah === '-'
+        ...(accountType === 'hqSuperadmin'
+          ? null
+          : accountType === 'negeriSuperadmin'
           ? { createdByNegeri: negeri }
           : { createdByNegeri: negeri, createdByDaerah: daerah }),
       }).select('nama kodFasilitiHandler kodSekolah idInstitusi handler');
@@ -2816,8 +2823,9 @@ const getData = async (req, res) => {
           logger.info(
             `[adminAPI/HqCenter] readOne for ${id || idd || idn} accessed`
           );
-          const ptData = await Umum.find(queryObj)
-          .select('kedatangan tarikhKedatangan');
+          const ptData = await Umum.find(queryObj).select(
+            'kedatangan tarikhKedatangan'
+          );
           const countPtByDate = (daysAgo) => {
             const date = moment()
               .subtract(daysAgo, 'days')
