@@ -12132,7 +12132,7 @@ const mapsOfSeveralRetens = new Map([
   ['LiputanOA', makeLiputanOA],
   ['LiputanPenan', makeLiputanPenan],
   ['RTC', makeUTCRTC],
-  ['UTCRTC', makeUTCRTC],
+  ['UTC', makeUTCRTC],
   // ['KPBMPBHarian', makeKPBMPBHarian],
   ['KPBMPBBulanan', makeKPBMPBBulanan],
 ]);
