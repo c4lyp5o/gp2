@@ -15468,6 +15468,8 @@ const countKEPP = async (payload) => {
         $match: {
           kepp: true,
           createdByNegeri: negeri,
+          deleted: false,
+          statusKehadiran: false,
         },
       },
       {

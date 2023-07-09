@@ -705,11 +705,27 @@ const groupSekolah = {
             { $eq: ['$merged.perluPenskaleranOralHygiene', false] },
             {
               $or: [
-                { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
-                { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
+                {
+                  $and: [
+                    { $eq: ['$merged.skorGisMulutOralHygiene', ''] },
+                    { $eq: ['$merged.skorBpeOralHygiene', '0'] },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $or: [
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
+                      ],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', ''],
+                    },
+                  ],
+                },
               ],
             },
-            { $eq: ['$merged.skorBpeOralHygiene', 0] },
           ],
         },
         1,
@@ -743,11 +759,27 @@ const groupSekolah = {
             { $eq: ['$merged.perluPenskaleranOralHygiene', false] },
             {
               $or: [
-                { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
-                { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
+                {
+                  $and: [
+                    { $eq: ['$merged.skorGisMulutOralHygiene', ''] },
+                    { $eq: ['$merged.skorBpeOralHygiene', '0'] },
+                  ],
+                },
+                {
+                  $and: [
+                    {
+                      $or: [
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
+                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
+                      ],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', ''],
+                    },
+                  ],
+                },
               ],
             },
-            { $eq: ['$merged.skorBpeOralHygiene', 0] },
           ],
         },
         1,
