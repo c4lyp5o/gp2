@@ -4,6 +4,7 @@ const Fasiliti = require('../models/Fasiliti');
 const { errorRetenLogger } = require('../logs/logger');
 const {
   placeModifier,
+  getParamsPGS201,
   getParamsKOM,
   getParamsOAP,
   getParamsUTCRTC,
@@ -930,6 +931,7 @@ const countPPIM05 = async (payload) => {
 const countBEGIN = async (payload) => {
   let match_stage_umum = [];
   let match_stage_sekolah = [];
+
   // dari umum
   const taska = [
     {
@@ -1264,7 +1266,7 @@ const countBEGIN = async (payload) => {
   let bigData = [];
 
   try {
-    for (const stage of group_stage_umum) {
+    for (const stage of match_stage_umum) {
       const queryBEGIN = await Umum.aggregate([...stage, ...group_stage_umum]);
       bigData.push({ queryBEGIN });
     }
