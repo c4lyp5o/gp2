@@ -551,7 +551,7 @@ const EditModal = ({ setShowEditModal, FType, id, reload, setReload }) => {
         risikoSekolahPersis: editedEntity.risikoSekolahPersis,
         jenisPerkhidmatanSekolah: editedEntity.jenisPerkhidmatanSekolah,
         sekolahMmi: editedEntity.sekolahMmi,
-        sekolahKki: editedEntity.sekolahKki,
+        // sekolahKki: editedEntity.sekolahKki,
         statusFMRSekolah: editedEntity.statusFMRSekolah,
         statusPerkhidmatan: editedEntity.statusPerkhidmatan,
       };
