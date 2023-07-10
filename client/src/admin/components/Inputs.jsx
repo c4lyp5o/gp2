@@ -2854,7 +2854,7 @@ export function InputEditSR(props) {
                 </label>
               </div>
             </div>
-            <div className='mb-3'>
+            {/* <div className='mb-3'>
               <label className='text-sm font-medium text-adminBlack'>
                 Sekolah Pendidikan Khas{' '}
                 <span className='font-semibold text-lg text-user6'>*</span>
@@ -2895,7 +2895,7 @@ export function InputEditSR(props) {
                   Tidak
                 </label>
               </div>
-            </div>
+            </div> */}
             <div className='mb-3'>
               <label className='text-sm font-medium text-adminBlack'>
                 Program Kumuran Berfluorida{' '}
@@ -3181,7 +3181,7 @@ export function InputEditSM(props) {
                 </label>
               </div>
             </div>
-            <div className='mb-3'>
+            {/* <div className='mb-3'>
               <label className='text-sm font-medium text-adminBlack'>
                 Sekolah Pendidikan Khas{' '}
                 <span className='font-semibold text-lg text-user6'>*</span>
@@ -3222,7 +3222,7 @@ export function InputEditSM(props) {
                   Tidak
                 </label>
               </div>
-            </div>
+            </div> */}
             <div className='mb-3'>
               <label className='text-sm font-medium text-adminBlack'>
                 Status {Dictionary[props.FType]}{' '}

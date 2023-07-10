@@ -457,66 +457,29 @@ const getParamsPgpr201 = (payload) => {
 const getParamsPGS201 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
 
-  const byPegawai = () => {
-    let params = {
-      createdByMdcMdtb: pilihanIndividu,
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
+  const params = {
+    createdByMdcMdtb: pilihanIndividu,
+    createdByKodFasiliti: klinik,
+    createdByNegeri: negeri,
+    createdByDaerah: daerah,
+    statusKehadiran: false,
+    deleted: false,
+    statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
 
-  const byKp = () => {
-    let params = {
-      createdByKodFasiliti: klinik,
-      // createdByMdcMdtb: { $regex: /mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  const byDaerah = () => {
-    let params = {
-      createdByNegeri: negeri,
-      createdByDaerah: daerah,
-      // createdByMdcMdtb: { $regex: /mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  const byNegeri = () => {
-    let params = {
-      createdByNegeri: negeri,
-      // createdByMdcMdtb: { $regex: /mdtb/i },
-      tarikhKedatangan: dateModifier(payload),
-      statusKehadiran: false,
-      deleted: false,
-      statusReten: { $in: ['telah diisi', 'reten salah'] },
-    };
-    return params;
-  };
-
-  if (pilihanIndividu) {
-    return byPegawai(payload);
+  if (!pilihanIndividu) {
+    delete params.createdByMdcMdtb;
   }
-  if (daerah !== 'all' && klinik !== 'all') {
-    return byKp(payload);
-  }
-  if ((daerah !== 'all' || daerah !== '-') && klinik === 'all') {
-    return byDaerah(payload);
-  }
+
   if (daerah === 'all' || daerah === '-') {
-    return byNegeri(payload);
+    delete params.createdByDaerah;
   }
+
+  if (klinik === 'all') {
+    delete params.createdByKodFasiliti;
+  }
+
+  return params;
 };
 const getParamsPGS203 = (payload) => {
   const { negeri, daerah, klinik, pilihanIndividu } = payload;
@@ -1005,6 +968,7 @@ const getParamsTOD = (payload) => {
   const params = {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
+    tahunDaftar: new Date().getFullYear(),
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
@@ -1022,9 +986,9 @@ const getParamsTOD = (payload) => {
   }
 
   if (pilihanIndividu) {
-    delete param.createdByNegeri;
-    delete param.createdByDaerah;
-    delete param.createdByKodFasiliti;
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
   }
 
