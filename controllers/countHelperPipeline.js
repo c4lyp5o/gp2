@@ -1,8 +1,8 @@
+// the mother of all pipeline sekolah
 const pipelineSekolah = (payload) => {
   return [
     {
       $match: {
-        sekolahSelesaiReten: true,
         ...(!['all', '-'].includes(payload.negeri) && {
           createdByNegeri: payload.negeri,
         }),
@@ -12,13 +12,14 @@ const pipelineSekolah = (payload) => {
         ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
         ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
         jenisFasiliti: { $in: ['sekolah-rendah', 'sekolah-menengah'] },
+        sekolahSelesaiReten: true,
       },
     },
     {
       $project: {
         _id: 0,
-        jenisPerkhidmatanSekolah: 1,
         jenisFasiliti: 1,
+        jenisPerkhidmatanSekolah: 1,
         kodSekolah: 1,
         sesiTakwimSekolah: 1,
         sekolahMmi: 1,
@@ -56,15 +57,11 @@ const pipelineSekolah = (payload) => {
         statusOku: '$result.statusOku',
         statusRawatan: '$result.statusRawatan',
         tahunTingkatan: '$result.tahunTingkatan',
+        warganegara: '$result.warganegara',
         kelasPelajar: '$result.kelasPelajar',
         jantina: '$result.jantina',
         pemeriksaanSekolah: '$result.pemeriksaanSekolah',
         rawatanSekolah: '$result.rawatanSekolah',
-      },
-    },
-    {
-      $project: {
-        result: 0,
       },
     },
     {
@@ -90,6 +87,25 @@ const pipelineSekolah = (payload) => {
       },
     },
     {
+      $addFields: {
+        tarikhPemeriksaan: '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
+        operatorPemeriksaan: '$pemeriksaanSekolah.createdByMdcMdtb',
+        lastRawatan: {
+          $arrayElemAt: [
+            '$rawatanSekolah',
+            {
+              $subtract: [
+                {
+                  $size: '$rawatanSekolah',
+                },
+                1,
+              ],
+            },
+          ],
+        },
+      },
+    },
+    {
       $unwind: {
         path: '$rawatanSekolah',
         preserveNullAndEmptyArrays: true,
@@ -110,6 +126,10 @@ const pipelineSekolah = (payload) => {
         statusOku: 1,
         tahunTingkatan: 1,
         kelasPelajar: 1,
+        tarikhPemeriksaan: 1,
+        operatorPemeriksaan: 1,
+        tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
+        operatorRawatan: '$lastRawatan.createdByMdcMdtb',
         merged: {
           $mergeObjects: ['$pemeriksaanSekolah', '$rawatanSekolah'],
         },
@@ -132,10 +152,1202 @@ const pipelineSekolah = (payload) => {
   ];
 };
 
+// id data 201
+const id201Biasa = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$umur', 5],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+            ],
+          },
+          then: 'prasek-5tahun',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$umur', 6],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+            ],
+          },
+          then: 'prasek-6tahun',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$umur', 7],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+            ],
+          },
+          then: 'prasek-7tahun',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'D1'],
+          },
+          then: 'darjah1',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'D2'],
+          },
+          then: 'darjah2',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'D3'],
+          },
+          then: 'darjah3',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'D4'],
+          },
+          then: 'darjah4',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'D5'],
+          },
+          then: 'darjah5',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'D6'],
+          },
+          then: 'darjah6',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'KHAS'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+              },
+            ],
+          },
+          then: 'darjah-khas',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'P'],
+          },
+          then: 'tingkatanPeralihan',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'T1'],
+          },
+          then: 'tingkatan1',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'T2'],
+          },
+          then: 'tingkatan2',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'T3'],
+          },
+          then: 'tingkatan3',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'T4'],
+          },
+          then: 'tingkatan4',
+        },
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'T5'],
+          },
+          then: 'tingkatan5',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'KHAM'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+              },
+            ],
+          },
+          then: 'tingkatan-khas',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id201KhasKham = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$statusOku', 'OKU'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+            ],
+          },
+          then: 'prasek-oku',
+        },
+        {
+          case: {
+            $or: [
+              {
+                $eq: ['$tahunTingkatan', 'KHAS'],
+              },
+            ],
+          },
+          then: 'darjah-khas',
+        },
+        {
+          case: {
+            $or: [
+              {
+                $eq: ['$tahunTingkatan', 'KHAM'],
+              },
+            ],
+          },
+          then: 'tingkatan-khas',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id201OAP = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'prasek-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'D1'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'darjah1-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'D6'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'darjah6-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'T4'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'tingkatan4-oap',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id201AllOAP = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'all-oap',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id201AllOKU = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $or: [
+              {
+                $eq: ['$tahunTingkatan', 'KHAS'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'KHAM'],
+              },
+              {
+                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+              },
+            ],
+          },
+          then: 'all-oku',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+
+// id data 203
+const id203KPSKPB = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+          },
+          then: 'prasekolah',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'KHAS'],
+              },
+            ],
+          },
+          then: 'darjah-khas',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'KHAM'],
+              },
+            ],
+          },
+          then: 'tingkatan-khas',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'D1'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+              },
+            ],
+          },
+          then: 'darjah1-kps',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'D1'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+              },
+            ],
+          },
+          then: 'darjah1-kpb',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'D6'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+              },
+            ],
+          },
+          then: 'darjah6-kps',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'D6'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+              },
+            ],
+          },
+          then: 'darjah6-kpb',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'T4'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+              },
+            ],
+          },
+          then: 'tingkatan4-kps',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$tahunTingkatan', 'T4'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+              },
+            ],
+          },
+          then: 'tingkatan4-kpb',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id203KKI = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+              {
+                $eq: ['$statusOku', 'OKU'],
+              },
+            ],
+          },
+          then: 'prasek-oku',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+              },
+            ],
+          },
+          then: 'darjah-kki-all-kpb',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+              },
+            ],
+          },
+          then: 'darjah-kki-all-kps',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+              },
+            ],
+          },
+          then: 'tingkatan-kki-all-kpb',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+              },
+            ],
+          },
+          then: 'tingkatan-kki-all-kps',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id203OAP = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'prasek-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'D1'],
+              },
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'darjah1-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'D6'],
+              },
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'darjah6-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$tahunTingkatan', 'T4'],
+              },
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'tingkatan4-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+              },
+              {
+                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'darjah-kki-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+              },
+              {
+                $eq: ['$sekolahKki', 'ya-sekolah-kki'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'tingkatan-kki-oap',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id203AllKPSKPB = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $ne: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+              },
+            ],
+          },
+          then: 'darjah-all-kps',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $ne: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+              },
+            ],
+          },
+          then: 'darjah-all-kpb',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $ne: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kps'],
+              },
+            ],
+          },
+          then: 'tingkatan-all-kps',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $ne: ['$tahunTingkatan', 'PRASEKOLAH'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+              },
+              {
+                $eq: ['$jenisPerkhidmatanSekolah', 'kpb'],
+              },
+            ],
+          },
+          then: 'tingkatan-all-kpb',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+const id203AllOAP = {
+  _id: {
+    $switch: {
+      branches: [
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'darjah-all-oap',
+        },
+        {
+          case: {
+            $and: [
+              {
+                $eq: ['$sekolahKki', 'tidak-sekolah-kki'],
+              },
+              {
+                $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+              },
+              {
+                $or: [
+                  {
+                    $eq: ['$keturunan', 'PENAN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'ORANG ASLI (SEMENANJUNG)'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'JAKUN'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'NEGRITO'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SAKAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SEMALAI'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'TEMIAR'],
+                  },
+                  {
+                    $eq: ['$keturunan', 'SENOI'],
+                  },
+                ],
+              },
+            ],
+          },
+          then: 'tingkatan-all-oap',
+        },
+      ],
+      default: 'Unknown',
+    },
+  },
+};
+
 // ni untuk 201 dan 203
 const groupSekolah = {
   jumlahPelajar: {
     $sum: 1,
+  },
+  kedatanganEnggan: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $eq: ['$statusRawatan', 'enggan'],
+            },
+            {
+              $eq: ['$statusRawatan', 'enggan rawatan'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  kedatanganTidakHadir: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $eq: ['$statusRawatan', 'tidak hadir'],
+            },
+            {
+              $eq: ['$statusRawatan', 'tidak hadir rawatan'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  kedatanganBaru: {
+    $sum: {
+      $cond: [
+        {
+          $or: [
+            {
+              $ifNull: ['$tarikhRawatan', true],
+            },
+            {
+              $and: [
+                {
+                  $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                },
+                {
+                  $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+                },
+              ],
+            },
+            {
+              $and: [
+                {
+                  $eq: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+                },
+                {
+                  $ne: ['$operatorPemeriksaan', '$operatorRawatan'],
+                },
+              ],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
+  },
+  kedatanganUlangan: {
+    $sum: {
+      $cond: [
+        {
+          $and: [
+            {
+              $ifNull: ['$tarikhRawatan', false],
+            },
+            {
+              $ne: ['$tarikhPemeriksaan', '$tarikhRawatan'],
+            },
+            {
+              $eq: ['$operatorPemeriksaan', '$operatorRawatan'],
+            },
+          ],
+        },
+        1,
+        0,
+      ],
+    },
   },
   jumlahKebersihanMulutA: {
     $sum: {
@@ -144,8 +1356,12 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
@@ -165,8 +1381,12 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
@@ -186,8 +1406,12 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
@@ -270,10 +1494,18 @@ const groupSekolah = {
       $cond: [
         {
           $and: [
-            { $eq: ['$merged.adaDesidus', true] },
-            { $eq: ['$merged.dAdaGigiDesidus', 0] },
-            { $eq: ['$merged.fAdaGigiDesidus', 0] },
-            { $eq: ['$merged.xAdaGigiDesidus', 0] },
+            {
+              $eq: ['$merged.adaDesidus', true],
+            },
+            {
+              $eq: ['$merged.dAdaGigiDesidus', 0],
+            },
+            {
+              $eq: ['$merged.fAdaGigiDesidus', 0],
+            },
+            {
+              $eq: ['$merged.xAdaGigiDesidus', 0],
+            },
           ],
         },
         1,
@@ -288,34 +1520,74 @@ const groupSekolah = {
           $or: [
             {
               $and: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', false] },
-                { $eq: ['$merged.dAdaGigiDesidus', 0] },
-                { $eq: ['$merged.fAdaGigiDesidus', 0] },
-                { $eq: ['$merged.xAdaGigiDesidus', 0] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', false],
+                },
+                {
+                  $eq: ['$merged.dAdaGigiDesidus', 0],
+                },
+                {
+                  $eq: ['$merged.fAdaGigiDesidus', 0],
+                },
+                {
+                  $eq: ['$merged.xAdaGigiDesidus', 0],
+                },
               ],
             },
             {
               $and: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
-                { $eq: ['$merged.dAdaGigiDesidus', 0] },
-                { $eq: ['$merged.fAdaGigiDesidus', 0] },
-                { $eq: ['$merged.xAdaGigiDesidus', 0] },
-                { $eq: ['$merged.dAdaGigiKekal', 0] },
-                { $eq: ['$merged.mAdaGigiKekal', 0] },
-                { $eq: ['$merged.fAdaGigiKekal', 0] },
-                { $eq: ['$merged.xAdaGigiKekal', 0] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
+                {
+                  $eq: ['$merged.dAdaGigiDesidus', 0],
+                },
+                {
+                  $eq: ['$merged.fAdaGigiDesidus', 0],
+                },
+                {
+                  $eq: ['$merged.xAdaGigiDesidus', 0],
+                },
+                {
+                  $eq: ['$merged.dAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.mAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.fAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.xAdaGigiKekal', 0],
+                },
               ],
             },
             {
               $and: [
-                { $eq: ['$merged.adaDesidus', false] },
-                { $eq: ['$merged.adaKekal', true] },
-                { $eq: ['$merged.dAdaGigiKekal', 0] },
-                { $eq: ['$merged.mAdaGigiKekal', 0] },
-                { $eq: ['$merged.fAdaGigiKekal', 0] },
-                { $eq: ['$merged.xAdaGigiKekal', 0] },
+                {
+                  $eq: ['$merged.adaDesidus', false],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
+                {
+                  $eq: ['$merged.dAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.mAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.fAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.xAdaGigiKekal', 0],
+                },
               ],
             },
           ],
@@ -332,11 +1604,21 @@ const groupSekolah = {
           $or: [
             {
               $and: [
-                { $eq: ['$merged.adaKekal', true] },
-                { $eq: ['$merged.dAdaGigiKekal', 0] },
-                { $eq: ['$merged.mAdaGigiKekal', 0] },
-                { $eq: ['$merged.fAdaGigiKekal', 0] },
-                { $eq: ['$merged.xAdaGigiKekal', 0] },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
+                {
+                  $eq: ['$merged.dAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.mAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.fAdaGigiKekal', 0],
+                },
+                {
+                  $eq: ['$merged.xAdaGigiKekal', 0],
+                },
               ],
             },
           ],
@@ -379,9 +1661,15 @@ const groupSekolah = {
       $cond: [
         {
           $and: [
-            { $eq: ['$merged.adaKekal', true] },
-            { $eq: ['$merged.mAdaGigiKekal', 0] },
-            { $eq: ['$merged.xAdaGigiKekal', 0] },
+            {
+              $eq: ['$merged.adaKekal', true],
+            },
+            {
+              $eq: ['$merged.mAdaGigiKekal', 0],
+            },
+            {
+              $eq: ['$merged.xAdaGigiKekal', 0],
+            },
           ],
         },
         1,
@@ -396,17 +1684,27 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
             },
-            { $eq: ['$merged.adaKekal', true] },
-            { $gt: ['$merged.eAdaGigiKekal', 0] },
+            {
+              $eq: ['$merged.adaKekal', true],
+            },
+            {
+              $gt: ['$merged.eAdaGigiKekal', 0],
+            },
           ],
         },
         1,
@@ -421,21 +1719,39 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
             },
-            { $eq: ['$merged.adaKekal', true] },
-            { $eq: ['$merged.dAdaGigiKekal', 0] },
-            { $eq: ['$merged.mAdaGigiKekal', 0] },
-            { $eq: ['$merged.fAdaGigiKekal', 0] },
-            { $eq: ['$merged.xAdaGigiKekal', 0] },
-            { $gt: ['$merged.eAdaGigiKekal', 0] },
+            {
+              $eq: ['$merged.adaKekal', true],
+            },
+            {
+              $eq: ['$merged.dAdaGigiKekal', 0],
+            },
+            {
+              $eq: ['$merged.mAdaGigiKekal', 0],
+            },
+            {
+              $eq: ['$merged.fAdaGigiKekal', 0],
+            },
+            {
+              $eq: ['$merged.xAdaGigiKekal', 0],
+            },
+            {
+              $gt: ['$merged.eAdaGigiKekal', 0],
+            },
           ],
         },
         1,
@@ -450,8 +1766,12 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
@@ -471,8 +1791,12 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
@@ -492,8 +1816,12 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
@@ -513,8 +1841,12 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
@@ -534,15 +1866,25 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
               $or: [
-                { $eq: ['$tahunTingkatan', 'T3'] },
-                { $eq: ['$tahunTingkatan', 'T4'] },
-                { $eq: ['$tahunTingkatan', 'T5'] },
+                {
+                  $eq: ['$tahunTingkatan', 'T3'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T4'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T5'],
+                },
               ],
             },
             {
@@ -562,15 +1904,25 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
               $or: [
-                { $eq: ['$tahunTingkatan', 'T3'] },
-                { $eq: ['$tahunTingkatan', 'T4'] },
-                { $eq: ['$tahunTingkatan', 'T5'] },
+                {
+                  $eq: ['$tahunTingkatan', 'T3'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T4'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T5'],
+                },
               ],
             },
             {
@@ -590,15 +1942,25 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
               $or: [
-                { $eq: ['$tahunTingkatan', 'T3'] },
-                { $eq: ['$tahunTingkatan', 'T4'] },
-                { $eq: ['$tahunTingkatan', 'T5'] },
+                {
+                  $eq: ['$tahunTingkatan', 'T3'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T4'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T5'],
+                },
               ],
             },
             {
@@ -618,15 +1980,25 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
               $or: [
-                { $eq: ['$tahunTingkatan', 'T3'] },
-                { $eq: ['$tahunTingkatan', 'T4'] },
-                { $eq: ['$tahunTingkatan', 'T5'] },
+                {
+                  $eq: ['$tahunTingkatan', 'T3'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T4'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T5'],
+                },
               ],
             },
             {
@@ -646,15 +2018,25 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$merged.adaDesidus', true] },
-                { $eq: ['$merged.adaKekal', true] },
+                {
+                  $eq: ['$merged.adaDesidus', true],
+                },
+                {
+                  $eq: ['$merged.adaKekal', true],
+                },
               ],
             },
             {
               $or: [
-                { $eq: ['$tahunTingkatan', 'T3'] },
-                { $eq: ['$tahunTingkatan', 'T4'] },
-                { $eq: ['$tahunTingkatan', 'T5'] },
+                {
+                  $eq: ['$tahunTingkatan', 'T3'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T4'],
+                },
+                {
+                  $eq: ['$tahunTingkatan', 'T5'],
+                },
               ],
             },
             {
@@ -674,11 +2056,17 @@ const groupSekolah = {
           $and: [
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
@@ -687,36 +2075,60 @@ const groupSekolah = {
               $or: [
                 {
                   $and: [
-                    { $eq: ['$merged.adaDesidus', true] },
-                    { $eq: ['$merged.dAdaGigiDesidus', 0] },
-                    { $eq: ['$merged.xAdaGigiDesidus', 0] },
+                    {
+                      $eq: ['$merged.adaDesidus', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiDesidus', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiDesidus', 0],
+                    },
                   ],
                 },
                 {
                   $and: [
-                    { $eq: ['$merged.adaKekal', true] },
-                    { $eq: ['$merged.dAdaGigiKekal', 0] },
-                    { $eq: ['$merged.xAdaGigiKekal', 0] },
-                    { $eq: ['$merged.eAdaGigiKekal', 0] },
+                    {
+                      $eq: ['$merged.adaKekal', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiKekal', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiKekal', 0],
+                    },
+                    {
+                      $eq: ['$merged.eAdaGigiKekal', 0],
+                    },
                   ],
                 },
               ],
             },
-            { $eq: ['$merged.perluPenskaleranOralHygiene', false] },
+            {
+              $eq: ['$merged.perluPenskaleranOralHygiene', false],
+            },
             {
               $or: [
                 {
                   $and: [
-                    { $eq: ['$merged.skorGisMulutOralHygiene', ''] },
-                    { $eq: ['$merged.skorBpeOralHygiene', '0'] },
+                    {
+                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', '0'],
+                    },
                   ],
                 },
                 {
                   $and: [
                     {
                       $or: [
-                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
-                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
+                        },
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
+                        },
                       ],
                     },
                     {
@@ -742,35 +2154,57 @@ const groupSekolah = {
               $or: [
                 {
                   $and: [
-                    { $eq: ['$merged.adaDesidus', true] },
-                    { $eq: ['$merged.dAdaGigiDesidus', 0] },
-                    { $eq: ['$merged.xAdaGigiDesidus', 0] },
+                    {
+                      $eq: ['$merged.adaDesidus', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiDesidus', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiDesidus', 0],
+                    },
                   ],
                 },
                 {
                   $and: [
-                    { $eq: ['$merged.adaKekal', true] },
-                    { $eq: ['$merged.dAdaGigiKekal', 0] },
-                    { $eq: ['$merged.xAdaGigiKekal', 0] },
+                    {
+                      $eq: ['$merged.adaKekal', true],
+                    },
+                    {
+                      $eq: ['$merged.dAdaGigiKekal', 0],
+                    },
+                    {
+                      $eq: ['$merged.xAdaGigiKekal', 0],
+                    },
                   ],
                 },
               ],
             },
-            { $eq: ['$merged.perluPenskaleranOralHygiene', false] },
+            {
+              $eq: ['$merged.perluPenskaleranOralHygiene', false],
+            },
             {
               $or: [
                 {
                   $and: [
-                    { $eq: ['$merged.skorGisMulutOralHygiene', ''] },
-                    { $eq: ['$merged.skorBpeOralHygiene', '0'] },
+                    {
+                      $eq: ['$merged.skorGisMulutOralHygiene', ''],
+                    },
+                    {
+                      $eq: ['$merged.skorBpeOralHygiene', '0'],
+                    },
                   ],
                 },
                 {
                   $and: [
                     {
                       $or: [
-                        { $eq: ['$merged.skorGisMulutOralHygiene', '0'] },
-                        { $eq: ['$merged.skorGisMulutOralHygiene', '2'] },
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '0'],
+                        },
+                        {
+                          $eq: ['$merged.skorGisMulutOralHygiene', '2'],
+                        },
                       ],
                     },
                     {
@@ -864,11 +2298,17 @@ const groupSekolah = {
             },
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
@@ -890,11 +2330,17 @@ const groupSekolah = {
             },
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
@@ -916,11 +2362,17 @@ const groupSekolah = {
             },
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
@@ -942,11 +2394,17 @@ const groupSekolah = {
             },
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
@@ -965,11 +2423,17 @@ const groupSekolah = {
           $or: [
             {
               $or: [
-                { $eq: ['$jenisFasiliti', 'sekolah-rendah'] },
+                {
+                  $eq: ['$jenisFasiliti', 'sekolah-rendah'],
+                },
                 {
                   $and: [
-                    { $eq: ['$jenisFasiliti', 'sekolah-menengah'] },
-                    { $eq: ['$sekolahMmi', 'ya-sekolah-mmi'] },
+                    {
+                      $eq: ['$jenisFasiliti', 'sekolah-menengah'],
+                    },
+                    {
+                      $eq: ['$sekolahMmi', 'ya-sekolah-mmi'],
+                    },
                   ],
                 },
               ],
@@ -2523,130 +3987,6 @@ const groupKesSelesaiSekolahOKUBW = {
   },
 };
 
-const pipelineKedatanganSekolah = (payload) => {
-  return [
-    {
-      $match: {
-        sekolahSelesaiReten: true,
-        ...(!['all', '-'].includes(payload.negeri) && {
-          createdByNegeri: payload.negeri,
-        }),
-        ...(!['all', '-'].includes(payload.daerah) && {
-          createdByDaerah: payload.daerah,
-        }),
-        ...(payload.klinik !== 'all' && { kodFasilitiHandler: payload.klinik }),
-        ...(payload.pilihanSekolah && { kodSekolah: payload.pilihanSekolah }),
-        jenisFasiliti: {
-          $in: ['sekolah-rendah', 'sekolah-menengah'],
-        },
-      },
-    },
-    {
-      $project: {
-        _id: 0,
-        jenisPerkhidmatanSekolah: 1,
-        jenisFasiliti: 1,
-        kodSekolah: 1,
-        sesiTakwimSekolah: 1,
-        sekolahMmi: 1,
-        sekolahKki: 1,
-      },
-    },
-    {
-      $lookup: {
-        from: 'sekolahs',
-        localField: 'kodSekolah',
-        foreignField: 'kodSekolah',
-        as: 'result',
-        pipeline: [
-          {
-            $match: {
-              deleted: false,
-              pemeriksaanSekolah: {
-                $ne: null,
-              },
-            },
-          },
-        ],
-      },
-    },
-    {
-      $unwind: {
-        path: '$result',
-      },
-    },
-    {
-      $addFields: {
-        nama: '$result.nama',
-        umur: '$result.umur',
-        tahunTingkatan: '$result.tahunTingkatan',
-        warganegara: '$result.warganegara',
-        statusOku: '$result.statusOku',
-        pemeriksaanSekolah: '$result.pemeriksaanSekolah',
-        rawatanSekolah: '$result.rawatanSekolah',
-      },
-    },
-    {
-      $lookup: {
-        from: 'pemeriksaansekolahs',
-        localField: 'pemeriksaanSekolah',
-        foreignField: '_id',
-        as: 'pemeriksaanSekolah',
-      },
-    },
-    {
-      $unwind: {
-        path: '$pemeriksaanSekolah',
-        preserveNullAndEmptyArrays: false,
-      },
-    },
-    {
-      $lookup: {
-        from: 'rawatansekolahs',
-        localField: 'rawatanSekolah',
-        foreignField: '_id',
-        as: 'rawatanSekolah',
-      },
-    },
-    {
-      $addFields: {
-        tarikhPemeriksaan: '$pemeriksaanSekolah.tarikhPemeriksaanSemasa',
-        operatorPemeriksaan: '$pemeriksaanSekolah.createdByMdcMdtb',
-        lastRawatan: {
-          $arrayElemAt: [
-            '$rawatanSekolah',
-            {
-              $subtract: [
-                {
-                  $size: '$rawatanSekolah',
-                },
-                1,
-              ],
-            },
-          ],
-        },
-      },
-    },
-    {
-      $project: {
-        sekolahMmi: 1,
-        sekolahKki: 1,
-        jenisFasiliti: 1,
-        jenisPerkhidmatanSekolah: 1,
-        nama: 1,
-        umur: 1,
-        tahunTingkatan: 1,
-        warganegara: 1,
-        statusOku: 1,
-        tarikhPemeriksaan: 1,
-        operatorPemeriksaan: 1,
-        tarikhRawatan: '$lastRawatan.tarikhRawatanSemasa',
-        operatorRawatan: '$lastRawatan.createdByMdcMdtb',
-      },
-    },
-  ];
-};
-
 const groupKedatanganSekolah = [
   {
     $group: {
@@ -3195,7 +4535,6 @@ const pipelineEnrolmenSekolah = (payload) => {
     },
     {
       $addFields: {
-        deleted: '$result.deleted',
         keturunan: '$result.keturunan',
         statusOku: '$result.statusOku',
         tahunTingkatan: '$result.tahunTingkatan',
@@ -3863,6 +5202,18 @@ const pipelineCPPC2PraSekolah = (payload) => {
 };
 
 module.exports = {
+  // id
+  id201Biasa,
+  id201KhasKham,
+  id201OAP,
+  id201AllOAP,
+  id201AllOKU,
+  id203KPSKPB,
+  id203KKI,
+  id203OAP,
+  id203AllKPSKPB,
+  id203AllOAP,
+  // pipeline
   pipelineSekolah,
   groupSekolah,
   groupSekolahPemeriksaan,
@@ -3871,7 +5222,6 @@ module.exports = {
   groupSekolahRawatanOKUBW,
   groupKesSelesaiSekolah,
   groupKesSelesaiSekolahOKUBW,
-  pipelineKedatanganSekolah,
   groupKedatanganSekolah,
   groupKedatanganSekolahAllOAP,
   groupKedatanganSekolahAllOKU,
