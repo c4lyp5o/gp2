@@ -968,6 +968,7 @@ const getParamsTOD = (payload) => {
   const params = {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
+    tahunDaftar: new Date().getFullYear(),
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
