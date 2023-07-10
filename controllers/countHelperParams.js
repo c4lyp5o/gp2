@@ -968,6 +968,7 @@ const getParamsTOD = (payload) => {
   const params = {
     tarikhKedatangan: dateModifier(payload),
     statusKehadiran: false,
+    tahunDaftar: new Date().getFullYear(),
     deleted: false,
     statusReten: { $in: ['telah diisi', 'reten salah'] },
   };
@@ -985,9 +986,9 @@ const getParamsTOD = (payload) => {
   }
 
   if (pilihanIndividu) {
-    delete param.createdByNegeri;
-    delete param.createdByDaerah;
-    delete param.createdByKodFasiliti;
+    delete params.createdByNegeri;
+    delete params.createdByDaerah;
+    delete params.createdByKodFasiliti;
     params.createdByMdcMdtb = pilihanIndividu;
   }
 

@@ -321,7 +321,10 @@ export default function Rawatan(props) {
                             }}
                             className='w-4 h-4 text-red-600 bg-gray-100 rounded border-gray-300 focus:ring-red-500'
                           />
-                          <label className='mx-2 text-sm font-m'>
+                          <label
+                            htmlFor='pesakit-dibuat-fluoride-varnish'
+                            className='mx-2 text-sm font-m'
+                          >
                             Pesakit diberi Sapuan Flourida
                           </label>
                         </div>
