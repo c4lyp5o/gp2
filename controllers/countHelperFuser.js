@@ -76,7 +76,6 @@ module.exports = {
   countOAP,
   countLiputanOA,
   countLiputanPenan,
-  countKOM,
   countKPBMPBHarian,
   countKPBMPBBulanan,
   countKOM,

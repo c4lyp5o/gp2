@@ -13747,7 +13747,6 @@ const countTOD = async (payload) => {
       $match: {
         ...getParamsTOD(payload),
         kedatangan: 'baru-kedatangan',
-        umur: { $gte: 0, $lte: 4 },
         jenisFasiliti: 'taska-tadika',
       },
     },
@@ -13766,6 +13765,14 @@ const countTOD = async (payload) => {
       $addFields: {
         kodTastad: '$fasiliti_data.kodTastad',
         statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
       },
     },
     {
@@ -13777,6 +13784,7 @@ const countTOD = async (payload) => {
       $match: {
         statusPerkhidmatan: 'active',
         kodTastad: { $regex: /tas/i },
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -13785,7 +13793,6 @@ const countTOD = async (payload) => {
       $match: {
         ...getParamsTOD(payload),
         kedatangan: 'baru-kedatangan',
-        umur: { $gte: 0, $lte: 4 },
         jenisFasiliti: 'taska-tadika',
       },
     },
@@ -13804,6 +13811,14 @@ const countTOD = async (payload) => {
       $addFields: {
         kodTastad: '$fasiliti_data.kodTastad',
         statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
       },
     },
     {
@@ -13815,6 +13830,7 @@ const countTOD = async (payload) => {
       $match: {
         statusPerkhidmatan: 'active',
         kodTastad: { $regex: /tad/i },
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -13823,8 +13839,24 @@ const countTOD = async (payload) => {
       $match: {
         ...getParamsTOD(payload),
         kedatangan: 'baru-kedatangan',
-        umur: { $gte: 0, $lte: 4 },
         jenisFasiliti: 'kk-kd',
+      },
+    },
+    {
+      $addFields: {
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
+      },
+    },
+    {
+      $match: {
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -13833,8 +13865,24 @@ const countTOD = async (payload) => {
       $match: {
         ...getParamsTOD(payload),
         kedatangan: 'baru-kedatangan',
-        umur: { $gte: 0, $lte: 4 },
         jenisFasiliti: 'kp',
+      },
+    },
+    {
+      $addFields: {
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
+      },
+    },
+    {
+      $match: {
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -13843,8 +13891,24 @@ const countTOD = async (payload) => {
       $match: {
         ...getParamsTOD(payload),
         kedatangan: 'baru-kedatangan',
-        umur: { $gte: 0, $lte: 4 },
         jenisFasiliti: 'projek-komuniti-lain',
+      },
+    },
+    {
+      $addFields: {
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
+      },
+    },
+    {
+      $match: {
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -13981,6 +14045,7 @@ const countTOD = async (payload) => {
         },
         TPR: {
           //TPR Biasa - d/D = 0 ; x/X = 0 ; GIS = 0/2 ; BPE = 0 ; Tidak perlu scaling
+          // umurTahunLahir
           $sum: {
             $cond: [
               {
@@ -13988,7 +14053,7 @@ const countTOD = async (payload) => {
                   // baby punya kira
                   {
                     $and: [
-                      { $lt: ['$umur', 1] },
+                      { $lt: ['$umurTahunLahir', 1] },
                       {
                         $eq: [
                           '$yaTidakPesakitMempunyaiGigi',
@@ -13999,7 +14064,7 @@ const countTOD = async (payload) => {
                   },
                   {
                     $and: [
-                      { $lt: ['$umur', 1] },
+                      { $lt: ['$umurTahunLahir', 1] },
                       { $eq: ['$adaDesidusPemeriksaanUmum', true] },
                       { $eq: ['$adaKekalPemeriksaanUmum', false] },
                       { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
@@ -14009,14 +14074,97 @@ const countTOD = async (payload) => {
                   // 1 tahun
                   {
                     $and: [
-                      { $gte: ['$umur', 1] },
+                      { $gte: ['$umurTahunLahir', 1] },
                       { $eq: ['$adaDesidusPemeriksaanUmum', true] },
                       { $eq: ['$adaKekalPemeriksaanUmum', false] },
                       { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
                       { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umurTahunLahir', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', true] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umurTahunLahir', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', true] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$mAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umurTahunLahir', 5] },
+                      { $lte: ['$umurTahunLahir', 14] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
                       {
-                        $eq: ['$perluPenskaleranPemeriksaanUmum', false],
+                        $or: [
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '0',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '2',
+                            ],
+                          },
+                        ],
                       },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umurTahunLahir', 15] },
+                      { $eq: ['$dAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$dAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiKekalPemeriksaanUmum', 0] },
+                      { $eq: ['$xAdaGigiDesidusPemeriksaanUmum', 0] },
+                      { $eq: ['$perluPenskaleranPemeriksaanUmum', false] },
+                      {
+                        $or: [
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '0',
+                            ],
+                          },
+                          {
+                            $eq: [
+                              '$skorGisMulutOralHygienePemeriksaanUmum',
+                              '2',
+                            ],
+                          },
+                          { $eq: ['$skorBpeOralHygienePemeriksaanUmum', '0'] },
+                        ],
+                      },
+                    ],
+                  },
+                  {
+                    $and: [
+                      { $gte: ['$umurTahunLahir', 1] },
+                      { $eq: ['$adaDesidusPemeriksaanUmum', false] },
+                      { $eq: ['$adaKekalPemeriksaanUmum', false] },
                     ],
                   },
                 ],
@@ -14041,7 +14189,7 @@ const countTOD = async (payload) => {
           $sum: {
             $cond: [
               {
-                $eq: ['$kecederaanGigiUmum', true],
+                $eq: ['$kecederaanGigiUmum', true], // TODO gabung kecederaanGigiUmum & kecederaanTulangMukaUmum
               },
               1,
               0,
@@ -14085,7 +14233,9 @@ const countTOD = async (payload) => {
           $sum: {
             $add: [
               '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              // nnti tambah semula posterior sewarna
               '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              // nnti tambah semula posterior amalgam
             ],
           },
         },
@@ -14285,7 +14435,7 @@ const countTOD = async (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        umur: { $gte: 0, $lte: 4 },
+        kedatangan: 'ulangan-kedatangan',
         jenisFasiliti: 'taska-tadika',
       },
     },
@@ -14304,6 +14454,14 @@ const countTOD = async (payload) => {
       $addFields: {
         kodTastad: '$fasiliti_data.kodTastad',
         statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
       },
     },
     {
@@ -14315,6 +14473,7 @@ const countTOD = async (payload) => {
       $match: {
         statusPerkhidmatan: 'active',
         kodTastad: { $regex: /tas/i },
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -14322,7 +14481,7 @@ const countTOD = async (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        umur: { $gte: 0, $lte: 4 },
+        kedatangan: 'ulangan-kedatangan',
         jenisFasiliti: 'taska-tadika',
       },
     },
@@ -14341,6 +14500,14 @@ const countTOD = async (payload) => {
       $addFields: {
         kodTastad: '$fasiliti_data.kodTastad',
         statusPerkhidmatan: '$fasiliti_data.statusPerkhidmatan',
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
       },
     },
     {
@@ -14352,6 +14519,7 @@ const countTOD = async (payload) => {
       $match: {
         statusPerkhidmatan: 'active',
         kodTastad: { $regex: /tad/i },
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -14359,8 +14527,25 @@ const countTOD = async (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        umur: { $gte: 0, $lte: 4 },
+        kedatangan: 'ulangan-kedatangan',
         jenisFasiliti: 'kk-kd',
+      },
+    },
+    {
+      $addFields: {
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
+      },
+    },
+    {
+      $match: {
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -14368,8 +14553,25 @@ const countTOD = async (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        umur: { $gte: 0, $lte: 4 },
+        kedatangan: 'ulangan-kedatangan',
         jenisFasiliti: 'kp',
+      },
+    },
+    {
+      $addFields: {
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
+      },
+    },
+    {
+      $match: {
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -14377,8 +14579,25 @@ const countTOD = async (payload) => {
     {
       $match: {
         ...getParamsTOD(payload),
-        umur: { $gte: 0, $lte: 4 },
+        kedatangan: 'ulangan-kedatangan',
         jenisFasiliti: 'projek-komuniti-lain',
+      },
+    },
+    {
+      $addFields: {
+        umurTahunLahir: {
+          $subtract: [
+            new Date().getFullYear(),
+            {
+              $toInt: { $substr: ['$tarikhLahir', 0, 4] },
+            },
+          ],
+        },
+      },
+    },
+    {
+      $match: {
+        umurTahunLahir: { $gte: 0, $lte: 4 },
       },
     },
   ];
@@ -14478,7 +14697,9 @@ const countTOD = async (payload) => {
           $sum: {
             $add: [
               '$gdBaruPosteriorSewarnaJumlahTampalanDibuatRawatanUmum',
+              // nnti tambah semula posterior sewarna
               '$gdBaruPosteriorAmalgamJumlahTampalanDibuatRawatanUmum',
+              // nnti tambah semula posterior amalgam
             ],
           },
         },
@@ -14765,6 +14986,7 @@ const countTOD = async (payload) => {
     }
 
     for (const stage of match_stage_bu) {
+      // kena buat match_stage_oplain sendiri
       const queryOplain = await Umum.aggregate([
         ...stage,
         ...getParamsOperatorLain,
